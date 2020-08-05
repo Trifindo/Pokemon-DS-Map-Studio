@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="NitroSystemTool">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/NitroSystemTool.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

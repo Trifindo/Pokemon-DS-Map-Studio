@@ -1,0 +1,66 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package editor.state;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Trifindo
+ */
+public class StateHandler {
+
+    private static final int maxNumStates = 20;
+    private int stateIndex;
+    private boolean stateAdded = false;
+    
+    private ArrayList<State> states;
+
+    public StateHandler() {
+        states = new ArrayList<>(maxNumStates + 1);
+        stateIndex = 0;
+    }
+
+    public void addState(State state){
+        states.add(stateIndex, state);
+        stateIndex++;
+        stateAdded = true;
+        for(int i = stateIndex, size = states.size(); i < size; i++){
+            states.remove(stateIndex);
+        }
+        if(states.size() > maxNumStates){
+            states.remove(0);
+            stateIndex--;
+        }
+    }
+    
+    public State getPreviousState(State state){
+        if(stateAdded){
+            states.add(stateIndex, state);
+        }
+        stateAdded = false;
+        stateIndex--;
+        return states.get(stateIndex);
+    }
+    
+    public State getNextState(){
+        stateIndex++;
+        return states.get(stateIndex);
+    }
+    
+    public boolean canGetPreviousState(){
+        return stateIndex > 0;
+    }
+    
+    public boolean canGetNextState(){
+        return stateIndex < states.size() - 1;
+    }
+    
+    public int size(){
+        return states.size();
+    }
+    
+}
