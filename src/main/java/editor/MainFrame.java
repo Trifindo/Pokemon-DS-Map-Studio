@@ -1965,6 +1965,8 @@ public class MainFrame extends javax.swing.JFrame {
             mapDisplay.repaint();
             tileDisplay.requestUpdate();
             tileDisplay.repaint();
+            smartGridDisplay.updateSize();
+            smartGridDisplay.repaint();
             thumbnailLayerSelector.drawAllLayerThumbnails();
             thumbnailLayerSelector.repaint();
         }
