@@ -4,6 +4,8 @@ Pokemon DS Map Studio is a tool for creating gen 4 and gen 5 Pokémon games' map
 It doesn't require 3D modeling, instead it provides a tilemap-like interface that is automatically converted in a 3D model.
 Note that this tool **DOES NOT** import maps from the original games, neither it can modify them.
 
+![Screenshot of PDSMS](https://i.imgur.com/8GNJD8V.png)
+
 ### Supported games:
 - Pokemon Diamond/Pearl
 - Pokemon Platinum
@@ -15,7 +17,14 @@ Note that this tool **DOES NOT** import maps from the original games, neither it
 ## Running
 For running Pokemon DS Map Studio, Java 8 must be installed in the computer.
 Pokemon DS Map Studio can be executed by double clicking the "PokemonDsMapStudio.jar" file. 
-If this does not work, use the "PokemonDsMapStudio.bat".
-If these methods do not work, it may be because your graphics card is not compatible with OpenGL 2.
+The program is tested under Windows, macOS and Linux.
 
+If it doesn't open, try to open by opening a terminal and typing
+```shell
+java -jar PokemonDSMapStudio.jar
+```
+and look at the output.
+If you can't understand that, please open an issue in the appropriate section of this repository.
+
+## Notes
 For exporting `.nsbmd` files, "g3dcvtr.exe" and "xerces-c_2_5_0.dll" must be placed int the "converter" folder.
