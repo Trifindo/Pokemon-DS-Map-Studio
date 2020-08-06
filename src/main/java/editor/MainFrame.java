@@ -1942,6 +1942,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (handler.getLastMapDirectoryUsed() != null) {
             fc.setCurrentDirectory(new File(handler.getLastMapDirectoryUsed()));
         }
+        
         fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS map (*.pdsmap)", MapGrid.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open Map");
