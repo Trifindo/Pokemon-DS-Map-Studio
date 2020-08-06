@@ -27,4 +27,4 @@ and look at the output.
 If you can't understand that, please open an issue in the appropriate section of this repository.
 
 ## Notes
-For exporting `.nsbmd` files, "g3dcvtr.exe" and "xerces-c_2_5_0.dll" must be placed int the "converter" folder.
+For exporting `.nsbmd` files, `g3dcvtr.exe` and `xerces-c_2_5_0.dll` must be placed int the "converter" folder.
