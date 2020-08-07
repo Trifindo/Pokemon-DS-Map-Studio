@@ -31,40 +31,40 @@ public class CollisionTypes {
     private Color[][] fillColors;
     private Color[][] fontColors;
     private BufferedImage[][] collisionImgs;
-    private String[][] collisionNames; 
-    
+    private String[][] collisionNames;
+
     public static final String[] collisionTypesFilesPerGame = new String[]{
         "colors/CollisionsColorsDP.txt",
         "colors/CollisionsColorsDP.txt",
         "colors/CollisionsColorsDP.txt",
         "colors/CollisionsColorsHGSS.txt",
-        "colors/CollisionsColorsHGSS.txt",    
-        "colors/CollisionsColorsBW.txt",    
-        "colors/CollisionsColorsBW.txt",    
-        "colors/CollisionsColorsBW.txt",    
-        "colors/CollisionsColorsBW.txt"    
+        "colors/CollisionsColorsHGSS.txt",
+        "colors/CollisionsColorsBW.txt",
+        "colors/CollisionsColorsBW.txt",
+        "colors/CollisionsColorsBW.txt",
+        "colors/CollisionsColorsBW.txt"
     };
-    
+
     public static final int[] numLayersPerGame = new int[]{
         2, 2, 2, 2, 2, 8, 8, 8, 8
     };
 
-    public CollisionTypes(int gameIndex){
+    public CollisionTypes(int gameIndex) {
         this.numLayers = numLayersPerGame[gameIndex];
         fillColors = loadColorsAsResource(collisionTypesFilesPerGame[gameIndex]);
         fontColors = loadFontColors(fillColors);
         collisionImgs = drawImages(fillColors, fontColors);
     }
-    
+
     public CollisionTypes(String path, int numLayers) {
         this.numLayers = numLayers;
         fillColors = loadColorsAsResource(path);//"colors/CollisionsColors.txt"
         fontColors = loadFontColors(fillColors);
         collisionImgs = drawImages(fillColors, fontColors);
-        
+
     }
-    
-    public String getCollisionName(int layer, int index){
+
+    public String getCollisionName(int layer, int index) {
         return collisionNames[layer][index];
     }
 
@@ -81,12 +81,18 @@ public class CollisionTypes {
             String line;
             while ((line = br.readLine()) != null && collIndex < numCollisions && layerIndex < numLayers) {
                 String[] words = line.split(" ");
-                colors[layerIndex][collIndex] = parseColor(words[1]);
-                collisionNames[layerIndex][collIndex] = words[2];
-                collIndex++;
-                if(collIndex >= numCollisions){
-                    collIndex = 0;
-                    layerIndex++;
+                if (words != null && words.length > 2) {
+                    colors[layerIndex][collIndex] = parseColor(words[1]);
+                    String name = words[2];
+                    for(int i = 3; i < words.length; i++){
+                        name += " " + words[i];
+                    }
+                    collisionNames[layerIndex][collIndex] = name;
+                    collIndex++;
+                    if (collIndex >= numCollisions) {
+                        collIndex = 0;
+                        layerIndex++;
+                    }
                 }
             }
 
@@ -122,7 +128,7 @@ public class CollisionTypes {
                 g2d.drawString(value, 3, tileSize - 3);
             }
         }
-        
+
         return imgs;
     }
 
@@ -154,9 +160,9 @@ public class CollisionTypes {
     public Color[][] loadFontColors(Color[][] fillColors) {
         Color[][] colors = new Color[numLayers][numCollisions];
 
-        for(int i = 0; i < numLayers; i++){
-            for(int j = 0; j < numCollisions; j++){
-                colors[i][j] =  getContrastColor(fillColors[i][j]);
+        for (int i = 0; i < numLayers; i++) {
+            for (int j = 0; j < numCollisions; j++) {
+                colors[i][j] = getContrastColor(fillColors[i][j]);
             }
         }
         return colors;
@@ -166,16 +172,16 @@ public class CollisionTypes {
         double y = (299 * color.getRed() + 587 * color.getGreen() + 114 * color.getBlue()) / 1000;
         return y >= 128 ? Color.black : Color.white;
     }
-    
-    public BufferedImage getImage(int layerIndex, int imgIndex){
+
+    public BufferedImage getImage(int layerIndex, int imgIndex) {
         return collisionImgs[layerIndex][imgIndex];
     }
-    
-    public Color getFillColor(int layerIndex, int collIndex){
+
+    public Color getFillColor(int layerIndex, int collIndex) {
         return this.fillColors[layerIndex][collIndex];
     }
-    
-    public Color getFontColor(int layerIndex, int collIndex){
+
+    public Color getFontColor(int layerIndex, int collIndex) {
         return this.fontColors[layerIndex][collIndex];
     }
 }

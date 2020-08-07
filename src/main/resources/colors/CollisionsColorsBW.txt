@@ -1,8 +1,8 @@
 0x00 #FFFFFF ???
 0x01 #FFFFFF ???
-0x02 #8863CC StairsCorner
+0x02 #8863CC Stairs Corner
 0x03 #FFFFFF ???
-0x04 #AC7CFF StairsUpEast
+0x04 #AC7CFF Stairs Up East
 0x05 #FFFFFF ???
 0x06 #FFFFFF ???
 0x07 #FFFFFF ???
