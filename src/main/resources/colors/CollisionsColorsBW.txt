@@ -1136,9 +1136,9 @@
 0x6F #FFFFFF ???
 0x70 #FFFFFF ???
 0x71 #FFFFFF ???
-0x72 #FFFFFF ???
-0x73 #FFFFFF ???
-0x74 #FFFFFF ???
+0x72 #FFFFFF JumpLeftToRight
+0x73 #FFFFFF JumpRightToLeft
+0x74 #FFFFFF JumpUp
 0x75 #8A4B08 JumpDown
 0x76 #FFFFFF ???
 0x77 #FFFFFF ???
@@ -1535,7 +1535,7 @@
 0xFE #FFFFFF ???
 0xFF #FFFFFF ???
 0x00 #FFFFFF ???
-0x01 #8A4B08 Jump(?)
+0x01 #8A4B08 Jump
 0x02 #FFFFFF ???
 0x03 #FFFFFF ???
 0x04 #FFFFFF ???
