@@ -113,7 +113,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             tr.renderTiles();
         } catch (NullPointerException e) {
-
+            e.printStackTrace();
         }
 
         //Border maps tileset
@@ -1010,7 +1010,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jmiSaveMap);
 
-        jmiSaveMapAs.setText("Sava Map as...");
+        jmiSaveMapAs.setText("Save Map as...");
         jmiSaveMapAs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmiSaveMapAsActionPerformed(evt);

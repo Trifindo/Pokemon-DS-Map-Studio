@@ -45,7 +45,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiSaveMapAs">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Sava Map as..."/>
+                <Property name="text" type="java.lang.String" value="Save Map as..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiSaveMapAsActionPerformed"/>
