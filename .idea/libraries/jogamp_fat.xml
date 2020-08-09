@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="jogamp-fat">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/jogamp-fat.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
