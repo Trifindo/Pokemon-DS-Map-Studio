@@ -56,7 +56,8 @@ public class ImdModel extends ImdNode {
     private float[] boxTestCoords = new float[3];
     private float[] boxTestSize = new float[3];
 
-    private int posScale = 6;//Use 3 for buildings //DEFAULT for map is 6!!
+    private final int defaultPosScale = 6;
+    private int posScale = defaultPosScale;
 
     private int numVertexTotal;
 
@@ -118,12 +119,15 @@ public class ImdModel extends ImdNode {
         }
 
         // Model Info
+        posScale = calculatePosScale();
+        System.out.println("Pos scale: " + posScale);
         ModelInfo modelInfo = new ModelInfo(posScale, materials.size());//textureIDs.size());
         body.subnodes.add(modelInfo);
 
         //Scale Model
+        float scaleFactor = (float) (0.25f * Math.pow(2, defaultPosScale - posScale)); //0.25 is Blender factor
         for (int i = 0; i < polygons.size(); i++) {
-            polygons.get(i).scale(0.25f);
+            polygons.get(i).scale(scaleFactor);
         }
 
         //Fix Texture Coordinates out of range
@@ -277,13 +281,13 @@ public class ImdModel extends ImdNode {
                 mtxPrim.subnodes.add(mtxList);
 
                 //Calculate Quad Strips
-                StripeCalculator quadCalculator = new StripeCalculator(pData, true, 
+                StripeCalculator quadCalculator = new StripeCalculator(pData, true,
                         materials.get(textureIDs.get(i)).uniformNormalOrientation(),
                         materials.get(textureIDs.get(i)).vertexColorsEnabled());
                 ArrayList<PolygonData> pDataStripQuad = quadCalculator.calculateQuadStrip();
 
                 //Calculate Triangle Strips
-                TriangleStripCalculator triCalculator = new TriangleStripCalculator(pData, 
+                TriangleStripCalculator triCalculator = new TriangleStripCalculator(pData,
                         materials.get(textureIDs.get(i)).uniformNormalOrientation(),
                         materials.get(textureIDs.get(i)).vertexColorsEnabled());
                 ArrayList<PolygonData> pDataStripTri = triCalculator.calculateTriStrip();
@@ -708,27 +712,73 @@ public class ImdModel extends ImdNode {
 
     }
 
-    private void calculateBoxTest() {
+    private float[] getMinCoords() {
         float[] minCoords = new float[]{Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE};
-        float[] maxCoords = new float[]{-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE};
 
         for (int i = 0; i < polygons.size(); i++) {
             PolygonData p = polygons.get(i);
-
             for (int j = 0; j < p.vCoordsQuad.length / 3; j++) {
                 for (int k = 0; k < 3; k++) {
                     minCoords[k] = Math.min(minCoords[k], p.vCoordsQuad[j * 3 + k]);
-                    maxCoords[k] = Math.max(maxCoords[k], p.vCoordsQuad[j * 3 + k]);
                 }
             }
-
             for (int j = 0; j < p.vCoordsTri.length / 3; j++) {
                 for (int k = 0; k < 3; k++) {
                     minCoords[k] = Math.min(minCoords[k], p.vCoordsTri[j * 3 + k]);
+                }
+            }
+        }
+        return minCoords;
+    }
+
+    private float[] getMaxCoords() {
+        float[] maxCoords = new float[]{-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE};
+        for (int i = 0; i < polygons.size(); i++) {
+            PolygonData p = polygons.get(i);
+            for (int j = 0; j < p.vCoordsQuad.length / 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    maxCoords[k] = Math.max(maxCoords[k], p.vCoordsQuad[j * 3 + k]);
+                }
+            }
+            for (int j = 0; j < p.vCoordsTri.length / 3; j++) {
+                for (int k = 0; k < 3; k++) {
                     maxCoords[k] = Math.max(maxCoords[k], p.vCoordsTri[j * 3 + k]);
                 }
             }
         }
+        return maxCoords;
+    }
+
+    private static float maxAbs(float[] array) {
+        float max = -Float.MAX_VALUE;
+        for (int i = 0; i < array.length; i++) {
+            float abs = Math.abs(array[i]);
+            if (abs > max) {
+                max = abs;
+            }
+        }
+        return max;
+    }
+
+    private int calculatePosScale() {
+        float[] minCoords = getMinCoords();
+        float[] maxCoords = getMaxCoords();
+        float maxCoord = Math.max(maxAbs(minCoords), maxAbs(maxCoords));
+        maxCoord *= 0.25f; //Blender scale correction
+        maxCoord *= 1 << defaultPosScale;
+
+        final float boundsMaxCoord = 7.9f;
+
+        try {
+            return (int) Math.ceil(Math.log(maxCoord / boundsMaxCoord) / Math.log(2));
+        } catch (Exception ex) {
+            return defaultPosScale;
+        }
+    }
+
+    private void calculateBoxTest() {
+        float[] minCoords = getMinCoords();
+        float[] maxCoords = getMaxCoords();
 
         //Set bounding box
         for (int i = 0; i < 3; i++) {
@@ -739,12 +789,11 @@ public class ImdModel extends ImdNode {
         //Fix too big bounding box 
         //TODO: Revise this code. Better change pos scale depending on the size of the model
         final float maxSize = 7.5f * 2.f;
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             boxTestCoords[i] = Math.max(boxTestCoords[i], -maxSize / 2.0f) / 2.0f; //TODO: divide 2 if posScale = 7
             boxTestSize[i] = Math.min(boxTestSize[i], maxSize) / 2.0f;//TODO: divide 2 if posScale = 7 
         }
-        
-        
+
     }
 
     private int getIndexOfMaterialByImgName(ArrayList<TilesetMaterial> materials,
