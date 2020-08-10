@@ -1,4 +1,6 @@
 # Pokemon DS Map Studio
+![Java CI with Gradle](https://github.com/Trifindo/Pokemon-DS-Map-Studio/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=master)
+
 Pokemon DS Map Studio is a tool for creating gen 4 and gen 5 Pokémon games' maps, designed to be used alongside SDSME.
 
 It doesn't require 3D modeling, instead it provides a tilemap-like interface that is automatically converted in a 3D model.
