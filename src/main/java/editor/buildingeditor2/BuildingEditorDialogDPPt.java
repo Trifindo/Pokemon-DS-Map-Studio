@@ -3142,7 +3142,54 @@ public class BuildingEditorDialogDPPt extends javax.swing.JDialog {
 
         }
     }
+    
+    public void updateViewNitroDisplayMap() {
+        BuildFile buildFile = handler.getBuildings();
 
+        for (int i = 1, size = nitroDisplayMap.getObjectsGL().size(); i < size; i++) {
+            nitroDisplayMap.getObjectsGL().remove(nitroDisplayMap.getObjectsGL().size() - 1);
+        }
+
+        for (int i = 0; i < buildFile.getBuilds().size(); i++) {
+            Build build = buildFile.getBuilds().get(i);
+
+            ObjectGL object;
+            try {
+                object = nitroDisplayMap.getObjectGL(1 + i);
+            } catch (Exception ex) {
+                nitroDisplayMap.getObjectsGL().add(new ObjectGL());
+                object = nitroDisplayMap.getObjectGL(1 + i);
+            }
+            try {
+                byte[] data = buildHandler.getBuildModelList().getModelsData().get(build.getModeID());
+                object.setNsbmdData(data);
+            } catch (Exception ex) {
+
+            }
+
+            try {
+                for (Integer animIndex : buildHandler.getBuildModelAnimeList().getAnimations().get(build.getModeID())) {
+                    BuildAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIndex);
+                    loadAnimationInNitroDisplay(nitroDisplayMap, 1 + i, anim);
+                }
+            } catch (Exception ex) {
+
+            }
+
+            object.setX(build.getX() * 16.0f);
+            object.setY(build.getY() * 16.0f);
+            object.setZ(build.getZ() * 16.0f);
+            object.setScaleX(build.getScaleX());
+            object.setScaleY(build.getScaleY());
+            object.setScaleZ(build.getScaleZ());
+
+            nitroDisplayMap.requestUpdate();
+        }
+
+        setBoundingBoxes();
+    }
+
+    /*
     public void updateViewNitroDisplayMap() {
         BuildFile buildFile = handler.getBuildings();
 
@@ -3179,7 +3226,7 @@ public class BuildingEditorDialogDPPt extends javax.swing.JDialog {
         }
 
         setBoundingBoxes();
-    }
+    }*/
 
     public void updateViewNitroDisplayMapBuildProperties(int buildingIndex) {
         try {
