@@ -53,11 +53,14 @@ public class ImdModel extends ImdNode {
 
     private ArrayList<TilesetMaterial> materials = new ArrayList<>();
 
+    private float[] minCoords;
+    private float[] maxCoords;
     private float[] boxTestCoords = new float[3];
     private float[] boxTestSize = new float[3];
 
     private final int defaultPosScale = 6;
     private int posScale = defaultPosScale;
+    private int boxTestPosScale = defaultPosScale;
 
     private int numVertexTotal;
 
@@ -118,17 +121,27 @@ public class ImdModel extends ImdNode {
 
         }
 
+        //Rotate model
+        for (int i = 0; i < polygons.size(); i++) {
+            polygons.get(i).rotateData();
+        }
+        
+        //Calculate bounds
+        minCoords = getMinCoords();
+        maxCoords = getMaxCoords();
+
         // Model Info
         posScale = calculatePosScale();
-        System.out.println("Pos scale: " + posScale);
         ModelInfo modelInfo = new ModelInfo(posScale, materials.size());//textureIDs.size());
         body.subnodes.add(modelInfo);
+        System.out.println("Pos scale: " + posScale);
 
         //Scale Model
         float scaleFactor = (float) (0.25f * Math.pow(2, defaultPosScale - posScale)); //0.25 is Blender factor
         for (int i = 0; i < polygons.size(); i++) {
             polygons.get(i).scale(scaleFactor);
         }
+        System.out.println("Scale factor: " + scaleFactor);
 
         //Fix Texture Coordinates out of range
         for (int i = 0; i < polygons.size(); i++) {
@@ -148,14 +161,10 @@ public class ImdModel extends ImdNode {
         for (int i = 0; i < polygons.size(); i++) {
             polygons.get(i).fixNormals(0.99804f);
         }
-        //Rotate model
-        for (int i = 0; i < polygons.size(); i++) {
-            polygons.get(i).rotateData();
-        }
 
         //Box test
         calculateBoxTest();
-        BoxTest boxTest = new BoxTest(7, boxTestCoords, boxTestSize);
+        BoxTest boxTest = new BoxTest(boxTestPosScale, boxTestCoords, boxTestSize);
         body.subnodes.add(boxTest);
 
         //Calculate imd palette array
@@ -761,14 +770,11 @@ public class ImdModel extends ImdNode {
     }
 
     private int calculatePosScale() {
-        float[] minCoords = getMinCoords();
-        float[] maxCoords = getMaxCoords();
         float maxCoord = Math.max(maxAbs(minCoords), maxAbs(maxCoords));
         maxCoord *= 0.25f; //Blender scale correction
         maxCoord *= 1 << defaultPosScale;
 
         final float boundsMaxCoord = 7.9f;
-
         try {
             return (int) Math.ceil(Math.log(maxCoord / boundsMaxCoord) / Math.log(2));
         } catch (Exception ex) {
@@ -777,23 +783,31 @@ public class ImdModel extends ImdNode {
     }
 
     private void calculateBoxTest() {
-        float[] minCoords = getMinCoords();
-        float[] maxCoords = getMaxCoords();
-
-        //Set bounding box
         for (int i = 0; i < 3; i++) {
             boxTestCoords[i] = minCoords[i];
             boxTestSize[i] = maxCoords[i] - minCoords[i];
         }
 
-        //Fix too big bounding box 
-        //TODO: Revise this code. Better change pos scale depending on the size of the model
-        final float maxSize = 7.5f * 2.f;
-        for (int i = 0; i < 3; i++) {
-            boxTestCoords[i] = Math.max(boxTestCoords[i], -maxSize / 2.0f) / 2.0f; //TODO: divide 2 if posScale = 7
-            boxTestSize[i] = Math.min(boxTestSize[i], maxSize) / 2.0f;//TODO: divide 2 if posScale = 7 
-        }
+        boxTestPosScale = calculateBoxTestPosScale();
+        float scaleFactor = (float) (0.25f * Math.pow(2, defaultPosScale - boxTestPosScale)); //0.25 is Blender factor
 
+        for (int i = 0; i < 3; i++) {
+            boxTestCoords[i] *= scaleFactor;
+            boxTestSize[i] *= scaleFactor;
+        }
+    }
+
+    private int calculateBoxTestPosScale() {
+        float maxCoord = Math.max(maxAbs(boxTestCoords), maxAbs(boxTestSize));
+        maxCoord *= 0.25f; //Blender scale correction
+        maxCoord *= 1 << defaultPosScale;
+
+        final float boundsMaxCoord = 7.9f;
+        try {
+            return (int) Math.ceil(Math.log(maxCoord / boundsMaxCoord) / Math.log(2));
+        } catch (Exception ex) {
+            return defaultPosScale;
+        }
     }
 
     private int getIndexOfMaterialByImgName(ArrayList<TilesetMaterial> materials,
