@@ -73,16 +73,20 @@ public class ObjWriter {
         PrintWriter outObj = new PrintWriter(savePathObj);
         PrintWriter outMtl = new PrintWriter(savePathMtl);
 
+        long time = System.currentTimeMillis();
+        
         for (int k = 0; k < grid.numLayers; k++) {
             boolean[][] writtenGrid = new boolean[cols][rows];
             for (int i = 0; i < cols; i++) {
                 for (int j = 0; j < rows; j++) {
-                    evaluateTile(k, i, j, writtenGrid, outObj);
+                    evaluateTile(k, i, j, writtenGrid);
                 }
             }
         }
+        System.out.println("Elapsed time: " + (System.currentTimeMillis() - time) + " ms");
         writeTiles(outObj, outMtl);
 
+        
         outObj.close();
         outMtl.close();
 
@@ -177,49 +181,49 @@ public class ObjWriter {
         }
     }
 
-    private void evaluateTile(int layer, int c, int r, boolean[][] writtenGrid, PrintWriter out) {
+    private void evaluateTile(int layer, int c, int r, boolean[][] writtenGrid) {
         if ((!writtenGrid[c][r]) && (grid.tileLayers[layer][c][r] != -1)) {
             Tile tile = tset.get(grid.tileLayers[layer][c][r]).cloneObjData();
             if ((!tile.isXtileable()) && (!tile.isYtileable())) {
                 stretchTile(tile, 1, 1, c, r);
-                writeTile(tile, layer, c, r, out);
+                writeTile(tile, layer, c, r);
                 updateWGridNoTileable(writtenGrid, tile, c, r);
             } else if (tile.isXtileable() && tile.isYtileable()) {
                 int xSize = getNumEqualTilesX(layer, c, r, writtenGrid, tile.getWidth());
                 int ySize = getNumEqualTilesY(layer, c, r, writtenGrid, tile.getHeight());
                 if (xSize == 1 && ySize == 1) {
                     stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
-                    writeTile(tile, layer, c, r, out);
+                    writeTile(tile, layer, c, r);
                     updateGridTileable(writtenGrid, c, r, tile.getWidth(), tile.getHeight());
                 } else if (xSize > ySize) {
                     int yExp = getExpansionY(layer, c, r, writtenGrid, tile.getWidth(), tile.getHeight(), xSize);
                     stretchTile(tile, xSize, yExp, c, r);
-                    writeTile(tile, layer, c, r, out);
+                    writeTile(tile, layer, c, r);
                     updateGridTileable(writtenGrid, c, r, xSize * tile.getWidth(), yExp * tile.getHeight());
                 } else {
                     int xExp = getExpansionX(layer, c, r, writtenGrid, tile.getWidth(), tile.getHeight(), ySize);
                     stretchTile(tile, xExp, ySize, c, r);
-                    writeTile(tile, layer, c, r, out);
+                    writeTile(tile, layer, c, r);
                     updateGridTileable(writtenGrid, c, r, xExp * tile.getWidth(), ySize * tile.getHeight());
                 }
             } else if (tile.isXtileable()) {
                 int xSize = getNumEqualTilesX(layer, c, r, writtenGrid, tile.getWidth());
                 if (xSize == 1) {
                     stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
-                    writeTile(tile, layer, c, r, out);
+                    writeTile(tile, layer, c, r);
                 } else {
                     stretchTile(tile, xSize, 1, c, r);
-                    writeTile(tile, layer, c, r, out);
+                    writeTile(tile, layer, c, r);
                 }
                 updateGridTileable(writtenGrid, c, r, xSize * tile.getWidth(), tile.getHeight());
             } else {
                 int ySize = getNumEqualTilesY(layer, c, r, writtenGrid, tile.getHeight());
                 if (ySize == 1) {
                     stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
-                    writeTile(tile, layer, c, r, out);
+                    writeTile(tile, layer, c, r);
                 } else {
                     stretchTile(tile, 1, ySize, c, r);
-                    writeTile(tile, layer, c, r, out);
+                    writeTile(tile, layer, c, r);
                 }
                 updateGridTileable(writtenGrid, c, r, tile.getWidth(), ySize * tile.getHeight());
             }
@@ -427,7 +431,7 @@ public class ObjWriter {
                 && grid.heightLayers[layer][c1][r1] == grid.heightLayers[layer][c2][r2]);
     }
 
-    private void writeTile(Tile tile, int layer, int c, int r, PrintWriter out) {
+    private void writeTile(Tile tile, int layer, int c, int r) {
         displaceTile(tile, c - cols / 2, r - rows / 2, grid.heightLayers[layer][c][r]);
         outTiles.add(tile);
     }

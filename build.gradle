@@ -20,7 +20,7 @@ compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+        implementation fileTree(include: ['*.jar'], dir: 'libs')
 }
 
 jar {

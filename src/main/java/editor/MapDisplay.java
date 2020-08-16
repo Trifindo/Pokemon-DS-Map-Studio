@@ -855,7 +855,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
             gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
             gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
+            
+            
             //Draw polygons
             int start, end;
             final int vPerPolygon = 3;
