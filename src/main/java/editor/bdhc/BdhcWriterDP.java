@@ -221,7 +221,7 @@ public class BdhcWriterDP {
             }
 
             int zValue = getIntegerValueZ(d);
-            System.out.println(Integer.toHexString(zValue));
+            //System.out.println(Integer.toHexString(zValue));
 
            distances.add(zValue);
         }
@@ -232,9 +232,10 @@ public class BdhcWriterDP {
         short decimalPart = (short) Math.floor(value);
         short fractionalPart = (short) ((value - decimalPart) * (65536));
 
+        /*
         System.out.println(
                 "decimal: " + Integer.toHexString(decimalPart & 0xffff)
-                + " fractional: " + Integer.toHexString(fractionalPart & 0xffff));
+                + " fractional: " + Integer.toHexString(fractionalPart & 0xffff));*/
 
         return ((decimalPart & 0xFFFF) << 16) | (fractionalPart & 0xFFFF);
     }

@@ -6,10 +6,13 @@
 package editor.tileseteditor;
 
 import editor.TilesetRenderer;
+import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
 import editor.smartdrawing.SmartGrid;
 import java.awt.Color;
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import tileset.Tile;
 import tileset.Tileset;
 import tileset.TilesetMaterial;
@@ -49,7 +52,10 @@ public class TilesetEditorHandler {
     }
     
     public void fixMapGridIndices(int[] indices) {
-        handler.getGrid().replaceTilesUsingIndices(indices);
+        for (MapData mapEntry : handler.getMapMatrix().getMatrix().values()){
+            mapEntry.getGrid().replaceTilesUsingIndices(indices);
+        }
+        //handler.getGrid().replaceTilesUsingIndices(indices);
     }
     
     public void fixTilesetGridIndices(int[] indices){

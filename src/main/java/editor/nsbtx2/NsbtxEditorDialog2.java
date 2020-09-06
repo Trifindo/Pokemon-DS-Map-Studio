@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import utils.ThumbnailFileChooser;
+import utils.swing.ThumbnailFileChooser;
 import utils.Utils;
 import utils.Utils.MutableBoolean;
 

@@ -17,29 +17,29 @@ import java.util.ArrayList;
  */
 public class BuildAnimations {
     
-    private ArrayList<BuildAnimation> animations;
+    private ArrayList<ModelAnimation> animations;
     
     public BuildAnimations(Narc narc) {
         final int numAnimations = narc.getRoot().getFiles().size();
         animations = new ArrayList<>(numAnimations);
         for (int i = 0; i < narc.getRoot().getFiles().size(); i++) {
-            animations.add(new BuildAnimation(narc.getRoot().getFiles().get(i).getData(), numAnimations));
+            animations.add(new ModelAnimation(narc.getRoot().getFiles().get(i).getData(), numAnimations));
         }
     }
     
     public Narc toNarc(){
         NarcFolder root = new NarcFolder();
         ArrayList<NarcFile> files = new ArrayList<>(animations.size());
-        for(BuildAnimation animation : animations){
+        for(ModelAnimation animation : animations){
             files.add(new NarcFile("", root, animation.getData()));
         }
         root.setFiles(files);
         return new Narc(root);
     }
     
-    public void addBuildAnimation(String path) throws IOException {
+    public void addAnimation(String path) throws IOException {
         try {
-            animations.add(new BuildAnimation(path, animations.size()));
+            animations.add(new ModelAnimation(path, animations.size()));
         } catch (Exception ex) {
             throw new IOException();
         }
@@ -48,7 +48,7 @@ public class BuildAnimations {
     public void replaceAnimation(int index, String path) throws IOException {
         if (index >= 0 && index < animations.size()) {
             try {
-                animations.set(index, new BuildAnimation(path, animations.size()));
+                animations.set(index, new ModelAnimation(path, animations.size()));
             } catch (Exception ex) {
                 throw new IOException();
             }
@@ -61,7 +61,7 @@ public class BuildAnimations {
         }
     }
     
-    public ArrayList<BuildAnimation> getAnimations() {
+    public ArrayList<ModelAnimation> getAnimations() {
         return animations;
     }
     

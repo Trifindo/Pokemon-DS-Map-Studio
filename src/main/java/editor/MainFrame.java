@@ -5,6 +5,7 @@
  */
 package editor;
 
+import editor.mapdisplay.MapDisplay;
 import com.jogamp.opengl.GLContext;
 import editor.about.AboutDialog;
 import editor.animationeditor.AnimationEditorDialog;
@@ -26,19 +27,33 @@ import editor.collisions.Collisions;
 import editor.collisions.CollisionsEditorDialog;
 import editor.converter.ConverterDialog;
 import editor.converter.ConverterErrorDialog;
+import editor.converter.ExportNsbmdDialog;
 import editor.converter.ExportNsbmdResultDialog;
+import editor.converter.ExportNsbtxDialog;
 import editor.converter.ExportNsbtxResultDialog;
+import editor.converter.NsbmdOutputInfoDialog;
+import editor.converter.NsbtxOutputInfoDialog;
 import editor.dae.DaeReader;
 import editor.game.Game;
 import editor.gameselector.GameChangerDialog;
 import editor.gameselector.GameSelectorDialog;
 import editor.gameselector.GameTsetSelectorDialog;
 import editor.gameselector.GameTsetSelectorDialog2;
+import editor.grid.GeometryGL;
 import editor.handler.MapEditorHandler;
-import editor.handler.MapGrid;
+import editor.grid.MapGrid;
+import editor.grid.MapLayerGL;
+import editor.handler.MapData;
+import editor.imd.ExportImdDialog;
 import editor.imd.ImdModel;
+import editor.imd.ImdOutputInfo;
+import editor.imd.ImdOutputInfoDialog;
 import editor.keyboard.KeyboardInfoDialog;
+import editor.keyboard.KeyboardInfoDialog2;
 import editor.layerselector.ThumbnailLayerSelector;
+import editor.mapmatrix.MapMatrix;
+import editor.mapmatrix.MapMatrixDisplay;
+import editor.mapmatrix.MapMatrixImportDialog;
 import editor.narc2.Narc;
 import editor.narc2.NarcIO;
 import editor.nsbtx.NsbtxEditorDialog;
@@ -59,6 +74,7 @@ import java.awt.Dimension;
 
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -67,13 +83,20 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JToggleButton;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -100,6 +123,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         jScrollPane1.getVerticalScrollBar().setUnitIncrement(16);
         jScrollPane2.getVerticalScrollBar().setUnitIncrement(16);
+        jScrollPaneMapMatrix.getHorizontalScrollBar().setUnitIncrement(16);
+        jScrollPaneMapMatrix.getVerticalScrollBar().setUnitIncrement(16);
 
         //jLabel1.setText(System.getProperty("java.version"));
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/programIcon.png")));
@@ -122,23 +147,22 @@ public class MainFrame extends javax.swing.JFrame {
         handler = new MapEditorHandler(this);
         handler.setTileset(tileset);
         handler.setBorderMapsTileset(borderMapsTileset);
-        handler.setBdhc(new Bdhc());
-        handler.setBacksound(new Backsound());
-        handler.setCollisions(new Collisions(handler.getGameIndex()));
-        handler.setBuildings(new BuildFile());
 
         mapDisplay.setHandler(handler);
         tileSelector.init(handler);
         heightSelector.init(handler);
         smartGridDisplay.init(handler, false);
         thumbnailLayerSelector.init(handler);
-        borderMapsDisplay.init(handler);
         updateViewGame();
         tileDisplay.setHandler(handler);
         tileDisplay.setWireframe(true);
+        mapMatrixDisplay.init(handler);
+        moveMapPanel.init(handler);
 
         setTitle(handler.getVersionName());
 
+        handler.updateAllMapThumbnails();
+        mapMatrixDisplay.updateMapsImage();
     }
 
     /**
@@ -150,26 +174,22 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroupDrawMode = new javax.swing.ButtonGroup();
+        buttonGroupViewMode = new javax.swing.ButtonGroup();
         jToolBar1 = new javax.swing.JToolBar();
         jbNewMap = new javax.swing.JButton();
         jbOpenMap = new javax.swing.JButton();
         jbSaveMap = new javax.swing.JButton();
+        jbAddMaps = new javax.swing.JButton();
         jbExportObj = new javax.swing.JButton();
         jbExportImd = new javax.swing.JButton();
         jbExportNsb = new javax.swing.JButton();
         jbExportNsb1 = new javax.swing.JButton();
+        jbExportNsb2 = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JToolBar.Separator();
         jbUndo = new javax.swing.JButton();
         jbRedo = new javax.swing.JButton();
         jSeparator11 = new javax.swing.JToolBar.Separator();
-        jb3DView = new javax.swing.JButton();
-        jbTopView = new javax.swing.JButton();
-        jbHeightView = new javax.swing.JButton();
-        jbGridView = new javax.swing.JButton();
-        jSeparator8 = new javax.swing.JToolBar.Separator();
-        jbClearTile = new javax.swing.JButton();
-        jbUseSmartGrid = new javax.swing.JButton();
-        jSeparator5 = new javax.swing.JToolBar.Separator();
         jbTilelistEditor = new javax.swing.JButton();
         jbCollisionsEditor = new javax.swing.JButton();
         jbBdhcEditor = new javax.swing.JButton();
@@ -193,21 +213,61 @@ public class MainFrame extends javax.swing.JFrame {
         jlGameIcon = new javax.swing.JLabel();
         jlGame = new javax.swing.JLabel();
         jlGameName = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        borderMapsDisplay = new editor.bordermap.BorderMapsDisplay();
+        mapDisplayContainer = new javax.swing.JPanel();
+        mapDisplay = new editor.mapdisplay.MapDisplay();
+        jPanel11 = new javax.swing.JPanel();
+        jToolBar2 = new javax.swing.JToolBar();
+        jtbView3D = new javax.swing.JToggleButton();
+        jtbViewOrtho = new javax.swing.JToggleButton();
+        jtbViewHeight = new javax.swing.JToggleButton();
+        jSeparator14 = new javax.swing.JToolBar.Separator();
+        jtbViewGrid = new javax.swing.JToggleButton();
+        jtbViewWireframe = new javax.swing.JToggleButton();
+        jPanel12 = new javax.swing.JPanel();
+        jToolBar3 = new javax.swing.JToolBar();
+        jtbModeEdit = new javax.swing.JToggleButton();
+        jtbModeClear = new javax.swing.JToggleButton();
+        jtbModeSmartPaint = new javax.swing.JToggleButton();
+        jtbModeInvSmartPaint = new javax.swing.JToggleButton();
+        jSeparator19 = new javax.swing.JToolBar.Separator();
+        jtbModeMove = new javax.swing.JToggleButton();
+        jtbModeZoom = new javax.swing.JToggleButton();
+        jbFitCameraToMap = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanelMatrixInfo = new javax.swing.JPanel();
+        jScrollPaneMapMatrix = new javax.swing.JScrollPane();
+        mapMatrixDisplay = new editor.mapmatrix.MapMatrixDisplay();
+        tileDisplay = new editor.tileseteditor.TileDisplay();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        moveMapPanel = new editor.mapmatrix.MoveMapPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jsSelectedArea = new javax.swing.JSpinner();
+        jPanelAreaColor = new javax.swing.JPanel();
+        jPanelMapTools = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jsHeightMapAlpha = new javax.swing.JSlider();
-        jPanel7 = new javax.swing.JPanel();
-        jbMoveMapUp = new javax.swing.JButton();
-        jbMoveMapDown = new javax.swing.JButton();
-        jbMoveMapLeft = new javax.swing.JButton();
-        jbMoveMapRight = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jsBackImageAlpha = new javax.swing.JSlider();
+        jcbRealTimePolyGrouping = new javax.swing.JCheckBox();
+        jcbViewAreas = new javax.swing.JCheckBox();
         jPanel9 = new javax.swing.JPanel();
-        tileDisplay = new editor.tileseteditor.TileDisplay();
-        mapDisplayContainer = new javax.swing.JPanel();
-        mapDisplay = new editor.MapDisplay();
+        jPanel10 = new javax.swing.JPanel();
+        jbMoveMapUp = new javax.swing.JButton();
+        jPanel13 = new javax.swing.JPanel();
+        jbMoveMapLeft = new javax.swing.JButton();
+        jbMoveMapRight = new javax.swing.JButton();
+        jbMoveMapDown = new javax.swing.JButton();
+        jPanel16 = new javax.swing.JPanel();
+        jbMoveMapUpZ = new javax.swing.JButton();
+        jbMoveMapDownZ = new javax.swing.JButton();
+        jcbViewGridsBorders = new javax.swing.JCheckBox();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jlNumPolygons = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jlNumMaterials = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmiNewMap = new javax.swing.JMenuItem();
@@ -217,6 +277,8 @@ public class MainFrame extends javax.swing.JFrame {
         jmiSaveMap = new javax.swing.JMenuItem();
         jmiSaveMapAs = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jmiAddMaps = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
         jmiExportObjWithText = new javax.swing.JMenuItem();
         jmiExportMapAsImd = new javax.swing.JMenuItem();
         jmiExportMapAsNsb = new javax.swing.JMenuItem();
@@ -228,9 +290,6 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jmiUndo = new javax.swing.JMenuItem();
         jmiRedo = new javax.swing.JMenuItem();
-        jSeparator12 = new javax.swing.JPopupMenu.Separator();
-        jmiClearTiles = new javax.swing.JMenuItem();
-        jmiUseSmartDrawing = new javax.swing.JMenuItem();
         jSeparator10 = new javax.swing.JPopupMenu.Separator();
         jmiClearLayer = new javax.swing.JMenuItem();
         jmiClearAllLayers = new javax.swing.JMenuItem();
@@ -242,16 +301,19 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jmi3dView = new javax.swing.JMenuItem();
         jmiTopView = new javax.swing.JMenuItem();
-        jmiToggleHeightView = new javax.swing.JMenuItem();
+        jmiHeightView = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jmiToggleGrid = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
         jmiLoadBackImg = new javax.swing.JMenuItem();
         jcbUseBackImage = new javax.swing.JCheckBoxMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        jmiBuildingEditor = new javax.swing.JMenu();
         jmiTilesetEditor = new javax.swing.JMenuItem();
         jmiCollisionEditor = new javax.swing.JMenuItem();
         jmiBdhcEditor = new javax.swing.JMenuItem();
         jmiNsbtxEditor = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jmiAnimationEditor = new javax.swing.JMenuItem();
         jmHelp = new javax.swing.JMenu();
         jmiKeyboardInfo = new javax.swing.JMenuItem();
         jmiAbout = new javax.swing.JMenuItem();
@@ -320,6 +382,22 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jbSaveMap);
 
+        jbAddMaps.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/importMapIcon.png"))); // NOI18N
+        jbAddMaps.setToolTipText("Add Maps");
+        jbAddMaps.setFocusable(false);
+        jbAddMaps.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbAddMaps.setMaximumSize(new java.awt.Dimension(38, 38));
+        jbAddMaps.setMinimumSize(new java.awt.Dimension(38, 38));
+        jbAddMaps.setName(""); // NOI18N
+        jbAddMaps.setPreferredSize(new java.awt.Dimension(38, 38));
+        jbAddMaps.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jbAddMaps.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAddMapsActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jbAddMaps);
+
         jbExportObj.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/exportObjIcon.png"))); // NOI18N
         jbExportObj.setToolTipText("Export Map as OBJ with Textures");
         jbExportObj.setFocusable(false);
@@ -383,6 +461,22 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(jbExportNsb1);
+
+        jbExportNsb2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/exportAreasIcon.png"))); // NOI18N
+        jbExportNsb2.setToolTipText("Export Area NSBTX");
+        jbExportNsb2.setFocusable(false);
+        jbExportNsb2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbExportNsb2.setMaximumSize(new java.awt.Dimension(38, 38));
+        jbExportNsb2.setMinimumSize(new java.awt.Dimension(38, 38));
+        jbExportNsb2.setName(""); // NOI18N
+        jbExportNsb2.setPreferredSize(new java.awt.Dimension(38, 38));
+        jbExportNsb2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jbExportNsb2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbExportNsb2ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jbExportNsb2);
         jToolBar1.add(jSeparator4);
 
         jbUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/undoIcon.png"))); // NOI18N
@@ -421,104 +515,6 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(jbRedo);
         jToolBar1.add(jSeparator11);
-
-        jb3DView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/3DViewIcon.png"))); // NOI18N
-        jb3DView.setToolTipText("3D View");
-        jb3DView.setFocusable(false);
-        jb3DView.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jb3DView.setMaximumSize(new java.awt.Dimension(38, 38));
-        jb3DView.setMinimumSize(new java.awt.Dimension(38, 38));
-        jb3DView.setName(""); // NOI18N
-        jb3DView.setPreferredSize(new java.awt.Dimension(38, 38));
-        jb3DView.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jb3DView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jb3DViewActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jb3DView);
-
-        jbTopView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/topViewIcon.png"))); // NOI18N
-        jbTopView.setToolTipText("Ortho View");
-        jbTopView.setFocusable(false);
-        jbTopView.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jbTopView.setMaximumSize(new java.awt.Dimension(38, 38));
-        jbTopView.setMinimumSize(new java.awt.Dimension(38, 38));
-        jbTopView.setName(""); // NOI18N
-        jbTopView.setPreferredSize(new java.awt.Dimension(38, 38));
-        jbTopView.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jbTopView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbTopViewActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jbTopView);
-
-        jbHeightView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/heightViewIcon.png"))); // NOI18N
-        jbHeightView.setToolTipText("Height View");
-        jbHeightView.setFocusable(false);
-        jbHeightView.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jbHeightView.setMaximumSize(new java.awt.Dimension(38, 38));
-        jbHeightView.setMinimumSize(new java.awt.Dimension(38, 38));
-        jbHeightView.setName(""); // NOI18N
-        jbHeightView.setPreferredSize(new java.awt.Dimension(38, 38));
-        jbHeightView.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jbHeightView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbHeightViewActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jbHeightView);
-
-        jbGridView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gridViewIcon.png"))); // NOI18N
-        jbGridView.setToolTipText("View 3D Grid");
-        jbGridView.setFocusable(false);
-        jbGridView.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jbGridView.setMaximumSize(new java.awt.Dimension(38, 38));
-        jbGridView.setMinimumSize(new java.awt.Dimension(38, 38));
-        jbGridView.setName(""); // NOI18N
-        jbGridView.setPreferredSize(new java.awt.Dimension(38, 38));
-        jbGridView.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jbGridView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbGridViewActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jbGridView);
-        jToolBar1.add(jSeparator8);
-
-        jbClearTile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cursors/clearTileCursor.png"))); // NOI18N
-        jbClearTile.setToolTipText("Clear Tile");
-        jbClearTile.setFocusable(false);
-        jbClearTile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jbClearTile.setMaximumSize(new java.awt.Dimension(38, 38));
-        jbClearTile.setMinimumSize(new java.awt.Dimension(38, 38));
-        jbClearTile.setName(""); // NOI18N
-        jbClearTile.setPreferredSize(new java.awt.Dimension(38, 38));
-        jbClearTile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jbClearTile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbClearTileActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jbClearTile);
-
-        jbUseSmartGrid.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cursors/smartGridCursor.png"))); // NOI18N
-        jbUseSmartGrid.setToolTipText("Use Smart Drawing");
-        jbUseSmartGrid.setFocusable(false);
-        jbUseSmartGrid.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jbUseSmartGrid.setMaximumSize(new java.awt.Dimension(38, 38));
-        jbUseSmartGrid.setMinimumSize(new java.awt.Dimension(38, 38));
-        jbUseSmartGrid.setName(""); // NOI18N
-        jbUseSmartGrid.setPreferredSize(new java.awt.Dimension(38, 38));
-        jbUseSmartGrid.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jbUseSmartGrid.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbUseSmartGridActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jbUseSmartGrid);
-        jToolBar1.add(jSeparator5);
 
         jbTilelistEditor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/tilelistEditorIcon.png"))); // NOI18N
         jbTilelistEditor.setToolTipText("Tile List Editor");
@@ -617,7 +613,7 @@ public class MainFrame extends javax.swing.JFrame {
         jToolBar1.add(jbBuildingEditor);
 
         jbAnimationEditor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/animationEditorIcon.png"))); // NOI18N
-        jbAnimationEditor.setToolTipText("Animation editor");
+        jbAnimationEditor.setToolTipText("Animation Editor");
         jbAnimationEditor.setFocusable(false);
         jbAnimationEditor.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jbAnimationEditor.setMaximumSize(new java.awt.Dimension(38, 38));
@@ -685,7 +681,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         tileSelectorLayout.setVerticalGroup(
             tileSelectorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 517, Short.MAX_VALUE)
+            .addGap(0, 523, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(tileSelector);
@@ -746,7 +742,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         smartGridDisplayLayout.setVerticalGroup(
             smartGridDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 517, Short.MAX_VALUE)
+            .addGap(0, 523, Short.MAX_VALUE)
         );
 
         jScrollPane2.setViewportView(smartGridDisplay);
@@ -806,157 +802,6 @@ public class MainFrame extends javax.swing.JFrame {
         jlGameName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jlGameName.setText("Game Name");
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Border Maps", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.ABOVE_TOP));
-
-        javax.swing.GroupLayout borderMapsDisplayLayout = new javax.swing.GroupLayout(borderMapsDisplay);
-        borderMapsDisplay.setLayout(borderMapsDisplayLayout);
-        borderMapsDisplayLayout.setHorizontalGroup(
-            borderMapsDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 96, Short.MAX_VALUE)
-        );
-        borderMapsDisplayLayout.setVerticalGroup(
-            borderMapsDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 96, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(borderMapsDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(borderMapsDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Height Map Alpha", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
-
-        jsHeightMapAlpha.setValue(99);
-        jsHeightMapAlpha.setFocusable(false);
-        jsHeightMapAlpha.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jsHeightMapAlphaStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jsHeightMapAlpha, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jsHeightMapAlpha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Move Layer", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
-
-        jbMoveMapUp.setText("▲");
-        jbMoveMapUp.setFocusable(false);
-        jbMoveMapUp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbMoveMapUpActionPerformed(evt);
-            }
-        });
-
-        jbMoveMapDown.setText("▼");
-        jbMoveMapDown.setFocusable(false);
-        jbMoveMapDown.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbMoveMapDownActionPerformed(evt);
-            }
-        });
-
-        jbMoveMapLeft.setText("◄");
-        jbMoveMapLeft.setFocusable(false);
-        jbMoveMapLeft.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbMoveMapLeftActionPerformed(evt);
-            }
-        });
-
-        jbMoveMapRight.setText("►");
-        jbMoveMapRight.setFocusable(false);
-        jbMoveMapRight.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbMoveMapRightActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jbMoveMapUp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jbMoveMapLeft)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbMoveMapRight))
-            .addComponent(jbMoveMapDown, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jbMoveMapUp)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbMoveMapLeft)
-                    .addComponent(jbMoveMapRight))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbMoveMapDown))
-        );
-
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Back Image Alpha", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
-
-        jsBackImageAlpha.setFocusable(false);
-        jsBackImageAlpha.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jsBackImageAlphaStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jsBackImageAlpha, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jsBackImageAlpha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tile Selected", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
-
-        tileDisplay.setFocusable(false);
-        tileDisplay.setPreferredSize(new java.awt.Dimension(140, 140));
-
-        javax.swing.GroupLayout tileDisplayLayout = new javax.swing.GroupLayout(tileDisplay);
-        tileDisplay.setLayout(tileDisplayLayout);
-        tileDisplayLayout.setHorizontalGroup(
-            tileDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 140, Short.MAX_VALUE)
-        );
-        tileDisplayLayout.setVerticalGroup(
-            tileDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tileDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tileDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-        );
-
         mapDisplayContainer.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 mapDisplayContainerComponentResized(evt);
@@ -980,6 +825,518 @@ public class MainFrame extends javax.swing.JFrame {
 
         mapDisplayContainer.add(mapDisplay);
 
+        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "View", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP));
+
+        jToolBar2.setFloatable(false);
+        jToolBar2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jToolBar2.setRollover(true);
+
+        buttonGroupViewMode.add(jtbView3D);
+        jtbView3D.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/3DViewIcon.png"))); // NOI18N
+        jtbView3D.setToolTipText("3D View");
+        jtbView3D.setFocusable(false);
+        jtbView3D.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtbView3D.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jtbView3D.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbView3DActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jtbView3D);
+
+        buttonGroupViewMode.add(jtbViewOrtho);
+        jtbViewOrtho.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/topViewIcon.png"))); // NOI18N
+        jtbViewOrtho.setSelected(true);
+        jtbViewOrtho.setToolTipText("Top View");
+        jtbViewOrtho.setFocusable(false);
+        jtbViewOrtho.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtbViewOrtho.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jtbViewOrtho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbViewOrthoActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jtbViewOrtho);
+
+        buttonGroupViewMode.add(jtbViewHeight);
+        jtbViewHeight.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/heightViewIcon.png"))); // NOI18N
+        jtbViewHeight.setToolTipText("Height View");
+        jtbViewHeight.setFocusable(false);
+        jtbViewHeight.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtbViewHeight.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jtbViewHeight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbViewHeightActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jtbViewHeight);
+        jToolBar2.add(jSeparator14);
+
+        jtbViewGrid.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/gridViewIcon.png"))); // NOI18N
+        jtbViewGrid.setSelected(true);
+        jtbViewGrid.setToolTipText("Grid");
+        jtbViewGrid.setFocusable(false);
+        jtbViewGrid.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtbViewGrid.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jtbViewGrid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbViewGridActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jtbViewGrid);
+
+        jtbViewWireframe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/wireViewIcon.png"))); // NOI18N
+        jtbViewWireframe.setToolTipText("Wireframe");
+        jtbViewWireframe.setFocusable(false);
+        jtbViewWireframe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtbViewWireframe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jtbViewWireframe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbViewWireframeActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jtbViewWireframe);
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tools", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP));
+
+        jToolBar3.setFloatable(false);
+        jToolBar3.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jToolBar3.setRollover(true);
+
+        buttonGroupDrawMode.add(jtbModeEdit);
+        jtbModeEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/CursorIcon.png"))); // NOI18N
+        jtbModeEdit.setSelected(true);
+        jtbModeEdit.setToolTipText("Select Mode");
+        jtbModeEdit.setFocusable(false);
+        jtbModeEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtbModeEdit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jtbModeEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbModeEditActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(jtbModeEdit);
+
+        buttonGroupDrawMode.add(jtbModeClear);
+        jtbModeClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ClearTileIcon.png"))); // NOI18N
+        jtbModeClear.setToolTipText("Clear Mode");
+        jtbModeClear.setFocusable(false);
+        jtbModeClear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtbModeClear.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jtbModeClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbModeClearActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(jtbModeClear);
+
+        buttonGroupDrawMode.add(jtbModeSmartPaint);
+        jtbModeSmartPaint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/SmartGridIcon.png"))); // NOI18N
+        jtbModeSmartPaint.setToolTipText("Smart Drawing");
+        jtbModeSmartPaint.setFocusable(false);
+        jtbModeSmartPaint.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtbModeSmartPaint.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jtbModeSmartPaint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbModeSmartPaintActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(jtbModeSmartPaint);
+
+        buttonGroupDrawMode.add(jtbModeInvSmartPaint);
+        jtbModeInvSmartPaint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/SmartGridInvertedIcon.png"))); // NOI18N
+        jtbModeInvSmartPaint.setToolTipText("Smart Drawing Inverted");
+        jtbModeInvSmartPaint.setFocusable(false);
+        jtbModeInvSmartPaint.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtbModeInvSmartPaint.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jtbModeInvSmartPaint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbModeInvSmartPaintActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(jtbModeInvSmartPaint);
+        jToolBar3.add(jSeparator19);
+
+        buttonGroupDrawMode.add(jtbModeMove);
+        jtbModeMove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/MoveIcon.png"))); // NOI18N
+        jtbModeMove.setToolTipText("Move Camera");
+        jtbModeMove.setFocusable(false);
+        jtbModeMove.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtbModeMove.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jtbModeMove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbModeMoveActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(jtbModeMove);
+
+        buttonGroupDrawMode.add(jtbModeZoom);
+        jtbModeZoom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ZoomIcon.png"))); // NOI18N
+        jtbModeZoom.setToolTipText("Zoom Camera");
+        jtbModeZoom.setFocusable(false);
+        jtbModeZoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtbModeZoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jtbModeZoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtbModeZoomActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(jtbModeZoom);
+
+        jbFitCameraToMap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/fitMapIcon.png"))); // NOI18N
+        jbFitCameraToMap.setToolTipText("Fit Camera in Selected Map");
+        jbFitCameraToMap.setFocusable(false);
+        jbFitCameraToMap.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jbFitCameraToMap.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jbFitCameraToMap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbFitCameraToMapActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(jbFitCameraToMap);
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+
+        jScrollPaneMapMatrix.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPaneMapMatrix.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPaneMapMatrix.setMaximumSize(new java.awt.Dimension(300, 300));
+
+        mapMatrixDisplay.setPreferredSize(new java.awt.Dimension(100, 100));
+
+        javax.swing.GroupLayout mapMatrixDisplayLayout = new javax.swing.GroupLayout(mapMatrixDisplay);
+        mapMatrixDisplay.setLayout(mapMatrixDisplayLayout);
+        mapMatrixDisplayLayout.setHorizontalGroup(
+            mapMatrixDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 131, Short.MAX_VALUE)
+        );
+        mapMatrixDisplayLayout.setVerticalGroup(
+            mapMatrixDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 160, Short.MAX_VALUE)
+        );
+
+        jScrollPaneMapMatrix.setViewportView(mapMatrixDisplay);
+
+        tileDisplay.setFocusable(false);
+        tileDisplay.setPreferredSize(new java.awt.Dimension(140, 140));
+
+        javax.swing.GroupLayout tileDisplayLayout = new javax.swing.GroupLayout(tileDisplay);
+        tileDisplay.setLayout(tileDisplayLayout);
+        tileDisplayLayout.setHorizontalGroup(
+            tileDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        tileDisplayLayout.setVerticalGroup(
+            tileDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 148, Short.MAX_VALUE)
+        );
+
+        jLabel3.setText("Tile Selected:");
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Move Map", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
+        jPanel7.add(moveMapPanel);
+
+        jLabel1.setText("Area:");
+
+        jsSelectedArea.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        jsSelectedArea.setFocusable(false);
+        jsSelectedArea.setPreferredSize(new java.awt.Dimension(40, 20));
+        jsSelectedArea.setRequestFocusEnabled(false);
+        jsSelectedArea.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jsSelectedAreaStateChanged(evt);
+            }
+        });
+
+        jPanelAreaColor.setBackground(new java.awt.Color(51, 102, 255));
+        jPanelAreaColor.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout jPanelAreaColorLayout = new javax.swing.GroupLayout(jPanelAreaColor);
+        jPanelAreaColor.setLayout(jPanelAreaColorLayout);
+        jPanelAreaColorLayout.setHorizontalGroup(
+            jPanelAreaColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+        jPanelAreaColorLayout.setVerticalGroup(
+            jPanelAreaColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 16, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanelMatrixInfoLayout = new javax.swing.GroupLayout(jPanelMatrixInfo);
+        jPanelMatrixInfo.setLayout(jPanelMatrixInfoLayout);
+        jPanelMatrixInfoLayout.setHorizontalGroup(
+            jPanelMatrixInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMatrixInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelMatrixInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneMapMatrix, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(tileDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addGroup(jPanelMatrixInfoLayout.createSequentialGroup()
+                        .addGroup(jPanelMatrixInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanelMatrixInfoLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(10, 10, 10)
+                                .addComponent(jsSelectedArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanelAreaColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelMatrixInfoLayout.setVerticalGroup(
+            jPanelMatrixInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMatrixInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPaneMapMatrix, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelMatrixInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelMatrixInfoLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel1))
+                    .addComponent(jsSelectedArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelAreaColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tileDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Matrix", jPanelMatrixInfo);
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Height Map Alpha", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
+
+        jsHeightMapAlpha.setValue(99);
+        jsHeightMapAlpha.setFocusable(false);
+        jsHeightMapAlpha.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jsHeightMapAlphaStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jsHeightMapAlpha, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jsHeightMapAlpha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Back Image Alpha", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
+
+        jsBackImageAlpha.setFocusable(false);
+        jsBackImageAlpha.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jsBackImageAlphaStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jsBackImageAlpha, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jsBackImageAlpha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jcbRealTimePolyGrouping.setSelected(true);
+        jcbRealTimePolyGrouping.setText("Real-Time Poly Grouping");
+        jcbRealTimePolyGrouping.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbRealTimePolyGroupingActionPerformed(evt);
+            }
+        });
+
+        jcbViewAreas.setSelected(true);
+        jcbViewAreas.setText("View Area Contours");
+        jcbViewAreas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbViewAreasActionPerformed(evt);
+            }
+        });
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Move Layer", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
+
+        jPanel10.setLayout(new java.awt.GridLayout(3, 1, 3, 3));
+
+        jbMoveMapUp.setForeground(new java.awt.Color(0, 153, 0));
+        jbMoveMapUp.setText("▲");
+        jbMoveMapUp.setFocusable(false);
+        jbMoveMapUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbMoveMapUpActionPerformed(evt);
+            }
+        });
+        jPanel10.add(jbMoveMapUp);
+
+        jPanel13.setLayout(new java.awt.GridLayout(0, 2, 3, 0));
+
+        jbMoveMapLeft.setForeground(new java.awt.Color(204, 0, 0));
+        jbMoveMapLeft.setText("◄");
+        jbMoveMapLeft.setFocusable(false);
+        jbMoveMapLeft.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbMoveMapLeftActionPerformed(evt);
+            }
+        });
+        jPanel13.add(jbMoveMapLeft);
+
+        jbMoveMapRight.setForeground(new java.awt.Color(204, 0, 0));
+        jbMoveMapRight.setText("►");
+        jbMoveMapRight.setFocusable(false);
+        jbMoveMapRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbMoveMapRightActionPerformed(evt);
+            }
+        });
+        jPanel13.add(jbMoveMapRight);
+
+        jPanel10.add(jPanel13);
+
+        jbMoveMapDown.setForeground(new java.awt.Color(0, 153, 0));
+        jbMoveMapDown.setText("▼");
+        jbMoveMapDown.setToolTipText("");
+        jbMoveMapDown.setFocusable(false);
+        jbMoveMapDown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbMoveMapDownActionPerformed(evt);
+            }
+        });
+        jPanel10.add(jbMoveMapDown);
+
+        jPanel16.setLayout(new java.awt.GridLayout(2, 0, 0, 3));
+
+        jbMoveMapUpZ.setForeground(new java.awt.Color(0, 0, 255));
+        jbMoveMapUpZ.setText("▲");
+        jbMoveMapUpZ.setFocusable(false);
+        jbMoveMapUpZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbMoveMapUpZActionPerformed(evt);
+            }
+        });
+        jPanel16.add(jbMoveMapUpZ);
+
+        jbMoveMapDownZ.setForeground(new java.awt.Color(0, 0, 255));
+        jbMoveMapDownZ.setText("▼");
+        jbMoveMapDownZ.setFocusable(false);
+        jbMoveMapDownZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbMoveMapDownZActionPerformed(evt);
+            }
+        });
+        jPanel16.add(jbMoveMapDownZ);
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jcbViewGridsBorders.setSelected(true);
+        jcbViewGridsBorders.setText("View Grids Borders");
+        jcbViewGridsBorders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbViewGridsBordersActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelMapToolsLayout = new javax.swing.GroupLayout(jPanelMapTools);
+        jPanelMapTools.setLayout(jPanelMapToolsLayout);
+        jPanelMapToolsLayout.setHorizontalGroup(
+            jPanelMapToolsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMapToolsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelMapToolsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jcbViewGridsBorders)
+                    .addGroup(jPanelMapToolsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcbViewAreas)
+                    .addComponent(jcbRealTimePolyGrouping)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelMapToolsLayout.setVerticalGroup(
+            jPanelMapToolsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMapToolsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jcbRealTimePolyGrouping)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jcbViewAreas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jcbViewGridsBorders)
+                .addContainerGap(210, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Map Tools", jPanelMapTools);
+
+        jPanel14.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 8));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setText("Selected Map Info:");
+        jPanel14.add(jLabel4);
+
+        jLabel2.setText("# Polygons:");
+        jPanel14.add(jLabel2);
+
+        jlNumPolygons.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlNumPolygons.setText(" ");
+        jlNumPolygons.setPreferredSize(new java.awt.Dimension(40, 14));
+        jPanel14.add(jlNumPolygons);
+
+        jLabel5.setText("# Materials:");
+        jPanel14.add(jLabel5);
+
+        jlNumMaterials.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlNumMaterials.setText(" ");
+        jlNumMaterials.setPreferredSize(new java.awt.Dimension(40, 14));
+        jPanel14.add(jlNumMaterials);
+
         jMenu1.setText("File");
 
         jmiNewMap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/newMapIcon_s.png"))); // NOI18N
@@ -1002,6 +1359,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu1.add(jmiOpenMap);
         jMenu1.add(jSeparator2);
 
+        jmiSaveMap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/saveMapIconSmall.png"))); // NOI18N
         jmiSaveMap.setText("Save Map...");
         jmiSaveMap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1010,6 +1368,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jmiSaveMap);
 
+        jmiSaveMapAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/saveMapIconSmall.png"))); // NOI18N
         jmiSaveMapAs.setText("Save Map as...");
         jmiSaveMapAs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1019,6 +1378,17 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu1.add(jmiSaveMapAs);
         jMenu1.add(jSeparator3);
 
+        jmiAddMaps.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddMapIconSmall.png"))); // NOI18N
+        jmiAddMaps.setText("Add Maps...");
+        jmiAddMaps.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAddMapsActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmiAddMaps);
+        jMenu1.add(jSeparator8);
+
+        jmiExportObjWithText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
         jmiExportObjWithText.setText("Export Map as OBJ with textures...");
         jmiExportObjWithText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1027,6 +1397,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jmiExportObjWithText);
 
+        jmiExportMapAsImd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
         jmiExportMapAsImd.setText("Export Map as IMD...");
         jmiExportMapAsImd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1035,6 +1406,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jmiExportMapAsImd);
 
+        jmiExportMapAsNsb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
         jmiExportMapAsNsb.setText("Export Map as NSBMD...");
         jmiExportMapAsNsb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1043,6 +1415,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jmiExportMapAsNsb);
 
+        jmiExportMapBtx.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
         jmiExportMapBtx.setText("Export Map's NSBTX...");
         jmiExportMapBtx.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1052,6 +1425,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu1.add(jmiExportMapBtx);
         jMenu1.add(jSeparator6);
 
+        jmiImportTileset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
         jmiImportTileset.setText("Import Tileset...");
         jmiImportTileset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1060,6 +1434,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jmiImportTileset);
 
+        jmiExportTileset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
         jmiExportTileset.setText("Export Tileset...");
         jmiExportTileset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1068,6 +1443,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jmiExportTileset);
 
+        jmiExportAllTiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
         jmiExportAllTiles.setText("Export All Tiles as OBJ...");
         jmiExportAllTiles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1080,6 +1456,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenu2.setText("Edit");
 
+        jmiUndo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/undoIconSmall.png"))); // NOI18N
         jmiUndo.setText("Undo");
         jmiUndo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1088,6 +1465,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu2.add(jmiUndo);
 
+        jmiRedo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/redoIconSmall.png"))); // NOI18N
         jmiRedo.setText("Redo");
         jmiRedo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1095,25 +1473,9 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jmiRedo);
-        jMenu2.add(jSeparator12);
-
-        jmiClearTiles.setText("Clear Tiles");
-        jmiClearTiles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiClearTilesActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jmiClearTiles);
-
-        jmiUseSmartDrawing.setText("Use Smart Drawing");
-        jmiUseSmartDrawing.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiUseSmartDrawingActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jmiUseSmartDrawing);
         jMenu2.add(jSeparator10);
 
+        jmiClearLayer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
         jmiClearLayer.setText("Clear Layer");
         jmiClearLayer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1132,6 +1494,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2.add(jmiClearAllLayers);
         jMenu2.add(jSeparator13);
 
+        jmiCopyLayer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/copyIcon.png"))); // NOI18N
         jmiCopyLayer.setText("Copy Layer");
         jmiCopyLayer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1140,6 +1503,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu2.add(jmiCopyLayer);
 
+        jmiPasteLayer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pasteIcon.png"))); // NOI18N
         jmiPasteLayer.setText("Paste Layer");
         jmiPasteLayer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1148,6 +1512,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu2.add(jmiPasteLayer);
 
+        jmiPasteLayerTiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pasteTileIcon.png"))); // NOI18N
         jmiPasteLayerTiles.setText("Paste Layer Tiles");
         jmiPasteLayerTiles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1156,6 +1521,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu2.add(jmiPasteLayerTiles);
 
+        jmiPasteLayerHeights.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pasteHeightIcon.png"))); // NOI18N
         jmiPasteLayerHeights.setText("Paste Layer Heights");
         jmiPasteLayerHeights.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1184,13 +1550,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu3.add(jmiTopView);
 
-        jmiToggleHeightView.setText("Toggle Height View");
-        jmiToggleHeightView.addActionListener(new java.awt.event.ActionListener() {
+        jmiHeightView.setText("Height View");
+        jmiHeightView.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiToggleHeightViewActionPerformed(evt);
+                jmiHeightViewActionPerformed(evt);
             }
         });
-        jMenu3.add(jmiToggleHeightView);
+        jMenu3.add(jmiHeightView);
+        jMenu3.add(jSeparator5);
 
         jmiToggleGrid.setText("Toggle Grid");
         jmiToggleGrid.addActionListener(new java.awt.event.ActionListener() {
@@ -1219,7 +1586,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setText("Tools");
+        jmiBuildingEditor.setText("Tools");
 
         jmiTilesetEditor.setText("Tileset Editor");
         jmiTilesetEditor.addActionListener(new java.awt.event.ActionListener() {
@@ -1227,7 +1594,7 @@ public class MainFrame extends javax.swing.JFrame {
                 jmiTilesetEditorActionPerformed(evt);
             }
         });
-        jMenu4.add(jmiTilesetEditor);
+        jmiBuildingEditor.add(jmiTilesetEditor);
 
         jmiCollisionEditor.setText("Collision Editor");
         jmiCollisionEditor.addActionListener(new java.awt.event.ActionListener() {
@@ -1235,7 +1602,7 @@ public class MainFrame extends javax.swing.JFrame {
                 jmiCollisionEditorActionPerformed(evt);
             }
         });
-        jMenu4.add(jmiCollisionEditor);
+        jmiBuildingEditor.add(jmiCollisionEditor);
 
         jmiBdhcEditor.setText("BDHC Editor");
         jmiBdhcEditor.addActionListener(new java.awt.event.ActionListener() {
@@ -1243,7 +1610,7 @@ public class MainFrame extends javax.swing.JFrame {
                 jmiBdhcEditorActionPerformed(evt);
             }
         });
-        jMenu4.add(jmiBdhcEditor);
+        jmiBuildingEditor.add(jmiBdhcEditor);
 
         jmiNsbtxEditor.setText("NSBTX Editor");
         jmiNsbtxEditor.addActionListener(new java.awt.event.ActionListener() {
@@ -1251,9 +1618,25 @@ public class MainFrame extends javax.swing.JFrame {
                 jmiNsbtxEditorActionPerformed(evt);
             }
         });
-        jMenu4.add(jmiNsbtxEditor);
+        jmiBuildingEditor.add(jmiNsbtxEditor);
 
-        jMenuBar1.add(jMenu4);
+        jMenuItem1.setText("Building Editor");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jmiBuildingEditor.add(jMenuItem1);
+
+        jmiAnimationEditor.setText("Animation Editor");
+        jmiAnimationEditor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAnimationEditorActionPerformed(evt);
+            }
+        });
+        jmiBuildingEditor.add(jmiAnimationEditor);
+
+        jMenuBar1.add(jmiBuildingEditor);
 
         jmHelp.setText("Help");
 
@@ -1281,36 +1664,35 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(mapDisplayContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(mapDisplayContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 981, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTabbedPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 937, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jlGameName, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jlGame))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jlGameIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGap(10, 10, 10))
+            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1324,24 +1706,20 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jlGameName)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(mapDisplayContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -1356,7 +1734,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiOpenMapActionPerformed
 
     private void jmiSaveMapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSaveMapActionPerformed
-        if (handler.getGrid().filePath.isEmpty()) {
+        if (handler.getMapMatrix().filePath.isEmpty()) {
             saveMapWithDialog();
         } else {
             saveMap();
@@ -1384,39 +1762,19 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jbNewMapActionPerformed
 
     private void jbSaveMapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSaveMapActionPerformed
-        if (handler.getGrid().filePath.isEmpty()) {
+        if (handler.getMapMatrix().filePath.isEmpty()) {
             saveMapWithDialog();
         } else {
             saveMap();
         }
     }//GEN-LAST:event_jbSaveMapActionPerformed
 
-    private void jb3DViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb3DViewActionPerformed
-        mapDisplay.set3DView();
-        mapDisplay.repaint();
-    }//GEN-LAST:event_jb3DViewActionPerformed
-
-    private void jbTopViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTopViewActionPerformed
-        mapDisplay.setOrthoView();
-        mapDisplay.repaint();
-    }//GEN-LAST:event_jbTopViewActionPerformed
-
-    private void jbHeightViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbHeightViewActionPerformed
-        mapDisplay.toggleHeightView();
-        mapDisplay.repaint();
-    }//GEN-LAST:event_jbHeightViewActionPerformed
-
-    private void jbGridViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGridViewActionPerformed
-        mapDisplay.toggleGridView();
-        mapDisplay.repaint();
-    }//GEN-LAST:event_jbGridViewActionPerformed
-
     private void jbExportObjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExportObjActionPerformed
         saveMapAsObjWithDialog(true);
     }//GEN-LAST:event_jbExportObjActionPerformed
 
     private void jbExportImdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExportImdActionPerformed
-        saveMapAsImdWithDialog();
+        saveMapsAsImdWithDialog();
     }//GEN-LAST:event_jbExportImdActionPerformed
 
     private void jbHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbHelpActionPerformed
@@ -1428,7 +1786,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiImportTilesetActionPerformed
 
     private void jbExportNsbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExportNsbActionPerformed
-        saveMapAsNsbWithDialog();
+        saveMapsAsNsbWithDialog();
     }//GEN-LAST:event_jbExportNsbActionPerformed
 
     private void jbTilelistEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTilelistEditorActionPerformed
@@ -1451,18 +1809,6 @@ public class MainFrame extends javax.swing.JFrame {
         saveTilesetWithDialog();
     }//GEN-LAST:event_jmiExportTilesetActionPerformed
 
-    private void jbUseSmartGridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbUseSmartGridActionPerformed
-        mapDisplay.toggleSmartGrid();
-    }//GEN-LAST:event_jbUseSmartGridActionPerformed
-
-    private void jbClearTileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbClearTileActionPerformed
-        mapDisplay.toggleClearTile();
-    }//GEN-LAST:event_jbClearTileActionPerformed
-
-    private void jmiClearTilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiClearTilesActionPerformed
-        mapDisplay.toggleClearTile();
-    }//GEN-LAST:event_jmiClearTilesActionPerformed
-
     private void jmi3dViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi3dViewActionPerformed
         mapDisplay.set3DView();
         mapDisplay.repaint();
@@ -1473,10 +1819,10 @@ public class MainFrame extends javax.swing.JFrame {
         mapDisplay.repaint();
     }//GEN-LAST:event_jmiTopViewActionPerformed
 
-    private void jmiToggleHeightViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiToggleHeightViewActionPerformed
-        mapDisplay.toggleHeightView();
+    private void jmiHeightViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiHeightViewActionPerformed
+        mapDisplay.setHeightView();
         mapDisplay.repaint();
-    }//GEN-LAST:event_jmiToggleHeightViewActionPerformed
+    }//GEN-LAST:event_jmiHeightViewActionPerformed
 
     private void jmiToggleGridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiToggleGridActionPerformed
         mapDisplay.toggleGridView();
@@ -1503,10 +1849,6 @@ public class MainFrame extends javax.swing.JFrame {
         openAboutDialog();
     }//GEN-LAST:event_jmiAboutActionPerformed
 
-    private void jmiUseSmartDrawingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiUseSmartDrawingActionPerformed
-        mapDisplay.toggleSmartGrid();
-    }//GEN-LAST:event_jmiUseSmartDrawingActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         int returnVal = JOptionPane.showConfirmDialog(this,
                 "Do you want to exit Pokemon DS Map Studio?",
@@ -1526,17 +1868,14 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiLoadBackImgActionPerformed
 
     private void jmiClearLayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiClearLayerActionPerformed
-        handler.addMapState(new MapLayerState("Clear Layer", handler));
-        handler.getGrid().clearLayer(handler.getActiveLayerIndex());
-        thumbnailLayerSelector.drawLayerThumbnail(handler.getActiveLayerIndex());
-        thumbnailLayerSelector.repaint();
-        mapDisplay.repaint();
+        handler.clearLayer(handler.getActiveLayerIndex());
     }//GEN-LAST:event_jmiClearLayerActionPerformed
 
     private void jmiClearAllLayersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiClearAllLayersActionPerformed
         handler.getGrid().clearAllLayers();
         thumbnailLayerSelector.drawAllLayerThumbnails();
         thumbnailLayerSelector.repaint();
+        mapDisplay.updateMapLayersGL();
         mapDisplay.repaint();
     }//GEN-LAST:event_jmiClearAllLayersActionPerformed
 
@@ -1625,45 +1964,20 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jmiCopyLayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCopyLayerActionPerformed
         if (handler.getTileset().size() > 0) {
-            handler.getGrid().copySelectedLayer();
+            handler.copySelectedLayer();
         }
     }//GEN-LAST:event_jmiCopyLayerActionPerformed
 
     private void jmiPasteLayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPasteLayerActionPerformed
-        if (handler.getTileset().size() > 0) {
-            if (handler.getGrid().getTileLayerCopy() != null && handler.getGrid().getHeightLayerCopy() != null) {
-                handler.addMapState(new MapLayerState("Paste Tile and Height Layer", handler));
-                handler.getGrid().pasteTileLayer();
-                handler.getGrid().pasteHeightLayer();
-                mapDisplay.repaint();
-                handler.updateLayerThumbnail(handler.getActiveLayerIndex());
-                thumbnailLayerSelector.repaint();
-            }
-        }
+        handler.pasteLayer(handler.getActiveLayerIndex());
     }//GEN-LAST:event_jmiPasteLayerActionPerformed
 
     private void jmiPasteLayerTilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPasteLayerTilesActionPerformed
-        if (handler.getTileset().size() > 0) {
-            if (handler.getGrid().getTileLayerCopy() != null) {
-                handler.addMapState(new MapLayerState("Paste Tile Layer", handler));
-                handler.getGrid().pasteTileLayer();
-                mapDisplay.repaint();
-                handler.updateLayerThumbnail(handler.getActiveLayerIndex());
-                thumbnailLayerSelector.repaint();
-            }
-        }
+        handler.pasteLayerTiles(handler.getActiveLayerIndex());
     }//GEN-LAST:event_jmiPasteLayerTilesActionPerformed
 
     private void jmiPasteLayerHeightsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPasteLayerHeightsActionPerformed
-        if (handler.getTileset().size() > 0) {
-            if (handler.getGrid().getHeightLayerCopy() != null) {
-                handler.addMapState(new MapLayerState("Paste Height Layer", handler));
-                handler.getGrid().pasteHeightLayer();
-                mapDisplay.repaint();
-                handler.updateLayerThumbnail(handler.getActiveLayerIndex());
-                thumbnailLayerSelector.repaint();
-            }
-        }
+        handler.pasteLayerHeights(handler.getActiveLayerIndex());
     }//GEN-LAST:event_jmiPasteLayerHeightsActionPerformed
 
     private void jbBacksoundEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBacksoundEditorActionPerformed
@@ -1674,7 +1988,122 @@ public class MainFrame extends javax.swing.JFrame {
         int size = Math.min(mapDisplayContainer.getWidth(), mapDisplayContainer.getHeight());
         mapDisplay.setPreferredSize(new Dimension(size, size));
         mapDisplayContainer.revalidate();
+        //mapDisplay.repaint();
     }//GEN-LAST:event_mapDisplayContainerComponentResized
+
+    private void jtbView3DActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbView3DActionPerformed
+        mapDisplay.set3DView();
+        mapDisplay.repaint();
+    }//GEN-LAST:event_jtbView3DActionPerformed
+
+    private void jtbViewOrthoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbViewOrthoActionPerformed
+        mapDisplay.setOrthoView();
+        mapDisplay.repaint();
+    }//GEN-LAST:event_jtbViewOrthoActionPerformed
+
+    private void jtbViewHeightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbViewHeightActionPerformed
+        mapDisplay.setHeightView();
+        mapDisplay.repaint();
+    }//GEN-LAST:event_jtbViewHeightActionPerformed
+
+    private void jtbViewGridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbViewGridActionPerformed
+        mapDisplay.setGridEnabled(jtbViewGrid.isSelected());
+        mapDisplay.repaint();
+    }//GEN-LAST:event_jtbViewGridActionPerformed
+
+    private void jtbModeEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbModeEditActionPerformed
+        mapDisplay.setEditMode(MapDisplay.EditMode.MODE_EDIT);
+    }//GEN-LAST:event_jtbModeEditActionPerformed
+
+    private void jtbModeMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbModeMoveActionPerformed
+        mapDisplay.setEditMode(MapDisplay.EditMode.MODE_MOVE);
+    }//GEN-LAST:event_jtbModeMoveActionPerformed
+
+    private void jtbModeZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbModeZoomActionPerformed
+        mapDisplay.setEditMode(MapDisplay.EditMode.MODE_ZOOM);
+    }//GEN-LAST:event_jtbModeZoomActionPerformed
+
+    private void jtbModeClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbModeClearActionPerformed
+        mapDisplay.setEditMode(MapDisplay.EditMode.MODE_CLEAR);
+    }//GEN-LAST:event_jtbModeClearActionPerformed
+
+    private void jtbModeSmartPaintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbModeSmartPaintActionPerformed
+        mapDisplay.setEditMode(MapDisplay.EditMode.MODE_SMART_PAINT);
+    }//GEN-LAST:event_jtbModeSmartPaintActionPerformed
+
+    private void jtbModeInvSmartPaintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbModeInvSmartPaintActionPerformed
+        mapDisplay.setEditMode(MapDisplay.EditMode.MODE_INV_SMART_PAINT);
+    }//GEN-LAST:event_jtbModeInvSmartPaintActionPerformed
+
+    private void jbFitCameraToMapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFitCameraToMapActionPerformed
+        mapDisplay.setCameraAtSelectedMap();
+        mapDisplay.repaint();
+    }//GEN-LAST:event_jbFitCameraToMapActionPerformed
+
+    private void jsSelectedAreaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jsSelectedAreaStateChanged
+        try {
+            handler.getMapData().setAreaIndex((Integer) jsSelectedArea.getValue());
+            handler.getMapMatrix().updateBordersData();
+            mapMatrixDisplay.updateMapsImage();
+            mapMatrixDisplay.repaint();
+            mapDisplay.repaint();
+
+            jPanelAreaColor.setBackground(handler.getMapMatrix().getAreaColors().get(handler.getMapData().getAreaIndex()));
+            jPanelAreaColor.repaint();
+        } catch (Exception ex) {
+
+        }
+    }//GEN-LAST:event_jsSelectedAreaStateChanged
+
+    private void jbExportNsb2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExportNsb2ActionPerformed
+        saveAreasAsBtxWithDialog();
+    }//GEN-LAST:event_jbExportNsb2ActionPerformed
+
+    private void jcbRealTimePolyGroupingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbRealTimePolyGroupingActionPerformed
+        handler.setRealTimePostProcessing(jcbRealTimePolyGrouping.isSelected());
+        handler.getMapMatrix().updateAllLayersGL();
+        mapDisplay.repaint();
+        updateViewGeometryCount();
+    }//GEN-LAST:event_jcbRealTimePolyGroupingActionPerformed
+
+    private void jtbViewWireframeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtbViewWireframeActionPerformed
+        mapDisplay.setDrawWireframeEnabled(jtbViewWireframe.isSelected());
+        mapDisplay.repaint();
+    }//GEN-LAST:event_jtbViewWireframeActionPerformed
+
+    private void jcbViewAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbViewAreasActionPerformed
+        mapDisplay.setDrawAreasEnabled(jcbViewAreas.isSelected());
+        mapDisplay.repaint();
+    }//GEN-LAST:event_jcbViewAreasActionPerformed
+
+    private void jbMoveMapUpZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMoveMapUpZActionPerformed
+        moveTilesUpZ();
+    }//GEN-LAST:event_jbMoveMapUpZActionPerformed
+
+    private void jbMoveMapDownZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMoveMapDownZActionPerformed
+        moveTilesDownZ();
+    }//GEN-LAST:event_jbMoveMapDownZActionPerformed
+
+    private void jbAddMapsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddMapsActionPerformed
+        addMapWithDialog();
+    }//GEN-LAST:event_jbAddMapsActionPerformed
+
+    private void jcbViewGridsBordersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbViewGridsBordersActionPerformed
+        mapDisplay.setDrawGridBorderMaps(jcbViewGridsBorders.isSelected());
+        mapDisplay.repaint();
+    }//GEN-LAST:event_jcbViewGridsBordersActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        openBuildingEditor2();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jmiAnimationEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAnimationEditorActionPerformed
+        openAnimationEditor();
+    }//GEN-LAST:event_jmiAnimationEditorActionPerformed
+
+    private void jmiAddMapsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAddMapsActionPerformed
+        addMapWithDialog();
+    }//GEN-LAST:event_jmiAddMapsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1711,7 +2140,7 @@ public class MainFrame extends javax.swing.JFrame {
 
                 if (args.length > 0) {
                     try {
-                        if (args[0].endsWith(MapGrid.fileExtension)) {
+                        if (args[0].endsWith(MapMatrix.fileExtension)) {
                             mainFrame.openMap(args[0]);
                         } else if (args[0].endsWith(Tileset.fileExtension)) {
                             mainFrame.openTileset(args[0]);
@@ -1726,77 +2155,102 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private editor.bordermap.BorderMapsDisplay borderMapsDisplay;
+    private javax.swing.ButtonGroup buttonGroupDrawMode;
+    private javax.swing.ButtonGroup buttonGroupViewMode;
     private editor.heightselector.HeightSelector heightSelector;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JPanel jPanelAreaColor;
+    private javax.swing.JPanel jPanelMapTools;
+    private javax.swing.JPanel jPanelMatrixInfo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPaneMapMatrix;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JToolBar.Separator jSeparator11;
-    private javax.swing.JPopupMenu.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator13;
+    private javax.swing.JToolBar.Separator jSeparator14;
+    private javax.swing.JToolBar.Separator jSeparator19;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
-    private javax.swing.JToolBar.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JToolBar.Separator jSeparator7;
-    private javax.swing.JToolBar.Separator jSeparator8;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JPopupMenu.Separator jSeparator9;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JButton jb3DView;
+    private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JToolBar jToolBar3;
+    private javax.swing.JButton jbAddMaps;
     private javax.swing.JButton jbAnimationEditor;
     private javax.swing.JButton jbBacksoundEditor;
     private javax.swing.JButton jbBdhcEditor;
     private javax.swing.JButton jbBuildingEditor;
-    private javax.swing.JButton jbClearTile;
     private javax.swing.JButton jbCollisionsEditor;
     private javax.swing.JButton jbExportImd;
     private javax.swing.JButton jbExportNsb;
     private javax.swing.JButton jbExportNsb1;
+    private javax.swing.JButton jbExportNsb2;
     private javax.swing.JButton jbExportObj;
-    private javax.swing.JButton jbGridView;
-    private javax.swing.JButton jbHeightView;
+    private javax.swing.JButton jbFitCameraToMap;
     private javax.swing.JButton jbHelp;
     private javax.swing.JButton jbKeboardInfo;
     private javax.swing.JButton jbMoveMapDown;
+    private javax.swing.JButton jbMoveMapDownZ;
     private javax.swing.JButton jbMoveMapLeft;
     private javax.swing.JButton jbMoveMapRight;
     private javax.swing.JButton jbMoveMapUp;
+    private javax.swing.JButton jbMoveMapUpZ;
     private javax.swing.JButton jbNewMap;
     private javax.swing.JButton jbNsbtxEditor1;
     private javax.swing.JButton jbOpenMap;
     private javax.swing.JButton jbRedo;
     private javax.swing.JButton jbSaveMap;
     private javax.swing.JButton jbTilelistEditor;
-    private javax.swing.JButton jbTopView;
     private javax.swing.JButton jbUndo;
-    private javax.swing.JButton jbUseSmartGrid;
+    private javax.swing.JCheckBox jcbRealTimePolyGrouping;
     private javax.swing.JCheckBoxMenuItem jcbUseBackImage;
+    private javax.swing.JCheckBox jcbViewAreas;
+    private javax.swing.JCheckBox jcbViewGridsBorders;
     private javax.swing.JLabel jlGame;
     private javax.swing.JLabel jlGameIcon;
     private javax.swing.JLabel jlGameName;
+    private javax.swing.JLabel jlNumMaterials;
+    private javax.swing.JLabel jlNumPolygons;
     private javax.swing.JMenu jmHelp;
     private javax.swing.JMenuItem jmi3dView;
     private javax.swing.JMenuItem jmiAbout;
+    private javax.swing.JMenuItem jmiAddMaps;
+    private javax.swing.JMenuItem jmiAnimationEditor;
     private javax.swing.JMenuItem jmiBdhcEditor;
+    private javax.swing.JMenu jmiBuildingEditor;
     private javax.swing.JMenuItem jmiClearAllLayers;
     private javax.swing.JMenuItem jmiClearLayer;
-    private javax.swing.JMenuItem jmiClearTiles;
     private javax.swing.JMenuItem jmiCollisionEditor;
     private javax.swing.JMenuItem jmiCopyLayer;
     private javax.swing.JMenuItem jmiExportAllTiles;
@@ -1805,6 +2259,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiExportMapBtx;
     private javax.swing.JMenuItem jmiExportObjWithText;
     private javax.swing.JMenuItem jmiExportTileset;
+    private javax.swing.JMenuItem jmiHeightView;
     private javax.swing.JMenuItem jmiImportTileset;
     private javax.swing.JMenuItem jmiKeyboardInfo;
     private javax.swing.JMenuItem jmiLoadBackImg;
@@ -1819,14 +2274,26 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiSaveMapAs;
     private javax.swing.JMenuItem jmiTilesetEditor;
     private javax.swing.JMenuItem jmiToggleGrid;
-    private javax.swing.JMenuItem jmiToggleHeightView;
     private javax.swing.JMenuItem jmiTopView;
     private javax.swing.JMenuItem jmiUndo;
-    private javax.swing.JMenuItem jmiUseSmartDrawing;
     private javax.swing.JSlider jsBackImageAlpha;
     private javax.swing.JSlider jsHeightMapAlpha;
-    private editor.MapDisplay mapDisplay;
+    private javax.swing.JSpinner jsSelectedArea;
+    private javax.swing.JToggleButton jtbModeClear;
+    private javax.swing.JToggleButton jtbModeEdit;
+    private javax.swing.JToggleButton jtbModeInvSmartPaint;
+    private javax.swing.JToggleButton jtbModeMove;
+    private javax.swing.JToggleButton jtbModeSmartPaint;
+    private javax.swing.JToggleButton jtbModeZoom;
+    private javax.swing.JToggleButton jtbView3D;
+    private javax.swing.JToggleButton jtbViewGrid;
+    private javax.swing.JToggleButton jtbViewHeight;
+    private javax.swing.JToggleButton jtbViewOrtho;
+    private javax.swing.JToggleButton jtbViewWireframe;
+    private editor.mapdisplay.MapDisplay mapDisplay;
     private javax.swing.JPanel mapDisplayContainer;
+    private editor.mapmatrix.MapMatrixDisplay mapMatrixDisplay;
+    private editor.mapmatrix.MoveMapPanel moveMapPanel;
     private editor.smartdrawing.SmartGridDisplay smartGridDisplay;
     private editor.layerselector.ThumbnailLayerSelector thumbnailLayerSelector;
     private editor.tileseteditor.TileDisplay tileDisplay;
@@ -1839,8 +2306,9 @@ public class MainFrame extends javax.swing.JFrame {
             String fileName = new File(path).getName();
             handler.setLastMapDirectoryUsed(folderPath);
 
-            handler.getGrid().loadFromFile(path);
-            handler.getGrid().filePath = path;
+            handler.getMapMatrix().loadGridsFromFile(path);
+            handler.getMapMatrix().filePath = path;
+            handler.setDefaultMapSelected();
 
             setTitle(handler.getMapName() + " - " + handler.getVersionName());
 
@@ -1849,26 +2317,26 @@ public class MainFrame extends javax.swing.JFrame {
             jbRedo.setEnabled(false);
 
             try {
-                Tileset tileset = TilesetIO.readTilesetFromFile(handler.getGrid().tilesetFilePath);
+                Tileset tileset = TilesetIO.readTilesetFromFile(handler.getMapMatrix().tilesetFilePath);
                 handler.setTileset(tileset);
                 System.out.println("Textures loaded from path: " + new File(path).getParent());
 
-                GLContext context = mapDisplay.getContext();
-                TilesetRenderer tr = new TilesetRenderer(handler.getTileset());
-                try {
-                    tr.renderTiles();
-                } catch (NullPointerException e) {
-
-                }
-                tr.destroy();
-                mapDisplay.setContext(context, false);
+                renderTilesetThumbnails();
 
                 handler.setIndexTileSelected(0);
                 handler.setSmartGridIndexSelected(0);
 
+                handler.getMapMatrix().updateAllLayersGL();
+                handler.getMapMatrix().updateBordersData();
+                handler.updateAllMapThumbnails();
+                mapMatrixDisplay.updateSize();
+                updateMapMatrixDisplay();
+                updateViewMapInfo();
+
                 tileSelector.updateLayout();
                 tileSelector.repaint();
                 mapDisplay.requestUpdate();
+                mapDisplay.setCameraAtSelectedMap();
                 mapDisplay.repaint();
                 tileDisplay.requestUpdate();
                 tileDisplay.repaint();
@@ -1883,49 +2351,10 @@ public class MainFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Error opening map", JOptionPane.ERROR_MESSAGE);
             }
 
-            try {
-                String filename = Utils.removeExtensionFromPath(fileName);
-                String bdhcPath = folderPath + "/" + filename + "." + Bdhc.fileExtension;
-                int game = handler.getGameIndex();
-                if (game == Game.DIAMOND || game == Game.PEARL) {
-                    handler.setBdhc(new BdhcLoaderDP().loadBdhcFromFile(bdhcPath));
-                } else {
-                    handler.setBdhc(new BdhcLoaderHGSS().loadBdhcFromFile(bdhcPath));
-                }
-            } catch (IOException ex) {
-                handler.setBdhc(new Bdhc());
-            }
-
-            try {
-                String filename = Utils.removeExtensionFromPath(fileName);
-                String backsoundPath = folderPath + "/" + filename + "." + Backsound.fileExtension;
-
-                System.out.println("Backsound path: " + backsoundPath);
-                int game = handler.getGameIndex();
-                if (game == Game.HEART_GOLD || game == Game.SOUL_SILVER) {
-                    handler.setBacksound(new Backsound(backsoundPath));
-                } else {
-                    handler.setBacksound(new Backsound());
-                }
-            } catch (IOException | WrongFormatException ex) {
-                handler.setBacksound(new Backsound());
-            }
-
-            try {
-                String filename = Utils.removeExtensionFromPath(fileName);
-                String collisionsPath = folderPath + "/" + filename + "." + Collisions.fileExtension;
-                handler.setCollisions(new Collisions(collisionsPath));
-            } catch (IOException ex) {
-                handler.setCollisions(new Collisions(handler.getGameIndex()));
-            }
-
-            try {
-                String filename = Utils.removeExtensionFromPath(fileName);
-                String buildingsPath = folderPath + "/" + filename + "." + BuildFile.fileExtension;
-                handler.setBuildings(new BuildFile(buildingsPath));
-            } catch (IOException ex) {
-                handler.setBuildings(new BuildFile());
-            }
+            handler.getMapMatrix().loadBDHCsFromFile(folderPath, fileName);
+            handler.getMapMatrix().loadBacksoundsFromFile(folderPath, fileName);
+            handler.getMapMatrix().loadCollisionsFromFile(folderPath, fileName);
+            handler.getMapMatrix().loadBuildingsFromFile(folderPath, fileName);
 
             updateViewGame();
 
@@ -1933,7 +2362,11 @@ public class MainFrame extends javax.swing.JFrame {
             repaintTileSelector();
             repaintMapDisplay();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Can't open file", "Error opening map", JOptionPane.INFORMATION_MESSAGE);
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Can't open file", "Error opening map", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Can't open file", "Error opening map", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -1942,14 +2375,44 @@ public class MainFrame extends javax.swing.JFrame {
         if (handler.getLastMapDirectoryUsed() != null) {
             fc.setCurrentDirectory(new File(handler.getLastMapDirectoryUsed()));
         }
-        
-        fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS map (*.pdsmap)", MapGrid.fileExtension));
+
+        fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS map (*.pdsmap)", MapMatrix.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open Map");
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             openMap(fc.getSelectedFile().getPath());
         }
+    }
+
+    public void addMapWithDialog() {
+        final JFileChooser fc = new JFileChooser();
+        if (handler.getLastMapDirectoryUsed() != null) {
+            fc.setCurrentDirectory(new File(handler.getLastMapDirectoryUsed()));
+        }
+
+        fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS map (*.pdsmap)", MapMatrix.fileExtension));
+        fc.setApproveButtonText("Open");
+        fc.setDialogTitle("Add Maps from PDSMAP file");
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            if (fc.getSelectedFile().exists()) {
+                handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
+                try {
+                    HashMap<Point, MapData> maps = MapMatrix.getGridsFromFile(fc.getSelectedFile().getPath(), handler);
+
+                    final MapMatrixImportDialog dialog = new MapMatrixImportDialog(this, true);
+                    dialog.init(handler, fc.getSelectedFile().getPath(), maps);
+                    dialog.setLocationRelativeTo(this);
+                    dialog.setVisible(true);
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "There was a problem importing the maps",
+                            "Can't add maps", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+
     }
 
     public void openTilesetEditor() {
@@ -1962,6 +2425,11 @@ public class MainFrame extends javax.swing.JFrame {
             handler.getTileset().removeUnusedTextures();
             dialog.fixIndices();
             tileSelector.updateLayout();
+            handler.getMapMatrix().updateAllLayersGL();
+            handler.getMapMatrix().updateBordersData();
+            handler.updateAllMapThumbnails();
+            mapMatrixDisplay.updateSize();
+            updateMapMatrixDisplay();
             mapDisplay.requestUpdate();
             mapDisplay.repaint();
             tileDisplay.requestUpdate();
@@ -1978,6 +2446,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void openCollisionsEditor() {
         mapDisplay.requestScreenshot();
         mapDisplay.setOrthoView();
+        mapDisplay.setCameraAtSelectedMap();
         boolean gridEnabled = mapDisplay.isGridEnabled();
         mapDisplay.disableGridView();
         mapDisplay.display();
@@ -1993,6 +2462,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (handler.getGame().gameSelected < Game.BLACK) {
             mapDisplay.requestScreenshot();
             mapDisplay.setOrthoView();
+            mapDisplay.setCameraAtSelectedMap();
             boolean gridEnabled = mapDisplay.isGridEnabled();
             mapDisplay.disableGridView();
             mapDisplay.display();
@@ -2012,6 +2482,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (handler.getGame().gameSelected == Game.HEART_GOLD || handler.getGame().gameSelected == Game.SOUL_SILVER) {
             mapDisplay.requestScreenshot();
             mapDisplay.setOrthoView();
+            mapDisplay.setCameraAtSelectedMap();
             boolean gridEnabled = mapDisplay.isGridEnabled();
             mapDisplay.disableGridView();
             mapDisplay.display();
@@ -2060,7 +2531,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void openKeyboardInfoDialog() {
-        final KeyboardInfoDialog dialog = new KeyboardInfoDialog(this, true);
+        final KeyboardInfoDialog2 dialog = new KeyboardInfoDialog2(this, true);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
@@ -2071,19 +2542,11 @@ public class MainFrame extends javax.swing.JFrame {
         handler.setLastTilesetDirectoryUsed(folderPath);
         try {
             Tileset tileset = TilesetIO.readTilesetFromFile(path);
-            handler.getGrid().tilesetFilePath = path;
+            handler.getMapMatrix().tilesetFilePath = path;
             handler.setTileset(tileset);
             System.out.println("Textures loaded from path: " + new File(path).getParent());
 
-            GLContext context = mapDisplay.getContext();
-            TilesetRenderer tr = new TilesetRenderer(handler.getTileset());
-            try {
-                tr.renderTiles();
-            } catch (NullPointerException e) {
-
-            }
-            tr.destroy();
-            mapDisplay.setContext(context, false);
+            renderTilesetThumbnails();
 
             handler.setIndexTileSelected(0);
             handler.setSmartGridIndexSelected(0);
@@ -2160,15 +2623,15 @@ public class MainFrame extends javax.swing.JFrame {
                 handler.setIndexTileSelected(0);
                 handler.setSmartGridIndexSelected(0);
 
+                handler.setMapMatrix(new MapMatrix(handler));
+                handler.setMapSelected(new Point(0, 0));
+
+                /*
                 handler.setCollisions(new Collisions(handler.getGameIndex()));
-
                 handler.setBdhc(new Bdhc());
-
                 handler.setBacksound(new Backsound());
-
                 handler.setBuildings(new BuildFile());
-
-                handler.setGrid(new MapGrid(handler));
+                handler.setGrid(new MapGrid(handler));*/
                 handler.resetMapStateHandler();
                 jbUndo.setEnabled(false);
                 jbRedo.setEnabled(false);
@@ -2182,11 +2645,16 @@ public class MainFrame extends javax.swing.JFrame {
                 smartGridDisplay.repaint();
 
                 mapDisplay.requestUpdate();
+                mapDisplay.setCameraAtSelectedMap();
                 repaintMapDisplay();
                 tileDisplay.requestUpdate();
                 tileDisplay.repaint();
                 thumbnailLayerSelector.drawAllLayerThumbnails();
                 thumbnailLayerSelector.repaint();
+
+                handler.updateAllMapThumbnails();
+                mapMatrixDisplay.updateSize();
+                updateMapMatrixDisplay();
 
                 updateViewGame();
 
@@ -2197,19 +2665,24 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void saveMap() {
         try {
-            handler.getGrid().saveToFile(handler.getGrid().filePath);
+            handler.getMapMatrix().saveGridsToFile(handler.getMapMatrix().filePath);
 
             setTitle(handler.getMapName() + " - " + handler.getVersionName());
 
             saveTileset();
-            saveBdhc();
-            saveBacksound();
-            saveCollisions();
-            saveBuildings();
+            handler.getMapMatrix().saveCollisions();
+            handler.getMapMatrix().saveBacksounds();
+            handler.getMapMatrix().saveBDHCs();
+            handler.getMapMatrix().saveBuildings();
+            //saveBdhc();
+            //saveBacksound();
+            //saveCollisions();
+            //saveBuildings();
 
             saveMapThumbnail();
         } catch (ParserConfigurationException | TransformerException | IOException ex) {
-            JOptionPane.showMessageDialog(this, "Can't save file", "Error saving map", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "There was a problem saving all the map files",
+                    "Error saving map files", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -2218,7 +2691,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (handler.getLastMapDirectoryUsed() != null) {
             fc.setCurrentDirectory(new File(handler.getLastMapDirectoryUsed()));
         }
-        fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS map (*.pdsmap)", MapGrid.fileExtension));
+        fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS map (*.pdsmap)", MapMatrix.fileExtension));
         fc.setApproveButtonText("Save");
         fc.setDialogTitle("Save");
         int returnVal = fc.showOpenDialog(this);
@@ -2226,20 +2699,25 @@ public class MainFrame extends javax.swing.JFrame {
             handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
             try {
                 String path = fc.getSelectedFile().getPath();
-                handler.getGrid().saveToFile(path);
-                handler.getGrid().filePath = path;
+                handler.getMapMatrix().saveGridsToFile(path);
+                handler.getMapMatrix().filePath = path;
 
                 setTitle(handler.getMapName() + " - " + handler.getVersionName());
 
                 saveTileset();
-                saveCollisions();
-                saveBacksound();
-                saveBdhc();
-                saveBuildings();
+                handler.getMapMatrix().saveCollisions();
+                handler.getMapMatrix().saveBacksounds();
+                handler.getMapMatrix().saveBDHCs();
+                handler.getMapMatrix().saveBuildings();
+                //saveCollisions();
+                //saveBacksound();
+                //saveBdhc();
+                //saveBuildings();
 
                 saveMapThumbnail();
             } catch (ParserConfigurationException | TransformerException | IOException ex) {
-                JOptionPane.showMessageDialog(this, "Can't save file", "Error saving map", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "There was a problem saving all the map files",
+                        "Error saving map files", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -2315,24 +2793,37 @@ public class MainFrame extends javax.swing.JFrame {
         final ExportMapObjDialog exportMapDialog = new ExportMapObjDialog(this, true, "Export OBJ Map Settings");
         exportMapDialog.setLocationRelativeTo(null);
         exportMapDialog.setVisible(true);
+
         if (exportMapDialog.getReturnValue() == exportMapDialog.APPROVE_OPTION) {
             boolean includeVertexColors = exportMapDialog.includeVertexColors();
+            boolean exportAllMapsSeparately = exportMapDialog.exportAllMapsSeparately();
+            boolean exportAllMapsJoined = exportMapDialog.exportAllMapsJoined();
 
             final JFileChooser fc = new JFileChooser();
-            fc.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getGrid().filePath)));
+            fc.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath)));
             if (handler.getLastMapDirectoryUsed() != null) {
                 fc.setCurrentDirectory(new File(handler.getLastMapDirectoryUsed()));
             }
             fc.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
             fc.setApproveButtonText("Save");
-            fc.setDialogTitle("Save map as OBJ");
+            fc.setDialogTitle("Select a name for saving the maps as OBJ");
             int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
                 try {
                     String path = fc.getSelectedFile().getPath();
-                    handler.getGrid().saveMapToOBJ(handler.getTileset(), path, saveTextures, includeVertexColors);
-                    JOptionPane.showMessageDialog(this, "OBJ map succesfully exported.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
+                    if (exportAllMapsSeparately) {
+                        path = Utils.removeMapCoordsFromName(path);
+                        handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors);
+                        JOptionPane.showMessageDialog(this, "OBJ maps succesfully exported.", "Maps saved", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (exportAllMapsJoined) {
+                        path = Utils.removeMapCoordsFromName(path);
+                        handler.getMapMatrix().saveMapsAsObjJoined(path, saveTextures, includeVertexColors);
+                        JOptionPane.showMessageDialog(this, "OBJ map succesfully exported.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        handler.getGrid().saveMapToOBJ(handler.getTileset(), path, saveTextures, includeVertexColors);
+                        JOptionPane.showMessageDialog(this, "OBJ map succesfully exported.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 } catch (FileNotFoundException ex) {
                     JOptionPane.showMessageDialog(this, "Can't save file.", "Error saving map", JOptionPane.ERROR_MESSAGE);
                 }
@@ -2341,7 +2832,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void saveTileset() throws FileNotFoundException, ParserConfigurationException, TransformerException, IOException {
-        File file = new File(handler.getGrid().filePath);
+        File file = new File(handler.getMapMatrix().filePath);
         String path = file.getParent();
         String filename = Utils.removeExtensionFromPath(file.getName()) + "." + Tileset.fileExtension;
         TilesetIO.saveTilesetToFile(path + File.separator + filename, handler.getTileset());
@@ -2362,13 +2853,14 @@ public class MainFrame extends javax.swing.JFrame {
         mapDisplay.requestScreenshot();
         mapDisplay.display();
 
-        String path = new File(handler.getGrid().filePath).getParent();
+        String path = new File(handler.getMapMatrix().filePath).getParent();
         File file = new File(path + File.separator + "MapThumbnail.png");
         ImageIO.write(mapDisplay.getScreenshot(), "png", file);
     }
 
+    /*
     public void saveBdhc() throws IOException {
-        File file = new File(handler.getGrid().filePath);
+        File file = new File(handler.getMapMatrix().filePath);
         String path = file.getParent();
         String filename = Utils.removeExtensionFromPath(file.getName()) + "." + Bdhc.fileExtension;
 
@@ -2384,7 +2876,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void saveBacksound() throws IOException {
         int game = handler.getGameIndex();
         if (game == Game.HEART_GOLD || game == Game.SOUL_SILVER) {
-            File file = new File(handler.getGrid().filePath);
+            File file = new File(handler.getMapMatrix().filePath);
             String path = file.getParent();
             String filename = Utils.removeExtensionFromPath(file.getName()) + "." + Backsound.fileExtension;
 
@@ -2395,17 +2887,43 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void saveCollisions() throws IOException {
-        File file = new File(handler.getGrid().filePath);
+        File file = new File(handler.getMapMatrix().filePath);
         String path = file.getParent();
         String filename = Utils.removeExtensionFromPath(file.getName()) + "." + Collisions.fileExtension;
         handler.getCollisions().saveToFile(path + File.separator + filename);
     }
 
     public void saveBuildings() throws IOException {
-        File file = new File(handler.getGrid().filePath);
+        File file = new File(handler.getMapMatrix().filePath);
         String path = file.getParent();
         String filename = Utils.removeExtensionFromPath(file.getName()) + "." + BuildFile.fileExtension;
         handler.getBuildings().saveToFile(path + File.separator + filename);
+    }*/
+    public void saveMapsAsImdWithDialog() {
+        if (handler.getTileset().size() == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "There is no tileset loaded.\n"
+                    + "The IMD can be exported but the materials will be set to default.\n",
+                    "No tileset loaded",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+
+        final ExportImdDialog configDialog = new ExportImdDialog(this, true);
+        configDialog.init(handler);
+        configDialog.setLocationRelativeTo(this);
+        configDialog.setVisible(true);
+
+        if (configDialog.getReturnValue() == ExportImdDialog.APPROVE_OPTION) {
+            ArrayList<String> fileNames = configDialog.getSelectedObjNames();
+            String objFolderPath = configDialog.getObjFolderPath();
+            String imdFolderPath = configDialog.getImdFolderPath();
+
+            final ImdOutputInfoDialog outputDialog = new ImdOutputInfoDialog(this, true);
+            outputDialog.init(handler, fileNames, objFolderPath, imdFolderPath);
+            outputDialog.setLocationRelativeTo(null);
+            outputDialog.setVisible(true);
+
+        }
     }
 
     public void saveMapAsImdWithDialog() {
@@ -2418,7 +2936,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
         final JFileChooser fcOpen = new JFileChooser();
-        fcOpen.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getGrid().filePath) + ".obj"));
+        fcOpen.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath) + ".obj"));
         if (handler.getLastMapDirectoryUsed() != null) {
             fcOpen.setCurrentDirectory(new File(handler.getLastMapDirectoryUsed()));
         }
@@ -2431,7 +2949,7 @@ public class MainFrame extends javax.swing.JFrame {
                 String pathOpen = fcOpen.getSelectedFile().getPath();
 
                 final JFileChooser fcSave = new JFileChooser();
-                fcSave.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getGrid().filePath)));
+                fcSave.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath)));
                 fcSave.setCurrentDirectory(fcOpen.getSelectedFile().getParentFile());
                 fcSave.setFileFilter(new FileNameExtensionFilter("IMD (*.imd)", "imd"));
                 fcSave.setApproveButtonText("Save");
@@ -2498,6 +3016,24 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
+    public void saveMapsAsNsbWithDialog() {
+        final ExportNsbmdDialog configDialog = new ExportNsbmdDialog(this, true);
+        configDialog.init(handler);
+        configDialog.setLocationRelativeTo(this);
+        configDialog.setVisible(true);
+
+        if (configDialog.getReturnValue() == ExportNsbmdDialog.APPROVE_OPTION) {
+            ArrayList<String> fileNames = configDialog.getSelectedImdNames();
+            String imdFolderPath = configDialog.getImdFolderPath();
+            String nsbFolderPath = configDialog.getNsbFolderPath();
+
+            final NsbmdOutputInfoDialog outputDialog = new NsbmdOutputInfoDialog(this, true);
+            outputDialog.init(handler, fileNames, imdFolderPath, nsbFolderPath, configDialog.includeNsbtxInNsbmd());
+            outputDialog.setLocationRelativeTo(null);
+            outputDialog.setVisible(true);
+        }
+    }
+
     public void saveMapAsNsbWithDialog() {
         final ConverterDialog convDialog = new ConverterDialog(this, true);
         convDialog.setLocationRelativeTo(this);
@@ -2506,7 +3042,7 @@ public class MainFrame extends javax.swing.JFrame {
             boolean includeNsbtx = convDialog.includeNsbtxInNsbmd();
             try {
                 final JFileChooser fcOpen = new JFileChooser();
-                fcOpen.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getGrid().filePath) + ".imd"));
+                fcOpen.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath) + ".imd"));
                 if (handler.getLastMapDirectoryUsed() != null) {
                     fcOpen.setCurrentDirectory(new File(handler.getLastMapDirectoryUsed()));
                 }
@@ -2523,7 +3059,7 @@ public class MainFrame extends javax.swing.JFrame {
                         imdPath = new File(cwd).toURI().relativize(fcOpen.getSelectedFile().toPath().toRealPath().toUri()).getPath(); //this is some serious java shit
                     }
                     final JFileChooser fcSave = new JFileChooser();
-                    fcSave.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getGrid().filePath)));
+                    fcSave.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath)));
                     fcSave.setCurrentDirectory(fcOpen.getSelectedFile().getParentFile());
                     fcSave.setFileFilter(new FileNameExtensionFilter("NSBMD (*.nsbmd)", "nsbmd"));
                     fcSave.setApproveButtonText("Save");
@@ -2637,7 +3173,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void saveMapBtxWithDialog() {
         final JFileChooser fcOpen = new JFileChooser();
-        fcOpen.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getGrid().filePath) + ".imd"));
+        fcOpen.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath) + ".imd"));
         if (handler.getLastMapDirectoryUsed() != null) {
             fcOpen.setCurrentDirectory(new File(handler.getLastMapDirectoryUsed()));
         }
@@ -2649,7 +3185,7 @@ public class MainFrame extends javax.swing.JFrame {
             String imdPath = fcOpen.getSelectedFile().getPath();
 
             final JFileChooser fcSave = new JFileChooser();
-            fcSave.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getGrid().filePath)));
+            fcSave.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath)));
             fcSave.setCurrentDirectory(fcOpen.getSelectedFile().getParentFile());
             fcSave.setFileFilter(new FileNameExtensionFilter("NSBTX (*.nsbtx)", "nsbtx"));
             fcSave.setApproveButtonText("Save");
@@ -2736,6 +3272,23 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
+    public void saveAreasAsBtxWithDialog() {
+        final ExportNsbtxDialog configDialog = new ExportNsbtxDialog(this, true);
+        configDialog.init(handler);
+        configDialog.setLocationRelativeTo(this);
+        configDialog.setVisible(true);
+
+        if (configDialog.getReturnValue() == ExportImdDialog.APPROVE_OPTION) {
+            ArrayList<Integer> areaIndices = configDialog.getSelectedAreaIndices();
+            String nsbtxFolderPath = configDialog.getNsbtxFolderPath();
+
+            final NsbtxOutputInfoDialog outputDialog = new NsbtxOutputInfoDialog(this, true);
+            outputDialog.init(handler, areaIndices, nsbtxFolderPath);
+            outputDialog.setLocationRelativeTo(null);
+            outputDialog.setVisible(true);
+        }
+    }
+
     public void changeGame() {
         final GameChangerDialog dialog = new GameChangerDialog(this, true);
         dialog.init(handler);
@@ -2744,6 +3297,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         if (dialog.getReturnValue() == GameSelectorDialog.ACEPTED) {
             updateViewGame();
+
+            handler.getMapMatrix().updateAllLayersGL();
+            mapDisplay.repaint();
+
+            updateViewGeometryCount();
         }
     }
 
@@ -2770,6 +3328,17 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1.getVerticalScrollBar().setValue(y);
     }
 
+    public void updateMapMatrixDisplayScrollBars() {
+        Point min = handler.getMapMatrix().getMinCoords();
+        Point p = handler.getMapSelected();
+
+        int x = (int) ((p.x - min.x) * MapData.mapThumbnailSize * mapMatrixDisplay.getScale()) - jScrollPaneMapMatrix.getWidth() / 2;
+        int y = (int) ((p.y - min.y) * MapData.mapThumbnailSize * mapMatrixDisplay.getScale()) - jScrollPaneMapMatrix.getHeight() / 2;
+
+        jScrollPaneMapMatrix.getHorizontalScrollBar().setValue(x);
+        jScrollPaneMapMatrix.getVerticalScrollBar().setValue(y);
+    }
+
     public void repaintThumbnailLayerSelector() {
         thumbnailLayerSelector.repaint();
     }
@@ -2790,13 +3359,29 @@ public class MainFrame extends javax.swing.JFrame {
     public void undoMapState() {
         StateHandler mapStateHandler = handler.getMapStateHandler();
         if (mapStateHandler.canGetPreviousState()) {
-            MapLayerState state = (MapLayerState) mapStateHandler.getPreviousState(new MapLayerState("Map Edit", handler));
+            MapLayerState state = (MapLayerState) mapStateHandler.getPreviousState(new MapLayerState("Map Edit", handler, true));
             state.revertState();
             jbRedo.setEnabled(true);
             if (!mapStateHandler.canGetPreviousState()) {
                 jbUndo.setEnabled(false);
             }
+            for (Point mapCoord : state.getKeySet()) {
+                MapData mapData = handler.getMapMatrix().getMap(mapCoord);
+                mapData.getGrid().updateMapLayerGL(state.getLayerIndex(), handler.useRealTimePostProcessing());
+                mapData.updateMapThumbnail();
+            }
+            //mapDisplay.updateMapLayerGL(state.getLayerIndex());
+
+            handler.getMapMatrix().removeUnusedMaps();
+            if (!handler.mapSelectedExists()) {
+                handler.setDefaultMapSelected();
+
+                handler.getMainFrame().getThumbnailLayerSelector().drawAllLayerThumbnails();
+                handler.getMainFrame().getThumbnailLayerSelector().repaint();
+            }
+
             mapDisplay.repaint();
+            updateMapMatrixDisplay();
             thumbnailLayerSelector.drawLayerThumbnail(state.getLayerIndex());
             thumbnailLayerSelector.repaint();
         }
@@ -2808,7 +3393,16 @@ public class MainFrame extends javax.swing.JFrame {
             MapLayerState state = (MapLayerState) mapStateHandler.getNextState();
             state.revertState();
             jbUndo.setEnabled(true);
+            for (Point mapCoord : state.getKeySet()) {
+                MapData mapData = handler.getMapMatrix().getMap(mapCoord);
+                mapData.getGrid().updateMapLayerGL(state.getLayerIndex(), handler.useRealTimePostProcessing());
+                mapData.updateMapThumbnail();
+            }
+            handler.getMapMatrix().removeUnusedMaps();
+
+            //mapDisplay.updateMapLayerGL(state.getLayerIndex());
             mapDisplay.repaint();
+            updateMapMatrixDisplay();
             thumbnailLayerSelector.drawLayerThumbnail(state.getLayerIndex());
             thumbnailLayerSelector.repaint();
             if (!mapStateHandler.canGetNextState()) {
@@ -2822,6 +3416,7 @@ public class MainFrame extends javax.swing.JFrame {
         handler.getGrid().moveTilesUp(handler.getActiveLayerIndex());
         thumbnailLayerSelector.drawLayerThumbnail(handler.getActiveLayerIndex());
         thumbnailLayerSelector.repaint();
+        mapDisplay.updateActiveMapLayerGL();
         mapDisplay.repaint();
     }
 
@@ -2830,6 +3425,7 @@ public class MainFrame extends javax.swing.JFrame {
         handler.getGrid().moveTilesDown(handler.getActiveLayerIndex());
         thumbnailLayerSelector.drawLayerThumbnail(handler.getActiveLayerIndex());
         thumbnailLayerSelector.repaint();
+        mapDisplay.updateActiveMapLayerGL();
         mapDisplay.repaint();
     }
 
@@ -2838,6 +3434,7 @@ public class MainFrame extends javax.swing.JFrame {
         handler.getGrid().moveTilesLeft(handler.getActiveLayerIndex());
         thumbnailLayerSelector.drawLayerThumbnail(handler.getActiveLayerIndex());
         thumbnailLayerSelector.repaint();
+        mapDisplay.updateActiveMapLayerGL();
         mapDisplay.repaint();
     }
 
@@ -2846,7 +3443,46 @@ public class MainFrame extends javax.swing.JFrame {
         handler.getGrid().moveTilesRight(handler.getActiveLayerIndex());
         thumbnailLayerSelector.drawLayerThumbnail(handler.getActiveLayerIndex());
         thumbnailLayerSelector.repaint();
+        mapDisplay.updateActiveMapLayerGL();
         mapDisplay.repaint();
+    }
+
+    public void moveTilesUpZ() {
+        handler.addMapState(new MapLayerState("Move tiles up Z", handler));
+        handler.getGrid().moveTilesUpZ(handler.getActiveLayerIndex());
+        thumbnailLayerSelector.drawLayerThumbnail(handler.getActiveLayerIndex());
+        thumbnailLayerSelector.repaint();
+        mapDisplay.updateActiveMapLayerGL();
+        mapDisplay.repaint();
+    }
+
+    public void moveTilesDownZ() {
+        handler.addMapState(new MapLayerState("Move tiles down Z", handler));
+        handler.getGrid().moveTilesDownZ(handler.getActiveLayerIndex());
+        thumbnailLayerSelector.drawLayerThumbnail(handler.getActiveLayerIndex());
+        thumbnailLayerSelector.repaint();
+        mapDisplay.updateActiveMapLayerGL();
+        mapDisplay.repaint();
+    }
+
+    public void updateViewMapInfo() {
+        getjPanelAreaColor().setBackground(handler.getMapMatrix().getAreaColors().get(handler.getCurrentMap().getAreaIndex()));
+        getjPanelAreaColor().repaint();
+
+        getJsSelectedArea().setValue(handler.getCurrentMap().getAreaIndex());
+
+        updateViewGeometryCount();
+
+    }
+
+    public void updateViewGeometryCount() {
+        try {
+            jlNumPolygons.setText(String.valueOf(handler.getGrid().getNumPolygons()));
+            jlNumMaterials.setText(String.valueOf(handler.getGrid().getNumMaterials()));
+        } catch (Exception ex) {
+            jlNumPolygons.setText("");
+            jlNumMaterials.setText("");
+        }
     }
 
     public JButton getUndoButton() {
@@ -2863,6 +3499,119 @@ public class MainFrame extends javax.swing.JFrame {
 
     public TileDisplay getTileDisplay() {
         return tileDisplay;
+    }
+
+    public MapMatrixDisplay getMapMatrixDisplay() {
+        return mapMatrixDisplay;
+    }
+
+    public JScrollPane getjScrollPaneMapMatrix() {
+        return jScrollPaneMapMatrix;
+    }
+
+    public void updateMapMatrixDisplay() {
+        Dimension size = jScrollPaneMapMatrix.getSize();
+        mapMatrixDisplay.updateSize();
+        mapMatrixDisplay.revalidate();
+        mapMatrixDisplay.updateMapsImage();
+
+        jScrollPaneMapMatrix.setPreferredSize(size);
+        jScrollPaneMapMatrix.revalidate();
+    }
+
+    public void renderTilesetThumbnails() {
+        GLContext context = mapDisplay.getContext();
+        TilesetRenderer tr = new TilesetRenderer(handler.getTileset());
+        try {
+            tr.renderTiles();
+        } catch (NullPointerException e) {
+
+        }
+        tr.destroy();
+        mapDisplay.setContext(context, false);
+    }
+
+    public JToggleButton getJtbModeEdit() {
+        return jtbModeEdit;
+    }
+
+    public JToggleButton getJtbModeClear() {
+        return jtbModeClear;
+    }
+
+    public JToggleButton getJtbModeSmartPaint() {
+        return jtbModeSmartPaint;
+    }
+
+    public JToggleButton getJtbModeInvSmartPaint() {
+        return jtbModeInvSmartPaint;
+    }
+
+    public JToggleButton getJtbModeMove() {
+        return jtbModeMove;
+    }
+
+    public JToggleButton getJtbModeZoom() {
+        return jtbModeZoom;
+    }
+
+    public JToggleButton getJtbView3D() {
+        return jtbView3D;
+    }
+
+    public JToggleButton getJtbViewOrtho() {
+        return jtbViewOrtho;
+    }
+
+    public JToggleButton getJtbViewHeight() {
+        return jtbViewHeight;
+    }
+
+    public JToggleButton getJtbViewGrid() {
+        return jtbViewGrid;
+    }
+
+    public JPanel getjPanelAreaColor() {
+        return jPanelAreaColor;
+    }
+
+    public JSpinner getJsSelectedArea() {
+        return jsSelectedArea;
+    }
+
+    public JToggleButton getJtbViewWireframe() {
+        return jtbViewWireframe;
+    }
+
+    public JCheckBox getJcbViewAreas() {
+        return jcbViewAreas;
+    }
+
+    public void updateViewAllMapData() {
+        renderTilesetThumbnails();
+
+        handler.setIndexTileSelected(0);
+        handler.setSmartGridIndexSelected(0);
+
+        handler.getMapMatrix().updateAllLayersGL();
+        handler.getMapMatrix().updateBordersData();
+        handler.updateAllMapThumbnails();
+        mapMatrixDisplay.updateSize();
+        updateMapMatrixDisplay();
+        updateViewMapInfo();
+
+        tileSelector.updateLayout();
+        tileSelector.repaint();
+        mapDisplay.requestUpdate();
+        mapDisplay.setCameraAtSelectedMap();
+        mapDisplay.repaint();
+        tileDisplay.requestUpdate();
+        tileDisplay.repaint();
+
+        smartGridDisplay.updateSize();
+        smartGridDisplay.repaint();
+        thumbnailLayerSelector.drawAllLayerThumbnails();
+        thumbnailLayerSelector.repaint();
     }
 
 }

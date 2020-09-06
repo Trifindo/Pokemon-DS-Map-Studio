@@ -88,7 +88,7 @@ public class BdhcLoaderHGSS {
             zSlopes[i] = dataToSignedInt(data, offset + 4);
             ySlopes[i] = dataToSignedInt(data, offset + 8);
 
-            System.out.println("Slopes: " + xSlopes[i] + " " + zSlopes[i] + " " + ySlopes[i]);
+            //System.out.println("Slopes: " + xSlopes[i] + " " + zSlopes[i] + " " + ySlopes[i]);
         }
 
         zCoords = new float[numHeights];
@@ -198,7 +198,7 @@ public class BdhcLoaderHGSS {
         short fractionalPart = (short) dataToUnsignedShort(data, offset);
         short decimalPart = dataToSignedShort(data, offset + 2);
         float value = (float) (-decimalPart - (fractionalPart & 0xFFFF) / 65536f); //TODO: Do not use minus sign?
-        System.out.println("dec: " + decimalPart + " frac: " + (fractionalPart & 0xFFFF) + " value: " + value);
+        //System.out.println("dec: " + decimalPart + " frac: " + (fractionalPart & 0xFFFF) + " value: " + value);
         return value;
     }
 

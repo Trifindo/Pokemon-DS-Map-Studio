@@ -6,7 +6,7 @@
 package editor.backsound;
 
 import editor.exceptions.WrongFormatException;
-import editor.handler.MapGrid;
+import editor.grid.MapGrid;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;

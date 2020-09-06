@@ -6,6 +6,8 @@
 package editor.tileselector;
 
 import editor.handler.MapEditorHandler;
+import editor.mapdisplay.MapDisplay;
+import editor.mapdisplay.ViewMode;
 import editor.tileseteditor.TilesetEditorDialog;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -112,6 +114,11 @@ public class TileSelector extends javax.swing.JPanel {
             if (index != -1) {
                 if (SwingUtilities.isLeftMouseButton(evt)) {
                     handler.setIndexTileSelected(index);
+
+                    if (handler.getMainFrame().getMapDisplay().getViewMode().getViewID() == ViewMode.ViewID.VIEW_ORTHO) {
+                        handler.getMainFrame().getMapDisplay().setEditMode(MapDisplay.EditMode.MODE_EDIT);
+                        handler.getMainFrame().getJtbModeEdit().setSelected(true);
+                    }
                 }
             }
         }
@@ -260,6 +267,7 @@ public class TileSelector extends javax.swing.JPanel {
         paintTiles();
 
         updateSize();
+        
     }
 
     private void updateSize() {
@@ -379,21 +387,21 @@ public class TileSelector extends javax.swing.JPanel {
         }
         return index;
     }
-    
-    public ArrayList<Integer> getIndicesSelected(){
+
+    public ArrayList<Integer> getIndicesSelected() {
         ArrayList<Integer> indices;
-        if(multiselecting){
+        if (multiselecting) {
             int indexStart = handler.getTileIndexSelected();
             int indexEnd = indexSecondTileSelected;
-            if(indexEnd < indexStart){
+            if (indexEnd < indexStart) {
                 indexStart = indexSecondTileSelected;
                 indexEnd = handler.getTileIndexSelected();
             }
             indices = new ArrayList<>(indexEnd - indexStart + 1);
-            for(int i = 0; i < indexEnd - indexStart + 1; i++){
+            for (int i = 0; i < indexEnd - indexStart + 1; i++) {
                 indices.add(indexStart + i);
             }
-        }else{
+        } else {
             indices = new ArrayList<>(1);
             indices.add(handler.getTileIndexSelected());
         }
@@ -436,15 +444,15 @@ public class TileSelector extends javax.swing.JPanel {
         return display;
     }
 
-    public int getTileSelectedY(){
-        if(handler.getTileIndexSelected() < boundingBoxes.size()){
+    public int getTileSelectedY() {
+        if (handler.getTileIndexSelected() < boundingBoxes.size()) {
             return boundingBoxes.get(handler.getTileIndexSelected()).y;
         }
         return 0;
     }
-    
-    public void setIndexSecondTileSelected(int index){
+
+    public void setIndexSecondTileSelected(int index) {
         this.indexSecondTileSelected = index;
     }
-    
+
 }

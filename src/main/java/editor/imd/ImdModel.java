@@ -134,14 +134,14 @@ public class ImdModel extends ImdNode {
         posScale = calculatePosScale();
         ModelInfo modelInfo = new ModelInfo(posScale, materials.size());//textureIDs.size());
         body.subnodes.add(modelInfo);
-        System.out.println("Pos scale: " + posScale);
+        //System.out.println("Pos scale: " + posScale);
 
         //Scale Model
         float scaleFactor = (float) (0.25f * Math.pow(2, defaultPosScale - posScale)); //0.25 is Blender factor
         for (int i = 0; i < polygons.size(); i++) {
             polygons.get(i).scale(scaleFactor);
         }
-        System.out.println("Scale factor: " + scaleFactor);
+        //System.out.println("Scale factor: " + scaleFactor);
 
         //Fix Texture Coordinates out of range
         for (int i = 0; i < polygons.size(); i++) {
@@ -533,16 +533,16 @@ public class ImdModel extends ImdNode {
                 matIndex = materialNames.indexOf(matName);
             } else if (lineMtl.startsWith("map_Kd")) {
                 String textName = lineMtl.split(" ")[1];
-                System.out.println("Name texture obj: " + textName);
+                //System.out.println("Name texture obj: " + textName);
                 int textIndex = getIndexOfMaterialByImgName(materials, textName);//tileset.getTextureNames().indexOf(textName);
                 if (textIndex == -1) { //Not found
-                    System.out.println("New!");
+                    //System.out.println("New!");
                     File file = new File(folderPath + File.separator + textName);
                     if (file.exists()) {
                         textureIDs.set(matIndex, materials.size());//tileset.getTextureNames().size());
 
                         try {
-                            System.out.println(file.getAbsolutePath());
+                            //System.out.println(file.getAbsolutePath());
                             TilesetMaterial material = new TilesetMaterial();
 
                             BufferedImage img = ImageIO.read(file);
@@ -573,7 +573,7 @@ public class ImdModel extends ImdNode {
         //Tranform obj vertices, textures and normals into IMD vertices, textures and normals
         objDataToPolygonData(fIndsQuad, fIndsTri, vCoordsObj, tCoordsObj, nCoordsObj, colorsObj);
 
-        System.out.println("Donete!");
+        //System.out.println("Donete!");
     }
 
     private static int countNumberOfStarts(File file, String content) throws IOException {
@@ -603,7 +603,7 @@ public class ImdModel extends ImdNode {
             } else {
                 end = fIndsQuad.size();
             }
-            System.out.println("start: " + start + " end: " + end);
+            //System.out.println("start: " + start + " end: " + end);
             PolygonData polygon = new PolygonData();
 
             polygon.initQuads(end - start);
@@ -653,7 +653,7 @@ public class ImdModel extends ImdNode {
 
             polygons.add(polygon);
         }
-        System.out.println("done!");
+        //System.out.println("done!");
 
     }
 
@@ -697,7 +697,7 @@ public class ImdModel extends ImdNode {
         tr.transform(new DOMSource(dom), streamResult);
         streamResult.getOutputStream().close();
 
-        System.out.println("IMD saved!");
+        //System.out.println("IMD saved!");
 
     }
 

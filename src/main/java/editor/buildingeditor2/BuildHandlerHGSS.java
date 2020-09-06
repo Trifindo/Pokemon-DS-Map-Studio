@@ -9,6 +9,7 @@ import editor.buildingeditor2.buildmodel.BuildModelMatshp;
 import editor.buildingeditor2.buildmodel.BuildModelList;
 import editor.buildingeditor2.animations.BuildAnimations;
 import editor.buildingeditor2.animations.BuildAnimeListHGSS;
+import editor.buildingeditor2.animations.MapAnimations;
 import editor.buildingeditor2.areabuild.AreaBuild;
 import editor.buildingeditor2.areabuild.AreaBuildList;
 import editor.buildingeditor2.areadata.AreaDataListHGSS;
@@ -47,6 +48,8 @@ public class BuildHandlerHGSS {
     private AreaDataListHGSS areaDataList;
     private BuildTilesetList buildTilesetList;
     private AreaBuildList areaBuildList;
+    private MapAnimations mapAnimations;
+    
 
     public BuildHandlerHGSS(String gameFolderPath) {
         this.gameFolderPath = gameFolderPath;
@@ -63,7 +66,8 @@ public class BuildHandlerHGSS {
                 && buildModelAnims != null
                 && areaDataList != null
                 && buildTilesetList != null
-                && areaBuildList != null;
+                && areaBuildList != null
+                && mapAnimations != null;
     }
 
     public boolean areAllFilesAvailable() {
@@ -77,7 +81,8 @@ public class BuildHandlerHGSS {
                 && isGameFileAvailable(gameFileSystem.getBuildModelAnimePath())
                 && isGameFileAvailable(gameFileSystem.getAreaDataPath())
                 && isGameFileAvailable(gameFileSystem.getAreaBuildTilesetPath())
-                && isGameFileAvailable(gameFileSystem.getAreaBuildModelPath()));
+                && isGameFileAvailable(gameFileSystem.getAreaBuildModelPath())
+                && isGameFileAvailable(gameFileSystem.getMapAnimationsPath()));
     }
 
     public void loadAllFiles() throws Exception {
@@ -106,6 +111,10 @@ public class BuildHandlerHGSS {
 
             Narc areaBuildListNarc = NarcIO.loadNarc(getGameFilePath(gameFileSystem.getAreaBuildModelPath()));
             areaBuildList = new AreaBuildList(areaBuildListNarc);
+            
+            Narc mapAnimsNarc = NarcIO.loadNarc(getGameFilePath(gameFileSystem.getMapAnimationsPath()));
+            mapAnimations = new MapAnimations(mapAnimsNarc);
+            
 
         } catch (Exception ex) {
             buildModelList[0] = null;
@@ -118,6 +127,7 @@ public class BuildHandlerHGSS {
             areaDataList = null;
             buildTilesetList = null;
             areaBuildList = null;
+            mapAnimations = null;
             throw ex;
         }
     }
@@ -134,6 +144,7 @@ public class BuildHandlerHGSS {
             NarcIO.writeNarc(areaDataList.toNarc(), getGameFilePath(gameFileSystem.getAreaDataPath()));
             NarcIO.writeNarc(areaBuildList.toNarc(), getGameFilePath(gameFileSystem.getAreaBuildModelPath()));
             NarcIO.writeNarc(buildTilesetList.toNarc(), getGameFilePath(gameFileSystem.getAreaBuildTilesetPath()));
+            NarcIO.writeNarc(mapAnimations.toNarc(), getGameFilePath(gameFileSystem.getMapAnimationsPath()));
         } catch (Exception ex) {
             throw ex;
         }
@@ -245,7 +256,7 @@ public class BuildHandlerHGSS {
     }
 
     public void addAnimationFile(String path) throws IOException {
-        buildModelAnims.addBuildAnimation(path);
+        buildModelAnims.addAnimation(path);
     }
 
     public void replaceAnimationFile(int index, String path) throws IOException {
@@ -254,6 +265,18 @@ public class BuildHandlerHGSS {
 
     public void saveAnimationFile(int index, String path) throws IOException {
         buildModelAnims.saveAnimation(index, path);
+    }
+    
+    public void addMapAnimationFile(String path) throws IOException {
+        mapAnimations.addAnimation(path);
+    }
+
+    public void replaceMapAnimationFile(int index, String path) throws IOException {
+        mapAnimations.replaceAnimation(index, path);
+    }
+
+    public void saveMapAnimationFile(int index, String path) throws IOException {
+        mapAnimations.saveAnimation(index, path);
     }
 
     private String getGameFilePath(String relativePath) {
@@ -341,5 +364,10 @@ public class BuildHandlerHGSS {
     public void setBuildBlockIndexSelected(int buildBlockIndexSelected) {
         this.buildBlockIndexSelected = buildBlockIndexSelected;
     }
+
+    public MapAnimations getMapAnimations() {
+        return mapAnimations;
+    }
+    
 
 }

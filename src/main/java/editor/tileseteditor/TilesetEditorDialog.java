@@ -10,6 +10,7 @@ import editor.TilesetRenderer;
 import editor.handler.MapEditorHandler;
 import editor.obj.ObjWriter;
 import editor.smartdrawing.SmartGrid;
+import editor.smartdrawing.SmartGridEditable;
 import editor.vertexcolors.VColorEditorDialog;
 import java.awt.Color;
 import java.awt.Component;
@@ -39,7 +40,7 @@ import tileset.TextureNotFoundException;
 import tileset.Tile;
 import tileset.Tileset;
 import tileset.TilesetIO;
-import utils.ThumbnailFileChooser;
+import utils.swing.ThumbnailFileChooser;
 import utils.Utils;
 
 /**
@@ -103,103 +104,103 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tileDisplay = new TileDisplay();
+        tileDisplay = new editor.tileseteditor.TileDisplay();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tileSelector = new editor.tileselector.TileSelector();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jbRemoveTile = new javax.swing.JButton();
-        jtfIndexTile = new JTextField();
+        jtfIndexTile = new javax.swing.JTextField();
         jbMoveDown = new javax.swing.JButton();
         jbMoveUp = new javax.swing.JButton();
-        jLabel3 = new JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jbDuplicateTile = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jLabel10 = new JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jcbTileableY = new javax.swing.JCheckBox();
-        jtfGlobalTexScale = new JTextField();
+        jtfGlobalTexScale = new javax.swing.JTextField();
         jbGlobalTexScale = new javax.swing.JButton();
         jbMoreSizeX = new javax.swing.JButton();
         jcbUtileable = new javax.swing.JCheckBox();
-        jLabel2 = new JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jcbVtileable = new javax.swing.JCheckBox();
-        jLabel14 = new JLabel();
-        jtfXOffset = new JTextField();
-        jLabel15 = new JLabel();
-        jtfYOffset = new JTextField();
-        jtfSizeY = new JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jtfXOffset = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jtfYOffset = new javax.swing.JTextField();
+        jtfSizeY = new javax.swing.JTextField();
         jbXOffset = new javax.swing.JButton();
         jbYOffset = new javax.swing.JButton();
-        jLabel1 = new JLabel();
-        jtfSizeX = new JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jtfSizeX = new javax.swing.JTextField();
         jcbTileableX = new javax.swing.JCheckBox();
         jbLessSizeX = new javax.swing.JButton();
         jbMoreSizeY = new javax.swing.JButton();
         jbLessSizeY = new javax.swing.JButton();
         jcbGlobalTexMapping = new javax.swing.JCheckBox();
         jPanel6 = new javax.swing.JPanel();
-        jLabel5 = new JLabel();
-        jtfObjName = new JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jtfObjName = new javax.swing.JTextField();
         jbExportTileAsObj = new javax.swing.JButton();
         jbImportTileAsObj = new javax.swing.JButton();
         jbEditVertexColors = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
-        jLabel16 = new JLabel();
-        jtfNumTextures = new JTextField();
-        jLabel4 = new JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jtfNumTextures = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         jSpinner1 = new javax.swing.JSpinner();
         jcbMaterial = new javax.swing.JComboBox<>();
-        textureDisplay = new TextureDisplay();
+        textureDisplay = new editor.tileseteditor.TextureDisplay();
         jbAddTexture = new javax.swing.JButton();
-        jLabel22 = new JLabel();
+        jLabel22 = new javax.swing.JLabel();
         jbAddTile = new javax.swing.JButton();
-        jLabel23 = new JLabel();
+        jLabel23 = new javax.swing.JLabel();
         jbImportTiles = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jlistINames = new JList<>();
-        jtfPaletteName = new JTextField();
-        jLabel6 = new JLabel();
-        jLabel7 = new JLabel();
-        jtfTextureName = new JTextField();
+        jlistINames = new javax.swing.JList<>();
+        jtfPaletteName = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jtfTextureName = new javax.swing.JTextField();
         jbTextName = new javax.swing.JButton();
         jbPaletteName = new javax.swing.JButton();
         jcbEnableFog = new javax.swing.JCheckBox();
         jcbRenderFrontAndBack = new javax.swing.JCheckBox();
         jcbUniformNormal = new javax.swing.JCheckBox();
-        jLabel8 = new JLabel();
-        jtfMaterialName = new JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jtfMaterialName = new javax.swing.JTextField();
         jbMaterialName = new javax.swing.JButton();
-        jLabel9 = new JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jSpinner2 = new javax.swing.JSpinner();
-        jLabel11 = new JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jcbTexGenMode = new javax.swing.JComboBox<>();
-        textureDisplayMaterial = new TextureDisplayMaterial();
+        textureDisplayMaterial = new editor.tileseteditor.TextureDisplayMaterial();
         jcbAlwaysIncludedInImd = new javax.swing.JCheckBox();
         jbMoveMaterialUp = new javax.swing.JButton();
         jbMoveMaterialDown = new javax.swing.JButton();
         jbReplaceMaterial = new javax.swing.JButton();
-        jLabel17 = new JLabel();
+        jLabel17 = new javax.swing.JLabel();
         jcbTexTilingU = new javax.swing.JComboBox<>();
-        jLabel18 = new JLabel();
+        jLabel18 = new javax.swing.JLabel();
         jcbTexTilingV = new javax.swing.JComboBox<>();
-        jLabel19 = new JLabel();
+        jLabel19 = new javax.swing.JLabel();
         jcbColorFormat = new javax.swing.JComboBox<>();
-        jLabel20 = new JLabel();
+        jLabel20 = new javax.swing.JLabel();
         jcbL0 = new javax.swing.JCheckBox();
         jcbL1 = new javax.swing.JCheckBox();
         jcbL2 = new javax.swing.JCheckBox();
         jcbL3 = new javax.swing.JCheckBox();
         jbReplaceTexture = new javax.swing.JButton();
         jcbRenderBorder = new javax.swing.JCheckBox();
-        jLabel21 = new JLabel();
+        jLabel21 = new javax.swing.JLabel();
         jcbUseVertexColors = new javax.swing.JCheckBox();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
-        jLabel12 = new JLabel();
+        jLabel12 = new javax.swing.JLabel();
         jbRotateModel = new javax.swing.JButton();
-        jLabel13 = new JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jbFlipModel = new javax.swing.JButton();
         jbMoveModelUp = new javax.swing.JButton();
         jbMoveModelDown = new javax.swing.JButton();
@@ -214,7 +215,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
         jcbShadingEnabled = new javax.swing.JCheckBox();
         jPanel9 = new javax.swing.JPanel();
         jScrollPaneSmartGrid = new javax.swing.JScrollPane();
-        smartGridDisplay = new editor.smartdrawing.SmartGridDisplay();
+        smartGridEditableDisplay = new editor.smartdrawing.SmartGridEditableDisplay();
         jbMoveSPaintUp = new javax.swing.JButton();
         jbMoveSPaintDown = new javax.swing.JButton();
         jbAddSmartGrid = new javax.swing.JButton();
@@ -277,7 +278,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             .addComponent(jScrollPane2)
         );
 
-        jbRemoveTile.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveTileIcon.png"))); // NOI18N
+        jbRemoveTile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveTileIcon.png"))); // NOI18N
         jbRemoveTile.setText("Remove Tiles");
         jbRemoveTile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -285,7 +286,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jtfIndexTile.setHorizontalAlignment(JTextField.CENTER);
+        jtfIndexTile.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfIndexTile.setEnabled(false);
 
         jbMoveDown.setText("▼");
@@ -304,7 +305,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
 
         jLabel3.setText("Tile selected: ");
 
-        jbDuplicateTile.setIcon(new ImageIcon(getClass().getResource("/icons/DuplicateTileIcon.png"))); // NOI18N
+        jbDuplicateTile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/DuplicateTileIcon.png"))); // NOI18N
         jbDuplicateTile.setText("Duplicate Tiles");
         jbDuplicateTile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,7 +317,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
 
         jLabel10.setText("Texture Scale:");
 
-        jcbTileableY.setForeground(new Color(0, 153, 0));
+        jcbTileableY.setForeground(new java.awt.Color(0, 153, 0));
         jcbTileableY.setText("Y Tileable");
         jcbTileableY.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -340,7 +341,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jcbUtileable.setForeground(new Color(204, 0, 0));
+        jcbUtileable.setForeground(new java.awt.Color(204, 0, 0));
         jcbUtileable.setText("Texture U Tileable");
         jcbUtileable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -348,10 +349,10 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jLabel2.setForeground(new Color(0, 153, 0));
+        jLabel2.setForeground(new java.awt.Color(0, 153, 0));
         jLabel2.setText("Y Size:");
 
-        jcbVtileable.setForeground(new Color(0, 153, 0));
+        jcbVtileable.setForeground(new java.awt.Color(0, 153, 0));
         jcbVtileable.setText("Texture V Tileable");
         jcbVtileable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -359,18 +360,18 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jLabel14.setForeground(new Color(204, 0, 0));
+        jLabel14.setForeground(new java.awt.Color(204, 0, 0));
         jLabel14.setText("X Offset: ");
 
         jtfXOffset.setText(" ");
 
-        jLabel15.setForeground(new Color(0, 153, 0));
+        jLabel15.setForeground(new java.awt.Color(0, 153, 0));
         jLabel15.setText("Y Offset: ");
 
         jtfYOffset.setText(" ");
 
         jtfSizeY.setEditable(false);
-        jtfSizeY.setHorizontalAlignment(JTextField.CENTER);
+        jtfSizeY.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jbXOffset.setText("Apply");
         jbXOffset.addActionListener(new java.awt.event.ActionListener() {
@@ -386,13 +387,13 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setForeground(new Color(204, 0, 0));
+        jLabel1.setForeground(new java.awt.Color(204, 0, 0));
         jLabel1.setText("X Size:");
 
         jtfSizeX.setEditable(false);
-        jtfSizeX.setHorizontalAlignment(JTextField.CENTER);
+        jtfSizeX.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        jcbTileableX.setForeground(new Color(204, 0, 0));
+        jcbTileableX.setForeground(new java.awt.Color(204, 0, 0));
         jcbTileableX.setText("X Tileable");
         jcbTileableX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -535,7 +536,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
         jtfObjName.setEnabled(false);
         jtfObjName.setMaximumSize(new java.awt.Dimension(9, 20));
 
-        jbExportTileAsObj.setIcon(new ImageIcon(getClass().getResource("/icons/ExportTileIcon.png"))); // NOI18N
+        jbExportTileAsObj.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportTileIcon.png"))); // NOI18N
         jbExportTileAsObj.setText("Export OBJ...");
         jbExportTileAsObj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -543,7 +544,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jbImportTileAsObj.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
+        jbImportTileAsObj.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
         jbImportTileAsObj.setText("Replace OBJ...");
         jbImportTileAsObj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -551,7 +552,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jbEditVertexColors.setIcon(new ImageIcon(getClass().getResource("/icons/VertexColorEditorIcon.png"))); // NOI18N
+        jbEditVertexColors.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/VertexColorEditorIcon.png"))); // NOI18N
         jbEditVertexColors.setText("Edit Vertex Colors...");
         jbEditVertexColors.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -598,7 +599,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
 
         jLabel16.setText("Number of materials:");
 
-        jtfNumTextures.setHorizontalAlignment(JTextField.CENTER);
+        jtfNumTextures.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtfNumTextures.setEnabled(false);
 
         jLabel4.setText("Material selected:");
@@ -616,7 +617,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        textureDisplay.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        textureDisplay.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         textureDisplay.setPreferredSize(new java.awt.Dimension(128, 128));
 
         javax.swing.GroupLayout textureDisplayLayout = new javax.swing.GroupLayout(textureDisplay);
@@ -630,7 +631,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             .addGap(0, 126, Short.MAX_VALUE)
         );
 
-        jbAddTexture.setIcon(new ImageIcon(getClass().getResource("/icons/AddTileIcon.png"))); // NOI18N
+        jbAddTexture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddTileIcon.png"))); // NOI18N
         jbAddTexture.setText("Add texture...");
         jbAddTexture.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -686,7 +687,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jbAddTile.setIcon(new ImageIcon(getClass().getResource("/icons/AddTileIcon.png"))); // NOI18N
+        jbAddTile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddTileIcon.png"))); // NOI18N
         jbAddTile.setText("Add Tiles...");
         jbAddTile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -696,7 +697,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
 
         jLabel23.setText("Move tile:");
 
-        jbImportTiles.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
+        jbImportTiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
         jbImportTiles.setText("Import Tiles...");
         jbImportTiles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -846,7 +847,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
 
         jLabel9.setText("Alpha: ");
 
-        jSpinner2.setModel(new SpinnerNumberModel(0, 0, 31, 1));
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(0, 0, 31, 1));
         jSpinner2.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinner2StateChanged(evt);
@@ -856,14 +857,14 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
         jLabel11.setText("Tex Gen Mode: ");
 
         jcbTexGenMode.setMaximumRowCount(4);
-        jcbTexGenMode.setModel(new DefaultComboBoxModel<>(new String[] { "None", "Texture", "Normal", "Vertex" }));
+        jcbTexGenMode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Texture", "Normal", "Vertex" }));
         jcbTexGenMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbTexGenModeActionPerformed(evt);
             }
         });
 
-        textureDisplayMaterial.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        textureDisplayMaterial.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         textureDisplayMaterial.setPreferredSize(new java.awt.Dimension(128, 128));
 
         javax.swing.GroupLayout textureDisplayMaterialLayout = new javax.swing.GroupLayout(textureDisplayMaterial);
@@ -899,7 +900,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jbReplaceMaterial.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveTileIcon.png"))); // NOI18N
+        jbReplaceMaterial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveTileIcon.png"))); // NOI18N
         jbReplaceMaterial.setText("Replace Material");
         jbReplaceMaterial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -910,7 +911,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
         jLabel17.setText("Tex Tiling U: ");
 
         jcbTexTilingU.setMaximumRowCount(4);
-        jcbTexTilingU.setModel(new DefaultComboBoxModel<>(new String[] { "Repeat", "Clamp", "Flip" }));
+        jcbTexTilingU.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Repeat", "Clamp", "Flip" }));
         jcbTexTilingU.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbTexTilingUActionPerformed(evt);
@@ -920,7 +921,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
         jLabel18.setText("Tex Tiling V: ");
 
         jcbTexTilingV.setMaximumRowCount(4);
-        jcbTexTilingV.setModel(new DefaultComboBoxModel<>(new String[] { "Repeat", "Clamp", "Flip" }));
+        jcbTexTilingV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Repeat", "Clamp", "Flip" }));
         jcbTexTilingV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbTexTilingVActionPerformed(evt);
@@ -929,7 +930,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
 
         jLabel19.setText("Color Format:");
 
-        jcbColorFormat.setModel(new DefaultComboBoxModel<>(new String[] { "Palette 4", "Palette 16", "Palette 256", "A3I5", "A5I3" }));
+        jcbColorFormat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Palette 4", "Palette 16", "Palette 256", "A3I5", "A5I3" }));
         jcbColorFormat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbColorFormatActionPerformed(evt);
@@ -966,7 +967,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jbReplaceTexture.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
+        jbReplaceTexture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
         jbReplaceTexture.setText("Change Texture");
         jbReplaceTexture.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1176,7 +1177,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jbMoveModelUp.setForeground(new Color(0, 153, 0));
+        jbMoveModelUp.setForeground(new java.awt.Color(0, 153, 0));
         jbMoveModelUp.setText("▲");
         jbMoveModelUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1184,7 +1185,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jbMoveModelDown.setForeground(new Color(0, 153, 0));
+        jbMoveModelDown.setForeground(new java.awt.Color(0, 153, 0));
         jbMoveModelDown.setText("▼");
         jbMoveModelDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1192,7 +1193,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jbMoveModelLeft.setForeground(new Color(204, 0, 0));
+        jbMoveModelLeft.setForeground(new java.awt.Color(204, 0, 0));
         jbMoveModelLeft.setText("◄");
         jbMoveModelLeft.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1200,7 +1201,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jbMoveModelRight.setForeground(new Color(204, 0, 0));
+        jbMoveModelRight.setForeground(new java.awt.Color(204, 0, 0));
         jbMoveModelRight.setText("►");
         jbMoveModelRight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1208,7 +1209,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jbMoveModelUp1.setForeground(new Color(0, 0, 255));
+        jbMoveModelUp1.setForeground(new java.awt.Color(0, 0, 255));
         jbMoveModelUp1.setText("▲");
         jbMoveModelUp1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1216,7 +1217,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             }
         });
 
-        jbMoveModelDown1.setForeground(new Color(0, 0, 255));
+        jbMoveModelDown1.setForeground(new java.awt.Color(0, 0, 255));
         jbMoveModelDown1.setText("▼");
         jbMoveModelDown1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1344,18 +1345,18 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
         jScrollPaneSmartGrid.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPaneSmartGrid.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        javax.swing.GroupLayout smartGridDisplayLayout = new javax.swing.GroupLayout(smartGridDisplay);
-        smartGridDisplay.setLayout(smartGridDisplayLayout);
-        smartGridDisplayLayout.setHorizontalGroup(
-            smartGridDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout smartGridEditableDisplayLayout = new javax.swing.GroupLayout(smartGridEditableDisplay);
+        smartGridEditableDisplay.setLayout(smartGridEditableDisplayLayout);
+        smartGridEditableDisplayLayout.setHorizontalGroup(
+            smartGridEditableDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 80, Short.MAX_VALUE)
         );
-        smartGridDisplayLayout.setVerticalGroup(
-            smartGridDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        smartGridEditableDisplayLayout.setVerticalGroup(
+            smartGridEditableDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 459, Short.MAX_VALUE)
         );
 
-        jScrollPaneSmartGrid.setViewportView(smartGridDisplay);
+        jScrollPaneSmartGrid.setViewportView(smartGridEditableDisplay);
 
         jbMoveSPaintUp.setText("▲");
         jbMoveSPaintUp.setFocusable(false);
@@ -1393,9 +1394,6 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addComponent(jScrollPaneSmartGrid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jbMoveSPaintUp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1404,6 +1402,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jbMoveSPaintDown, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbRemoveSmartGrid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addComponent(jScrollPaneSmartGrid)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1426,7 +1425,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane2)
                     .addComponent(tileDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1573,6 +1572,9 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             tileSelector.updateLayout();
             tileDisplay.requestUpdate();
 
+            smartGridEditableDisplay.updateTiles();
+            smartGridEditableDisplay.repaint();
+            
             updateJComboBox();
 
             updateView();
@@ -2250,12 +2252,12 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
 
     private void jbMoveSPaintUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMoveSPaintUpActionPerformed
         handler.moveSelectedSmartGridUp();
-        smartGridDisplay.repaint();
+        smartGridEditableDisplay.repaint();
     }//GEN-LAST:event_jbMoveSPaintUpActionPerformed
 
     private void jbMoveSPaintDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMoveSPaintDownActionPerformed
         handler.moveSelectedSmartGridDown();
-        smartGridDisplay.repaint();
+        smartGridEditableDisplay.repaint();
     }//GEN-LAST:event_jbMoveSPaintDownActionPerformed
 
     private void jbAddSmartGridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddSmartGridActionPerformed
@@ -2266,8 +2268,8 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             } catch (IndexOutOfBoundsException ex) {
                 handler.getSmartGridArray().add(new SmartGrid());
             }
-            smartGridDisplay.updateSize();
-            smartGridDisplay.repaint();
+            smartGridEditableDisplay.updateSize();
+            smartGridEditableDisplay.repaint();
         }
     }//GEN-LAST:event_jbAddSmartGridActionPerformed
 
@@ -2277,37 +2279,37 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
             if (gridIndex >= 0 && gridIndex < handler.getSmartGridArray().size()) {
                 handler.getSmartGridArray().remove(gridIndex);
                 handler.setSmartGridIndexSelected(Math.max(0, gridIndex - 1));
-                smartGridDisplay.updateSize();
-                smartGridDisplay.repaint();
+                //smartGridDisplay.updateSize();
+                //smartGridDisplay.repaint();
             }
         }
     }//GEN-LAST:event_jbRemoveSmartGridActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JLabel jLabel1;
-    private JLabel jLabel10;
-    private JLabel jLabel11;
-    private JLabel jLabel12;
-    private JLabel jLabel13;
-    private JLabel jLabel14;
-    private JLabel jLabel15;
-    private JLabel jLabel16;
-    private JLabel jLabel17;
-    private JLabel jLabel18;
-    private JLabel jLabel19;
-    private JLabel jLabel2;
-    private JLabel jLabel20;
-    private JLabel jLabel21;
-    private JLabel jLabel22;
-    private JLabel jLabel23;
-    private JLabel jLabel3;
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JLabel jLabel8;
-    private JLabel jLabel9;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -2384,22 +2386,22 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
     private javax.swing.JCheckBox jcbUtileable;
     private javax.swing.JCheckBox jcbVtileable;
     private javax.swing.JCheckBox jcbWireframe;
-    private JList<String> jlistINames;
-    private JTextField jtfGlobalTexScale;
-    private JTextField jtfIndexTile;
-    private JTextField jtfMaterialName;
-    private JTextField jtfNumTextures;
-    private JTextField jtfObjName;
-    private JTextField jtfPaletteName;
-    private JTextField jtfSizeX;
-    private JTextField jtfSizeY;
-    private JTextField jtfTextureName;
-    private JTextField jtfXOffset;
-    private JTextField jtfYOffset;
-    private editor.smartdrawing.SmartGridDisplay smartGridDisplay;
-    private TextureDisplay textureDisplay;
-    private TextureDisplayMaterial textureDisplayMaterial;
-    private TileDisplay tileDisplay;
+    private javax.swing.JList<String> jlistINames;
+    private javax.swing.JTextField jtfGlobalTexScale;
+    private javax.swing.JTextField jtfIndexTile;
+    private javax.swing.JTextField jtfMaterialName;
+    private javax.swing.JTextField jtfNumTextures;
+    private javax.swing.JTextField jtfObjName;
+    private javax.swing.JTextField jtfPaletteName;
+    private javax.swing.JTextField jtfSizeX;
+    private javax.swing.JTextField jtfSizeY;
+    private javax.swing.JTextField jtfTextureName;
+    private javax.swing.JTextField jtfXOffset;
+    private javax.swing.JTextField jtfYOffset;
+    private editor.smartdrawing.SmartGridEditableDisplay smartGridEditableDisplay;
+    private editor.tileseteditor.TextureDisplay textureDisplay;
+    private editor.tileseteditor.TextureDisplayMaterial textureDisplayMaterial;
+    private editor.tileseteditor.TileDisplay tileDisplay;
     private editor.tileselector.TileSelector tileSelector;
     // End of variables declaration//GEN-END:variables
 
@@ -2412,7 +2414,7 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
         tileSelector.init(handler, this);
         tileSelector.updateLayout();
         
-        smartGridDisplay.init(handler, true);
+        smartGridEditableDisplay.init(handler);
 
         textureDisplay.init(tileHandler, this);
         textureDisplayMaterial.init(tileHandler, this);
@@ -2851,9 +2853,20 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
     public void fixIndices() {
         int[] indices = tileHandler.getChangeIndices();
         tileHandler.fixMapGridIndices(indices);
-        tileHandler.fixTilesetGridIndices(indices);
+        
+        fixSmartGridIndices();
+        //tileHandler.fixTilesetGridIndices(indices);
     }
 
+    private void fixSmartGridIndices(){
+        ArrayList<SmartGridEditable> smartGridEditableArray = smartGridEditableDisplay.getSmartGridArray();
+        ArrayList<SmartGrid> smartGridArray = new ArrayList<>(smartGridEditableArray.size());
+        for(SmartGridEditable smartGrid : smartGridEditableArray){
+            smartGridArray.add(new SmartGrid(smartGrid.toTileIndices(handler.getTileset())));
+        }
+        handler.getTileset().setSgridArray(smartGridArray);
+    }
+    
     public TileDisplay getTileDisplay() {
         return tileDisplay;
     }

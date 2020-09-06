@@ -5,7 +5,7 @@
  */
 package editor.backsound;
 
-import editor.handler.MapGrid;
+import editor.grid.MapGrid;
 import java.awt.Rectangle;
 
 /**

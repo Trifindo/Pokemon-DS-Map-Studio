@@ -5,7 +5,6 @@
  */
 package editor.sound;
 
-import editor.MainFrame;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,7 +49,7 @@ public class SoundPlayer extends Thread {
         try {
             if (filename != null) {
                 try {
-                    inputStream = MainFrame.class.getResourceAsStream(filename);
+                    inputStream = SoundPlayer.class.getResourceAsStream(filename);
                     bufferedIn = new BufferedInputStream(inputStream);
                 } catch (Exception e) {
                     System.out.println("ERROR NUMERO 1");

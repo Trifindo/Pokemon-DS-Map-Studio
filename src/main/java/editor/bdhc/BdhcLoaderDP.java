@@ -188,7 +188,7 @@ public class BdhcLoaderDP {
         short fractionalPart = (short) dataToUnsignedShort(data, offset);
         short decimalPart = dataToSignedShort(data, offset + 2);
         float value = (float) (-decimalPart - (fractionalPart & 0xFFFF) / 65536f); //TODO: Do not use minus sign?
-        System.out.println("dec: " + decimalPart + " frac: " + (fractionalPart & 0xFFFF) + " value: " + value);
+        //System.out.println("dec: " + decimalPart + " frac: " + (fractionalPart & 0xFFFF) + " value: " + value);
         return value;
     }
     
@@ -282,7 +282,7 @@ public class BdhcLoaderDP {
         short fractionalPart = (short) dataToUnsignedShort(data, offset);
         short decimalPart = dataToSignedShort(data, offset + 2);
         float value = (float) (decimalPart + (fractionalPart & 0xFFFF) / 65536f); //TODO: Do not use minus sign?
-        System.out.println("dec: " + decimalPart + " frac: " + (fractionalPart & 0xFFFF) + " value: " + value);
+        //System.out.println("dec: " + decimalPart + " frac: " + (fractionalPart & 0xFFFF) + " value: " + value);
         return value;
     }
     

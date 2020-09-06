@@ -153,7 +153,7 @@ public class TilesetIO {
     public static Tileset readTilesetFromFileAsResource(String path)
             throws FileNotFoundException, IOException, NullPointerException,
             TextureNotFoundException {
-        return readTilesetFromFile(MainFrame.class.getResourceAsStream(path), path, true);
+        return readTilesetFromFile(TilesetIO.class.getResourceAsStream(path), path, true);
     }
 
     public static Tileset readTilesetFromFile(String path)

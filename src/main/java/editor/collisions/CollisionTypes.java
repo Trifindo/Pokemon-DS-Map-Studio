@@ -76,7 +76,7 @@ public class CollisionTypes {
         int layerIndex = 0;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(
-                    MainFrame.class.getClassLoader().getResourceAsStream(path)));
+                    CollisionTypes.class.getClassLoader().getResourceAsStream(path)));
 
             String line;
             while ((line = br.readLine()) != null && collIndex < numCollisions && layerIndex < numLayers) {

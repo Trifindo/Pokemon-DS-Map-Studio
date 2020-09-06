@@ -5,9 +5,8 @@
  */
 package editor.buildingeditor2;
 
-import editor.MainFrame;
 import editor.buildingeditor2.animations.AddBuildAnimationDialog;
-import editor.buildingeditor2.animations.BuildAnimation;
+import editor.buildingeditor2.animations.ModelAnimation;
 import editor.buildingeditor2.animations.BuildAnimeListDPPt;
 import editor.buildingeditor2.areabuild.AddBuildModelDialog;
 import editor.buildingeditor2.areabuild.AreaBuild;
@@ -2099,7 +2098,7 @@ public class BuildingEditorDialogDPPt extends javax.swing.JDialog {
         if (buildHandler.getBuildModelAnimeList() != null) {
             try {
                 ArrayList<Integer> animIDs = buildHandler.getBuildModelAnimeList().getAnimations().get(jlBuildModel.getSelectedIndex());
-                BuildAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIDs.get(jlSelectedAnimationsList.getSelectedIndex()));
+                ModelAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIDs.get(jlSelectedAnimationsList.getSelectedIndex()));
 
                 loadAnimationInNitroDisplay(nitroDisplayGL, 0, anim);
 
@@ -2493,7 +2492,7 @@ public class BuildingEditorDialogDPPt extends javax.swing.JDialog {
             fc.setApproveButtonText("Save");
             fc.setDialogTitle("Save Building File");
             try {//TODO: Replace this with some index bounds cheking?
-                File file = new File(handler.getGrid().filePath);
+                File file = new File(handler.getMapMatrix().filePath);
                 String fileName = Utils.removeExtensionFromPath(file.getName()) + "." + BuildFile.fileExtension;
                 fc.setSelectedFile(new File(fileName));
             } catch (Exception ex) {
@@ -3085,7 +3084,7 @@ public class BuildingEditorDialogDPPt extends javax.swing.JDialog {
     private void updateViewAnimationsList(int indexSelected) {
         if (buildHandler.getBuildModelAnims() != null) {
             ArrayList<String> names = new ArrayList<>();
-            ArrayList<BuildAnimation> animations = buildHandler.getBuildModelAnims().getAnimations();
+            ArrayList<ModelAnimation> animations = buildHandler.getBuildModelAnims().getAnimations();
             animIconIndices = new ArrayList<>(animations.size());
             for (int i = 0; i < animations.size(); i++) {
                 names.add(String.valueOf(i) + ": "
@@ -3169,7 +3168,7 @@ public class BuildingEditorDialogDPPt extends javax.swing.JDialog {
 
             try {
                 for (Integer animIndex : buildHandler.getBuildModelAnimeList().getAnimations().get(build.getModeID())) {
-                    BuildAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIndex);
+                    ModelAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIndex);
                     loadAnimationInNitroDisplay(nitroDisplayMap, 1 + i, anim);
                 }
             } catch (Exception ex) {
@@ -3257,16 +3256,16 @@ public class BuildingEditorDialogDPPt extends javax.swing.JDialog {
         }
     }
 
-    private void loadAnimationInNitroDisplay(NitroDisplayGL display, int objectIndex, BuildAnimation anim) {
-        if (anim.getAnimationType() == BuildAnimation.TYPE_NSBCA) {
+    private void loadAnimationInNitroDisplay(NitroDisplayGL display, int objectIndex, ModelAnimation anim) {
+        if (anim.getAnimationType() == ModelAnimation.TYPE_NSBCA) {
             NSBCAreader reader = new NSBCAreader(new ByteReader(anim.getData()));
             display.getObjectGL(objectIndex).setNsbca((NSBCA) reader.readFile());
             display.requestUpdate();
-        } else if (anim.getAnimationType() == BuildAnimation.TYPE_NSBTA) {
+        } else if (anim.getAnimationType() == ModelAnimation.TYPE_NSBTA) {
             NSBTAreader reader = new NSBTAreader(new ByteReader(anim.getData()));
             display.getObjectGL(objectIndex).setNsbta((NSBTA) reader.readFile());
             display.requestUpdate();
-        } else if (anim.getAnimationType() == BuildAnimation.TYPE_NSBTP) {
+        } else if (anim.getAnimationType() == ModelAnimation.TYPE_NSBTP) {
             NSBTPreader reader = new NSBTPreader(new ByteReader(anim.getData()));
             display.getObjectGL(objectIndex).setNsbtp((NSBTP) reader.readFile());
             display.requestUpdate();
@@ -3280,6 +3279,29 @@ public class BuildingEditorDialogDPPt extends javax.swing.JDialog {
 
     public void tryLoadBuildFile() {
         try {
+            String filePath = handler.getMapMatrix().getFilePathWithCoords(handler.getMapMatrix().getMatrix(),
+                    new File(handler.getMapMatrix().filePath).getParent(),
+                    new File(handler.getMapMatrix().filePath).getName(),
+                    handler.getMapSelected(), "nsbmd");
+
+            File file = new File(filePath);
+            if (file.exists()) {
+                byte[] mapData = Files.readAllBytes(file.toPath());
+                nitroDisplayMap.getObjectGL(0).setNsbmdData(mapData);
+                nitroDisplayMap.requestUpdate();
+            } else {
+                File[] files = findFilesWithExtension(new File(handler.getMapMatrix().filePath).getParent(), "nsbmd");
+                if (files.length > 0) {
+                    byte[] mapData = Files.readAllBytes(files[0].toPath());
+                    nitroDisplayMap.getObjectGL(0).setNsbmdData(mapData);
+                    nitroDisplayMap.requestUpdate();
+                }
+            }
+        } catch (Exception ex) {
+
+        }
+        /*
+        try {
             File[] files = findFilesWithExtension(handler.getLastMapDirectoryUsed(), "nsbmd");
             if (files.length > 0) {
 
@@ -3291,10 +3313,11 @@ public class BuildingEditorDialogDPPt extends javax.swing.JDialog {
         } catch (Exception ex) {
 
         }
+        */
     }
 
     private void saveBuildings() throws IOException {
-        File file = new File(handler.getGrid().filePath);
+        File file = new File(handler.getMapMatrix().filePath);
         String path = file.getParent();
         String filename = Utils.removeExtensionFromPath(file.getName()) + "." + BuildFile.fileExtension;
         handler.getBuildings().saveToFile(path + File.separator + filename);

@@ -29,7 +29,6 @@ public class PolygonData {
     public PolygonData() {
 
     }
-    
 
     public void groupByNormals(boolean isQuad) {
         int nPerPoly;
@@ -81,13 +80,13 @@ public class PolygonData {
         return copy;
     }
 
-    public void initTrisVertices(int numVertices){
+    public void initTrisVertices(int numVertices) {
         vCoordsTri = new float[numVertices * 3];
         tCoordsTri = new float[numVertices * 2];
         nCoordsTri = new float[numVertices * 3];
         colorsTri = new float[numVertices * 3];
     }
-    
+
     public void initQuads(int numQuads) {
         vCoordsQuad = new float[numQuads * 4 * 3];
         tCoordsQuad = new float[numQuads * 4 * 2];
@@ -142,7 +141,7 @@ public class PolygonData {
             for (int j = 0; j < tPerPolygon; j += tPerVertex) {
                 if (tCoords[i + j] < minX) {
                     minX = tCoords[i + j];
-                } 
+                }
                 if (tCoords[i + j] > maxX) {
                     maxX = tCoords[i + j];
                 }
@@ -156,13 +155,32 @@ public class PolygonData {
 
             float deltaX = Math.round(-((maxX + minX) / 2) / imgWidth) * imgWidth;
             float deltaY = Math.round(-((maxY + minY) / 2) / imgHeight) * imgHeight;
-            
+
             for (int j = 0; j < tPerPolygon; j += tPerVertex) {
                 tCoords[i + j] += deltaX;
                 tCoords[i + j + 1] += deltaY;
             }
+
+            final float minCoordAvailable = -2030.0f;
+            final float maxCoordAvailable = 2030.0f;
+            for (int j = 0; j < tPerPolygon; j += tPerVertex) {
+                if (tCoords[i + j] * imgWidth < minCoordAvailable) {
+                    tCoords[i + j] = minCoordAvailable / imgWidth;
+                } else if (tCoords[i + j] * imgWidth > maxCoordAvailable) {
+                    tCoords[i + j] = maxCoordAvailable / imgWidth;
+                }
+            }
+            
+            for (int j = 0; j < tPerPolygon; j += tPerVertex) {
+                if (tCoords[i + j + 1] * imgHeight < minCoordAvailable) {
+                    tCoords[i + j + 1] = minCoordAvailable / imgHeight;
+                } else if (tCoords[i + j + 1] * imgHeight > maxCoordAvailable) {
+                    tCoords[i + j + 1] = maxCoordAvailable / imgHeight;
+                }
+            }
         }
     }
+
 
     private void scaleArray(float[] array, float scale) {
         for (int i = 0; i < array.length; i++) {

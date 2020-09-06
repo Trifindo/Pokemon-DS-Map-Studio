@@ -6,16 +6,19 @@
 package editor.obj;
 
 import editor.game.Game;
-import editor.handler.MapGrid;
-import static editor.handler.MapGrid.cols;
-import static editor.handler.MapGrid.gridTileSize;
-import static editor.handler.MapGrid.rows;
+import editor.grid.MapGrid;
+import static editor.grid.MapGrid.cols;
+import static editor.grid.MapGrid.gridTileSize;
+import static editor.grid.MapGrid.rows;
+import editor.handler.MapData;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.imageio.ImageIO;
 import tileset.Face;
 import tileset.Tile;
@@ -30,7 +33,8 @@ import utils.Utils;
 public class ObjWriter {
 
     private Tileset tset;
-    private MapGrid grid;
+    //private MapGrid grid;
+    private HashMap<Point, MapGrid> maps;
     private String folderPath;
     private String savePathObj;
     private String matFilename;
@@ -44,10 +48,29 @@ public class ObjWriter {
     private static final int maxTileableSizeDPHGSS = 8;
     private int maxTileableSize = 8; //TODO: Use 16 instead??
 
+    public ObjWriter(Tileset tset, HashMap<Point, MapGrid> maps, String savePath, int game,
+            boolean saveTextures, boolean saveVertexColors) {
+        this.tset = tset;
+        this.maps = maps;
+        this.savePathObj = savePath;
+        this.saveTextures = saveTextures;
+        this.saveVertexColors = saveVertexColors;
+
+        if (game == Game.BLACK || game == Game.WHITE || game == Game.BLACK2 || game == Game.WHITE2) {
+            maxTileableSize = maxTileableSizeBW;
+        } else {
+            maxTileableSize = maxTileableSizeDPHGSS;
+        }
+    }
+
     public ObjWriter(Tileset tset, MapGrid grid, String savePath, int game,
             boolean saveTextures, boolean saveVertexColors) {
         this.tset = tset;
-        this.grid = grid;
+        this.maps = new HashMap<Point, MapGrid>(1) {
+            {
+                put(new Point(0, 0), grid);
+            }
+        };
         this.savePathObj = savePath;
         this.saveTextures = saveTextures;
         this.saveVertexColors = saveVertexColors;
@@ -74,19 +97,21 @@ public class ObjWriter {
         PrintWriter outMtl = new PrintWriter(savePathMtl);
 
         long time = System.currentTimeMillis();
-        
-        for (int k = 0; k < grid.numLayers; k++) {
-            boolean[][] writtenGrid = new boolean[cols][rows];
-            for (int i = 0; i < cols; i++) {
-                for (int j = 0; j < rows; j++) {
-                    evaluateTile(k, i, j, writtenGrid);
+
+        for (HashMap.Entry<Point, MapGrid> mapEntry : maps.entrySet()) {
+            for (int k = 0; k < mapEntry.getValue().numLayers; k++) {
+                boolean[][] writtenGrid = new boolean[cols][rows];
+                for (int i = 0; i < cols; i++) {
+                    for (int j = 0; j < rows; j++) {
+                        evaluateTile(mapEntry.getValue(), mapEntry.getKey(), k, i, j, writtenGrid);
+                    }
                 }
             }
         }
+
         System.out.println("Elapsed time: " + (System.currentTimeMillis() - time) + " ms");
         writeTiles(outObj, outMtl);
 
-        
         outObj.close();
         outMtl.close();
 
@@ -181,55 +206,58 @@ public class ObjWriter {
         }
     }
 
-    private void evaluateTile(int layer, int c, int r, boolean[][] writtenGrid) {
-        if ((!writtenGrid[c][r]) && (grid.tileLayers[layer][c][r] != -1)) {
-            Tile tile = tset.get(grid.tileLayers[layer][c][r]).cloneObjData();
-            if ((!tile.isXtileable()) && (!tile.isYtileable())) {
-                stretchTile(tile, 1, 1, c, r);
-                writeTile(tile, layer, c, r);
-                updateWGridNoTileable(writtenGrid, tile, c, r);
-            } else if (tile.isXtileable() && tile.isYtileable()) {
-                int xSize = getNumEqualTilesX(layer, c, r, writtenGrid, tile.getWidth());
-                int ySize = getNumEqualTilesY(layer, c, r, writtenGrid, tile.getHeight());
-                if (xSize == 1 && ySize == 1) {
-                    stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
-                    writeTile(tile, layer, c, r);
-                    updateGridTileable(writtenGrid, c, r, tile.getWidth(), tile.getHeight());
-                } else if (xSize > ySize) {
-                    int yExp = getExpansionY(layer, c, r, writtenGrid, tile.getWidth(), tile.getHeight(), xSize);
-                    stretchTile(tile, xSize, yExp, c, r);
-                    writeTile(tile, layer, c, r);
-                    updateGridTileable(writtenGrid, c, r, xSize * tile.getWidth(), yExp * tile.getHeight());
+    private void evaluateTile(MapGrid grid, Point mapCoords, int layer, int c, int r, boolean[][] writtenGrid) {
+        try {
+            if ((!writtenGrid[c][r]) && (grid.tileLayers[layer][c][r] != -1)) {
+                Tile tile = tset.get(grid.tileLayers[layer][c][r]).cloneObjData();
+                if ((!tile.isXtileable()) && (!tile.isYtileable())) {
+                    stretchTile(tile, 1, 1, c, r);
+                    writeTile(grid, mapCoords, tile, layer, c, r);
+                    updateWGridNoTileable(writtenGrid, tile, c, r);
+                } else if (tile.isXtileable() && tile.isYtileable()) {
+                    int xSize = getNumEqualTilesX(grid, layer, c, r, writtenGrid, tile.getWidth());
+                    int ySize = getNumEqualTilesY(grid, layer, c, r, writtenGrid, tile.getHeight());
+                    if (xSize == 1 && ySize == 1) {
+                        stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
+                        writeTile(grid, mapCoords, tile, layer, c, r);
+                        updateGridTileable(writtenGrid, c, r, tile.getWidth(), tile.getHeight());
+                    } else if (xSize > ySize) {
+                        int yExp = getExpansionY(grid, layer, c, r, writtenGrid, tile.getWidth(), tile.getHeight(), xSize);
+                        stretchTile(tile, xSize, yExp, c, r);
+                        writeTile(grid, mapCoords, tile, layer, c, r);
+                        updateGridTileable(writtenGrid, c, r, xSize * tile.getWidth(), yExp * tile.getHeight());
+                    } else {
+                        int xExp = getExpansionX(grid, layer, c, r, writtenGrid, tile.getWidth(), tile.getHeight(), ySize);
+                        stretchTile(tile, xExp, ySize, c, r);
+                        writeTile(grid, mapCoords, tile, layer, c, r);
+                        updateGridTileable(writtenGrid, c, r, xExp * tile.getWidth(), ySize * tile.getHeight());
+                    }
+                } else if (tile.isXtileable()) {
+                    int xSize = getNumEqualTilesX(grid, layer, c, r, writtenGrid, tile.getWidth());
+                    if (xSize == 1) {
+                        stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
+                        writeTile(grid, mapCoords, tile, layer, c, r);
+                    } else {
+                        stretchTile(tile, xSize, 1, c, r);
+                        writeTile(grid, mapCoords, tile, layer, c, r);
+                    }
+                    updateGridTileable(writtenGrid, c, r, xSize * tile.getWidth(), tile.getHeight());
                 } else {
-                    int xExp = getExpansionX(layer, c, r, writtenGrid, tile.getWidth(), tile.getHeight(), ySize);
-                    stretchTile(tile, xExp, ySize, c, r);
-                    writeTile(tile, layer, c, r);
-                    updateGridTileable(writtenGrid, c, r, xExp * tile.getWidth(), ySize * tile.getHeight());
+                    int ySize = getNumEqualTilesY(grid, layer, c, r, writtenGrid, tile.getHeight());
+                    if (ySize == 1) {
+                        stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
+                        writeTile(grid, mapCoords, tile, layer, c, r);
+                    } else {
+                        stretchTile(tile, 1, ySize, c, r);
+                        writeTile(grid, mapCoords, tile, layer, c, r);
+                    }
+                    updateGridTileable(writtenGrid, c, r, tile.getWidth(), ySize * tile.getHeight());
                 }
-            } else if (tile.isXtileable()) {
-                int xSize = getNumEqualTilesX(layer, c, r, writtenGrid, tile.getWidth());
-                if (xSize == 1) {
-                    stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
-                    writeTile(tile, layer, c, r);
-                } else {
-                    stretchTile(tile, xSize, 1, c, r);
-                    writeTile(tile, layer, c, r);
-                }
-                updateGridTileable(writtenGrid, c, r, xSize * tile.getWidth(), tile.getHeight());
-            } else {
-                int ySize = getNumEqualTilesY(layer, c, r, writtenGrid, tile.getHeight());
-                if (ySize == 1) {
-                    stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
-                    writeTile(tile, layer, c, r);
-                } else {
-                    stretchTile(tile, 1, ySize, c, r);
-                    writeTile(tile, layer, c, r);
-                }
-                updateGridTileable(writtenGrid, c, r, tile.getWidth(), ySize * tile.getHeight());
+                moveTile(tile);
             }
-            moveTile(tile);
-        }
+        } catch (Exception ex) {
 
+        }
     }
 
     private void updateGridTileable(boolean[][] writtenGrid, int c, int r, int xSize, int ySize) {
@@ -365,14 +393,14 @@ public class ObjWriter {
         }
     }
 
-    private int getExpansionY(int layer, int c, int r,
+    private int getExpansionY(MapGrid grid, int layer, int c, int r,
             boolean[][] writtenGrid, int width, int height, int xSize) {
         int n = 1;
         for (int i = height, limit = rows - r; i < limit && n < maxTileableSize; i += height) {
             for (int j = 0; j < xSize * width; j += width) {
                 int nextC = c + j;
                 int nextR = r + i;
-                if (!(sameHeightAndType(layer, c, r, nextC, nextR) && !writtenGrid[nextC][nextR])) {
+                if (!(sameHeightAndType(grid, layer, c, r, nextC, nextR) && !writtenGrid[nextC][nextR])) {
                     return n;
                 }
             }
@@ -382,14 +410,14 @@ public class ObjWriter {
         return n;
     }
 
-    private int getExpansionX(int layer, int c, int r,
+    private int getExpansionX(MapGrid grid, int layer, int c, int r,
             boolean[][] writtenGrid, int width, int height, int ySize) {
         int n = 1;
         for (int i = width, limit = cols - c; i < limit && n < maxTileableSize; i += width) {
             for (int j = 0; j < ySize * height; j += height) {
                 int nextC = c + i;
                 int nextR = r + j;
-                if (!(sameHeightAndType(layer, c, r, nextC, nextR) && !writtenGrid[nextC][nextR])) {
+                if (!(sameHeightAndType(grid, layer, c, r, nextC, nextR) && !writtenGrid[nextC][nextR])) {
                     return n;
                 }
             }
@@ -398,12 +426,12 @@ public class ObjWriter {
         return n;
     }
 
-    private int getNumEqualTilesX(int layer, int c, int r, boolean[][] writtenGrid, int width) {
+    private int getNumEqualTilesX(MapGrid grid, int layer, int c, int r, boolean[][] writtenGrid, int width) {
         int n = 1;
         for (int i = width, limit = cols - c; i < limit && n < maxTileableSize; i += width) {
             int nextC = c + i;
             int nextR = r;
-            if (sameHeightAndType(layer, c, r, nextC, nextR) && !writtenGrid[nextC][nextR]) {
+            if (sameHeightAndType(grid, layer, c, r, nextC, nextR) && !writtenGrid[nextC][nextR]) {
                 n++;
             } else {
                 return n;
@@ -412,12 +440,12 @@ public class ObjWriter {
         return n;
     }
 
-    private int getNumEqualTilesY(int layer, int c, int r, boolean[][] writtenGrid, int height) {
+    private int getNumEqualTilesY(MapGrid grid, int layer, int c, int r, boolean[][] writtenGrid, int height) {
         int n = 1;
         for (int i = height, limit = rows - r; i < limit && n < maxTileableSize; i += height) {
             int nextC = c;
             int nextR = r + i;
-            if (sameHeightAndType(layer, c, r, nextC, nextR) && !writtenGrid[nextC][nextR]) {
+            if (sameHeightAndType(grid, layer, c, r, nextC, nextR) && !writtenGrid[nextC][nextR]) {
                 n++;
             } else {
                 return n;
@@ -426,13 +454,16 @@ public class ObjWriter {
         return n;
     }
 
-    private boolean sameHeightAndType(int layer, int c1, int r1, int c2, int r2) {
+    private boolean sameHeightAndType(MapGrid grid, int layer, int c1, int r1, int c2, int r2) {
         return (grid.tileLayers[layer][c1][r1] == grid.tileLayers[layer][c2][r2]
                 && grid.heightLayers[layer][c1][r1] == grid.heightLayers[layer][c2][r2]);
     }
 
-    private void writeTile(Tile tile, int layer, int c, int r) {
-        displaceTile(tile, c - cols / 2, r - rows / 2, grid.heightLayers[layer][c][r]);
+    private void writeTile(MapGrid grid, Point mapCoords, Tile tile, int layer, int c, int r) {
+        displaceTile(tile,
+                c - cols / 2 + mapCoords.x * cols,
+                r - rows / 2 - mapCoords.y * cols,
+                grid.heightLayers[layer][c][r]);
         outTiles.add(tile);
     }
 
@@ -590,7 +621,7 @@ public class ObjWriter {
             for (int i = 0; i < numVertices; i++) {
                 out.print(" " + face.vInd[i] + "/" + face.tInd[i] + "/" + face.nInd[i] + "/" + face.cInd[i]);
             }
-        }else{
+        } else {
             for (int i = 0; i < numVertices; i++) {
                 out.print(" " + face.vInd[i] + "/" + face.tInd[i] + "/" + face.nInd[i]);
             }

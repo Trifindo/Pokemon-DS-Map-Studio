@@ -6,7 +6,6 @@
 package editor.backsound;
 
 import editor.exceptions.WrongFormatException;
-import editor.MainFrame;
 import editor.handler.MapEditorHandler;
 import editor.sound.SoundPlayer;
 import java.awt.Color;

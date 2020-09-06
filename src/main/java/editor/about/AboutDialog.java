@@ -21,6 +21,8 @@ public class AboutDialog extends javax.swing.JDialog {
         initComponents();
      
         jlVersionName.setText(MapEditorHandler.versionName);
+        
+        jbAccept.requestFocus();
     }
 
     /**
@@ -49,7 +51,7 @@ public class AboutDialog extends javax.swing.JDialog {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jbAccept = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("About");
@@ -66,7 +68,7 @@ public class AboutDialog extends javax.swing.JDialog {
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jTextArea1.setRows(5);
-        jTextArea1.setText("Pokemon DS Map Studio is a program for creating Pokemon Maps \nfor Pokemon games on DS. Maps from the original games CAN'T be loaded.\n\nThis tool is designed to be used along SDSME.\nThe maps created in this tool can be imported in the games by using SDSME.\n\nGames fully supported:\n- Pokemon Diamond and Pearl (YES) \n- Pokemon Platinum (YES)\n- Pokemon Heart Gold and Soul Silver (YES)\n- Pokemon Black and White (PARTIALLY)\n- Pokemon Black and White 2 (NOT TESTED)");
+        jTextArea1.setText("Pokemon DS Map Studio is a program for creating Pokemon Maps \nfor Pokemon games on DS from scratch. Maps from the original games CAN'T be loaded.\n\nThis tool is designed to be used along SDSME or DSPRE.\nThe maps created in this tool can be imported in the games by using SDSME or DSPRE.\n\nGames fully supported:\n- Pokemon Diamond and Pearl (YES) \n- Pokemon Platinum (YES)\n- Pokemon Heart Gold and Soul Silver (YES)\n- Pokemon Black and White (PARTIALLY)\n- Pokemon Black and White 2 (NOT TESTED)");
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel3.setText("Created by: ");
@@ -105,13 +107,13 @@ public class AboutDialog extends javax.swing.JDialog {
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jButton1.setText("OK");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbAccept.setText("OK");
+        jbAccept.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbAcceptActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new java.awt.GridBagConstraints());
+        jPanel1.add(jbAccept, new java.awt.GridBagConstraints());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,7 +128,7 @@ public class AboutDialog extends javax.swing.JDialog {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -169,8 +171,8 @@ public class AboutDialog extends javax.swing.JDialog {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
@@ -188,7 +190,7 @@ public class AboutDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -196,9 +198,9 @@ public class AboutDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAcceptActionPerformed
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jbAcceptActionPerformed
 
     /**
      * @param args the command line arguments
@@ -243,7 +245,6 @@ public class AboutDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -260,6 +261,7 @@ public class AboutDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JButton jbAccept;
     private javax.swing.JLabel jlVersionName;
     // End of variables declaration//GEN-END:variables
 }

@@ -229,7 +229,7 @@ public class BuildHandlerDPPt {
     }
 
     public void addAnimationFile(String path) throws IOException {
-        buildModelAnims.addBuildAnimation(path);
+        buildModelAnims.addAnimation(path);
     }
 
     public void replaceAnimationFile(int index, String path) throws IOException {

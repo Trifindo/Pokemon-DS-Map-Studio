@@ -111,7 +111,7 @@ public class BorderMapsDisplay extends javax.swing.JPanel {
 
                         //New code
                         handler.getBorderMapsTileset().removeUnusedTextures();
-                        handler.getMainFrame().getMapDisplay().requestBorderMapsUpdate();
+                        //handler.getMainFrame().getMapDisplay().requestBorderMapsUpdate();//REMOVED 
                         handler.getMainFrame().getMapDisplay().repaint();
                         handler.getMainFrame().getTileDisplay().requestUpdate();
                         handler.getMainFrame().getTileDisplay().repaint();

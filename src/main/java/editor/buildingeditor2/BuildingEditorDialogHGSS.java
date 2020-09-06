@@ -7,7 +7,7 @@ package editor.buildingeditor2;
 
 import editor.buildingeditor2.animations.AddBuildAnimationDialog;
 import editor.buildingeditor2.animations.BuildAnimInfoHGSS;
-import editor.buildingeditor2.animations.BuildAnimation;
+import editor.buildingeditor2.animations.ModelAnimation;
 import editor.buildingeditor2.areabuild.AddBuildModelDialog;
 import editor.buildingeditor2.areabuild.AreaBuild;
 import editor.buildingeditor2.areadata.AreaDataHGSS;
@@ -72,6 +72,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
     private ArrayList<ImageIcon> animIcons;
     private ArrayList<Integer> selectedAnimIconIndices;
     private ArrayList<Integer> animIconIndices;
+    private ArrayList<Integer> mapAnimIconIndices;
 
     private MutableBoolean jlBuildModelEnabled = new MutableBoolean(true);
     private MutableBoolean jlMaterialOrderEnabled = new MutableBoolean(true);
@@ -126,6 +127,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         selectedAnimIconIndices = new ArrayList<>();
         animIconIndices = new ArrayList<>();
+        mapAnimIconIndices = new ArrayList<>();
 
         addIconToJList(jlBuildModel, nsbmdIcon);
         addIconToJList(jlAreaBuildList, nsbmdIcon);
@@ -163,21 +165,37 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
+        jlMapAnimationsList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+                if (index >= 0 && index < mapAnimIconIndices.size()) {
+                    int animIndex = mapAnimIconIndices.get(index);
+                    if (animIndex >= 0 && animIndex < animIcons.size()) {
+                        label.setIcon(animIcons.get(animIndex));
+                    }
+                }
+                return label;
+            }
+        });
+
         Utils.addListenerToJTextFieldColor(jtfBuildTset, jtfBuildTsetEnabled, new Color(255, 200, 200));
         Utils.addListenerToJTextFieldColor(jtfMapTset, jtfMapTsetEnabled, new Color(255, 200, 200));
 
         nitroDisplayGL.getObjectsGL().add(new ObjectGL());
         nitroDisplayAreaData.getObjectsGL().add(new ObjectGL());
         nitroDisplayMap.getObjectsGL().add(new ObjectGL());//Add space for Map's NSBMD
+        nitroDisplayMapAnims.getObjectsGL().add(new ObjectGL());//Add space for Map's NSBMD
 
         jcbAnimType1.setModel(new DefaultComboBoxModel(BuildAnimInfoHGSS.namesAnimType1.values().toArray()));
         jcbAnimType2.setModel(new DefaultComboBoxModel(BuildAnimInfoHGSS.namesAnimType2.values().toArray()));
         jcbLoopType.setModel(new DefaultComboBoxModel(BuildAnimInfoHGSS.namesLoopType.values().toArray()));
-        jcbUnknown1.setModel(new DefaultComboBoxModel(BuildAnimInfoHGSS.namesUnknown1.values().toArray()));
+        jcbUnknown1.setModel(new DefaultComboBoxModel(BuildAnimInfoHGSS.namesDoorSound.values().toArray()));
         jcbNumAnims.setModel(new DefaultComboBoxModel(BuildAnimInfoHGSS.namesNumAnims.values().toArray()));
 
-        jcbDynamicTex.setModel(new DefaultComboBoxModel(AreaDataHGSS.namesDynamicTexType.values().toArray()));
-
+        //jcbDynamicTex.setModel(new DefaultComboBoxModel(AreaDataHGSS.namesDynamicTexType.values().toArray()));
+        //updateModelJcbMapAnimations();
     }
 
     /**
@@ -193,18 +211,18 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jlBuildModel = new JList<>();
+        jlBuildModel = new javax.swing.JList<>();
         jbAddBuilding = new javax.swing.JButton();
         jbExportBuilding = new javax.swing.JButton();
         jbReplaceBuilding = new javax.swing.JButton();
-        jLabel4 = new JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jbRemoveBuilding = new javax.swing.JButton();
         jbFindBuilding = new javax.swing.JButton();
-        nitroDisplayGL = new NitroDisplayGL();
+        nitroDisplayGL = new renderer.NitroDisplayGL();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jlMaterialOrder = new JList<>();
-        jLabel2 = new JLabel();
+        jlMaterialOrder = new javax.swing.JList<>();
+        jLabel2 = new javax.swing.JLabel();
         jbRemoveMaterial = new javax.swing.JButton();
         jbAddMaterial = new javax.swing.JButton();
         jbMoveMaterialUp = new javax.swing.JButton();
@@ -212,48 +230,61 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         jbImportMaterialsFromNsbmd = new javax.swing.JButton();
         jbSetAnimation = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
-        jLabel3 = new JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jlSelectedAnimationsList = new JList<>();
+        jlSelectedAnimationsList = new javax.swing.JList<>();
         jbAddAnimToBuild = new javax.swing.JButton();
         jbReplaceAnimToBuild = new javax.swing.JButton();
         jbRemoveAnimToBuild = new javax.swing.JButton();
-        jcbAnimType1 = new JComboBox<>();
-        jLabel12 = new JLabel();
+        jcbAnimType1 = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
         jbPlay = new javax.swing.JButton();
-        jLabel22 = new JLabel();
-        jcbLoopType = new JComboBox<>();
-        jLabel23 = new JLabel();
-        jcbUnknown1 = new JComboBox<>();
-        jLabel24 = new JLabel();
-        jcbNumAnims = new JComboBox<>();
-        jLabel25 = new JLabel();
-        jcbAnimType2 = new JComboBox<>();
+        jLabel22 = new javax.swing.JLabel();
+        jcbLoopType = new javax.swing.JComboBox<>();
+        jLabel23 = new javax.swing.JLabel();
+        jcbUnknown1 = new javax.swing.JComboBox<>();
+        jLabel24 = new javax.swing.JLabel();
+        jcbNumAnims = new javax.swing.JComboBox<>();
+        jLabel25 = new javax.swing.JLabel();
+        jcbAnimType2 = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jlAreaDataList = new JList<>();
-        jLabel1 = new JLabel();
+        jlAreaDataList = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
         jbAddAreaData = new javax.swing.JButton();
         jbRemoveAreaData = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        jLabel5 = new JLabel();
-        jLabel6 = new JLabel();
-        jLabel8 = new JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jtfMapTset = new javax.swing.JTextField();
         jtfBuildTset = new javax.swing.JTextField();
         jbApplyBuildTset = new javax.swing.JButton();
         jbApplyMapTset = new javax.swing.JButton();
-        jcbAreaType = new JComboBox<>();
-        jLabel27 = new JLabel();
-        jcbDynamicTex = new JComboBox<>();
-        jLabel28 = new JLabel();
-        jcbAreaLight = new JComboBox<>();
+        jcbAreaType = new javax.swing.JComboBox<>();
+        jLabel27 = new javax.swing.JLabel();
+        jcbDynamicTex = new javax.swing.JComboBox<>();
+        jLabel28 = new javax.swing.JLabel();
+        jcbAreaLight = new javax.swing.JComboBox<>();
+        jPanel20 = new javax.swing.JPanel();
+        nitroDisplayMapAnims = new renderer.NitroDisplayGL();
+        jbOpenMap1 = new javax.swing.JButton();
+        jLabel29 = new javax.swing.JLabel();
+        jPanel21 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jlMapAnimationsList = new javax.swing.JList<>();
+        jbAddMapAnim = new javax.swing.JButton();
+        jbReplaceMapAnim = new javax.swing.JButton();
+        jbExportMapAnim = new javax.swing.JButton();
+        jbRemoveMapAnim = new javax.swing.JButton();
+        jbPlayMapAnimation = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jlBuildTsetList = new JList<>();
-        jLabel10 = new JLabel();
+        jlBuildTsetList = new javax.swing.JList<>();
+        jLabel10 = new javax.swing.JLabel();
         jbAddTset = new javax.swing.JButton();
         jbReplaceTset = new javax.swing.JButton();
         jbRemoveTset = new javax.swing.JButton();
@@ -261,50 +292,50 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         nsbtxPanel = new editor.nsbtx2.NsbtxPanel();
         jbAddEmptyTileset = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
-        jLabel9 = new JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jlAreaBuildList = new JList<>();
+        jlAreaBuildList = new javax.swing.JList<>();
         jbRemoveBuildToTset = new javax.swing.JButton();
         jbReplaceBuildToTset = new javax.swing.JButton();
         jbAddBuildToTset = new javax.swing.JButton();
-        nitroDisplayAreaData = new NitroDisplayGL();
+        nitroDisplayAreaData = new renderer.NitroDisplayGL();
         jbAddTexToNsbtx = new javax.swing.JButton();
         jbRemoveTextures = new javax.swing.JButton();
         jbRemoveAllUnusedTexPals = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
-        jLabel11 = new JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jlAnimationsList = new JList<>();
+        jlAnimationsList = new javax.swing.JList<>();
         jbAddAnim = new javax.swing.JButton();
         jbReplaceAnim = new javax.swing.JButton();
         jbRemoveAnim = new javax.swing.JButton();
         jbExportAnimation = new javax.swing.JButton();
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
-        nitroDisplayMap = new NitroDisplayGL();
+        nitroDisplayMap = new renderer.NitroDisplayGL();
         jbOpenMap = new javax.swing.JButton();
-        jLabel26 = new JLabel();
+        jLabel26 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jlBuildFile = new JList<>();
+        jlBuildFile = new javax.swing.JList<>();
         jPanel16 = new javax.swing.JPanel();
-        jLabel13 = new JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jsBuildID = new javax.swing.JSpinner();
         jbChooseModelBld = new javax.swing.JButton();
-        jLabel14 = new JLabel();
+        jLabel14 = new javax.swing.JLabel();
         jsBuildX = new javax.swing.JSpinner();
-        jLabel15 = new JLabel();
+        jLabel15 = new javax.swing.JLabel();
         jsBuildY = new javax.swing.JSpinner();
-        jLabel16 = new JLabel();
+        jLabel16 = new javax.swing.JLabel();
         jsBuildZ = new javax.swing.JSpinner();
-        jLabel17 = new JLabel();
+        jLabel17 = new javax.swing.JLabel();
         jsBuildScaleX = new javax.swing.JSpinner();
         jsBuildScaleY = new javax.swing.JSpinner();
-        jLabel18 = new JLabel();
-        jLabel19 = new JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
         jsBuildScaleZ = new javax.swing.JSpinner();
-        jLabel20 = new JLabel();
+        jLabel20 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jbImportBld = new javax.swing.JButton();
@@ -314,8 +345,8 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         jbRemoveBld = new javax.swing.JButton();
         jbCancel = new javax.swing.JButton();
         jbSaveAll = new javax.swing.JButton();
-        jLabel21 = new JLabel();
-        jcbModelsSelected = new JComboBox<>();
+        jLabel21 = new javax.swing.JLabel();
+        jcbModelsSelected = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Building Editor (Experimental)");
@@ -333,7 +364,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jlBuildModel);
 
-        jbAddBuilding.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
+        jbAddBuilding.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
         jbAddBuilding.setText("Add Building");
         jbAddBuilding.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbAddBuilding.addActionListener(new java.awt.event.ActionListener() {
@@ -342,7 +373,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbExportBuilding.setIcon(new ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
+        jbExportBuilding.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
         jbExportBuilding.setText("Export Building");
         jbExportBuilding.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbExportBuilding.addActionListener(new java.awt.event.ActionListener() {
@@ -351,7 +382,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbReplaceBuilding.setIcon(new ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
+        jbReplaceBuilding.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
         jbReplaceBuilding.setText("Replace Building");
         jbReplaceBuilding.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbReplaceBuilding.addActionListener(new java.awt.event.ActionListener() {
@@ -360,11 +391,11 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jLabel4.setIcon(new ImageIcon(getClass().getResource("/icons/BuildingIcon.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/BuildingIcon.png"))); // NOI18N
         jLabel4.setText("Building List:");
         jLabel4.setToolTipText("");
 
-        jbRemoveBuilding.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
+        jbRemoveBuilding.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
         jbRemoveBuilding.setText("Remove Building");
         jbRemoveBuilding.setEnabled(false);
         jbRemoveBuilding.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -374,7 +405,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbFindBuilding.setIcon(new ImageIcon(getClass().getResource("/icons/SearchIcon.png"))); // NOI18N
+        jbFindBuilding.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/SearchIcon.png"))); // NOI18N
         jbFindBuilding.setText("Find Usages");
         jbFindBuilding.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbFindBuilding.addActionListener(new java.awt.event.ActionListener() {
@@ -383,7 +414,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        nitroDisplayGL.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(102, 102, 102)));
+        nitroDisplayGL.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
         javax.swing.GroupLayout nitroDisplayGLLayout = new javax.swing.GroupLayout(nitroDisplayGL);
         nitroDisplayGL.setLayout(nitroDisplayGLLayout);
@@ -453,11 +484,11 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         jlMaterialOrder.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(jlMaterialOrder);
 
-        jLabel2.setIcon(new ImageIcon(getClass().getResource("/icons/MaterialIcon2.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/MaterialIcon2.png"))); // NOI18N
         jLabel2.setText("Material order:");
         jLabel2.setToolTipText("");
 
-        jbRemoveMaterial.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
+        jbRemoveMaterial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
         jbRemoveMaterial.setText("Remove Material");
         jbRemoveMaterial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbRemoveMaterial.addActionListener(new java.awt.event.ActionListener() {
@@ -466,7 +497,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbAddMaterial.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
+        jbAddMaterial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
         jbAddMaterial.setText("Add Material");
         jbAddMaterial.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbAddMaterial.addActionListener(new java.awt.event.ActionListener() {
@@ -489,7 +520,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbImportMaterialsFromNsbmd.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
+        jbImportMaterialsFromNsbmd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
         jbImportMaterialsFromNsbmd.setText("Import from NSBMD");
         jbImportMaterialsFromNsbmd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -497,7 +528,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbSetAnimation.setIcon(new ImageIcon(getClass().getResource("/icons/AnimationIcon.png"))); // NOI18N
+        jbSetAnimation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AnimationIcon.png"))); // NOI18N
         jbSetAnimation.setText("Set Animation");
         jbSetAnimation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbSetAnimation.addActionListener(new java.awt.event.ActionListener() {
@@ -555,7 +586,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Selected Building Animations (bm_anime_list.narc)"));
 
-        jLabel3.setIcon(new ImageIcon(getClass().getResource("/icons/AnimationIcon.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AnimationIcon.png"))); // NOI18N
         jLabel3.setText("Animations:");
         jLabel3.setToolTipText("");
 
@@ -565,7 +596,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         jlSelectedAnimationsList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane3.setViewportView(jlSelectedAnimationsList);
 
-        jbAddAnimToBuild.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
+        jbAddAnimToBuild.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
         jbAddAnimToBuild.setText("Add Animation");
         jbAddAnimToBuild.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbAddAnimToBuild.addActionListener(new java.awt.event.ActionListener() {
@@ -574,7 +605,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbReplaceAnimToBuild.setIcon(new ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
+        jbReplaceAnimToBuild.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
         jbReplaceAnimToBuild.setText("Replace Animation");
         jbReplaceAnimToBuild.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbReplaceAnimToBuild.addActionListener(new java.awt.event.ActionListener() {
@@ -583,7 +614,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbRemoveAnimToBuild.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
+        jbRemoveAnimToBuild.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
         jbRemoveAnimToBuild.setText("Remove Animation");
         jbRemoveAnimToBuild.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbRemoveAnimToBuild.addActionListener(new java.awt.event.ActionListener() {
@@ -592,7 +623,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jcbAnimType1.setModel(new DefaultComboBoxModel<>(new String[] { "No animation", "Loop", "Trigger (?)", "Trigger", "Day/Night Cycle" }));
+        jcbAnimType1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No animation", "Loop", "Trigger (?)", "Trigger", "Day/Night Cycle" }));
         jcbAnimType1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbAnimType1ActionPerformed(evt);
@@ -601,7 +632,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jLabel12.setText("Type 1:");
 
-        jbPlay.setIcon(new ImageIcon(getClass().getResource("/icons/AnimationIcon.png"))); // NOI18N
+        jbPlay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AnimationIcon.png"))); // NOI18N
         jbPlay.setText("Play Animation");
         jbPlay.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbPlay.addActionListener(new java.awt.event.ActionListener() {
@@ -612,16 +643,16 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jLabel22.setText("Loop type:");
 
-        jcbLoopType.setModel(new DefaultComboBoxModel<>(new String[] { "Loop", "Trigger" }));
+        jcbLoopType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Loop", "Trigger" }));
         jcbLoopType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbLoopTypeActionPerformed(evt);
             }
         });
 
-        jLabel23.setText("Unknown:");
+        jLabel23.setText("Sound:");
 
-        jcbUnknown1.setModel(new DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3" }));
+        jcbUnknown1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3" }));
         jcbUnknown1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbUnknown1ActionPerformed(evt);
@@ -630,7 +661,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jLabel24.setText("#Anims (?):");
 
-        jcbNumAnims.setModel(new DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4" }));
+        jcbNumAnims.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4" }));
         jcbNumAnims.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbNumAnimsActionPerformed(evt);
@@ -639,7 +670,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jLabel25.setText("Type 2:");
 
-        jcbAnimType2.setModel(new DefaultComboBoxModel<>(new String[] { "No animation", "Loop", "Trigger" }));
+        jcbAnimType2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No animation", "Loop", "Trigger" }));
         jcbAnimType2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbAnimType2ActionPerformed(evt);
@@ -655,7 +686,6 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel23)
@@ -663,9 +693,10 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
                                     .addComponent(jLabel12))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jcbAnimType1, 0, 1, Short.MAX_VALUE)
-                                    .addComponent(jcbAnimType2, javax.swing.GroupLayout.Alignment.LEADING, 0, 100, Short.MAX_VALUE)
-                                    .addComponent(jcbUnknown1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(jcbAnimType2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jcbAnimType1, javax.swing.GroupLayout.Alignment.LEADING, 0, 124, Short.MAX_VALUE)
+                                    .addComponent(jcbUnknown1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jbRemoveAnimToBuild, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
@@ -680,7 +711,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jcbLoopType, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jcbNumAnims, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(21, Short.MAX_VALUE))
+                        .addGap(21, 21, 21))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -763,10 +794,10 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         });
         jScrollPane4.setViewportView(jlAreaDataList);
 
-        jLabel1.setIcon(new ImageIcon(getClass().getResource("/icons/AreaDataIcon.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AreaDataIcon.png"))); // NOI18N
         jLabel1.setText("Area Data List:");
 
-        jbAddAreaData.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
+        jbAddAreaData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
         jbAddAreaData.setText("Add Area Data");
         jbAddAreaData.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbAddAreaData.addActionListener(new java.awt.event.ActionListener() {
@@ -775,7 +806,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbRemoveAreaData.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
+        jbRemoveAreaData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
         jbRemoveAreaData.setText("Remove Area Data");
         jbRemoveAreaData.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbRemoveAreaData.addActionListener(new java.awt.event.ActionListener() {
@@ -838,14 +869,14 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jcbAreaType.setModel(new DefaultComboBoxModel<>(new String[] { "Indoor Area", "Outdoor Area" }));
+        jcbAreaType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Indoor Area", "Outdoor Area" }));
         jcbAreaType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbAreaTypeActionPerformed(evt);
             }
         });
 
-        jLabel27.setText("Dynamic Textures:");
+        jLabel27.setText("Map Animations:");
 
         jcbDynamicTex.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -855,7 +886,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jLabel28.setText("Light Type:");
 
-        jcbAreaLight.setModel(new DefaultComboBoxModel<>(new String[] { "Model's Light", "Day/Night Light", "Unknown Light" }));
+        jcbAreaLight.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Model's Light", "Day/Night Light", "Unknown Light" }));
         jcbAreaLight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbAreaLightActionPerformed(evt);
@@ -918,6 +949,158 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel20.setBorder(javax.swing.BorderFactory.createTitledBorder("Map Animations Display"));
+
+        nitroDisplayMapAnims.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+
+        javax.swing.GroupLayout nitroDisplayMapAnimsLayout = new javax.swing.GroupLayout(nitroDisplayMapAnims);
+        nitroDisplayMapAnims.setLayout(nitroDisplayMapAnimsLayout);
+        nitroDisplayMapAnimsLayout.setHorizontalGroup(
+            nitroDisplayMapAnimsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        nitroDisplayMapAnimsLayout.setVerticalGroup(
+            nitroDisplayMapAnimsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jbOpenMap1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
+        jbOpenMap1.setText("Open Map");
+        jbOpenMap1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbOpenMap1ActionPerformed(evt);
+            }
+        });
+
+        jLabel29.setText("*[Note: This map is used as a visual help for viewing the map animations]");
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel20Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nitroDisplayMapAnims, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel20Layout.createSequentialGroup()
+                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbOpenMap1)
+                            .addComponent(jLabel29))
+                        .addGap(0, 28, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel20Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jbOpenMap1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(nitroDisplayMapAnims, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel21.setBorder(javax.swing.BorderFactory.createTitledBorder("Map Animations (Dynamic Textures)"));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AnimationIcon.png"))); // NOI18N
+        jLabel7.setText("Map Animations List:");
+
+        jScrollPane9.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane9.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        jlMapAnimationsList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane9.setViewportView(jlMapAnimationsList);
+
+        jbAddMapAnim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
+        jbAddMapAnim.setText("Add Animation");
+        jbAddMapAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbAddMapAnim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAddMapAnimActionPerformed(evt);
+            }
+        });
+
+        jbReplaceMapAnim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
+        jbReplaceMapAnim.setText("Replace Animation");
+        jbReplaceMapAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbReplaceMapAnim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbReplaceMapAnimActionPerformed(evt);
+            }
+        });
+
+        jbExportMapAnim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
+        jbExportMapAnim.setText("Export Animation");
+        jbExportMapAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbExportMapAnim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbExportMapAnimActionPerformed(evt);
+            }
+        });
+
+        jbRemoveMapAnim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
+        jbRemoveMapAnim.setText("Remove Animation");
+        jbRemoveMapAnim.setEnabled(false);
+        jbRemoveMapAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbRemoveMapAnim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRemoveMapAnimActionPerformed(evt);
+            }
+        });
+
+        jbPlayMapAnimation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AnimationIcon.png"))); // NOI18N
+        jbPlayMapAnimation.setText("Play Animation");
+        jbPlayMapAnimation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbPlayMapAnimation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbPlayMapAnimationActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
+        jPanel21.setLayout(jPanel21Layout);
+        jPanel21Layout.setHorizontalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel21Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel21Layout.createSequentialGroup()
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbAddMapAnim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbRemoveMapAnim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbReplaceMapAnim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbExportMapAnim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbPlayMapAnimation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel21Layout.setVerticalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane9)
+                    .addGroup(jPanel21Layout.createSequentialGroup()
+                        .addComponent(jbAddMapAnim)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbReplaceMapAnim)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbExportMapAnim)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbRemoveMapAnim)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbPlayMapAnimation)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -926,8 +1109,12 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(453, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -935,7 +1122,11 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -954,10 +1145,10 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         });
         jScrollPane6.setViewportView(jlBuildTsetList);
 
-        jLabel10.setIcon(new ImageIcon(getClass().getResource("/icons/MaterialIcon.png"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/MaterialIcon.png"))); // NOI18N
         jLabel10.setText("Building Tileset List:");
 
-        jbAddTset.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
+        jbAddTset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
         jbAddTset.setText("Add Tileset");
         jbAddTset.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbAddTset.addActionListener(new java.awt.event.ActionListener() {
@@ -966,7 +1157,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbReplaceTset.setIcon(new ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
+        jbReplaceTset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
         jbReplaceTset.setText("Replace Tileset");
         jbReplaceTset.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbReplaceTset.addActionListener(new java.awt.event.ActionListener() {
@@ -975,7 +1166,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbRemoveTset.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
+        jbRemoveTset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
         jbRemoveTset.setText("Remove Tileset");
         jbRemoveTset.setEnabled(false);
         jbRemoveTset.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -985,7 +1176,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbExportTileset.setIcon(new ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
+        jbExportTileset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
         jbExportTileset.setText("Export Tileset");
         jbExportTileset.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbExportTileset.addActionListener(new java.awt.event.ActionListener() {
@@ -994,7 +1185,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbAddEmptyTileset.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
+        jbAddEmptyTileset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
         jbAddEmptyTileset.setText("Add Empty Tileset");
         jbAddEmptyTileset.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbAddEmptyTileset.addActionListener(new java.awt.event.ActionListener() {
@@ -1053,7 +1244,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder("Building Tileset Properties (area_build.narc)"));
 
-        jLabel9.setIcon(new ImageIcon(getClass().getResource("/icons/BuildingIcon.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/BuildingIcon.png"))); // NOI18N
         jLabel9.setText("Buildings used by the Tileset:");
 
         jScrollPane7.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -1067,7 +1258,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         });
         jScrollPane7.setViewportView(jlAreaBuildList);
 
-        jbRemoveBuildToTset.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
+        jbRemoveBuildToTset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
         jbRemoveBuildToTset.setText("Remove Building");
         jbRemoveBuildToTset.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbRemoveBuildToTset.addActionListener(new java.awt.event.ActionListener() {
@@ -1076,7 +1267,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbReplaceBuildToTset.setIcon(new ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
+        jbReplaceBuildToTset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
         jbReplaceBuildToTset.setText("Replace Building");
         jbReplaceBuildToTset.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbReplaceBuildToTset.addActionListener(new java.awt.event.ActionListener() {
@@ -1085,7 +1276,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbAddBuildToTset.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
+        jbAddBuildToTset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
         jbAddBuildToTset.setText("Add Building");
         jbAddBuildToTset.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbAddBuildToTset.addActionListener(new java.awt.event.ActionListener() {
@@ -1094,7 +1285,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        nitroDisplayAreaData.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(102, 102, 102)));
+        nitroDisplayAreaData.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
         javax.swing.GroupLayout nitroDisplayAreaDataLayout = new javax.swing.GroupLayout(nitroDisplayAreaData);
         nitroDisplayAreaData.setLayout(nitroDisplayAreaDataLayout);
@@ -1107,7 +1298,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             .addGap(0, 188, Short.MAX_VALUE)
         );
 
-        jbAddTexToNsbtx.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
+        jbAddTexToNsbtx.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
         jbAddTexToNsbtx.setText("Add Texs & Pals to NSBTX");
         jbAddTexToNsbtx.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbAddTexToNsbtx.addActionListener(new java.awt.event.ActionListener() {
@@ -1116,7 +1307,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbRemoveTextures.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
+        jbRemoveTextures.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
         jbRemoveTextures.setText("Remove Tex & Pals from NSBTX");
         jbRemoveTextures.setToolTipText("");
         jbRemoveTextures.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -1126,7 +1317,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbRemoveAllUnusedTexPals.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
+        jbRemoveAllUnusedTexPals.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
         jbRemoveAllUnusedTexPals.setText("Removed All Unused Tex & Pals");
         jbRemoveAllUnusedTexPals.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbRemoveAllUnusedTexPals.addActionListener(new java.awt.event.ActionListener() {
@@ -1206,7 +1397,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("Selected Building Animations (bm_anime.narc)"));
 
-        jLabel11.setIcon(new ImageIcon(getClass().getResource("/icons/AnimationIcon.png"))); // NOI18N
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AnimationIcon.png"))); // NOI18N
         jLabel11.setText("Animation List:");
         jLabel11.setToolTipText("");
 
@@ -1216,7 +1407,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         jlAnimationsList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane5.setViewportView(jlAnimationsList);
 
-        jbAddAnim.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
+        jbAddAnim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
         jbAddAnim.setText("Add Animation");
         jbAddAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbAddAnim.addActionListener(new java.awt.event.ActionListener() {
@@ -1225,7 +1416,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbReplaceAnim.setIcon(new ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
+        jbReplaceAnim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
         jbReplaceAnim.setText("Replace Animation");
         jbReplaceAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbReplaceAnim.addActionListener(new java.awt.event.ActionListener() {
@@ -1234,7 +1425,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbRemoveAnim.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
+        jbRemoveAnim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
         jbRemoveAnim.setText("Remove Animation");
         jbRemoveAnim.setEnabled(false);
         jbRemoveAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -1244,7 +1435,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbExportAnimation.setIcon(new ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
+        jbExportAnimation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
         jbExportAnimation.setText("Export Animation");
         jbExportAnimation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbExportAnimation.addActionListener(new java.awt.event.ActionListener() {
@@ -1312,7 +1503,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder("Map Display"));
 
-        nitroDisplayMap.setBorder(javax.swing.BorderFactory.createLineBorder(new Color(102, 102, 102)));
+        nitroDisplayMap.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
         javax.swing.GroupLayout nitroDisplayMapLayout = new javax.swing.GroupLayout(nitroDisplayMap);
         nitroDisplayMap.setLayout(nitroDisplayMapLayout);
@@ -1325,7 +1516,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jbOpenMap.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
+        jbOpenMap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
         jbOpenMap.setText("Open Map");
         jbOpenMap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1386,7 +1577,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jbChooseModelBld.setIcon(new ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
+        jbChooseModelBld.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ReplaceIcon.png"))); // NOI18N
         jbChooseModelBld.setText("Change Model");
         jbChooseModelBld.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1394,7 +1585,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jLabel14.setForeground(new Color(204, 0, 0));
+        jLabel14.setForeground(new java.awt.Color(204, 0, 0));
         jLabel14.setText("X: ");
 
         jsBuildX.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(-16.0f), Float.valueOf(15.0f), Float.valueOf(1.0f)));
@@ -1404,7 +1595,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jLabel15.setForeground(new Color(51, 153, 0));
+        jLabel15.setForeground(new java.awt.Color(51, 153, 0));
         jLabel15.setText("Y: ");
 
         jsBuildY.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(-16.0f), Float.valueOf(15.0f), Float.valueOf(1.0f)));
@@ -1414,7 +1605,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jLabel16.setForeground(new Color(0, 0, 204));
+        jLabel16.setForeground(new java.awt.Color(0, 0, 204));
         jLabel16.setText("Z: ");
 
         jsBuildZ.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(-16.0f), Float.valueOf(15.0f), Float.valueOf(1.0f)));
@@ -1424,7 +1615,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jLabel17.setForeground(new Color(204, 0, 0));
+        jLabel17.setForeground(new java.awt.Color(204, 0, 0));
         jLabel17.setText("Scale X: ");
 
         jsBuildScaleX.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(15.0f), Float.valueOf(1.0f)));
@@ -1441,10 +1632,10 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             }
         });
 
-        jLabel18.setForeground(new Color(0, 153, 0));
+        jLabel18.setForeground(new java.awt.Color(0, 153, 0));
         jLabel18.setText("Scale Y: ");
 
-        jLabel19.setForeground(new Color(0, 0, 204));
+        jLabel19.setForeground(new java.awt.Color(0, 0, 204));
         jLabel19.setText("Scale Z: ");
 
         jsBuildScaleZ.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(15.0f), Float.valueOf(1.0f)));
@@ -1541,7 +1732,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jPanel18.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
-        jbImportBld.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
+        jbImportBld.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ImportTileIcon.png"))); // NOI18N
         jbImportBld.setText("Import BLD File");
         jbImportBld.setToolTipText("");
         jbImportBld.addActionListener(new java.awt.event.ActionListener() {
@@ -1551,7 +1742,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         });
         jPanel18.add(jbImportBld);
 
-        jbExportBld.setIcon(new ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
+        jbExportBld.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ExportIcon.png"))); // NOI18N
         jbExportBld.setText("Export BLD File");
         jbExportBld.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1562,7 +1753,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jPanel19.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
-        jbAddBuildBld.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
+        jbAddBuildBld.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AddIcon.png"))); // NOI18N
         jbAddBuildBld.setText("Add Building");
         jbAddBuildBld.setToolTipText("");
         jbAddBuildBld.addActionListener(new java.awt.event.ActionListener() {
@@ -1572,7 +1763,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         });
         jPanel19.add(jbAddBuildBld);
 
-        jbRemoveBld.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
+        jbRemoveBld.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png"))); // NOI18N
         jbRemoveBld.setText("Remove Building");
         jbRemoveBld.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1667,7 +1858,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
         jLabel21.setText("Models Selected:");
 
-        jcbModelsSelected.setModel(new DefaultComboBoxModel<>(new String[] { "Outdoor Models", "Indoor Models" }));
+        jcbModelsSelected.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Outdoor Models", "Indoor Models" }));
         jcbModelsSelected.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbModelsSelectedActionPerformed(evt);
@@ -2190,7 +2381,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         if (buildHandler.getBuildModelAnimeList() != null) {
             try {
                 ArrayList<Integer> animIDs = buildHandler.getBuildModelAnimeList().getAnimations().get(jlBuildModel.getSelectedIndex()).getAnimIDs();
-                BuildAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIDs.get(jlSelectedAnimationsList.getSelectedIndex()));
+                ModelAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIDs.get(jlSelectedAnimationsList.getSelectedIndex()));
 
                 loadAnimationInNitroDisplay(nitroDisplayGL, 0, anim);
 
@@ -2565,7 +2756,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             fc.setApproveButtonText("Save");
             fc.setDialogTitle("Save Building File");
             try {//TODO: Replace this with some index bounds cheking?
-                File file = new File(handler.getGrid().filePath);
+                File file = new File(handler.getMapMatrix().filePath);
                 String fileName = Utils.removeExtensionFromPath(file.getName()) + "." + BuildFile.fileExtension;
                 fc.setSelectedFile(new File(fileName));
             } catch (Exception ex) {
@@ -2797,14 +2988,18 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
     private void jcbUnknown1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbUnknown1ActionPerformed
         if (jcbUnknown1Enabled.value) {
             BuildAnimInfoHGSS info = buildHandler.getBuildModelAnimeList().getAnimations().get(jlBuildModel.getSelectedIndex());
-            info.setUnknown1(BuildAnimInfoHGSS.namesUnknown1Swap.get(jcbUnknown1.getSelectedItem()));
+            info.setDoorSound(BuildAnimInfoHGSS.namesDoorSoundSwap.get(jcbUnknown1.getSelectedItem()));
         }
     }//GEN-LAST:event_jcbUnknown1ActionPerformed
 
     private void jcbDynamicTexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDynamicTexActionPerformed
         if (jcbDynamicTexEnabled.value) {
             AreaDataHGSS areaData = buildHandler.getAreaDataList().getAreaDatas().get(jlAreaDataList.getSelectedIndex());
-            areaData.setDynamicTexType(AreaDataHGSS.namesDynamicTexTypeSwap.get(jcbDynamicTex.getSelectedItem()));
+            if(jcbDynamicTex.getSelectedIndex() == 0){
+                areaData.setDynamicTexType(65535);
+            }else{
+                areaData.setDynamicTexType(jcbDynamicTex.getSelectedIndex() - 1);
+            }
         }
     }//GEN-LAST:event_jcbDynamicTexActionPerformed
 
@@ -2910,35 +3105,171 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jbRemoveAllUnusedTexPalsActionPerformed
 
+    private void jbAddMapAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddMapAnimActionPerformed
+        if (buildHandler.getMapAnimations() != null) {
+            final JFileChooser fc = new JFileChooser();
+            if (handler.getLastBuildDirectoryUsed() != null) {
+                fc.setCurrentDirectory(new File(handler.getLastBuildDirectoryUsed()));
+            }
+            fc.setFileFilter(new FileNameExtensionFilter("Animation Files (*.nsbca, *.nsbta, *.nsbtp, *.nsbma)", "nsbca", "nsbta", "nsbtp", "nsbma"));
+            fc.setApproveButtonText("Open");
+            fc.setDialogTitle("Add a new Animation");
+            int returnVal = fc.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                try {
+                    handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
+
+                    buildHandler.addMapAnimationFile(fc.getSelectedFile().getPath());
+
+                    updateViewMapAnimationsList(jlMapAnimationsList.getModel().getSize());
+                    updateModelJcbMapAnimations();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "There was a problem reading the animation file",
+                            "Error opening animation file", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_jbAddMapAnimActionPerformed
+
+    private void jbReplaceMapAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbReplaceMapAnimActionPerformed
+        if (buildHandler.getMapAnimations() != null) {
+            final JFileChooser fc = new JFileChooser();
+            if (handler.getLastBuildDirectoryUsed() != null) {
+                fc.setCurrentDirectory(new File(handler.getLastBuildDirectoryUsed()));
+            }
+            fc.setFileFilter(new FileNameExtensionFilter("Animation Files (*.nsbca, *.nsbta, *.nsbtp, *.nsbma)", "nsbca", "nsbta", "nsbtp", "nsbma"));
+            fc.setApproveButtonText("Open");
+            fc.setDialogTitle("Select the new Animation");
+            int returnVal = fc.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                try {
+                    handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
+
+                    buildHandler.replaceMapAnimationFile(jlMapAnimationsList.getSelectedIndex(), fc.getSelectedFile().getPath());
+
+                    updateViewMapAnimationsList(jlMapAnimationsList.getSelectedIndex());
+                    updateModelJcbMapAnimations();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "There was a problem reading the animation file",
+                            "Error opening animation file", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_jbReplaceMapAnimActionPerformed
+
+    private void jbExportMapAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExportMapAnimActionPerformed
+        if (buildHandler.getMapAnimations() != null) {
+            final JFileChooser fc = new JFileChooser();
+            if (handler.getLastBuildDirectoryUsed() != null) {
+                fc.setCurrentDirectory(new File(handler.getLastBuildDirectoryUsed()));
+            }
+            String type = buildHandler.getMapAnimations().getAnimations().get(jlMapAnimationsList.getSelectedIndex()).getExtensionName();
+
+            fc.setFileFilter(new FileNameExtensionFilter(type.toUpperCase() + " (*." + type + ")", type));
+            fc.setApproveButtonText("Save");
+            fc.setDialogTitle("Save the Animation");
+            try {//TODO: Replace this with some index bounds cheking?
+                String fileName = buildHandler.getMapAnimations().getAnimations().get(jlMapAnimationsList.getSelectedIndex()).getName();
+                fc.setSelectedFile(new File(fileName + "." + type));
+            } catch (Exception ex) {
+
+            }
+            int returnVal = fc.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                try {
+                    handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
+
+                    if (!fc.getSelectedFile().getPath().isEmpty()) {
+                        buildHandler.saveAnimationFile(jlAnimationsList.getSelectedIndex(), fc.getSelectedFile().getPath());
+                    } else {
+                        JOptionPane.showMessageDialog(this, "The entered name must be valid",
+                                "Enter a valid name", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "There was a problem writing the Animation file",
+                            "Error writing Animation file", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_jbExportMapAnimActionPerformed
+
+    private void jbRemoveMapAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoveMapAnimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbRemoveMapAnimActionPerformed
+
+    private void jbOpenMap1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbOpenMap1ActionPerformed
+        final JFileChooser fc = new JFileChooser();
+        if (handler.getLastMapDirectoryUsed() != null) {
+            fc.setCurrentDirectory(new File(handler.getLastMapDirectoryUsed()));
+        }
+        fc.setFileFilter(new FileNameExtensionFilter("NSBMD (*.nsbmd)", "nsbmd"));
+        fc.setApproveButtonText("Open");
+        fc.setDialogTitle("Open Map's NSBMD");
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            try {
+                handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
+
+                byte[] mapData = Files.readAllBytes(fc.getSelectedFile().toPath());
+                nitroDisplayMapAnims.getObjectGL(0).setNsbmdData(mapData);
+
+                nitroDisplayMapAnims.requestUpdate();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                        "There was problem importing the map's NSBMD",
+                        "Can't import map", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_jbOpenMap1ActionPerformed
+
+    private void jbPlayMapAnimationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPlayMapAnimationActionPerformed
+        try {
+            ModelAnimation anim = buildHandler.getMapAnimations().getAnimations().get(jlMapAnimationsList.getSelectedIndex());
+
+            loadAnimationInNitroDisplay(nitroDisplayMapAnims, 0, anim);
+            if(anim.getAnimationType() == ModelAnimation.TYPE_NSBTA){
+                
+                nitroDisplayMapAnims.getObjectGL().enableNsbtaUseMaterialOrder();
+                nitroDisplayMapAnims.requestUpdate();
+                //nitroDisplayMapAnims.requestUpdate();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jbPlayMapAnimationActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JLabel jLabel1;
-    private JLabel jLabel10;
-    private JLabel jLabel11;
-    private JLabel jLabel12;
-    private JLabel jLabel13;
-    private JLabel jLabel14;
-    private JLabel jLabel15;
-    private JLabel jLabel16;
-    private JLabel jLabel17;
-    private JLabel jLabel18;
-    private JLabel jLabel19;
-    private JLabel jLabel2;
-    private JLabel jLabel20;
-    private JLabel jLabel21;
-    private JLabel jLabel22;
-    private JLabel jLabel23;
-    private JLabel jLabel24;
-    private JLabel jLabel25;
-    private JLabel jLabel26;
-    private JLabel jLabel27;
-    private JLabel jLabel28;
-    private JLabel jLabel3;
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JLabel jLabel6;
-    private JLabel jLabel8;
-    private JLabel jLabel9;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -2951,6 +3282,8 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -2966,6 +3299,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbAddAnim;
     private javax.swing.JButton jbAddAnimToBuild;
@@ -2974,6 +3308,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
     private javax.swing.JButton jbAddBuildToTset;
     private javax.swing.JButton jbAddBuilding;
     private javax.swing.JButton jbAddEmptyTileset;
+    private javax.swing.JButton jbAddMapAnim;
     private javax.swing.JButton jbAddMaterial;
     private javax.swing.JButton jbAddTexToNsbtx;
     private javax.swing.JButton jbAddTset;
@@ -2984,6 +3319,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
     private javax.swing.JButton jbExportAnimation;
     private javax.swing.JButton jbExportBld;
     private javax.swing.JButton jbExportBuilding;
+    private javax.swing.JButton jbExportMapAnim;
     private javax.swing.JButton jbExportTileset;
     private javax.swing.JButton jbFindBuilding;
     private javax.swing.JButton jbImportBld;
@@ -2991,7 +3327,9 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
     private javax.swing.JButton jbMoveMaterialDown;
     private javax.swing.JButton jbMoveMaterialUp;
     private javax.swing.JButton jbOpenMap;
+    private javax.swing.JButton jbOpenMap1;
     private javax.swing.JButton jbPlay;
+    private javax.swing.JButton jbPlayMapAnimation;
     private javax.swing.JButton jbRemoveAllUnusedTexPals;
     private javax.swing.JButton jbRemoveAnim;
     private javax.swing.JButton jbRemoveAnimToBuild;
@@ -2999,6 +3337,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
     private javax.swing.JButton jbRemoveBld;
     private javax.swing.JButton jbRemoveBuildToTset;
     private javax.swing.JButton jbRemoveBuilding;
+    private javax.swing.JButton jbRemoveMapAnim;
     private javax.swing.JButton jbRemoveMaterial;
     private javax.swing.JButton jbRemoveTextures;
     private javax.swing.JButton jbRemoveTset;
@@ -3006,26 +3345,28 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
     private javax.swing.JButton jbReplaceAnimToBuild;
     private javax.swing.JButton jbReplaceBuildToTset;
     private javax.swing.JButton jbReplaceBuilding;
+    private javax.swing.JButton jbReplaceMapAnim;
     private javax.swing.JButton jbReplaceTset;
     private javax.swing.JButton jbSaveAll;
     private javax.swing.JButton jbSetAnimation;
-    private JComboBox<String> jcbAnimType1;
-    private JComboBox<String> jcbAnimType2;
-    private JComboBox<String> jcbAreaLight;
-    private JComboBox<String> jcbAreaType;
-    private JComboBox<String> jcbDynamicTex;
-    private JComboBox<String> jcbLoopType;
-    private JComboBox<String> jcbModelsSelected;
-    private JComboBox<String> jcbNumAnims;
-    private JComboBox<String> jcbUnknown1;
-    private JList<String> jlAnimationsList;
-    private JList<String> jlAreaBuildList;
-    private JList<String> jlAreaDataList;
-    private JList<String> jlBuildFile;
-    private JList<String> jlBuildModel;
-    private JList<String> jlBuildTsetList;
-    private JList<String> jlMaterialOrder;
-    private JList<String> jlSelectedAnimationsList;
+    private javax.swing.JComboBox<String> jcbAnimType1;
+    private javax.swing.JComboBox<String> jcbAnimType2;
+    private javax.swing.JComboBox<String> jcbAreaLight;
+    private javax.swing.JComboBox<String> jcbAreaType;
+    private javax.swing.JComboBox<String> jcbDynamicTex;
+    private javax.swing.JComboBox<String> jcbLoopType;
+    private javax.swing.JComboBox<String> jcbModelsSelected;
+    private javax.swing.JComboBox<String> jcbNumAnims;
+    private javax.swing.JComboBox<String> jcbUnknown1;
+    private javax.swing.JList<String> jlAnimationsList;
+    private javax.swing.JList<String> jlAreaBuildList;
+    private javax.swing.JList<String> jlAreaDataList;
+    private javax.swing.JList<String> jlBuildFile;
+    private javax.swing.JList<String> jlBuildModel;
+    private javax.swing.JList<String> jlBuildTsetList;
+    private javax.swing.JList<String> jlMapAnimationsList;
+    private javax.swing.JList<String> jlMaterialOrder;
+    private javax.swing.JList<String> jlSelectedAnimationsList;
     private javax.swing.JSpinner jsBuildID;
     private javax.swing.JSpinner jsBuildScaleX;
     private javax.swing.JSpinner jsBuildScaleY;
@@ -3035,9 +3376,10 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
     private javax.swing.JSpinner jsBuildZ;
     private javax.swing.JTextField jtfBuildTset;
     private javax.swing.JTextField jtfMapTset;
-    private NitroDisplayGL nitroDisplayAreaData;
-    private NitroDisplayGL nitroDisplayGL;
-    private NitroDisplayGL nitroDisplayMap;
+    private renderer.NitroDisplayGL nitroDisplayAreaData;
+    private renderer.NitroDisplayGL nitroDisplayGL;
+    private renderer.NitroDisplayGL nitroDisplayMap;
+    private renderer.NitroDisplayGL nitroDisplayMapAnims;
     private editor.nsbtx2.NsbtxPanel nsbtxPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -3165,7 +3507,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             updateViewJCB(jcbAnimType2, jcbAnimType2Enabled, BuildAnimInfoHGSS.namesAnimType2, info.getAnimType2());
             updateViewJCB(jcbLoopType, jcbLoopEnabled, BuildAnimInfoHGSS.namesLoopType, info.getLoopType());
             updateViewJCB(jcbNumAnims, jcbNumAnimsEnabled, BuildAnimInfoHGSS.namesNumAnims, info.getNumAnims());
-            updateViewJCB(jcbUnknown1, jcbUnknown1Enabled, BuildAnimInfoHGSS.namesUnknown1, info.getUnknown1());
+            updateViewJCB(jcbUnknown1, jcbUnknown1Enabled, BuildAnimInfoHGSS.namesDoorSound, info.getDoorSound());
         } catch (Exception ex) {
 
         }
@@ -3180,6 +3522,31 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             jcb.setSelectedIndex(0);
         }
         jcbEnabled.value = true;
+    }
+    
+    private void updateModelJcbMapAnimations(){
+        jcbDynamicTexEnabled.value = false;
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        model.addElement("No Animations");
+        for(int i = 0; i < buildHandler.getMapAnimations().getAnimations().size(); i++){
+            model.addElement(buildHandler.getMapAnimations().getAnimations().get(i).getName());
+        }
+        jcbDynamicTex.setModel(model);
+        jcbDynamicTexEnabled.value = true;
+    }
+    
+    private void updateViewJcbMapAnimations(Integer value) {
+        jcbDynamicTexEnabled.value = false;
+        try {
+            if(value == 65535){
+                jcbDynamicTex.setSelectedIndex(0);
+            }else{
+                jcbDynamicTex.setSelectedIndex(value + 1);
+            }
+        } catch (Exception ex) {
+            jcbDynamicTex.setSelectedIndex(0);
+        }
+        jcbDynamicTexEnabled.value = true;
     }
 
     private void updateViewAreaDataList(int indexSelected) {
@@ -3201,7 +3568,8 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
             jtfMapTset.setText(String.valueOf(areaData.getMapTilesetID()));
             jcbAreaType.setSelectedIndex(Math.max(Math.min(1, areaData.getAreaType()), 0));
             jcbAreaLight.setSelectedIndex(Math.max(Math.min(2, areaData.getLightType()), 0));
-            updateViewJCB(jcbDynamicTex, jcbDynamicTexEnabled, AreaDataHGSS.namesDynamicTexType, areaData.getDynamicTexType());
+            updateViewJcbMapAnimations(areaData.getDynamicTexType());
+            //updateViewJCB(jcbDynamicTex, jcbDynamicTexEnabled, AreaDataHGSS.namesDynamicTexType, areaData.getDynamicTexType());
 
             jtfBuildTset.setBackground(whiteColor);
             jtfMapTset.setBackground(whiteColor);
@@ -3246,7 +3614,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
     private void updateViewAnimationsList(int indexSelected) {
         if (buildHandler.getBuildModelAnims() != null) {
             ArrayList<String> names = new ArrayList<>();
-            ArrayList<BuildAnimation> animations = buildHandler.getBuildModelAnims().getAnimations();
+            ArrayList<ModelAnimation> animations = buildHandler.getBuildModelAnims().getAnimations();
             animIconIndices = new ArrayList<>(animations.size());
             for (int i = 0; i < animations.size(); i++) {
                 names.add(String.valueOf(i) + ": "
@@ -3259,12 +3627,29 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         }
     }
 
+    private void updateViewMapAnimationsList(int indexSelected) {
+        if (buildHandler.getMapAnimations() != null) {
+            ArrayList<String> names = new ArrayList<>();
+            ArrayList<ModelAnimation> animations = buildHandler.getMapAnimations().getAnimations();
+            mapAnimIconIndices = new ArrayList<>(animations.size());
+            for (int i = 0; i < animations.size(); i++) {
+                names.add(String.valueOf(i) + ": "
+                        + animations.get(i).getName() + " ["
+                        + animations.get(i).getAnimationTypeName() + "]");
+                mapAnimIconIndices.add(animations.get(i).getAnimationType());
+            }
+            addElementsToList(jlMapAnimationsList, names, indexSelected);
+            jlMapAnimationsList.ensureIndexIsVisible(indexSelected);
+        }
+    }
+
     public void loadGame(String folderPath) {
         buildHandler.setGameFolderPath(folderPath);
         if (buildHandler.areAllFilesAvailable()) {
             try {
                 buildHandler.loadAllFiles();
 
+                updateModelJcbMapAnimations();
                 updateViewBuildModelList(0);
                 updateViewMaterialOrderList(0);
                 updateViewSelectedBuildAnimationsList(0);
@@ -3272,13 +3657,17 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
                 updateViewBuildTsetList(0);
                 updateViewAreaBuildList(0);
                 updateViewAnimationsList(0);
+                updateViewMapAnimationsList(0);
                 nitroDisplayGL.requestUpdate();
-
+                
+                
                 tryLoadBuildFile();
+                tryLoadMapAnimFile();
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "There was a problem reading some of the files.",
                         "Error opening game files", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Can't find some game files. \n"
@@ -3330,7 +3719,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
             try {
                 for (Integer animIndex : buildHandler.getBuildModelAnimeList().getAnimations().get(build.getModeID()).getAnimIDs()) {
-                    BuildAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIndex);
+                    ModelAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIndex);
                     loadAnimationInNitroDisplay(nitroDisplayMap, 1 + i, anim);
                 }
             } catch (Exception ex) {
@@ -3379,16 +3768,16 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         }
     }
 
-    private void loadAnimationInNitroDisplay(NitroDisplayGL display, int objectIndex, BuildAnimation anim) {
-        if (anim.getAnimationType() == BuildAnimation.TYPE_NSBCA) {
+    private void loadAnimationInNitroDisplay(NitroDisplayGL display, int objectIndex, ModelAnimation anim) {
+        if (anim.getAnimationType() == ModelAnimation.TYPE_NSBCA) {
             NSBCAreader reader = new NSBCAreader(new ByteReader(anim.getData()));
             display.getObjectGL(objectIndex).setNsbca((NSBCA) reader.readFile());
             display.requestUpdate();
-        } else if (anim.getAnimationType() == BuildAnimation.TYPE_NSBTA) {
+        } else if (anim.getAnimationType() == ModelAnimation.TYPE_NSBTA) {
             NSBTAreader reader = new NSBTAreader(new ByteReader(anim.getData()));
             display.getObjectGL(objectIndex).setNsbta((NSBTA) reader.readFile());
             display.requestUpdate();
-        } else if (anim.getAnimationType() == BuildAnimation.TYPE_NSBTP) {
+        } else if (anim.getAnimationType() == ModelAnimation.TYPE_NSBTP) {
             NSBTPreader reader = new NSBTPreader(new ByteReader(anim.getData()));
             display.getObjectGL(objectIndex).setNsbtp((NSBTP) reader.readFile());
             display.requestUpdate();
@@ -3402,7 +3791,7 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
 
     public void tryLoadBuildFile() {
         try {
-            File[] files = findFilesWithExtension(new File(handler.getGrid().filePath).getParent(), "nsbmd");
+            File[] files = findFilesWithExtension(new File(handler.getMapMatrix().filePath).getParent(), "nsbmd");
             if (files.length > 0) {
 
                 byte[] mapData = Files.readAllBytes(files[0].toPath());
@@ -3415,8 +3804,33 @@ public class BuildingEditorDialogHGSS extends javax.swing.JDialog {
         }
     }
 
+    public void tryLoadMapAnimFile() {
+        try {
+            String filePath = handler.getMapMatrix().getFilePathWithCoords(handler.getMapMatrix().getMatrix(),
+                    new File(handler.getMapMatrix().filePath).getParent(),
+                    new File(handler.getMapMatrix().filePath).getName(),
+                    handler.getMapSelected(), "nsbmd");
+
+            File file = new File(filePath);
+            if (file.exists()) {
+                byte[] mapData = Files.readAllBytes(file.toPath());
+                nitroDisplayMapAnims.getObjectGL(0).setNsbmdData(mapData);
+                nitroDisplayMapAnims.requestUpdate();
+            } else {
+                File[] files = findFilesWithExtension(new File(handler.getMapMatrix().filePath).getParent(), "nsbmd");
+                if (files.length > 0) {
+                    byte[] mapData = Files.readAllBytes(files[0].toPath());
+                    nitroDisplayMapAnims.getObjectGL(0).setNsbmdData(mapData);
+                    nitroDisplayMapAnims.requestUpdate();
+                }
+            }
+        } catch (Exception ex) {
+
+        }
+    }
+
     private void saveBuildings() throws IOException {
-        File file = new File(handler.getGrid().filePath);
+        File file = new File(handler.getMapMatrix().filePath);
         String path = file.getParent();
         String filename = Utils.removeExtensionFromPath(file.getName()) + "." + BuildFile.fileExtension;
         handler.getBuildings().saveToFile(path + File.separator + filename);

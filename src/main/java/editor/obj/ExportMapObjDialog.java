@@ -7,8 +7,8 @@ package editor.obj;
 
 import editor.tileseteditor.*;
 import java.awt.Color;
-import utils.SwingUtils;
-import utils.SwingUtils.MutableBoolean;
+import utils.swing.SwingUtils;
+import utils.swing.SwingUtils.MutableBoolean;
 
 /**
  *
@@ -42,13 +42,18 @@ public class ExportMapObjDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bgExportMap = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jcbVertexColors = new javax.swing.JCheckBox();
+        jrbExportAllMapsSeparately = new javax.swing.JRadioButton();
+        jrbExportCurrentMap = new javax.swing.JRadioButton();
+        jrbExportAllMapsJoined = new javax.swing.JRadioButton();
         jbAccept = new javax.swing.JButton();
         jbCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Import Tile Settings");
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Settings"));
 
@@ -60,20 +65,45 @@ public class ExportMapObjDialog extends javax.swing.JDialog {
             }
         });
 
+        bgExportMap.add(jrbExportAllMapsSeparately);
+        jrbExportAllMapsSeparately.setSelected(true);
+        jrbExportAllMapsSeparately.setText("Export All Maps Separately");
+        jrbExportAllMapsSeparately.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrbExportAllMapsSeparatelyActionPerformed(evt);
+            }
+        });
+
+        bgExportMap.add(jrbExportCurrentMap);
+        jrbExportCurrentMap.setText("Export Only Current Map");
+
+        bgExportMap.add(jrbExportAllMapsJoined);
+        jrbExportAllMapsJoined.setText("Export All Maps Joined");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jcbVertexColors)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jcbVertexColors)
+                    .addComponent(jrbExportAllMapsSeparately)
+                    .addComponent(jrbExportCurrentMap)
+                    .addComponent(jrbExportAllMapsJoined))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jcbVertexColors)
+                .addGap(18, 18, 18)
+                .addComponent(jrbExportAllMapsSeparately, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jrbExportAllMapsJoined)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jrbExportCurrentMap)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -101,7 +131,7 @@ public class ExportMapObjDialog extends javax.swing.JDialog {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbAccept, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
                         .addComponent(jbCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -134,12 +164,20 @@ public class ExportMapObjDialog extends javax.swing.JDialog {
         includeVertexColors = jcbVertexColors.isSelected();
     }//GEN-LAST:event_jcbVertexColorsActionPerformed
 
+    private void jrbExportAllMapsSeparatelyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbExportAllMapsSeparatelyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jrbExportAllMapsSeparatelyActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup bgExportMap;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbAccept;
     private javax.swing.JButton jbCancel;
     private javax.swing.JCheckBox jcbVertexColors;
+    private javax.swing.JRadioButton jrbExportAllMapsJoined;
+    private javax.swing.JRadioButton jrbExportAllMapsSeparately;
+    private javax.swing.JRadioButton jrbExportCurrentMap;
     // End of variables declaration//GEN-END:variables
 
     public int getReturnValue() {
@@ -148,6 +186,14 @@ public class ExportMapObjDialog extends javax.swing.JDialog {
 
     public boolean includeVertexColors(){
         return includeVertexColors;
+    }
+    
+    public boolean exportAllMapsSeparately(){
+        return jrbExportAllMapsSeparately.isSelected();
+    }
+    
+    public boolean exportAllMapsJoined(){
+        return jrbExportAllMapsJoined.isSelected();
     }
     
 }

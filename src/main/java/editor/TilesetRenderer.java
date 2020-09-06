@@ -34,6 +34,7 @@ import com.jogamp.opengl.GLDrawableFactory;
 import com.jogamp.opengl.GLException;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.awt.AWTGLReadBufferUtil;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import tileset.Tile;
 import tileset.Tileset;
@@ -75,6 +76,7 @@ public class TilesetRenderer {
             caps.setGreenBits(8);
             caps.setOnscreen(false);
             caps.setPBuffer(false);
+            //caps.setTransparentAlphaValue(0);//NEW CODE
 
             GLDrawableFactory factory = GLDrawableFactory.getFactory(glp);
 
@@ -86,6 +88,7 @@ public class TilesetRenderer {
 
             gl = drawable.getGL().getGL2();
 
+            //gl.glClearColor(0.0f, 0.5f, 0.5f, 0.0f); //Use this for transparent background
             gl.glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
 
             tileset.loadTexturesGL();
@@ -114,14 +117,15 @@ public class TilesetRenderer {
 
             setupVAOsVBOs(tile);
 
-            //drawTile(tile);
-            drawOpaqueTile(tile);
+            drawOpaqueTile(tile); //NEW CODE REMOVED Remove this for transparent background
             drawTransparentTile(tile);
 
             //BufferedImage img = new AWTGLReadBufferUtil(drawable.getGLProfile(), false).readPixelsToBufferedImage(drawable.getGL(), 0, 0, tile.getWidth() * tileSize, tile.getHeight() * tileSize, true /* awtOrientation */);
+            //BufferedImage img = new AWTGLReadBufferUtil(drawable.getGLProfile(), true).readPixelsToBufferedImage(drawable.getGL(), true /* awtOrientation */); //Use this for transparent background
             BufferedImage img = new AWTGLReadBufferUtil(drawable.getGLProfile(), false).readPixelsToBufferedImage(drawable.getGL(), true /* awtOrientation */);
             img = img.getSubimage(0, 0, tile.getWidth() * tileSize, tile.getHeight() * tileSize);
 
+            //tile.setThumbnail(Utils.addBackgroundColor(new Color(0.0f, 0.5f, 0.5f, 1.0f), img));//Use this for transparent background
             tile.setThumbnail(img);
             tile.setSmallThumbnail(Utils.resize(
                     img, smallTileSize * tile.getWidth(), smallTileSize * tile.getHeight()));

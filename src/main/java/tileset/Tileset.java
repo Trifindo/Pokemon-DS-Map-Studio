@@ -413,6 +413,12 @@ public class Tileset {
         return sgridArray;
     }
 
+    public void setSgridArray(ArrayList<SmartGrid> sgridArray) {
+        this.sgridArray = sgridArray;
+    }
+    
+    
+
     public ArrayList<TilesetMaterial> getMaterials() {
         return materials;
     }
@@ -421,4 +427,17 @@ public class Tileset {
         return materials.get(index);
     }
 
+    public int indexOfTileVisualData(Tile tile){
+        if (tile == null) {
+            for (int i = 0; i < tiles.size(); i++)
+                if (tiles.get(i)==null)
+                    return i;
+        } else {
+            for (int i = 0; i < tiles.size(); i++)
+                if (tile.equalsVisualData(tiles.get(i)))
+                    return i;
+        }
+        return -1;
+    }
+    
 }

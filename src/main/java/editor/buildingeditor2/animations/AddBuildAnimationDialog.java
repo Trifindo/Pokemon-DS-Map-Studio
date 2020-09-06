@@ -215,19 +215,19 @@ public class AddBuildAnimationDialog extends javax.swing.JDialog {
             object.setNsbtp(null);
             object.setNsbva(null);
             switch(buildAnimations.getAnimationType(indexSelected)){
-                case BuildAnimation.TYPE_NSBCA:
+                case ModelAnimation.TYPE_NSBCA:
                     object.setNsbcaData(animData);
                     break;
-                case BuildAnimation.TYPE_NSBTA:
+                case ModelAnimation.TYPE_NSBTA:
                     object.setNsbtaData(animData);
                     break;
-                case BuildAnimation.TYPE_NSBTP:
+                case ModelAnimation.TYPE_NSBTP:
                     object.setNsbtpData(animData);
                     break;
-                case BuildAnimation.TYPE_NSBMA:
+                case ModelAnimation.TYPE_NSBMA:
                     //object.setNsbData(animData);
                     break;
-                case BuildAnimation.TYPE_NSBVA:
+                case ModelAnimation.TYPE_NSBVA:
                     object.setNsbvaData(animData);
                     break;
             }
@@ -260,7 +260,7 @@ public class AddBuildAnimationDialog extends javax.swing.JDialog {
     private void updateViewAnimationsList(int indexSelected) {
         if (buildAnimations != null) {
             ArrayList<String> names = new ArrayList<>();
-            ArrayList<BuildAnimation> animations = buildAnimations.getAnimations();
+            ArrayList<ModelAnimation> animations = buildAnimations.getAnimations();
             animIconIndices = new ArrayList<>(animations.size());
             for (int i = 0; i < animations.size(); i++) {
                 names.add(String.valueOf(i) + ": "

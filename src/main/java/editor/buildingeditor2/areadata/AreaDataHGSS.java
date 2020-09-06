@@ -17,6 +17,7 @@ import utils.BinaryWriter;
  */
 public class AreaDataHGSS {
 
+    /*
     public static final Map<Integer, String> namesDynamicTexType = new HashMap<Integer, String>() {
         {
             put((Integer) 65535, "No Dynamic Textures");
@@ -25,7 +26,8 @@ public class AreaDataHGSS {
         }
     };
     public static final Map<String, Integer> namesDynamicTexTypeSwap = namesDynamicTexType.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
-
+    */
+    
     private int buildingTilesetID;
     private int mapTilesetID;
     private int dynamicTexType;

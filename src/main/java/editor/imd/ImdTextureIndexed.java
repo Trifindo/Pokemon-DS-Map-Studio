@@ -42,7 +42,7 @@ public class ImdTextureIndexed {
     public ImdTextureIndexed(TilesetMaterial material, ArrayList<Color> palette) {
         this.palette = palette;
 
-        System.out.println("Texture name: " + material.getImageName());
+        //System.out.println("Texture name: " + material.getImageName());
         BufferedImage img = fixImageSize(material.getTextureImg());
         width = img.getWidth();
         height = img.getHeight();

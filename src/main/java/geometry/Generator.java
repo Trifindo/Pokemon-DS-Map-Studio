@@ -38,6 +38,34 @@ public class Generator {
         return grid;
     }
     
+    
+    public static float[] generateGridColors(int cols, int rows, 
+            float[] rgbaTop, float[] rgbaBot, float[] rgbaLeft, float[] rgbaRight){
+        final int colorsPerVertex = 4;
+        final int vertexPerLine = 2;
+        final int numVertices = (cols + rows + 2) * colorsPerVertex * vertexPerLine;
+        float[] colors = new float[numVertices];
+        int c = 0;
+        for (int i = 0; i < rows + 1; i++) {
+            for(int j = 0; j < rgbaLeft.length; j++, c++){
+                colors[c] = rgbaLeft[j];
+            }
+            for(int j = 0; j < rgbaRight.length; j++, c++){
+                colors[c] = rgbaRight[j];
+            }
+        }
+        
+        for (int i = 0; i < cols + 1; i++) {
+            for(int j = 0; j < rgbaTop.length; j++, c++){
+                colors[c] = rgbaTop[j];
+            }
+            for(int j = 0; j < rgbaBot.length; j++, c++){
+                colors[c] = rgbaTop[j];
+            }
+        }
+        return colors;
+    }
+    
     public static float[] generateGrid(int cols, int rows, float size, float z) {
         float[] grid = new float[(cols + rows + 2) * 2 * 3];
         for (int i = 0; i < rows + 1; i++) {

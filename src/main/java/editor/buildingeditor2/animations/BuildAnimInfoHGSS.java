@@ -37,13 +37,13 @@ public class BuildAnimInfoHGSS {
         }
     };
 
-    public static final Map<Integer, String> namesUnknown1 = new HashMap<Integer, String>() {
+    public static final Map<Integer, String> namesDoorSound = new HashMap<Integer, String>() {
         {
-            put((Integer) 0, "0");
-            put((Integer) 1, "1");
-            put((Integer) 2, "2");
-            put((Integer) 3, "3");
-            put((Integer) 4, "4");
+            put((Integer) 0, "No sound");
+            put((Integer) 1, "Wooden Door");
+            put((Integer) 2, "Automatic Door");
+            put((Integer) 3, "Old door (?)");
+            put((Integer) 4, "Sliding Door");
         }
     };
 
@@ -67,7 +67,7 @@ public class BuildAnimInfoHGSS {
 
     public static final Map<String, Integer> namesAnimType1Swap = namesAnimType1.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
     public static final Map<String, Integer> namesLoopTypeSwap = namesLoopType.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
-    public static final Map<String, Integer> namesUnknown1Swap = namesUnknown1.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+    public static final Map<String, Integer> namesDoorSoundSwap = namesDoorSound.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
     public static final Map<String, Integer> namesNumAnimsSwap = namesNumAnims.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
     public static final Map<String, Integer> namesAnimType2Swap = namesAnimType2.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
 
@@ -76,7 +76,7 @@ public class BuildAnimInfoHGSS {
     private int animType1;//second byte: FF=no animation, 00=loop, 02=trigger(?), 03=trigger, 08=day/night cycle
     private int loopType; //fourth byte: 00=Loop, 01=Trigger
 
-    private int unknown1; //first byte; 00, 01, 02, 03
+    private int doorSound; //first byte; 00, 01, 02, 03
     private int numAnims; //third byte; Num animations (?)
     private int animType2; //fourth byte: 00=no animation, 01=loop animation, 02=trigger animation
 
@@ -84,7 +84,7 @@ public class BuildAnimInfoHGSS {
         animType1 = 0xFF;
         loopType = 0;
 
-        unknown1 = 0;
+        doorSound = 0;
         numAnims = 0;
         animType2 = 0;
     }
@@ -93,7 +93,7 @@ public class BuildAnimInfoHGSS {
         animType1 = BinaryReader.readUInt8(data, 1);
         loopType = BinaryReader.readUInt8(data, 3);
 
-        unknown1 = BinaryReader.readUInt8(data, 4);
+        doorSound = BinaryReader.readUInt8(data, 4);
         numAnims = BinaryReader.readUInt8(data, 6);
         animType2 = BinaryReader.readUInt8(data, 7);
 
@@ -115,7 +115,7 @@ public class BuildAnimInfoHGSS {
         }
         BinaryWriter.writeUInt8(data, 1, animType1);
         BinaryWriter.writeUInt8(data, 3, loopType);
-        BinaryWriter.writeUInt8(data, 4, unknown1);
+        BinaryWriter.writeUInt8(data, 4, doorSound);
         BinaryWriter.writeUInt8(data, 6, numAnims);
         BinaryWriter.writeUInt8(data, 7, animType2);
 
@@ -141,8 +141,8 @@ public class BuildAnimInfoHGSS {
         return animType1;
     }
 
-    public int getUnknown1() {
-        return unknown1;
+    public int getDoorSound() {
+        return doorSound;
     }
 
     public int getAnimType2() {
@@ -245,8 +245,8 @@ public class BuildAnimInfoHGSS {
         this.loopType = loopType;
     }
 
-    public void setUnknown1(int unknown1) {
-        this.unknown1 = unknown1;
+    public void setDoorSound(int doorSound) {
+        this.doorSound = doorSound;
     }
 
     public void setNumAnims(int numAnimations) {

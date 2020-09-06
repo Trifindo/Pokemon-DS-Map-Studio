@@ -11,7 +11,7 @@ repositories {
     }
 }
 
-version '1.19'
+version '2.0'
 mainClassName = "editor.MainFrame"
 
 compileJava.options.encoding = 'UTF-8'

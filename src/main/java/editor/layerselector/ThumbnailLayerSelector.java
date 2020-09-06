@@ -6,14 +6,20 @@
 package editor.layerselector;
 
 import editor.handler.MapEditorHandler;
-import editor.handler.MapGrid;
+import editor.grid.MapGrid;
 import editor.state.MapLayerState;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import javax.swing.AbstractAction;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 
 /**
@@ -28,6 +34,9 @@ public class ThumbnailLayerSelector extends javax.swing.JPanel {
     private static final int layerWidth = 64, layerHeight = 64;
     private static final int smallTileSize = 2;
     private static final Color backColor = new Color(0, 127, 127, 255);
+
+    private boolean hovering = false;
+    private int hoverIndex = 0;
 
     /**
      * Creates new form LayerSelector2
@@ -58,7 +67,15 @@ public class ThumbnailLayerSelector extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                formMouseMoved(evt);
+            }
+        });
         addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                formMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 formMousePressed(evt);
             }
@@ -81,21 +98,136 @@ public class ThumbnailLayerSelector extends javax.swing.JPanel {
             int index = evt.getY() / layerHeight;
             if (index >= 0 && index < MapGrid.numLayers) {
                 if (SwingUtilities.isLeftMouseButton(evt)) {
-                    if(!handler.isLayerChanged()){
+                    if (!handler.isLayerChanged()) {
                         handler.setLayerChanged(true);
                         handler.addMapState(new MapLayerState("Layer change", handler));
                     }
                     handler.setActiveTileLayer(index);
                 } else if (SwingUtilities.isRightMouseButton(evt)) {
-                    handler.invertLayerState(index);
+                    //LayerPopupMenu popupMenu = new LayerPopupMenu(index);
+                    //popupMenu.show(this, evt.getX(), evt.getY());
+
+                    JPopupMenu menu = new JPopupMenu();
+                    JMenuItem itemShowLayer = new JMenuItem("Show Layer");
+                    JMenuItem itemHideLayer = new JMenuItem("Hide Layer");
+                    JSeparator separator1 = new JSeparator();
+                    JMenuItem itemClearLayer = new JMenuItem("Clear Layer");
+                    JSeparator separator2 = new JSeparator();
+                    JMenuItem itemCopyLayer = new JMenuItem("Copy Layer");
+                    JMenuItem itemPasteLayer = new JMenuItem("Paste Layer");
+                    JMenuItem itemPasteTiles = new JMenuItem("Paste Tiles");
+                    JMenuItem itemPasteHeights = new JMenuItem("Paste Heights");
+
+                    itemShowLayer.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            handler.setLayerState(index, true);
+                            repaint();
+                            handler.getMainFrame().repaintMapDisplay();
+                        }
+                    });
+                    itemHideLayer.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            handler.setLayerState(index, false);
+                            repaint();
+                            handler.getMainFrame().repaintMapDisplay();
+                        }
+                    });
+                    itemClearLayer.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (handler.getTileset().size() > 0) {
+                                handler.clearLayer(index);
+                                //handler.getMainFrame().repaintMapDisplay();
+                            }
+                        }
+                    });
+                    itemCopyLayer.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (handler.getTileset().size() > 0) {
+                                handler.copyLayer(index);
+                                //handler.getMainFrame().repaintMapDisplay();
+                            }
+                        }
+                    });
+                    itemPasteLayer.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (handler.getTileset().size() > 0) {
+                                handler.pasteLayer(index);
+                                //handler.getGrid().pasteTileLayer(index);
+                                //handler.getGrid().pasteHeightLayer(index);
+                                //handler.getMainFrame().repaintMapDisplay();
+                            }
+                        }
+                    });
+                    itemPasteTiles.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (handler.getTileset().size() > 0) {
+                                handler.pasteLayerTiles(index);
+                                //handler.getGrid().pasteTileLayer(index);
+                                //handler.getMainFrame().repaintMapDisplay();
+                            }
+                        }
+                    });
+                    itemPasteHeights.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (handler.getTileset().size() > 0) {
+                                handler.pasteLayerHeights(index);
+                                //handler.getGrid().pasteHeightLayer(index);
+                                //handler.getMainFrame().repaintMapDisplay();
+                            }
+                        }
+                    });
+
+                    itemShowLayer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/turnOnIcon.png")));
+                    itemHideLayer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/turnOffIcon.png")));
+                    itemClearLayer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
+                    itemCopyLayer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/copyIcon.png")));
+                    itemPasteLayer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pasteIcon.png")));
+                    itemPasteTiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pasteTileIcon.png")));
+                    itemPasteHeights.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pasteHeightIcon.png")));
+
+                    menu.add(itemShowLayer);
+                    menu.add(itemHideLayer);
+                    menu.add(separator1);
+                    menu.add(itemClearLayer);
+                    menu.add(separator2);
+                    menu.add(itemCopyLayer);
+                    menu.add(itemPasteLayer);
+                    menu.add(itemPasteTiles);
+                    menu.add(itemPasteHeights);
+
+                    menu.show(this, evt.getX(), evt.getY());
+
+                    //handler.invertLayerState(index);
                 } else if (SwingUtilities.isMiddleMouseButton(evt)) {
                     handler.setOnlyActiveTileLayer(index);
                 }
-                handler.getMainFrame().repaintMapDisplay();
                 repaint();
+                handler.getMainFrame().repaintMapDisplay();
+
             }
         }
     }//GEN-LAST:event_formMousePressed
+
+    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+        int index = evt.getY() / layerHeight;
+        if (index >= 0 && index < MapGrid.numLayers) {
+            hovering = true;
+            hoverIndex = index;
+        }
+        repaint();
+    }//GEN-LAST:event_formMouseMoved
+
+    private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
+        hovering = false;
+        repaint();
+    }//GEN-LAST:event_formMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -132,6 +264,11 @@ public class ThumbnailLayerSelector extends javax.swing.JPanel {
 
         }
 
+        if (hovering) {
+            g.setColor(new Color(0.7f, 0.7f, 1.0f, 0.2f));
+            g.fillRect(0, hoverIndex * layerHeight, layerWidth - 1, layerHeight - 1);
+        }
+
     }
 
     public void drawAllLayerThumbnails() {
@@ -166,4 +303,33 @@ public class ThumbnailLayerSelector extends javax.swing.JPanel {
     public void init(MapEditorHandler handler) {
         this.handler = handler;
     }
+
+    class LayerPopupMenu extends JPopupMenu {
+
+        public LayerPopupMenu(int layerIndex) {
+            JMenuItem showLayer = new JMenuItem("Show Layer");
+            showLayer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    handler.setLayerState(layerIndex, true);
+                    repaint();
+                }
+            });
+            showLayer.setEnabled(!handler.renderLayers[layerIndex]);
+            add(showLayer);
+
+            JMenuItem hideLayer = new JMenuItem("Hide Layer");
+            hideLayer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    handler.setLayerState(layerIndex, false);
+                    repaint();
+                }
+            });
+            hideLayer.setEnabled(handler.renderLayers[layerIndex]);
+            add(hideLayer);
+
+        }
+    }
+
 }

@@ -102,9 +102,13 @@ public class TilesetMaterial {
         }
         final TilesetMaterial other = (TilesetMaterial) obj;
         
-        if (!Objects.equals(this.materialName, other.materialName)) {
+        if (!Objects.equals(this.imageName, other.imageName)) {
             return false;
         }
+        /*
+        if (!Objects.equals(this.materialName, other.materialName)) {
+            return false;
+        }*/
         return true;
     }
 

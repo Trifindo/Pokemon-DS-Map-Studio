@@ -6,7 +6,7 @@
 package editor.layerselector;
 
 import editor.handler.MapEditorHandler;
-import editor.handler.MapGrid;
+import editor.grid.MapGrid;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;

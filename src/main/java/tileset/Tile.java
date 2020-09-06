@@ -9,7 +9,6 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
-import editor.MainFrame;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -315,6 +314,76 @@ public class Tile {
         return true;
     }
 
+    public boolean equalsVisualData(Object obj) {
+        final Tile other = (Tile) obj;
+        if (this.width != other.width) {
+            return false;
+        }
+        if (this.height != other.height) {
+            return false;
+        }
+        if (this.xTileable != other.xTileable) {
+            return false;
+        }
+        if (this.yTileable != other.yTileable) {
+            return false;
+        }
+        if (this.uTileable != other.uTileable) {
+            return false;
+        }
+        if (this.vTileable != other.vTileable) {
+            return false;
+        }
+        if (this.globalTexMapping != other.globalTexMapping) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.globalTexScale) != Float.floatToIntBits(other.globalTexScale)) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.xOffset) != Float.floatToIntBits(other.xOffset)) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.yOffset) != Float.floatToIntBits(other.yOffset)) {
+            return false;
+        }
+        if (!Objects.equals(this.objFilename, other.objFilename)) {
+            return false;
+        }
+        if (!Objects.equals(this.vCoordsObj, other.vCoordsObj)) {
+            return false;
+        }
+        if (!Objects.equals(this.tCoordsObj, other.tCoordsObj)) {
+            return false;
+        }
+        if (!Objects.equals(this.nCoordsObj, other.nCoordsObj)) {
+            return false;
+        }
+        if (!Objects.equals(this.colorsObj, other.colorsObj)) {
+            return false;
+        }
+        if (!Arrays.equals(this.colorsTri, other.colorsTri)) {
+            return false;
+        }
+        if (!Arrays.equals(this.colorsQuad, other.colorsQuad)) {
+            return false;
+        }
+
+        for (int i = 0; i < textureIDs.size(); i++) {
+            try {
+                TilesetMaterial mat = tileset.getMaterial(textureIDs.get(i));
+                TilesetMaterial matOther = other.getTileset().getMaterial(other.getTextureIDs().get(i));
+                if (!mat.getImageName().equals(matOther.getImageName())) {
+                    return false;
+                }
+            } catch (Exception ex) {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
     private void loadFromObj(String folderPath, String objName) throws IOException,
             TextureNotFoundException, NormalsNotFoundException {
         vCoordsObj = new ArrayList<>();
@@ -374,7 +443,8 @@ public class Tile {
                     }
                 }
             } else if (lineObj.startsWith("usemtl")) {
-                String name = lineObj.split(" ")[1];
+                //String name = lineObj.split(" ")[1];
+                String name = lineObj.substring(lineObj.indexOf(" ") + 1, lineObj.length());
                 materialIndex = materialNames.indexOf(name);
                 if (materialIndex == -1) {
                     fIndsQuadArray.add(new ArrayList<>());
@@ -441,17 +511,28 @@ public class Tile {
         String lineMtl;
         while ((lineMtl = brMtl.readLine()) != null) {
             if (lineMtl.startsWith("newmtl")) {
-                String matName = lineMtl.split(" ")[1];
+                //String matName = lineMtl.split(" ")[1];
+                String matName = lineMtl.substring(lineMtl.indexOf(" ") + 1, lineMtl.length());
                 matIndex = materialNames.indexOf(matName);
             } else if (lineMtl.startsWith("map_Kd")) {
-                String textName = lineMtl.split(" ")[1];
+                //String textName = lineMtl.split(" ")[1];
+                String textName = lineMtl.substring(lineMtl.indexOf(" ") + 1, lineMtl.length());
                 int textIndex = tileset.getIndexOfMaterialByImgName(textName);
                 if (textIndex == -1) { //Not found
-                    if (new File(folderPath + "/" + textName).exists()) {
+                    if (new File(folderPath + "/" + textName).exists() || new File(textName).exists()) {
                         textureIDs.set(matIndex, tileset.getMaterials().size());
                         try {
                             TilesetMaterial material = new TilesetMaterial();
-                            material.loadTextureImgFromPath(folderPath + "/" + textName);
+                            try {
+                                material.loadTextureImgFromPath(folderPath + "/" + textName);//Relative path
+                            } catch (IOException ex) {
+                                try {
+                                    material.loadTextureImgFromPath(textName);//Absolute path
+                                    textName = new File(textName).getName();
+                                } catch (Exception ex2) {
+                                    throw new IOException();
+                                }
+                            }
                             material.setImageName(textName);
                             String textNameImd = Utils.removeExtensionFromPath(textName);
                             material.setMaterialName(textNameImd);
@@ -562,7 +643,7 @@ public class Tile {
         String line;
         while ((line = br.readLine()) != null) {
             if (line.startsWith(content)) {
-                if(!matLines.contains(line)){
+                if (!matLines.contains(line)) {
                     matLines.add(line);
                 }
                 //count++;
@@ -658,18 +739,18 @@ public class Tile {
         return tex;
     }
 
+    /*
     public static Texture loadTextureResource(String textureFileName) {
         Texture tex = null;
 
         try {
-            tex = TextureIO.newTexture(new File(MainFrame.class
+            tex = TextureIO.newTexture(new File(Tile.class
                     .getClassLoader().getResource(textureFileName).getFile()), false);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return tex;
-    }
-
+    }*/
     public boolean isTextureUsed(int index) {
         for (int i = 0; i < textureIDs.size(); i++) {
             if (textureIDs.get(i) == index) {

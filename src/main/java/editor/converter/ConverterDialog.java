@@ -6,7 +6,6 @@
 package editor.converter;
 
 import javax.swing.JOptionPane;
-import utils.HelpDialog;
 
 /**
  *

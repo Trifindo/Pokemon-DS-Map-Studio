@@ -90,8 +90,38 @@ public class Nsbtx2 {
         this.textures.add(texture);
     }
     
+    public void addTextureIfNameIsNotFound(NsbtxTexture texture){
+        if(!isTextureNameUsed(texture.getName())){
+            textures.add(texture);
+        }
+    }
+    
+    public boolean isTextureNameUsed(String name){
+        for(NsbtxTexture tex : textures){
+            if(tex.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void addPalette(NsbtxPalette palette){
         this.palettes.add(palette);
+    }
+    
+    public void addPaletteIfNameIsNotFound(NsbtxPalette palette){
+        if(!isPaletteNameUsed(palette.getName())){
+            palettes.add(palette);
+        }
+    }
+    
+    public boolean isPaletteNameUsed(String name){
+        for(NsbtxPalette tex : palettes){
+            if(tex.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
     
     public BufferedImage getImage(int textureIndex, int paletteIndex) {

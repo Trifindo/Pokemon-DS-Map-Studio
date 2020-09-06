@@ -6,7 +6,7 @@
 package editor.smartdrawing;
 
 import editor.handler.MapEditorHandler;
-import editor.handler.MapGrid;
+import editor.grid.MapGrid;
 import java.util.ArrayList;
 import tileset.Tile;
 

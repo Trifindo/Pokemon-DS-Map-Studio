@@ -483,7 +483,7 @@ public class GameTsetSelectorDialog extends javax.swing.JDialog {
         } catch (URISyntaxException ex) {*/
         try {
             //mainFolder = new File(MainFrame.class.getClass().getResource(root).getFile());
-            mainFolder = new File(MainFrame.class.getResource(root).getFile());
+            mainFolder = new File(GameTsetSelectorDialog.class.getResource(root).getFile());
             //mainFolder = getFileFromURL(root);
         } catch (NullPointerException ex) {
             return new ArrayList<>();
@@ -517,7 +517,7 @@ public class GameTsetSelectorDialog extends javax.swing.JDialog {
         } catch (URISyntaxException ex) {*/
         try {
             //mainFloder = new File(MainFrame.class.getClass().getResource(root).getFile());
-            mainFolder = new File(MainFrame.class.getResource(root).getFile());
+            mainFolder = new File(GameTsetSelectorDialog.class.getResource(root).getFile());
             //mainFolder = getFileFromURL(root);
         } catch (NullPointerException ex) {
             return null;

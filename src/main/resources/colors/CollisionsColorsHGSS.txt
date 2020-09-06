@@ -15,7 +15,7 @@
 0x0E #FFFFFF ???
 0x0F #FFFFFF ???
 0x10 #0099FF LakeWater
-0x11 #FFFFFF ???
+0x11 #0F59FF Whirlpool
 0x12 #FFFFFF ???
 0x13 #8FE1EC Waterfall
 0x14 #FFFFFF ???
@@ -32,9 +32,9 @@
 0x1F #FFFFFF ???
 0x20 #00FFFF Ice
 0x21 #FFFF99 Sand
-0x22 #FFFFFF ???
+0x22 #335487 Cave underwater
 0x23 #FFFFFF ???
-0x24 #FFFFFF ???
+0x24 #148448 Safari map border
 0x25 #FFFFFF ???
 0x26 #FFFFFF ???
 0x27 #FFFFFF ???
@@ -42,14 +42,14 @@
 0x29 #FFFFFF ???
 0x2A #FFFFFF ???
 0x2B #FFFFFF ???
-0x2C #FFFFFF ???
-0x2D #FFFFFF ???
+0x2C #7F0000 Magma
+0x2D #AAE0E0 Reflection
 0x2E #FFFFFF ???
 0x2F #FFFFFF ???
-0x30 #FFFFFF ???
-0x31 #FFFFFF ???
-0x32 #FFFFFF ???
-0x33 #FFFFFF ???
+0x30 #FF0000 Collision right
+0x31 #FF0000 Collision left
+0x32 #FF0000 Collision up
+0x33 #FF0000 Collision down
 0x34 #FFFFFF ???
 0x35 #FFFFFF ???
 0x36 #FFFFFF ???
@@ -58,14 +58,14 @@
 0x39 #8A4B08 JumpLeft
 0x3A #8A4B08 JumpUp
 0x3B #8A4B08 JumpDown
-0x3C #9900FF LadderStairsUp
-0x3D #FFFFFF ???
+0x3C #9900FF LadderStairsFront
+0x3D #9900FF LadderStairsBack
 0x3E #9900FF LadderStairsDown
 0x3F #8A4B08 JumpCornerDownLeft
-0x40 #FF00DC SlideRight
-0x41 #FF00DC SlideLeft
-0x42 #FF00DC SlideUp
-0x43 #FF00DC SlideDown
+0x40 #FF00DC Slide right
+0x41 #FF00DC Slide left
+0x42 #FF00DC Slide up
+0x43 #FF00DC Slide down
 0x44 #FFFFFF ???
 0x45 #FFFFFF ???
 0x46 #FFFFFF ???
@@ -73,9 +73,9 @@
 0x48 #FFFFFF ???
 0x49 #FFFFFF ???
 0x4A #FFFFFF ???
-0x4B #7D5858 VerticalMountainClimb
-0x4C #7D5858 HorizontalMountainClimb
-0x4D #FFFFFF ???
+0x4B #7D5858 Vertical mountain climb
+0x4C #7D5858 Horizontal mountain climb
+0x4D #FF00DC Stop sliding
 0x4E #FFFFFF ???
 0x4F #FFFFFF ???
 0x50 #FFFFFF ???
@@ -104,35 +104,35 @@
 0x67 #9900FF Teleport
 0x68 #FFFFFF ???
 0x69 #9900FF WarpDoor
-0x6A #FFFFFF ???
-0x6B #FFFFFF ???
-0x6C #9900FF WarpRight
-0x6D #9900FF WarpLeft
-0x6E #9900FF WarpUp
-0x6F #9900FF WarpDown
-0x70 #FF9900 BridgeStart
-0x71 #FF9900 BridgeMiddle
-0x72 #FF9900 BridgeOverCave
-0x73 #FF9900 BridgeOverWater
+0x6A #9969C9 Mechanic stairs down right
+0x6B #9969C9 Mechanic stairs up right
+0x6C #9900FF Warp right
+0x6D #9900FF Warp left
+0x6E #9900FF Warp up
+0x6F #9900FF Warp down
+0x70 #FF9900 Bridge start
+0x71 #FF9900 Bridge middle
+0x72 #FF9900 Bridge over encounters
+0x73 #FF9900 Bridge over water
 0x74 #FFFFFF ???
-0x75 #FF9900 BridgeOverSnow
-0x76 #FF9900 VerticalBikeBridge
+0x75 #FF9900 Bridge over snow
+0x76 #FF9900 Vertical bike bridge
 0x77 #FFFFFF ???
 0x78 #FFFFFF ???
-0x79 #FF9900 VerticalBikeBridgeOverSand
-0x7A #FF9900 HorizontalBikeBridge
+0x79 #FF9900 Vertical bike bridge over sand
+0x7A #FF9900 Horizontal bike bridge
 0x7B #FFFFFF ???
-0x7C #FF9900 HorizantalBikeBridgeOverWater
-0x7D #FF9900 HorizantalBikeBridgeOverSand
+0x7C #FF9900 Horizantal bike bridge over water
+0x7D #FF9900 Horizantal bike bridge over sand
 0x7E #FFFFFF ???
 0x7F #FFFFFF ???
 0x80 #CECA5F Table
 0x81 #FFFFFF ???
 0x82 #FFFFFF ???
-0x83 #FFFFFF ???
+0x83 #00FF21 Activate PC
 0x84 #FFFFFF ???
-0x85 #FFFFFF ???
-0x86 #FFFFFF ???
+0x85 #00FF21 Open worldmap
+0x86 #00FF21 TV
 0x87 #FFFFFF ???
 0x88 #FFFFFF ???
 0x89 #FFFFFF ???
@@ -226,8 +226,8 @@
 0xE1 #7F0037 HauntedMansionFurniture(???)
 0xE2 #FFFFFF ???
 0xE3 #FFFFFF ???
-0xE4 #7F0037 RelatedWithHauntedMansion(???)
-0xE5 #FFFFFF ???
+0xE4 #7F0037 Trash can
+0xE5 #7F0037 Pokemon shop items
 0xE6 #FFFFFF ???
 0xE7 #FFFFFF ???
 0xE8 #FFFFFF ???

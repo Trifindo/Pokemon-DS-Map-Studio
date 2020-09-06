@@ -24,6 +24,8 @@ public class GameFileSystemHGSS extends GameFileSystem {
     private final String buildModelRoomPath;
     private final String buildModelRoomMatshpPath;//
     private final String buildModelRoomAnimeListPath;//
+    
+    private final String mapAnimationsPath;
 
     public GameFileSystemHGSS() {
         buildModelPath = getPath(new String[]{"data", "a", "0", "4", "0"});
@@ -37,6 +39,8 @@ public class GameFileSystemHGSS extends GameFileSystem {
         buildModelRoomPath = getPath(new String[]{"data", "a", "1", "4", "8"});
         buildModelRoomMatshpPath = getPath(new String[]{"data", "fielddata", "build_model", "bm_room_matshp.dat"});
         buildModelRoomAnimeListPath = getPath(new String[]{"data", "a", "1", "0", "8"});
+        
+        mapAnimationsPath = getPath(new String[]{"data", "a", "1", "4", "0"});
     }
 
     public String getAreaDataPath() {
@@ -78,6 +82,11 @@ public class GameFileSystemHGSS extends GameFileSystem {
     public String getBuildModelRoomPath() {
         return buildModelRoomPath;
     }
+
+    public String getMapAnimationsPath() {
+        return mapAnimationsPath;
+    }
+    
     
     
 

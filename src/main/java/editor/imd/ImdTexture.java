@@ -38,7 +38,7 @@ public class ImdTexture {
     private boolean isTransparent = false;
 
     public ImdTexture(TilesetMaterial material) {
-        System.out.println("Texture name: " + material.getImageName());
+        //System.out.println("Texture name: " + material.getImageName());
         BufferedImage img = fixImageSize(material.getTextureImg());
         width = img.getWidth();
         height = img.getHeight();

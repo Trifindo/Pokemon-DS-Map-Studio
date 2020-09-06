@@ -5,8 +5,6 @@
  */
 package utils;
 
-import editor.MainFrame;
-import editor.handler.MapGrid;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
@@ -14,6 +12,9 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
@@ -29,7 +30,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import tileset.Face;
-import tileset.Tile;
 
 /**
  *
@@ -40,7 +40,7 @@ public class Utils {
     public static String[] readShaderAsResource(String filename) {
         Vector lines = new Vector();
         Scanner sc;
-        sc = new Scanner(MainFrame.class.getClassLoader().getResourceAsStream(filename));
+        sc = new Scanner(Utils.class.getClassLoader().getResourceAsStream(filename));
 
         while (sc.hasNext()) {
             lines.addElement(sc.nextLine());
@@ -59,7 +59,7 @@ public class Utils {
     public static BufferedImage loadTexImageAsResource(String path) {
         BufferedImage img = null;
         try {
-            img = ImageIO.read(MainFrame.class.getResource(path));
+            img = ImageIO.read(Utils.class.getResource(path));
         } catch (IOException | IllegalArgumentException ex) {
             int size = 64;
             img = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
@@ -78,7 +78,7 @@ public class Utils {
     }
 
     public static BufferedImage loadImageAsResource(String path) throws IOException, IllegalArgumentException {
-        BufferedImage img = ImageIO.read(MainFrame.class.getResource(path));
+        BufferedImage img = ImageIO.read(Utils.class.getResource(path));
         return img;
     }
 
@@ -108,6 +108,76 @@ public class Utils {
         }
 
         return array;
+    }
+
+    public static float imageDifferenceNorm(BufferedImage img1, BufferedImage img2) {
+        float totalDiff = 0.0f;
+        try {
+            for (int i = 0; i < img1.getWidth(); i++) {
+                for (int j = 0; j < img1.getHeight(); j++) {
+                    int c1 = img1.getRGB(i, j);
+                    int c2 = img2.getRGB(i, j);
+
+                    totalDiff += Math.abs((((c1 & 0x00FF0000)>> 16) - ((c2 & 0x00FF0000)>> 16)));
+                    totalDiff += Math.abs((((c1 & 0x0000FF00)>> 8) - ((c2 & 0x0000FF00)>> 8)));
+                    totalDiff += Math.abs(((c1 & 0x000000FF) - (c2 & 0x000000FF)));
+                }
+            }
+            return totalDiff / (img1.getWidth() * img1.getHeight() * 255 * 3);
+        } catch (Exception ex) {
+            return 1.0f;
+        }
+    }
+
+    public static BufferedImage addBackgroundColor(Color color, BufferedImage img) {
+        BufferedImage newImg = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
+
+        Graphics g = newImg.getGraphics();
+
+        g.setColor(color);
+        g.fillRect(0, 0, newImg.getWidth(), newImg.getHeight());
+        g.drawImage(img, 0, 0, null);
+
+        return newImg;
+    }
+    
+    public static BufferedImage[] imageToImageArray(BufferedImage img, int cols, int rows) {
+        int width = img.getWidth() / cols;
+        int height = img.getHeight() / rows;
+        BufferedImage[] array = new BufferedImage[cols * rows];
+        for(int i = 0; i < cols; i++){
+            for(int j = 0; j < rows; j++){
+                array[i * rows + (cols - j - 1)] = img.getSubimage(i * width, j * height, width, height);
+            }
+        }
+        return array;
+    }
+
+    public static BufferedImage getImageFromClipboard() {
+        try {
+            Transferable transferable = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+            if (transferable != null && transferable.isDataFlavorSupported(DataFlavor.imageFlavor)) {
+                Image img = (Image) transferable.getTransferData(DataFlavor.imageFlavor);
+                return toBufferedImage(img);
+            }
+            return null;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static BufferedImage toBufferedImage(Image img) {
+        if (img instanceof BufferedImage) {
+            return (BufferedImage) img;
+        }
+
+        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D bGr = bimage.createGraphics();
+        bGr.drawImage(img, 0, 0, null);
+        bGr.dispose();
+
+        return bimage;
     }
 
     public static float[] floatListToArray(ArrayList<Float> list) {
@@ -172,6 +242,44 @@ public class Utils {
             path = path.concat("." + extension);
         }
         return path;
+    }
+
+    public static String removeMapCoordsFromName(String name) {
+        try {
+            if (nameHasMapCoords(name)) {
+                String[] splitString = name.split("_");
+                String newName = "";
+                for (int i = 0; i < splitString.length - 3; i++) {
+                    newName += splitString[i] + "_";
+                }
+                newName += splitString[splitString.length - 3];
+                return newName;
+            } else {
+                return name;
+            }
+        } catch (Exception ex) {
+            return name;
+        }
+    }
+
+    private static boolean nameHasMapCoords(String fileName) {
+        String name = Utils.removeExtensionFromPath(fileName);
+        try {
+            String[] splittedName = name.split("_");
+            return canParseInteger(splittedName[splittedName.length - 1])
+                    && canParseInteger(splittedName[splittedName.length - 2]);
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    private static boolean canParseInteger(String string) {
+        try {
+            Integer.parseInt(string);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     public static String removeLastOcurrences(String string, char c) {
@@ -413,6 +521,10 @@ public class Utils {
     }
 
     public static Cursor loadCursor(String path) {
+        return loadCursor(path, new Point(0, 0));
+    }
+
+    public static Cursor loadCursor(String path, Point hotSpot) {
         Image img = Utils.loadTexImageAsResource(path);
         if (img != null) {
             return Toolkit.getDefaultToolkit().createCustomCursor(

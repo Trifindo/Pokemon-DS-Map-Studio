@@ -17,8 +17,8 @@ public class BoxTest extends ImdNode{
     
     public BoxTest(int posScale, float[] xyz, float[] whd) {
         super("box_test");
-        System.out.println("Box test xyz: " + xyz[0] + " "+ xyz[1] + " "+ xyz[2]);
-        System.out.println("Box test whd: " + whd[0] + " "+ whd[1] + " "+ whd[2]);
+        //System.out.println("Box test xyz: " + xyz[0] + " "+ xyz[1] + " "+ xyz[2]);
+        //System.out.println("Box test whd: " + whd[0] + " "+ whd[1] + " "+ whd[2]);
         attributes = new ArrayList<ImdAttribute>() {
             {
                 add(new ImdAttribute("pos_scale", posScale));

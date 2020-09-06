@@ -6,8 +6,8 @@
 package editor.tileseteditor;
 
 import java.awt.Color;
-import utils.SwingUtils;
-import utils.SwingUtils.MutableBoolean;
+import utils.swing.SwingUtils;
+import utils.swing.SwingUtils.MutableBoolean;
 
 /**
  *

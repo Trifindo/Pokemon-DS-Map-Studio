@@ -6,7 +6,9 @@
 package editor.smartdrawing;
 
 import editor.handler.MapEditorHandler;
-import editor.handler.MapGrid;
+import editor.grid.MapGrid;
+import editor.mapdisplay.MapDisplay;
+import editor.mapdisplay.ViewMode;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -101,7 +103,6 @@ public class SmartGridDisplay extends javax.swing.JPanel {
                         }
                     } else {
                         handler.setSmartGridIndexSelected(gridIndex);
-                        handler.getMainFrame().getMapDisplay().enableSmartGrid();
                         repaint();
                     }
                 }
@@ -153,8 +154,14 @@ public class SmartGridDisplay extends javax.swing.JPanel {
                 int gridIndex = y / SmartGrid.height;
                 if (gridIndex < handler.getSmartGridArray().size() && gridIndex >= 0) {
                     handler.setSmartGridIndexSelected(gridIndex);
-                    handler.getMainFrame().getMapDisplay().enableSmartGrid();
                     repaint();
+
+                    if (handler.getMainFrame().getMapDisplay().getViewMode().getViewID() == ViewMode.ViewID.VIEW_ORTHO) {
+                        if (handler.getMainFrame().getMapDisplay().getEditMode() != MapDisplay.EditMode.MODE_INV_SMART_PAINT) {
+                            handler.getMainFrame().getMapDisplay().setEditMode(MapDisplay.EditMode.MODE_SMART_PAINT);
+                            handler.getMainFrame().getJtbModeSmartPaint().setSelected(true);
+                        }
+                    }
                 }
             }
         }
