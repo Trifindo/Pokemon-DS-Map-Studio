@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import utils.BinaryReader;
 import utils.BinaryWriter;
+import utils.Utils;
 
 /**
  *
@@ -85,6 +86,10 @@ public class BuildFile {
     }
 
     public void saveToFile(String path) throws IOException {
+        if(!path.endsWith("." + fileExtension)){
+            path = Utils.removeExtensionFromPath(path);
+            path += "." + fileExtension;
+        }
         try (FileOutputStream fos = new FileOutputStream(path)) {
             fos.write(toByteArray());
         } catch (Exception ex) {
