@@ -2251,12 +2251,12 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jcbShadingEnabledActionPerformed
 
     private void jbMoveSPaintUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMoveSPaintUpActionPerformed
-        handler.moveSelectedSmartGridUp();
+        smartGridEditableDisplay.moveSelectedSmartGridUp();
         smartGridEditableDisplay.repaint();
     }//GEN-LAST:event_jbMoveSPaintUpActionPerformed
 
     private void jbMoveSPaintDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMoveSPaintDownActionPerformed
-        handler.moveSelectedSmartGridDown();
+        smartGridEditableDisplay.moveSelectedSmartGridDown();
         smartGridEditableDisplay.repaint();
     }//GEN-LAST:event_jbMoveSPaintDownActionPerformed
 
@@ -2264,9 +2264,11 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
         if (handler.getTileset().size() > 0) {
             int gridIndex = handler.getSmartGridIndexSelected();
             try {
-                handler.getSmartGridArray().add(gridIndex, new SmartGrid());
+                smartGridEditableDisplay.getSmartGridArray().add(gridIndex, new SmartGridEditable());
+                //handler.getSmartGridArray().add(gridIndex, new SmartGrid());
             } catch (IndexOutOfBoundsException ex) {
-                handler.getSmartGridArray().add(new SmartGrid());
+                smartGridEditableDisplay.getSmartGridArray().add(new SmartGridEditable());
+                //handler.getSmartGridArray().add(new SmartGrid());
             }
             smartGridEditableDisplay.updateSize();
             smartGridEditableDisplay.repaint();
@@ -2274,13 +2276,15 @@ public class TilesetEditorDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jbAddSmartGridActionPerformed
 
     private void jbRemoveSmartGridActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoveSmartGridActionPerformed
-        if (handler.getTileset().size() > 0 && handler.getSmartGridArray().size() > 1) {
+        if (handler.getTileset().size() > 0 && smartGridEditableDisplay.getSmartGridArray().size() > 1) {
             int gridIndex = handler.getSmartGridIndexSelected();
-            if (gridIndex >= 0 && gridIndex < handler.getSmartGridArray().size()) {
-                handler.getSmartGridArray().remove(gridIndex);
+            if (gridIndex >= 0 && gridIndex < smartGridEditableDisplay.getSmartGridArray().size()) {
+                smartGridEditableDisplay.getSmartGridArray().remove(gridIndex);
                 handler.setSmartGridIndexSelected(Math.max(0, gridIndex - 1));
-                //smartGridDisplay.updateSize();
-                //smartGridDisplay.repaint();
+                smartGridEditableDisplay.updateSize();
+                smartGridEditableDisplay.repaint();
+                //handler.getSmartGridArray().remove(gridIndex);
+                //handler.setSmartGridIndexSelected(Math.max(0, gridIndex - 1));
             }
         }
     }//GEN-LAST:event_jbRemoveSmartGridActionPerformed
