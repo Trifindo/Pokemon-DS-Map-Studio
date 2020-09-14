@@ -305,127 +305,11 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     @Override
     public void mousePressed(MouseEvent e) {
         viewMode.mousePressed(this, e);
-
-        /*
-        if (viewMode == ViewMode.VIEW_ORTHO || viewMode == ViewMode.VIEW_HEIGHT) {
-            if (cameraMoveEnabled) {
-                if (SwingUtilities.isLeftMouseButton(e) || SwingUtilities.isMiddleMouseButton(e)) {
-                    lastMouseX = e.getX();
-                    lastMouseY = e.getY();
-                }
-            } else {
-                if (handler.getTileset().size() > 0) {
-                    setMapSelected(e);
-                    handler.setLayerChanged(false);
-                    if (drawHeightMap) {
-                        if (SwingUtilities.isLeftMouseButton(e)) {
-                            handler.addMapState(new MapLayerState("Draw Height", handler));
-                            setHeightInGrid(e, handler.getHeightSelected());
-                            updateActiveMapLayerGL();
-                            repaint();
-                        } else if (SwingUtilities.isMiddleMouseButton(e)) {
-                            handler.addMapState(new MapLayerState("Flood Fill Height", handler));
-                            floodFillHeightInGrid(e);
-                            updateActiveMapLayerGL();
-                            repaint();
-                        } else if (SwingUtilities.isRightMouseButton(e)) {
-                            setHeightIndexFromGrid(e);
-                            updateActiveMapLayerGL();
-                            repaint();
-                            handler.getMainFrame().repaintHeightSelector();
-                        }
-                    } else {
-                        if (SwingUtilities.isLeftMouseButton(e)) {
-                            if (smartGridEnabled) {
-                                handler.addMapState(new MapLayerState("Smart Drawing Tile", handler));
-                                smartFillTileInGrid(e);
-                                disableSmartGrid();
-                                updateActiveMapLayerGL();
-                                repaint();
-                            } else if (clearTileEnabled) {
-                                handler.addMapState(new MapLayerState("Clear Tile", handler));
-                                clearTileInGrid(e);
-                                updateActiveMapLayerGL();
-                                repaint();
-                            } else {
-                                dragStart = getCoordsInSelectedMap(e);
-                                handler.addMapState(new MapLayerState("Draw Tile", handler));
-                                setTileInGrid(e);
-                                updateActiveMapLayerGL();
-                                repaint();
-                            }
-                        } else if (SwingUtilities.isMiddleMouseButton(e)) {
-                            if (clearTileEnabled) {
-                                handler.addMapState(new MapLayerState("Flood Fill Clear Tile", handler));
-                                floodFillClearTileInGrid(e);
-                                updateActiveMapLayerGL();
-                                repaint();
-                            } else {
-                                handler.addMapState(new MapLayerState("Flood Fill Tile", handler));
-                                floodFillTileInGrid(e);
-                                updateActiveMapLayerGL();
-                                repaint();
-                            }
-                        } else if (SwingUtilities.isRightMouseButton(e)) {
-                            setTileIndexFromGrid(e);
-                            repaint();
-                            handler.getMainFrame().repaintTileSelector();
-                            handler.getMainFrame().updateTileSelectorScrollBar();
-                            handler.getMainFrame().repaintTileDisplay();
-                        }
-                    }
-                }
-            }
-        } else {
-            lastMouseX = e.getX();
-            lastMouseY = e.getY();
-        }
-         */
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         viewMode.mouseReleased(this, e);
-        /*
-        switch (viewModeEnum) {
-            case VIEW_ORTHO:
-            case VIEW_HEIGHT:
-                switch (editMode) {
-                    case MODE_CLEAR:
-                        handler.getMapMatrix().removeUnusedMaps();
-                        break;
-                }
-                handler.updateLayerThumbnail(handler.getActiveLayerIndex());
-                handler.repaintThumbnailLayerSelector();
-
-                editedMapCoords.add(handler.getMapSelected());
-                handler.updateMapThumbnails(editedMapCoords);
-                editedMapCoords = new HashSet<>();
-
-                handler.getMainFrame().updateSizeMapMatrixDisplay();
-                break;
-        }*/
- /*
-        if (orthoEnabled) {
-            if (clearTileEnabled) {
-                handler.getMapMatrix().removeUnusedMaps();
-
-            }
-
-            handler.updateLayerThumbnail(handler.getActiveLayerIndex());
-            handler.repaintThumbnailLayerSelector();
-
-            //handler.getMapData().updateMapThumbnail();
-            editedMapCoords.add(handler.getMapSelected());
-            handler.updateMapThumbnails(editedMapCoords);
-            editedMapCoords = new HashSet<>();
-
-            handler.getMainFrame().updateSizeMapMatrixDisplay();
-
-            //handler.getMainFrame().getMapMatrixDisplay().updateSize();
-            //handler.getMainFrame().getMapMatrixDisplay().updateMapsImage();
-        }
-         */
     }
 
     @Override
@@ -441,79 +325,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     @Override
     public void mouseDragged(MouseEvent e) {
         viewMode.mouseDragged(this, e);
-
-        /*
-        if (orthoEnabled) {
-            updateMousePostion(e);
-            if (cameraMoveEnabled) {
-                if (SwingUtilities.isLeftMouseButton(e) || SwingUtilities.isMiddleMouseButton(e)) {
-                    cameraX -= (((float) ((e.getX() - lastMouseX))) / getWidth()) / (orthoScale / (cols + 2 * borderSize));
-                    cameraY += (((float) ((e.getY() - lastMouseY))) / getHeight()) / (orthoScale / (rows + 2 * borderSize));
-                    targetX = cameraX;
-                    targetY = cameraY;
-                    lastMouseX = e.getX();
-                    lastMouseY = e.getY();
-                    repaint();
-                }
-            } else {
-                if (handler.getTileset().size() > 0) {
-                    setMapSelected(e);
-                    if (drawHeightMap) {
-                        if (SwingUtilities.isLeftMouseButton(e)) {
-                            editedMapCoords.add(getMapCoords(e));
-                            setHeightInGrid(e, handler.getHeightSelected());
-                            updateActiveMapLayerGL();
-                            repaint();
-                        }
-                    } else {
-                        if (SwingUtilities.isLeftMouseButton(e)) {
-                            editedMapCoords.add(getMapCoords(e));
-                            if (clearTileEnabled) {
-                                clearTileInGrid(e);
-                                updateActiveMapLayerGL();
-                                repaint();
-                            } else {
-                                dragTileInGrid(e);
-                                updateActiveMapLayerGL();
-                                repaint();
-                            }
-                        }
-                    }
-                }
-            }
-        } else if (SwingUtilities.isRightMouseButton(e)
-                | SwingUtilities.isMiddleMouseButton(e)) {
-            float delta = 100.0f;
-            cameraRotZ -= (((float) ((e.getX() - lastMouseX))) / getWidth()) * delta;
-            lastMouseX = e.getX();
-            cameraRotX -= (((float) ((e.getY() - lastMouseY))) / getHeight()) * delta;
-            lastMouseY = e.getY();
-            repaint();
-        } else if (SwingUtilities.isLeftMouseButton(e)) {
-            //float dist = (float) Math.sqrt(cameraX * cameraX + cameraY * cameraY + cameraZ * cameraZ);
-
-            float dist = cameraZ;
-
-            float deltaX = (((float) ((e.getX() - lastMouseX))) / getWidth()) * dist;
-            float deltaZ = (((float) ((e.getY() - lastMouseY))) / getHeight()) * dist;
-
-            Vector3D v = new Vector3D(deltaX, 0.0f, deltaZ);
-            //Matrix3D m1 = new Matrix3D(cameraRotX, new Vector3D(1.0f, 0.0f, 0.0f));
-            Matrix3D m2 = new Matrix3D(cameraRotZ, new Vector3D(0.0f, 1.0f, 0.0f));
-            //v = v.mult(m1);
-            v = v.mult(m2);
-
-            cameraX -= (float) v.getX();
-            cameraY += (float) v.getZ();
-            //cameraDX -= (float) v.getX();
-            //cameraDY += (float) v.getZ();
-
-            lastMouseX = e.getX();
-            lastMouseY = e.getY();
-
-            repaint();
-        }
-         */
     }
 
     @Override
@@ -642,68 +453,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         viewMode.mouseWheelMoved(this, e);
-        /*
-        int wheelRotation = e.getWheelRotation();
-        switch (viewModeEnum) {
-            case VIEW_3D:
-                if (wheelRotation > 0) {
-                    cameraZ *= 1.1;
-                } else {
-                    cameraZ /= 1.1;
-                }
-                repaint();
-                break;
-            case VIEW_HEIGHT:
-                if (wheelRotation > 0) {
-                    orthoScale /= 1.1;
-                } else {
-                    orthoScale *= 1.1;
-                }
-                repaint();
-                break;
-            case VIEW_ORTHO:
-                if (wheelRotation > 0) {
-                    orthoScale /= 1.1;
-                } else {
-                    orthoScale *= 1.1;
-                }
-                repaint();
-                break;
-        }
-         */
- /*
-        if (!orthoEnabled) {
-            int wheelRotation = e.getWheelRotation();
-            if (wheelRotation > 0) {
-                cameraZ *= 1.1;
-            } else {
-                cameraZ /= 1.1;
-            }
-            repaint();
-        } else {
-            if (cameraMoveEnabled) {
-                int wheelRotation = e.getWheelRotation();
-                if (wheelRotation > 0) {
-                    orthoScale /= 1.1;
-                } else {
-                    orthoScale *= 1.1;
-                }
-                repaint();
-            } else {
-                if (drawHeightMap) {
-                    int delta = e.getWheelRotation() > 0 ? -1 : 1;
-                    handler.incrementHeightSelected(delta);
-                    handler.getMainFrame().repaintHeightSelector();
-                } else {
-                    int delta = e.getWheelRotation() > 0 ? 1 : -1;
-                    handler.incrementTileSelected(delta);
-                    handler.getMainFrame().repaintTileSelector();
-                    handler.getMainFrame().repaintTileDisplay();
-                    repaint();
-                }
-            }
-        }*/
-
     }
 
     @Override
@@ -716,77 +465,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             if (backImageEnabled) {
                 drawBackImage(g);
             }
-            /*
-            switch (viewModeEnum) {
-                case VIEW_ORTHO:
-                    Graphics2D g2d = (Graphics2D) g;
-                    AffineTransform transform = g2d.getTransform();
-                    applyGraphicsTransform(g2d);
-                    switch (editMode) {
-                        case MODE_EDIT:
-                            drawTileThumbnail(g);
-                            break;
-                        case MODE_CLEAR:
-                            drawUnitTileBounds(g);
-                            break;
-                        case MODE_SMART_PAINT:
-                            drawUnitTileBounds(g);
-                            break;
-                        case MODE_INV_SMART_PAINT:
-                            drawUnitTileBounds(g);
-                            break;
-                    }
-                    g.setColor(Color.white);
-                    drawAllMapBounds(g);
-                    g.setColor(Color.red);
-                    drawBorderBounds(g,
-                            handler.getMapSelected().x * cols * tileSize,
-                            handler.getMapSelected().y * rows * tileSize, 2);
-                    g2d.setTransform(transform);
-                    break;
-                case VIEW_HEIGHT:
-                    drawActiveHeightMap(g);
-
-                    break;
-            }
-             */
         }
 
-        /*
-        if (handler != null) {
-            if (orthoEnabled) {
-                Graphics2D g2d = (Graphics2D) g;
-
-                AffineTransform transform = g2d.getTransform();
-
-                applyGraphicsTransform(g2d);
-
-                if (backImageEnabled && backImage != null) {
-                    drawBackImage(g);
-                }
-                if (drawHeightMap) {
-                    //drawHeightMapsBorder(g, 1);
-                    drawActiveHeightMap(g);
-                    //drawAllHeightMaps(g);
-                } else if (smartGridEnabled) {
-                    drawUnitTileBounds(g);
-                } else if (clearTileEnabled) {
-                    drawUnitTileBounds(g);
-                } else {
-                    drawTileThumbnail(g);
-                }
-                g.setColor(Color.white);
-                drawAllMapBounds(g);
-
-                g.setColor(Color.red);//new Color(1.0f, 0.9f, 0.9f, 1.0f));
-                drawBorderBounds(g,
-                        handler.getMapSelected().x * cols * tileSize,
-                        handler.getMapSelected().y * rows * tileSize, 2);
-
-                g2d.setTransform(transform);
-            }
-        }*/
-        //System.out.println("X: " + cameraRotX + "Y: " + cameraRotY + "Z: " + cameraRotZ);
     }
 
     protected void applyGraphicsTransform(Graphics2D g2d) {
@@ -941,17 +621,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
         drawLines(gl, gridBuffer);
 
-        /*
-        final int coordsPerVertex = 3;
-        final int vertexPerLine = 2;
-        final int coordsPerLine = coordsPerVertex * vertexPerLine;
-        gl.glBegin(GL_LINES);
-        for (int i = 0; i < grid.length; i += coordsPerLine) {
-            gl.glVertex3fv(grid, i);
-            gl.glVertex3fv(grid, i + coordsPerVertex);
-        }
-        gl.glEnd();
-         */
         gl.glColor4f(1, 1, 1, 1);
     }
 
@@ -1012,7 +681,9 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     protected void drawTransparentMaps(GL2 gl) {
         gl.glEnable(GL_BLEND);
-        gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        
+        gl.glBlendFunc(GL2.GL_ONE, GL2.GL_ONE_MINUS_SRC_ALPHA);
+        //gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         gl.glEnable(GL_DEPTH_TEST);
         gl.glDepthFunc(GL_LESS); //Less instead of equal for drawing the grid
