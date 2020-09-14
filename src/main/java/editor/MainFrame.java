@@ -264,6 +264,8 @@ public class MainFrame extends javax.swing.JFrame {
         jcbViewGridsBorders = new javax.swing.JCheckBox();
         jPanel14 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jlMapCoords = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jlNumPolygons = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -1321,6 +1323,13 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel4.setText("Selected Map Info:");
         jPanel14.add(jLabel4);
 
+        jLabel6.setText("Coordinates:");
+        jPanel14.add(jLabel6);
+
+        jlMapCoords.setText(" ");
+        jlMapCoords.setPreferredSize(new java.awt.Dimension(40, 14));
+        jPanel14.add(jlMapCoords);
+
         jLabel2.setText("# Polygons:");
         jPanel14.add(jLabel2);
 
@@ -2163,6 +2172,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -2240,6 +2250,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jlGame;
     private javax.swing.JLabel jlGameIcon;
     private javax.swing.JLabel jlGameName;
+    private javax.swing.JLabel jlMapCoords;
     private javax.swing.JLabel jlNumMaterials;
     private javax.swing.JLabel jlNumPolygons;
     private javax.swing.JMenu jmHelp;
@@ -3473,6 +3484,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         updateViewGeometryCount();
 
+        Point coords = handler.getMapSelected();
+        jlMapCoords.setText("(" + coords.x + ", " + coords.y + ")");
     }
 
     public void updateViewGeometryCount() {

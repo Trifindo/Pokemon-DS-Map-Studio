@@ -2049,6 +2049,19 @@
             <Property name="text" type="java.lang.String" value="Selected Map Info:"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JLabel" name="jLabel6">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Coordinates:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jlMapCoords">
+          <Properties>
+            <Property name="text" type="java.lang.String" value=" "/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[40, 14]"/>
+            </Property>
+          </Properties>
+        </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
             <Property name="text" type="java.lang.String" value="# Polygons:"/>
