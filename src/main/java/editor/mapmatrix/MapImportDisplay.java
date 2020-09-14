@@ -80,6 +80,7 @@ public class MapImportDisplay extends javax.swing.JPanel {
         this.handler = handler;
         this.maps = maps;
 
+        
         mapMin = handler.getMapMatrix().getMinCoords();
         mapMax = handler.getMapMatrix().getMaxCoords();
         mapSize = handler.getMapMatrix().getMatrixSize();
@@ -115,26 +116,28 @@ public class MapImportDisplay extends javax.swing.JPanel {
 
             if (maps != null) {
                 for (Point p : maps.keySet()) {
+                    int x = p.x - newMapMin.x + newMapPos.x - globalMin.x - mapMin.x;
+                    int y = p.y - newMapMin.y + newMapPos.y - globalMin.y - mapMin.y;
+                    
                     g2d.setColor(new Color(1.0f, 0.0f, 0.0f, 0.3f));
                     g2d.fillRect(
-                            (p.x - newMapMin.x + newMapPos.x - globalMin.x) * MapData.mapThumbnailSize,
-                            (p.y - newMapMin.y + newMapPos.y - globalMin.y) * MapData.mapThumbnailSize,
+                            x * MapData.mapThumbnailSize,
+                            y * MapData.mapThumbnailSize,
                             MapData.mapThumbnailSize - 1, MapData.mapThumbnailSize - 1);
 
                     g2d.setColor(Color.red);
                     g2d.setStroke(new BasicStroke(4));
                     g2d.drawRect(
-                            (p.x - newMapMin.x + newMapPos.x - globalMin.x) * MapData.mapThumbnailSize - 3,
-                            (p.y - newMapMin.y + newMapPos.y - globalMin.y) * MapData.mapThumbnailSize - 3,
+                            x * MapData.mapThumbnailSize - 3,
+                            y * MapData.mapThumbnailSize - 3,
                             MapData.mapThumbnailSize + 6, MapData.mapThumbnailSize + 6);
                     g2d.setStroke(new BasicStroke(1));
-                }
-                for (Point p : maps.keySet()) {
+
                     g2d.setColor(Color.white);
                     g2d.setStroke(new BasicStroke(4));
                     g2d.drawRect(
-                            (p.x - newMapMin.x + newMapPos.x - globalMin.x) * MapData.mapThumbnailSize,
-                            (p.y - newMapMin.y + newMapPos.y - globalMin.y) * MapData.mapThumbnailSize,
+                            x * MapData.mapThumbnailSize,
+                            y * MapData.mapThumbnailSize,
                             MapData.mapThumbnailSize - 1, MapData.mapThumbnailSize - 1);
                 }
             }
@@ -149,7 +152,7 @@ public class MapImportDisplay extends javax.swing.JPanel {
     }
 
     public void updateSize() {
-        globalMin = new Point(Math.min(newMapPos.x, 0), Math.min(newMapPos.y, 0));
+        globalMin = new Point(Math.min(newMapPos.x - mapMin.x, 0), Math.min(newMapPos.y - mapMin.y, 0));
         Point globalMax = new Point(Math.max(mapSize.width, newMapPos.x + newMapSize.width), Math.max(mapSize.height, newMapPos.y + newMapSize.height));
 
         this.setPreferredSize(new Dimension(
