@@ -165,22 +165,23 @@ public class ImdOutputInfoDialog extends javax.swing.JDialog {
         jLabel2.setText("Files processed:");
 
         jlFilesProcessed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jlFilesProcessed.setText("N/N");
+        jlFilesProcessed.setText("0");
+        jlFilesProcessed.setToolTipText("");
 
         jLabel4.setText("Files converted into IMD:");
 
         jlFilesConverted.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jlFilesConverted.setText("N");
+        jlFilesConverted.setText("0");
 
         jLabel6.setText("Files converted but with warnings :");
 
         jlFilesWithWarnings.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jlFilesWithWarnings.setText("N");
+        jlFilesWithWarnings.setText("0");
 
         jLabel8.setText("Files not converted:");
 
         jlFilesNotConverted.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jlFilesNotConverted.setText("N");
+        jlFilesNotConverted.setText("0");
 
         jLabel3.setText("Status:");
 
