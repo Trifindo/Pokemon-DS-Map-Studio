@@ -139,8 +139,8 @@ public class MapLayerGL {
                         Tile tile = tset.get(tileGrid[i][j]);
 
                         float[] offset = new float[]{
-                            (i - (MapGrid.cols) / 2),
-                            (j - (MapGrid.rows) / 2),
+                            (i - (MapGrid.cols) / 2) + tile.getXOffset(),
+                            (j - (MapGrid.rows) / 2) + tile.getYOffset(),
                             heightGrid[i][j]
                         };
 
@@ -365,6 +365,7 @@ public class MapLayerGL {
             System.arraycopy(tile.getColorsTri(), tile.getTexOffsetsTri().get(i) * GeometryGL.cPerTri, geometry.colorsTri, numTrisAdded * GeometryGL.cPerTri, numTris * GeometryGL.cPerTri);
             applyScalesToArray(geometry.vCoordsTri, scales, numTrisAdded * GeometryGL.vPerTri, numTris * GeometryGL.vPerTri);
             applyOffsetsToArray(geometry.vCoordsTri, offsets, numTrisAdded * GeometryGL.vPerTri, numTris * GeometryGL.vPerTri);
+            
             if (tile.useGlobalTextureMapping()) {
                 applyGlobalTexMapping(geometry.tCoordsTri, geometry.vCoordsTri, tile.getGlobalTextureScale(), numTrisAdded * GeometryGL.tPerTri, numTrisAdded * GeometryGL.vPerTri, numTris * GeometryGL.tPerTri);
             } else {
@@ -383,6 +384,8 @@ public class MapLayerGL {
                 System.arraycopy(tile.getTCoordsQuad(), tile.getTexOffsetsQuad().get(i) * GeometryGL.tPerQuad, geometry.tCoordsQuad, numQuadsAdded * GeometryGL.tPerQuad, numQuads * GeometryGL.tPerQuad);
                 applyScalesToArray(geometry.tCoordsQuad, scalesTex, numQuadsAdded * GeometryGL.tPerQuad, numQuads * GeometryGL.tPerQuad);
             }
+            
+            
 
             trisAdded.put(ID, numTrisAdded + numTris);
             quadsAdded.put(ID, numQuadsAdded + numQuads);
