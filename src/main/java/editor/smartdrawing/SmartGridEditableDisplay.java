@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
@@ -123,7 +124,7 @@ public class SmartGridEditableDisplay extends javax.swing.JPanel {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (smartGridArray.size() > 1) {
-                            if (gridIndex >= 0 && gridIndex < handler.getSmartGridArray().size()) {
+                            if (gridIndex >= 0 && gridIndex < smartGridArray.size()) {
                                 smartGridArray.remove(gridIndex);
                                 handler.setSmartGridIndexSelected(Math.max(0, gridIndex - 1));
                                 updateSize();
@@ -176,7 +177,7 @@ public class SmartGridEditableDisplay extends javax.swing.JPanel {
         super.paintComponent(g);
 
         if (gridImage != null && handler != null) {
-            for (int k = 0; k < handler.getSmartGridArray().size(); k++) {
+            for (int k = 0; k < smartGridArray.size(); k++) {
                 g.drawImage(gridImage, 0,
                         SmartGrid.height * k * MapGrid.tileSize, null);
             }
@@ -223,7 +224,8 @@ public class SmartGridEditableDisplay extends javax.swing.JPanel {
     }
 
     public void updateSize() {
-        int numSmartGrids = handler.getSmartGridArray().size();
+        //int numSmartGrids = handler.getSmartGridArray().size();
+        int numSmartGrids = smartGridArray.size();
         System.out.println("Smart grid size: " + numSmartGrids);
         this.setPreferredSize(new Dimension(
                 SmartGrid.width * MapGrid.tileSize,
@@ -238,7 +240,7 @@ public class SmartGridEditableDisplay extends javax.swing.JPanel {
             Tile[][] data = sgrid.sgrid;
             for (int i = 0; i < data.length; i++) {
                 for (int j = 0; j < data[i].length; j++) {
-                    if(!handler.getTileset().getTiles().contains(data[i][j])){
+                    if (!handler.getTileset().getTiles().contains(data[i][j])) {
                         data[i][j] = null;
                     }
                 }
@@ -262,6 +264,21 @@ public class SmartGridEditableDisplay extends javax.swing.JPanel {
     public ArrayList<SmartGridEditable> getSmartGridArray() {
         return smartGridArray;
     }
-    
-    
+
+    public void moveSelectedSmartGridUp() {
+        int index = handler.getSmartGridIndexSelected();
+        if (index > 0) {
+            Collections.swap(smartGridArray, index, index - 1);
+            handler.setSmartGridIndexSelected(index - 1);
+        }
+    }
+
+    public void moveSelectedSmartGridDown() {
+        int index = handler.getSmartGridIndexSelected();
+        if (index < smartGridArray.size() - 1) {
+            Collections.swap(smartGridArray, index, index + 1);
+            handler.setSmartGridIndexSelected(index + 1);
+        }
+    }
+
 }
