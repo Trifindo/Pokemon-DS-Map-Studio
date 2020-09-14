@@ -65,6 +65,7 @@ public class GameTsetSelectorDialog2 extends javax.swing.JDialog {
         },
         {
             "Tileset_2_-_Overworld",
+            "Tileset_25_-_New_Bark_Town_Houses_(by_Monkeyboy0)",
             "Tileset_70_-_Tohjo_Falls",
             "Tileset_73_-_Cerulean_Cave",
             "Tileset_75_-_Safari_Zone_(by_Mikelan98)",
@@ -99,6 +100,7 @@ public class GameTsetSelectorDialog2 extends javax.swing.JDialog {
         },
         {
             "Tileset_2_HGSS_Overworld.pdsts",
+            "Tileset_25_HGSS_by_Monkeyboy0.pdsts",
             "Tileset_70_HGSS_Tohjo_Falls.pdsts",
             "Tileset_73_HGSS_Cerulean_cave.pdsts",
             "Tileset_75_HGSS_safari_zone.pdsts",
