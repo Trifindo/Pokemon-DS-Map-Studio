@@ -482,7 +482,8 @@ public class ImdModel extends ImdNode {
             } else if (lineObj.startsWith("usemtl")) {
                 texOffsetsQuad.add(numQuads);
                 texOffsetsTri.add(numTris);
-                materialNames.add(lineObj.split(" ")[1]);
+                //materialNames.add(lineObj.split(" ")[1]);
+                materialNames.add(lineObj.substring(lineObj.indexOf(" ") + 1));
             } else if (lineObj.startsWith("f")) {
                 String[] splittedLine = (lineObj.substring(2)).split(" ");
                 Face f = new Face(splittedLine.length > 3);
@@ -532,7 +533,8 @@ public class ImdModel extends ImdNode {
                 String matName = lineMtl.substring(lineMtl.indexOf(" ") + 1);//NEW CODE
                 matIndex = materialNames.indexOf(matName);
             } else if (lineMtl.startsWith("map_Kd")) {
-                String textName = lineMtl.split(" ")[1];
+                //String textName = lineMtl.split(" ")[1];
+                String textName = lineMtl.substring(lineMtl.indexOf(" ") + 1);
                 //System.out.println("Name texture obj: " + textName);
                 int textIndex = getIndexOfMaterialByImgName(materials, textName);//tileset.getTextureNames().indexOf(textName);
                 if (textIndex == -1) { //Not found
