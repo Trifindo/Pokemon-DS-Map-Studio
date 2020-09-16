@@ -78,6 +78,7 @@ public class NsbtxTexture {
         return colorIndices;
     }
     
+    
     public String getDataAsHexStringImd() {
         String hexString = "";
         for (int i = 0; i < data.length; i += 2) {
