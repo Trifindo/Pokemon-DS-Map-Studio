@@ -1558,7 +1558,7 @@ public class NsbtxEditorDialog2 extends javax.swing.JDialog {
                     "Repeated texture name", JOptionPane.ERROR_MESSAGE);
             return true;
         } else if (repeatedPal != null) {
-            JOptionPane.showMessageDialog(this, "The palette named \"" + repeatedTex + "\" is repeated",
+            JOptionPane.showMessageDialog(this, "The palette named \"" + repeatedPal + "\" is repeated",
                     "Repeated palette name", JOptionPane.ERROR_MESSAGE);
             return true;
         }
