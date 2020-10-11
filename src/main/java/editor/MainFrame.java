@@ -727,7 +727,7 @@ public class MainFrame extends JFrame {
     }
 
     public void openAnimationEditor() {
-        final AnimationEditorDialog dialog = new AnimationEditorDialog(this, true);
+        final AnimationEditorDialog dialog = new AnimationEditorDialog(this);
         dialog.init(handler);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
