@@ -17,6 +17,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+
+import editor.MainFrame;
 import utils.LambdaUtils.VoidInterface;
 
 /**
@@ -24,15 +26,11 @@ import utils.LambdaUtils.VoidInterface;
  * @author Trifindo
  */
 public class SoundPlayer extends Thread {
-
     private final AtomicBoolean running = new AtomicBoolean(false);
 
-    private final int BUFFER_SIZE = 128000;
     private String filename;
-    private InputStream inputStream;
     private InputStream bufferedIn;
     private AudioInputStream audioStream;
-    private AudioFormat audioFormat;
     private SourceDataLine sourceLine;
 
     private VoidInterface endAction;
@@ -42,60 +40,56 @@ public class SoundPlayer extends Thread {
         this.endAction = endAction;
     }
 
-    /**
-     * @param filename the name of the file that is going to be played
-     */
     private void playSound() {
         try {
             if (filename != null) {
                 try {
-                    inputStream = SoundPlayer.class.getResourceAsStream(filename);
+                    InputStream inputStream = SoundPlayer.class.getResourceAsStream(filename);
                     bufferedIn = new BufferedInputStream(inputStream);
                 } catch (Exception e) {
-                    System.out.println("ERROR NUMERO 1");
+                    e.printStackTrace();
                 }
-                
+
                 try {
                     audioStream = AudioSystem.getAudioInputStream(bufferedIn);
                 } catch (Exception e) {
-                    System.out.println("ERROR NUMERO 2");
+                    e.printStackTrace();
                 }
 
-                audioFormat = audioStream.getFormat();
+                AudioFormat audioFormat = audioStream.getFormat();
 
                 DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
                 try {
                     sourceLine = (SourceDataLine) AudioSystem.getLine(info);
                     sourceLine.open(audioFormat);
                 } catch (Exception e) {
-                    System.out.println("ERROR NUMERO 3");
+                    e.printStackTrace();
                 }
 
                 sourceLine.start();
 
                 int nBytesRead = 0;
+                int BUFFER_SIZE = 128000;
                 byte[] abData = new byte[BUFFER_SIZE];
                 while (nBytesRead != -1 && running.get()) {
                     try {
                         nBytesRead = audioStream.read(abData, 0, abData.length);
                     } catch (IOException e) {
-                        System.out.println("ERROR NUMERO 4");
+                        e.printStackTrace();
                     }
                     if (nBytesRead >= 0) {
                         @SuppressWarnings("unused")
                         int nBytesWritten = sourceLine.write(abData, 0, nBytesRead);
                     }
                 }
-
                 sourceLine.drain();
                 sourceLine.close();
             }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         } finally {
             endAction.action();
         }
-
     }
 
     @Override
@@ -115,6 +109,5 @@ public class SoundPlayer extends Thread {
         if(sourceLine != null){
             sourceLine.close();
         }
-        
     }
 }

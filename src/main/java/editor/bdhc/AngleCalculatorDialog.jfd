@@ -1,0 +1,124 @@
+JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.7" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$columnConstraints": "[grow,fill][fill]"
+			"$rowConstraints": "[fill][fill][fill]"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Angle Calculator"
+			"resizable": false
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+				"$columnConstraints": "[fill][grow,fill][fill]"
+				"$rowConstraints": "[fill][fill]"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Write the plate orientation" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel2"
+					"foreground": new java.awt.Color( 102, 0, 0, 255 )
+					"text": "Tiles forward:"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel3"
+					"foreground": new java.awt.Color( 0, 0, 204, 255 )
+					"text": "Tiles up:"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfTilesForward"
+					"text": " "
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 1"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfTilesUp"
+					"text": " "
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 0"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbApplyTilesForward"
+					"text": "Apply"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyTilesForwardActionPerformed", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 1"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbApplyTilesUp"
+					"text": "Apply"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyTilesUpActionPerformed", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 0"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.BevelBorder( 1, null, null, null, null )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/imgs/AngleCalculator.png" )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "Center"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 0 1 2"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+				"$columnConstraints": "[fill][grow,fill]"
+				"$rowConstraints": "[fill]"
+			} ) {
+				name: "jPanel3"
+				"border": new javax.swing.border.TitledBorder( "Resulting angle" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel4"
+					"foreground": new java.awt.Color( 204, 0, 204, 255 )
+					"text": "Angle:"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfAngle"
+					"editable": false
+					"text": " "
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 0"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+				"columns": 2
+			} ) {
+				name: "panel1"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAccept"
+					"text": "OK"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAcceptActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbCancel"
+					"text": "Cancel"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 2 2 1"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 535, 220 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

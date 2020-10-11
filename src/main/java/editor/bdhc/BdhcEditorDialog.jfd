@@ -1,0 +1,198 @@
+JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$columnConstraints": "[grow,fill][fill]"
+			"$rowConstraints": "[grow,fill]"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "BDHC Editor"
+			"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"hgap": 0
+				"vgap": 0
+			} ) {
+				name: "displayContainer"
+				"minimumSize": new java.awt.Dimension( 512, 512 )
+				addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentResized", "displayContainerComponentResized", true ) )
+				add( new FormContainer( "editor.bdhc.BdhcDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:510:x}"
+					"$verticalGroup": "par l {space :0:510:x}"
+				} ) {
+					name: "bdhcDisplay"
+					"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "hidemode 3"
+				"$columnConstraints": "[grow,fill]"
+				"$rowConstraints": "[][][][][]"
+			} ) {
+				name: "panel1"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane1::::0:x, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1:::p::p, space :::x}}"
+				} ) {
+					name: "jPanel1"
+					"border": new javax.swing.border.TitledBorder( "Plates" )
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "jScrollPane1"
+						"horizontalScrollBarPolicy": 31
+						"verticalScrollBarPolicy": 22
+						add( new FormComponent( "javax.swing.JList" ) {
+							name: "plateList"
+							"model": new javax.swing.DefaultListModel
+							auxiliary() {
+								"JavaCodeGenerator.typeParameters": "String"
+							}
+							addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "plateListValueChanged", true ) )
+						} )
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) ) {
+					name: "panel2"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbAddPlate"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+						"text": "Add Plate"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddPlateActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbRemovePlate"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+						"text": "Remove Plate"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemovePlateActionPerformed", true ) )
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {space :::p, par l {seq {par l:::p {comp jLabel2:::::x, comp jLabel5:::::x}, space :::p, par l {comp jcbType::::391:x, seq {comp jtfCoordZ:::p:71:p, space :::p, comp jbCoordinateZ:::p::p, space :0:0:x}}}, seq l {par t:::p {comp jbApplyAngleX::l:::x, comp jtfAngleX::l:::x, comp angleDisplay1::l:::x, comp jLabel6::l:::x}, space :::x, par l:::p {comp angleDisplay2:::::x, comp jLabel7:::::x, comp jtfAngleY:::::x, comp jbApplyAngleY:::::x}}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, par b {comp jLabel2::b:p::p, comp jtfCoordZ::b:p::p, comp jbCoordinateZ::b:p::p}, space u:::p, par b {comp jcbType::b:p::p, comp jLabel5::b:p::p}, space u:::p, par b {comp jLabel6::b:p::p, comp jLabel7::b:p::p}, space :::p, par l {comp angleDisplay1:::p::p, comp angleDisplay2:::p::p}, space u:::p, par l {comp jtfAngleX:::p::p, comp jtfAngleY:::p::p}, space u:::p, par l {comp jbApplyAngleX:::p::p, comp jbApplyAngleY:::p::p}, space :::x}}"
+				} ) {
+					name: "jPanel2"
+					"border": new javax.swing.border.TitledBorder( "Plate Info" )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel2"
+						"foreground": new java.awt.Color( 0, 0, 204, 255 )
+						"text": "Z Coordinate: "
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "jtfCoordZ"
+						"text": " "
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "jtfCoordZFocusGained", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbCoordinateZ"
+						"text": "Apply"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCoordinateZActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JComboBox" ) {
+						name: "jcbType"
+						"model": new javax.swing.DefaultComboBoxModel {
+							selectedItem: "PLANE"
+							addElement( "PLANE" )
+							addElement( "BRIDGE (DP ONLY)" )
+							addElement( "STAIRS LEFT (-X)" )
+							addElement( "STAIRS RIGHT (+X)" )
+							addElement( "STAIRS UP (-Y)" )
+							addElement( "STAIRS DOWN (+Y)" )
+							addElement( "OTHER" )
+						}
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTypeActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel5"
+						"text": "Type: "
+					} )
+					add( new FormContainer( "editor.bdhc.AngleDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {space :0:0:x}"
+						"$verticalGroup": "par l {space :0:58:x}"
+					} ) {
+						name: "angleDisplay1"
+						"border": new javax.swing.border.SoftBevelBorder( 1, null, null, null, null )
+						"toolTipText": ""
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "angleDisplay1MousePressed", true ) )
+					} )
+					add( new FormContainer( "editor.bdhc.AngleDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {space :0:0:x}"
+						"$verticalGroup": "par l {space :0:58:x}"
+					} ) {
+						name: "angleDisplay2"
+						"border": new javax.swing.border.SoftBevelBorder( 1, null, null, null, null )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "angleDisplay2MousePressed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "jtfAngleX"
+						"text": " "
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "jtfAngleXFocusGained", true ) )
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "jtfAngleXFocusLost", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "jtfAngleY"
+						"text": " "
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "jtfAngleYFocusGained", true ) )
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "jtfAngleYFocusLost", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel6"
+						"foreground": new java.awt.Color( 0, 153, 0, 255 )
+						"horizontalAlignment": 0
+						"text": "Angle Y"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel7"
+						"foreground": new java.awt.Color( 204, 0, 0, 255 )
+						"horizontalAlignment": 0
+						"text": "Angle X"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbApplyAngleX"
+						"text": "Apply"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyAngleXActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbApplyAngleY"
+						"text": "Apply"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyAngleYActionPerformed", true ) )
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 2"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) ) {
+					name: "panel3"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jButton1"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+						"text": "Export"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton1ActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jButton2"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
+						"text": "Import"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton2ActionPerformed", true ) )
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 3"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 0"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 1160, 600 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}
