@@ -1,0 +1,64 @@
+JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "insets 0,hidemode 3"
+			"$columnConstraints": "[grow,fill]"
+			"$rowConstraints": "[grow,fill]"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Enter the new animation name"
+			"resizable": false
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+				"$columnConstraints": "[fill][grow,fill]"
+				"$rowConstraints": "[fill][fill][]"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Animation Name" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "Name of the animation: "
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jTextField1"
+					"text": " "
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel2"
+					"text": "The animation must have the same name as the NSBTX texure"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1 2 1"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+					"columns": 2
+				} ) {
+					name: "panel1"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jButton1"
+						"text": "OK"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jButton2"
+						"text": "Cancel"
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 2 2 1"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 455, 145 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

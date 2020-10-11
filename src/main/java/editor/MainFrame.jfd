@@ -333,7 +333,7 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
 				name: "jspMainWindow"
-				"resizeWeight": 0.7
+				"resizeWeight": 0.8
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 					"$layoutConstraints": "hidemode 3"
 					"$columnConstraints": "[fill][fill][grow,fill][fill][fill][fill]"
@@ -373,14 +373,14 @@ new FormModel {
 						"value": "cell 2 0"
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq l {comp heightSelector:::p:0:p, space :0:0:x}}"
-						"$verticalGroup": "par l {seq l {comp heightSelector:::p:0:p, space :0:0:x}}"
+						"$horizontalGroup": "par l {seq l {comp heightSelector:::p::p, space :0:0:x}}"
+						"$verticalGroup": "par l {seq l {comp heightSelector:::p::p, space :0:0:x}}"
 					} ) {
 						name: "jpZ"
 						"border": new javax.swing.border.TitledBorder( null, "Z", 2, 1, null, new java.awt.Color( 0, 0, 255, 255 ) )
 						add( new FormContainer( "editor.heightselector.HeightSelector", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {space :0:0:x}"
-							"$verticalGroup": "par l {space :0:0:x}"
+							"$horizontalGroup": "par l {space :0:16:x}"
+							"$verticalGroup": "par l {space :0:496:x}"
 						} ) {
 							name: "heightSelector"
 							"preferredSize": new java.awt.Dimension( 16, 496 )
@@ -679,7 +679,7 @@ new FormModel {
 									} )
 									add( new FormContainer( "editor.tileseteditor.TileDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 										"$horizontalGroup": "par l {space :0:0:x}"
-										"$verticalGroup": "par l {space :0:269:x}"
+										"$verticalGroup": "par l {space :0:294:x}"
 									} ) {
 										name: "tileDisplay"
 										"focusable": false
@@ -699,7 +699,7 @@ new FormModel {
 						} ) {
 							name: "jPanelMapTools"
 							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-								"$horizontalGroup": "par l {comp jsHeightMapAlpha::::512:x}"
+								"$horizontalGroup": "par l {comp jsHeightMapAlpha::::509:x}"
 								"$verticalGroup": "par l {comp jsHeightMapAlpha:::p::p}"
 							} ) {
 								name: "jpHeightMapAlpha"
