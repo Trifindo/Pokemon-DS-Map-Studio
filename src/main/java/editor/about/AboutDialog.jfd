@@ -1,0 +1,70 @@
+JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {par l {comp jlVersionName:::p:788:p, comp jlAuthor:::p:788:p, comp jlWebsite:::p:788:p, seq {comp klTrifindo:::p::p, space :5:5:p, comp jScrollPane1:::p:719:p}, seq l {space :p:352:p, comp jbOk:::p::p}, seq {space :p:69:p, comp panel2:::p:719:p}}, space :::p}}"
+			"$verticalGroup": "par l {seq {comp jlVersionName:::p:23:p, space :6:6:p, comp jlAuthor:::p::p, space :7:7:p, comp jlWebsite:::p::p, space :5:5:p, par l {comp klTrifindo:::p:129:p, comp jScrollPane1:::p:129:p}, space :p:5:p, comp panel2:::p::p, space :p:2:p, comp jbOk:::p::p, space :::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "About"
+			"resizable": false
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jlVersionName"
+				"font": new java.awt.Font( "Tahoma", 1, 18 )
+				"horizontalAlignment": 0
+				"text": "Pokemon DS Map Studio 2.1"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jlAuthor"
+				"text": "-- by Trifindo --"
+				"horizontalAlignment": 0
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jlWebsite"
+				"text": "<html><body><a href=\"https://github.com/Trifindo/Pokemon-DS-Map-Studio\">Official website</a></body></html>"
+				"horizontalAlignment": 0
+				"cursor": new java.awt.Cursor( 12 )
+				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "jlWebsiteClick", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "klTrifindo"
+				"horizontalAlignment": 0
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/trifindo.gif" )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "jScrollPane1"
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "jtDescription"
+					"editable": false
+					"columns": 20
+					"rows": 5
+					"text": "Pokemon DS Map Studio is a tool for creating gen 4 and gen 5 Pokémon games' maps,\ndesigned to be used alongside SDSME.\n\nIt doesn't require 3D modeling, instead it provides a tilemap-like interface that is automatically \nconverted in a 3D model.\nNote that this tool DOES NOT import maps from the original games, neither it can modify them.\n\nSupported games:\n- Pokemon Diamond/Pearl\n- Pokemon Platinum\n- Pokemon Heart Gold/Soul Silver\n\nNot completely working:\n- Pokemon Black/White\n- Pokemon Black 2/ White 2"
+					"lineWrap": true
+					"font": new com.jformdesigner.model.SwingFont( "TextArea.font" )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				name: "panel2"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlCredits"
+					"foreground": new com.jformdesigner.model.SwingColor( "Label.foreground" )
+					"text": "<html>\n\n<body>\n    JackHack96<br/>\n    Mikelan98<br/>\n    Driox<br/>\n    Jiboule<br/>\n    Nextworld<br/>\n    Jay<br/>\n    Brom<br/>\n    AdAstra<br/>\n    René<br/>\n    Monkeyboy0<br/>\n</body>\n\n</html>"
+					"border": new javax.swing.border.TitledBorder( "Credits" )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "Center"
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbOk"
+				"text": "OK"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbOkClick", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 790, 480 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}
