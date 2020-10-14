@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.8" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -11,6 +11,7 @@ new FormModel {
 			"defaultCloseOperation": 2
 			"title": "About"
 			"resizable": false
+			"modal": true
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "jlVersionName"
 				"font": new java.awt.Font( "Tahoma", 1, 18 )

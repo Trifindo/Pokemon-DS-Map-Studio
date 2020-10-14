@@ -1,0 +1,77 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$columnConstraints": "[grow,fill][grow,fill]"
+			"$rowConstraints": "[grow,fill][fill]"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Select Building Model"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+				"$columnConstraints": "[fill][grow,fill]"
+				"$rowConstraints": "[fill][grow,fill]"
+			} ) {
+				name: "jPanel12"
+				"border": new javax.swing.border.TitledBorder( "Building Models" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel11"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/BuildingIcon.png" )
+					"text": "Building List:"
+					"toolTipText": ""
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane5"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlBuildModelList"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlBuildModelListValueChanged", true ) )
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1"
+				} )
+				add( new FormContainer( "renderer.NitroDisplayGL", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:343:x}"
+					"$verticalGroup": "par l {space :0:0:x}"
+				} ) {
+					name: "nitroDisplayGL"
+					"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 1"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0 2 1"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbAccept"
+				"text": "OK"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAcceptActionPerformed", true ) )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbCancel"
+				"text": "Cancel"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 1"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 475, 335 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

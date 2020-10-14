@@ -30,7 +30,7 @@ public class BuildingEditorChooser {
             if (isDPPtFolder(folderPath)) {
                 handler.setLastBuildDirectoryUsed(folderPath);
                 BuildHandlerDPPt buildHandler = new BuildHandlerDPPt(folderPath);
-                final BuildingEditorDialogDPPt dialogDPPt = new BuildingEditorDialogDPPt(handler.getMainFrame(), true);
+                final BuildingEditorDialogDPPt dialogDPPt = new BuildingEditorDialogDPPt(handler.getMainFrame());
                 dialogDPPt.init(handler, buildHandler);
                 dialogDPPt.loadGame(fc.getSelectedFile().getPath());
                 dialogDPPt.loadCurrentNsbmd();
@@ -40,7 +40,7 @@ public class BuildingEditorChooser {
             } else if (isHGSSFolder(folderPath)) {
                 handler.setLastBuildDirectoryUsed(folderPath);
                 BuildHandlerHGSS buildHandler = new BuildHandlerHGSS(folderPath);
-                final BuildingEditorDialogHGSS dialogHGSS = new BuildingEditorDialogHGSS(handler.getMainFrame(), true);
+                final BuildingEditorDialogHGSS dialogHGSS = new BuildingEditorDialogHGSS(handler.getMainFrame());
                 dialogHGSS.init(handler, buildHandler);
                 dialogHGSS.loadGame(fc.getSelectedFile().getPath());
                 dialogHGSS.loadCurrentNsbmd();

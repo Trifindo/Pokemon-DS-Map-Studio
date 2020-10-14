@@ -1,0 +1,208 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Building Editor"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+				"$columnConstraints": "[grow,fill][grow,fill][fill]"
+				"$rowConstraints": "[fill][grow,fill]"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Building Materials (build_model_matshp.dat)" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "Building List:"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel2"
+					"text": "Material order:"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 0"
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane1"
+					"horizontalScrollBarPolicy": 31
+					"toolTipText": ""
+					"verticalScrollBarPolicy": 22
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlBuildingIDs"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlBuildingIDsValueChanged", true ) )
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1"
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane2"
+					"verticalScrollBarPolicy": 22
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlMaterialOrder"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 1"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0:1.0"
+					"$rowSpecs": "0, 0, 0, 0, 0, 0, 0"
+					"$alignTop": true
+					"$alignLeft": true
+				} ) {
+					name: "panel1"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbOpenMatshp"
+						"text": "Open Matshp..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbOpenMatshpActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbSaveMatshp"
+						"text": "Save Matshp..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSaveMatshpActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbBmmAddBuilding"
+						"text": "Add Building..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbBmmAddBuildingActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 2
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbBmmReplaceBuilding"
+						"text": "Replace Building..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbBmmReplaceBuildingActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 3
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbBmmRemoveBuilding"
+						"text": "Remove Building..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbBmmRemoveBuildingActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 4
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel3"
+						"text": "Move Material:"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 5
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) ) {
+						name: "panel2"
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbMoveUp"
+							"text": "▲"
+							"enabled": false
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveUpActionPerformed", true ) )
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbMoveDown"
+							"text": "▼"
+							"enabled": false
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveDownActionPerformed", true ) )
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 6
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 1"
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+				"$columnConstraints": "[grow,fill][fill]"
+				"$rowConstraints": "[fill][grow,fill]"
+			} ) {
+				name: "jPanel3"
+				"border": new javax.swing.border.TitledBorder( "Tileset Building List (area_build.narc files)" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel4"
+					"text": "Buildings used in tileset:"
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0 2 1"
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane3"
+					"horizontalScrollBarPolicy": 31
+					"toolTipText": ""
+					"verticalScrollBarPolicy": 22
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlBuildTilesetList"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0"
+					"$rowSpecs": "0, 0, 0, 0, 0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignLeft": true
+					"$alignTop": true
+				} ) {
+					name: "panel3"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbOpenBuilTilesetList"
+						"text": "Open List..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbOpenBuilTilesetListActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbSaveBuildTilesetList"
+						"text": "Save List..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSaveBuildTilesetListActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbAddBuildingTbl"
+						"text": "Add Building..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddBuildingTblActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 2
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbReplaceBuildingTbl"
+						"text": "Replace Building..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceBuildingTblActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 3
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbRemoveBuildingTbl"
+						"text": "Remove Building..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveBuildingTblActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 4
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 1"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 1255, 650 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

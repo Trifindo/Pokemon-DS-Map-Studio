@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.8" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -12,6 +12,7 @@ new FormModel {
 			"defaultCloseOperation": 2
 			"title": "BDHC Editor"
 			"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			"modal": true
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
 				"hgap": 0
 				"vgap": 0

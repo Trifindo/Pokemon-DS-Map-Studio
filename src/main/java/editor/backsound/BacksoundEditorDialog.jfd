@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.7" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -11,10 +11,10 @@ new FormModel {
 			name: "this"
 			"defaultCloseOperation": 2
 			"title": "Backsound Editor"
-			"resizable": false
+			"modal": true
 			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "formWindowClosed", true ) )
 			add( new FormContainer( "editor.backsound.BacksoundDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {space :0:579:x}"
+				"$horizontalGroup": "par l {space :0:582:x}"
 				"$verticalGroup": "par l {space :0:514:x}"
 			} ) {
 				name: "backsoundDisplay"
