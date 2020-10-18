@@ -15,6 +15,7 @@ public class SettingsDialog extends JDialog {
     public SettingsDialog(Window owner) {
         super(owner);
         initComponents();
+        jcmbTheme.setSelectedItem(MainFrame.prefs.get("Theme", "Native"));
     }
 
     private void cancelButtonActionPerformed(ActionEvent e) {
@@ -23,7 +24,7 @@ public class SettingsDialog extends JDialog {
 
     private void okButtonActionPerformed(ActionEvent e) {
         MainFrame.prefs.put("Theme", Objects.requireNonNull(jcmbTheme.getSelectedItem()).toString());
-        JOptionPane.showMessageDialog(this,"Please restart PDSMS!");
+        JOptionPane.showMessageDialog(this, "Please restart PDSMS!");
         dispose();
     }
 
@@ -50,22 +51,22 @@ public class SettingsDialog extends JDialog {
             //======== contentPanel ========
             {
                 contentPanel.setLayout(new MigLayout(
-                    "insets dialog,hidemode 3",
-                    // columns
-                    "[fill]" +
-                    "[grow,fill]",
-                    // rows
-                    "[]"));
+                        "insets dialog,hidemode 3",
+                        // columns
+                        "[fill]" +
+                                "[grow,fill]",
+                        // rows
+                        "[]"));
 
                 //---- label1 ----
                 label1.setText("Theme:");
                 contentPanel.add(label1, "cell 0 0");
 
                 //---- jcmbTheme ----
-                jcmbTheme.setModel(new DefaultComboBoxModel<>(new String[] {
-                    "Native",
-                    "FlatLaf",
-                    "FlatLaf Dark"
+                jcmbTheme.setModel(new DefaultComboBoxModel<>(new String[]{
+                        "Native",
+                        "FlatLaf",
+                        "FlatLaf Dark"
                 }));
                 contentPanel.add(jcmbTheme, "cell 1 0");
             }
@@ -74,12 +75,12 @@ public class SettingsDialog extends JDialog {
             //======== buttonBar ========
             {
                 buttonBar.setLayout(new MigLayout(
-                    "insets dialog,alignx right",
-                    // columns
-                    "[button,fill]" +
-                    "[button,fill]",
-                    // rows
-                    null));
+                        "insets dialog,alignx right",
+                        // columns
+                        "[button,fill]" +
+                                "[button,fill]",
+                        // rows
+                        null));
 
                 //---- okButton ----
                 okButton.setText("OK");

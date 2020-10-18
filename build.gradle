@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'application'
+    id 'org.beryx.runtime' version '1.11.4'
 }
 
 repositories {
@@ -16,19 +17,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation group: 'com.formdev', name: 'flatlaf', version: '0.39'
     implementation group: 'com.miglayout', name: 'miglayout-swing', version: '5.0'
-}
-
-java {
-    modularity.inferModulePath = true
-
-    tasks.withType(JavaCompile) {
-        doFirst {
-            options.compilerArgs = [
-                    '--module-path', classpath.asPath,
-            ]
-            classpath = files()
-        }
-    }
 }
 
 version '2.1'
@@ -46,5 +34,11 @@ jar {
 
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+runtime {
+    jpackage {
+        installerType = 'deb'
     }
 }
