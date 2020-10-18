@@ -415,14 +415,14 @@ public class BuildingEditorDialog extends JDialog {
         {
             jPanel1.setBorder(new TitledBorder("Building Materials (build_model_matshp.dat)"));
             jPanel1.setLayout(new MigLayout(
-                "insets 0,hidemode 3,gap 5 5",
-                // columns
-                "[grow,fill]" +
-                "[grow,fill]" +
-                "[fill]",
-                // rows
-                "[fill]" +
-                "[grow,fill]"));
+                    "insets 0,hidemode 3,gap 5 5",
+                    // columns
+                    "[grow,fill]" +
+                            "[grow,fill]" +
+                            "[fill]",
+                    // rows
+                    "[fill]" +
+                            "[grow,fill]"));
 
             //---- jLabel1 ----
             jLabel1.setText("Building List:");
@@ -443,10 +443,16 @@ public class BuildingEditorDialog extends JDialog {
                     String[] values = {
 
                     };
+
                     @Override
-                    public int getSize() { return values.length; }
+                    public int getSize() {
+                        return values.length;
+                    }
+
                     @Override
-                    public String getElementAt(int i) { return values[i]; }
+                    public String getElementAt(int i) {
+                        return values[i];
+                    }
                 });
                 jlBuildingIDs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 jlBuildingIDs.addListSelectionListener(e -> jlBuildingIDsValueChanged(e));
@@ -463,10 +469,16 @@ public class BuildingEditorDialog extends JDialog {
                     String[] values = {
 
                     };
+
                     @Override
-                    public int getSize() { return values.length; }
+                    public int getSize() {
+                        return values.length;
+                    }
+
                     @Override
-                    public String getElementAt(int i) { return values[i]; }
+                    public String getElementAt(int i) {
+                        return values[i];
+                    }
                 });
                 jlMaterialOrder.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 jScrollPane2.setViewportView(jlMaterialOrder);
@@ -476,51 +488,51 @@ public class BuildingEditorDialog extends JDialog {
             //======== panel1 ========
             {
                 panel1.setLayout(new GridBagLayout());
-                ((GridBagLayout)panel1.getLayout()).columnWidths = new int[] {0, 0};
-                ((GridBagLayout)panel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
-                ((GridBagLayout)panel1.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
-                ((GridBagLayout)panel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                ((GridBagLayout) panel1.getLayout()).columnWidths = new int[]{0, 0};
+                ((GridBagLayout) panel1.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+                ((GridBagLayout) panel1.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
+                ((GridBagLayout) panel1.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                 //---- jbOpenMatshp ----
                 jbOpenMatshp.setText("Open Matshp...");
                 jbOpenMatshp.addActionListener(e -> jbOpenMatshpActionPerformed(e));
                 panel1.add(jbOpenMatshp, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
 
                 //---- jbSaveMatshp ----
                 jbSaveMatshp.setText("Save Matshp...");
                 jbSaveMatshp.addActionListener(e -> jbSaveMatshpActionPerformed(e));
                 panel1.add(jbSaveMatshp, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
 
                 //---- jbBmmAddBuilding ----
                 jbBmmAddBuilding.setText("Add Building...");
                 jbBmmAddBuilding.addActionListener(e -> jbBmmAddBuildingActionPerformed(e));
                 panel1.add(jbBmmAddBuilding, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
 
                 //---- jbBmmReplaceBuilding ----
                 jbBmmReplaceBuilding.setText("Replace Building...");
                 jbBmmReplaceBuilding.addActionListener(e -> jbBmmReplaceBuildingActionPerformed(e));
                 panel1.add(jbBmmReplaceBuilding, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
 
                 //---- jbBmmRemoveBuilding ----
                 jbBmmRemoveBuilding.setText("Remove Building...");
                 jbBmmRemoveBuilding.addActionListener(e -> jbBmmRemoveBuildingActionPerformed(e));
                 panel1.add(jbBmmRemoveBuilding, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
 
                 //---- jLabel3 ----
                 jLabel3.setText("Move Material:");
                 panel1.add(jLabel3, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
 
                 //======== panel2 ========
                 {
@@ -539,8 +551,8 @@ public class BuildingEditorDialog extends JDialog {
                     panel2.add(jbMoveDown);
                 }
                 panel1.add(panel2, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
             }
             jPanel1.add(panel1, "cell 2 1");
         }
@@ -550,13 +562,13 @@ public class BuildingEditorDialog extends JDialog {
         {
             jPanel3.setBorder(new TitledBorder("Tileset Building List (area_build.narc files)"));
             jPanel3.setLayout(new MigLayout(
-                "insets 0,hidemode 3,gap 5 5",
-                // columns
-                "[grow,fill]" +
-                "[fill]",
-                // rows
-                "[fill]" +
-                "[grow,fill]"));
+                    "insets 0,hidemode 3,gap 5 5",
+                    // columns
+                    "[grow,fill]" +
+                            "[fill]",
+                    // rows
+                    "[fill]" +
+                            "[grow,fill]"));
 
             //---- jLabel4 ----
             jLabel4.setText("Buildings used in tileset:");
@@ -573,10 +585,16 @@ public class BuildingEditorDialog extends JDialog {
                     String[] values = {
 
                     };
+
                     @Override
-                    public int getSize() { return values.length; }
+                    public int getSize() {
+                        return values.length;
+                    }
+
                     @Override
-                    public String getElementAt(int i) { return values[i]; }
+                    public String getElementAt(int i) {
+                        return values[i];
+                    }
                 });
                 jlBuildTilesetList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 jScrollPane3.setViewportView(jlBuildTilesetList);
@@ -586,45 +604,45 @@ public class BuildingEditorDialog extends JDialog {
             //======== panel3 ========
             {
                 panel3.setLayout(new GridBagLayout());
-                ((GridBagLayout)panel3.getLayout()).columnWidths = new int[] {0, 0};
-                ((GridBagLayout)panel3.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
-                ((GridBagLayout)panel3.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
-                ((GridBagLayout)panel3.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                ((GridBagLayout) panel3.getLayout()).columnWidths = new int[]{0, 0};
+                ((GridBagLayout) panel3.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+                ((GridBagLayout) panel3.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
+                ((GridBagLayout) panel3.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                 //---- jbOpenBuilTilesetList ----
                 jbOpenBuilTilesetList.setText("Open List...");
                 jbOpenBuilTilesetList.addActionListener(e -> jbOpenBuilTilesetListActionPerformed(e));
                 panel3.add(jbOpenBuilTilesetList, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                 //---- jbSaveBuildTilesetList ----
                 jbSaveBuildTilesetList.setText("Save List...");
                 jbSaveBuildTilesetList.addActionListener(e -> jbSaveBuildTilesetListActionPerformed(e));
                 panel3.add(jbSaveBuildTilesetList, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                 //---- jbAddBuildingTbl ----
                 jbAddBuildingTbl.setText("Add Building...");
                 jbAddBuildingTbl.addActionListener(e -> jbAddBuildingTblActionPerformed(e));
                 panel3.add(jbAddBuildingTbl, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                 //---- jbReplaceBuildingTbl ----
                 jbReplaceBuildingTbl.setText("Replace Building...");
                 jbReplaceBuildingTbl.addActionListener(e -> jbReplaceBuildingTblActionPerformed(e));
                 panel3.add(jbReplaceBuildingTbl, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                 //---- jbRemoveBuildingTbl ----
                 jbRemoveBuildingTbl.setText("Remove Building...");
                 jbRemoveBuildingTbl.addActionListener(e -> jbRemoveBuildingTblActionPerformed(e));
                 panel3.add(jbRemoveBuildingTbl, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
             }
             jPanel3.add(panel3, "cell 1 1");
         }

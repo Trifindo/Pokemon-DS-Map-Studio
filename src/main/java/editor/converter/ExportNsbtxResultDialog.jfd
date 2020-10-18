@@ -11,6 +11,7 @@ new FormModel {
 			"defaultCloseOperation": 2
 			"title": "NSBTX Successfully Saved"
 			"resizable": false
+			"modal": true
 			add( new FormComponent( "editor.nsbtx2.NsbtxPanel" ) {
 				name: "nsbtxPanel1"
 			} )

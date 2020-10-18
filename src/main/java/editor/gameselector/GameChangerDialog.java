@@ -84,6 +84,7 @@ public class GameChangerDialog extends JDialog {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Change Game");
+        setModal(true);
         var contentPane = getContentPane();
 
         //======== jpanelIcon ========

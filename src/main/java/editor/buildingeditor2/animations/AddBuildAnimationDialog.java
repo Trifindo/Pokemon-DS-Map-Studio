@@ -8,6 +8,7 @@ import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
+
 import net.miginfocom.swing.*;
 import renderer.*;
 
@@ -68,7 +69,7 @@ public class AddBuildAnimationDialog extends JDialog {
             object.setNsbta(null);
             object.setNsbtp(null);
             object.setNsbva(null);
-            switch(buildAnimations.getAnimationType(indexSelected)){
+            switch (buildAnimations.getAnimationType(indexSelected)) {
                 case ModelAnimation.TYPE_NSBCA:
                     object.setNsbcaData(animData);
                     break;
@@ -165,25 +166,25 @@ public class AddBuildAnimationDialog extends JDialog {
         setModal(true);
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 0,hidemode 3,gap 5 5",
-            // columns
-            "[grow,fill]" +
-            "[grow,fill]",
-            // rows
-            "[grow,fill]" +
-            "[fill]"));
+                "insets 0,hidemode 3,gap 5 5",
+                // columns
+                "[grow,fill]" +
+                        "[grow,fill]",
+                // rows
+                "[grow,fill]" +
+                        "[fill]"));
 
         //======== jPanel12 ========
         {
             jPanel12.setBorder(new TitledBorder("Building Animations (bm_anime.narc)"));
             jPanel12.setLayout(new MigLayout(
-                "insets 0,hidemode 3,gap 5 5",
-                // columns
-                "[fill]" +
-                "[grow,fill]",
-                // rows
-                "[fill]" +
-                "[grow,fill]"));
+                    "insets 0,hidemode 3,gap 5 5",
+                    // columns
+                    "[fill]" +
+                            "[grow,fill]",
+                    // rows
+                    "[fill]" +
+                            "[grow,fill]"));
 
             //---- jLabel11 ----
             jLabel11.setIcon(new ImageIcon(getClass().getResource("/icons/AnimationIcon.png")));
@@ -201,10 +202,16 @@ public class AddBuildAnimationDialog extends JDialog {
                     String[] values = {
 
                     };
+
                     @Override
-                    public int getSize() { return values.length; }
+                    public int getSize() {
+                        return values.length;
+                    }
+
                     @Override
-                    public String getElementAt(int i) { return values[i]; }
+                    public String getElementAt(int i) {
+                        return values[i];
+                    }
                 });
                 jlAnimationsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 jlAnimationsList.addListSelectionListener(e -> jlAnimationsListValueChanged(e));
@@ -219,12 +226,12 @@ public class AddBuildAnimationDialog extends JDialog {
                 GroupLayout nitroDisplayGLLayout = new GroupLayout(nitroDisplayGL);
                 nitroDisplayGL.setLayout(nitroDisplayGLLayout);
                 nitroDisplayGLLayout.setHorizontalGroup(
-                    nitroDisplayGLLayout.createParallelGroup()
-                        .addGap(0, 144, Short.MAX_VALUE)
+                        nitroDisplayGLLayout.createParallelGroup()
+                                .addGap(0, 144, Short.MAX_VALUE)
                 );
                 nitroDisplayGLLayout.setVerticalGroup(
-                    nitroDisplayGLLayout.createParallelGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        nitroDisplayGLLayout.createParallelGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                 );
             }
             jPanel12.add(nitroDisplayGL, "cell 1 1");

@@ -3,7 +3,9 @@ package editor.collisions;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+
 import editor.state.CollisionLayerState;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -157,12 +159,12 @@ public class CollisionLayerSelector extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

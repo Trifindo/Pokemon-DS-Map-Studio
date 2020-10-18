@@ -5,16 +5,17 @@ import editor.TilesetRenderer;
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
 import editor.smartdrawing.SmartGrid;
+
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import tileset.Tile;
 import tileset.Tileset;
 import tileset.TilesetMaterial;
 
 /**
- *
  * @author Trifindo
  */
 public class TilesetEditorHandler {
@@ -27,7 +28,7 @@ public class TilesetEditorHandler {
     private int materialIndexSelected = 0;
 
     //private TilesetRenderer tr;
-    
+
     private Color lastColorUsed = Color.white;
 
     public TilesetEditorHandler(MapEditorHandler handler) {
@@ -38,7 +39,7 @@ public class TilesetEditorHandler {
         //tr = new TilesetRenderer(handler.getTileset());
     }
 
-    public int[] getChangeIndices(){
+    public int[] getChangeIndices() {
         Tileset tset = handler.getTileset();
         int[] indices = new int[oldTset.size()];
         for (int i = 0; i < oldTset.size(); i++) {
@@ -46,15 +47,15 @@ public class TilesetEditorHandler {
         }
         return indices;
     }
-    
+
     public void fixMapGridIndices(int[] indices) {
-        for (MapData mapEntry : handler.getMapMatrix().getMatrix().values()){
+        for (MapData mapEntry : handler.getMapMatrix().getMatrix().values()) {
             mapEntry.getGrid().replaceTilesUsingIndices(indices);
         }
         //handler.getGrid().replaceTilesUsingIndices(indices);
     }
-    
-    public void fixTilesetGridIndices(int[] indices){
+
+    public void fixTilesetGridIndices(int[] indices) {
         for (SmartGrid sgrid : handler.getSmartGridArray()) {
             sgrid.replaceTilesUsingIndices(indices);
         }
@@ -67,16 +68,16 @@ public class TilesetEditorHandler {
     public int getTextureIdIndexSelected() {
         return textureIdIndexSelected;
     }
-    
-    public int getTextureIndexSelected(){
+
+    public int getTextureIndexSelected() {
         return handler.getTileSelected().getTextureIDs().get(textureIdIndexSelected);
     }
 
     public String getTextureSelectedName() {
         return handler.getTileset().getImageName(handler.getTileSelected().getTextureIDs().get(textureIdIndexSelected));
     }
-    
-    public String getMaterialSelectedTextureName(){
+
+    public String getMaterialSelectedTextureName() {
         return handler.getTileset().getImageName(getMaterialIndexSelected());
     }
 
@@ -105,8 +106,8 @@ public class TilesetEditorHandler {
     public void setMaterialIndexSelected(int index) {
         this.materialIndexSelected = index;
     }
-    
-    public int getMaterialIndexSelected(){
+
+    public int getMaterialIndexSelected() {
         return this.materialIndexSelected;
     }
 
@@ -114,12 +115,12 @@ public class TilesetEditorHandler {
         return handler.getTileset().getMaterial(materialIndexSelected);
     }
 
-    public Color getLastColorUsed(){
+    public Color getLastColorUsed() {
         return lastColorUsed;
     }
-    
-    public void setLastColorUsed(Color color){
+
+    public void setLastColorUsed(Color color) {
         this.lastColorUsed = color;
     }
-    
+
 }

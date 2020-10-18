@@ -3,8 +3,10 @@ package editor.collisions;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+
 import editor.handler.MapEditorHandler;
 import editor.state.CollisionLayerState;
+
 import java.awt.AlphaComposite;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,6 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.swing.SwingUtilities;
+
 import utils.Utils;
 
 /**
@@ -37,7 +40,7 @@ public class CollisionsDisplay extends JPanel {
     }
 
     private void formMouseDragged(MouseEvent evt) {
-        if(SwingUtilities.isLeftMouseButton(evt)){
+        if (SwingUtilities.isLeftMouseButton(evt)) {
             //collHandler.addMapState(new CollisionLayerState("Draw collision", collHandler));
             setCollision(evt);
         }
@@ -52,13 +55,13 @@ public class CollisionsDisplay extends JPanel {
 
     private void formMousePressed(MouseEvent evt) {
         handler.setLayerChanged(false);
-        if(SwingUtilities.isLeftMouseButton(evt)){
+        if (SwingUtilities.isLeftMouseButton(evt)) {
             collHandler.addLayerState(new CollisionLayerState("Draw collision", collHandler));
             setCollision(evt);
-        } else if(SwingUtilities.isMiddleMouseButton(evt)){
+        } else if (SwingUtilities.isMiddleMouseButton(evt)) {
             collHandler.addLayerState(new CollisionLayerState("Flood fill collision", collHandler));
             floodFillCollision(evt);
-        } else if(SwingUtilities.isRightMouseButton(evt)){
+        } else if (SwingUtilities.isRightMouseButton(evt)) {
             setIndexSelected(evt);
         }
     }
@@ -115,12 +118,12 @@ public class CollisionsDisplay extends JPanel {
         }
     }
 
-    private void floodFillCollision(java.awt.event.MouseEvent evt){
+    private void floodFillCollision(java.awt.event.MouseEvent evt) {
         int c = evt.getX() / tileSize;
         int r = evt.getY() / tileSize;
         if (new Rectangle(0, 0, cols, rows).contains(c, r)) {
             Utils.floodFillMatrix(collHandler.getLayerSelected(), c, r,
-                    (byte)collHandler.getIndexCollisionSelected());
+                    (byte) collHandler.getIndexCollisionSelected());
             collHandler.setValue(collHandler.getIndexCollisionSelected(), c, r);
             repaint();
         }
@@ -164,6 +167,7 @@ public class CollisionsDisplay extends JPanel {
             public void mousePressed(MouseEvent e) {
                 formMousePressed(e);
             }
+
             @Override
             public void mouseReleased(MouseEvent e) {
                 formMouseReleased(e);
@@ -173,12 +177,12 @@ public class CollisionsDisplay extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

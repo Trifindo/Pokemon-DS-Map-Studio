@@ -119,7 +119,6 @@ public class AngleCalculatorDialog extends JDialog {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Angle Calculator");
-        setResizable(false);
         setModal(true);
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(

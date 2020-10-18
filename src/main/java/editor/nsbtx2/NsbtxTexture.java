@@ -5,7 +5,6 @@ import editor.nsbtx2.exceptions.NsbtxTextureFormatException;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class NsbtxTexture {
@@ -18,7 +17,7 @@ public class NsbtxTexture {
     private byte[] data;
 
     public NsbtxTexture(byte[] nsbtxData, int offsetTextureInfo,
-            int textureDataOffset, int offsetTextureName) throws
+                        int textureDataOffset, int offsetTextureName) throws
             NsbtxTextureFormatException, IndexOutOfBoundsException {
         byte b1 = nsbtxData[offsetTextureInfo + 0x03];
         byte b2 = nsbtxData[offsetTextureInfo + 0x02];
@@ -47,8 +46,8 @@ public class NsbtxTexture {
         name = Utils.removeLastOcurrences(new String(nsbtxData, offsetTextureName, 16), '\u0000');
     }
 
-    public NsbtxTexture(String name, int colorFormat, boolean isTransparent, 
-            int width, int height) {
+    public NsbtxTexture(String name, int colorFormat, boolean isTransparent,
+                        int width, int height) {
         this.name = name;
         this.colorFormat = colorFormat;
         this.isTransparent = isTransparent;
@@ -73,8 +72,8 @@ public class NsbtxTexture {
         }
         return colorIndices;
     }
-    
-    
+
+
     public String getDataAsHexStringImd() {
         String hexString = "";
         for (int i = 0; i < data.length; i += 2) {
@@ -129,12 +128,12 @@ public class NsbtxTexture {
         this.height = height;
     }
 
-    public void setData(byte[] data){
+    public void setData(byte[] data) {
         this.data = data;
     }
-    
-    public int getDataSizeImd(){
+
+    public int getDataSizeImd() {
         return data.length / 2;
     }
-    
+
 }

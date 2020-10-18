@@ -34,7 +34,7 @@ public class BorderMapsDisplay extends JPanel {
         if (new Rectangle(BorderMapsGrid.cols, BorderMapsGrid.rows).contains(x, y) && !(x == 1 && y == 1)) {
             this.setCursor(new Cursor(Cursor.HAND_CURSOR));
             this.setToolTipText("Open map");
-        }else{
+        } else {
             this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             this.setToolTipText(null);
         }

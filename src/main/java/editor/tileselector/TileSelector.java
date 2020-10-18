@@ -3,10 +3,12 @@ package editor.tileselector;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+
 import editor.handler.MapEditorHandler;
 import editor.mapdisplay.MapDisplay;
 import editor.mapdisplay.ViewMode;
 import editor.tileseteditor.TilesetEditorDialog;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,6 +16,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
+
 import tileset.Tile;
 
 /**
@@ -426,6 +429,7 @@ public class TileSelector extends JPanel {
             public void mousePressed(MouseEvent e) {
                 formMousePressed(e);
             }
+
             @Override
             public void mouseReleased(MouseEvent e) {
                 formMouseReleased(e);
@@ -435,12 +439,12 @@ public class TileSelector extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

@@ -321,6 +321,7 @@ public class GameTsetSelectorDialog extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Map - Select Game and Tileset");
         setResizable(false);
+        setModal(true);
         var contentPane = getContentPane();
 
         //======== jpanelIcon ========

@@ -7,7 +7,9 @@ import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
 import javax.swing.border.*;
+
 import editor.handler.MapEditorHandler;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -28,12 +30,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
 import renderer.*;
 import renderer.ObjectGL;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
@@ -70,7 +72,9 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
             this.msg = msg;
             this.color = color;
         }
-    };
+    }
+
+    ;
 
     /**
      * Creates new form ImdOutputInfoDialog
@@ -81,12 +85,12 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
 
         getRootPane().setDefaultButton(jbAccept);
         jbAccept.requestFocus();
-        
+
         jTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
         jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
 
         jTable1.getColumnModel().getColumn(1).setCellRenderer(new StatusColumnCellRenderer());
-        
+
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent event) {
@@ -135,6 +139,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Resulting NSBMD files info");
+        setModal(true);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
@@ -233,7 +238,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addContainerGap()
                             .addGroup(jPanel2Layout.createParallelGroup()
-                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel5)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
@@ -267,7 +272,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                     jPanel2Layout.createParallelGroup()
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                             .addGap(21, 21, 21)
                             .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -312,11 +317,11 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                         nitroDisplayGL1.setLayout(nitroDisplayGL1Layout);
                         nitroDisplayGL1Layout.setHorizontalGroup(
                             nitroDisplayGL1Layout.createParallelGroup()
-                                .addGap(0, 368, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
                         );
                         nitroDisplayGL1Layout.setVerticalGroup(
                             nitroDisplayGL1Layout.createParallelGroup()
-                                .addGap(0, 332, Short.MAX_VALUE)
+                                .addGap(0, 191, Short.MAX_VALUE)
                         );
                     }
 
@@ -364,7 +369,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                             .addGroup(jpErrorInfoLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(jpErrorInfoLayout.createParallelGroup()
-                                    .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                                     .addGroup(jpErrorInfoLayout.createSequentialGroup()
                                         .addComponent(jLabel6)
                                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -376,7 +381,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                                 .addContainerGap()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
                                 .addContainerGap())
                     );
                 }
@@ -393,14 +398,14 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                     .addContainerGap()
                     .addGroup(contentPaneLayout.createParallelGroup()
                         .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSplitPane1))
+                        .addComponent(jSplitPane1, GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))
                     .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup()
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jSplitPane1)
+                    .addComponent(jSplitPane1, GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addGap(6, 6, 6))
@@ -459,7 +464,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     public void init(MapEditorHandler handler, ArrayList<String> fileNames,
-            String imdFolderPath, String nsbFolderPath, boolean includeNsbtx) {
+                     String imdFolderPath, String nsbFolderPath, boolean includeNsbtx) {
         this.handler = handler;
         this.fileNames = fileNames;
         this.imdFolderPath = imdFolderPath;
@@ -562,8 +567,8 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                                     byte[] nsbmdData = Files.readAllBytes(dstFile.toPath());
                                     nsbmdModelsData.set(nFilesProcessed, nsbmdData);
                                 } catch (IOException ex) {
-ex.printStackTrace();
-}
+                                    ex.printStackTrace();
+                                }
                             } catch (IOException ex) {
                                 nFilesNotConverted++;
                                 exportStatus = ConvertStatus.MOVE_FILE_ERROR_STATUS;
@@ -582,7 +587,7 @@ ex.printStackTrace();
                         exportStatus = ConvertStatus.CONVERTER_NOT_FOUND_STATUS;
                         errorMsgs.set(nFilesProcessed,
                                 "The program \"g3dcvtr.exe\" is not found in the \"converter\" folder.\n"
-                                + "Put the program and its *.dll files in the folder and try again.");
+                                        + "Put the program and its *.dll files in the folder and try again.");
                     } catch (InterruptedException ex) {
                         nFilesNotConverted++;
                         exportStatus = ConvertStatus.INTERRUPT_ERROR_STATUS;
@@ -602,8 +607,8 @@ ex.printStackTrace();
                 }
 
                 tableModel.addRow(new Object[]{
-                    fileName,
-                    exportStatus
+                        fileName,
+                        exportStatus
                 });
 
                 nFilesProcessed++;
@@ -640,9 +645,9 @@ ex.printStackTrace();
 
         jTable1.setRowSelectionInterval(0, 0);
         updateView(0);
-        
+
         jbAccept.setEnabled(true);
-        
+
         getRootPane().setDefaultButton(jbAccept);
         jbAccept.requestFocus();
     }
@@ -664,8 +669,8 @@ ex.printStackTrace();
                 jTextArea1.setText("The NSBMD has been exported but it can't be displayed here.");
             }
         } catch (Exception ex) {
-ex.printStackTrace();
-}
+            ex.printStackTrace();
+        }
     }
 
     private class StatusColumnCellRenderer extends DefaultTableCellRenderer {

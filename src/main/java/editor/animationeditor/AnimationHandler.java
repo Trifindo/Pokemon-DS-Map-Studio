@@ -3,6 +3,7 @@ package editor.animationeditor;
 
 import editor.nsbtx2.Nsbtx2;
 import editor.nsbtx2.NsbtxLoader2;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Trifindo
  */
 public class AnimationHandler {
@@ -30,8 +30,8 @@ public class AnimationHandler {
     public void readAnimationFile(String path) throws IOException {
         this.animationFile = new AnimationFile(path);
     }
-    
-    public void saveAnimationFile(String path) throws IOException{
+
+    public void saveAnimationFile(String path) throws IOException {
         this.animationFile.saveAnimationFile(path);
     }
 
@@ -142,7 +142,7 @@ public class AnimationHandler {
             }
         }
     }
-    
+
     public void setCurrentTexture(int value) {
         if (getAnimationSelected() != null) {
             Animation anim = getAnimationSelected();
@@ -160,14 +160,14 @@ public class AnimationHandler {
         }
     }
 
-    public void addAnimation(String name){
+    public void addAnimation(String name) {
         animationFile.addAnimation(name);
     }
-    
-    public void removeAnimation(int index){
+
+    public void removeAnimation(int index) {
         animationFile.removeAnimation(index);
     }
-    
+
     public AnimationFile getAnimationFile() {
         return animationFile;
     }

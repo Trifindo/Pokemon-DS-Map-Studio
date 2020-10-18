@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class Collisions {
@@ -22,7 +21,7 @@ public class Collisions {
     public Collisions(int gameIndex) {
         this.numLayers = CollisionTypes.numLayersPerGame[gameIndex];
         layers = new byte[numLayers][cols][rows];
-        
+
         lastBytes = new ArrayList<>();
     }
     /*
@@ -36,7 +35,7 @@ public class Collisions {
 
         numLayers = data.length / (cols * rows);
         int offset = 0;
-        if(numLayers > 2){
+        if (numLayers > 2) {
             offset = 4;
         }
         layers = new byte[numLayers][cols][rows];
@@ -47,9 +46,9 @@ public class Collisions {
                 }
             }
         }
-        
+
         lastBytes = new ArrayList<>();
-        for(int i = numLayers * (cols * rows) + offset; i < data.length; i++){
+        for (int i = numLayers * (cols * rows) + offset; i < data.length; i++) {
             lastBytes.add(data[i]);
         }
     }
@@ -57,21 +56,21 @@ public class Collisions {
     public void saveToFile(String path) throws IOException {
         FileOutputStream out = new FileOutputStream(path);
         byte[] data = new byte[cols * rows * numLayers];
-        
-        if(numLayers > 2){
+
+        if (numLayers > 2) {
             out.write(new byte[]{0x20, 0x00, 0x20, 0x00});
         }
-        
+
         for (int i = 0; i < numLayers; i++) {
             for (int j = 0, c = 0; j < rows; j++) {
                 for (int k = 0; k < cols; k++, c += numLayers) {
-                    data[c+i] = layers[i][k][j];
+                    data[c + i] = layers[i][k][j];
                 }
             }
         }
         out.write(data);
-        
-        for(int i = 0; i < lastBytes.size(); i++){
+
+        for (int i = 0; i < lastBytes.size(); i++) {
             out.write(lastBytes.get(i));
         }
         out.close();
@@ -93,10 +92,10 @@ public class Collisions {
         return numLayers;
     }
 
-    public byte[][] cloneLayer(int index){
+    public byte[][] cloneLayer(int index) {
         return cloneLayer(layers[index]);
     }
-    
+
     private byte[][] cloneLayer(byte[][] layer) {
         byte[][] copy = new byte[cols][rows];
         for (int i = 0; i < layer.length; i++) {
@@ -108,7 +107,6 @@ public class Collisions {
     public void setLayer(int layerIndex, byte[][] layers) {
         this.layers[layerIndex] = layers;
     }
-    
-    
-    
+
+
 }

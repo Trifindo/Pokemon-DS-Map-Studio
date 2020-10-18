@@ -25,11 +25,14 @@ import static com.jogamp.opengl.GL.GL_TEXTURE_MIN_FILTER;
 import static com.jogamp.opengl.GL.GL_TEXTURE_WRAP_S;
 import static com.jogamp.opengl.GL.GL_TEXTURE_WRAP_T;
 import static com.jogamp.opengl.GL.GL_TRIANGLES;
+
 import com.jogamp.opengl.GL2;
+
 import static com.jogamp.opengl.GL2ES1.GL_ALPHA_TEST;
 import static com.jogamp.opengl.GL2ES3.GL_QUADS;
 import static com.jogamp.opengl.GL2GL3.GL_FILL;
 import static com.jogamp.opengl.GL2GL3.GL_LINE;
+
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLEventListener;
@@ -40,6 +43,7 @@ import editor.tileseteditor.TilesetEditorHandler;
 import geometry.Generator;
 import graphicslib3D.Matrix3D;
 import graphicslib3D.Point3D;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -56,11 +60,11 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
+
 import tileset.Tile;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class VColorEditorDisplay extends GLJPanel implements GLEventListener, MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
@@ -75,9 +79,9 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
     private float[] grid;
     private float[] axis;
     private final float[] axisColors = {
-        1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f};
+            1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f};
     private boolean[] renderVboTile;
     private final int vbosPerTile = 4;
 
@@ -1200,8 +1204,8 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
             return isQuad;
         }
     }
-    
-    public void setBrushSize(int size){
+
+    public void setBrushSize(int size) {
         this.brushRadius = size;
     }
 

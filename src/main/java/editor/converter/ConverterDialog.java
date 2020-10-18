@@ -47,7 +47,7 @@ public class ConverterDialog extends JDialog {
         return returnValue;
     }
 
-    public boolean includeNsbtxInNsbmd(){
+    public boolean includeNsbtxInNsbmd() {
         return includeNsbtxInNsbmd;
     }
 

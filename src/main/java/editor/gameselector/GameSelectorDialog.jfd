@@ -11,6 +11,7 @@ new FormModel {
 			"defaultCloseOperation": 2
 			"title": "New Map - Select Game"
 			"resizable": false
+			"modal": true
 			add( new FormComponent( "javax.swing.JComboBox" ) {
 				name: "jcbGame"
 				"model": new javax.swing.DefaultComboBoxModel {

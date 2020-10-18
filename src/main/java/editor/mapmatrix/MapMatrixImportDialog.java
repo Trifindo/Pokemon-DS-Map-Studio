@@ -6,8 +6,10 @@ import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
 import javax.swing.border.*;
+
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
+
 import java.awt.Point;
 import java.io.File;
 import java.util.HashMap;
@@ -134,6 +136,7 @@ public class MapMatrixImportDialog extends JDialog {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Choose where to import the maps");
+        setModal(true);
         var contentPane = getContentPane();
 
         //======== jPanel1 ========
@@ -151,12 +154,12 @@ public class MapMatrixImportDialog extends JDialog {
                     GroupLayout mapImportDisplay1Layout = new GroupLayout(mapImportDisplay1);
                     mapImportDisplay1.setLayout(mapImportDisplay1Layout);
                     mapImportDisplay1Layout.setHorizontalGroup(
-                        mapImportDisplay1Layout.createParallelGroup()
-                            .addGap(0, 480, Short.MAX_VALUE)
+                            mapImportDisplay1Layout.createParallelGroup()
+                                    .addGap(0, 480, Short.MAX_VALUE)
                     );
                     mapImportDisplay1Layout.setVerticalGroup(
-                        mapImportDisplay1Layout.createParallelGroup()
-                            .addGap(0, 235, Short.MAX_VALUE)
+                            mapImportDisplay1Layout.createParallelGroup()
+                                    .addGap(0, 235, Short.MAX_VALUE)
                     );
                 }
                 jScrollPane1.setViewportView(mapImportDisplay1);
@@ -174,12 +177,12 @@ public class MapMatrixImportDialog extends JDialog {
                     GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
                     jPanel3.setLayout(jPanel3Layout);
                     jPanel3Layout.setHorizontalGroup(
-                        jPanel3Layout.createParallelGroup()
-                            .addGap(0, 29, Short.MAX_VALUE)
+                            jPanel3Layout.createParallelGroup()
+                                    .addGap(0, 30, Short.MAX_VALUE)
                     );
                     jPanel3Layout.setVerticalGroup(
-                        jPanel3Layout.createParallelGroup()
-                            .addGap(0, 28, Short.MAX_VALUE)
+                            jPanel3Layout.createParallelGroup()
+                                    .addGap(0, 28, Short.MAX_VALUE)
                     );
                 }
                 jPanel2.add(jPanel3);
@@ -196,12 +199,12 @@ public class MapMatrixImportDialog extends JDialog {
                     GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
                     jPanel4.setLayout(jPanel4Layout);
                     jPanel4Layout.setHorizontalGroup(
-                        jPanel4Layout.createParallelGroup()
-                            .addGap(0, 29, Short.MAX_VALUE)
+                            jPanel4Layout.createParallelGroup()
+                                    .addGap(0, 30, Short.MAX_VALUE)
                     );
                     jPanel4Layout.setVerticalGroup(
-                        jPanel4Layout.createParallelGroup()
-                            .addGap(0, 28, Short.MAX_VALUE)
+                            jPanel4Layout.createParallelGroup()
+                                    .addGap(0, 28, Short.MAX_VALUE)
                     );
                 }
                 jPanel2.add(jPanel4);
@@ -218,12 +221,12 @@ public class MapMatrixImportDialog extends JDialog {
                     GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
                     jPanel5.setLayout(jPanel5Layout);
                     jPanel5Layout.setHorizontalGroup(
-                        jPanel5Layout.createParallelGroup()
-                            .addGap(0, 29, Short.MAX_VALUE)
+                            jPanel5Layout.createParallelGroup()
+                                    .addGap(0, 30, Short.MAX_VALUE)
                     );
                     jPanel5Layout.setVerticalGroup(
-                        jPanel5Layout.createParallelGroup()
-                            .addGap(0, 28, Short.MAX_VALUE)
+                            jPanel5Layout.createParallelGroup()
+                                    .addGap(0, 28, Short.MAX_VALUE)
                     );
                 }
                 jPanel2.add(jPanel5);
@@ -240,12 +243,12 @@ public class MapMatrixImportDialog extends JDialog {
                     GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
                     jPanel6.setLayout(jPanel6Layout);
                     jPanel6Layout.setHorizontalGroup(
-                        jPanel6Layout.createParallelGroup()
-                            .addGap(0, 29, Short.MAX_VALUE)
+                            jPanel6Layout.createParallelGroup()
+                                    .addGap(0, 30, Short.MAX_VALUE)
                     );
                     jPanel6Layout.setVerticalGroup(
-                        jPanel6Layout.createParallelGroup()
-                            .addGap(0, 28, Short.MAX_VALUE)
+                            jPanel6Layout.createParallelGroup()
+                                    .addGap(0, 28, Short.MAX_VALUE)
                     );
                 }
                 jPanel2.add(jPanel6);
@@ -262,12 +265,12 @@ public class MapMatrixImportDialog extends JDialog {
                     GroupLayout jPanel7Layout = new GroupLayout(jPanel7);
                     jPanel7.setLayout(jPanel7Layout);
                     jPanel7Layout.setHorizontalGroup(
-                        jPanel7Layout.createParallelGroup()
-                            .addGap(0, 29, Short.MAX_VALUE)
+                            jPanel7Layout.createParallelGroup()
+                                    .addGap(0, 30, Short.MAX_VALUE)
                     );
                     jPanel7Layout.setVerticalGroup(
-                        jPanel7Layout.createParallelGroup()
-                            .addGap(0, 28, Short.MAX_VALUE)
+                            jPanel7Layout.createParallelGroup()
+                                    .addGap(0, 28, Short.MAX_VALUE)
                     );
                 }
                 jPanel2.add(jPanel7);
@@ -276,24 +279,24 @@ public class MapMatrixImportDialog extends JDialog {
             GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
             jPanel1.setLayout(jPanel1Layout);
             jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup()
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                    jPanel1Layout.createParallelGroup()
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addContainerGap())
             );
             jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup()
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup()
+                    jPanel1Layout.createParallelGroup()
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1))
-                        .addContainerGap())
+                                    .addContainerGap()
+                                    .addGroup(jPanel1Layout.createParallelGroup()
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(0, 0, Short.MAX_VALUE))
+                                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
+                                    .addContainerGap())
             );
         }
 
@@ -308,28 +311,28 @@ public class MapMatrixImportDialog extends JDialog {
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
-            contentPaneLayout.createParallelGroup()
-                .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(contentPaneLayout.createParallelGroup()
-                        .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                contentPaneLayout.createParallelGroup()
                         .addGroup(contentPaneLayout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(jbImport)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jbCancel)))
-                    .addContainerGap())
+                                .addContainerGap()
+                                .addGroup(contentPaneLayout.createParallelGroup()
+                                        .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(contentPaneLayout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(jbImport)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jbCancel)))
+                                .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
-            contentPaneLayout.createParallelGroup()
-                .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(jbImport)
-                        .addComponent(jbCancel))
-                    .addContainerGap())
+                contentPaneLayout.createParallelGroup()
+                        .addGroup(contentPaneLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jbImport)
+                                        .addComponent(jbCancel))
+                                .addContainerGap())
         );
         pack();
         setLocationRelativeTo(getOwner());

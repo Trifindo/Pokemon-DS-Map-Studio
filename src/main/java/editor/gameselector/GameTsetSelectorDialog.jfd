@@ -11,6 +11,7 @@ new FormModel {
 			"defaultCloseOperation": 2
 			"title": "New Map - Select Game and Tileset"
 			"resizable": false
+			"modal": true
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq l {space :::p, comp jlGameIcon:::p::p, space :::x}}"
 				"$verticalGroup": "par l {seq l {space :::p, comp jlGameIcon:::p::p, space :::x}}"

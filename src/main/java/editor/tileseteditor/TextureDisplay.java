@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
 import tileset.Tile;
 import tileset.Tileset;
 import utils.Utils;
@@ -46,7 +47,7 @@ public class TextureDisplay extends JPanel {
                 size - reloadButtonSize, reloadButtonSize,
                 reloadButtonSize).contains(evt.getX(), evt.getY())) {
             setToolTipText("Reload texture");
-        }else{
+        } else {
             setToolTipText("Edit Texture in Image Editor");
         }
     }
@@ -146,12 +147,12 @@ public class TextureDisplay extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

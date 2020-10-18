@@ -10,6 +10,7 @@ new FormModel {
 			name: "this"
 			"defaultCloseOperation": 2
 			"title": "NSBMD Successfully Saved"
+			"modal": true
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 				"$columnSpecs": "0"
 				"$rowSpecs": "0"

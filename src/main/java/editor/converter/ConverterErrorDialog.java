@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
+
 import net.miginfocom.swing.*;
 
 /**
@@ -22,7 +23,7 @@ public class ConverterErrorDialog extends JDialog {
         dispose();
     }
 
-    public void init(String mainMsg, String textAreaMsg){
+    public void init(String mainMsg, String textAreaMsg) {
         jLabel1.setText(mainMsg);
         jTextArea1.setText(textAreaMsg);
     }
@@ -41,13 +42,13 @@ public class ConverterErrorDialog extends JDialog {
         setModal(true);
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 0,hidemode 3,gap 5 5",
-            // columns
-            "[grow,fill]",
-            // rows
-            "[fill]" +
-            "[grow,fill]" +
-            "[fill]"));
+                "insets 0,hidemode 3,gap 5 5",
+                // columns
+                "[grow,fill]",
+                // rows
+                "[fill]" +
+                        "[grow,fill]" +
+                        "[fill]"));
 
         //---- jLabel1 ----
         jLabel1.setHorizontalAlignment(SwingConstants.LEFT);

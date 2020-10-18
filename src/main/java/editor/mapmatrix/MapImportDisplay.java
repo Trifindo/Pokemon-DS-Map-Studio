@@ -3,8 +3,10 @@ package editor.mapmatrix;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -79,8 +81,8 @@ public class MapImportDisplay extends JPanel {
         if (handler != null) {
             if (mapsImg != null) {
                 g.drawImage(mapsImg,
-                        - globalMin.x * MapData.mapThumbnailSize,
-                        - globalMin.y * MapData.mapThumbnailSize,
+                        -globalMin.x * MapData.mapThumbnailSize,
+                        -globalMin.y * MapData.mapThumbnailSize,
                         null);
             }
 
@@ -148,10 +150,10 @@ public class MapImportDisplay extends JPanel {
 
         //======== this ========
         setLayout(new GridBagLayout());
-        ((GridBagLayout)getLayout()).columnWidths = new int[] {0, 0};
-        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0};
-        ((GridBagLayout)getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {1.0, 1.0E-4};
+        ((GridBagLayout) getLayout()).columnWidths = new int[]{0, 0};
+        ((GridBagLayout) getLayout()).rowHeights = new int[]{0, 0};
+        ((GridBagLayout) getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
+        ((GridBagLayout) getLayout()).rowWeights = new double[]{1.0, 1.0E-4};
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 

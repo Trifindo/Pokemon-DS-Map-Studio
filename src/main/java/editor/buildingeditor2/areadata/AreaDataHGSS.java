@@ -4,11 +4,11 @@ package editor.buildingeditor2.areadata;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import utils.BinaryReader;
 import utils.BinaryWriter;
 
 /**
- *
  * @author Trifindo
  */
 public class AreaDataHGSS {
@@ -23,7 +23,7 @@ public class AreaDataHGSS {
     };
     public static final Map<String, Integer> namesDynamicTexTypeSwap = namesDynamicTexType.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
     */
-    
+
     private int buildingTilesetID;
     private int mapTilesetID;
     private int dynamicTexType;

@@ -5,6 +5,7 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
+
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,10 +22,10 @@ import javax.imageio.ImageIO;
 import graphicslib3D.Point3D;
 import utils.Utils;
 import utils.Utils.IntTuple;
+
 import static utils.Utils.floatListToArray;
 
 /**
- *
  * @author Trifindo
  */
 public class Tile {
@@ -74,10 +75,10 @@ public class Tile {
     private BufferedImage smallThumbnail;
 
     public Tile(Tileset tileset, String folderPath, String objFilename,
-            int width, int height, boolean xTileable, boolean yTileable,
-            boolean uTileable, boolean vTileable,
-            boolean globalTexMapping, float globalTexScale,
-            float xOffset, float yOffset)
+                int width, int height, boolean xTileable, boolean yTileable,
+                boolean uTileable, boolean vTileable,
+                boolean globalTexMapping, float globalTexScale,
+                float xOffset, float yOffset)
             throws IOException, TextureNotFoundException,
             NormalsNotFoundException {
 
@@ -538,12 +539,12 @@ public class Tile {
                         } catch (IOException ex) {
                             throw new TextureNotFoundException(
                                     "Can't open texture named: \"" + textName + "\"" + "\n"
-                                    + "Make sure that the texture is in the same folder as the OBJ file");
+                                            + "Make sure that the texture is in the same folder as the OBJ file");
                         }
                     } else {
                         throw new TextureNotFoundException(
                                 "Texture named: \"" + textName
-                                + "\" does not exist in the folder of the OBJ file");
+                                        + "\" does not exist in the folder of the OBJ file");
                     }
                     //textures.add(loadTexture(folderPath + "/" + textName));
                 } else {

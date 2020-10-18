@@ -3,7 +3,9 @@ package editor.nsbtx2;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+
 import editor.nsbtx.*;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -82,13 +84,13 @@ public class PaletteDisplay2 extends JPanel {
             if (nsbtxHandler.getNsbtx() != null) {
                 NsbtxPalette nsbtxPal = nsbtxHandler.getSelectedPalette();
                 if (nsbtxPal != null) {
-                    if(!nsbtxHandler.getNsbtx().hasTextures()){
+                    if (!nsbtxHandler.getNsbtx().hasTextures()) {
                         this.palette = nsbtxPal.getColors(nsbtxPal.getDataSize() / 2);
-                    }else{
+                    } else {
                         this.palette = nsbtxPal.getColors(
                                 nsbtxHandler.getSelectedTexture().getNumColors());
                     }
-                }else{
+                } else {
                     this.palette = null;
                 }
             }
@@ -156,12 +158,12 @@ public class PaletteDisplay2 extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

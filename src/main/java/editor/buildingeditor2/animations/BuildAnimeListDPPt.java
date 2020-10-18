@@ -4,12 +4,13 @@ package editor.buildingeditor2.animations;
 import editor.narc2.Narc;
 import editor.narc2.NarcFile;
 import editor.narc2.NarcFolder;
+
 import java.util.ArrayList;
+
 import utils.BinaryReader;
 import utils.BinaryWriter;
 
 /**
- *
  * @author Trifindo
  */
 public class BuildAnimeListDPPt {
@@ -27,32 +28,32 @@ public class BuildAnimeListDPPt {
             secondBytes.add(file.getData()[1]);
         }
     }
-    
-    public Narc toNarc() throws Exception{
+
+    public Narc toNarc() throws Exception {
         NarcFolder root = new NarcFolder();
-        
+
         ArrayList<NarcFile> files = new ArrayList<>(animations.size());
-        for(int i = 0; i < animations.size(); i++){
+        for (int i = 0; i < animations.size(); i++) {
             files.add(new NarcFile("", root, animationToByteArray(i)));
         }
         root.setFiles(files);
         return new Narc(root);
     }
-    
-    private byte[] animationToByteArray(int animationIndex) throws Exception{
+
+    private byte[] animationToByteArray(int animationIndex) throws Exception {
         byte[] data = new byte[4 + MAX_ANIMS_PER_BUILDING * 4];
-        if(animations.get(animationIndex).isEmpty()){
+        if (animations.get(animationIndex).isEmpty()) {
             BinaryWriter.writeUInt16(data, 0, 0xFFFF);
-        }else{
+        } else {
             BinaryWriter.writeUInt8(data, 0, 1);
             BinaryWriter.writeUInt8(data, 1, secondBytes.get(animationIndex));
         }
         BinaryWriter.writeUInt16(data, 2, 0);//Padding?
         int i;
-        for(i = 0; i < animations.get(animationIndex).size(); i++){
+        for (i = 0; i < animations.get(animationIndex).size(); i++) {
             BinaryWriter.writeUInt32(data, 4 + i * 4, animations.get(animationIndex).get(i));
         }
-        for(; i < MAX_ANIMS_PER_BUILDING; i++){
+        for (; i < MAX_ANIMS_PER_BUILDING; i++) {
             BinaryWriter.writeUInt32(data, 4 + i * 4, 0xFFFFFFFF);
         }
         return data;
@@ -112,7 +113,7 @@ public class BuildAnimeListDPPt {
     public void replaceBuildingAnimation(int buildIndex, int animationIndex, int oldAnimationIndex) {
         if (buildIndex >= 0 && buildIndex < animations.size()) {
             ArrayList<Integer> buildAnimations = animations.get(buildIndex);
-            if(oldAnimationIndex >= 0 && oldAnimationIndex < buildAnimations.size()){
+            if (oldAnimationIndex >= 0 && oldAnimationIndex < buildAnimations.size()) {
                 buildAnimations.set(oldAnimationIndex, animationIndex);
             }
         }

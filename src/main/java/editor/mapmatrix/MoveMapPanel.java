@@ -4,8 +4,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+
 import editor.handler.MapEditorHandler;
 import editor.state.MapLayerState;
+
 import java.awt.Point;
 
 /**
@@ -35,15 +37,15 @@ public class MoveMapPanel extends JPanel {
         moveMap(handler.getMapSelected(), new Point(0, 1));
     }
 
-    public void init(MapEditorHandler handler){
+    public void init(MapEditorHandler handler) {
         this.handler = handler;
     }
 
-    public void moveMap(Point p, Point dp){
+    public void moveMap(Point p, Point dp) {
         //handler.setLayerChanged(false);
         //handler.addMapState(new MapLayerState("Map moved", handler));
 
-        Point newCoords =  new Point(p.x + dp.x, p.y + dp.y);
+        Point newCoords = new Point(p.x + dp.x, p.y + dp.y);
         handler.getMapMatrix().moveMap(p, newCoords);
 
         handler.setMapSelected(newCoords);
@@ -77,12 +79,12 @@ public class MoveMapPanel extends JPanel {
             GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
             jPanel1.setLayout(jPanel1Layout);
             jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup()
-                    .addGap(0, 24, Short.MAX_VALUE)
+                    jPanel1Layout.createParallelGroup()
+                            .addGap(0, 24, Short.MAX_VALUE)
             );
             jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup()
-                    .addGap(0, 23, Short.MAX_VALUE)
+                    jPanel1Layout.createParallelGroup()
+                            .addGap(0, 23, Short.MAX_VALUE)
             );
         }
         add(jPanel1);
@@ -99,12 +101,12 @@ public class MoveMapPanel extends JPanel {
             GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
             jPanel2.setLayout(jPanel2Layout);
             jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup()
-                    .addGap(0, 24, Short.MAX_VALUE)
+                    jPanel2Layout.createParallelGroup()
+                            .addGap(0, 24, Short.MAX_VALUE)
             );
             jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup()
-                    .addGap(0, 23, Short.MAX_VALUE)
+                    jPanel2Layout.createParallelGroup()
+                            .addGap(0, 23, Short.MAX_VALUE)
             );
         }
         add(jPanel2);
@@ -121,12 +123,12 @@ public class MoveMapPanel extends JPanel {
             GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
             jPanel3.setLayout(jPanel3Layout);
             jPanel3Layout.setHorizontalGroup(
-                jPanel3Layout.createParallelGroup()
-                    .addGap(0, 24, Short.MAX_VALUE)
+                    jPanel3Layout.createParallelGroup()
+                            .addGap(0, 24, Short.MAX_VALUE)
             );
             jPanel3Layout.setVerticalGroup(
-                jPanel3Layout.createParallelGroup()
-                    .addGap(0, 23, Short.MAX_VALUE)
+                    jPanel3Layout.createParallelGroup()
+                            .addGap(0, 23, Short.MAX_VALUE)
             );
         }
         add(jPanel3);
@@ -143,12 +145,12 @@ public class MoveMapPanel extends JPanel {
             GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
             jPanel5.setLayout(jPanel5Layout);
             jPanel5Layout.setHorizontalGroup(
-                jPanel5Layout.createParallelGroup()
-                    .addGap(0, 24, Short.MAX_VALUE)
+                    jPanel5Layout.createParallelGroup()
+                            .addGap(0, 24, Short.MAX_VALUE)
             );
             jPanel5Layout.setVerticalGroup(
-                jPanel5Layout.createParallelGroup()
-                    .addGap(0, 23, Short.MAX_VALUE)
+                    jPanel5Layout.createParallelGroup()
+                            .addGap(0, 23, Short.MAX_VALUE)
             );
         }
         add(jPanel5);
@@ -165,12 +167,12 @@ public class MoveMapPanel extends JPanel {
             GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
             jPanel6.setLayout(jPanel6Layout);
             jPanel6Layout.setHorizontalGroup(
-                jPanel6Layout.createParallelGroup()
-                    .addGap(0, 24, Short.MAX_VALUE)
+                    jPanel6Layout.createParallelGroup()
+                            .addGap(0, 24, Short.MAX_VALUE)
             );
             jPanel6Layout.setVerticalGroup(
-                jPanel6Layout.createParallelGroup()
-                    .addGap(0, 23, Short.MAX_VALUE)
+                    jPanel6Layout.createParallelGroup()
+                            .addGap(0, 23, Short.MAX_VALUE)
             );
         }
         add(jPanel6);

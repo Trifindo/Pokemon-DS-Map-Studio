@@ -3,8 +3,10 @@ package editor.smartdrawing;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+
 import editor.grid.MapGrid;
 import editor.handler.MapEditorHandler;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -19,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+
 import tileset.Tile;
 import utils.Utils;
 
@@ -158,8 +161,8 @@ public class SmartGridEditableDisplay extends JPanel {
                                         (j + SmartGrid.height * k) * MapGrid.tileSize,
                                         null);
                             } catch (Exception ex) {
-ex.printStackTrace();
-}
+                                ex.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -259,12 +262,12 @@ ex.printStackTrace();
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

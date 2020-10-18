@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -19,12 +20,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import com.jogamp.opengl.GLContext;
 import editor.about.AboutDialog;
 import editor.animationeditor.AnimationEditorDialog;
 import editor.backsound.BacksoundEditorDialog;
 import editor.bdhc.BdhcEditorDialog;
-import editor.buildingeditor.BuildingEditorDialog;
 import editor.buildingeditor2.BuildingEditorChooser;
 import editor.collisions.CollisionsEditorDialog;
 import editor.converter.*;
@@ -48,6 +50,7 @@ import editor.nsbtx2.NsbtxEditorDialog2;
 import editor.nsbtx2.NsbtxLoader2;
 import editor.obj.ExportMapObjDialog;
 import editor.obj.ObjWriter;
+import editor.settings.SettingsDialog;
 import editor.smartdrawing.*;
 import editor.state.MapLayerState;
 import editor.state.StateHandler;
@@ -65,10 +68,30 @@ import utils.Utils;
  */
 public class MainFrame extends JFrame {
     MapEditorHandler handler;
+    public static Preferences prefs = Preferences.userRoot().node(MainFrame.class.getName());
 
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(new FlatDarculaLaf());
+            String theme = prefs.get("Theme", "FlatLaf Dark");
+            switch (theme) {
+                case "Native":
+                    String os = System.getProperty("os.name").toLowerCase();
+                    if (os.contains("win"))
+                        UIManager.setLookAndFeel("Windows");
+                    else if (os.contains("mac"))
+                        UIManager.setLookAndFeel("Macintosh");
+                    else if (os.contains("linux"))
+                        UIManager.setLookAndFeel("GTK+");
+                    else
+                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    break;
+                case "FlatLaf":
+                    UIManager.setLookAndFeel(new FlatLightLaf());
+                    break;
+                case "FlatLaf Dark":
+                    UIManager.setLookAndFeel(new FlatDarculaLaf());
+                    break;
+            }
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
@@ -515,6 +538,23 @@ public class MainFrame extends JFrame {
         mapDisplay.repaint();
     }
 
+    private void jmiNewMapActionPerformed(ActionEvent e) {
+        newMap();
+    }
+
+    private void menuItem1ActionPerformed(ActionEvent e) {
+        showPreferences();
+    }
+
+    private void jbSettingsActionPerformed(ActionEvent e) {
+        showPreferences();
+    }
+
+    public void showPreferences() {
+        SettingsDialog settingsDialog = new SettingsDialog(this);
+        settingsDialog.setVisible(true);
+    }
+
     public void openMap(String path) {
         try {
             String folderPath = new File(path).getParent();
@@ -764,7 +804,7 @@ public class MainFrame extends JFrame {
             tileDisplay.repaint();
             thumbnailLayerSelector.drawAllLayerThumbnails();
             thumbnailLayerSelector.repaint();
-        } catch (TextureNotFoundException | IOException ex){
+        } catch (TextureNotFoundException | IOException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error opening tilset", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -820,7 +860,7 @@ public class MainFrame extends JFrame {
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
 
-            if (dialog.getReturnValue() == GameTsetSelectorDialog2.ACEPTED) {
+            if (dialog.getReturnValue() == GameTsetSelectorDialog2.ACCEPTED) {
                 handler.setIndexTileSelected(0);
                 handler.setSmartGridIndexSelected(0);
 
@@ -1800,10 +1840,6 @@ public class MainFrame extends JFrame {
         thumbnailLayerSelector.repaint();
     }
 
-    private void jmiNewMapActionPerformed(ActionEvent e) {
-        // TODO add your code here
-    }
-
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         jmMainMenu = new JMenuBar();
@@ -1829,6 +1865,7 @@ public class MainFrame extends JFrame {
         jmiPasteLayer = new JMenuItem();
         jmiPasteLayerTiles = new JMenuItem();
         jmiPasteLayerHeights = new JMenuItem();
+        menuItem1 = new JMenuItem();
         jmView = new JMenu();
         jmi3dView = new JMenuItem();
         jmiTopView = new JMenuItem();
@@ -1865,6 +1902,7 @@ public class MainFrame extends JFrame {
         jbNsbtxEditor1 = new JButton();
         jbBuildingEditor = new JButton();
         jbAnimationEditor = new JButton();
+        jbSettings = new JButton();
         jbKeboardInfo = new JButton();
         jbHelp = new JButton();
         jpGameInfo = new JPanel();
@@ -2064,12 +2102,14 @@ public class MainFrame extends JFrame {
                 //---- jmiUndo ----
                 jmiUndo.setIcon(new ImageIcon(getClass().getResource("/icons/undoIconSmall.png")));
                 jmiUndo.setText("Undo");
+                jmiUndo.setMnemonic('U');
                 jmiUndo.addActionListener(e -> jmiUndoActionPerformed(e));
                 jmEdit.add(jmiUndo);
 
                 //---- jmiRedo ----
                 jmiRedo.setIcon(new ImageIcon(getClass().getResource("/icons/redoIconSmall.png")));
                 jmiRedo.setText("Redo");
+                jmiRedo.setMnemonic('R');
                 jmiRedo.addActionListener(e -> jmiRedoActionPerformed(e));
                 jmEdit.add(jmiRedo);
                 jmEdit.addSeparator();
@@ -2077,6 +2117,7 @@ public class MainFrame extends JFrame {
                 //---- jmiClearLayer ----
                 jmiClearLayer.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
                 jmiClearLayer.setText("Clear Layer");
+                jmiClearLayer.setMnemonic('L');
                 jmiClearLayer.addActionListener(e -> jmiClearLayerActionPerformed(e));
                 jmEdit.add(jmiClearLayer);
 
@@ -2090,26 +2131,38 @@ public class MainFrame extends JFrame {
                 //---- jmiCopyLayer ----
                 jmiCopyLayer.setIcon(new ImageIcon(getClass().getResource("/icons/copyIcon.png")));
                 jmiCopyLayer.setText("Copy Layer");
+                jmiCopyLayer.setMnemonic('C');
                 jmiCopyLayer.addActionListener(e -> jmiCopyLayerActionPerformed(e));
                 jmEdit.add(jmiCopyLayer);
 
                 //---- jmiPasteLayer ----
                 jmiPasteLayer.setIcon(new ImageIcon(getClass().getResource("/icons/pasteIcon.png")));
                 jmiPasteLayer.setText("Paste Layer");
+                jmiPasteLayer.setMnemonic('P');
                 jmiPasteLayer.addActionListener(e -> jmiPasteLayerActionPerformed(e));
                 jmEdit.add(jmiPasteLayer);
 
                 //---- jmiPasteLayerTiles ----
                 jmiPasteLayerTiles.setIcon(new ImageIcon(getClass().getResource("/icons/pasteTileIcon.png")));
                 jmiPasteLayerTiles.setText("Paste Layer Tiles");
+                jmiPasteLayerTiles.setMnemonic('T');
                 jmiPasteLayerTiles.addActionListener(e -> jmiPasteLayerTilesActionPerformed(e));
                 jmEdit.add(jmiPasteLayerTiles);
 
                 //---- jmiPasteLayerHeights ----
                 jmiPasteLayerHeights.setIcon(new ImageIcon(getClass().getResource("/icons/pasteHeightIcon.png")));
                 jmiPasteLayerHeights.setText("Paste Layer Heights");
+                jmiPasteLayerHeights.setMnemonic('H');
                 jmiPasteLayerHeights.addActionListener(e -> jmiPasteLayerHeightsActionPerformed(e));
                 jmEdit.add(jmiPasteLayerHeights);
+                jmEdit.addSeparator();
+
+                //---- menuItem1 ----
+                menuItem1.setText("Settings");
+                menuItem1.setIcon(new ImageIcon(getClass().getResource("/icons/settingsIconSmall.png")));
+                menuItem1.setMnemonic('S');
+                menuItem1.addActionListener(e -> menuItem1ActionPerformed(e));
+                jmEdit.add(menuItem1);
             }
             jmMainMenu.add(jmEdit);
 
@@ -2120,28 +2173,33 @@ public class MainFrame extends JFrame {
 
                 //---- jmi3dView ----
                 jmi3dView.setText("3D View");
+                jmi3dView.setMnemonic('3');
                 jmi3dView.addActionListener(e -> jmi3dViewActionPerformed(e));
                 jmView.add(jmi3dView);
 
                 //---- jmiTopView ----
                 jmiTopView.setText("Top View");
+                jmiTopView.setMnemonic('T');
                 jmiTopView.addActionListener(e -> jmiTopViewActionPerformed(e));
                 jmView.add(jmiTopView);
 
                 //---- jmiHeightView ----
                 jmiHeightView.setText("Height View");
+                jmiHeightView.setMnemonic('H');
                 jmiHeightView.addActionListener(e -> jmiHeightViewActionPerformed(e));
                 jmView.add(jmiHeightView);
                 jmView.addSeparator();
 
                 //---- jmiToggleGrid ----
                 jmiToggleGrid.setText("Toggle Grid");
+                jmiToggleGrid.setMnemonic('G');
                 jmiToggleGrid.addActionListener(e -> jmiToggleGridActionPerformed(e));
                 jmView.add(jmiToggleGrid);
                 jmView.addSeparator();
 
                 //---- jmiLoadBackImg ----
                 jmiLoadBackImg.setText("Open Background Image");
+                jmiLoadBackImg.setMnemonic('O');
                 jmiLoadBackImg.addActionListener(e -> jmiLoadBackImgActionPerformed(e));
                 jmView.add(jmiLoadBackImg);
 
@@ -2159,31 +2217,37 @@ public class MainFrame extends JFrame {
 
                 //---- jmiTilesetEditor ----
                 jmiTilesetEditor.setText("Tileset Editor");
+                jmiTilesetEditor.setMnemonic('T');
                 jmiTilesetEditor.addActionListener(e -> jmiTilesetEditorActionPerformed(e));
                 jmTools.add(jmiTilesetEditor);
 
                 //---- jmiCollisionEditor ----
                 jmiCollisionEditor.setText("Collision Editor");
+                jmiCollisionEditor.setMnemonic('C');
                 jmiCollisionEditor.addActionListener(e -> jmiCollisionEditorActionPerformed(e));
                 jmTools.add(jmiCollisionEditor);
 
                 //---- jmiBdhcEditor ----
                 jmiBdhcEditor.setText("BDHC Editor");
+                jmiBdhcEditor.setMnemonic('B');
                 jmiBdhcEditor.addActionListener(e -> jmiBdhcEditorActionPerformed(e));
                 jmTools.add(jmiBdhcEditor);
 
                 //---- jmiNsbtxEditor ----
                 jmiNsbtxEditor.setText("NSBTX Editor");
+                jmiNsbtxEditor.setMnemonic('N');
                 jmiNsbtxEditor.addActionListener(e -> jmiNsbtxEditorActionPerformed(e));
                 jmTools.add(jmiNsbtxEditor);
 
                 //---- jMenuItem1 ----
                 jMenuItem1.setText("Building Editor");
+                jMenuItem1.setMnemonic('U');
                 jMenuItem1.addActionListener(e -> jMenuItem1ActionPerformed(e));
                 jmTools.add(jMenuItem1);
 
                 //---- jmiAnimationEditor ----
                 jmiAnimationEditor.setText("Animation Editor");
+                jmiAnimationEditor.setMnemonic('A');
                 jmiAnimationEditor.addActionListener(e -> jmiAnimationEditorActionPerformed(e));
                 jmTools.add(jmiAnimationEditor);
             }
@@ -2196,11 +2260,13 @@ public class MainFrame extends JFrame {
 
                 //---- jmiKeyboardInfo ----
                 jmiKeyboardInfo.setText("Keyboard Shortcuts");
+                jmiKeyboardInfo.setMnemonic('K');
                 jmiKeyboardInfo.addActionListener(e -> jmiKeyboardInfoActionPerformed(e));
                 jmHelp.add(jmiKeyboardInfo);
 
                 //---- jmiAbout ----
                 jmiAbout.setText("About");
+                jmiAbout.setMnemonic('A');
                 jmiAbout.addActionListener(e -> jmiAboutActionPerformed(e));
                 jmHelp.add(jmiAbout);
             }
@@ -2458,6 +2524,14 @@ public class MainFrame extends JFrame {
             jbAnimationEditor.addActionListener(e -> jbAnimationEditorActionPerformed(e));
             jtMainToolbar.add(jbAnimationEditor);
             jtMainToolbar.addSeparator();
+
+            //---- jbSettings ----
+            jbSettings.setMaximumSize(new Dimension(38, 38));
+            jbSettings.setMinimumSize(new Dimension(38, 38));
+            jbSettings.setPreferredSize(new Dimension(38, 38));
+            jbSettings.setIcon(new ImageIcon(getClass().getResource("/icons/settingsIcon.png")));
+            jbSettings.addActionListener(e -> jbSettingsActionPerformed(e));
+            jtMainToolbar.add(jbSettings);
 
             //---- jbKeboardInfo ----
             jbKeboardInfo.setIcon(new ImageIcon(getClass().getResource("/icons/keyboardInfoIcon.png")));
@@ -3273,6 +3347,7 @@ public class MainFrame extends JFrame {
     private JMenuItem jmiPasteLayer;
     private JMenuItem jmiPasteLayerTiles;
     private JMenuItem jmiPasteLayerHeights;
+    private JMenuItem menuItem1;
     private JMenu jmView;
     private JMenuItem jmi3dView;
     private JMenuItem jmiTopView;
@@ -3309,6 +3384,7 @@ public class MainFrame extends JFrame {
     private JButton jbNsbtxEditor1;
     private JButton jbBuildingEditor;
     private JButton jbAnimationEditor;
+    private JButton jbSettings;
     private JButton jbKeboardInfo;
     private JButton jbHelp;
     private JPanel jpGameInfo;

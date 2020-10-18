@@ -10,6 +10,7 @@ new FormModel {
 			name: "this"
 			"defaultCloseOperation": 2
 			"title": "Resulting IMD files info"
+			"modal": true
 			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowActivated", "formWindowActivated", true ) )
 			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "formWindowClosed", true ) )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {

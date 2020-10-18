@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
+
 import editor.handler.MapData;
 import editor.imd.*;
 import editor.handler.MapEditorHandler;
@@ -13,6 +14,7 @@ import editor.nsbtx2.*;
 import editor.nsbtx2.Nsbtx2;
 import editor.nsbtx2.NsbtxImd;
 import editor.nsbtx2.NsbtxTexture;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -38,6 +40,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+
 import renderer.ObjectGL;
 import tileset.NormalsNotFoundException;
 import tileset.TextureNotFoundException;
@@ -46,7 +49,6 @@ import tileset.TilesetMaterial;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
@@ -81,7 +83,9 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
             this.msg = msg;
             this.color = color;
         }
-    };
+    }
+
+    ;
 
     /**
      * Creates new form ImdOutputInfoDialog
@@ -145,6 +149,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Resulting NSBTX files info (Experimental)");
+        setModal(true);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
@@ -243,7 +248,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addContainerGap()
                             .addGroup(jPanel2Layout.createParallelGroup()
-                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel5)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
@@ -270,14 +275,14 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel1)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)))
+                                    .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)))
                             .addContainerGap())
                 );
                 jPanel2Layout.setVerticalGroup(
                     jPanel2Layout.createParallelGroup()
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                             .addGap(21, 21, 21)
                             .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -358,7 +363,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                             .addGroup(jpErrorInfoLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(jpErrorInfoLayout.createParallelGroup()
-                                    .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                                     .addGroup(jpErrorInfoLayout.createSequentialGroup()
                                         .addComponent(jLabel6)
                                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -370,7 +375,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                                 .addContainerGap()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
                                 .addContainerGap())
                     );
                 }
@@ -387,14 +392,14 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                     .addContainerGap()
                     .addGroup(contentPaneLayout.createParallelGroup()
                         .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSplitPane1, GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE))
+                        .addComponent(jSplitPane1))
                     .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup()
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jSplitPane1)
+                    .addComponent(jSplitPane1, GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addGap(6, 6, 6))
@@ -453,7 +458,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     public void init(MapEditorHandler handler, ArrayList<Integer> areaIndices,
-            String nsbtxFolderPath) {
+                     String nsbtxFolderPath) {
         this.handler = handler;
         this.areaIndices = areaIndices;
         this.nsbtxFolderPath = nsbtxFolderPath;
@@ -583,8 +588,8 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                                     try {
                                         Files.delete(file.toPath());
                                     } catch (IOException ex) {
-ex.printStackTrace();
-}
+                                        ex.printStackTrace();
+                                    }
                                 }
                             } else {
                                 nFilesNotConverted++;
@@ -598,7 +603,7 @@ ex.printStackTrace();
                             exportStatus = ConvertStatus.CONVERTER_NOT_FOUND_STATUS;
                             errorMsgs.set(nFilesProcessed,
                                     "The program \"g3dcvtr.exe\" is not found in the \"converter\" folder.\n"
-                                    + "Put the program and its *.dll files in the folder and try again.");
+                                            + "Put the program and its *.dll files in the folder and try again.");
 
                         } catch (InterruptedException ex) {
                             nFilesNotConverted++;
@@ -640,8 +645,8 @@ ex.printStackTrace();
                 }
 
                 tableModel.addRow(new Object[]{
-                    "Area_" + String.valueOf(areaIndex),
-                    exportStatus
+                        "Area_" + String.valueOf(areaIndex),
+                        exportStatus
                 });
 
                 nFilesProcessed++;
@@ -683,8 +688,8 @@ ex.printStackTrace();
 
             }
         } catch (Exception ex) {
-ex.printStackTrace();
-}
+            ex.printStackTrace();
+        }
     }
 
     private class StatusColumnCellRenderer extends DefaultTableCellRenderer {

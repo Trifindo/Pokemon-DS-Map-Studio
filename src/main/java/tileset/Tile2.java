@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class Tile2 {
@@ -44,13 +43,13 @@ public class Tile2 {
     //Geometry
     private ArrayList<TileGeometry> tris;
     private ArrayList<TileGeometry> quads;
-    
-    
+
+
     public Tile2(Tileset tileset, String folderPath, String objFilename,
-            int width, int height, boolean xTileable, boolean yTileable,
-            boolean uTileable, boolean vTileable,
-            boolean globalTexMapping, float globalTexScale,
-            float xOffset, float yOffset)
+                 int width, int height, boolean xTileable, boolean yTileable,
+                 boolean uTileable, boolean vTileable,
+                 boolean globalTexMapping, float globalTexScale,
+                 float xOffset, float yOffset)
             throws IOException, TextureNotFoundException,
             NormalsNotFoundException {
 

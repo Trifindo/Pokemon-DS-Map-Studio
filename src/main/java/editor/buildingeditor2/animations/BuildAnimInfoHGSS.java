@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import utils.BinaryReader;
 import utils.BinaryWriter;
 
 /**
- *
  * @author Trifindo
  */
 public class BuildAnimInfoHGSS {
@@ -67,7 +67,7 @@ public class BuildAnimInfoHGSS {
     public static final Map<String, Integer> namesNumAnimsSwap = namesNumAnims.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
     public static final Map<String, Integer> namesAnimType2Swap = namesAnimType2.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
 
-    
+
     private ArrayList<Integer> animIDs = new ArrayList<>();
     private int animType1;//second byte: FF=no animation, 00=loop, 02=trigger(?), 03=trigger, 08=day/night cycle
     private int loopType; //fourth byte: 00=Loop, 01=Trigger

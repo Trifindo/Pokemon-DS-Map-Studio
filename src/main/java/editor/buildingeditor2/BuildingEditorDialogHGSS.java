@@ -2055,7 +2055,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
     }
 
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         jTabbedPane1 = new JTabbedPane();
         jPanel3 = new JPanel();
         jPanel1 = new JPanel();
@@ -2211,6 +2211,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Building Editor (Experimental)");
+        setModal(true);
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
                 "insets 0,hidemode 3,gap 5 5",
@@ -2260,7 +2261,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
                         nitroDisplayGL.setLayout(nitroDisplayGLLayout);
                         nitroDisplayGLLayout.setHorizontalGroup(
                                 nitroDisplayGLLayout.createParallelGroup()
-                                        .addGap(0, 501, Short.MAX_VALUE)
+                                        .addGap(0, 510, Short.MAX_VALUE)
                         );
                         nitroDisplayGLLayout.setVerticalGroup(
                                 nitroDisplayGLLayout.createParallelGroup()
@@ -3575,10 +3576,10 @@ public class BuildingEditorDialogHGSS extends JDialog {
         contentPane.add(panel1, "cell 0 1");
         pack();
         setLocationRelativeTo(getOwner());
-        // JFormDesigner - End of component initialization  
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JTabbedPane jTabbedPane1;
     private JPanel jPanel3;
     private JPanel jPanel1;
@@ -3730,5 +3731,5 @@ public class BuildingEditorDialogHGSS extends JDialog {
     private JComboBox<String> jcbModelsSelected;
     private JButton jbSaveAll;
     private JButton jbCancel;
-    // JFormDesigner - End of variables declaration  
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

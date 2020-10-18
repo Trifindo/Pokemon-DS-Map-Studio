@@ -80,13 +80,13 @@ public class IntegerRequestDialog extends JDialog {
         setModal(true);
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 0,hidemode 3,gap 5 5",
-            // columns
-            "[fill]" +
-            "[grow,fill]",
-            // rows
-            "[fill]" +
-            "[fill]"));
+                "insets 0,hidemode 3,gap 5 5",
+                // columns
+                "[fill]" +
+                        "[grow,fill]",
+                // rows
+                "[fill]" +
+                        "[fill]"));
 
         //---- jLabel1 ----
         jLabel1.setText("Number of materials for the Building: ");

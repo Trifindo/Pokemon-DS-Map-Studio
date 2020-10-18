@@ -119,17 +119,17 @@ public class ColorBrightnessPanel extends JPanel {
     }
 
 
-    public float getBrightness(){
-        return 1.0f - (float)currentY / height;
+    public float getBrightness() {
+        return 1.0f - (float) currentY / height;
     }
 
-    public void setBrightness(float brightness){
-        this.currentY = (int)((1.0f - brightness) * height);
+    public void setBrightness(float brightness) {
+        this.currentY = (int) ((1.0f - brightness) * height);
     }
 
-    public void setColor(Color c){
+    public void setColor(Color c) {
         float[] hsb = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
-        this.currentY = (int)((1.0f - hsb[2]) * height);
+        this.currentY = (int) ((1.0f - hsb[2]) * height);
     }
 
     private void initComponents() {
@@ -152,12 +152,12 @@ public class ColorBrightnessPanel extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

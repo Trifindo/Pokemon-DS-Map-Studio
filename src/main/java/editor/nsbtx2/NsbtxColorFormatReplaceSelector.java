@@ -34,11 +34,11 @@ public class NsbtxColorFormatReplaceSelector extends JDialog {
     }
 
     private void jbOkayActionPerformed(ActionEvent e) {
-        if(jrbChooseFormat.isSelected()){
+        if (jrbChooseFormat.isSelected()) {
             format = Nsbtx2.jcbToFormatLookup[jcbColorTexture.getSelectedIndex()];
             isTransparent = jcbTransparentColor.isSelected();
 
-        }else{
+        } else {
             format = originalFormat;
             isTransparent = originalIsTransparent;
         }
@@ -51,7 +51,7 @@ public class NsbtxColorFormatReplaceSelector extends JDialog {
         dispose();
     }
 
-    public void init(int originalFormat, boolean originalIsTransparent){
+    public void init(int originalFormat, boolean originalIsTransparent) {
         this.originalFormat = originalFormat;
         this.format = originalFormat;
         this.originalIsTransparent = originalIsTransparent;
@@ -63,15 +63,15 @@ public class NsbtxColorFormatReplaceSelector extends JDialog {
         jcbTransparentColor.setEnabled(jrbChooseFormat.isSelected());
     }
 
-    public int getReturnValue(){
+    public int getReturnValue() {
         return returnValue;
     }
 
-    public int getFormat(){
+    public int getFormat() {
         return format;
     }
 
-    public boolean getIsTransparent(){
+    public boolean getIsTransparent() {
         return isTransparent;
     }
 
@@ -97,12 +97,12 @@ public class NsbtxColorFormatReplaceSelector extends JDialog {
             jPanel1.setBorder(new TitledBorder("Texture Color Format"));
 
             //---- jcbColorTexture ----
-            jcbColorTexture.setModel(new DefaultComboBoxModel<>(new String[] {
-                "Palette 4",
-                "Palette 16",
-                "Palette 256",
-                "A3I5",
-                "A5I3"
+            jcbColorTexture.setModel(new DefaultComboBoxModel<>(new String[]{
+                    "Palette 4",
+                    "Palette 16",
+                    "Palette 256",
+                    "A3I5",
+                    "A5I3"
             }));
             jcbColorTexture.setSelectedIndex(1);
             jcbColorTexture.setEnabled(false);
@@ -134,59 +134,59 @@ public class NsbtxColorFormatReplaceSelector extends JDialog {
             GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
             jPanel1.setLayout(jPanel1Layout);
             jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup()
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup()
+                    jPanel1Layout.createParallelGroup()
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jbOkay, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbCancel, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup()
-                                    .addComponent(jrbUseSameFormat)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jrbChooseFormat)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jcbColorTexture, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jcbTransparentColor)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
+                                    .addContainerGap()
+                                    .addGroup(jPanel1Layout.createParallelGroup()
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addComponent(jbOkay, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(jbCancel, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addGroup(jPanel1Layout.createParallelGroup()
+                                                            .addComponent(jrbUseSameFormat)
+                                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                    .addComponent(jrbChooseFormat)
+                                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                    .addComponent(jcbColorTexture, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                    .addComponent(jcbTransparentColor)))
+                                                    .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addContainerGap())
             );
             jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup()
-                    .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jrbUseSameFormat)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbChooseFormat)
-                            .addComponent(jcbColorTexture, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcbTransparentColor))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbOkay)
-                            .addComponent(jbCancel))
-                        .addContainerGap())
+                    jPanel1Layout.createParallelGroup()
+                            .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jrbUseSameFormat)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jrbChooseFormat)
+                                            .addComponent(jcbColorTexture, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jcbTransparentColor))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jbOkay)
+                                            .addComponent(jbCancel))
+                                    .addContainerGap())
             );
         }
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
-            contentPaneLayout.createParallelGroup()
-                .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap())
+                contentPaneLayout.createParallelGroup()
+                        .addGroup(contentPaneLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
-            contentPaneLayout.createParallelGroup()
-                .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                contentPaneLayout.createParallelGroup()
+                        .addGroup(contentPaneLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pack();
         setLocationRelativeTo(getOwner());

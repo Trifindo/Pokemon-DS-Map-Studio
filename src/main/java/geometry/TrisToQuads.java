@@ -2,10 +2,10 @@
 package geometry;
 
 import java.util.ArrayList;
+
 import tileset.Tile;
 
 /**
- *
  * @author Trifindo
  */
 public class TrisToQuads {
@@ -44,14 +44,14 @@ public class TrisToQuads {
         this.numEdges = numFaces * edgesPerFace;
     }
 
-    public void calculateQuads(){
+    public void calculateQuads() {
         edges = calculateEdges();
         edgesConnected = generateConnectedEdges(edges);
         usedFaces = new boolean[numFaces];
 
-        for(int i = 0; i < edgesConnected.size(); i++){
+        for (int i = 0; i < edgesConnected.size(); i++) {
             int faceIndex = edgesConnected.get(i).get(0) / edgesPerFace;
-            if(edgesConnected.get(i) != null && !usedFaces[faceIndex] && !usedFaces[i / edgesPerFace]){
+            if (edgesConnected.get(i) != null && !usedFaces[faceIndex] && !usedFaces[i / edgesPerFace]) {
 
             }
         }
@@ -122,7 +122,7 @@ public class TrisToQuads {
         }
 
         private boolean sameVertexCoords(float[] coordData, int coordsPerVertex,
-                int vertexIndex1, int vertexIndex2) {
+                                         int vertexIndex1, int vertexIndex2) {
             int offset1 = vertexIndex1 * coordsPerVertex;
             int offset2 = vertexIndex2 * coordsPerVertex;
             for (int i = 0; i < coordsPerVertex; i++) {
@@ -134,7 +134,7 @@ public class TrisToQuads {
         }
 
         private boolean sameEdgeCoords(float[] coords, int coordsPerVertex,
-                Edge other) {
+                                       Edge other) {
             /*if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex1, other.vertexIndex1)) {
                 if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex2, other.vertexIndex2)) {
                     return true;

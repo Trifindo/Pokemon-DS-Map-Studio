@@ -269,6 +269,14 @@ new FormModel {
 					name: "jSeparator7"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbSettings"
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/settingsIcon.png" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSettingsActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "jbKeboardInfo"
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/keyboardInfoIcon.png" )
 					"toolTipText": "Keyboard Shortcuts"
@@ -991,12 +999,14 @@ new FormModel {
 						name: "jmiUndo"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoIconSmall.png" )
 						"text": "Undo"
+						"mnemonic": 85
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiUndoActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiRedo"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoIconSmall.png" )
 						"text": "Redo"
+						"mnemonic": 82
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiRedoActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
@@ -1006,6 +1016,7 @@ new FormModel {
 						name: "jmiClearLayer"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
 						"text": "Clear Layer"
+						"mnemonic": 76
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiClearLayerActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
@@ -1021,25 +1032,39 @@ new FormModel {
 						name: "jmiCopyLayer"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/copyIcon.png" )
 						"text": "Copy Layer"
+						"mnemonic": 67
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiCopyLayerActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiPasteLayer"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/pasteIcon.png" )
 						"text": "Paste Layer"
+						"mnemonic": 80
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiPasteLayerActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiPasteLayerTiles"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/pasteTileIcon.png" )
 						"text": "Paste Layer Tiles"
+						"mnemonic": 84
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiPasteLayerTilesActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiPasteLayerHeights"
 						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/pasteHeightIcon.png" )
 						"text": "Paste Layer Heights"
+						"mnemonic": 72
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiPasteLayerHeightsActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "separator1"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "menuItem1"
+						"text": "Settings"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/settingsIconSmall.png" )
+						"mnemonic": 83
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuItem1ActionPerformed", true ) )
 					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
@@ -1049,16 +1074,19 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmi3dView"
 						"text": "3D View"
+						"mnemonic": 51
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmi3dViewActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiTopView"
 						"text": "Top View"
+						"mnemonic": 84
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiTopViewActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiHeightView"
 						"text": "Height View"
+						"mnemonic": 72
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiHeightViewActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
@@ -1067,6 +1095,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiToggleGrid"
 						"text": "Toggle Grid"
+						"mnemonic": 71
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiToggleGridActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
@@ -1075,6 +1104,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiLoadBackImg"
 						"text": "Open Background Image"
+						"mnemonic": 79
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiLoadBackImgActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JCheckBoxMenuItem" ) {
@@ -1090,31 +1120,37 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiTilesetEditor"
 						"text": "Tileset Editor"
+						"mnemonic": 84
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiTilesetEditorActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiCollisionEditor"
 						"text": "Collision Editor"
+						"mnemonic": 67
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiCollisionEditorActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiBdhcEditor"
 						"text": "BDHC Editor"
+						"mnemonic": 66
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiBdhcEditorActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiNsbtxEditor"
 						"text": "NSBTX Editor"
+						"mnemonic": 78
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiNsbtxEditorActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jMenuItem1"
 						"text": "Building Editor"
+						"mnemonic": 85
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jMenuItem1ActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiAnimationEditor"
 						"text": "Animation Editor"
+						"mnemonic": 65
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiAnimationEditorActionPerformed", true ) )
 					} )
 				} )
@@ -1125,11 +1161,13 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiKeyboardInfo"
 						"text": "Keyboard Shortcuts"
+						"mnemonic": 75
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiKeyboardInfoActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "jmiAbout"
 						"text": "About"
+						"mnemonic": 65
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiAboutActionPerformed", true ) )
 					} )
 				} )

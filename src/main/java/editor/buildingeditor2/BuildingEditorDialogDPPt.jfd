@@ -11,6 +11,7 @@ new FormModel {
 			name: "this"
 			"defaultCloseOperation": 2
 			"title": "Building Editor (Experimental)"
+			"modal": true
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "jTabbedPane1"
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {

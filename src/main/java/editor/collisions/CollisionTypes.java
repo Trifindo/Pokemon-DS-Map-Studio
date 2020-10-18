@@ -2,6 +2,7 @@
 package editor.collisions;
 
 import editor.MainFrame;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -16,7 +17,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- *
  * @author Trifindo
  */
 public class CollisionTypes {
@@ -30,19 +30,19 @@ public class CollisionTypes {
     private String[][] collisionNames;
 
     public static final String[] collisionTypesFilesPerGame = new String[]{
-        "colors/CollisionsColorsDP.txt",
-        "colors/CollisionsColorsDP.txt",
-        "colors/CollisionsColorsDP.txt",
-        "colors/CollisionsColorsHGSS.txt",
-        "colors/CollisionsColorsHGSS.txt",
-        "colors/CollisionsColorsBW.txt",
-        "colors/CollisionsColorsBW.txt",
-        "colors/CollisionsColorsBW.txt",
-        "colors/CollisionsColorsBW.txt"
+            "colors/CollisionsColorsDP.txt",
+            "colors/CollisionsColorsDP.txt",
+            "colors/CollisionsColorsDP.txt",
+            "colors/CollisionsColorsHGSS.txt",
+            "colors/CollisionsColorsHGSS.txt",
+            "colors/CollisionsColorsBW.txt",
+            "colors/CollisionsColorsBW.txt",
+            "colors/CollisionsColorsBW.txt",
+            "colors/CollisionsColorsBW.txt"
     };
 
     public static final int[] numLayersPerGame = new int[]{
-        2, 2, 2, 2, 2, 8, 8, 8, 8
+            2, 2, 2, 2, 2, 8, 8, 8, 8
     };
 
     public CollisionTypes(int gameIndex) {
@@ -80,7 +80,7 @@ public class CollisionTypes {
                 if (words != null && words.length > 2) {
                     colors[layerIndex][collIndex] = parseColor(words[1]);
                     String name = words[2];
-                    for(int i = 3; i < words.length; i++){
+                    for (int i = 3; i < words.length; i++) {
                         name += " " + words[i];
                     }
                     collisionNames[layerIndex][collIndex] = name;

@@ -14,10 +14,12 @@ import editor.game.GameFileSystemDPPt;
 import editor.handler.MapEditorHandler;
 import editor.narc2.Narc;
 import editor.narc2.NarcIO;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import nitroreader.nsbmd.NSBMD;
 import nitroreader.nsbmd.sbccommands.MAT;
 import nitroreader.nsbmd.sbccommands.SBCCommand;
@@ -25,7 +27,6 @@ import nitroreader.nsbmd.sbccommands.SHP;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class BuildHandlerDPPt {

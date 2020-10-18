@@ -3,9 +3,11 @@ package editor.layerselector;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+
 import editor.handler.MapEditorHandler;
 import editor.grid.MapGrid;
 import editor.state.MapLayerState;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -302,6 +304,7 @@ public class ThumbnailLayerSelector extends JPanel {
             public void mouseExited(MouseEvent e) {
                 formMouseExited(e);
             }
+
             @Override
             public void mousePressed(MouseEvent e) {
                 formMousePressed(e);
@@ -311,12 +314,12 @@ public class ThumbnailLayerSelector extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

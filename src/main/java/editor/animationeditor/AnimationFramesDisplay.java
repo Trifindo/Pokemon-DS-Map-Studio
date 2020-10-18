@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 /**
- *
  * @author Trifindo, JackHack96
  */
 public class AnimationFramesDisplay extends JPanel {
@@ -100,7 +99,7 @@ public class AnimationFramesDisplay extends JPanel {
         drawTextBox(g, cellIndex * cellSize, 0, String.valueOf(cellIndex));
 
         drawLabel(g, cellIndex * cellSize, cellSize, "Delay: " + String.valueOf(delay));
-        
+
         drawLabel(g, cellIndex * cellSize, cellSize + labelSize, frameName);
     }
 
@@ -156,12 +155,12 @@ public class AnimationFramesDisplay extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

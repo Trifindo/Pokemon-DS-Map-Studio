@@ -2,7 +2,6 @@
 package tileset;
 
 /**
- *
  * @author Trifindo
  */
 public class NormalsNotFoundException extends Exception {

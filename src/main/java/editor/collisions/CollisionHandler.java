@@ -4,11 +4,11 @@ package editor.collisions;
 import editor.handler.MapEditorHandler;
 import editor.state.CollisionLayerState;
 import editor.state.StateHandler;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 /**
- *
  * @author Trifindo
  */
 public class CollisionHandler {
@@ -18,8 +18,8 @@ public class CollisionHandler {
     private int indexLayerSelected = 0;
     private int indexCollisionSelected = 0;
     private final CollisionTypes collisionTypes;
-    
-    
+
+
     private boolean isLayerChanged = false;
     private StateHandler collisionStateHandler = new StateHandler();
     //private int numLayers = 2;
@@ -37,13 +37,13 @@ public class CollisionHandler {
         return collisionTypes.getCollisionName(indexLayerSelected, indexCollisionSelected);
     }
 
-    public void incrementCollisionSelected(int delta){
+    public void incrementCollisionSelected(int delta) {
         int newCollIndex = indexCollisionSelected + delta;
         if ((newCollIndex >= 0) && (newCollIndex < Collisions.cols * Collisions.rows)) {
             indexCollisionSelected = newCollIndex;
         }
     }
-    
+
     public CollisionTypes getCollisionTypes() {
         return collisionTypes;
     }
@@ -111,22 +111,22 @@ public class CollisionHandler {
     public CollisionsEditorDialog getDialog() {
         return dialog;
     }
-    
-    public byte[][] cloneLayer(int index){
+
+    public byte[][] cloneLayer(int index) {
         return handler.getCollisions().cloneLayer(index);
     }
 
-    public void setLayer(int index, byte[][] layer){
+    public void setLayer(int index, byte[][] layer) {
         this.handler.getCollisions().setLayer(index, layer);
     }
-    
-    public void addLayerState(CollisionLayerState state){
+
+    public void addLayerState(CollisionLayerState state) {
         collisionStateHandler.addState(state);
         dialog.getUndoButton().setEnabled(true);
         dialog.getRedoButton().setEnabled(false);
     }
-    
-    public void resetMapStateHandler(){
+
+    public void resetMapStateHandler() {
         collisionStateHandler = new StateHandler();
     }
 
@@ -141,7 +141,6 @@ public class CollisionHandler {
     public void setLayerChanged(boolean isLayerChanged) {
         this.isLayerChanged = isLayerChanged;
     }
-    
-    
-    
+
+
 }

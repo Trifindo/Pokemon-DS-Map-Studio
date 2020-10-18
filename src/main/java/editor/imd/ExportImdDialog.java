@@ -293,6 +293,7 @@ public class ExportImdDialog extends JDialog {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Export maps as IMD settings");
+        setModal(true);
         var contentPane = getContentPane();
 
         //======== jPanel1 ========

@@ -7,10 +7,12 @@ import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
+
 import editor.bdhc.Bdhc;
 import editor.handler.MapEditorHandler;
 import editor.state.CollisionLayerState;
 import editor.state.StateHandler;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import net.miginfocom.swing.*;
 import utils.Utils;
 
@@ -57,7 +60,7 @@ public class CollisionsEditorDialog extends JDialog {
         redoState();
     }
 
-    public void init(MapEditorHandler handler, BufferedImage mapImage){
+    public void init(MapEditorHandler handler, BufferedImage mapImage) {
         //CollisionTypes colors = new CollisionTypes();
         this.handler = handler;
         collisionHandler = new CollisionHandler(handler, this);
@@ -68,17 +71,17 @@ public class CollisionsEditorDialog extends JDialog {
         updateView();
     }
 
-    public void updateView(){
+    public void updateView() {
         updateViewCollisionTypeName();
     }
 
-    public void updateViewCollisionTypeName(){
+    public void updateViewCollisionTypeName() {
         jtfCollisionType.setText(collisionHandler.getCollisionNameSelected());
     }
 
-    public void openCollisionWithDialog(){
+    public void openCollisionWithDialog() {
         final JFileChooser fc = new JFileChooser();
-        if (handler.getLastCollisionsDirectoryUsed()!= null) {
+        if (handler.getLastCollisionsDirectoryUsed() != null) {
             fc.setCurrentDirectory(new File(handler.getLastCollisionsDirectoryUsed()));
         }
         fc.setFileFilter(new FileNameExtensionFilter("Collision File (*.per)", Collisions.fileExtension));
@@ -123,30 +126,30 @@ public class CollisionsEditorDialog extends JDialog {
                 handler.getCollisions().saveToFile(path);
                 JOptionPane.showMessageDialog(this, "Collision succesfully exported.",
                         "Collisions saved", JOptionPane.INFORMATION_MESSAGE);
-            } catch (IOException ex ) {
+            } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Can't save file.",
                         "Error saving collision", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-    public void repaintDisplay(){
+    public void repaintDisplay() {
         collisionsDisplay.repaint();
     }
 
-    public void repaintTypesDisplay(){
+    public void repaintTypesDisplay() {
         collisionsTypesDisplay.repaint();
     }
 
-    public void repaintLayerSelector(){
+    public void repaintLayerSelector() {
         collisionLayerSelector.repaint();
     }
 
-    public void redrawSelectedLayerInSelector(){
+    public void redrawSelectedLayerInSelector() {
         collisionLayerSelector.drawLayer(collisionHandler.getIndexLayerSelected());
     }
 
-    public void undoState(){
+    public void undoState() {
         StateHandler collStateHandler = collisionHandler.getCollisionStateHandler();
         if (collStateHandler.canGetPreviousState()) {
             CollisionLayerState state = (CollisionLayerState) collStateHandler.getPreviousState(new CollisionLayerState("Collision Edit", collisionHandler));
@@ -161,7 +164,7 @@ public class CollisionsEditorDialog extends JDialog {
         }
     }
 
-    public void redoState(){
+    public void redoState() {
         StateHandler collStateHandler = collisionHandler.getCollisionStateHandler();
         if (collStateHandler.canGetNextState()) {
             CollisionLayerState state = (CollisionLayerState) collStateHandler.getNextState();
@@ -208,11 +211,11 @@ public class CollisionsEditorDialog extends JDialog {
     }
     */
 
-    public JButton getUndoButton(){
+    public JButton getUndoButton() {
         return jbUndo;
     }
 
-    public JButton getRedoButton(){
+    public JButton getRedoButton() {
         return jbRedo;
     }
 
@@ -241,16 +244,16 @@ public class CollisionsEditorDialog extends JDialog {
         setModal(true);
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 0,hidemode 3,gap 5 5",
-            // columns
-            "[grow,fill]" +
-            "[fill]" +
-            "[fill]",
-            // rows
-            "[fill]" +
-            "[grow,fill]" +
-            "[fill]" +
-            "[fill]"));
+                "insets 0,hidemode 3,gap 5 5",
+                // columns
+                "[grow,fill]" +
+                        "[fill]" +
+                        "[fill]",
+                // rows
+                "[fill]" +
+                        "[grow,fill]" +
+                        "[fill]" +
+                        "[fill]"));
 
         //======== jPanel1 ========
         {
@@ -263,12 +266,12 @@ public class CollisionsEditorDialog extends JDialog {
                 GroupLayout collisionLayerSelectorLayout = new GroupLayout(collisionLayerSelector);
                 collisionLayerSelector.setLayout(collisionLayerSelectorLayout);
                 collisionLayerSelectorLayout.setHorizontalGroup(
-                    collisionLayerSelectorLayout.createParallelGroup()
-                        .addGap(0, 512, Short.MAX_VALUE)
+                        collisionLayerSelectorLayout.createParallelGroup()
+                                .addGap(0, 512, Short.MAX_VALUE)
                 );
                 collisionLayerSelectorLayout.setVerticalGroup(
-                    collisionLayerSelectorLayout.createParallelGroup()
-                        .addGap(0, 84, Short.MAX_VALUE)
+                        collisionLayerSelectorLayout.createParallelGroup()
+                                .addGap(0, 84, Short.MAX_VALUE)
                 );
             }
             jPanel1.add(collisionLayerSelector);
@@ -287,12 +290,12 @@ public class CollisionsEditorDialog extends JDialog {
                 GroupLayout collisionsDisplayLayout = new GroupLayout(collisionsDisplay);
                 collisionsDisplay.setLayout(collisionsDisplayLayout);
                 collisionsDisplayLayout.setHorizontalGroup(
-                    collisionsDisplayLayout.createParallelGroup()
-                        .addGap(0, 510, Short.MAX_VALUE)
+                        collisionsDisplayLayout.createParallelGroup()
+                                .addGap(0, 510, Short.MAX_VALUE)
                 );
                 collisionsDisplayLayout.setVerticalGroup(
-                    collisionsDisplayLayout.createParallelGroup()
-                        .addGap(0, 510, Short.MAX_VALUE)
+                        collisionsDisplayLayout.createParallelGroup()
+                                .addGap(0, 510, Short.MAX_VALUE)
                 );
             }
             jPanel2.add(collisionsDisplay);
@@ -311,12 +314,12 @@ public class CollisionsEditorDialog extends JDialog {
                 GroupLayout collisionsTypesDisplayLayout = new GroupLayout(collisionsTypesDisplay);
                 collisionsTypesDisplay.setLayout(collisionsTypesDisplayLayout);
                 collisionsTypesDisplayLayout.setHorizontalGroup(
-                    collisionsTypesDisplayLayout.createParallelGroup()
-                        .addGap(0, 126, Short.MAX_VALUE)
+                        collisionsTypesDisplayLayout.createParallelGroup()
+                                .addGap(0, 126, Short.MAX_VALUE)
                 );
                 collisionsTypesDisplayLayout.setVerticalGroup(
-                    collisionsTypesDisplayLayout.createParallelGroup()
-                        .addGap(0, 510, Short.MAX_VALUE)
+                        collisionsTypesDisplayLayout.createParallelGroup()
+                                .addGap(0, 510, Short.MAX_VALUE)
                 );
             }
             jPanel3.add(collisionsTypesDisplay);
@@ -350,26 +353,26 @@ public class CollisionsEditorDialog extends JDialog {
         {
             jPanel6.setBorder(new TitledBorder(null, "Collision File", TitledBorder.LEADING, TitledBorder.ABOVE_TOP));
             jPanel6.setLayout(new GridBagLayout());
-            ((GridBagLayout)jPanel6.getLayout()).columnWidths = new int[] {0, 0};
-            ((GridBagLayout)jPanel6.getLayout()).rowHeights = new int[] {0, 0, 0};
-            ((GridBagLayout)jPanel6.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
-            ((GridBagLayout)jPanel6.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+            ((GridBagLayout) jPanel6.getLayout()).columnWidths = new int[]{0, 0};
+            ((GridBagLayout) jPanel6.getLayout()).rowHeights = new int[]{0, 0, 0};
+            ((GridBagLayout) jPanel6.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
+            ((GridBagLayout) jPanel6.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
 
             //---- jbImportCollisions ----
             jbImportCollisions.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
             jbImportCollisions.setText("Import");
             jbImportCollisions.addActionListener(e -> jbImportCollisionsActionPerformed(e));
             jPanel6.add(jbImportCollisions, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
 
             //---- jbExportCollisions ----
             jbExportCollisions.setIcon(new ImageIcon(getClass().getResource("/icons/ExportIcon.png")));
             jbExportCollisions.setText("Export");
             jbExportCollisions.addActionListener(e -> jbExportCollisionsActionPerformed(e));
             jPanel6.add(jbExportCollisions, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
         }
         contentPane.add(jPanel6, "cell 2 1 1 3");
 

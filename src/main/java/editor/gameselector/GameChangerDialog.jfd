@@ -10,6 +10,7 @@ new FormModel {
 			name: "this"
 			"defaultCloseOperation": 2
 			"title": "Change Game"
+			"modal": true
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq l {space :::p, comp jlGameIcon:::p::p, space :::x}}"
 				"$verticalGroup": "par l {seq t {space :::x, comp jlGameIcon:::p::p, space :::p}}"

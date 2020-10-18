@@ -2,22 +2,22 @@
 package editor.backsound;
 
 import editor.grid.MapGrid;
+
 import java.awt.Rectangle;
 
 /**
- *
  * @author Trifindo
  */
 public class Soundplate {
-    
+
     public int soundCode;
     public int volume;
     public int byte3;
     public int byte4;
     public int x, y;
     public int width, height;
-    
-    public Soundplate(int soundCode, int volume, int byte3, int byte4, int x, int y, int width, int height){
+
+    public Soundplate(int soundCode, int volume, int byte3, int byte4, int x, int y, int width, int height) {
         this.soundCode = fitInBounds(soundCode, 0, 15);
         this.volume = fitInBounds(volume, 0, 2);
         this.byte3 = byte3;
@@ -27,16 +27,16 @@ public class Soundplate {
         this.width = width;
         this.height = height;
     }
-    
-    public Soundplate(){
+
+    public Soundplate() {
         this(0, 0, 0, 0, MapGrid.cols / 2, MapGrid.rows / 2, 2, 2);
     }
-    
-    private static int fitInBounds(int value, int min, int max){
+
+    private static int fitInBounds(int value, int min, int max) {
         return Math.max(Math.min(value, max), min);
     }
-    
-    public Rectangle getBounds(){
+
+    public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
     }
 
@@ -87,8 +87,6 @@ public class Soundplate {
     public void setHeight(int height) {
         this.height = height;
     }
-    
-    
-    
-    
+
+
 }

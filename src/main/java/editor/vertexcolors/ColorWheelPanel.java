@@ -139,7 +139,7 @@ public class ColorWheelPanel extends JPanel {
         this.colorWheelImg = generateColorWheel(size, brightness);
     }
 
-    public void setHueSaturarion(float hue, float saturation){
+    public void setHueSaturarion(float hue, float saturation) {
         float angle = hue * 2 * (float) Math.PI;
         float distToCenter = saturation * (size / 2);
 
@@ -179,12 +179,12 @@ public class ColorWheelPanel extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

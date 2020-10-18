@@ -4,13 +4,12 @@ package tileset;
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class TileGeometryDecompresser {
 
     public static float[] decompressObjData(ArrayList<Face> fInds,
-            ArrayList<Float> coords, int coordsPerVertex, int vertexPerFace) {
+                                            ArrayList<Float> coords, int coordsPerVertex, int vertexPerFace) {
         float[] decompressedData = new float[fInds.size() * vertexPerFace * coordsPerVertex];
         for (int i = 0, c = 0; i < fInds.size(); i++) {//face
             Face f = fInds.get(i);

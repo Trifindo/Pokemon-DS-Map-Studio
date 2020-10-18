@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class TileReaderObj {
@@ -72,7 +72,7 @@ public class TileReaderObj {
             }
         }
         inputObj.close();
-        
+
         //Load Mtl file
         ArrayList<Integer> textureIDs = new ArrayList<>();
         int numMaterials = countNumberOfStarts(new File(folderPath + "/" + mtlName), "newmtl");
@@ -105,12 +105,12 @@ public class TileReaderObj {
                         } catch (IOException ex) {
                             throw new TextureNotFoundException(
                                     "Can't open texture named: \"" + textName + "\"" + "\n"
-                                    + "Make sure that the texture is in the same folder as the OBJ file");
+                                            + "Make sure that the texture is in the same folder as the OBJ file");
                         }
                     } else {
                         throw new TextureNotFoundException(
                                 "Texture named: \"" + textName
-                                + "\" does not exist in the folder of the OBJ file");
+                                        + "\" does not exist in the folder of the OBJ file");
                     }
                 } else {
                     textureIDs.set(matIndex, textIndex);
@@ -118,8 +118,8 @@ public class TileReaderObj {
             }
         }
         inputMtl.close();
-        
-        
+
+
         //Fix material names for avoiding sub folder issues
         for (int i = 0; i < textureIDs.size(); i++) {
             TilesetMaterial material = tileset.getMaterial(textureIDs.get(i));
@@ -195,7 +195,7 @@ public class TileReaderObj {
     }
 
     private static ArrayList<Float> loadFloatLineObj(String line, int minNumElemn,
-            int maxNumElem, float defaultValue) {
+                                                     int maxNumElem, float defaultValue) {
         String[] splittedLine = line.split(" ");
         int numElements = Math.max(Math.min(maxNumElem, splittedLine.length - 1), minNumElemn);
         ArrayList<Float> floats = new ArrayList<>(numElements);
@@ -225,7 +225,7 @@ public class TileReaderObj {
         }
         return f;
     }
-    
+
     private static int countNumberOfStarts(File file, String content) throws IOException {
         InputStream input = new FileInputStream(file);
         BufferedReader br = new BufferedReader(new InputStreamReader(input));

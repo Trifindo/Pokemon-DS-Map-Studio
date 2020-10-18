@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+
 import utils.BinaryReader;
 import utils.BinaryWriter;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class BuildFile {
@@ -71,18 +71,18 @@ public class BuildFile {
             offset += 4;
             BinaryWriter.writeFI32(data, offset, build.getZ());
             offset += 4 + 12;
-            BinaryWriter.writeUInt16(data, offset, (int)(build.getScaleX() * 4096));
+            BinaryWriter.writeUInt16(data, offset, (int) (build.getScaleX() * 4096));
             offset += 4;
-            BinaryWriter.writeUInt16(data, offset, (int)(build.getScaleY() * 4096));
+            BinaryWriter.writeUInt16(data, offset, (int) (build.getScaleY() * 4096));
             offset += 4;
-            BinaryWriter.writeUInt16(data, offset, (int)(build.getScaleZ() * 4096));
+            BinaryWriter.writeUInt16(data, offset, (int) (build.getScaleZ() * 4096));
         }
 
         return data;
     }
 
     public void saveToFile(String path) throws IOException {
-        if(!path.endsWith("." + fileExtension)){
+        if (!path.endsWith("." + fileExtension)) {
             path = Utils.removeExtensionFromPath(path);
             path += "." + fileExtension;
         }

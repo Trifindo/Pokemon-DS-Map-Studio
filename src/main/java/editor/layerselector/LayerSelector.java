@@ -3,8 +3,10 @@ package editor.layerselector;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+
 import editor.handler.MapEditorHandler;
 import editor.grid.MapGrid;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,6 +17,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import javax.swing.SwingUtilities;
+
 import utils.Utils;
 
 /**
@@ -41,7 +44,7 @@ public class LayerSelector extends JPanel {
                     handler.setActiveTileLayer(index);
                 } else if (SwingUtilities.isRightMouseButton(evt)) {
                     handler.invertLayerState(index);
-                } else if(SwingUtilities.isMiddleMouseButton(evt)) {
+                } else if (SwingUtilities.isMiddleMouseButton(evt)) {
                     handler.setOnlyActiveTileLayer(index);
                 }
                 repaint();
@@ -99,12 +102,12 @@ public class LayerSelector extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

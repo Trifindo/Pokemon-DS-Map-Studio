@@ -3,6 +3,7 @@ package editor.mapdisplay;
 
 import com.jogamp.common.nio.Buffers;
 import editor.handler.MapEditorHandler;
+
 import static com.jogamp.opengl.GL.GL_BACK;
 import static com.jogamp.opengl.GL.GL_BLEND;
 import static com.jogamp.opengl.GL.GL_COLOR_BUFFER_BIT;
@@ -29,12 +30,15 @@ import static com.jogamp.opengl.GL.GL_TEXTURE_MIN_FILTER;
 import static com.jogamp.opengl.GL.GL_TEXTURE_WRAP_S;
 import static com.jogamp.opengl.GL.GL_TEXTURE_WRAP_T;
 import static com.jogamp.opengl.GL.GL_UNSIGNED_BYTE;
+
 import com.jogamp.opengl.GL2;
+
 import static com.jogamp.opengl.GL2ES1.GL_ALPHA_TEST;
 import static com.jogamp.opengl.GL2ES3.GL_TRIANGLES;
 import static com.jogamp.opengl.GL2ES3.GL_QUADS;
 import static com.jogamp.opengl.GL2GL3.GL_FILL;
 import static com.jogamp.opengl.GL2GL3.GL_LINE;
+
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLEventListener;
@@ -52,6 +56,7 @@ import editor.state.MapLayerState;
 import geometry.Generator;
 import graphicslib3D.Matrix3D;
 import graphicslib3D.Vector3D;
+
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -81,12 +86,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.SwingUtilities;
+
 import tileset.Tile;
 import utils.ImageTiler;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class MapDisplay extends GLJPanel implements GLEventListener, MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
@@ -110,9 +115,9 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     protected FloatBuffer gridBuffer;
     protected float[] axis;
     protected final float[] axisColors = {
-        1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f};
+            1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f};
 
     //Scene
     protected float cameraX, cameraY, cameraZ;
@@ -170,7 +175,9 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             this.cursor = cursor;
         }
 
-    };
+    }
+
+    ;
     protected EditMode editMode = EditMode.MODE_EDIT;
 
     public MapDisplay() {
@@ -283,8 +290,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
             gl.glFinish();
         } catch (GLException ex) {
-ex.printStackTrace();
-}
+            ex.printStackTrace();
+        }
 
     }
 
@@ -677,7 +684,7 @@ ex.printStackTrace();
 
     protected void drawTransparentMaps(GL2 gl) {
         gl.glEnable(GL_BLEND);
-        
+
         gl.glBlendFunc(GL2.GL_ONE, GL2.GL_ONE_MINUS_SRC_ALPHA);
         //gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -815,8 +822,8 @@ ex.printStackTrace();
 
             gl.glDisable(GL_TEXTURE_2D);
         } catch (Exception ex) {
-ex.printStackTrace();
-}
+            ex.printStackTrace();
+        }
     }
 
     protected void drawWireframeGeometryGL(GL2 gl, GeometryGL geometryGL, ArrayList<Texture> textures) {
@@ -861,8 +868,8 @@ ex.printStackTrace();
                 }
             }
         } catch (Exception ex) {
-ex.printStackTrace();
-}
+            ex.printStackTrace();
+        }
     }
 
     protected void drawAllContourLines(GL2 gl) {
@@ -903,8 +910,8 @@ ex.printStackTrace();
                 gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
             }
         } catch (Exception ex) {
-ex.printStackTrace();
-}
+            ex.printStackTrace();
+        }
 
     }
 
@@ -1387,8 +1394,8 @@ ex.printStackTrace();
             MapLayerState state = (MapLayerState) handler.getMapStateHandler().getLastState();
             state.updateState();
         } catch (Exception ex) {
-ex.printStackTrace();
-}
+            ex.printStackTrace();
+        }
     }
 
     protected void changeLayerWithNumKey(KeyEvent e, int layerIndex) {

@@ -3,8 +3,10 @@ package editor.tileselector;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+
 import editor.handler.MapEditorHandler;
 import editor.tileseteditor.TilesetEditorDialog;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,6 +14,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
 import tileset.Tile;
 import tileset.Tileset;
 
@@ -243,20 +246,20 @@ public class TileMultiSelector extends JPanel {
         }
     }
 
-    public ArrayList<Tile> getTilesSelected(){
+    public ArrayList<Tile> getTilesSelected() {
         ArrayList<Tile> tiles = new ArrayList();
-        for(int i = 0; i < selection.length; i++){
-            if(selection[i]){
+        for (int i = 0; i < selection.length; i++) {
+            if (selection[i]) {
                 tiles.add(tileset.get(i));
             }
         }
         return tiles;
     }
 
-    public int getNumTilesSelected(){
+    public int getNumTilesSelected() {
         int count = 0;
-        for(int i = 0; i < selection.length; i++){
-            if(selection[i]){
+        for (int i = 0; i < selection.length; i++) {
+            if (selection[i]) {
                 count++;
             }
         }
@@ -278,6 +281,7 @@ public class TileMultiSelector extends JPanel {
             public void keyPressed(KeyEvent e) {
                 formKeyPressed(e);
             }
+
             @Override
             public void keyReleased(KeyEvent e) {
                 formKeyReleased(e);
@@ -287,12 +291,12 @@ public class TileMultiSelector extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

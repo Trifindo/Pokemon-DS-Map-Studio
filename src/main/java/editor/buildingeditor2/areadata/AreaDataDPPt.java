@@ -5,7 +5,6 @@ import utils.BinaryReader;
 import utils.BinaryWriter;
 
 /**
- *
  * @author Trifindo
  */
 public class AreaDataDPPt {
@@ -21,15 +20,15 @@ public class AreaDataDPPt {
         unknown1 = (int) BinaryReader.readUInt16(data, 4);
         areaType = (int) BinaryReader.readUInt16(data, 6);
     }
-    
-    public AreaDataDPPt(){
+
+    public AreaDataDPPt() {
         buildingTilesetID = 0;
         mapTilesetID = 0;
         unknown1 = 0;
         areaType = 0;
     }
 
-    public byte[] toByteArray() throws Exception{
+    public byte[] toByteArray() throws Exception {
         byte[] data = new byte[8];
         BinaryWriter.writeUInt16(data, 0, buildingTilesetID);
         BinaryWriter.writeUInt16(data, 2, mapTilesetID);
@@ -37,7 +36,7 @@ public class AreaDataDPPt {
         BinaryWriter.writeUInt16(data, 6, areaType);
         return data;
     }
-    
+
     public int getBuildingTilesetID() {
         return buildingTilesetID;
     }
@@ -70,6 +69,5 @@ public class AreaDataDPPt {
         this.areaType = unknown2;
     }
 
-    
-    
+
 }

@@ -4,12 +4,13 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {space :::p, par l {comp jPanel1:::::x, comp jSplitPane1::::761:x}, space :::p}}"
-			"$verticalGroup": "par l {seq l {space :::p, comp jSplitPane1:::::x, space u:::p, comp jPanel1:::p::p, space :p:6:p}}"
+			"$horizontalGroup": "par l {seq {space :::p, par l {comp jPanel1:::::x, comp jSplitPane1:::::x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp jSplitPane1::::397:x, space u:::p, comp jPanel1:::p::p, space :p:6:p}}"
 		} ) {
 			name: "this"
 			"defaultCloseOperation": 2
 			"title": "Resulting NSBTX files info (Experimental)"
+			"modal": true
 			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowActivated", "formWindowActivated", true ) )
 			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "formWindowClosed", true ) )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
@@ -25,8 +26,8 @@ new FormModel {
 				name: "jSplitPane1"
 				"dividerLocation": 550
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {space :::p, par l {comp jScrollPane1::::260:x, seq l {comp jLabel5:::p::p, space u:::p, comp jlResult:::::x}, seq {par l {seq l {comp jLabel4:::p::p, space u:::p, comp jlFilesConverted:::p:44:p}, seq l {comp jLabel8:::p::p, space u:::p, comp jlFilesNotConverted:::p:44:p}, seq l {comp jLabel3:::p::p, space :p::p, comp jlStatus:::p:153:p}, seq l {comp jLabel2:::p::p, space u:::p, comp jlFilesProcessed:::p:44:p}}, space :0:0:x}, seq l {comp jLabel1:::p::p, space u:::p, comp jProgressBar1::::56:x}}, space :::p}}"
-					"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1::::232:x, space :p:21:p, par l:::p {comp jLabel1:::::x, comp jProgressBar1:::::x}, space :::p, par b {comp jLabel3::b:p::p, comp jlStatus::b:p::p}, space u:::p, par b {comp jLabel2::b:p::p, comp jlFilesProcessed::b:p::p}, space :p::p, par b {comp jLabel4::b:p:14:p, comp jlFilesConverted::b:p::p}, space :p::p, par b {comp jLabel8::b:p:14:p, comp jlFilesNotConverted::b:p::p}, space u:::p, par b {comp jLabel5::b:p::p, comp jlResult::b:p::p}, space :p:9:p}}"
+					"$horizontalGroup": "par l {seq {space :::p, par l {comp jScrollPane1::::537:x, seq l {comp jLabel5:::p::p, space u:::p, comp jlResult:::::x}, seq {par l {seq l {comp jLabel4:::p::p, space u:::p, comp jlFilesConverted:::p:44:p}, seq l {comp jLabel8:::p::p, space u:::p, comp jlFilesNotConverted:::p:44:p}, seq l {comp jLabel3:::p::p, space :p::p, comp jlStatus:::p:153:p}, seq l {comp jLabel2:::p::p, space u:::p, comp jlFilesProcessed:::p:44:p}}, space :0:0:x}, seq l {comp jLabel1:::p::p, space u:::p, comp jProgressBar1::::333:x}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1::::215:x, space :p:21:p, par l:::p {comp jLabel1:::::x, comp jProgressBar1:::::x}, space :::p, par b {comp jLabel3::b:p::p, comp jlStatus::b:p::p}, space u:::p, par b {comp jLabel2::b:p::p, comp jlFilesProcessed::b:p::p}, space :p::p, par b {comp jLabel4::b:p:14:p, comp jlFilesConverted::b:p::p}, space :p::p, par b {comp jLabel8::b:p:14:p, comp jlFilesNotConverted::b:p::p}, space u:::p, par b {comp jLabel5::b:p::p, comp jlResult::b:p::p}, space :p:9:p}}"
 				} ) {
 					name: "jPanel2"
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
@@ -118,8 +119,8 @@ new FormModel {
 						"value": "CardDisplay"
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq {space :::p, par l {comp jScrollPane2::::465:x, seq l {comp jLabel6:::p::p, space :0:0:x}}, space :::p}}"
-						"$verticalGroup": "par l {seq t {space :::p, comp jLabel6:::p::p, space :::p, comp jScrollPane2::::376:x, space :::p}}"
+						"$horizontalGroup": "par l {seq {space :::p, par l {comp jScrollPane2::::188:x, seq l {comp jLabel6:::p::p, space :0:0:x}}, space :::p}}"
+						"$verticalGroup": "par l {seq t {space :::p, comp jLabel6:::p::p, space :::p, comp jScrollPane2::::359:x, space :::p}}"
 					} ) {
 						name: "jpErrorInfo"
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {

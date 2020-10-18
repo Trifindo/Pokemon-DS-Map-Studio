@@ -265,14 +265,14 @@ public class BacksoundEditorDialog extends JDialog {
         });
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 0,hidemode 3,gap 5 5",
-            // columns
-            "[grow,fill]" +
-            "[fill]",
-            // rows
-            "[grow,fill]" +
-            "[fill]" +
-            "[fill]"));
+                "insets 0,hidemode 3,gap 5 5",
+                // columns
+                "[grow,fill]" +
+                        "[fill]",
+                // rows
+                "[grow,fill]" +
+                        "[fill]" +
+                        "[fill]"));
 
         //======== backsoundDisplay ========
         {
@@ -281,12 +281,12 @@ public class BacksoundEditorDialog extends JDialog {
             GroupLayout backsoundDisplayLayout = new GroupLayout(backsoundDisplay);
             backsoundDisplay.setLayout(backsoundDisplayLayout);
             backsoundDisplayLayout.setHorizontalGroup(
-                backsoundDisplayLayout.createParallelGroup()
-                    .addGap(0, 582, Short.MAX_VALUE)
+                    backsoundDisplayLayout.createParallelGroup()
+                            .addGap(0, 582, Short.MAX_VALUE)
             );
             backsoundDisplayLayout.setVerticalGroup(
-                backsoundDisplayLayout.createParallelGroup()
-                    .addGap(0, 514, Short.MAX_VALUE)
+                    backsoundDisplayLayout.createParallelGroup()
+                            .addGap(0, 514, Short.MAX_VALUE)
             );
         }
         contentPane.add(backsoundDisplay, "cell 0 0 1 3");
@@ -295,12 +295,12 @@ public class BacksoundEditorDialog extends JDialog {
         {
             jPanel1.setBorder(new TitledBorder("Soundplates"));
             jPanel1.setLayout(new MigLayout(
-                "insets 0,hidemode 3,gap 5 5",
-                // columns
-                "[grow,fill]",
-                // rows
-                "[grow,fill]" +
-                "[]"));
+                    "insets 0,hidemode 3,gap 5 5",
+                    // columns
+                    "[grow,fill]",
+                    // rows
+                    "[grow,fill]" +
+                            "[]"));
 
             //======== jScrollPane1 ========
             {
@@ -308,12 +308,18 @@ public class BacksoundEditorDialog extends JDialog {
                 //---- plateList ----
                 plateList.setModel(new AbstractListModel<String>() {
                     String[] values = {
-                        ""
+                            ""
                     };
+
                     @Override
-                    public int getSize() { return values.length; }
+                    public int getSize() {
+                        return values.length;
+                    }
+
                     @Override
-                    public String getElementAt(int i) { return values[i]; }
+                    public String getElementAt(int i) {
+                        return values[i];
+                    }
                 });
                 plateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 plateList.addListSelectionListener(e -> plateListValueChanged(e));
@@ -346,37 +352,37 @@ public class BacksoundEditorDialog extends JDialog {
         {
             jPanel2.setBorder(new TitledBorder("Soundplate Properties"));
             jPanel2.setLayout(new MigLayout(
-                "insets 0,hidemode 3,gap 5 5",
-                // columns
-                "[fill]" +
-                "[grow,fill]",
-                // rows
-                "[fill]" +
-                "[fill]" +
-                "[fill]"));
+                    "insets 0,hidemode 3,gap 5 5",
+                    // columns
+                    "[fill]" +
+                            "[grow,fill]",
+                    // rows
+                    "[fill]" +
+                            "[fill]" +
+                            "[fill]"));
 
             //---- jLabel1 ----
             jLabel1.setText("Sound type:");
             jPanel2.add(jLabel1, "cell 0 0");
 
             //---- jcbSoundType ----
-            jcbSoundType.setModel(new DefaultComboBoxModel<>(new String[] {
-                "Water flow",
-                "Wind turbine",
-                "Sea waves",
-                "Silence 1",
-                "Whirlpool",
-                "Strong water current",
-                "Silence 2",
-                "Stadium chant",
-                "Ship horn",
-                "Silence 3",
-                "Sea wave 2",
-                "Bells ",
-                "Wind",
-                "Silence 4",
-                "Unknown",
-                "Synth horn"
+            jcbSoundType.setModel(new DefaultComboBoxModel<>(new String[]{
+                    "Water flow",
+                    "Wind turbine",
+                    "Sea waves",
+                    "Silence 1",
+                    "Whirlpool",
+                    "Strong water current",
+                    "Silence 2",
+                    "Stadium chant",
+                    "Ship horn",
+                    "Silence 3",
+                    "Sea wave 2",
+                    "Bells ",
+                    "Wind",
+                    "Silence 4",
+                    "Unknown",
+                    "Synth horn"
             }));
             jcbSoundType.addActionListener(e -> jcbSoundTypeActionPerformed(e));
             jPanel2.add(jcbSoundType, "cell 1 0");

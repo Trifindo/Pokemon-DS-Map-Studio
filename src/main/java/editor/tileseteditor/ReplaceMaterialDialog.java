@@ -6,7 +6,9 @@ import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
 import javax.swing.border.*;
+
 import editor.handler.MapEditorHandler;
+
 import java.awt.Component;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class ReplaceMaterialDialog extends JDialog {
         dispose();
     }
 
-    public void init(MapEditorHandler handler, TilesetEditorHandler tileHandler, TilesetEditorDialog tsetDialog){
+    public void init(MapEditorHandler handler, TilesetEditorHandler tileHandler, TilesetEditorDialog tsetDialog) {
         this.handler = handler;
         this.tileHandler = tileHandler;
         this.tsetDialog = tsetDialog;
@@ -81,7 +83,7 @@ public class ReplaceMaterialDialog extends JDialog {
         jcbNewMaterialEnabled = true;
 
         materialIcons = new ArrayList<>(handler.getTileset().getMaterials().size());
-        for(int i = 0; i <handler.getTileset().getMaterials().size(); i++){
+        for (int i = 0; i < handler.getTileset().getMaterials().size(); i++) {
             materialIcons.add(new ImageIcon(new ImageIcon(handler.getTileset().getTextureImg(i)).getImage().getScaledInstance(16, 16, Image.SCALE_DEFAULT)));
         }
 
@@ -89,7 +91,7 @@ public class ReplaceMaterialDialog extends JDialog {
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if(index < materialIcons.size() && index >= 0){
+                if (index < materialIcons.size() && index >= 0) {
                     label.setIcon(materialIcons.get(index));
                 }
                 return label;
@@ -98,11 +100,11 @@ public class ReplaceMaterialDialog extends JDialog {
 
     }
 
-    public int getReturnValue(){
+    public int getReturnValue() {
         return returnValue;
     }
 
-    public int getIndexSelected(){
+    public int getIndexSelected() {
         return indexSelected;
     }
 
@@ -134,7 +136,7 @@ public class ReplaceMaterialDialog extends JDialog {
                 jPanel2.setPreferredSize(new Dimension(280, 65));
 
                 //---- jcbNewMaterial ----
-                jcbNewMaterial.setModel(new DefaultComboBoxModel<>(new String[] {
+                jcbNewMaterial.setModel(new DefaultComboBoxModel<>(new String[]{
 
                 }));
                 jcbNewMaterial.addActionListener(e -> jcbNewMaterialActionPerformed(e));
@@ -146,36 +148,36 @@ public class ReplaceMaterialDialog extends JDialog {
                     GroupLayout textureDisplayNewLayout = new GroupLayout(textureDisplayNew);
                     textureDisplayNew.setLayout(textureDisplayNewLayout);
                     textureDisplayNewLayout.setHorizontalGroup(
-                        textureDisplayNewLayout.createParallelGroup()
-                            .addGap(0, 126, Short.MAX_VALUE)
+                            textureDisplayNewLayout.createParallelGroup()
+                                    .addGap(0, 126, Short.MAX_VALUE)
                     );
                     textureDisplayNewLayout.setVerticalGroup(
-                        textureDisplayNewLayout.createParallelGroup()
-                            .addGap(0, 126, Short.MAX_VALUE)
+                            textureDisplayNewLayout.createParallelGroup()
+                                    .addGap(0, 126, Short.MAX_VALUE)
                     );
                 }
 
                 GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
                 jPanel2.setLayout(jPanel2Layout);
                 jPanel2Layout.setHorizontalGroup(
-                    jPanel2Layout.createParallelGroup()
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel2Layout.createParallelGroup()
-                                .addComponent(jcbNewMaterial)
+                        jPanel2Layout.createParallelGroup()
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(textureDisplayNew, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 130, Short.MAX_VALUE)))
-                            .addContainerGap())
+                                        .addContainerGap()
+                                        .addGroup(jPanel2Layout.createParallelGroup()
+                                                .addComponent(jcbNewMaterial)
+                                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addComponent(textureDisplayNew, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(0, 130, Short.MAX_VALUE)))
+                                        .addContainerGap())
                 );
                 jPanel2Layout.setVerticalGroup(
-                    jPanel2Layout.createParallelGroup()
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jcbNewMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(textureDisplayNew, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        jPanel2Layout.createParallelGroup()
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jcbNewMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textureDisplayNew, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
             }
 
@@ -203,86 +205,86 @@ public class ReplaceMaterialDialog extends JDialog {
                     GroupLayout textureDisplayToDeleteLayout = new GroupLayout(textureDisplayToDelete);
                     textureDisplayToDelete.setLayout(textureDisplayToDeleteLayout);
                     textureDisplayToDeleteLayout.setHorizontalGroup(
-                        textureDisplayToDeleteLayout.createParallelGroup()
-                            .addGap(0, 126, Short.MAX_VALUE)
+                            textureDisplayToDeleteLayout.createParallelGroup()
+                                    .addGap(0, 126, Short.MAX_VALUE)
                     );
                     textureDisplayToDeleteLayout.setVerticalGroup(
-                        textureDisplayToDeleteLayout.createParallelGroup()
-                            .addGap(0, 126, Short.MAX_VALUE)
+                            textureDisplayToDeleteLayout.createParallelGroup()
+                                    .addGap(0, 126, Short.MAX_VALUE)
                     );
                 }
 
                 GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
                 jPanel3.setLayout(jPanel3Layout);
                 jPanel3Layout.setHorizontalGroup(
-                    jPanel3Layout.createParallelGroup()
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel3Layout.createParallelGroup()
-                                .addComponent(jtfMaterialName)
+                        jPanel3Layout.createParallelGroup()
                                 .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(textureDisplayToDelete, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 130, Short.MAX_VALUE)))
-                            .addContainerGap())
+                                        .addContainerGap()
+                                        .addGroup(jPanel3Layout.createParallelGroup()
+                                                .addComponent(jtfMaterialName)
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                        .addComponent(textureDisplayToDelete, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(0, 130, Short.MAX_VALUE)))
+                                        .addContainerGap())
                 );
                 jPanel3Layout.setVerticalGroup(
-                    jPanel3Layout.createParallelGroup()
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jtfMaterialName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(textureDisplayToDelete, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        jPanel3Layout.createParallelGroup()
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jtfMaterialName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textureDisplayToDelete, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
             }
 
             GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
             jPanel1.setLayout(jPanel1Layout);
             jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup()
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    jPanel1Layout.createParallelGroup()
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jbReplace, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbCancel, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
+                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(18, 18, 18)
+                                                    .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addComponent(jbReplace, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(jbCancel, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)))
+                                    .addContainerGap())
             );
             jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup()
-                    .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-                            .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbReplace)
-                            .addComponent(jbCancel))
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    jPanel1Layout.createParallelGroup()
+                            .addGroup(GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                                            .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jbReplace)
+                                            .addComponent(jbCancel))
+                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
         }
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
-            contentPaneLayout.createParallelGroup()
-                .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                contentPaneLayout.createParallelGroup()
+                        .addGroup(contentPaneLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         contentPaneLayout.setVerticalGroup(
-            contentPaneLayout.createParallelGroup()
-                .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                contentPaneLayout.createParallelGroup()
+                        .addGroup(contentPaneLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pack();
         setLocationRelativeTo(getOwner());

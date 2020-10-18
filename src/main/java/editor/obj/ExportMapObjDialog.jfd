@@ -11,6 +11,7 @@ new FormModel {
 			"defaultCloseOperation": 2
 			"title": "Import Tile Settings"
 			"resizable": false
+			"modal": true
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq {space :::p, par l {comp jcbVertexColors:::p::p, comp jrbExportAllMapsSeparately::l:p::p, comp jrbExportCurrentMap::l:p::p, comp jrbExportAllMapsJoined::l:p::p}, space :::x}}"
 				"$verticalGroup": "par l {seq l {space :::p, comp jcbVertexColors:::p::p, space s:::p, comp jrbExportAllMapsSeparately:::p:23:p, space u:::p, comp jrbExportAllMapsJoined:::p::p, space u:p::p, comp jrbExportCurrentMap:::p::p, space :::x}}"

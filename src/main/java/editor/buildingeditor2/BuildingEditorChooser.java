@@ -2,12 +2,12 @@
 package editor.buildingeditor2;
 
 import editor.handler.MapEditorHandler;
+
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
- *
  * @author Trifindo
  */
 public class BuildingEditorChooser {

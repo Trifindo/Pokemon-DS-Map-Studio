@@ -7,17 +7,18 @@ import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
-import com.jogamp.opengl.GLContext;
+
 import editor.TilesetRenderer;
 import editor.game.Game;
 import editor.handler.MapEditorHandler;
 import editor.smartdrawing.SmartGrid;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
+
 import tileset.TextureNotFoundException;
 import tileset.Tileset;
 import tileset.TilesetIO;
@@ -29,7 +30,7 @@ import utils.Utils;
 public class GameTsetSelectorDialog2 extends JDialog {
 
     private MapEditorHandler handler;
-    public static final int ACEPTED = 0, CANCELED = 1;
+    public static final int ACCEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int newGame = Game.DIAMOND;
 
@@ -162,7 +163,7 @@ public class GameTsetSelectorDialog2 extends JDialog {
         }
         handler.setTileset(tileset);
 
-        returnValue = ACEPTED;
+        returnValue = ACCEPTED;
         dispose();
     }
 
@@ -258,6 +259,7 @@ public class GameTsetSelectorDialog2 extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Map - Select Game and Tileset");
         setResizable(false);
+        setModal(true);
         var contentPane = getContentPane();
 
         //======== jpanelIcon ========

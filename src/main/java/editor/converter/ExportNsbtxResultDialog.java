@@ -5,11 +5,11 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
+
 import editor.nsbtx2.*;
 import editor.nsbtx2.Nsbtx2;
 
 /**
- *
  * @author Trifindo
  */
 public class ExportNsbtxResultDialog extends javax.swing.JDialog {
@@ -20,7 +20,7 @@ public class ExportNsbtxResultDialog extends javax.swing.JDialog {
     public ExportNsbtxResultDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         getRootPane().setDefaultButton(jButton1);
         jButton1.requestFocus();
     }
@@ -42,6 +42,7 @@ public class ExportNsbtxResultDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("NSBTX Successfully Saved");
         setResizable(false);
+        setModal(true);
         var contentPane = getContentPane();
 
         //---- jLabel1 ----
@@ -100,7 +101,7 @@ public class ExportNsbtxResultDialog extends javax.swing.JDialog {
     private JButton jButton1;
     // End of variables declaration//GEN-END:variables
 
-    public void init(Nsbtx2 nsbtx){
+    public void init(Nsbtx2 nsbtx) {
         nsbtxPanel1.setNsbtx(nsbtx);
         nsbtxPanel1.updateViewTextureNameList(0);
         nsbtxPanel1.updateViewPaletteNameList(0);

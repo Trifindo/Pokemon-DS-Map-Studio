@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'idea'
     id 'application'
 }
 
@@ -11,17 +12,30 @@ repositories {
     }
 }
 
-version '2.1'
-mainClassName = "editor.MainFrame"
-
-compileJava.options.encoding = 'UTF-8'
-compileTestJava.options.encoding = 'UTF-8'
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation group: 'com.formdev', name: 'flatlaf', version: '0.39'
     implementation group: 'com.miglayout', name: 'miglayout-swing', version: '5.0'
 }
+
+java {
+    modularity.inferModulePath = true
+
+    tasks.withType(JavaCompile) {
+        doFirst {
+            options.compilerArgs = [
+                    '--module-path', classpath.asPath,
+            ]
+            classpath = files()
+        }
+    }
+}
+
+version '2.1'
+mainClassName = "editor.MainFrame"
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
 
 jar {
     entryCompression = ZipEntryCompression.STORED

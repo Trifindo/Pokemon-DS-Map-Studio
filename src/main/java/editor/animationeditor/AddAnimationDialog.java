@@ -1,6 +1,7 @@
 package editor.animationeditor;
 
 import java.awt.event.*;
+
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -18,11 +19,11 @@ public class AddAnimationDialog extends JDialog {
         initComponents();
     }
 
-    public int getReturnValue(){
+    public int getReturnValue() {
         return CANCEL_OPTION;
     }
 
-    public String getNewName(){
+    public String getNewName() {
         return jTextField1.getText();
     }
 
@@ -43,24 +44,24 @@ public class AddAnimationDialog extends JDialog {
         setModal(true);
         Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 0,hidemode 3",
-            // columns
-            "[grow,fill]",
-            // rows
-            "[grow,fill]"));
+                "insets 0,hidemode 3",
+                // columns
+                "[grow,fill]",
+                // rows
+                "[grow,fill]"));
 
         //======== jPanel1 ========
         {
             jPanel1.setBorder(new TitledBorder("Animation Name"));
             jPanel1.setLayout(new MigLayout(
-                "insets 0,hidemode 3,gap 5 5",
-                // columns
-                "[fill]" +
-                "[grow,fill]",
-                // rows
-                "[fill]" +
-                "[fill]" +
-                "[]"));
+                    "insets 0,hidemode 3,gap 5 5",
+                    // columns
+                    "[fill]" +
+                            "[grow,fill]",
+                    // rows
+                    "[fill]" +
+                            "[fill]" +
+                            "[]"));
 
             //---- jLabel1 ----
             jLabel1.setText("Name of the animation: ");
