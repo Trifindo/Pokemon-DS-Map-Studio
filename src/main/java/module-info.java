@@ -4,4 +4,5 @@ module PDSMS {
     requires com.formdev.flatlaf;
     requires miglayout.swing;
     requires java.logging;
+    requires jogamp.fat;
 }
