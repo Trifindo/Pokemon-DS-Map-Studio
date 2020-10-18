@@ -1,10 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.converter;
 
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle;
+import javax.swing.border.*;
 import editor.handler.MapEditorHandler;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -16,6 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import utils.Utils;
+import utils.swing.*;
 
 /**
  *
@@ -51,158 +53,154 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        jPanel1 = new JPanel();
+        jLabel1 = new JLabel();
+        jScrollCheckboxList = new JScrollCheckboxList();
+        jbSelectAll = new JButton();
+        jbDeselectAll = new JButton();
+        jbCancel = new JButton();
+        jbAccept = new JButton();
+        jPanel2 = new JPanel();
+        jLabel3 = new JLabel();
+        jtfNsbtxFolderPath = new JTextField();
+        jbNsbBrowse = new JButton();
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollCheckboxList = new utils.swing.JScrollCheckboxList();
-        jbSelectAll = new javax.swing.JButton();
-        jbDeselectAll = new javax.swing.JButton();
-        jbCancel = new javax.swing.JButton();
-        jbAccept = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jtfNsbtxFolderPath = new javax.swing.JTextField();
-        jbNsbBrowse = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        //======== this ========
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Export Areas as NSBTX (Experimental)");
+        var contentPane = getContentPane();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("NSBTX settings"));
+        //======== jPanel1 ========
+        {
+            jPanel1.setBorder(new TitledBorder("NSBTX settings"));
 
-        jLabel1.setText("Select the areas that will be exported as NSBTX:");
+            //---- jLabel1 ----
+            jLabel1.setText("Select the areas that will be exported as NSBTX:");
 
-        jScrollCheckboxList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollCheckboxList.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            //---- jScrollCheckboxList ----
+            jScrollCheckboxList.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            jScrollCheckboxList.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jbSelectAll.setText("Select All");
-        jbSelectAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbSelectAllActionPerformed(evt);
-            }
-        });
+            //---- jbSelectAll ----
+            jbSelectAll.setText("Select All");
+            jbSelectAll.addActionListener(e -> jbSelectAllActionPerformed(e));
 
-        jbDeselectAll.setText("Deselect All");
-        jbDeselectAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbDeselectAllActionPerformed(evt);
-            }
-        });
+            //---- jbDeselectAll ----
+            jbDeselectAll.setText("Deselect All");
+            jbDeselectAll.addActionListener(e -> jbDeselectAllActionPerformed(e));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollCheckboxList, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
+            GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
+            jPanel1.setLayout(jPanel1Layout);
+            jPanel1Layout.setHorizontalGroup(
+                jPanel1Layout.createParallelGroup()
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup()
+                            .addComponent(jScrollCheckboxList, GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jbSelectAll)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jbDeselectAll)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollCheckboxList, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbSelectAll)
-                    .addComponent(jbDeselectAll))
-                .addContainerGap())
-        );
+                                .addGroup(jPanel1Layout.createParallelGroup()
+                                    .addComponent(jLabel1)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jbSelectAll)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jbDeselectAll)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+            );
+            jPanel1Layout.setVerticalGroup(
+                jPanel1Layout.createParallelGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollCheckboxList, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(jbSelectAll)
+                            .addComponent(jbDeselectAll))
+                        .addContainerGap())
+            );
+        }
 
+        //---- jbCancel ----
         jbCancel.setText("Cancel");
-        jbCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbCancelActionPerformed(evt);
-            }
-        });
+        jbCancel.addActionListener(e -> jbCancelActionPerformed(e));
 
+        //---- jbAccept ----
         jbAccept.setText("OK");
-        jbAccept.setPreferredSize(new java.awt.Dimension(65, 23));
-        jbAccept.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbAcceptActionPerformed(evt);
-            }
-        });
+        jbAccept.setPreferredSize(new Dimension(65, 23));
+        jbAccept.addActionListener(e -> jbAcceptActionPerformed(e));
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("NSBTX settings"));
+        //======== jPanel2 ========
+        {
+            jPanel2.setBorder(new TitledBorder("NSBTX settings"));
 
-        jLabel3.setText("NSBTX destination folder path:");
+            //---- jLabel3 ----
+            jLabel3.setText("NSBTX destination folder path:");
 
-        jtfNsbtxFolderPath.setEditable(false);
+            //---- jtfNsbtxFolderPath ----
+            jtfNsbtxFolderPath.setEditable(false);
 
-        jbNsbBrowse.setText("Browse...");
-        jbNsbBrowse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbNsbBrowseActionPerformed(evt);
-            }
-        });
+            //---- jbNsbBrowse ----
+            jbNsbBrowse.setText("Browse...");
+            jbNsbBrowse.addActionListener(e -> jbNsbBrowseActionPerformed(e));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtfNsbtxFolderPath, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbNsbBrowse)
-                .addContainerGap())
+            GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
+            jPanel2.setLayout(jPanel2Layout);
+            jPanel2Layout.setHorizontalGroup(
+                jPanel2Layout.createParallelGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfNsbtxFolderPath, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbNsbBrowse)
+                        .addContainerGap())
+            );
+            jPanel2Layout.setVerticalGroup(
+                jPanel2Layout.createParallelGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jtfNsbtxFolderPath, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbNsbBrowse))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
+        }
+
+        GroupLayout contentPaneLayout = new GroupLayout(contentPane);
+        contentPane.setLayout(contentPaneLayout);
+        contentPaneLayout.setHorizontalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(contentPaneLayout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(jbAccept, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jbCancel)))
+                    .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jtfNsbtxFolderPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbNsbBrowse))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        contentPaneLayout.setVerticalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbCancel)
+                        .addComponent(jbAccept, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap())
         );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jbAccept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbCancel)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbCancel)
-                    .addComponent(jbAccept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
         pack();
+        setLocationRelativeTo(getOwner());
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAcceptActionPerformed
@@ -272,17 +270,17 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private utils.swing.JScrollCheckboxList jScrollCheckboxList;
-    private javax.swing.JButton jbAccept;
-    private javax.swing.JButton jbCancel;
-    private javax.swing.JButton jbDeselectAll;
-    private javax.swing.JButton jbNsbBrowse;
-    private javax.swing.JButton jbSelectAll;
-    private javax.swing.JTextField jtfNsbtxFolderPath;
+    private JPanel jPanel1;
+    private JLabel jLabel1;
+    private JScrollCheckboxList jScrollCheckboxList;
+    private JButton jbSelectAll;
+    private JButton jbDeselectAll;
+    private JButton jbCancel;
+    private JButton jbAccept;
+    private JPanel jPanel2;
+    private JLabel jLabel3;
+    private JTextField jtfNsbtxFolderPath;
+    private JButton jbNsbBrowse;
     // End of variables declaration//GEN-END:variables
 
     public void init(MapEditorHandler handler) {

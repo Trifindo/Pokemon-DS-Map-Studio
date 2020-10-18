@@ -1,0 +1,58 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$columnConstraints": "[grow,fill]"
+			"$rowConstraints": "[fill][grow,fill][fill]"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"modal": true
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jLabel1"
+				"horizontalAlignment": 2
+				"text": "Error message"
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jlError"
+				"horizontalAlignment": 0
+				"text": " "
+				"maximumSize": new java.awt.Dimension( 50, 50 )
+				"minimumSize": new java.awt.Dimension( 50, 50 )
+				"preferredSize": new java.awt.Dimension( 50, 50 )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 0"
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "jScrollPane1"
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "jTextArea1"
+					"columns": 20
+					"font": new java.awt.Font( "Monospaced", 0, 12 )
+					"rows": 5
+					"tabSize": 3
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1 2 1"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "panel1"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jButton1"
+					"text": "OK"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton1ActionPerformed", true ) )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 2 2 1,alignx center,growx 0"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 640, 285 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

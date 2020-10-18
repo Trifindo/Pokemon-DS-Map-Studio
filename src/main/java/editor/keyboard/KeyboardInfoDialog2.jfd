@@ -1,0 +1,141 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, par l {comp jTabbedPane1::::686:x, comp jPanel1:::::x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp jTabbedPane1::::472:x, space u:::p, comp jPanel1:::p::p, space :::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Keyboard Shortcuts"
+			"modal": true
+			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+				name: "jTabbedPane1"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane1::::674:x, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1::::428:x, space :::p}}"
+				} ) {
+					name: "jPanel2"
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "jScrollPane1"
+						add( new FormComponent( "javax.swing.JList" ) {
+							name: "jList1"
+							"model": new javax.swing.DefaultListModel {
+								addElement( "CTRL + Z - Undo" )
+								addElement( "CTRL + Y - Redo" )
+								addElement( "NUMPAD [1, 2, 3, 4, 5, 6, 7, 8]- Select layer" )
+								addElement( "SHIFT + NUMPAD [1, 2, 3, 4, 5, 6, 7, 8] - Hide / Show layer" )
+								addElement( "ESC - Enable edit mode" )
+								addElement( "SHIFT + LEFT CLICK - Move camera" )
+								addElement( "MOUSE WHEEL - Zoom" )
+								addElement( "SPACE - Enable / Disable 3D view" )
+								addElement( "E - Enable edit mode" )
+								addElement( "G - Enable / disable grid" )
+								addElement( "W - Enable / disable wireframe" )
+								addElement( "A - Enable / disable area borders" )
+								addElement( "F - Fit camera at current map" )
+								addElement( "Q - Import map from image" )
+							}
+							"selectionMode": 0
+							auxiliary() {
+								"JavaCodeGenerator.typeParameters": "String"
+							}
+						} )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Common Controls"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane4::::674:x, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane4::::428:x, space :::p}}"
+				} ) {
+					name: "jPanel5"
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "jScrollPane4"
+						add( new FormComponent( "javax.swing.JList" ) {
+							name: "jList4"
+							"model": new javax.swing.DefaultListModel {
+								addElement( "SPACE - Enable ortho view" )
+								addElement( "H - Enable height view" )
+								addElement( "ARROW RIGHT - Move to right map" )
+								addElement( "ARROW LEFT - Move to left map" )
+								addElement( "ARROW UP - Move to up map" )
+								addElement( "ARROW DOWN - Move to down map" )
+							}
+							auxiliary() {
+								"JavaCodeGenerator.typeParameters": "String"
+							}
+						} )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "3D View"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane2::::674:x, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane2::::428:x, space :::p}}"
+				} ) {
+					name: "jPanel3"
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "jScrollPane2"
+						add( new FormComponent( "javax.swing.JList" ) {
+							name: "jList2"
+							"model": new javax.swing.DefaultListModel {
+								addElement( "SPACE - Enable 3D view" )
+								addElement( "H - Enable height view" )
+								addElement( "C - Enable clear mode" )
+								addElement( "S - Enable smart drawing" )
+								addElement( "ARROW RIGHT - Move to right map" )
+								addElement( "ARROW LEFT - Move to left map" )
+								addElement( "ARROW UP - Move to up map" )
+								addElement( "ARROW DOWN - Move to down map" )
+							}
+							auxiliary() {
+								"JavaCodeGenerator.typeParameters": "String"
+							}
+						} )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Ortho View"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane3::::674:x, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane3::::428:x, space :::p}}"
+				} ) {
+					name: "jPanel4"
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "jScrollPane3"
+						add( new FormComponent( "javax.swing.JList" ) {
+							name: "jList3"
+							"model": new javax.swing.DefaultListModel {
+								addElement( "SPACE - Enable 3D view" )
+								addElement( "H - Disable height view" )
+								addElement( "ARROW RIGHT - Move to right map" )
+								addElement( "ARROW LEFT - Move to left map" )
+								addElement( "ARROW UP - Move to up map" )
+								addElement( "ARROW DOWN - Move to down map" )
+							}
+							auxiliary() {
+								"JavaCodeGenerator.typeParameters": "String"
+							}
+						} )
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Height View"
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+				name: "jPanel1"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAccept"
+					"text": "OK"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAcceptActionPerformed", true ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 700, 565 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

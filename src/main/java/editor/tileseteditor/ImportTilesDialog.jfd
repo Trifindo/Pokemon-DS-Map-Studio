@@ -1,0 +1,70 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, comp jPanel1:::p::p, space :::p, par l {seq t {space :0:0:x, comp jbFinish:::p:65:p, space :::p, comp jbCancel:::p::p}, comp jPanel2::t:::x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, par l {seq {comp jPanel2:::p::p, space ::156:x, par b {comp jbCancel::b:p::p, comp jbFinish::b:p::p}}, comp jPanel1:::::x}, space :::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Select the tiles to import"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {comp jScrollPane1::l:::x}"
+				"$verticalGroup": "par l {comp jScrollPane1::l::264:x}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Tile Selector" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane1"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					"focusable": false
+					add( new FormContainer( "editor.tileselector.TileMultiSelector", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {space :0:128:x}"
+						"$verticalGroup": "par l {space :0:400:x}"
+					} ) {
+						name: "tileMultiSelector"
+						"preferredSize": new java.awt.Dimension( 128, 400 )
+					} )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbCancel"
+				"text": "Cancel"
+				"focusable": false
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbFinish"
+				"text": "Finish"
+				"focusable": false
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbFinishActionPerformed", true ) )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, par l {comp jbSelectAll:::::x, comp jbDeselectAll:::::x}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jbSelectAll:::p::p, space :::p, comp jbDeselectAll:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( "Select Options" )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbSelectAll"
+					"text": "Select All"
+					"focusable": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSelectAllActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbDeselectAll"
+					"text": "Deselect All"
+					"focusable": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbDeselectAllActionPerformed", true ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 430, 330 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

@@ -1,10 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package editor.gameselector;
 
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle;
+import javax.swing.border.*;
+import javax.swing.event.*;
 import com.jogamp.opengl.GLContext;
 import editor.TilesetRenderer;
 import editor.game.Game;
@@ -22,107 +24,103 @@ import tileset.TilesetIO;
 import utils.Utils;
 
 /**
- *
- * @author Trifindo
+ * @author Trifindo, JackHack96
  */
-public class GameTsetSelectorDialog2 extends javax.swing.JDialog {
+public class GameTsetSelectorDialog2 extends JDialog {
 
     private MapEditorHandler handler;
     public static final int ACEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int newGame = Game.DIAMOND;
 
-    //Separator 
+    //Separator
     private static final String s = "/";
 
     private static final String rootFolderPath = "/" + "tilesets";
     private static final String none = "None";
 
     private String[] folderPaths = {
-        "Diamond_-_Pearl",
-        "Platinum",
-        "Heart_Gold_-_Soul_Silver",
-        "Black_-_White",
-        "Black_-_White_2",
-        "Various",
-        "None"
+            "Diamond_-_Pearl",
+            "Platinum",
+            "Heart_Gold_-_Soul_Silver",
+            "Black_-_White",
+            "Black_-_White_2",
+            "Various",
+            "None"
     };
     private String[][] subfolderPaths = {
-        {"Overworld"},
-        {
-            "Tileset_6_-_Overworld_(by_Jiboule)",
-            "Tileset_6_-_Overworld_(by_Driox)",
-            "Tileset_7_-_Overworld_(by_Jiboule)",
-            "Tileset_8_-_Overworld_(by_Jiboule)",
-            "Tileset_9_-_Overworld_(by_Jiboule)",
-            "Tileset_13_-_Overworld_(by_Jiboule)",
-            "Tileset_14_-_Snow_(by_Driox)",
-            "Tileset_17_-_Stark_Mountain_(by_Jiboule)",
-            "Tileset_19_-_Resort_Island_(by_Jiboule)",
-            "Tileset_20_-_House_Indoor",
-            "Tileset_52_-_Cave_(by_Jiboule)",
-            "Tileset_53_-_Forest_(by_Jiboule)"
-        },
-        {
-            "Tileset_2_-_Overworld",
-            "Tileset_25_-_New_Bark_Town_Houses_(by_Monkeyboy0)",
-            "Tileset_70_-_Tohjo_Falls",
-            "Tileset_73_-_Cerulean_Cave",
-            "Tileset_75_-_Safari_Zone_(by_Mikelan98)",
-            "Tileset_76_-_Ice_Path"
-        },
-        {
-            "Overworld",
-            "N_Castle"
-        },
-        {
-            "Tileset_2_-_Overworld_(by_Brom)", 
-            "Tileset_2_-_Overworld_(by_AdAstra)",
-            "Cave", 
-            "Chargestone_Cave"},
-        {"Low_Poly_Tileset", "Sylvan_Town_(by_Anarlaurendil)"}};
+            {"Overworld"},
+            {
+                    "Tileset_6_-_Overworld_(by_Jiboule)",
+                    "Tileset_6_-_Overworld_(by_Driox)",
+                    "Tileset_7_-_Overworld_(by_Jiboule)",
+                    "Tileset_8_-_Overworld_(by_Jiboule)",
+                    "Tileset_9_-_Overworld_(by_Jiboule)",
+                    "Tileset_13_-_Overworld_(by_Jiboule)",
+                    "Tileset_14_-_Snow_(by_Driox)",
+                    "Tileset_17_-_Stark_Mountain_(by_Jiboule)",
+                    "Tileset_19_-_Resort_Island_(by_Jiboule)",
+                    "Tileset_20_-_House_Indoor",
+                    "Tileset_52_-_Cave_(by_Jiboule)",
+                    "Tileset_53_-_Forest_(by_Jiboule)"
+            },
+            {
+                    "Tileset_2_-_Overworld",
+                    "Tileset_25_-_New_Bark_Town_Houses_(by_Monkeyboy0)",
+                    "Tileset_70_-_Tohjo_Falls",
+                    "Tileset_73_-_Cerulean_Cave",
+                    "Tileset_75_-_Safari_Zone_(by_Mikelan98)",
+                    "Tileset_76_-_Ice_Path"
+            },
+            {
+                    "Overworld",
+                    "N_Castle"
+            },
+            {
+                    "Tileset_2_-_Overworld_(by_Brom)",
+                    "Tileset_2_-_Overworld_(by_AdAstra)",
+                    "Cave",
+                    "Chargestone_Cave"},
+            {"Low_Poly_Tileset", "Sylvan_Town_(by_Anarlaurendil)"}};
 
     private String[][] tsetNames = {
-        {"DiamondPearlTileset.pdsts"},
-        {
-            "Tileset_6_PT_Jiboule.pdsts",
-            "tset6.pdsts",
-            "Tileset_7_PT.pdsts",
-            "Tileset_8_PT.pdsts",
-            "Tileset_9_PT.pdsts",
-            "Tileset_13_PT.pdsts",
-            "tset14.pdsts",
-            "Tileset_17_PT.pdsts",
-            "Tileset_19_PT.pdsts",
-            "Tileset_20_PT_House_Indoor.pdsts",
-            "Tileset_52_PT_cave.pdsts",
-            "Tileset_53_PT_Forest.pdsts"
-        },
-        {
-            "Tileset_2_HGSS_Overworld.pdsts",
-            "Tileset_25_HGSS_by_Monkeyboy0.pdsts",
-            "Tileset_70_HGSS_Tohjo_Falls.pdsts",
-            "Tileset_73_HGSS_Cerulean_cave.pdsts",
-            "Tileset_75_HGSS_safari_zone.pdsts",
-            "Tileset_76_Ice_Path.pdsts"
-        },
-        {
-            "BlackWhiteTileset.pdsts",
-            "N_Castle_BW.pdsts"
-        },
-        {
-            "Tileset_2_Overworld_BW2.pdsts",
-            "Tileset_2_BW2_AdAstra.pdsts",
-            "CaveTilesetBW2.pdsts", 
-            "ElectricCave.pdsts"
-        },
-        {"LowPolyTileset.pdsts", "Sylvan_Town.pdsts"}};
+            {"DiamondPearlTileset.pdsts"},
+            {
+                    "Tileset_6_PT_Jiboule.pdsts",
+                    "tset6.pdsts",
+                    "Tileset_7_PT.pdsts",
+                    "Tileset_8_PT.pdsts",
+                    "Tileset_9_PT.pdsts",
+                    "Tileset_13_PT.pdsts",
+                    "tset14.pdsts",
+                    "Tileset_17_PT.pdsts",
+                    "Tileset_19_PT.pdsts",
+                    "Tileset_20_PT_House_Indoor.pdsts",
+                    "Tileset_52_PT_cave.pdsts",
+                    "Tileset_53_PT_Forest.pdsts"
+            },
+            {
+                    "Tileset_2_HGSS_Overworld.pdsts",
+                    "Tileset_25_HGSS_by_Monkeyboy0.pdsts",
+                    "Tileset_70_HGSS_Tohjo_Falls.pdsts",
+                    "Tileset_73_HGSS_Cerulean_cave.pdsts",
+                    "Tileset_75_HGSS_safari_zone.pdsts",
+                    "Tileset_76_Ice_Path.pdsts"
+            },
+            {
+                    "BlackWhiteTileset.pdsts",
+                    "N_Castle_BW.pdsts"
+            },
+            {
+                    "Tileset_2_Overworld_BW2.pdsts",
+                    "Tileset_2_BW2_AdAstra.pdsts",
+                    "CaveTilesetBW2.pdsts",
+                    "ElectricCave.pdsts"
+            },
+            {"LowPolyTileset.pdsts", "Sylvan_Town.pdsts"}};
 
-    /**
-     * Creates new form GameTsetSelectorDialog
-     */
-    public GameTsetSelectorDialog2(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public GameTsetSelectorDialog2(Window owner) {
+        super(owner);
         initComponents();
 
         addItemsToJList(jlTsetFolder, folderPaths);
@@ -133,200 +131,7 @@ public class GameTsetSelectorDialog2 extends javax.swing.JDialog {
         jScrollPane4.getVerticalScrollBar().setUnitIncrement(16);
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        jpanelIcon = new javax.swing.JPanel();
-        jlGameIcon = new javax.swing.JLabel();
-        jbFinish = new javax.swing.JButton();
-        jbCancel = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jlGame = new JList<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jlTsetFolder = new JList<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jlTsetName = new JList<>();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tilesetThumbnailDisplay = new TilesetThumbnailDisplay();
-        jLabel4 = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("New Map - Select Game and Tileset");
-        setResizable(false);
-
-        jpanelIcon.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-
-        jlGameIcon.setMaximumSize(new java.awt.Dimension(32, 32));
-        jlGameIcon.setMinimumSize(new java.awt.Dimension(32, 32));
-        jlGameIcon.setPreferredSize(new java.awt.Dimension(32, 32));
-
-        javax.swing.GroupLayout jpanelIconLayout = new javax.swing.GroupLayout(jpanelIcon);
-        jpanelIcon.setLayout(jpanelIconLayout);
-        jpanelIconLayout.setHorizontalGroup(
-            jpanelIconLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpanelIconLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jlGameIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jpanelIconLayout.setVerticalGroup(
-            jpanelIconLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpanelIconLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jlGameIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jbFinish.setText("Finish");
-        jbFinish.setToolTipText("");
-        jbFinish.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbFinishActionPerformed(evt);
-            }
-        });
-
-        jbCancel.setText("Cancel");
-        jbCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbCancelActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Game:");
-
-        jLabel2.setText("Tileset folders:");
-
-        jLabel3.setText("Tileset name:");
-
-        jlGame.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Pokemon Diamond", "Pokemon Pearl", "Pokemon Platinum", "Pokemon Heart Gold", "Pokemon Soul Silver", "Pokemon Black", "Pokemon White", "Pokemon Black 2", "Pokemon White 2" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jlGame.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jlGame.setSelectedIndex(0);
-        jlGame.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jlGameValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jlGame);
-
-        jlTsetFolder.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jlTsetFolder.setSelectedIndex(0);
-        jlTsetFolder.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jlTsetFolderValueChanged(evt);
-            }
-        });
-        jScrollPane2.setViewportView(jlTsetFolder);
-
-        jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-        jlTsetName.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jlTsetName.setSelectedIndex(0);
-        jlTsetName.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jlTsetNameValueChanged(evt);
-            }
-        });
-        jScrollPane3.setViewportView(jlTsetName);
-
-        jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane4.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-        tilesetThumbnailDisplay.setMaximumSize(new java.awt.Dimension(128, 32767));
-        tilesetThumbnailDisplay.setMinimumSize(new java.awt.Dimension(128, 100));
-        tilesetThumbnailDisplay.setPreferredSize(new java.awt.Dimension(128, 137));
-
-        javax.swing.GroupLayout tilesetThumbnailDisplayLayout = new javax.swing.GroupLayout(tilesetThumbnailDisplay);
-        tilesetThumbnailDisplay.setLayout(tilesetThumbnailDisplayLayout);
-        tilesetThumbnailDisplayLayout.setHorizontalGroup(
-            tilesetThumbnailDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 128, Short.MAX_VALUE)
-        );
-        tilesetThumbnailDisplayLayout.setVerticalGroup(
-            tilesetThumbnailDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 330, Short.MAX_VALUE)
-        );
-
-        jScrollPane4.setViewportView(tilesetThumbnailDisplay);
-
-        jLabel4.setText("Tileset preview:");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jpanelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jbFinish, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))
-                        .addGap(11, 11, 11))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jpanelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbCancel)
-                    .addComponent(jbFinish))
-                .addContainerGap())
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void jbFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinishActionPerformed
+    private void jbFinishActionPerformed(ActionEvent e) {
         handler.setGameIndex(newGame);
 
         Tileset tileset;
@@ -342,8 +147,8 @@ public class GameTsetSelectorDialog2 extends javax.swing.JDialog {
                 TilesetRenderer tr = new TilesetRenderer(tileset);
                 try {
                     tr.renderTiles();
-                } catch (NullPointerException e) {
-
+                } catch (NullPointerException ex) {
+                    ex.printStackTrace();
                 }
                 tr.destroy();//NEW CODE
             } catch (NullPointerException | TextureNotFoundException | IOException | IndexOutOfBoundsException ex) {
@@ -359,19 +164,19 @@ public class GameTsetSelectorDialog2 extends javax.swing.JDialog {
 
         returnValue = ACEPTED;
         dispose();
-    }//GEN-LAST:event_jbFinishActionPerformed
+    }
 
-    private void jbCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelActionPerformed
+    private void jbCancelActionPerformed(ActionEvent e) {
         returnValue = CANCELED;
         dispose();
-    }//GEN-LAST:event_jbCancelActionPerformed
+    }
 
-    private void jlGameValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlGameValueChanged
+    private void jlGameValueChanged(ListSelectionEvent e) {
         newGame = jlGame.getSelectedIndex();
         updateViewGameIcon();
-    }//GEN-LAST:event_jlGameValueChanged
+    }
 
-    private void jlTsetFolderValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlTsetFolderValueChanged
+    private void jlTsetFolderValueChanged(ListSelectionEvent e) {
         if (subfolderPaths != null) {
             if (jlTsetFolder.getSelectedIndex() < jlTsetFolder.getModel().getSize() - 1) {
                 addItemsToJList(jlTsetName, subfolderPaths[jlTsetFolder.getSelectedIndex()]);
@@ -381,34 +186,13 @@ public class GameTsetSelectorDialog2 extends javax.swing.JDialog {
                 jlTsetName.setSelectedIndex(0);
             }
         }
-    }//GEN-LAST:event_jlTsetFolderValueChanged
+    }
 
-    private void jlTsetNameValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jlTsetNameValueChanged
+    private void jlTsetNameValueChanged(ListSelectionEvent e) {
         if (subfolderPaths != null && tsetNames != null) {
             loadTilesetThumbnail(jlTsetFolder.getSelectedIndex(), jlTsetName.getSelectedIndex());
         }
-    }//GEN-LAST:event_jlTsetNameValueChanged
-
-    
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JButton jbCancel;
-    private javax.swing.JButton jbFinish;
-    private JList<String> jlGame;
-    private javax.swing.JLabel jlGameIcon;
-    private JList<String> jlTsetFolder;
-    private JList<String> jlTsetName;
-    private javax.swing.JPanel jpanelIcon;
-    private TilesetThumbnailDisplay tilesetThumbnailDisplay;
-    // End of variables declaration//GEN-END:variables
+    }
 
     public void init(MapEditorHandler handler) {
         this.handler = handler;
@@ -451,4 +235,250 @@ public class GameTsetSelectorDialog2 extends javax.swing.JDialog {
         list.setModel(model);
     }
 
+    private void initComponents() {
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+        jpanelIcon = new JPanel();
+        jlGameIcon = new JLabel();
+        jbFinish = new JButton();
+        jbCancel = new JButton();
+        jLabel1 = new JLabel();
+        jLabel2 = new JLabel();
+        jLabel3 = new JLabel();
+        jScrollPane1 = new JScrollPane();
+        jlGame = new JList<>();
+        jScrollPane2 = new JScrollPane();
+        jlTsetFolder = new JList<>();
+        jScrollPane3 = new JScrollPane();
+        jlTsetName = new JList<>();
+        jScrollPane4 = new JScrollPane();
+        tilesetThumbnailDisplay = new TilesetThumbnailDisplay();
+        jLabel4 = new JLabel();
+
+        //======== this ========
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("New Map - Select Game and Tileset");
+        setResizable(false);
+        var contentPane = getContentPane();
+
+        //======== jpanelIcon ========
+        {
+            jpanelIcon.setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
+
+            //---- jlGameIcon ----
+            jlGameIcon.setMaximumSize(new Dimension(32, 32));
+            jlGameIcon.setMinimumSize(new Dimension(32, 32));
+            jlGameIcon.setPreferredSize(new Dimension(32, 32));
+
+            GroupLayout jpanelIconLayout = new GroupLayout(jpanelIcon);
+            jpanelIcon.setLayout(jpanelIconLayout);
+            jpanelIconLayout.setHorizontalGroup(
+                jpanelIconLayout.createParallelGroup()
+                    .addGroup(jpanelIconLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jlGameIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
+            jpanelIconLayout.setVerticalGroup(
+                jpanelIconLayout.createParallelGroup()
+                    .addGroup(jpanelIconLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jlGameIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
+        }
+
+        //---- jbFinish ----
+        jbFinish.setText("Finish");
+        jbFinish.setToolTipText("");
+        jbFinish.addActionListener(e -> jbFinishActionPerformed(e));
+
+        //---- jbCancel ----
+        jbCancel.setText("Cancel");
+        jbCancel.addActionListener(e -> jbCancelActionPerformed(e));
+
+        //---- jLabel1 ----
+        jLabel1.setText("Game:");
+
+        //---- jLabel2 ----
+        jLabel2.setText("Tileset folders:");
+
+        //---- jLabel3 ----
+        jLabel3.setText("Tileset name:");
+
+        //======== jScrollPane1 ========
+        {
+
+            //---- jlGame ----
+            jlGame.setModel(new AbstractListModel<String>() {
+                String[] values = {
+                    "Pokemon Diamond",
+                    "Pokemon Pearl",
+                    "Pokemon Platinum",
+                    "Pokemon Heart Gold",
+                    "Pokemon Soul Silver",
+                    "Pokemon Black",
+                    "Pokemon White",
+                    "Pokemon Black 2",
+                    "Pokemon White 2"
+                };
+                @Override
+                public int getSize() { return values.length; }
+                @Override
+                public String getElementAt(int i) { return values[i]; }
+            });
+            jlGame.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            jlGame.setSelectedIndex(0);
+            jlGame.addListSelectionListener(e -> jlGameValueChanged(e));
+            jScrollPane1.setViewportView(jlGame);
+        }
+
+        //======== jScrollPane2 ========
+        {
+
+            //---- jlTsetFolder ----
+            jlTsetFolder.setModel(new AbstractListModel<String>() {
+                String[] values = {
+
+                };
+                @Override
+                public int getSize() { return values.length; }
+                @Override
+                public String getElementAt(int i) { return values[i]; }
+            });
+            jlTsetFolder.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            jlTsetFolder.setSelectedIndex(0);
+            jlTsetFolder.addListSelectionListener(e -> jlTsetFolderValueChanged(e));
+            jScrollPane2.setViewportView(jlTsetFolder);
+        }
+
+        //======== jScrollPane3 ========
+        {
+            jScrollPane3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+            //---- jlTsetName ----
+            jlTsetName.setModel(new AbstractListModel<String>() {
+                String[] values = {
+
+                };
+                @Override
+                public int getSize() { return values.length; }
+                @Override
+                public String getElementAt(int i) { return values[i]; }
+            });
+            jlTsetName.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            jlTsetName.setSelectedIndex(0);
+            jlTsetName.addListSelectionListener(e -> jlTsetNameValueChanged(e));
+            jScrollPane3.setViewportView(jlTsetName);
+        }
+
+        //======== jScrollPane4 ========
+        {
+            jScrollPane4.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+            jScrollPane4.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+            //======== tilesetThumbnailDisplay ========
+            {
+                tilesetThumbnailDisplay.setMaximumSize(new Dimension(128, 32767));
+                tilesetThumbnailDisplay.setMinimumSize(new Dimension(128, 100));
+                tilesetThumbnailDisplay.setPreferredSize(new Dimension(128, 137));
+
+                GroupLayout tilesetThumbnailDisplayLayout = new GroupLayout(tilesetThumbnailDisplay);
+                tilesetThumbnailDisplay.setLayout(tilesetThumbnailDisplayLayout);
+                tilesetThumbnailDisplayLayout.setHorizontalGroup(
+                    tilesetThumbnailDisplayLayout.createParallelGroup()
+                        .addGap(0, 128, Short.MAX_VALUE)
+                );
+                tilesetThumbnailDisplayLayout.setVerticalGroup(
+                    tilesetThumbnailDisplayLayout.createParallelGroup()
+                        .addGap(0, 347, Short.MAX_VALUE)
+                );
+            }
+            jScrollPane4.setViewportView(tilesetThumbnailDisplay);
+        }
+
+        //---- jLabel4 ----
+        jLabel4.setText("Tileset preview:");
+
+        GroupLayout contentPaneLayout = new GroupLayout(contentPane);
+        contentPane.setLayout(contentPaneLayout);
+        contentPaneLayout.setHorizontalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(contentPaneLayout.createParallelGroup()
+                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                            .addGroup(contentPaneLayout.createParallelGroup()
+                                .addComponent(jLabel1)
+                                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jpanelIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(contentPaneLayout.createParallelGroup()
+                                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(contentPaneLayout.createParallelGroup()
+                                .addComponent(jLabel3)
+                                .addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(contentPaneLayout.createParallelGroup()
+                                .addComponent(jLabel4)
+                                .addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(jbFinish, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jbCancel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap())
+        );
+        contentPaneLayout.setVerticalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel4))
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(contentPaneLayout.createParallelGroup()
+                        .addGroup(contentPaneLayout.createSequentialGroup()
+                            .addGroup(contentPaneLayout.createParallelGroup()
+                                .addComponent(jScrollPane4)
+                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                                .addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1))
+                            .addGap(11, 11, 11))
+                        .addGroup(contentPaneLayout.createSequentialGroup()
+                            .addComponent(jpanelIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbCancel)
+                        .addComponent(jbFinish))
+                    .addContainerGap())
+        );
+        pack();
+        setLocationRelativeTo(getOwner());
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents
+    }
+
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    private JPanel jpanelIcon;
+    private JLabel jlGameIcon;
+    private JButton jbFinish;
+    private JButton jbCancel;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JLabel jLabel3;
+    private JScrollPane jScrollPane1;
+    private JList<String> jlGame;
+    private JScrollPane jScrollPane2;
+    private JList<String> jlTsetFolder;
+    private JScrollPane jScrollPane3;
+    private JList<String> jlTsetName;
+    private JScrollPane jScrollPane4;
+    private TilesetThumbnailDisplay tilesetThumbnailDisplay;
+    private JLabel jLabel4;
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

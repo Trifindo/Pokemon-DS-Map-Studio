@@ -1,0 +1,71 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+			"columns": 3
+			"rows": 3
+			"hgap": 2
+			"vgap": 2
+		} ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {space :0:24:x}"
+				"$verticalGroup": "par l {space :0:23:x}"
+			} ) {
+				name: "jPanel1"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbUp"
+				"text": "▲"
+				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbUpActionPerformed", true ) )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {space :0:24:x}"
+				"$verticalGroup": "par l {space :0:23:x}"
+			} ) {
+				name: "jPanel2"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbLeft"
+				"text": "◄"
+				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbLeftActionPerformed", true ) )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {space :0:24:x}"
+				"$verticalGroup": "par l {space :0:23:x}"
+			} ) {
+				name: "jPanel3"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbRight"
+				"text": "►"
+				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRightActionPerformed", true ) )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {space :0:24:x}"
+				"$verticalGroup": "par l {space :0:23:x}"
+			} ) {
+				name: "jPanel5"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbDown"
+				"text": "▼"
+				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbDownActionPerformed", true ) )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {space :0:24:x}"
+				"$verticalGroup": "par l {space :0:23:x}"
+			} ) {
+				name: "jPanel6"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 76, 75 )
+		} )
+	}
+}

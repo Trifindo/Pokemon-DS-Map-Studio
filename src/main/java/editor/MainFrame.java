@@ -611,7 +611,7 @@ public class MainFrame extends JFrame {
                 try {
                     HashMap<Point, MapData> maps = MapMatrix.getGridsFromFile(fc.getSelectedFile().getPath(), handler);
 
-                    final MapMatrixImportDialog dialog = new MapMatrixImportDialog(this, true);
+                    final MapMatrixImportDialog dialog = new MapMatrixImportDialog(this);
                     dialog.init(handler, fc.getSelectedFile().getPath(), maps);
                     dialog.setLocationRelativeTo(this);
                     dialog.setVisible(true);
@@ -626,7 +626,7 @@ public class MainFrame extends JFrame {
     }
 
     public void openTilesetEditor() {
-        final TilesetEditorDialog dialog = new TilesetEditorDialog(this, true);
+        final TilesetEditorDialog dialog = new TilesetEditorDialog(this);
         dialog.init(handler);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
@@ -660,7 +660,7 @@ public class MainFrame extends JFrame {
         boolean gridEnabled = mapDisplay.isGridEnabled();
         mapDisplay.disableGridView();
         mapDisplay.display();
-        final CollisionsEditorDialog dialog = new CollisionsEditorDialog(this, true);
+        final CollisionsEditorDialog dialog = new CollisionsEditorDialog(this);
         dialog.init(handler, mapDisplay.getScreenshot());
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
@@ -709,14 +709,14 @@ public class MainFrame extends JFrame {
     }
 
     public void openNsbtxEditor() {
-        final NsbtxEditorDialog dialog = new NsbtxEditorDialog(this, true);
+        final NsbtxEditorDialog dialog = new NsbtxEditorDialog(this);
         dialog.init(handler);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
 
     public void openNsbtxEditor2() {
-        final NsbtxEditorDialog2 dialog = new NsbtxEditorDialog2(this, true);
+        final NsbtxEditorDialog2 dialog = new NsbtxEditorDialog2(this);
         dialog.init(handler);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
@@ -734,7 +734,7 @@ public class MainFrame extends JFrame {
     }
 
     public void openKeyboardInfoDialog() {
-        final KeyboardInfoDialog2 dialog = new KeyboardInfoDialog2(this, true);
+        final KeyboardInfoDialog2 dialog = new KeyboardInfoDialog2(this);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
@@ -815,7 +815,7 @@ public class MainFrame extends JFrame {
     private void newMap() {
         int returnVal = JOptionPane.showConfirmDialog(this, "Do you want to close current map?", "Create new map", JOptionPane.YES_NO_OPTION);
         if (returnVal == JOptionPane.YES_OPTION) {
-            final GameTsetSelectorDialog2 dialog = new GameTsetSelectorDialog2(this, true);
+            final GameTsetSelectorDialog2 dialog = new GameTsetSelectorDialog2(this);
             dialog.init(handler);
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
@@ -956,7 +956,7 @@ public class MainFrame extends JFrame {
 
     public void saveAllTilesAsObjWithDialog() {
         if (handler.getTileset().size() > 0) {
-            final ExportTileDialog exportTileDialog = new ExportTileDialog(handler.getMainFrame(), true, "Export Tile Settings");
+            final ExportTileDialog exportTileDialog = new ExportTileDialog(handler.getMainFrame(), "Export Tile Settings");
             exportTileDialog.setLocationRelativeTo(this);
             exportTileDialog.setVisible(true);
             if (exportTileDialog.getReturnValue() == AddTileDialog.APPROVE_OPTION) {
@@ -991,7 +991,7 @@ public class MainFrame extends JFrame {
     }
 
     private void saveMapAsObjWithDialog(boolean saveTextures) {
-        final ExportMapObjDialog exportMapDialog = new ExportMapObjDialog(this, true, "Export OBJ Map Settings");
+        final ExportMapObjDialog exportMapDialog = new ExportMapObjDialog(this, "Export OBJ Map Settings");
         exportMapDialog.setLocationRelativeTo(null);
         exportMapDialog.setVisible(true);
 
@@ -1109,7 +1109,7 @@ public class MainFrame extends JFrame {
                     JOptionPane.WARNING_MESSAGE);
         }
 
-        final ExportImdDialog configDialog = new ExportImdDialog(this, true);
+        final ExportImdDialog configDialog = new ExportImdDialog(this);
         configDialog.init(handler);
         configDialog.setLocationRelativeTo(this);
         configDialog.setVisible(true);
@@ -1119,7 +1119,7 @@ public class MainFrame extends JFrame {
             String objFolderPath = configDialog.getObjFolderPath();
             String imdFolderPath = configDialog.getImdFolderPath();
 
-            final ImdOutputInfoDialog outputDialog = new ImdOutputInfoDialog(this, true);
+            final ImdOutputInfoDialog outputDialog = new ImdOutputInfoDialog(this);
             outputDialog.init(handler, fileNames, objFolderPath, imdFolderPath);
             outputDialog.setLocationRelativeTo(null);
             outputDialog.setVisible(true);
@@ -1231,7 +1231,7 @@ public class MainFrame extends JFrame {
     }
 
     public void saveMapAsNsbWithDialog() {
-        final ConverterDialog convDialog = new ConverterDialog(this, true);
+        final ConverterDialog convDialog = new ConverterDialog(this);
         convDialog.setLocationRelativeTo(this);
         convDialog.setVisible(true);
         if (convDialog.getReturnValue() == ConverterDialog.APPROVE_OPTION) {
@@ -1320,7 +1320,7 @@ public class MainFrame extends JFrame {
                                     try {
                                         byte[] nsbmdData = Files.readAllBytes(dstFile.toPath());
 
-                                        ExportNsbmdResultDialog resultDialog = new ExportNsbmdResultDialog(this, true);
+                                        ExportNsbmdResultDialog resultDialog = new ExportNsbmdResultDialog(this);
                                         resultDialog.init(nsbmdData);
                                         resultDialog.setLocationRelativeTo(this);
                                         resultDialog.setVisible(true);
@@ -1336,7 +1336,7 @@ public class MainFrame extends JFrame {
                                             JOptionPane.ERROR_MESSAGE);
                                 }
                             } else {
-                                ConverterErrorDialog dialog = new ConverterErrorDialog(this, true);
+                                ConverterErrorDialog dialog = new ConverterErrorDialog(this);
                                 dialog.init("There was a problem creating the NSBMD file. \n"
                                                 + "The output from the converter is:",
                                         outputString);
@@ -1444,7 +1444,7 @@ public class MainFrame extends JFrame {
                                     JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
-                        ConverterErrorDialog dialog = new ConverterErrorDialog(this, true);
+                        ConverterErrorDialog dialog = new ConverterErrorDialog(this);
                         dialog.init("There was a problem creating the NSBTX file. \n"
                                         + "The output from the converter is:",
                                 outputString.toString());
@@ -1486,7 +1486,7 @@ public class MainFrame extends JFrame {
     }
 
     public void changeGame() {
-        final GameChangerDialog dialog = new GameChangerDialog(this, true);
+        final GameChangerDialog dialog = new GameChangerDialog(this);
         dialog.init(handler);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
@@ -1953,7 +1953,7 @@ public class MainFrame extends JFrame {
                 formWindowClosing(e);
             }
         });
-        Container contentPane = getContentPane();
+        var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
             "insets 0,hidemode 3,gap 5 5",
             // columns
@@ -2951,7 +2951,7 @@ public class MainFrame extends JFrame {
                                         // columns
                                         "[fill]" +
                                         "[grow,fill]" +
-                                        "[grow,fill]",
+                                        "[fill]",
                                         // rows
                                         "[fill]"));
 
@@ -3056,7 +3056,7 @@ public class MainFrame extends JFrame {
                             jpHeightMapAlpha.setLayout(jpHeightMapAlphaLayout);
                             jpHeightMapAlphaLayout.setHorizontalGroup(
                                 jpHeightMapAlphaLayout.createParallelGroup()
-                                    .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+                                    .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
                             );
                             jpHeightMapAlphaLayout.setVerticalGroup(
                                 jpHeightMapAlphaLayout.createParallelGroup()
@@ -3232,13 +3232,13 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(getOwner());
 
         //---- buttonGroupViewMode ----
-        ButtonGroup buttonGroupViewMode = new ButtonGroup();
+        var buttonGroupViewMode = new ButtonGroup();
         buttonGroupViewMode.add(jtbView3D);
         buttonGroupViewMode.add(jtbViewOrtho);
         buttonGroupViewMode.add(jtbViewHeight);
 
         //---- buttonGroupDrawMode ----
-        ButtonGroup buttonGroupDrawMode = new ButtonGroup();
+        var buttonGroupDrawMode = new ButtonGroup();
         buttonGroupDrawMode.add(jtbModeEdit);
         buttonGroupDrawMode.add(jtbModeClear);
         buttonGroupDrawMode.add(jtbModeSmartPaint);

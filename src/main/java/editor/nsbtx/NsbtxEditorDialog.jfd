@@ -1,0 +1,175 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, comp jPanel1:::p::p, space u:::p, comp jPanel2:::p::p, space :p::p, par l {comp jPanel4:::p::p, seq {comp jPanel3:::p::p, space :::p, comp jPanel5:::p::p}}, space u:::p, comp jPanel6:::p::p, space :::x}}"
+			"$verticalGroup": "par l {seq l {space :::p, par l {comp jPanel6:::::x, seq t {par l:::p {comp jPanel3:::::x, comp jPanel5:::::x}, space u:::p, comp jPanel4:::::x}, comp jPanel1:::::x, comp jPanel2:::::x}, space :::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "NSBTX Editor (Pokemon Map Tilesets ONLY) - Experimental! Use with caution!"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane1:::p:150:p, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1::::523:x, space :::p}}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Texture Names" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane1"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "textureNamesList"
+						"model": new javax.swing.DefaultListModel
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "textureNamesListValueChanged", true ) )
+					} )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane2:::p:150:p, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane2:::::x, space :::p}}"
+			} ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( "Palette Names" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane2"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "paletteNamesList"
+						"model": new javax.swing.DefaultListModel
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "paletteNamesListValueChanged", true ) )
+					} )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp nsbtxDisplay:::p::p, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp nsbtxDisplay:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel3"
+				"border": new javax.swing.border.TitledBorder( "Texture" )
+				add( new FormContainer( "editor.nsbtx.NsbtxDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:126:x}"
+					"$verticalGroup": "par l {space :0:126:x}"
+				} ) {
+					name: "nsbtxDisplay"
+					"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {seq l {comp jLabel2:::p::p, space :::p, comp jSpinnerGreen:::p:48:p}, seq l {comp jLabel3:::p::p, space :::p, comp jSpinnerBlue:::p:48:p}, seq l {comp jLabel1:::p::p, space :::p, comp jSpinnerRed:::p:48:p, space s:::p, comp jLabel4:::p::p, space u:::p, comp jButton1:::p::p, space u:::p, comp jButton2:::p::p}, comp paletteDisplay::l:p::p}, space ::86:x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp paletteDisplay:::p::p, space u:p::p, par b {comp jLabel1::b:p::p, comp jSpinnerRed::b:p::p, comp jButton1::b:p::p, comp jButton2::b:p::p, comp jLabel4::b:p::p}, space :::p, par b {comp jLabel2::b:p::p, comp jSpinnerGreen::b:p::p}, space :::p, par b {comp jLabel3::b:p::p, comp jSpinnerBlue::b:p::p}, space :::x}}"
+			} ) {
+				name: "jPanel4"
+				"border": new javax.swing.border.TitledBorder( "Palette Display" )
+				add( new FormContainer( "editor.nsbtx.PaletteDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:256:x}"
+					"$verticalGroup": "par l {space :0:16:x}"
+				} ) {
+					name: "paletteDisplay"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "R: "
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "jSpinnerRed"
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinnerRedStateChanged", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "jSpinnerGreen"
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinnerGreenStateChanged", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel2"
+					"text": "G: "
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel3"
+					"text": "B: "
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "jSpinnerBlue"
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinnerBlueStateChanged", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jButton1"
+					"text": "◄"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton1ActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jButton2"
+					"text": "►"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton2ActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel4"
+					"text": "Move color:"
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, par t:::p {comp jButton4:::::x, comp jButton5::t:::x, comp jButton3::t:::x}, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jButton3:::p::p, space :::p, comp jButton4:::p::p, space :::x, comp jButton5:::p::p, space :::p}}"
+			} ) {
+				name: "jPanel5"
+				"border": new javax.swing.border.TitledBorder( "Editor" )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jButton3"
+					"text": "Import Texture and Palette"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton3ActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jButton4"
+					"text": "Import Texture Only"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton4ActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jButton5"
+					"text": "Export Image"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton5ActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {space :0:155:x}"
+				"$verticalGroup": "par l {space :0:0:x}"
+			} ) {
+				name: "jPanel6"
+				"border": new javax.swing.border.TitledBorder( "Information" )
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "jMenuBar1"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "jMenu1"
+					"text": "File"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmOpenNsbtx"
+						"text": "Open NSBTX..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmOpenNsbtxActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmSaveNsbtx"
+						"text": "Save NSBTX..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmSaveNsbtxActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmSaveNsbtxAs"
+						"text": "Save NSBTX as..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmSaveNsbtxAsActionPerformed", true ) )
+					} )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 1010, 625 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

@@ -1,0 +1,63 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, comp jPanel1:::::x, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp jPanel1:::p::p, space :::x}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Choose Color Format"
+			"resizable": false
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, par l {seq l {comp jbOkay:::p:80:p, space :::x, comp jbCancel:::p:80:p}, seq l {comp jLabel1:::p::p, space u:p::p, comp jcbColorTexture:::p:100:p, space u:::p, comp jcbTransparentColor:::p::p, space :0:0:x}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par b {comp jcbColorTexture::b:p::p, comp jcbTransparentColor::b:p::p, comp jLabel1::b:p::p}, space :::x, par b {comp jbOkay::b:p::p, comp jbCancel::b:p::p}, space :::p}}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Texture Color Format" )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "jcbColorTexture"
+					"model": new javax.swing.DefaultComboBoxModel {
+						selectedItem: "Palette 4"
+						addElement( "Palette 4" )
+						addElement( "Palette 16" )
+						addElement( "Palette 256" )
+						addElement( "A3I5" )
+						addElement( "A5I3" )
+					}
+					"selectedIndex": 1
+					"minimumSize": new java.awt.Dimension( 120, 20 )
+					"preferredSize": new java.awt.Dimension( 120, 20 )
+					auxiliary() {
+						"JavaCodeGenerator.typeParameters": "String"
+					}
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbOkay"
+					"text": "OK"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbOkayActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbCancel"
+					"text": "Cancel"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "jcbTransparentColor"
+					"selected": true
+					"text": "Transparent Color"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "Choose Format:"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 505, 135 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

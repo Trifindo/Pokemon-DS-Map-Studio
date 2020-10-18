@@ -1,0 +1,79 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, comp jPanel1:::p::p, space :::x}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp jPanel1:::p::p, space :::x}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Replace Material"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::x, par l:::p {seq {comp jPanel3:::p::p, space s:::p, comp jPanel2:::p::p}, seq {comp jbReplace:::p:162:p, space :::x, comp jbCancel:::p:169:p}}, space :p::p}}"
+				"$verticalGroup": "par l {seq t {space :::p, par l:::p {comp jPanel3::::204:x, comp jPanel2::::204:x}, space :::p, par b {comp jbReplace::b:p::p, comp jbCancel::b:p::p}, space :::x}}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Replace Material" )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {space :::p, par l {comp jcbNewMaterial:::::x, seq l {comp textureDisplayNew:::p::p, space :0:130:x}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp jcbNewMaterial:::p::p, space u:::p, comp textureDisplayNew:::p::p, space :::x}}"
+				} ) {
+					name: "jPanel2"
+					"border": new javax.swing.border.TitledBorder( "Select the Material to use instead" )
+					"preferredSize": new java.awt.Dimension( 280, 65 )
+					add( new FormComponent( "javax.swing.JComboBox" ) {
+						name: "jcbNewMaterial"
+						"model": new javax.swing.DefaultComboBoxModel
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbNewMaterialActionPerformed", true ) )
+					} )
+					add( new FormContainer( "editor.tileseteditor.TextureDisplayConfigurable", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {space :0:126:x}"
+						"$verticalGroup": "par l {space :0:126:x}"
+					} ) {
+						name: "textureDisplayNew"
+						"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbReplace"
+					"text": "Replace"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbCancel"
+					"text": "Cancel"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {space :::p, par l {comp jtfMaterialName:::::x, seq l {comp textureDisplayToDelete:::p::p, space :0:130:x}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp jtfMaterialName:::p::p, space u:::p, comp textureDisplayToDelete:::p::p, space :::x}}"
+				} ) {
+					name: "jPanel3"
+					"border": new javax.swing.border.TitledBorder( null, "Material that will be deleted", 4, 0, null, new java.awt.Color( 204, 0, 0, 255 ) )
+					"preferredSize": new java.awt.Dimension( 280, 209 )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "jtfMaterialName"
+						"editable": false
+						"text": " "
+					} )
+					add( new FormContainer( "editor.tileseteditor.TextureDisplayConfigurable", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {space :0:126:x}"
+						"$verticalGroup": "par l {space :0:126:x}"
+					} ) {
+						name: "textureDisplayToDelete"
+						"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
+					} )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 620, 325 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

@@ -1,0 +1,41 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, par l {seq l {comp nsbtxPanel1:::p::p, space :0:0:x}, comp jPanel2::l:::x, comp jLabel1::l:::x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp nsbtxPanel1:::p::p, space :::p, comp jLabel1:::p:31:p, space :p::p, comp jPanel2:::p::p, space :::x}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "NSBTX Successfully Saved"
+			"resizable": false
+			add( new FormComponent( "editor.nsbtx2.NsbtxPanel" ) {
+				name: "nsbtxPanel1"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jLabel1"
+				"horizontalAlignment": 0
+				"text": "NSBTX succesfully exported."
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0"
+				"$rowSpecs": "0"
+			} ) {
+				name: "jPanel2"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jButton1"
+					"text": "OK"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton1ActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"hAlign": 0
+					"vAlign": 0
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 475, 510 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

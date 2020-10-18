@@ -1,0 +1,144 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, comp jPanel1:::p::p, space :::p, comp jPanel2:::p::p, space :::x}, seq t {space :::x, comp jbFinish:::p:72:p, space u:::p, comp jbCancel:::p::p, space :::p}}"
+			"$verticalGroup": "par l {seq {space :::p, par l {comp jPanel1:::::x, comp jPanel2:::::x}, space u:::p, par b {comp jbCancel::b:p::p, comp jbFinish::b:p::p}, space :::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Select the Textures and Palettes to import from the NSBTX"
+			"resizable": false
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {seq l {comp jScrollPane1:::p::p, space :::p, par l:::p {comp jbRemoveTexture:::::x, comp jbAddTexture:::::x, comp jbAddAllTextures::l:::x}}, comp jLabel1::l:p::p}, space :::p, par l {comp jLabel2:::p::p, comp jScrollPane2:::p::p}, space :::x}}"
+				"$verticalGroup": "par l {seq t {space :::p, par b {comp jLabel1::b:p::p, comp jLabel2::b:p::p}, space :::p, par l {comp jScrollPane1::::166:x, seq {comp jbAddTexture:::p::p, space :::p, comp jbAddAllTextures:::p::p, space s:::p, comp jbRemoveTexture:::p::p, space :0:0:x}, comp jScrollPane2:::::x}, space :::p}}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Texture List" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane1"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					"preferredSize": new java.awt.Dimension( 130, 130 )
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlTexturesInNsbtx"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "Textures in NSBTX:"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAddTexture"
+					"text": "Add >>"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddTextureActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbRemoveTexture"
+					"text": "Remove <<"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveTextureActionPerformed", true ) )
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane2"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					"preferredSize": new java.awt.Dimension( 130, 130 )
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlTexturesToImport"
+						"model": new javax.swing.DefaultListModel
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel2"
+					"text": "Textures to import:"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAddAllTextures"
+					"text": "Add All >>"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddAllTexturesActionPerformed", true ) )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbCancel"
+				"text": "Cancel"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, par l {seq l {comp jScrollPane3:::p::p, space :::p, par t {comp jbAddPalette:::p:91:p, par l:::p {comp RemovePalette::l:::x, comp jbAddAllPalettes::l:p:91:p}}}, comp jLabel3::l:p::p}, space :::p, par l {comp jLabel4::l:p::p, comp jScrollPane4::l:p::p}, space :::x}}"
+				"$verticalGroup": "par l {seq t {space :::p, par b {comp jLabel3::b:p::p, comp jLabel4::b:p::p}, space :::p, par l {comp jScrollPane3::l:::x, seq l {comp jbAddPalette:::p::p, space :::p, comp jbAddAllPalettes:::p::p, space s:::p, comp RemovePalette:::p::p, space :0:0:x}, comp jScrollPane4::l:::x}, space :::p}}"
+			} ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( "Palette List" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane3"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					"preferredSize": new java.awt.Dimension( 130, 130 )
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlPalettesInNsbtx"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel3"
+					"text": "Palettes in NSBTX:"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAddPalette"
+					"text": "Add >>"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddPaletteActionPerformed", true ) )
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane4"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					"preferredSize": new java.awt.Dimension( 130, 130 )
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlPalettesToImport"
+						"model": new javax.swing.DefaultListModel
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel4"
+					"text": "Palettes to import:"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAddAllPalettes"
+					"text": "Add All >>"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddAllPalettesActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "RemovePalette"
+					"text": "Remove <<"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "RemovePaletteActionPerformed", true ) )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbFinish"
+				"text": "Finish"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbFinishActionPerformed", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 835, 310 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

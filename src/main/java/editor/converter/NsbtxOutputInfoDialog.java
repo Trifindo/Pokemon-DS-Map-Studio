@@ -1,13 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.converter;
 
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle;
 import editor.handler.MapData;
 import editor.imd.*;
 import editor.handler.MapEditorHandler;
+import editor.nsbtx2.*;
 import editor.nsbtx2.Nsbtx2;
 import editor.nsbtx2.NsbtxImd;
 import editor.nsbtx2.NsbtxTexture;
@@ -114,251 +116,291 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        jPanel1 = new JPanel();
+        jbAccept = new JButton();
+        jSplitPane1 = new JSplitPane();
+        jPanel2 = new JPanel();
+        jScrollPane1 = new JScrollPane();
+        jTable1 = new JTable();
+        jLabel1 = new JLabel();
+        jProgressBar1 = new JProgressBar();
+        jLabel2 = new JLabel();
+        jlFilesProcessed = new JLabel();
+        jLabel4 = new JLabel();
+        jlFilesConverted = new JLabel();
+        jLabel8 = new JLabel();
+        jlFilesNotConverted = new JLabel();
+        jLabel3 = new JLabel();
+        jlStatus = new JLabel();
+        jLabel5 = new JLabel();
+        jlResult = new JLabel();
+        jpCard = new JPanel();
+        jpDisplay = new JPanel();
+        nsbtxPanel1 = new NsbtxPanel();
+        jpErrorInfo = new JPanel();
+        jScrollPane2 = new JScrollPane();
+        jTextArea1 = new JTextArea();
+        jLabel6 = new JLabel();
 
-        jPanel1 = new javax.swing.JPanel();
-        jbAccept = new javax.swing.JButton();
-        jSplitPane1 = new javax.swing.JSplitPane();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jLabel2 = new javax.swing.JLabel();
-        jlFilesProcessed = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jlFilesConverted = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jlFilesNotConverted = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jlStatus = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jlResult = new javax.swing.JLabel();
-        jpCard = new javax.swing.JPanel();
-        jpDisplay = new javax.swing.JPanel();
-        nsbtxPanel1 = new editor.nsbtx2.NsbtxPanel();
-        jpErrorInfo = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabel6 = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        //======== this ========
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Resulting NSBTX files info (Experimental)");
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                formWindowActivated(e);
             }
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
-
-        jbAccept.setText("OK");
-        jbAccept.setEnabled(false);
-        jbAccept.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbAcceptActionPerformed(evt);
+            @Override
+            public void windowClosed(WindowEvent e) {
+                formWindowClosed(e);
             }
         });
-        jPanel1.add(jbAccept);
+        var contentPane = getContentPane();
 
-        jSplitPane1.setDividerLocation(550);
+        //======== jPanel1 ========
+        {
+            jPanel1.setLayout(new FlowLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            //---- jbAccept ----
+            jbAccept.setText("OK");
+            jbAccept.setEnabled(false);
+            jbAccept.addActionListener(e -> jbAcceptActionPerformed(e));
+            jPanel1.add(jbAccept);
+        }
 
-            },
-            new String [] {
-                "Name", "Status"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
+        //======== jSplitPane1 ========
+        {
+            jSplitPane1.setDividerLocation(550);
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(jTable1);
+            //======== jPanel2 ========
+            {
 
-        jLabel1.setText("NSBMD exporting progress:");
+                //======== jScrollPane1 ========
+                {
 
-        jLabel2.setText("Files processed:");
+                    //---- jTable1 ----
+                    jTable1.setModel(new DefaultTableModel(
+                        new Object[][] {
+                        },
+                        new String[] {
+                            "Name", "Status"
+                        }
+                    ) {
+                        boolean[] columnEditable = new boolean[] {
+                            false, false
+                        };
+                        @Override
+                        public boolean isCellEditable(int rowIndex, int columnIndex) {
+                            return columnEditable[columnIndex];
+                        }
+                    });
+                    jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    jScrollPane1.setViewportView(jTable1);
+                }
 
-        jlFilesProcessed.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jlFilesProcessed.setText("N/N");
+                //---- jLabel1 ----
+                jLabel1.setText("NSBMD exporting progress:");
 
-        jLabel4.setText("Files converted into IMD:");
+                //---- jLabel2 ----
+                jLabel2.setText("Files processed:");
 
-        jlFilesConverted.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jlFilesConverted.setText("N");
+                //---- jlFilesProcessed ----
+                jlFilesProcessed.setFont(new Font("Tahoma", Font.BOLD, 11));
+                jlFilesProcessed.setText("N/N");
 
-        jLabel8.setText("Files not converted:");
+                //---- jLabel4 ----
+                jLabel4.setText("Files converted into IMD:");
 
-        jlFilesNotConverted.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jlFilesNotConverted.setText("N");
+                //---- jlFilesConverted ----
+                jlFilesConverted.setFont(new Font("Tahoma", Font.BOLD, 11));
+                jlFilesConverted.setText("N");
 
-        jLabel3.setText("Status:");
+                //---- jLabel8 ----
+                jLabel8.setText("Files not converted:");
 
-        jlStatus.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jlStatus.setText("Converting...");
+                //---- jlFilesNotConverted ----
+                jlFilesNotConverted.setFont(new Font("Tahoma", Font.BOLD, 11));
+                jlFilesNotConverted.setText("N");
 
-        jLabel5.setText("Result:");
+                //---- jLabel3 ----
+                jLabel3.setText("Status:");
 
-        jlResult.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jlResult.setText(" ");
+                //---- jlStatus ----
+                jlStatus.setFont(new Font("Tahoma", Font.BOLD, 11));
+                jlStatus.setText("Converting...");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jlResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlFilesConverted, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlFilesNotConverted, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                //---- jLabel5 ----
+                jLabel5.setText("Result:");
+
+                //---- jlResult ----
+                jlResult.setFont(new Font("Tahoma", Font.BOLD, 12));
+                jlResult.setText(" ");
+
+                GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
+                jPanel2.setLayout(jPanel2Layout);
+                jPanel2Layout.setHorizontalGroup(
+                    jPanel2Layout.createParallelGroup()
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel2Layout.createParallelGroup()
+                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jlResult, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup()
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel4)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jlFilesConverted, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel8)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jlFilesNotConverted, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel3)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jlStatus, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel2)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jlFilesProcessed, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)))
+                            .addContainerGap())
+                );
+                jPanel2Layout.setVerticalGroup(
+                    jPanel2Layout.createParallelGroup()
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                            .addGap(21, 21, 21)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jlStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jlStatus))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlFilesProcessed, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jlFilesProcessed))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jlFilesConverted))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel8, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jlFilesNotConverted))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel5)
+                                .addComponent(jlResult))
+                            .addGap(9, 9, 9))
+                );
+            }
+            jSplitPane1.setLeftComponent(jPanel2);
+
+            //======== jpCard ========
+            {
+                jpCard.setLayout(new CardLayout());
+
+                //======== jpDisplay ========
+                {
+
+                    GroupLayout jpDisplayLayout = new GroupLayout(jpDisplay);
+                    jpDisplay.setLayout(jpDisplayLayout);
+                    jpDisplayLayout.setHorizontalGroup(
+                        jpDisplayLayout.createParallelGroup()
+                            .addGroup(jpDisplayLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(nsbtxPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    );
+                    jpDisplayLayout.setVerticalGroup(
+                        jpDisplayLayout.createParallelGroup()
+                            .addGroup(jpDisplayLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(nsbtxPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    );
+                }
+                jpCard.add(jpDisplay, "CardDisplay");
+
+                //======== jpErrorInfo ========
+                {
+
+                    //======== jScrollPane2 ========
+                    {
+
+                        //---- jTextArea1 ----
+                        jTextArea1.setEditable(false);
+                        jTextArea1.setColumns(20);
+                        jTextArea1.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+                        jTextArea1.setRows(5);
+                        jTextArea1.setTabSize(3);
+                        jScrollPane2.setViewportView(jTextArea1);
+                    }
+
+                    //---- jLabel6 ----
+                    jLabel6.setText("Error info:");
+
+                    GroupLayout jpErrorInfoLayout = new GroupLayout(jpErrorInfo);
+                    jpErrorInfo.setLayout(jpErrorInfoLayout);
+                    jpErrorInfoLayout.setHorizontalGroup(
+                        jpErrorInfoLayout.createParallelGroup()
+                            .addGroup(jpErrorInfoLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jpErrorInfoLayout.createParallelGroup()
+                                    .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+                                    .addGroup(jpErrorInfoLayout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addContainerGap())
+                    );
+                    jpErrorInfoLayout.setVerticalGroup(
+                        jpErrorInfoLayout.createParallelGroup()
+                            .addGroup(GroupLayout.Alignment.TRAILING, jpErrorInfoLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                                .addContainerGap())
+                    );
+                }
+                jpCard.add(jpErrorInfo, "CardErrorInfo");
+            }
+            jSplitPane1.setRightComponent(jpCard);
+        }
+
+        GroupLayout contentPaneLayout = new GroupLayout(contentPane);
+        contentPane.setLayout(contentPaneLayout);
+        contentPaneLayout.setHorizontalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(contentPaneLayout.createParallelGroup()
+                        .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSplitPane1, GroupLayout.DEFAULT_SIZE, 761, Short.MAX_VALUE))
+                    .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jlStatus))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jlFilesProcessed))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlFilesConverted))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlFilesNotConverted))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jlResult))
-                .addGap(9, 9, 9))
+        contentPaneLayout.setVerticalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jSplitPane1)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addGap(6, 6, 6))
         );
-
-        jSplitPane1.setLeftComponent(jPanel2);
-
-        jpCard.setLayout(new java.awt.CardLayout());
-
-        javax.swing.GroupLayout jpDisplayLayout = new javax.swing.GroupLayout(jpDisplay);
-        jpDisplay.setLayout(jpDisplayLayout);
-        jpDisplayLayout.setHorizontalGroup(
-            jpDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpDisplayLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(nsbtxPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jpDisplayLayout.setVerticalGroup(
-            jpDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpDisplayLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(nsbtxPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jpCard.add(jpDisplay, "CardDisplay");
-
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        jTextArea1.setRows(5);
-        jTextArea1.setTabSize(3);
-        jScrollPane2.setViewportView(jTextArea1);
-
-        jLabel6.setText("Error info:");
-
-        javax.swing.GroupLayout jpErrorInfoLayout = new javax.swing.GroupLayout(jpErrorInfo);
-        jpErrorInfo.setLayout(jpErrorInfoLayout);
-        jpErrorInfoLayout.setHorizontalGroup(
-            jpErrorInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpErrorInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jpErrorInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
-                    .addGroup(jpErrorInfoLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jpErrorInfoLayout.setVerticalGroup(
-            jpErrorInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpErrorInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jpCard.add(jpErrorInfo, "CardErrorInfo");
-
-        jSplitPane1.setRightComponent(jpCard);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSplitPane1))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSplitPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6))
-        );
-
         pack();
+        setLocationRelativeTo(getOwner());
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -383,31 +425,31 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JProgressBar jProgressBar1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSplitPane jSplitPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JButton jbAccept;
-    private javax.swing.JLabel jlFilesConverted;
-    private javax.swing.JLabel jlFilesNotConverted;
-    private javax.swing.JLabel jlFilesProcessed;
-    private javax.swing.JLabel jlResult;
-    private javax.swing.JLabel jlStatus;
-    private javax.swing.JPanel jpCard;
-    private javax.swing.JPanel jpDisplay;
-    private javax.swing.JPanel jpErrorInfo;
-    private editor.nsbtx2.NsbtxPanel nsbtxPanel1;
+    private JPanel jPanel1;
+    private JButton jbAccept;
+    private JSplitPane jSplitPane1;
+    private JPanel jPanel2;
+    private JScrollPane jScrollPane1;
+    private JTable jTable1;
+    private JLabel jLabel1;
+    private JProgressBar jProgressBar1;
+    private JLabel jLabel2;
+    private JLabel jlFilesProcessed;
+    private JLabel jLabel4;
+    private JLabel jlFilesConverted;
+    private JLabel jLabel8;
+    private JLabel jlFilesNotConverted;
+    private JLabel jLabel3;
+    private JLabel jlStatus;
+    private JLabel jLabel5;
+    private JLabel jlResult;
+    private JPanel jpCard;
+    private JPanel jpDisplay;
+    private NsbtxPanel nsbtxPanel1;
+    private JPanel jpErrorInfo;
+    private JScrollPane jScrollPane2;
+    private JTextArea jTextArea1;
+    private JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 
     public void init(MapEditorHandler handler, ArrayList<Integer> areaIndices,

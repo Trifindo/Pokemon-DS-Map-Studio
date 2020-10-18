@@ -1,0 +1,178 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, par l {comp jPanel3:::::x, comp jPanel4:::::x, comp jPanel6:::::x}, space u:::p, comp vColorEditorDisplay1:::::x, space :::p, par l:::p {comp jPanel5:::::x, comp jPanel2:::::x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, par l {comp vColorEditorDisplay1:::::x, seq {comp jPanel2:::p::p, space :::p, comp jPanel5:::p::p, space :0:0:x}, seq l {comp jPanel3:::p::p, space :::p, comp jPanel4:::p::p, space s:::p, comp jPanel6:::::x}}, space :::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Vertex Color Editor"
+			"modal": true
+			add( new FormContainer( "editor.vertexcolors.VColorEditorDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {space :0:623:x}"
+				"$verticalGroup": "par l {space :0:585:x}"
+			} ) {
+				name: "vColorEditorDisplay1"
+				"border": new javax.swing.border.BevelBorder( 1, null, null, null, null )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {comp jPanel1:::::x, seq {comp colorWheelPanel1:::p::p, space :::x, comp colorBrightnessPanel1:::p::p}, seq {par l {seq l {comp jLabel1:::p::p, space u:::p, comp jtfRed:::p:48:p}, seq l {comp jLabel3:::p::p, space u:::p, comp jtfBlue:::p:48:p}, seq l {comp jLabel2:::p::p, space u:::p, comp jtfGreen:::p:48:p}}, space :0:0:x}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par l:::p {comp colorBrightnessPanel1:::::x, comp colorWheelPanel1:::::x}, space u:::p, comp jPanel1:::p::p, space s:::p, par b {comp jLabel1::b:p::p, comp jtfRed::b:p::p}, space u:::p, par b {comp jLabel2::b:p::p, comp jtfGreen::b:p::p}, space u:::p, par b {comp jLabel3::b:p::p, comp jtfBlue::b:p::p}, space :::x}}"
+			} ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( "Brush Color" )
+				add( new FormContainer( "editor.vertexcolors.ColorWheelPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:113:x}"
+					"$verticalGroup": "par l {space :0:0:x}"
+				} ) {
+					name: "colorWheelPanel1"
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseDragged", "colorWheelPanel1MouseDragged", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "colorWheelPanel1MousePressed", true ) )
+				} )
+				add( new FormContainer( "editor.vertexcolors.ColorBrightnessPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:25:x}"
+					"$verticalGroup": "par l {space :0:113:x}"
+				} ) {
+					name: "colorBrightnessPanel1"
+					addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseDragged", "colorBrightnessPanel1MouseDragged", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "colorBrightnessPanel1MousePressed", true ) )
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:0:x}"
+					"$verticalGroup": "par l {space :0:22:x}"
+				} ) {
+					name: "jPanel1"
+					"background": new java.awt.Color( 255, 255, 255, 255 )
+					"border": new javax.swing.border.SoftBevelBorder( 1, null, null, null, null )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"font": new java.awt.Font( "Tahoma", 1, 11 )
+					"foreground": new java.awt.Color( 255, 0, 0, 255 )
+					"text": "R:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel2"
+					"font": new java.awt.Font( "Tahoma", 1, 11 )
+					"foreground": new java.awt.Color( 0, 153, 0, 255 )
+					"text": "G:"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfRed"
+					"text": "255"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfGreen"
+					"text": "255"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel3"
+					"font": new java.awt.Font( "Tahoma", 1, 11 )
+					"foreground": new java.awt.Color( 0, 0, 204, 255 )
+					"text": "B:"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfBlue"
+					"text": "255"
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l:::p {comp jbVertexMode:::::x, comp jbFaceMode::l:::x, comp jbGrabColor::l:::x}, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jbVertexMode:::p::p, space :::p, comp jbFaceMode:::p::p, space :::p, comp jbGrabColor:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel3"
+				"border": new javax.swing.border.TitledBorder( "Edit Modes" )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbVertexMode"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/VertexSelectionIcon.png" )
+					"text": "All Vertex Mode"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbVertexModeActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbFaceMode"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/FaceSelectionIcon.png" )
+					"text": "Per Face Mode"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbFaceModeActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbGrabColor"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/GrabColorIcon.png" )
+					"text": "Grab Vertex Color"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbGrabColorActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {comp jbTextureView:::::x, comp jbSolidView:::::x, comp jbWireframeView::l:::x, comp jbSimpleView::l:::x}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jbSolidView:::p::p, space :::p, comp jbTextureView:::p::p, space :::p, comp jbWireframeView:::p::p, space :::p, comp jbSimpleView:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel4"
+				"border": new javax.swing.border.TitledBorder( "View Modes" )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbSolidView"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/SolidViewIcon.png" )
+					"text": "Solid View"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSolidViewActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbTextureView"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/TextureViewIcon.png" )
+					"text": "Texture View"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbTextureViewActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbWireframeView"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/WireframeViewIcon.png" )
+					"text": "Wireframe View"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbWireframeViewActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbSimpleView"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/NoWireframeViewIcon.png" )
+					"text": "Simple View"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSimpleViewActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {comp jSlider1::l::0:x}"
+				"$verticalGroup": "par l {comp jSlider1:::p::p}"
+			} ) {
+				name: "jPanel5"
+				"border": new javax.swing.border.TitledBorder( "Brush Size" )
+				add( new FormComponent( "javax.swing.JSlider" ) {
+					name: "jSlider1"
+					"minimum": 5
+					"value": 20
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSlider1StateChanged", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane1::::0:x, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1::::214:x, space :::p}}"
+			} ) {
+				name: "jPanel6"
+				"border": new javax.swing.border.TitledBorder( "Mode Description" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane1"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 21
+					add( new FormComponent( "javax.swing.JTextArea" ) {
+						name: "jtaModeDescription"
+						"columns": 20
+						"font": new java.awt.Font( "Tahoma", 0, 11 )
+						"lineWrap": true
+						"rows": 5
+						"wrapStyleWord": true
+						"disabledTextColor": new java.awt.Color( 51, 51, 51, 255 )
+						"enabled": false
+					} )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 1060, 630 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}
