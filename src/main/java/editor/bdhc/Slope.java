@@ -2,19 +2,18 @@
 package editor.bdhc;
 
 /**
- *
  * @author Trifindo
  */
 public class Slope {
     public int x, y, z;
-    
-    public Slope(int x, int y, int z){
+
+    public Slope(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
-    
-    public Slope(int[] slopes){
+
+    public Slope(int[] slopes) {
         this.x = slopes[0];
         this.y = slopes[1];
         this.z = slopes[2];
@@ -53,6 +52,5 @@ public class Slope {
         return true;
     }
 
-    
-    
+
 }

@@ -26,7 +26,7 @@ public class AnimationThread extends Thread {
             try {
                 Thread.sleep((long) ((animHandler.getCurrentDelay() / 30.0f) * 1000));
             } catch (InterruptedException ex) {
-
+                ex.printStackTrace();
             }
         }
     }

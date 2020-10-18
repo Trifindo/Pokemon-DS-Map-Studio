@@ -4,10 +4,10 @@ package editor.imd.nodes;
 import editor.imd.ImdAttribute;
 import editor.imd.ImdNode;
 import editor.nsbtx2.NsbtxPalette;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class TexPalette extends ImdNode {
@@ -22,14 +22,13 @@ public class TexPalette extends ImdNode {
                 add(new ImdAttribute("color_size", colorSize));
             }
         };
-        
+
         this.content = content;
     }
-    
-    public TexPalette(int index, NsbtxPalette pal){
+
+    public TexPalette(int index, NsbtxPalette pal) {
         this(index, pal.getName(), pal.getDataSizeImd(), pal.getDataAsHexStringImd());
     }
-    
-    
+
 
 }

@@ -18,7 +18,6 @@ import editor.MainFrame;
 import utils.LambdaUtils.VoidInterface;
 
 /**
- *
  * @author Trifindo
  */
 public class SoundPlayer extends Thread {
@@ -99,10 +98,10 @@ public class SoundPlayer extends Thread {
     public void stopPlayer() {
         System.out.println("Stopping");
         running.set(false);
-        if(sourceLine != null){
+        if (sourceLine != null) {
             sourceLine.stop();
         }
-        if(sourceLine != null){
+        if (sourceLine != null) {
             sourceLine.close();
         }
     }

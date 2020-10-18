@@ -4,13 +4,14 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {space :0:400:x}"
-			"$verticalGroup": "par l {space :0:300:x}"
+			"$horizontalGroup": "par l {space :0:530:x}"
+			"$verticalGroup": "par l {space :0:400:x}"
 		} ) {
 			name: "this"
 			addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "formMousePressed", true ) )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 400, 300 )
+			"size": new java.awt.Dimension( 530, 400 )
+			"location": new java.awt.Point( 0, 0 )
 		} )
 	}
 }

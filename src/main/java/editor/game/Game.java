@@ -2,10 +2,10 @@
 package editor.game;
 
 import java.awt.image.BufferedImage;
+
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class Game {
@@ -21,12 +21,12 @@ public class Game {
     public static final int WHITE2 = 8;
 
     public static final String[] gameNames = new String[]{
-        "Diamond", "Pearl", "Platinum", "Heart Gold", "Soul Silver", "Black",
-        "White", "Black 2", "White 2"
+            "Diamond", "Pearl", "Platinum", "Heart Gold", "Soul Silver", "Black",
+            "White", "Black 2", "White 2"
     };
 
     public static final int[] maxTileableSize = new int[]{
-        8, 8, 8, 8, 8, 16, 16, 16, 16
+            8, 8, 8, 8, 8, 16, 16, 16, 16
     };
 
     public static final int numGames = 9;
@@ -49,8 +49,8 @@ public class Game {
     public String getName() {
         return gameNames[gameSelected];
     }
-    
-    public int getMaxTileableSize(){
+
+    public int getMaxTileableSize() {
         return maxTileableSize[gameSelected];
     }
 

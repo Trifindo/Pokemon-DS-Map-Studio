@@ -31,7 +31,7 @@ public class NsbtxDisplay extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if(this.backImg != null){
+        if (this.backImg != null) {
             g.drawImage(backImg, 0, 0, null);
         }
 
@@ -56,14 +56,14 @@ public class NsbtxDisplay extends JPanel {
         this.nsbtxHandler = nsbtxHandler;
     }
 
-    public BufferedImage createBackImg(){
+    public BufferedImage createBackImg() {
         BufferedImage img = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
         Graphics g = img.getGraphics();
         int tileSize = 8;
         int numCells = size / tileSize;
         Color[] colors = new Color[]{Color.white, Color.lightGray};
-        for(int i = 0; i < numCells; i++){
-            for(int j = 0; j < numCells; j++){
+        for (int i = 0; i < numCells; i++) {
+            for (int j = 0; j < numCells; j++) {
                 g.setColor(colors[(i + j) % 2]);
                 g.fillRect(i * tileSize, j * tileSize, tileSize, tileSize);
             }
@@ -79,12 +79,12 @@ public class NsbtxDisplay extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

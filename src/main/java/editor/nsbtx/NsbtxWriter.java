@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- *
  * @author Trifindo
  */
 public class NsbtxWriter {

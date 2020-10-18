@@ -9,7 +9,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 /**
- *
  * @author Trifindo
  */
 public class BinaryReader {
@@ -86,7 +85,7 @@ public class BinaryReader {
     }
 
     public static float readFI32(byte[] fullData, int offset) throws Exception {
-        return (float)readInt16(fullData, offset + 2) + readUInt16(fullData, offset) / 65535f;
+        return (float) readInt16(fullData, offset + 2) + readUInt16(fullData, offset) / 65535f;
     }
 
     public static String readString(byte[] fullData, int offset, int size) throws Exception {

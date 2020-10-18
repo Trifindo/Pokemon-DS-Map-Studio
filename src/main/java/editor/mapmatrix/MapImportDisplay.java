@@ -1,5 +1,6 @@
 package editor.mapmatrix;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import editor.handler.MapData;
@@ -146,17 +147,11 @@ public class MapImportDisplay extends JPanel {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 
         //======== this ========
-
-        GroupLayout layout = new GroupLayout(this);
-        setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setLayout(new GridBagLayout());
+        ((GridBagLayout)getLayout()).columnWidths = new int[] {0, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0};
+        ((GridBagLayout)getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {1.0, 1.0E-4};
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 

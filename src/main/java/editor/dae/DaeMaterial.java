@@ -2,7 +2,6 @@
 package editor.dae;
 
 /**
- *
  * @author Trifindo
  */
 public class DaeMaterial extends DaeNode {
@@ -12,5 +11,5 @@ public class DaeMaterial extends DaeNode {
     public DaeMaterial(String id, String name) {
         super(id, name);
     }
-    
+
 }

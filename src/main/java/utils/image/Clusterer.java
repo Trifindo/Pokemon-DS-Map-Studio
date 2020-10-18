@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- *
  * @author Trifindo
  */
 public class Clusterer {
@@ -36,7 +35,7 @@ public class Clusterer {
         BufferedImage img = new BufferedImage(oldImg.getWidth(), oldImg.getHeight(), BufferedImage.TYPE_INT_ARGB);
         img.getGraphics().drawImage(oldImg, 0, 0, null);
         img.getGraphics().dispose();
-        
+
         int w = img.getWidth();
         int h = img.getHeight();
 
@@ -81,10 +80,10 @@ public class Clusterer {
     }
 
     public static void applyQuantError(FastColor[][] d, int y, int x, float mul, int[] err) {
-        int r = Math.max(0, Math.min(d[y][x].getRed() + (int)((err[0] * mul) / 16), 255));
-        int g = Math.max(0, Math.min(d[y][x].getGreen() + (int)((err[1] * mul) / 16), 255));
-        int b = Math.max(0, Math.min(d[y][x].getBlue() + (int)((err[2] * mul) / 16), 255));
-        int a = Math.max(0, Math.min(d[y][x].getAlpha() + (int)((err[3] * mul) / 16), 255));
+        int r = Math.max(0, Math.min(d[y][x].getRed() + (int) ((err[0] * mul) / 16), 255));
+        int g = Math.max(0, Math.min(d[y][x].getGreen() + (int) ((err[1] * mul) / 16), 255));
+        int b = Math.max(0, Math.min(d[y][x].getBlue() + (int) ((err[2] * mul) / 16), 255));
+        int a = Math.max(0, Math.min(d[y][x].getAlpha() + (int) ((err[3] * mul) / 16), 255));
         d[y][x] = new FastColor(r, g, b, a);
     }
 
@@ -133,10 +132,10 @@ public class Clusterer {
         }
 
         System.out.println("Number of centroids: " + centroids.size());
-        for(int i = 0; i < centroids.size(); i++){
+        for (int i = 0; i < centroids.size(); i++) {
             System.out.println(centroids.get(i).getRGB());
         }
-        
+
         return centroids;
     }
 

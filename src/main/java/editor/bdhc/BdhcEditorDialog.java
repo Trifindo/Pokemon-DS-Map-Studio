@@ -43,7 +43,7 @@ public class BdhcEditorDialog extends JDialog {
         addListenerToJTextField(jtfAngleX, jtfAngleXEnabled);
         addListenerToJTextField(jtfAngleY, jtfAngleYEnabled);
 
-        setSize(new Dimension(1160,650));
+        setSize(new Dimension(1160, 650));
     }
 
     private void plateListValueChanged(ListSelectionEvent e) {
@@ -521,12 +521,12 @@ public class BdhcEditorDialog extends JDialog {
         setModal(true);
         var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 0,hidemode 3,gap 5 5",
-            // columns
-            "[grow,fill]" +
-            "[fill]",
-            // rows
-            "[grow,fill]"));
+                "insets 0,hidemode 3,gap 5 5",
+                // columns
+                "[grow,fill]" +
+                        "[fill]",
+                // rows
+                "[grow,fill]"));
 
         //======== displayContainer ========
         {
@@ -546,12 +546,12 @@ public class BdhcEditorDialog extends JDialog {
                 GroupLayout bdhcDisplayLayout = new GroupLayout(bdhcDisplay);
                 bdhcDisplay.setLayout(bdhcDisplayLayout);
                 bdhcDisplayLayout.setHorizontalGroup(
-                    bdhcDisplayLayout.createParallelGroup()
-                        .addGap(0, 510, Short.MAX_VALUE)
+                        bdhcDisplayLayout.createParallelGroup()
+                                .addGap(0, 510, Short.MAX_VALUE)
                 );
                 bdhcDisplayLayout.setVerticalGroup(
-                    bdhcDisplayLayout.createParallelGroup()
-                        .addGap(0, 510, Short.MAX_VALUE)
+                        bdhcDisplayLayout.createParallelGroup()
+                                .addGap(0, 510, Short.MAX_VALUE)
                 );
             }
             displayContainer.add(bdhcDisplay);
@@ -561,15 +561,15 @@ public class BdhcEditorDialog extends JDialog {
         //======== panel1 ========
         {
             panel1.setLayout(new MigLayout(
-                "hidemode 3",
-                // columns
-                "[grow,fill]",
-                // rows
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]" +
-                "[]"));
+                    "hidemode 3",
+                    // columns
+                    "[grow,fill]",
+                    // rows
+                    "[]" +
+                            "[]" +
+                            "[]" +
+                            "[]" +
+                            "[]"));
 
             //======== jPanel1 ========
             {
@@ -585,10 +585,16 @@ public class BdhcEditorDialog extends JDialog {
                         String[] values = {
 
                         };
+
                         @Override
-                        public int getSize() { return values.length; }
+                        public int getSize() {
+                            return values.length;
+                        }
+
                         @Override
-                        public String getElementAt(int i) { return values[i]; }
+                        public String getElementAt(int i) {
+                            return values[i];
+                        }
                     });
                     plateList.addListSelectionListener(e -> plateListValueChanged(e));
                     jScrollPane1.setViewportView(plateList);
@@ -597,18 +603,18 @@ public class BdhcEditorDialog extends JDialog {
                 GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
                 jPanel1.setLayout(jPanel1Layout);
                 jPanel1Layout.setHorizontalGroup(
-                    jPanel1Layout.createParallelGroup()
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-                            .addContainerGap())
+                        jPanel1Layout.createParallelGroup()
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                                        .addContainerGap())
                 );
                 jPanel1Layout.setVerticalGroup(
-                    jPanel1Layout.createParallelGroup()
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        jPanel1Layout.createParallelGroup()
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
             }
             panel1.add(jPanel1, "cell 0 0");
@@ -653,14 +659,14 @@ public class BdhcEditorDialog extends JDialog {
                 jbCoordinateZ.addActionListener(e -> jbCoordinateZActionPerformed(e));
 
                 //---- jcbType ----
-                jcbType.setModel(new DefaultComboBoxModel<>(new String[] {
-                    "PLANE",
-                    "BRIDGE (DP ONLY)",
-                    "STAIRS LEFT (-X)",
-                    "STAIRS RIGHT (+X)",
-                    "STAIRS UP (-Y)",
-                    "STAIRS DOWN (+Y)",
-                    "OTHER"
+                jcbType.setModel(new DefaultComboBoxModel<>(new String[]{
+                        "PLANE",
+                        "BRIDGE (DP ONLY)",
+                        "STAIRS LEFT (-X)",
+                        "STAIRS RIGHT (+X)",
+                        "STAIRS UP (-Y)",
+                        "STAIRS DOWN (+Y)",
+                        "OTHER"
                 }));
                 jcbType.addActionListener(e -> jcbTypeActionPerformed(e));
 
@@ -681,12 +687,12 @@ public class BdhcEditorDialog extends JDialog {
                     GroupLayout angleDisplay1Layout = new GroupLayout(angleDisplay1);
                     angleDisplay1.setLayout(angleDisplay1Layout);
                     angleDisplay1Layout.setHorizontalGroup(
-                        angleDisplay1Layout.createParallelGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
+                            angleDisplay1Layout.createParallelGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
                     );
                     angleDisplay1Layout.setVerticalGroup(
-                        angleDisplay1Layout.createParallelGroup()
-                            .addGap(0, 58, Short.MAX_VALUE)
+                            angleDisplay1Layout.createParallelGroup()
+                                    .addGap(0, 58, Short.MAX_VALUE)
                     );
                 }
 
@@ -703,12 +709,12 @@ public class BdhcEditorDialog extends JDialog {
                     GroupLayout angleDisplay2Layout = new GroupLayout(angleDisplay2);
                     angleDisplay2.setLayout(angleDisplay2Layout);
                     angleDisplay2Layout.setHorizontalGroup(
-                        angleDisplay2Layout.createParallelGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
+                            angleDisplay2Layout.createParallelGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
                     );
                     angleDisplay2Layout.setVerticalGroup(
-                        angleDisplay2Layout.createParallelGroup()
-                            .addGap(0, 58, Short.MAX_VALUE)
+                            angleDisplay2Layout.createParallelGroup()
+                                    .addGap(0, 58, Short.MAX_VALUE)
                     );
                 }
 
@@ -719,6 +725,7 @@ public class BdhcEditorDialog extends JDialog {
                     public void focusGained(FocusEvent e) {
                         jtfAngleXFocusGained(e);
                     }
+
                     @Override
                     public void focusLost(FocusEvent e) {
                         jtfAngleXFocusLost(e);
@@ -732,6 +739,7 @@ public class BdhcEditorDialog extends JDialog {
                     public void focusGained(FocusEvent e) {
                         jtfAngleYFocusGained(e);
                     }
+
                     @Override
                     public void focusLost(FocusEvent e) {
                         jtfAngleYFocusLost(e);
@@ -759,65 +767,65 @@ public class BdhcEditorDialog extends JDialog {
                 GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
                 jPanel2.setLayout(jPanel2Layout);
                 jPanel2Layout.setHorizontalGroup(
-                    jPanel2Layout.createParallelGroup()
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel2Layout.createParallelGroup()
+                        jPanel2Layout.createParallelGroup()
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel2Layout.createParallelGroup()
-                                        .addComponent(jcbType, GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                            .addComponent(jtfCoordZ, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jbCoordinateZ)
-                                            .addGap(0, 0, Short.MAX_VALUE))))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jbApplyAngleX, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jtfAngleX, GroupLayout.Alignment.LEADING)
-                                        .addComponent(angleDisplay1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel6, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(angleDisplay2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel7, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jtfAngleY)
-                                        .addComponent(jbApplyAngleY, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addContainerGap())
+                                        .addContainerGap()
+                                        .addGroup(jPanel2Layout.createParallelGroup()
+                                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(jLabel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(jPanel2Layout.createParallelGroup()
+                                                                .addComponent(jcbType, GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+                                                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                        .addComponent(jtfCoordZ, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                                        .addComponent(jbCoordinateZ)
+                                                                        .addGap(0, 0, Short.MAX_VALUE))))
+                                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+                                                                .addComponent(jbApplyAngleX, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(jtfAngleX, GroupLayout.Alignment.LEADING)
+                                                                .addComponent(angleDisplay1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(jLabel6, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(angleDisplay2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(jLabel7, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(jtfAngleY)
+                                                                .addComponent(jbApplyAngleY, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addContainerGap())
                 );
                 jPanel2Layout.setVerticalGroup(
-                    jPanel2Layout.createParallelGroup()
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel2)
-                                .addComponent(jtfCoordZ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jbCoordinateZ))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jcbType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel5))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel7))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup()
-                                .addComponent(angleDisplay1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(angleDisplay2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup()
-                                .addComponent(jtfAngleX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jtfAngleY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup()
-                                .addComponent(jbApplyAngleX)
-                                .addComponent(jbApplyAngleY))
-                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        jPanel2Layout.createParallelGroup()
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel2)
+                                                .addComponent(jtfCoordZ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jbCoordinateZ))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jcbType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel5))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel6)
+                                                .addComponent(jLabel7))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel2Layout.createParallelGroup()
+                                                .addComponent(angleDisplay1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(angleDisplay2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel2Layout.createParallelGroup()
+                                                .addComponent(jtfAngleX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jtfAngleY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel2Layout.createParallelGroup()
+                                                .addComponent(jbApplyAngleX)
+                                                .addComponent(jbApplyAngleY))
+                                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
             }
             panel1.add(jPanel2, "cell 0 2");

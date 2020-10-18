@@ -583,8 +583,8 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                                     try {
                                         Files.delete(file.toPath());
                                     } catch (IOException ex) {
-
-                                    }
+ex.printStackTrace();
+}
                                 }
                             } else {
                                 nFilesNotConverted++;
@@ -683,8 +683,8 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
             }
         } catch (Exception ex) {
-
-        }
+ex.printStackTrace();
+}
     }
 
     private class StatusColumnCellRenderer extends DefaultTableCellRenderer {

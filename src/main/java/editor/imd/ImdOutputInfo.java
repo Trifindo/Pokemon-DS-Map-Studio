@@ -2,7 +2,6 @@
 package editor.imd;
 
 /**
- *
  * @author Trifindo
  */
 public class ImdOutputInfo {

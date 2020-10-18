@@ -48,7 +48,7 @@ public class AngleDisplay3D extends JPanel {
 
             float cos = (float) Math.cos(angle1);
             float sin = (float) Math.sin(angle1);
-            for(int i = 0; i < plane.length; i += 3){
+            for (int i = 0; i < plane.length; i += 3) {
                 float x = plane[i];
                 float y = plane[i + 2];
                 plane[i] = (x * cos - y * sin);
@@ -57,7 +57,7 @@ public class AngleDisplay3D extends JPanel {
 
             cos = (float) Math.cos(angle2);
             sin = (float) Math.sin(angle2);
-            for(int i = 0; i < plane.length; i += 3){
+            for (int i = 0; i < plane.length; i += 3) {
                 float x = plane[i + 1];
                 float y = plane[i + 2];
                 plane[i + 1] = (x * cos - y * sin);
@@ -65,16 +65,16 @@ public class AngleDisplay3D extends JPanel {
             }
 
             Point[] points = new Point[4];
-            for(int i = 0, c = 0; i < plane.length; i += 3, c++){
+            for (int i = 0, c = 0; i < plane.length; i += 3, c++) {
                 float depthFactor = (plane[i + 1] - cameraY) / fov;
                 int x = (int) (plane[i] * depthFactor * radius);
-                int z = (int) (plane[i + 2] * depthFactor  * radius);
+                int z = (int) (plane[i + 2] * depthFactor * radius);
                 points[c] = new Point(x, z);
             }
 
             int lineOffset = size / 2;
             g.setColor(Color.blue);
-            for(int i = 0; i < points.length; i++) {
+            for (int i = 0; i < points.length; i++) {
                 int x1 = points[i].x;
                 int y1 = points[i].y;
                 int x2 = points[(i + 1) % points.length].x;
@@ -110,12 +110,12 @@ public class AngleDisplay3D extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                layout.createParallelGroup()
+                        .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

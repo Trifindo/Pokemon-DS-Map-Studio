@@ -1,15 +1,19 @@
 package editor.nsbtx2;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
+
 import editor.buildingeditor2.tileset.*;
 import editor.nsbtx2.Nsbtx2;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.swing.DefaultListModel;
+
 import utils.Utils;
 
 /**
@@ -57,7 +61,7 @@ public class NsbtxPanel extends JPanel {
                 paletteDisplay.updatePalette(nsbtx.getTexture(texIndex), nsbtx.getPalette(palIndex));
                 paletteDisplay.repaint();
             } catch (Exception ex) {
-
+                ex.printStackTrace();
             }
 
         }
@@ -133,10 +137,20 @@ public class NsbtxPanel extends JPanel {
         paletteDisplay = new PaletteDisplay();
 
         //======== this ========
+        setLayout(new GridBagLayout());
+        ((GridBagLayout) getLayout()).columnWidths = new int[]{0, 0, 0};
+        ((GridBagLayout) getLayout()).rowHeights = new int[]{0, 0, 0};
+        ((GridBagLayout) getLayout()).columnWeights = new double[]{1.0, 1.0, 1.0E-4};
+        ((GridBagLayout) getLayout()).rowWeights = new double[]{1.0, 1.0, 1.0E-4};
 
         //======== jPanel1 ========
         {
             jPanel1.setBorder(new TitledBorder("Texture Names"));
+            jPanel1.setLayout(new GridBagLayout());
+            ((GridBagLayout) jPanel1.getLayout()).columnWidths = new int[]{0, 0};
+            ((GridBagLayout) jPanel1.getLayout()).rowHeights = new int[]{0, 0};
+            ((GridBagLayout) jPanel1.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
+            ((GridBagLayout) jPanel1.getLayout()).rowWeights = new double[]{1.0, 1.0E-4};
 
             //======== jScrollPane1 ========
             {
@@ -148,37 +162,37 @@ public class NsbtxPanel extends JPanel {
                     String[] values = {
 
                     };
+
                     @Override
-                    public int getSize() { return values.length; }
+                    public int getSize() {
+                        return values.length;
+                    }
+
                     @Override
-                    public String getElementAt(int i) { return values[i]; }
+                    public String getElementAt(int i) {
+                        return values[i];
+                    }
                 });
                 jlTextureNames.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 jlTextureNames.addListSelectionListener(e -> jlTextureNamesValueChanged(e));
                 jScrollPane1.setViewportView(jlTextureNames);
             }
-
-            GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
-            jPanel1.setLayout(jPanel1Layout);
-            jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup()
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                        .addContainerGap())
-            );
-            jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup()
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-            );
+            jPanel1.add(jScrollPane1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
         }
+        add(jPanel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
         //======== jPanel2 ========
         {
             jPanel2.setBorder(new TitledBorder("Palette Names"));
+            jPanel2.setLayout(new GridBagLayout());
+            ((GridBagLayout) jPanel2.getLayout()).columnWidths = new int[]{0, 0};
+            ((GridBagLayout) jPanel2.getLayout()).rowHeights = new int[]{0, 0};
+            ((GridBagLayout) jPanel2.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
+            ((GridBagLayout) jPanel2.getLayout()).rowWeights = new double[]{1.0, 1.0E-4};
 
             //======== jScrollPane2 ========
             {
@@ -190,37 +204,37 @@ public class NsbtxPanel extends JPanel {
                     String[] values = {
 
                     };
+
                     @Override
-                    public int getSize() { return values.length; }
+                    public int getSize() {
+                        return values.length;
+                    }
+
                     @Override
-                    public String getElementAt(int i) { return values[i]; }
+                    public String getElementAt(int i) {
+                        return values[i];
+                    }
                 });
                 jlPaletteNames.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 jlPaletteNames.addListSelectionListener(e -> jlPaletteNamesValueChanged(e));
                 jScrollPane2.setViewportView(jlPaletteNames);
             }
-
-            GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
-            jPanel2.setLayout(jPanel2Layout);
-            jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup()
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                        .addContainerGap())
-            );
-            jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup()
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2)
-                        .addContainerGap())
-            );
+            jPanel2.add(jScrollPane2, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
         }
+        add(jPanel2, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 5), 0, 0));
 
         //======== jPanel3 ========
         {
             jPanel3.setBorder(new TitledBorder("Texture"));
+            jPanel3.setLayout(new GridBagLayout());
+            ((GridBagLayout) jPanel3.getLayout()).columnWidths = new int[]{0, 0};
+            ((GridBagLayout) jPanel3.getLayout()).rowHeights = new int[]{0, 0};
+            ((GridBagLayout) jPanel3.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
+            ((GridBagLayout) jPanel3.getLayout()).rowWeights = new double[]{1.0, 1.0E-4};
 
             //======== textureDisplay ========
             {
@@ -229,36 +243,30 @@ public class NsbtxPanel extends JPanel {
                 GroupLayout textureDisplayLayout = new GroupLayout(textureDisplay);
                 textureDisplay.setLayout(textureDisplayLayout);
                 textureDisplayLayout.setHorizontalGroup(
-                    textureDisplayLayout.createParallelGroup()
-                        .addGap(0, 158, Short.MAX_VALUE)
+                        textureDisplayLayout.createParallelGroup()
+                                .addGap(0, 158, Short.MAX_VALUE)
                 );
                 textureDisplayLayout.setVerticalGroup(
-                    textureDisplayLayout.createParallelGroup()
-                        .addGap(0, 158, Short.MAX_VALUE)
+                        textureDisplayLayout.createParallelGroup()
+                                .addGap(0, 158, Short.MAX_VALUE)
                 );
             }
-
-            GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
-            jPanel3.setLayout(jPanel3Layout);
-            jPanel3Layout.setHorizontalGroup(
-                jPanel3Layout.createParallelGroup()
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(textureDisplay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            );
-            jPanel3Layout.setVerticalGroup(
-                jPanel3Layout.createParallelGroup()
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(textureDisplay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            );
+            jPanel3.add(textureDisplay, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
         }
+        add(jPanel3, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
         //======== jPanel4 ========
         {
             jPanel4.setBorder(new TitledBorder("Palette"));
+            jPanel4.setLayout(new GridBagLayout());
+            ((GridBagLayout) jPanel4.getLayout()).columnWidths = new int[]{0, 0};
+            ((GridBagLayout) jPanel4.getLayout()).rowHeights = new int[]{0, 0};
+            ((GridBagLayout) jPanel4.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
+            ((GridBagLayout) jPanel4.getLayout()).rowWeights = new double[]{1.0, 1.0E-4};
 
             //======== paletteDisplay ========
             {
@@ -266,58 +274,21 @@ public class NsbtxPanel extends JPanel {
                 GroupLayout paletteDisplayLayout = new GroupLayout(paletteDisplay);
                 paletteDisplay.setLayout(paletteDisplayLayout);
                 paletteDisplayLayout.setHorizontalGroup(
-                    paletteDisplayLayout.createParallelGroup()
-                        .addGap(0, 160, Short.MAX_VALUE)
+                        paletteDisplayLayout.createParallelGroup()
+                                .addGap(0, 160, Short.MAX_VALUE)
                 );
                 paletteDisplayLayout.setVerticalGroup(
-                    paletteDisplayLayout.createParallelGroup()
-                        .addGap(0, 160, Short.MAX_VALUE)
+                        paletteDisplayLayout.createParallelGroup()
+                                .addGap(0, 160, Short.MAX_VALUE)
                 );
             }
-
-            GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
-            jPanel4.setLayout(jPanel4Layout);
-            jPanel4Layout.setHorizontalGroup(
-                jPanel4Layout.createParallelGroup()
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(paletteDisplay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            );
-            jPanel4Layout.setVerticalGroup(
-                jPanel4Layout.createParallelGroup()
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(paletteDisplay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            );
+            jPanel4.add(paletteDisplay, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
         }
-
-        GroupLayout layout = new GroupLayout(this);
-        setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, 0)
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup()
-                        .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
+        add(jPanel4, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 

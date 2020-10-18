@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
  * @author Trifindo
  */
 public class BdhcWriterDP {
@@ -50,9 +49,9 @@ public class BdhcWriterDP {
     }
 
     private static void writeHeader(FileOutputStream out,
-            ArrayList<BdhcPoint> points, ArrayList<Slope> slopes,
-            ArrayList<IndexedTriangle> tris,
-            ArrayList<ArrayList<Stripe>> stripes) throws IOException {
+                                    ArrayList<BdhcPoint> points, ArrayList<Slope> slopes,
+                                    ArrayList<IndexedTriangle> tris,
+                                    ArrayList<ArrayList<Stripe>> stripes) throws IOException {
 
         writeString(out, "BDHC");
         writeShortValue(out, 32);
@@ -94,7 +93,7 @@ public class BdhcWriterDP {
     }
 
     private static void writeTriIndices(FileOutputStream out,
-            ArrayList<ArrayList<Stripe>> stripes) throws IOException {
+                                        ArrayList<ArrayList<Stripe>> stripes) throws IOException {
 
         for (int i = 0; i < stripes.size(); i++) {
             for (int j = 0; j < stripes.get(i).size(); j++) {
@@ -109,7 +108,7 @@ public class BdhcWriterDP {
     }
 
     private static void writeStripes(FileOutputStream out,
-            ArrayList<ArrayList<Stripe>> stripes) throws IOException {
+                                     ArrayList<ArrayList<Stripe>> stripes) throws IOException {
         int offset = 0;
         for (int i = 0; i < stripes.size(); i++) {
             for (int j = 0; j < stripes.get(i).size(); j++) {
@@ -125,7 +124,7 @@ public class BdhcWriterDP {
     }
 
     private static void writeStripeGroups(FileOutputStream out,
-            ArrayList<ArrayList<Stripe>> stripes) throws IOException {
+                                          ArrayList<ArrayList<Stripe>> stripes) throws IOException {
         int offset = 0;
         for (int i = 0; i < stripes.size(); i++) {
             writeShortValue(out, stripes.get(i).size());
@@ -135,8 +134,8 @@ public class BdhcWriterDP {
     }
 
     private static void writeTriangles(FileOutputStream out,
-            ArrayList<IndexedTriangle> tris, ArrayList<BdhcPoint> points,
-            ArrayList<Integer> distances) throws IOException {
+                                       ArrayList<IndexedTriangle> tris, ArrayList<BdhcPoint> points,
+                                       ArrayList<Integer> distances) throws IOException {
 
         for (int i = 0; i < tris.size(); i++) {
             IndexedTriangle tri = tris.get(i);
@@ -175,7 +174,7 @@ public class BdhcWriterDP {
         }
 
     }
-    
+
     private static ArrayList<Integer> getDistances(Bdhc bdhc) {
         ArrayList<Integer> distances = new ArrayList<>();
 
@@ -190,7 +189,7 @@ public class BdhcWriterDP {
             final float zd = slope[1] / Plate.SLOPE_UNIT;
             final float yd = slope[2] / Plate.SLOPE_UNIT;
 
-            final float mx = -xd / zd; 
+            final float mx = -xd / zd;
             final float my = -yd / zd;
 
             final float zero = 0.001f;
@@ -219,11 +218,11 @@ public class BdhcWriterDP {
             int zValue = getIntegerValueZ(d);
             //System.out.println(Integer.toHexString(zValue));
 
-           distances.add(zValue);
+            distances.add(zValue);
         }
         return distances;
     }
-    
+
     private static int getIntegerValueZ(float value) {
         short decimalPart = (short) Math.floor(value);
         short fractionalPart = (short) ((value - decimalPart) * (65536));
@@ -235,7 +234,7 @@ public class BdhcWriterDP {
 
         return ((decimalPart & 0xFFFF) << 16) | (fractionalPart & 0xFFFF);
     }
-    
+
 
     private static void writeSlopes(FileOutputStream out, ArrayList<Slope> slopes)
             throws IOException {
@@ -262,7 +261,7 @@ public class BdhcWriterDP {
     }
 
     private static ArrayList<Stripe> calculateStripeGroup(Bdhc bdhc,
-            Rectangle groupBounds) {
+                                                          Rectangle groupBounds) {
 
         ArrayList<PlateInfo> platesInfo = new ArrayList<>();
         //Get plate info of plates inside group
@@ -288,7 +287,7 @@ public class BdhcWriterDP {
                 Stripe stripe = new Stripe(y);
                 for (int j = 0; j < platesInfo.size(); j++) {
                     Plate p = bdhc.getPlate(platesInfo.get(j).plateIndex);
-                    if(yMinBounds < p.y + p.height && yMaxBounds > p.y){
+                    if (yMinBounds < p.y + p.height && yMaxBounds > p.y) {
                         stripe.plateIndices.add(platesInfo.get(j).plateIndex);
                     }
                 }
@@ -299,15 +298,15 @@ public class BdhcWriterDP {
         }
 
         //Sort stripes elements on X axis
-        for(int i = 0; i < stripes.size(); i++){
+        for (int i = 0; i < stripes.size(); i++) {
             stripes.get(i).sortPlateIndices(bdhc.getPlates());
         }
-        
+
         return stripes;
     }
 
     private static ArrayList<IndexedTriangle> getIndexedTris(Bdhc bdhc,
-            int[][] pointIndices, int[] slopeIndices) {
+                                                             int[][] pointIndices, int[] slopeIndices) {
         ArrayList<IndexedTriangle> plates = new ArrayList<>();
         for (int i = 0; i < bdhc.getPlates().size(); i++) {
             Plate p = bdhc.getPlate(i);
@@ -391,7 +390,7 @@ public class BdhcWriterDP {
     }
 
     private static void addCoordinate(ArrayList<BdhcPoint> coords,
-            BdhcPoint coord, int pointIndex, int[][] indices, int indOffset) {
+                                      BdhcPoint coord, int pointIndex, int[][] indices, int indOffset) {
         /*
         coords.add(coord);
         indices[pointIndex][indOffset] = coords.size() - 1;

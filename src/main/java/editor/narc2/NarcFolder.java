@@ -4,60 +4,60 @@ package editor.narc2;
 import java.util.ArrayList;
 
 public class NarcFolder {
-    
+
     private String name = "";
     private NarcFolder parent;
     private ArrayList<NarcFolder> subfolders = new ArrayList<>();
     private ArrayList<NarcFile> files = new ArrayList<>();
     private int ID;
-    
-    public NarcFolder(){
+
+    public NarcFolder() {
         name = "";
     }
-    
-    public NarcFolder(NarcFolder parent){
+
+    public NarcFolder(NarcFolder parent) {
         this.parent = parent;
     }
-    
-    public NarcFolder(String name, NarcFolder parent){
+
+    public NarcFolder(String name, NarcFolder parent) {
         this.name = name;
         this.parent = parent;
     }
-    
-    public void setName(String name){
+
+    public void setName(String name) {
         this.name = name;
     }
-    
-    public void setParent(NarcFolder parent){
+
+    public void setParent(NarcFolder parent) {
         this.parent = parent;
     }
-    
-    public String getName(){
+
+    public String getName() {
         return name;
     }
-    
-    public NarcFolder getParent(){
+
+    public NarcFolder getParent() {
         return parent;
     }
-    
-    public ArrayList<NarcFolder> getSubfolders(){
+
+    public ArrayList<NarcFolder> getSubfolders() {
         return subfolders;
     }
-    
-    public ArrayList<NarcFile> getFiles(){
+
+    public ArrayList<NarcFile> getFiles() {
         return files;
     }
-    
-    public void setID(int ID){
+
+    public void setID(int ID) {
         this.ID = ID;
     }
-    
-    public int getID(){
+
+    public int getID() {
         return ID;
     }
-    
-    public void setFiles(ArrayList<NarcFile> files){
+
+    public void setFiles(ArrayList<NarcFile> files) {
         this.files = files;
     }
-    
+
 }

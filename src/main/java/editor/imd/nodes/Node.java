@@ -3,19 +3,19 @@ package editor.imd.nodes;
 
 import editor.imd.ImdAttribute;
 import editor.imd.ImdNode;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
-public class Node extends ImdNode{
-    
-    public Node(int index, int displaySize, int vertexSize, int polygonSize, 
-            int triangleSize, int quadSize, ArrayList<Integer> textureIDs) {
+public class Node extends ImdNode {
+
+    public Node(int index, int displaySize, int vertexSize, int polygonSize,
+                int triangleSize, int quadSize, ArrayList<Integer> textureIDs) {
         super("node");
-        
-        attributes = new ArrayList<ImdAttribute>(){
+
+        attributes = new ArrayList<ImdAttribute>() {
             {
                 add(new ImdAttribute("index", index));
                 add(new ImdAttribute("name", "world_root"));
@@ -38,10 +38,10 @@ public class Node extends ImdNode{
                 add(new ImdAttribute("volume_min", new float[]{0.0f, 0.0f, 0.0f}));
                 add(new ImdAttribute("volume_max", new float[]{0.0f, 0.0f, 0.0f}));
                 add(new ImdAttribute("volume_r", 0.0f));
-            }   
+            }
         };
-        
-        for(int i = 0; i < displaySize; i++){
+
+        for (int i = 0; i < displaySize; i++) {
             ImdNode display = new ImdNode("display");
             display.attributes.add(new ImdAttribute("index", i));
             display.attributes.add(new ImdAttribute("material", textureIDs.get(i)));
@@ -49,9 +49,8 @@ public class Node extends ImdNode{
             display.attributes.add(new ImdAttribute("priority", 0));
             subnodes.add(display);
         }
-        
-        
-        
+
+
     }
-    
+
 }

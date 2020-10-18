@@ -2,17 +2,18 @@
 package editor.imd;
 
 import utils.image.FastColor;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeSet;
+
 import tileset.TilesetMaterial;
 import utils.Utils;
 import utils.image.Clusterer;
 
 /**
- *
  * @author Trifindo
  */
 public class ImdPaletteArray {
@@ -54,7 +55,7 @@ public class ImdPaletteArray {
                 }
             }
             palettes.add(palette);//fastColorArrayToColorArray(palette));
-            
+
             //Move most transparent color to the front
             int lessAlphaColorIndex = getLessAlphaColorIndex(palette);
             if (palettes.get(i).get(lessAlphaColorIndex).getAlpha() < 20) {
@@ -62,7 +63,7 @@ public class ImdPaletteArray {
             }
         }
 
-        
+
         //Fix palettes that use the same texture
         ArrayList<String> textureNames = getTextureNames(materials);
         for (int i = 0; i < textureNames.size(); i++) {
@@ -73,7 +74,7 @@ public class ImdPaletteArray {
                 int refPalIndex = paletteNames.indexOf(refPalName);
                 if (refPalIndex != -1) {
                     ArrayList<Color> refPal = palettes.get(refPalIndex);
-                    for(int j = 1; j < indices.size(); j++){
+                    for (int j = 1; j < indices.size(); j++) {
                         String fixPalName = materials.get(indices.get(j)).getPaletteNameImd();
                         int fixPalIndex = paletteNames.indexOf(fixPalName);
                         if (fixPalIndex != -1) {
@@ -87,12 +88,12 @@ public class ImdPaletteArray {
                 }
             }
         }
-        
+
 
     }
 
     private ArrayList<Color> fixColorOrder(TilesetMaterial refMat,
-            TilesetMaterial fixMat, ArrayList<Color> refPal, ArrayList<Color> fixPal) {
+                                           TilesetMaterial fixMat, ArrayList<Color> refPal, ArrayList<Color> fixPal) {
         int numColors = Math.max(refPal.size(), fixPal.size());
         ArrayList<Integer> colorLookup = new ArrayList<>(numColors);
         for (int i = 0; i < numColors; i++) {
@@ -111,9 +112,9 @@ public class ImdPaletteArray {
                 }
             }
         }
-        
+
         ArrayList<Color> newPalette = new ArrayList<>(fixPal.size());
-        for(int i = 0; i < fixPal.size(); i++){
+        for (int i = 0; i < fixPal.size(); i++) {
             System.out.print(colorLookup.get(i) + " ");
             newPalette.add(fixPal.get(colorLookup.get(i)));
         }
@@ -186,7 +187,7 @@ public class ImdPaletteArray {
         int g = (c.getGreen() / 8) * 8;
         int b = (c.getBlue() / 8) * 8;
         int a = (c.getAlpha() / 8) * 8;
-        if(a < 20){//New code
+        if (a < 20) {//New code
             r = 0;
             g = 0;
             b = 0;

@@ -612,10 +612,10 @@ new FormModel {
 										name: "jScrollPaneMapMatrix"
 										"horizontalScrollBarPolicy": 32
 										"verticalScrollBarPolicy": 22
-										"maximumSize": new java.awt.Dimension( 300, 300 )
+										"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 										add( new FormContainer( "editor.mapmatrix.MapMatrixDisplay", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
 											name: "mapMatrixDisplay"
-											"preferredSize": new java.awt.Dimension( 100, 100 )
+											"preferredSize": new java.awt.Dimension( 200, 200 )
 										} )
 									}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 										"value": "cell 0 0"
@@ -651,6 +651,7 @@ new FormModel {
 											name: "jPanelAreaColor"
 											"background": new java.awt.Color( 51, 102, 255, 255 )
 											"border": new javax.swing.border.BevelBorder( 0, null, null, null, null )
+											"preferredSize": new java.awt.Dimension( 30, 30 )
 										}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 											"value": "cell 2 0"
 										} )
@@ -679,7 +680,7 @@ new FormModel {
 									} )
 									add( new FormContainer( "editor.tileseteditor.TileDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 										"$horizontalGroup": "par l {space :0:0:x}"
-										"$verticalGroup": "par l {space :0:294:x}"
+										"$verticalGroup": "par l {space :0:234:x}"
 									} ) {
 										name: "tileDisplay"
 										"focusable": false

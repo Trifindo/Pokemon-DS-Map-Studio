@@ -1719,7 +1719,7 @@ public class MainFrame extends JFrame {
         try {
             tr.renderTiles();
         } catch (NullPointerException e) {
-
+            e.printStackTrace();
         }
         tr.destroy();
         mapDisplay.setContext(context, false);
@@ -2933,11 +2933,11 @@ public class MainFrame extends JFrame {
                                 {
                                     jScrollPaneMapMatrix.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
                                     jScrollPaneMapMatrix.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-                                    jScrollPaneMapMatrix.setMaximumSize(new Dimension(300, 300));
+                                    jScrollPaneMapMatrix.setMaximumSize(null);
 
                                     //======== mapMatrixDisplay ========
                                     {
-                                        mapMatrixDisplay.setPreferredSize(new Dimension(100, 100));
+                                        mapMatrixDisplay.setPreferredSize(new Dimension(200, 200));
                                         mapMatrixDisplay.setLayout(new BoxLayout(mapMatrixDisplay, BoxLayout.X_AXIS));
                                     }
                                     jScrollPaneMapMatrix.setViewportView(mapMatrixDisplay);
@@ -2971,6 +2971,7 @@ public class MainFrame extends JFrame {
                                     {
                                         jPanelAreaColor.setBackground(new Color(51, 102, 255));
                                         jPanelAreaColor.setBorder(new BevelBorder(BevelBorder.RAISED));
+                                        jPanelAreaColor.setPreferredSize(new Dimension(30, 30));
 
                                         GroupLayout jPanelAreaColorLayout = new GroupLayout(jPanelAreaColor);
                                         jPanelAreaColor.setLayout(jPanelAreaColorLayout);
@@ -3018,7 +3019,7 @@ public class MainFrame extends JFrame {
                                     );
                                     tileDisplayLayout.setVerticalGroup(
                                         tileDisplayLayout.createParallelGroup()
-                                            .addGap(0, 294, Short.MAX_VALUE)
+                                            .addGap(0, 234, Short.MAX_VALUE)
                                     );
                                 }
                                 jpTileSelected.add(tileDisplay);

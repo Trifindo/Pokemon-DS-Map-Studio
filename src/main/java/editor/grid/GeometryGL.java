@@ -2,10 +2,10 @@
 package editor.grid;
 
 import com.jogamp.common.nio.Buffers;
+
 import java.nio.FloatBuffer;
 
 /**
- *
  * @author Trifindo
  */
 public class GeometryGL {
@@ -83,8 +83,8 @@ public class GeometryGL {
         this.nCoordsQuadBuffer = Buffers.newDirectFloatBuffer(nCoordsQuad);
         this.colorsQuadBuffer = Buffers.newDirectFloatBuffer(colorsQuad);
     }
-    
-    
+
+
     public boolean hasTriData() {
         return vCoordsTri != null && vCoordsTri.length > 0
                 && tCoordsTri != null && tCoordsTri.length > 0
@@ -98,7 +98,7 @@ public class GeometryGL {
                 && nCoordsQuad != null && nCoordsQuad.length > 0
                 && colorsQuad != null && colorsQuad.length > 0;
     }
-    
+
     public boolean hasTriBufferData() {
         return vCoordsTriBuffer != null && vCoordsTriBuffer.hasRemaining()
                 && tCoordsTriBuffer != null && tCoordsTriBuffer.hasRemaining()

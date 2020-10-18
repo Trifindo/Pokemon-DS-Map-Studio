@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class BdhcLoaderHGSS {
@@ -116,7 +115,7 @@ public class BdhcLoaderHGSS {
 
             if (type == Plate.OTHER) {
                 plates.add(new Plate(x, y, z, width, height, type, new int[]{
-                    xSlopes[slopeIndex], zSlopes[slopeIndex], ySlopes[slopeIndex]}));
+                        xSlopes[slopeIndex], zSlopes[slopeIndex], ySlopes[slopeIndex]}));
             } else {
                 plates.add(new Plate(x, y, z, width, height, type));
             }
@@ -178,10 +177,10 @@ public class BdhcLoaderHGSS {
 
     public static int dataToSignedInt(byte[] data, int offset) {
         byte[] bytes = new byte[]{
-            data[offset],
-            data[offset + 1],
-            data[offset + 2],
-            data[offset + 3]
+                data[offset],
+                data[offset + 1],
+                data[offset + 2],
+                data[offset + 3]
         };
         return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }

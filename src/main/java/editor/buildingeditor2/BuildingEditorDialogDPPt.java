@@ -1760,8 +1760,8 @@ public class BuildingEditorDialogDPPt extends JDialog {
                 nitroDisplayMap.requestUpdate();
             }
         } catch (Exception ex) {
-
-        }
+ex.printStackTrace();
+}
         */
     }
 

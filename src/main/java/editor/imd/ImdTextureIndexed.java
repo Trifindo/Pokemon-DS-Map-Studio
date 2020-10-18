@@ -5,11 +5,11 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
 import tileset.TilesetMaterial;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class ImdTextureIndexed {
@@ -69,7 +69,7 @@ public class ImdTextureIndexed {
     }
 
     public void setTextureAndPaletteSemitransp(BufferedImage img,
-            TilesetMaterial material, ArrayList<Color> colors, int nBitsColor) {
+                                               TilesetMaterial material, ArrayList<Color> colors, int nBitsColor) {
         //BufferedImage img = Clusterer.floydSteinbergDithering(oldImg, colors);        
         short[] colorIndices = new short[img.getWidth() * img.getHeight()];
         for (int j = 0, c = 0; j < img.getHeight(); j++) {
@@ -83,7 +83,7 @@ public class ImdTextureIndexed {
     }
 
     private static byte[] colorIndicesToTexDataSemitransp(short[] colorIndices,
-            ArrayList<Color> colors, int nBitsColor) {
+                                                          ArrayList<Color> colors, int nBitsColor) {
         final byte[] texData = new byte[colorIndices.length];
         for (int i = 0; i < texData.length; i++) {
             byte data = 0x00;
@@ -194,14 +194,13 @@ public class ImdTextureIndexed {
         int g = (c.getGreen() / 8) * 8;
         int b = (c.getBlue() / 8) * 8;
         int a = (c.getAlpha() / 8) * 8;
-        if(a < 20){//New code
+        if (a < 20) {//New code
             r = 0;
             g = 0;
             b = 0;
         }
         return new Color(r, g, b, a);
     }
-    
-    
+
 
 }

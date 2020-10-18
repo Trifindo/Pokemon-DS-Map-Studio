@@ -7,12 +7,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
- *
  * @author Trifindo
  */
 public class SwingUtils {
-    
-    
+
+
     public static void addListenerToJTextField(JTextField jtf, MutableBoolean enabled, Color color) {
         jtf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -45,5 +44,7 @@ public class SwingUtils {
         public MutableBoolean(boolean value) {
             this.value = value;
         }
-    };
+    }
+
+    ;
 }

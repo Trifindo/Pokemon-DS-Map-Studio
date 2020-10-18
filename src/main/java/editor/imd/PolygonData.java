@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- *
  * @author Trifindo
  */
 public class PolygonData {
@@ -166,7 +165,7 @@ public class PolygonData {
                     tCoords[i + j] = maxCoordAvailable / imgWidth;
                 }
             }
-            
+
             for (int j = 0; j < tPerPolygon; j += tPerVertex) {
                 if (tCoords[i + j + 1] * imgHeight < minCoordAvailable) {
                     tCoords[i + j + 1] = minCoordAvailable / imgHeight;

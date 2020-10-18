@@ -158,8 +158,8 @@ public class SmartGridEditableDisplay extends JPanel {
                                         (j + SmartGrid.height * k) * MapGrid.tileSize,
                                         null);
                             } catch (Exception ex) {
-
-                            }
+ex.printStackTrace();
+}
                         }
                     }
                 }

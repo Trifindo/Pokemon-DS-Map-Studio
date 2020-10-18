@@ -26,5 +26,5 @@ public class NarcFile {
     public byte[] getData() {
         return data;
     }
-    
+
 }

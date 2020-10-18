@@ -10,7 +10,6 @@ import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 
 /**
- *
  * @author Trifindo
  */
 public class BinaryWriter {

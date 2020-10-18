@@ -1,5 +1,6 @@
 package editor.mapmatrix;
 
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -155,11 +156,11 @@ public class MapMatrixDisplay extends JPanel {
         setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
+                .addGap(0, 530, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
+                .addGap(0, 400, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

@@ -411,8 +411,8 @@ public class ExportNsbmdDialog extends javax.swing.JDialog {
             imdFolderPath = folderPath;
             jtfImdFolderPath.setText(folderPath);
         } catch (Exception ex) {
-
-        }
+ex.printStackTrace();
+}
     }
 
     private boolean hasMatrixCoordsInImdName(String imdName) {

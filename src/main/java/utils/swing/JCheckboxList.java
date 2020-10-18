@@ -14,7 +14,6 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 /**
- *
  * @author Trifindo
  */
 public class JCheckboxList extends JList<JCheckBox> {

@@ -562,8 +562,8 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                                     byte[] nsbmdData = Files.readAllBytes(dstFile.toPath());
                                     nsbmdModelsData.set(nFilesProcessed, nsbmdData);
                                 } catch (IOException ex) {
-
-                                }
+ex.printStackTrace();
+}
                             } catch (IOException ex) {
                                 nFilesNotConverted++;
                                 exportStatus = ConvertStatus.MOVE_FILE_ERROR_STATUS;
@@ -664,8 +664,8 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                 jTextArea1.setText("The NSBMD has been exported but it can't be displayed here.");
             }
         } catch (Exception ex) {
-
-        }
+ex.printStackTrace();
+}
     }
 
     private class StatusColumnCellRenderer extends DefaultTableCellRenderer {

@@ -25,7 +25,7 @@ public class TrisToQuads {
     private static final int edgesPerFace = 3;
     private int numFaces;
     private int numEdges;
-    
+
     private ArrayList<Edge> edges;
     private ArrayList<ArrayList<Integer>> edgesConnected;
     private boolean[] usedFaces;
@@ -35,27 +35,27 @@ public class TrisToQuads {
         this.vCoordsTri = pData.vCoordsTri;
         this.tCoordsTri = pData.tCoordsTri;
         this.nCoordsTri = pData.nCoordsTri;
-        
+
         this.vCoordsQuad = pData.vCoordsQuad;
         this.tCoordsQuad = pData.tCoordsQuad;
         this.nCoordsQuad = pData.nCoordsQuad;
-        
+
         this.numFaces = vCoordsTri.length / (vPerVertex * vertexPerFace);
         this.numEdges = numFaces * edgesPerFace;
     }
-    
+
     public void calculateQuads(){
         edges = calculateEdges();
         edgesConnected = generateConnectedEdges(edges);
         usedFaces = new boolean[numFaces];
-        
+
         for(int i = 0; i < edgesConnected.size(); i++){
             int faceIndex = edgesConnected.get(i).get(0) / edgesPerFace;
             if(edgesConnected.get(i) != null && !usedFaces[faceIndex] && !usedFaces[i / edgesPerFace]){
-                
+
             }
         }
-        
+
     }
 
     private ArrayList<Edge> calculateEdges() {
@@ -68,7 +68,7 @@ public class TrisToQuads {
         }
         return edges;
     }
-    
+
     private ArrayList<ArrayList<Integer>> generateConnectedEdges(ArrayList<Edge> edges) {
         ArrayList<ArrayList<Integer>> conectedEdges = new ArrayList<>(numEdges);
         for (int i = 0; i < numEdges; i++) {

@@ -2,14 +2,13 @@
 package editor.bdhc;
 
 /**
- *
  * @author Trifindo
  */
 public class BdhcPoint {
     public int x, y;
     public float z;
-    
-    public BdhcPoint(int x, int y, float z){
+
+    public BdhcPoint(int x, int y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -47,6 +46,6 @@ public class BdhcPoint {
         }
         return true;
     }
-    
-    
+
+
 }

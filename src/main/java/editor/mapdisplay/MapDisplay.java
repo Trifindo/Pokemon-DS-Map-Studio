@@ -283,8 +283,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
             gl.glFinish();
         } catch (GLException ex) {
-
-        }
+ex.printStackTrace();
+}
 
     }
 
@@ -815,8 +815,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
             gl.glDisable(GL_TEXTURE_2D);
         } catch (Exception ex) {
-
-        }
+ex.printStackTrace();
+}
     }
 
     protected void drawWireframeGeometryGL(GL2 gl, GeometryGL geometryGL, ArrayList<Texture> textures) {
@@ -861,8 +861,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                 }
             }
         } catch (Exception ex) {
-
-        }
+ex.printStackTrace();
+}
     }
 
     protected void drawAllContourLines(GL2 gl) {
@@ -903,8 +903,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                 gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
             }
         } catch (Exception ex) {
-
-        }
+ex.printStackTrace();
+}
 
     }
 
@@ -1387,8 +1387,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             MapLayerState state = (MapLayerState) handler.getMapStateHandler().getLastState();
             state.updateState();
         } catch (Exception ex) {
-
-        }
+ex.printStackTrace();
+}
     }
 
     protected void changeLayerWithNumKey(KeyEvent e, int layerIndex) {

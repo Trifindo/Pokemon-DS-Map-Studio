@@ -7,12 +7,12 @@ import com.jogamp.opengl.GL2ES1;
 //import static com.jogamp.opengl.GL2ES2.GL_VERTEX_SHADER;
 import static com.jogamp.opengl.GL2.GL_FRAGMENT_SHADER;
 import static com.jogamp.opengl.GL2.GL_VERTEX_SHADER;
+
 import com.jogamp.opengl.GL2ES2;
 import com.jogamp.opengl.GLContext;
 
 
 /**
- *
  * @author Trifindo
  */
 public class GlUtils {

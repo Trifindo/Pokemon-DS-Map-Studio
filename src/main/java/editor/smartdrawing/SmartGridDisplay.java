@@ -180,8 +180,8 @@ public class SmartGridDisplay extends JPanel {
                                         (j + SmartGrid.height * k) * MapGrid.tileSize,
                                         null);
                             } catch (Exception ex) {
-
-                            }
+ex.printStackTrace();
+}
                         }
                     }
                 }

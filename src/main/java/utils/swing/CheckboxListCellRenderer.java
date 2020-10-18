@@ -7,13 +7,12 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 /**
- *
  * @author Trifindo
  */
 public class CheckboxListCellRenderer extends JCheckBox implements ListCellRenderer {
 
-    public Component getListCellRendererComponent(JList list, Object value, int index, 
-            boolean isSelected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(JList list, Object value, int index,
+                                                  boolean isSelected, boolean cellHasFocus) {
 
         setComponentOrientation(list.getComponentOrientation());
         setFont(list.getFont());
@@ -22,7 +21,7 @@ public class CheckboxListCellRenderer extends JCheckBox implements ListCellRende
         setSelected(isSelected);
         setEnabled(list.isEnabled());
 
-        setText(value == null ? "" : value.toString());  
+        setText(value == null ? "" : value.toString());
 
         return this;
     }

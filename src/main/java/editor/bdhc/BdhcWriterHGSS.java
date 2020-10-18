@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
  * @author Trifindo
  */
 public class BdhcWriterHGSS {
@@ -46,8 +45,8 @@ public class BdhcWriterHGSS {
     }
 
     private static void writeHeader(FileOutputStream out, Bdhc bdhc,
-            ArrayList<Point> points, ArrayList<Slope> slopes, ArrayList<Integer> zCoords,
-            ArrayList<Stripe> stripes) throws IOException {
+                                    ArrayList<Point> points, ArrayList<Slope> slopes, ArrayList<Integer> zCoords,
+                                    ArrayList<Stripe> stripes) throws IOException {
 
         writeString(out, "BDHC");
 
@@ -60,7 +59,7 @@ public class BdhcWriterHGSS {
     }
 
     private static void writeIndices(FileOutputStream out,
-            ArrayList<Stripe> stripes) throws IOException {
+                                     ArrayList<Stripe> stripes) throws IOException {
         for (int i = 0; i < stripes.size(); i++) {
             Stripe stripe = stripes.get(i);
             for (int j = 0; j < stripe.plateIndices.size(); j++) {
@@ -82,7 +81,7 @@ public class BdhcWriterHGSS {
     }
 
     private static void writePlates(FileOutputStream out,
-            int[][] pointIndices, int[] slopeIndices, int[] zIndices) throws IOException {
+                                    int[][] pointIndices, int[] slopeIndices, int[] zIndices) throws IOException {
 
         for (int i = 0; i < pointIndices.length; i++) {
             writeShortValue(out, pointIndices[i][0]);
@@ -188,7 +187,7 @@ public class BdhcWriterHGSS {
             final float zd = slope[1] / Plate.SLOPE_UNIT;
             final float yd = slope[2] / Plate.SLOPE_UNIT;
 
-            final float mx = -xd / zd; 
+            final float mx = -xd / zd;
             final float my = -yd / zd;
 
             final float zero = 0.001f;
@@ -251,8 +250,8 @@ public class BdhcWriterHGSS {
             Plate p = bdhc.getPlate(i);
 
             Point[] platePoints = new Point[]{
-                new Point(p.x, p.y),
-                new Point(p.x + p.width, p.y + p.height)
+                    new Point(p.x, p.y),
+                    new Point(p.x + p.width, p.y + p.height)
             };
 
             for (int j = 0; j < platePoints.length; j++) {

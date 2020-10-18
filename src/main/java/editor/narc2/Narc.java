@@ -2,6 +2,7 @@
 package editor.narc2;
 
 import java.util.ArrayList;
+
 import utils.Utils.MutableInt;
 
 public class Narc {
@@ -12,26 +13,26 @@ public class Narc {
         this.root = root;
     }
 
-    public boolean hasNamedFiles(){
+    public boolean hasNamedFiles() {
         return hasNamedFiles(root);
     }
-    
-    private boolean hasNamedFiles(NarcFolder folder){
-        for(NarcFile file : folder.getFiles()){
-            if(file.getName() != null){
-                if(!file.getName().equals("")){
+
+    private boolean hasNamedFiles(NarcFolder folder) {
+        for (NarcFile file : folder.getFiles()) {
+            if (file.getName() != null) {
+                if (!file.getName().equals("")) {
                     return true;
                 }
             }
         }
-        for(NarcFolder subfolder : folder.getSubfolders()){
-            if(hasNamedFiles(subfolder)){
+        for (NarcFolder subfolder : folder.getSubfolders()) {
+            if (hasNamedFiles(subfolder)) {
                 return true;
             }
         }
         return false;
     }
-    
+
     public NarcFolder getRoot() {
         return root;
     }

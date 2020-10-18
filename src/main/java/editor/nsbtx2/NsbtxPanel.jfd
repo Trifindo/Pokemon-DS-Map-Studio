@@ -3,14 +3,22 @@ JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
-		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {comp jPanel2:::p::p, space :::p, comp jPanel4:::p::p}, seq {comp jPanel1:::p::p, space :::p, comp jPanel3:::p::p}}"
-			"$verticalGroup": "par l {seq l {space :p:0:p, par l:::p {comp jPanel1:::::x, comp jPanel3:::::x}, space :::p, par l {comp jPanel2:::::x, comp jPanel4:::::x}}}"
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "0:1.0, 0:1.0"
+			"$rowSpecs": "0:1.0, 0:1.0"
+			"$hGap": 5
+			"$vGap": 5
+			"$alignTop": true
+			"$alignLeft": true
 		} ) {
 			name: "this"
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane1::::140:x, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1:::::x, space :::p}}"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0"
+				"$rowSpecs": "0:1.0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignTop": true
+				"$alignLeft": true
 			} ) {
 				name: "jPanel1"
 				"border": new javax.swing.border.TitledBorder( "Texture Names" )
@@ -27,11 +35,15 @@ new FormModel {
 						}
 						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlTextureNamesValueChanged", true ) )
 					} )
-				} )
-			} )
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane2::::140:x, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane2:::::x, space :::p}}"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0"
+				"$rowSpecs": "0:1.0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignTop": true
+				"$alignLeft": true
 			} ) {
 				name: "jPanel2"
 				"border": new javax.swing.border.TitledBorder( "Palette Names" )
@@ -48,11 +60,17 @@ new FormModel {
 						}
 						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlPaletteNamesValueChanged", true ) )
 					} )
-				} )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 1
 			} )
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {space :::p, comp textureDisplay:::p::p, space :::x}}"
-				"$verticalGroup": "par l {seq l {space :::p, comp textureDisplay:::p::p, space :::x}}"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0"
+				"$rowSpecs": "0:1.0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignTop": true
+				"$alignLeft": true
 			} ) {
 				name: "jPanel3"
 				"border": new javax.swing.border.TitledBorder( "Texture" )
@@ -62,11 +80,17 @@ new FormModel {
 				} ) {
 					name: "textureDisplay"
 					"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
-				} )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
 			} )
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {space :::p, comp paletteDisplay:::p::p, space :::x}}"
-				"$verticalGroup": "par l {seq l {space :::p, comp paletteDisplay:::p::p, space :::x}}"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0"
+				"$rowSpecs": "0:1.0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignTop": true
+				"$alignLeft": true
 			} ) {
 				name: "jPanel4"
 				"border": new javax.swing.border.TitledBorder( "Palette" )
@@ -75,7 +99,10 @@ new FormModel {
 					"$verticalGroup": "par l {space :0:160:x}"
 				} ) {
 					name: "paletteDisplay"
-				} )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 1
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"size": new java.awt.Dimension( 370, 430 )

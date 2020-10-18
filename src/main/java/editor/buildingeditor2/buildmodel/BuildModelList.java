@@ -47,13 +47,13 @@ public class BuildModelList {
         buildModelsData.add(data);
         calculateModelsName();
     }
-    
+
     public void replaceBuildingModel(int index, String path) throws IOException, Exception{
         byte[] data = readBuildingModel(path);
         buildModelsData.set(index, data);
         calculateModelsName();
     }
-    
+
     public void saveBuildingModel(int index, String path) throws IOException {
         byte[] data = buildModelsData.get(index);
         path = Utils.addExtensionToPath(path, "nsbmd");

@@ -8,7 +8,6 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
 /**
- *
  * @author Trifindo
  */
 public class JScrollCheckboxList extends JScrollPane {
@@ -29,16 +28,16 @@ public class JScrollCheckboxList extends JScrollPane {
     public JCheckboxList getCheckboxList() {
         return checkboxList;
     }
-    
+
     @Override
-    public void setEnabled(boolean enabled){
+    public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        
+
         checkboxList.setEnabled(enabled);
         ListModel<JCheckBox> model = checkboxList.getModel();
-        for(int i = 0; i < model.getSize(); i++){
+        for (int i = 0; i < model.getSize(); i++) {
             model.getElementAt(i).setEnabled(enabled);
         }
     }
-    
+
 }

@@ -10,12 +10,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import javax.imageio.ImageIO;
+
 import tileset.Tile;
 import tileset.Tileset;
 import tileset.TilesetMaterial;
 
 /**
- *
  * @author Trifindo
  */
 public class ImageTiler {

@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class BdhcLoaderDP {
@@ -49,7 +48,7 @@ public class BdhcLoaderDP {
     private int[] plateIndList;
 
     public Bdhc loadBdhcFromFile(String path) throws IOException {
-        
+
         return new Bdhc(loadPlatesFromBdhcDP(path));
     }
 
@@ -122,7 +121,7 @@ public class BdhcLoaderDP {
 
             if (type == Plate.OTHER) {
                 plates.add(new Plate(x, y, z, width, height, type, new int[]{
-                    xSlopes[slopeIndex], zSlopes[slopeIndex], ySlopes[slopeIndex]}));
+                        xSlopes[slopeIndex], zSlopes[slopeIndex], ySlopes[slopeIndex]}));
             } else {
                 plates.add(new Plate(x, y, z, width, height, type));
             }
@@ -139,7 +138,7 @@ public class BdhcLoaderDP {
 
         return plates;
     }
-    
+
     public float calculateZ(float d, int plateIndex) {
         int slopeIndex = plateIndices[plateIndex][2];
         //final float den = 4095.56247663f;
@@ -169,17 +168,17 @@ public class BdhcLoaderDP {
         }
         return round(z, 3);
     }
-    
+
     private static float getLineY(float m, float x0, float y0, float x) {
         return m * (x - x0) + y0;
     }
-    
+
     public static float round(float d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Float.toString(d));
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
     }
-    
+
     public static float dataToDistance(byte[] data, int offset) {
         short fractionalPart = (short) dataToUnsignedShort(data, offset);
         short decimalPart = dataToSignedShort(data, offset + 2);
@@ -187,11 +186,11 @@ public class BdhcLoaderDP {
         //System.out.println("dec: " + decimalPart + " frac: " + (fractionalPart & 0xFFFF) + " value: " + value);
         return value;
     }
-    
+
     public static int dataToUnsignedShort(byte[] data, int offset) {
         return ((data[offset + 1] & 0xff) << 8) | (data[offset] & 0xff);
     }
-    
+
     public static float minCoord(float[] coords, int[] indices) {
         float min = Float.MAX_VALUE;
         for (int i = 0; i < indices.length; i++) {
@@ -214,10 +213,10 @@ public class BdhcLoaderDP {
 
     public static int getType(int xSlope, int zSlope, int ySlope) {
         //TODO check if bridge
-        
-        for(int i = 0; i < Plate.slopes.length; i++){
+
+        for (int i = 0; i < Plate.slopes.length; i++) {
             int[] slopes = Plate.slopes[i];
-            if(xSlope == slopes[0] && zSlope == slopes[1] && ySlope == slopes[2]){
+            if (xSlope == slopes[0] && zSlope == slopes[1] && ySlope == slopes[2]) {
                 return i;
             }
         }
@@ -260,10 +259,10 @@ public class BdhcLoaderDP {
 
     public static int dataToSignedInt(byte[] data, int offset) {
         byte[] bytes = new byte[]{
-            data[offset],
-            data[offset + 1],
-            data[offset + 2],
-            data[offset + 3]
+                data[offset],
+                data[offset + 1],
+                data[offset + 2],
+                data[offset + 3]
         };
         return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }
@@ -272,8 +271,7 @@ public class BdhcLoaderDP {
         return (short) (((data[offset + 1]) << 8) | (data[offset] /*& 0xff*/));
     }
 
-    
-    
+
     public static float dataToCoordZ(byte[] data, int offset) {
         short fractionalPart = (short) dataToUnsignedShort(data, offset);
         short decimalPart = dataToSignedShort(data, offset + 2);

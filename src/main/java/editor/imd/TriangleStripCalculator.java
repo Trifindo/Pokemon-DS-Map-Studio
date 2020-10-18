@@ -4,7 +4,6 @@ package editor.imd;
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class TriangleStripCalculator {
@@ -294,7 +293,7 @@ public class TriangleStripCalculator {
         }
 
         private boolean sameVertexCoords(float[] coordData, int coordsPerVertex,
-                int vertexIndex1, int vertexIndex2) {
+                                         int vertexIndex1, int vertexIndex2) {
             int offset1 = vertexIndex1 * coordsPerVertex;
             int offset2 = vertexIndex2 * coordsPerVertex;
             for (int i = 0; i < coordsPerVertex; i++) {
@@ -306,7 +305,7 @@ public class TriangleStripCalculator {
         }
 
         private boolean sameEdgeCoords(float[] coords, int coordsPerVertex,
-                Edge other) {
+                                       Edge other) {
             /*if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex1, other.vertexIndex1)) {
                 if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex2, other.vertexIndex2)) {
                     return true;

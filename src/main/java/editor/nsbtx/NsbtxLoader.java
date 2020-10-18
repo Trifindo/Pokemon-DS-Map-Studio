@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- *
  * @author Trifindo
  */
 public class NsbtxLoader {
@@ -114,10 +113,10 @@ public class NsbtxLoader {
 
     private static int readUnsignedInt(byte[] data, int offset) {
         byte[] bytes = new byte[]{
-            data[offset],
-            data[offset + 1],
-            data[offset + 2],
-            data[offset + 3]
+                data[offset],
+                data[offset + 1],
+                data[offset + 2],
+                data[offset + 3]
         };
         return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }
@@ -129,8 +128,8 @@ public class NsbtxLoader {
      */
     private static int readUnsignedShort(byte[] data, int offset) {
         byte[] bytes = new byte[]{
-            data[offset],
-            data[offset + 1]
+                data[offset],
+                data[offset + 1]
         };
         return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getShort();
     }

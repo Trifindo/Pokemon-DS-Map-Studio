@@ -2,10 +2,12 @@
 package editor.narc2;
 
 import editor.exceptions.WrongFormatException;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import utils.BinaryReader;
 import utils.BinaryWriter;
 import utils.Utils.MutableInt;
@@ -78,8 +80,8 @@ public class NarcIO {
         FileImageBlock fileImage = new FileImageBlock(files);
         Header header = new Header(
                 fatb.getDataSize()
-                + filenameTable.getDataSize() + getBytesPadding(filenameTable.getDataSize(), 4)
-                + fileImage.getDataSize()
+                        + filenameTable.getDataSize() + getBytesPadding(filenameTable.getDataSize(), 4)
+                        + fileImage.getDataSize()
         );
 
         header.writeData(writer);
@@ -294,7 +296,7 @@ public class NarcIO {
                 List<DirectoryEntry> dirEntries = new ArrayList(numDirectories);
                 //dirEntries.add(new DirectoryEntry(numDirectories * 8, numDirectories));
                 dirEntries.add(new DirectoryEntry(numDirectories * 4, numDirectories));//TODO: Should be 8 instead of 4??
-                
+
                 directoryTable = new DirectoryTable(dirEntries);
                 entryNameTable = null;
             }

@@ -324,8 +324,8 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
             }
             jScrollCheckboxList.getCheckboxList().setModel(model);
         } catch (Exception ex) {
-
-        }
+ex.printStackTrace();
+}
     }
 
     private boolean hasMatrixCoordsInImdName(String imdName) {

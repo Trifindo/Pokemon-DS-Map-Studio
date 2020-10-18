@@ -11,6 +11,7 @@ import editor.imd.nodes.Polygon;
 import editor.imd.nodes.Primitive;
 import editor.imd.nodes.TexImage;
 import editor.imd.nodes.TexPalette;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -22,19 +23,21 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+
 import tileset.Face;
 import tileset.NormalsNotFoundException;
 import tileset.TextureNotFoundException;
 import utils.Utils;
+
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
 import javax.xml.transform.stream.*;
+
 import org.w3c.dom.*;
 import tileset.TilesetMaterial;
 
 /**
- *
  * @author Trifindo
  */
 public class ImdModel extends ImdNode {
@@ -67,7 +70,7 @@ public class ImdModel extends ImdNode {
     }
 
     public ImdModel(String objPath, String savePath,
-            ArrayList<TilesetMaterial> tsetMaterials) throws
+                    ArrayList<TilesetMaterial> tsetMaterials) throws
             ParserConfigurationException, ParserConfigurationException,
             IOException, TransformerException, TextureNotFoundException,
             NormalsNotFoundException {
@@ -121,7 +124,7 @@ public class ImdModel extends ImdNode {
         for (int i = 0; i < polygons.size(); i++) {
             polygons.get(i).rotateData();
         }
-        
+
         //Calculate bounds
         minCoords = getMinCoords();
         maxCoords = getMaxCoords();
@@ -233,10 +236,10 @@ public class ImdModel extends ImdNode {
                 lights = new boolean[]{false, false, false, false};
             } else {
                 lights = new boolean[]{
-                    materials.get(i).light0(),
-                    materials.get(i).light1(),
-                    materials.get(i).light2(),
-                    materials.get(i).light3()
+                        materials.get(i).light0(),
+                        materials.get(i).light1(),
+                        materials.get(i).light2(),
+                        materials.get(i).light3()
                 };
             }
             Material material = new Material(i,
@@ -558,7 +561,7 @@ public class ImdModel extends ImdNode {
                     } else {
                         throw new TextureNotFoundException(
                                 "Texture named: \"" + textName
-                                + "\" does not exist in the folder of the OBJ file");
+                                        + "\" does not exist in the folder of the OBJ file");
                     }
                     //textures.add(loadTexture(folderPath + "/" + textName));
                 } else {
@@ -588,9 +591,9 @@ public class ImdModel extends ImdNode {
     }
 
     public void objDataToPolygonData(ArrayList<Face> fIndsQuad,
-            ArrayList<Face> fIndsTri, ArrayList<Float> vCoordsObj,
-            ArrayList<Float> tCoordsObj, ArrayList<Float> nCoordsObj,
-            ArrayList<Float> colorsObj) {
+                                     ArrayList<Face> fIndsTri, ArrayList<Float> vCoordsObj,
+                                     ArrayList<Float> tCoordsObj, ArrayList<Float> nCoordsObj,
+                                     ArrayList<Float> colorsObj) {
 
         for (int i = 0; i < textureIDs.size(); i++) {
             int start, end;
@@ -809,7 +812,7 @@ public class ImdModel extends ImdNode {
     }
 
     private int getIndexOfMaterialByImgName(ArrayList<TilesetMaterial> materials,
-            String imgName) {
+                                            String imgName) {
         for (int i = 0; i < materials.size(); i++) {
             if (materials.get(i).getImageName().equals(imgName)) {
                 return i;

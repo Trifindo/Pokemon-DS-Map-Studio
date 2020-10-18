@@ -11,17 +11,17 @@ import java.nio.file.StandardCopyOption;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class NsbtxWriter {
 
     //TODO: improve all of this by not using the converter
-    
-    public static byte[] writeNsbtx(Nsbtx2 nsbtx, String fileName) throws IOException{
+
+    public static byte[] writeNsbtx(Nsbtx2 nsbtx, String fileName) throws IOException {
 
         String path = System.getProperty("user.dir") + File.separator + fileName;
         path = Utils.removeExtensionFromPath(path);
@@ -67,12 +67,12 @@ public class NsbtxWriter {
                 outputString += line + "\n";
             }
 
-            try{
+            try {
                 p.waitFor();
-            }catch(InterruptedException ex){
+            } catch (InterruptedException ex) {
                 throw new IOException();
             }
-            
+
             p.destroy();
 
             String nsbPath = Utils.removeExtensionFromPath(imdPath);
@@ -95,7 +95,7 @@ public class NsbtxWriter {
                 throw new IOException();
             }
         }
-        
+
         return data;
     }
 

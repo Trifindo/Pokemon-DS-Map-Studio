@@ -6,7 +6,6 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class Plate {
@@ -22,21 +21,21 @@ public class Plate {
     public static final float SLOPE_UNIT = 4095.56247663f;
 
     public static final int[][] slopes = new int[][]{
-        {0, 4096, 0},
-        {0, 4096, 0},
-        {2896, 2896, 0},
-        {-2896, 2896, 0},
-        {0, 2896, 2896},
-        {0, 2896, -2896},};
+            {0, 4096, 0},
+            {0, 4096, 0},
+            {2896, 2896, 0},
+            {-2896, 2896, 0},
+            {0, 2896, 2896},
+            {0, 2896, -2896},};
 
     public static final Color[] colors = new Color[]{
-        new Color(100, 100, 255, 100),
-        new Color(100, 255, 100, 100),
-        new Color(100, 255, 255, 100),
-        new Color(255, 100, 255, 100),
-        new Color(255, 255, 100, 100),
-        new Color(255, 255, 255, 100),
-        new Color(255, 100, 0, 100)
+            new Color(100, 100, 255, 100),
+            new Color(100, 255, 100, 100),
+            new Color(100, 255, 255, 100),
+            new Color(255, 100, 255, 100),
+            new Color(255, 255, 100, 100),
+            new Color(255, 255, 255, 100),
+            new Color(255, 100, 0, 100)
     };
 
     public int x, y;

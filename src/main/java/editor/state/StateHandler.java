@@ -4,7 +4,6 @@ package editor.state;
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class StateHandler {

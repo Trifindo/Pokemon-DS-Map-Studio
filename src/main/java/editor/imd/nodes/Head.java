@@ -3,17 +3,17 @@ package editor.imd.nodes;
 
 import editor.imd.ImdAttribute;
 import editor.imd.ImdNode;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class Head extends ImdNode {
 
     public Head() {
         super("head");
-        
+
         ImdNode snCreate = new ImdNode("create");
         snCreate.attributes = new ArrayList<ImdAttribute>() {
             {
@@ -24,11 +24,11 @@ public class Head extends ImdNode {
             }
         };
         subnodes.add(snCreate);
-        
+
         ImdNode snTitle = new ImdNode("title");
         snTitle.content = "Model Data for NINTENDO NITRO-System";
         subnodes.add(snTitle);
-        
+
         ImdNode snGenerator = new ImdNode("generator");
         snGenerator.attributes = new ArrayList<ImdAttribute>() {
             {

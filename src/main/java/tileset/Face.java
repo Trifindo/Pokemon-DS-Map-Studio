@@ -9,13 +9,13 @@ import utils.Utils;
  * @author Trifindo
  */
 public class Face {
-    
+
     public int[] vInd;
     public int[] tInd;
     public int[] nInd;
     public int[] cInd;
     public boolean isQuad;
-    
+
     public Face(boolean isQuad){
         int nElements;
         if(isQuad){
@@ -23,16 +23,16 @@ public class Face {
         }else{
             nElements = 3;
         }
-        
+
         vInd = new int[nElements];
         tInd = new int[nElements];
         nInd = new int[nElements];
         cInd = new int[nElements];
-        
+
         this.isQuad = isQuad;
-        
+
     }
-    
+
     public Face deepClone(){
         Face f = new Face(isQuad);
         f.vInd = Utils.cloneIntArray(vInd);
@@ -41,8 +41,8 @@ public class Face {
         f.cInd = Utils.cloneIntArray(cInd);
         return f;
     }
-    
-    
+
+
     public static ArrayList<Face> cloneArrayList(ArrayList<Face> array){
         ArrayList<Face> newArray = new ArrayList<>(array.size());
         array.forEach((f) -> {
@@ -50,7 +50,7 @@ public class Face {
         });
         return newArray;
     }
-    
+
     public static void incrementAllIndices(ArrayList<Face> faces, int vIncrement,
             int tIncrement, int nIncrement, int cIncrement){
         for(Face f : faces){
@@ -68,5 +68,5 @@ public class Face {
             }
         }
     }
-    
+
 }

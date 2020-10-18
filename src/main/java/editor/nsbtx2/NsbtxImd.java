@@ -6,6 +6,7 @@ import editor.imd.ImdNode;
 import editor.imd.nodes.Body;
 import editor.imd.nodes.TexImage;
 import editor.imd.nodes.TexPalette;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,11 +20,11 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- *
  * @author Trifindo
  */
 public class NsbtxImd extends ImdNode {

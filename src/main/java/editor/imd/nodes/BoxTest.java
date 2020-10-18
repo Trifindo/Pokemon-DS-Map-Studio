@@ -3,14 +3,14 @@ package editor.imd.nodes;
 
 import editor.imd.ImdAttribute;
 import editor.imd.ImdNode;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
-public class BoxTest extends ImdNode{
-    
+public class BoxTest extends ImdNode {
+
     public BoxTest(int posScale, float[] xyz, float[] whd) {
         super("box_test");
         //System.out.println("Box test xyz: " + xyz[0] + " "+ xyz[1] + " "+ xyz[2]);
@@ -27,5 +27,5 @@ public class BoxTest extends ImdNode{
             }
         };
     }
-    
+
 }

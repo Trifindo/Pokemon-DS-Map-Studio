@@ -279,8 +279,8 @@ public class TilesetRenderer {
         /*try {
             drawable.destroy();
         } catch (GLException ex) {
-
-        }*/
+ex.printStackTrace();
+}*/
 
     }
 

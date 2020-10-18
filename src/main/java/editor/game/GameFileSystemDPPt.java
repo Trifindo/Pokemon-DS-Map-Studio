@@ -4,10 +4,9 @@ package editor.game;
 import java.io.File;
 
 /**
- *
  * @author Trifindo
  */
-public class GameFileSystemDPPt extends GameFileSystem{
+public class GameFileSystemDPPt extends GameFileSystem {
 
     private final String areaDataPath;
     private final String areaBuildModelPath;

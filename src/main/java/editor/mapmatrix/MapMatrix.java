@@ -683,8 +683,8 @@ public class MapMatrix {
             removeUnusedMapFiles(folderPath, BuildFile.fileExtension);
             removeUnusedMapFiles(folderPath, Backsound.fileExtension);
         } catch (Exception ex) {
-
-        }
+ex.printStackTrace();
+}
     }
 
     private void removeUnusedMapFiles(String folderPath, String fileExtension) {
@@ -702,8 +702,8 @@ public class MapMatrix {
             try {
                 Files.deleteIfExists(file.toPath());
             } catch (Exception ex) {
-
-            }
+ex.printStackTrace();
+}
         }
     }
 
@@ -918,8 +918,8 @@ public class MapMatrix {
                     g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 50));
                     g.fillRect(x, y, MapData.mapThumbnailSize - 1, MapData.mapThumbnailSize - 1);
                 } catch (Exception ex) {
-
-                }
+ex.printStackTrace();
+}
 
                 g.setColor(Color.white);
                 g.drawRect(x, y, MapData.mapThumbnailSize - 1, MapData.mapThumbnailSize - 1);
