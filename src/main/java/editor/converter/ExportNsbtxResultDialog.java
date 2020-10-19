@@ -43,7 +43,7 @@ public class ExportNsbtxResultDialog extends javax.swing.JDialog {
         setTitle("NSBTX Successfully Saved");
         setResizable(false);
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //---- jLabel1 ----
         jLabel1.setHorizontalAlignment(SwingConstants.CENTER);

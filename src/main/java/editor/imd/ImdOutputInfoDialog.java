@@ -308,7 +308,7 @@ public class ImdOutputInfoDialog extends JDialog {
                 formWindowClosed(e);
             }
         });
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //======== jPanel1 ========
         {

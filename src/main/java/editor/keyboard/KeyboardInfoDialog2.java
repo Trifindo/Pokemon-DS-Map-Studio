@@ -44,7 +44,7 @@ public class KeyboardInfoDialog2 extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Keyboard Shortcuts");
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //======== jTabbedPane1 ========
         {

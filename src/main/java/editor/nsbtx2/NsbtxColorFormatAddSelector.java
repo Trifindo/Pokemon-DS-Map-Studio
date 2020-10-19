@@ -62,7 +62,7 @@ public class NsbtxColorFormatAddSelector extends JDialog {
         setTitle("Choose Color Format");
         setResizable(false);
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //======== jPanel1 ========
         {

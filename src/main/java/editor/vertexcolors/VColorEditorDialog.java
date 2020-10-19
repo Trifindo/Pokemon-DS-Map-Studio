@@ -25,6 +25,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.DocumentFilter.FilterBypass;
+import net.miginfocom.swing.*;
 
 import tileset.TileGeometryCompresser;
 import utils.Utils;
@@ -279,9 +280,8 @@ public class VColorEditorDialog extends JDialog {
         });
     }
 
-
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         vColorEditorDisplay1 = new VColorEditorDisplay();
         jPanel2 = new JPanel();
         colorWheelPanel1 = new ColorWheelPanel();
@@ -312,7 +312,17 @@ public class VColorEditorDialog extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Vertex Color Editor");
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
+        contentPane.setLayout(new MigLayout(
+            "insets 0,hidemode 3,gap 5 5",
+            // columns
+            "[fill]" +
+            "[grow,fill]" +
+            "[fill]",
+            // rows
+            "[fill]" +
+            "[fill]" +
+            "[fill]"));
 
         //======== vColorEditorDisplay1 ========
         {
@@ -321,14 +331,15 @@ public class VColorEditorDialog extends JDialog {
             GroupLayout vColorEditorDisplay1Layout = new GroupLayout(vColorEditorDisplay1);
             vColorEditorDisplay1.setLayout(vColorEditorDisplay1Layout);
             vColorEditorDisplay1Layout.setHorizontalGroup(
-                    vColorEditorDisplay1Layout.createParallelGroup()
-                            .addGap(0, 623, Short.MAX_VALUE)
+                vColorEditorDisplay1Layout.createParallelGroup()
+                    .addGap(0, 623, Short.MAX_VALUE)
             );
             vColorEditorDisplay1Layout.setVerticalGroup(
-                    vColorEditorDisplay1Layout.createParallelGroup()
-                            .addGap(0, 585, Short.MAX_VALUE)
+                vColorEditorDisplay1Layout.createParallelGroup()
+                    .addGap(0, 591, Short.MAX_VALUE)
             );
         }
+        contentPane.add(vColorEditorDisplay1, "cell 1 0 1 3");
 
         //======== jPanel2 ========
         {
@@ -352,12 +363,12 @@ public class VColorEditorDialog extends JDialog {
                 GroupLayout colorWheelPanel1Layout = new GroupLayout(colorWheelPanel1);
                 colorWheelPanel1.setLayout(colorWheelPanel1Layout);
                 colorWheelPanel1Layout.setHorizontalGroup(
-                        colorWheelPanel1Layout.createParallelGroup()
-                                .addGap(0, 113, Short.MAX_VALUE)
+                    colorWheelPanel1Layout.createParallelGroup()
+                        .addGap(0, 113, Short.MAX_VALUE)
                 );
                 colorWheelPanel1Layout.setVerticalGroup(
-                        colorWheelPanel1Layout.createParallelGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                    colorWheelPanel1Layout.createParallelGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                 );
             }
 
@@ -379,12 +390,12 @@ public class VColorEditorDialog extends JDialog {
                 GroupLayout colorBrightnessPanel1Layout = new GroupLayout(colorBrightnessPanel1);
                 colorBrightnessPanel1.setLayout(colorBrightnessPanel1Layout);
                 colorBrightnessPanel1Layout.setHorizontalGroup(
-                        colorBrightnessPanel1Layout.createParallelGroup()
-                                .addGap(0, 25, Short.MAX_VALUE)
+                    colorBrightnessPanel1Layout.createParallelGroup()
+                        .addGap(0, 25, Short.MAX_VALUE)
                 );
                 colorBrightnessPanel1Layout.setVerticalGroup(
-                        colorBrightnessPanel1Layout.createParallelGroup()
-                                .addGap(0, 113, Short.MAX_VALUE)
+                    colorBrightnessPanel1Layout.createParallelGroup()
+                        .addGap(0, 113, Short.MAX_VALUE)
                 );
             }
 
@@ -396,12 +407,12 @@ public class VColorEditorDialog extends JDialog {
                 GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
                 jPanel1.setLayout(jPanel1Layout);
                 jPanel1Layout.setHorizontalGroup(
-                        jPanel1Layout.createParallelGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                    jPanel1Layout.createParallelGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                 );
                 jPanel1Layout.setVerticalGroup(
-                        jPanel1Layout.createParallelGroup()
-                                .addGap(0, 22, Short.MAX_VALUE)
+                    jPanel1Layout.createParallelGroup()
+                        .addGap(0, 22, Short.MAX_VALUE)
                 );
             }
 
@@ -432,56 +443,57 @@ public class VColorEditorDialog extends JDialog {
             GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
             jPanel2.setLayout(jPanel2Layout);
             jPanel2Layout.setHorizontalGroup(
-                    jPanel2Layout.createParallelGroup()
+                jPanel2Layout.createParallelGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup()
+                            .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addGroup(jPanel2Layout.createParallelGroup()
-                                            .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                    .addComponent(colorWheelPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(colorBrightnessPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                    .addGroup(jPanel2Layout.createParallelGroup()
-                                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                    .addComponent(jLabel1)
-                                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                    .addComponent(jtfRed, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
-                                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                    .addComponent(jLabel3)
-                                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                    .addComponent(jtfBlue, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
-                                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                    .addComponent(jLabel2)
-                                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                    .addComponent(jtfGreen, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)))
-                                                    .addGap(0, 0, Short.MAX_VALUE)))
-                                    .addContainerGap())
+                                .addComponent(colorWheelPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(colorBrightnessPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup()
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jtfRed, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jtfBlue, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jtfGreen, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
             );
             jPanel2Layout.setVerticalGroup(
-                    jPanel2Layout.createParallelGroup()
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(colorBrightnessPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(colorWheelPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jtfRed, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jtfGreen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jtfBlue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel2Layout.createParallelGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addComponent(colorBrightnessPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(colorWheelPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jtfRed, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jtfGreen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jtfBlue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
         }
+        contentPane.add(jPanel2, "cell 2 0 1 2");
 
         //======== jPanel3 ========
         {
@@ -505,27 +517,28 @@ public class VColorEditorDialog extends JDialog {
             GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
             jPanel3.setLayout(jPanel3Layout);
             jPanel3Layout.setHorizontalGroup(
-                    jPanel3Layout.createParallelGroup()
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jbVertexMode, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jbFaceMode, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jbGrabColor, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel3Layout.createParallelGroup()
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbVertexMode, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbFaceMode, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbGrabColor, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
             jPanel3Layout.setVerticalGroup(
-                    jPanel3Layout.createParallelGroup()
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jbVertexMode)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jbFaceMode)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jbGrabColor)
-                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel3Layout.createParallelGroup()
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jbVertexMode)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbFaceMode)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbGrabColor)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
         }
+        contentPane.add(jPanel3, "cell 0 0");
 
         //======== jPanel4 ========
         {
@@ -554,30 +567,31 @@ public class VColorEditorDialog extends JDialog {
             GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
             jPanel4.setLayout(jPanel4Layout);
             jPanel4Layout.setHorizontalGroup(
-                    jPanel4Layout.createParallelGroup()
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addGroup(jPanel4Layout.createParallelGroup()
-                                            .addComponent(jbTextureView, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jbSolidView, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jbWireframeView, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jbSimpleView, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addContainerGap())
+                jPanel4Layout.createParallelGroup()
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel4Layout.createParallelGroup()
+                            .addComponent(jbTextureView, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbSolidView, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbWireframeView, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbSimpleView, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
             );
             jPanel4Layout.setVerticalGroup(
-                    jPanel4Layout.createParallelGroup()
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jbSolidView)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jbTextureView)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jbWireframeView)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jbSimpleView)
-                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel4Layout.createParallelGroup()
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jbSolidView)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbTextureView)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbWireframeView)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbSimpleView)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
         }
+        contentPane.add(jPanel4, "cell 0 1");
 
         //======== jPanel5 ========
         {
@@ -591,14 +605,15 @@ public class VColorEditorDialog extends JDialog {
             GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
             jPanel5.setLayout(jPanel5Layout);
             jPanel5Layout.setHorizontalGroup(
-                    jPanel5Layout.createParallelGroup()
-                            .addComponent(jSlider1, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                jPanel5Layout.createParallelGroup()
+                    .addComponent(jSlider1, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
             );
             jPanel5Layout.setVerticalGroup(
-                    jPanel5Layout.createParallelGroup()
-                            .addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                jPanel5Layout.createParallelGroup()
+                    .addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
             );
         }
+        contentPane.add(jPanel5, "cell 2 2");
 
         //======== jPanel6 ========
         {
@@ -623,64 +638,27 @@ public class VColorEditorDialog extends JDialog {
             GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
             jPanel6.setLayout(jPanel6Layout);
             jPanel6Layout.setHorizontalGroup(
-                    jPanel6Layout.createParallelGroup()
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-                                    .addContainerGap())
+                jPanel6Layout.createParallelGroup()
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())
             );
             jPanel6Layout.setVerticalGroup(
-                    jPanel6Layout.createParallelGroup()
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                                    .addContainerGap())
+                jPanel6Layout.createParallelGroup()
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                        .addContainerGap())
             );
         }
-
-        GroupLayout contentPaneLayout = new GroupLayout(contentPane);
-        contentPane.setLayout(contentPaneLayout);
-        contentPaneLayout.setHorizontalGroup(
-                contentPaneLayout.createParallelGroup()
-                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(contentPaneLayout.createParallelGroup()
-                                        .addComponent(jPanel3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jPanel4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(vColorEditorDisplay1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jPanel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jPanel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addContainerGap())
-        );
-        contentPaneLayout.setVerticalGroup(
-                contentPaneLayout.createParallelGroup()
-                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(contentPaneLayout.createParallelGroup()
-                                        .addComponent(vColorEditorDisplay1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                                .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                                .addComponent(jPanel3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jPanel4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addContainerGap())
-        );
+        contentPane.add(jPanel6, "cell 0 2");
         pack();
         setLocationRelativeTo(getOwner());
-        // JFormDesigner - End of component initialization  
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private VColorEditorDisplay vColorEditorDisplay1;
     private JPanel jPanel2;
     private ColorWheelPanel colorWheelPanel1;
@@ -706,5 +684,5 @@ public class VColorEditorDialog extends JDialog {
     private JPanel jPanel6;
     private JScrollPane jScrollPane1;
     private JTextArea jtaModeDescription;
-    // JFormDesigner - End of variables declaration  
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

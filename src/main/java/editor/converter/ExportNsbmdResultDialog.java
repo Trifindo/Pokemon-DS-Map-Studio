@@ -44,7 +44,7 @@ public class ExportNsbmdResultDialog extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("NSBMD Successfully Saved");
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //======== jPanel2 ========
         {

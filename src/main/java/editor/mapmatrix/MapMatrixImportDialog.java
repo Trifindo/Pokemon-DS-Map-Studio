@@ -137,7 +137,7 @@ public class MapMatrixImportDialog extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Choose where to import the maps");
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //======== jPanel1 ========
         {

@@ -41,6 +41,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import net.miginfocom.swing.*;
 
 import tileset.NormalsNotFoundException;
 import tileset.TextureNotFoundException;
@@ -1450,10 +1451,8 @@ public class TilesetEditorDialog extends JDialog {
         }
     }
 
-    ;
-
     private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         tileDisplay = new TileDisplay();
         jPanel2 = new JPanel();
         jScrollPane2 = new JScrollPane();
@@ -1577,7 +1576,17 @@ public class TilesetEditorDialog extends JDialog {
         setIconImage(null);
         setMinimumSize(new Dimension(1094, 602));
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
+        contentPane.setLayout(new MigLayout(
+            "insets 0,hidemode 3,gap 5 5",
+            // columns
+            "[grow,fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]",
+            // rows
+            "[grow,fill]" +
+            "[fill]"));
 
         //======== tileDisplay ========
         {
@@ -1587,14 +1596,15 @@ public class TilesetEditorDialog extends JDialog {
             GroupLayout tileDisplayLayout = new GroupLayout(tileDisplay);
             tileDisplay.setLayout(tileDisplayLayout);
             tileDisplayLayout.setHorizontalGroup(
-                    tileDisplayLayout.createParallelGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
+                tileDisplayLayout.createParallelGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
             );
             tileDisplayLayout.setVerticalGroup(
-                    tileDisplayLayout.createParallelGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
+                tileDisplayLayout.createParallelGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
             );
         }
+        contentPane.add(tileDisplay, "cell 0 0");
 
         //======== jPanel2 ========
         {
@@ -1618,12 +1628,12 @@ public class TilesetEditorDialog extends JDialog {
                     GroupLayout tileSelectorLayout = new GroupLayout(tileSelector);
                     tileSelector.setLayout(tileSelectorLayout);
                     tileSelectorLayout.setHorizontalGroup(
-                            tileSelectorLayout.createParallelGroup()
-                                    .addGap(0, 128, Short.MAX_VALUE)
+                        tileSelectorLayout.createParallelGroup()
+                            .addGap(0, 128, Short.MAX_VALUE)
                     );
                     tileSelectorLayout.setVerticalGroup(
-                            tileSelectorLayout.createParallelGroup()
-                                    .addGap(0, 672, Short.MAX_VALUE)
+                        tileSelectorLayout.createParallelGroup()
+                            .addGap(0, 672, Short.MAX_VALUE)
                     );
                 }
                 jScrollPane2.setViewportView(tileSelector);
@@ -1632,16 +1642,17 @@ public class TilesetEditorDialog extends JDialog {
             GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
             jPanel2.setLayout(jPanel2Layout);
             jPanel2Layout.setHorizontalGroup(
-                    jPanel2Layout.createParallelGroup()
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jScrollPane2)
-                                    .addGap(0, 0, 0))
+                jPanel2Layout.createParallelGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                        .addGap(0, 0, 0))
             );
             jPanel2Layout.setVerticalGroup(
-                    jPanel2Layout.createParallelGroup()
-                            .addComponent(jScrollPane2)
+                jPanel2Layout.createParallelGroup()
+                    .addComponent(jScrollPane2)
             );
         }
+        contentPane.add(jPanel2, "cell 1 0 1 2");
 
         //======== jTabbedPane1 ========
         {
@@ -1769,98 +1780,98 @@ public class TilesetEditorDialog extends JDialog {
                     GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
                     jPanel5.setLayout(jPanel5Layout);
                     jPanel5Layout.setHorizontalGroup(
-                            jPanel5Layout.createParallelGroup()
+                        jPanel5Layout.createParallelGroup()
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel5Layout.createParallelGroup()
                                     .addGroup(jPanel5Layout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addGroup(jPanel5Layout.createParallelGroup()
-                                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                                            .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                                                            .addComponent(jLabel10)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                            .addComponent(jtfGlobalTexScale))
-                                                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                                                            .addComponent(jLabel14)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                            .addComponent(jtfXOffset, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)))
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addGroup(jPanel5Layout.createParallelGroup()
-                                                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                                                            .addComponent(jbXOffset, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-                                                                            .addGap(18, 18, 18)
-                                                                            .addComponent(jLabel15)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                            .addComponent(jtfYOffset, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                            .addComponent(jbYOffset, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE))
-                                                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                                                            .addComponent(jbGlobalTexScale)
-                                                                            .addGap(18, 18, 18)
-                                                                            .addComponent(jcbGlobalTexMapping))))
-                                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                                            .addGroup(jPanel5Layout.createParallelGroup()
-                                                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                                                            .addComponent(jLabel2)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                            .addComponent(jbLessSizeY))
-                                                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                                                            .addComponent(jLabel1)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                            .addComponent(jbLessSizeX)))
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addGroup(jPanel5Layout.createParallelGroup()
-                                                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                                                            .addComponent(jtfSizeY, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                            .addComponent(jbMoreSizeY)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                            .addComponent(jcbTileableY)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                            .addComponent(jcbVtileable))
-                                                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                                                            .addComponent(jtfSizeX, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                            .addComponent(jbMoreSizeX)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                            .addComponent(jcbTileableX)
-                                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                            .addComponent(jcbUtileable)))))
-                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addComponent(jLabel10)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jtfGlobalTexScale))
+                                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addComponent(jLabel14)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jtfXOffset, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel5Layout.createParallelGroup()
+                                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addComponent(jbXOffset, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel15)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jtfYOffset, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jbYOffset, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addComponent(jbGlobalTexScale)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jcbGlobalTexMapping))))
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addGroup(jPanel5Layout.createParallelGroup()
+                                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jbLessSizeY))
+                                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addComponent(jLabel1)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jbLessSizeX)))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel5Layout.createParallelGroup()
+                                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addComponent(jtfSizeY, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jbMoreSizeY)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jcbTileableY)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jcbVtileable))
+                                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addComponent(jtfSizeX, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jbMoreSizeX)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jcbTileableX)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jcbUtileable)))))
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     );
                     jPanel5Layout.setVerticalGroup(
-                            jPanel5Layout.createParallelGroup()
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jLabel1)
-                                                    .addComponent(jbLessSizeX, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jbMoreSizeX, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jcbTileableX)
-                                                    .addComponent(jcbUtileable)
-                                                    .addComponent(jtfSizeX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jLabel2)
-                                                    .addComponent(jbLessSizeY, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jbMoreSizeY, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jcbTileableY)
-                                                    .addComponent(jcbVtileable)
-                                                    .addComponent(jtfSizeY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jLabel14)
-                                                    .addComponent(jtfXOffset, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jbXOffset)
-                                                    .addComponent(jLabel15)
-                                                    .addComponent(jtfYOffset, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jbYOffset))
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jbGlobalTexScale)
-                                                    .addComponent(jcbGlobalTexMapping)
-                                                    .addComponent(jtfGlobalTexScale, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel10))
-                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        jPanel5Layout.createParallelGroup()
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jbLessSizeX, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbMoreSizeX, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jcbTileableX)
+                                    .addComponent(jcbUtileable)
+                                    .addComponent(jtfSizeX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jbLessSizeY, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbMoreSizeY, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jcbTileableY)
+                                    .addComponent(jcbVtileable)
+                                    .addComponent(jtfSizeY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jtfXOffset, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbXOffset)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jtfYOffset, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jbYOffset))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jbGlobalTexScale)
+                                    .addComponent(jcbGlobalTexMapping)
+                                    .addComponent(jtfGlobalTexScale, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10))
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     );
                 }
 
@@ -1896,36 +1907,36 @@ public class TilesetEditorDialog extends JDialog {
                     GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
                     jPanel6.setLayout(jPanel6Layout);
                     jPanel6Layout.setHorizontalGroup(
-                            jPanel6Layout.createParallelGroup()
+                        jPanel6Layout.createParallelGroup()
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel6Layout.createParallelGroup()
                                     .addGroup(jPanel6Layout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addGroup(jPanel6Layout.createParallelGroup()
-                                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                                            .addComponent(jbExportTileAsObj)
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addComponent(jbImportTileAsObj)
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addComponent(jbEditVertexColors)
-                                                            .addGap(0, 0, Short.MAX_VALUE))
-                                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                                            .addComponent(jLabel5)
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addComponent(jtfObjName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                            .addGap(10, 10, 10))
+                                        .addComponent(jbExportTileAsObj)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbImportTileAsObj)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbEditVertexColors)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jtfObjName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(10, 10, 10))
                     );
                     jPanel6Layout.setVerticalGroup(
-                            jPanel6Layout.createParallelGroup()
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jLabel5)
-                                                    .addComponent(jtfObjName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jbExportTileAsObj)
-                                                    .addComponent(jbImportTileAsObj)
-                                                    .addComponent(jbEditVertexColors))
-                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        jPanel6Layout.createParallelGroup()
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jtfObjName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jbExportTileAsObj)
+                                    .addComponent(jbImportTileAsObj)
+                                    .addComponent(jbEditVertexColors))
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     );
                 }
 
@@ -1948,7 +1959,7 @@ public class TilesetEditorDialog extends JDialog {
                     jSpinner1.addChangeListener(e -> jSpinner1StateChanged(e));
 
                     //---- jcbMaterial ----
-                    jcbMaterial.setModel(new DefaultComboBoxModel<>(new String[]{
+                    jcbMaterial.setModel(new DefaultComboBoxModel<>(new String[] {
 
                     }));
                     jcbMaterial.addActionListener(e -> jcbMaterialActionPerformed(e));
@@ -1961,12 +1972,12 @@ public class TilesetEditorDialog extends JDialog {
                         GroupLayout textureDisplayLayout = new GroupLayout(textureDisplay);
                         textureDisplay.setLayout(textureDisplayLayout);
                         textureDisplayLayout.setHorizontalGroup(
-                                textureDisplayLayout.createParallelGroup()
-                                        .addGap(0, 126, Short.MAX_VALUE)
+                            textureDisplayLayout.createParallelGroup()
+                                .addGap(0, 126, Short.MAX_VALUE)
                         );
                         textureDisplayLayout.setVerticalGroup(
-                                textureDisplayLayout.createParallelGroup()
-                                        .addGap(0, 126, Short.MAX_VALUE)
+                            textureDisplayLayout.createParallelGroup()
+                                .addGap(0, 126, Short.MAX_VALUE)
                         );
                     }
 
@@ -1981,47 +1992,47 @@ public class TilesetEditorDialog extends JDialog {
                     GroupLayout jPanel7Layout = new GroupLayout(jPanel7);
                     jPanel7.setLayout(jPanel7Layout);
                     jPanel7Layout.setHorizontalGroup(
-                            jPanel7Layout.createParallelGroup()
+                        jPanel7Layout.createParallelGroup()
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel7Layout.createParallelGroup()
                                     .addGroup(jPanel7Layout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addGroup(jPanel7Layout.createParallelGroup()
-                                                    .addGroup(jPanel7Layout.createSequentialGroup()
-                                                            .addComponent(jLabel22)
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addComponent(jcbMaterial)
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addComponent(jbAddTexture)
-                                                            .addGap(16, 16, 16))
-                                                    .addGroup(jPanel7Layout.createSequentialGroup()
-                                                            .addComponent(jLabel16)
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addComponent(jtfNumTextures, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-                                                            .addGap(18, 18, 18)
-                                                            .addComponent(jLabel4)
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addComponent(jSpinner1, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                            .addComponent(textureDisplay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                            .addContainerGap())
+                                        .addComponent(jLabel22)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jcbMaterial)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jbAddTexture)
+                                        .addGap(16, 16, 16))
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addComponent(jLabel16)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jtfNumTextures, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jSpinner1, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(textureDisplay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
                     );
                     jPanel7Layout.setVerticalGroup(
-                            jPanel7Layout.createParallelGroup()
+                        jPanel7Layout.createParallelGroup()
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel7Layout.createParallelGroup()
+                                    .addComponent(textureDisplay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel7Layout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addGroup(jPanel7Layout.createParallelGroup()
-                                                    .addComponent(textureDisplay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                    .addGroup(jPanel7Layout.createSequentialGroup()
-                                                            .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                    .addComponent(jLabel16)
-                                                                    .addComponent(jtfNumTextures, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                    .addComponent(jLabel4)
-                                                                    .addComponent(jSpinner1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                            .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                    .addComponent(jLabel22)
-                                                                    .addComponent(jcbMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                    .addComponent(jbAddTexture))))
-                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel16)
+                                            .addComponent(jtfNumTextures, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jSpinner1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel22)
+                                            .addComponent(jcbMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jbAddTexture))))
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     );
                 }
 
@@ -2041,59 +2052,59 @@ public class TilesetEditorDialog extends JDialog {
                 GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
                 jPanel1.setLayout(jPanel1Layout);
                 jPanel1Layout.setHorizontalGroup(
-                        jPanel1Layout.createParallelGroup()
+                    jPanel1Layout.createParallelGroup()
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel1Layout.createParallelGroup()
+                                .addComponent(jPanel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel7, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(jPanel1Layout.createParallelGroup()
-                                                .addComponent(jPanel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jPanel7, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addGroup(jPanel1Layout.createParallelGroup()
-                                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                        .addComponent(jLabel3)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jtfIndexTile, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-                                                                        .addGap(18, 18, 18)
-                                                                        .addComponent(jLabel23)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jbMoveUp)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jbMoveDown))
-                                                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                        .addComponent(jbAddTile)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jbRemoveTile)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jbDuplicateTile)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jbImportTiles)))
-                                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                        .addContainerGap())
+                                    .addGroup(jPanel1Layout.createParallelGroup()
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jLabel3)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jtfIndexTile, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel23)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jbMoveUp)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jbMoveDown))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jbAddTile)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jbRemoveTile)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jbDuplicateTile)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jbImportTiles)))
+                                    .addGap(0, 0, Short.MAX_VALUE)))
+                            .addContainerGap())
                 );
                 jPanel1Layout.setVerticalGroup(
-                        jPanel1Layout.createParallelGroup()
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jtfIndexTile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jLabel3)
-                                                .addComponent(jbMoveUp)
-                                                .addComponent(jbMoveDown)
-                                                .addComponent(jLabel23))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jbDuplicateTile)
-                                                .addComponent(jbRemoveTile)
-                                                .addComponent(jbAddTile)
-                                                .addComponent(jbImportTiles))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jPanel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jPanel7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    jPanel1Layout.createParallelGroup()
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jtfIndexTile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3)
+                                .addComponent(jbMoveUp)
+                                .addComponent(jbMoveDown)
+                                .addComponent(jLabel23))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jbDuplicateTile)
+                                .addComponent(jbRemoveTile)
+                                .addComponent(jbAddTile)
+                                .addComponent(jbImportTiles))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jPanel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jPanel7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
             }
             jTabbedPane1.addTab("Tile Editor", jPanel1);
@@ -2168,11 +2179,11 @@ public class TilesetEditorDialog extends JDialog {
 
                 //---- jcbTexGenMode ----
                 jcbTexGenMode.setMaximumRowCount(4);
-                jcbTexGenMode.setModel(new DefaultComboBoxModel<>(new String[]{
-                        "None",
-                        "Texture",
-                        "Normal",
-                        "Vertex"
+                jcbTexGenMode.setModel(new DefaultComboBoxModel<>(new String[] {
+                    "None",
+                    "Texture",
+                    "Normal",
+                    "Vertex"
                 }));
                 jcbTexGenMode.addActionListener(e -> jcbTexGenModeActionPerformed(e));
 
@@ -2184,12 +2195,12 @@ public class TilesetEditorDialog extends JDialog {
                     GroupLayout textureDisplayMaterialLayout = new GroupLayout(textureDisplayMaterial);
                     textureDisplayMaterial.setLayout(textureDisplayMaterialLayout);
                     textureDisplayMaterialLayout.setHorizontalGroup(
-                            textureDisplayMaterialLayout.createParallelGroup()
-                                    .addGap(0, 126, Short.MAX_VALUE)
+                        textureDisplayMaterialLayout.createParallelGroup()
+                            .addGap(0, 126, Short.MAX_VALUE)
                     );
                     textureDisplayMaterialLayout.setVerticalGroup(
-                            textureDisplayMaterialLayout.createParallelGroup()
-                                    .addGap(0, 126, Short.MAX_VALUE)
+                        textureDisplayMaterialLayout.createParallelGroup()
+                            .addGap(0, 126, Short.MAX_VALUE)
                     );
                 }
 
@@ -2216,10 +2227,10 @@ public class TilesetEditorDialog extends JDialog {
 
                 //---- jcbTexTilingU ----
                 jcbTexTilingU.setMaximumRowCount(4);
-                jcbTexTilingU.setModel(new DefaultComboBoxModel<>(new String[]{
-                        "Repeat",
-                        "Clamp",
-                        "Flip"
+                jcbTexTilingU.setModel(new DefaultComboBoxModel<>(new String[] {
+                    "Repeat",
+                    "Clamp",
+                    "Flip"
                 }));
                 jcbTexTilingU.addActionListener(e -> jcbTexTilingUActionPerformed(e));
 
@@ -2228,10 +2239,10 @@ public class TilesetEditorDialog extends JDialog {
 
                 //---- jcbTexTilingV ----
                 jcbTexTilingV.setMaximumRowCount(4);
-                jcbTexTilingV.setModel(new DefaultComboBoxModel<>(new String[]{
-                        "Repeat",
-                        "Clamp",
-                        "Flip"
+                jcbTexTilingV.setModel(new DefaultComboBoxModel<>(new String[] {
+                    "Repeat",
+                    "Clamp",
+                    "Flip"
                 }));
                 jcbTexTilingV.addActionListener(e -> jcbTexTilingVActionPerformed(e));
 
@@ -2239,12 +2250,12 @@ public class TilesetEditorDialog extends JDialog {
                 jLabel19.setText("Color Format:");
 
                 //---- jcbColorFormat ----
-                jcbColorFormat.setModel(new DefaultComboBoxModel<>(new String[]{
-                        "Palette 4",
-                        "Palette 16",
-                        "Palette 256",
-                        "A3I5",
-                        "A5I3"
+                jcbColorFormat.setModel(new DefaultComboBoxModel<>(new String[] {
+                    "Palette 4",
+                    "Palette 16",
+                    "Palette 256",
+                    "A3I5",
+                    "A5I3"
                 }));
                 jcbColorFormat.addActionListener(e -> jcbColorFormatActionPerformed(e));
 
@@ -2286,168 +2297,169 @@ public class TilesetEditorDialog extends JDialog {
                 GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
                 jPanel3.setLayout(jPanel3Layout);
                 jPanel3Layout.setHorizontalGroup(
-                        jPanel3Layout.createParallelGroup()
+                    jPanel3Layout.createParallelGroup()
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel3Layout.createParallelGroup()
+                                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel21))
+                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                                 .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(jPanel3Layout.createParallelGroup()
-                                                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jLabel21))
-                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(jLabel8, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel7, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel6, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(jtfTextureName, GroupLayout.Alignment.LEADING)
+                                                .addComponent(jtfMaterialName, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                                                .addComponent(jtfPaletteName, GroupLayout.Alignment.LEADING)))
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addComponent(jLabel9, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jSpinner2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel3Layout.createParallelGroup()
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addGap(10, 10, 10)
+                                            .addComponent(jbMoveMaterialUp)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jbMoveMaterialDown))
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addGroup(jPanel3Layout.createParallelGroup()
+                                                .addComponent(jbPaletteName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jbTextName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jbMaterialName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))))
+                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addGroup(jPanel3Layout.createParallelGroup()
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addGroup(jPanel3Layout.createParallelGroup()
+                                                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+                                                            .addComponent(jLabel17, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                            .addComponent(jLabel11, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(jPanel3Layout.createParallelGroup()
+                                                            .addComponent(jcbTexTilingU, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(jcbTexGenMode, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+                                                    .addComponent(jcbEnableFog)
+                                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                                        .addGroup(jPanel3Layout.createParallelGroup()
+                                                            .addComponent(jLabel18, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(jLabel19, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                         .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                                                                .addComponent(jLabel8, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                .addComponent(jLabel7, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                .addComponent(jLabel6, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE))
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                                                                .addComponent(jtfTextureName, GroupLayout.Alignment.LEADING)
-                                                                                .addComponent(jtfMaterialName, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                                                                                .addComponent(jtfPaletteName, GroupLayout.Alignment.LEADING)))
-                                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                        .addComponent(jLabel9, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jSpinner2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)))
-                                                        .addGroup(jPanel3Layout.createParallelGroup()
-                                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                        .addGap(10, 10, 10)
-                                                                        .addComponent(jbMoveMaterialUp)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jbMoveMaterialDown))
-                                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addGroup(jPanel3Layout.createParallelGroup()
-                                                                                .addComponent(jbPaletteName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-                                                                                .addComponent(jbTextName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-                                                                                .addComponent(jbMaterialName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))))
-                                                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                        .addGap(10, 10, 10)
-                                                        .addGroup(jPanel3Layout.createParallelGroup()
-                                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                        .addGroup(jPanel3Layout.createParallelGroup()
-                                                                                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                                                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                                                                                        .addComponent(jLabel17, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                                        .addComponent(jLabel11, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                                                .addGroup(jPanel3Layout.createParallelGroup()
-                                                                                                        .addComponent(jcbTexTilingU, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-                                                                                                        .addComponent(jcbTexGenMode, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
-                                                                                        .addComponent(jcbEnableFog)
-                                                                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                                                .addGroup(jPanel3Layout.createParallelGroup()
-                                                                                                        .addComponent(jLabel18, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
-                                                                                                        .addComponent(jLabel19, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                                                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                                                                        .addComponent(jcbTexTilingV)
-                                                                                                        .addComponent(jcbColorFormat))))
-                                                                                .addComponent(jcbUniformNormal)
-                                                                                .addComponent(jcbRenderFrontAndBack)
-                                                                                .addComponent(jcbAlwaysIncludedInImd)
-                                                                                .addComponent(jcbRenderBorder))
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                                                .addComponent(textureDisplayMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                                .addComponent(jbReplaceTexture, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                .addComponent(jbReplaceMaterial, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                        .addComponent(jLabel20)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jcbL0)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jcbL1)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jcbL2)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jcbL3)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jcbUseVertexColors)
-                                                                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                                            .addComponent(jcbTexTilingV)
+                                                            .addComponent(jcbColorFormat))))
+                                                .addComponent(jcbUniformNormal)
+                                                .addComponent(jcbRenderFrontAndBack)
+                                                .addComponent(jcbAlwaysIncludedInImd)
+                                                .addComponent(jcbRenderBorder))
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(textureDisplayMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jbReplaceTexture, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jbReplaceMaterial, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addComponent(jLabel20)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jcbL0)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jcbL1)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jcbL2)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jcbL3)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jcbUseVertexColors)
+                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 );
                 jPanel3Layout.setVerticalGroup(
-                        jPanel3Layout.createParallelGroup()
+                    jPanel3Layout.createParallelGroup()
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel3Layout.createParallelGroup()
                                 .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(jPanel3Layout.createParallelGroup()
-                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(jtfMaterialName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(jLabel8)
-                                                                .addComponent(jbMaterialName))
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(jtfTextureName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(jLabel7)
-                                                                .addComponent(jbTextName))
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(jtfPaletteName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(jLabel6)
-                                                                .addComponent(jbPaletteName))
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(jLabel9)
-                                                                .addComponent(jSpinner2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                .addComponent(jbMoveMaterialUp)
-                                                                .addComponent(jbMoveMaterialDown))
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addGroup(jPanel3Layout.createParallelGroup()
-                                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                        .addComponent(textureDisplayMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jbReplaceTexture)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jbReplaceMaterial))
-                                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                                .addComponent(jLabel11)
-                                                                                .addComponent(jcbTexGenMode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                                .addComponent(jLabel17)
-                                                                                .addComponent(jcbTexTilingU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                                .addComponent(jLabel18)
-                                                                                .addComponent(jcbTexTilingV, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                                .addComponent(jLabel19)
-                                                                                .addComponent(jcbColorFormat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jcbEnableFog)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jcbUniformNormal)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jcbRenderFrontAndBack)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jcbAlwaysIncludedInImd)))
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jcbRenderBorder)
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(jLabel20)
-                                                                .addComponent(jcbL0)
-                                                                .addComponent(jcbL1)
-                                                                .addComponent(jcbL2)
-                                                                .addComponent(jcbL3)
-                                                                .addComponent(jcbUseVertexColors))
-                                                        .addGap(0, 163, Short.MAX_VALUE))
-                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                        .addComponent(jLabel21)
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jScrollPane1)))
-                                        .addContainerGap())
+                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jtfMaterialName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel8)
+                                        .addComponent(jbMaterialName))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jtfTextureName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jbTextName))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jtfPaletteName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jbPaletteName))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel9)
+                                        .addComponent(jSpinner2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jbMoveMaterialUp)
+                                        .addComponent(jbMoveMaterialDown))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(jPanel3Layout.createParallelGroup()
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addComponent(textureDisplayMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jbReplaceTexture)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jbReplaceMaterial))
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel11)
+                                                .addComponent(jcbTexGenMode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel17)
+                                                .addComponent(jcbTexTilingU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel18)
+                                                .addComponent(jcbTexTilingV, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel19)
+                                                .addComponent(jcbColorFormat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jcbEnableFog)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jcbUniformNormal)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jcbRenderFrontAndBack)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jcbAlwaysIncludedInImd)))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jcbRenderBorder)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel20)
+                                        .addComponent(jcbL0)
+                                        .addComponent(jcbL1)
+                                        .addComponent(jcbL2)
+                                        .addComponent(jcbL3)
+                                        .addComponent(jcbUseVertexColors))
+                                    .addGap(0, 163, Short.MAX_VALUE))
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addComponent(jLabel21)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jScrollPane1)))
+                            .addContainerGap())
                 );
             }
             jTabbedPane1.addTab("Material Editor", jPanel3);
         }
+        contentPane.add(jTabbedPane1, "cell 3 0 1 2");
 
         //======== jTabbedPane2 ========
         {
@@ -2505,52 +2517,52 @@ public class TilesetEditorDialog extends JDialog {
                 GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
                 jPanel4.setLayout(jPanel4Layout);
                 jPanel4Layout.setHorizontalGroup(
-                        jPanel4Layout.createParallelGroup()
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(jPanel4Layout.createParallelGroup()
-                                                .addComponent(jLabel12)
-                                                .addComponent(jLabel13))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jPanel4Layout.createParallelGroup()
-                                                .addComponent(jbFlipModel)
-                                                .addComponent(jbRotateModel, GroupLayout.Alignment.TRAILING))
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jbMoveModelLeft, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel4Layout.createParallelGroup()
-                                                .addComponent(jbMoveModelDown)
-                                                .addComponent(jbMoveModelUp, GroupLayout.Alignment.TRAILING))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jbMoveModelRight, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jPanel4Layout.createParallelGroup()
-                                                .addComponent(jbMoveModelUp1)
-                                                .addComponent(jbMoveModelDown1))
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                    jPanel4Layout.createParallelGroup()
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel4Layout.createParallelGroup()
+                                .addComponent(jLabel12)
+                                .addComponent(jLabel13))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel4Layout.createParallelGroup()
+                                .addComponent(jbFlipModel)
+                                .addComponent(jbRotateModel, GroupLayout.Alignment.TRAILING))
+                            .addGap(18, 18, 18)
+                            .addComponent(jbMoveModelLeft, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel4Layout.createParallelGroup()
+                                .addComponent(jbMoveModelDown)
+                                .addComponent(jbMoveModelUp, GroupLayout.Alignment.TRAILING))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jbMoveModelRight, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel4Layout.createParallelGroup()
+                                .addComponent(jbMoveModelUp1)
+                                .addComponent(jbMoveModelDown1))
+                            .addGap(0, 0, Short.MAX_VALUE))
                 );
                 jPanel4Layout.setVerticalGroup(
-                        jPanel4Layout.createParallelGroup()
+                    jPanel4Layout.createParallelGroup()
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                 .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                                        .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(jLabel12)
-                                                                .addComponent(jbRotateModel)
-                                                                .addComponent(jbMoveModelUp))
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(jLabel13)
-                                                                .addComponent(jbFlipModel)
-                                                                .addComponent(jbMoveModelDown)))
-                                                .addComponent(jbMoveModelRight, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jbMoveModelLeft, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                                        .addComponent(jbMoveModelUp1)
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(jbMoveModelDown1)))
-                                        .addContainerGap(15, Short.MAX_VALUE))
+                                    .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel12)
+                                        .addComponent(jbRotateModel)
+                                        .addComponent(jbMoveModelUp))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel13)
+                                        .addComponent(jbFlipModel)
+                                        .addComponent(jbMoveModelDown)))
+                                .addComponent(jbMoveModelRight, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbMoveModelLeft, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel4Layout.createSequentialGroup()
+                                    .addComponent(jbMoveModelUp1)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jbMoveModelDown1)))
+                            .addContainerGap(290, Short.MAX_VALUE))
                 );
             }
             jTabbedPane2.addTab("Model Editor", jPanel4);
@@ -2580,34 +2592,35 @@ public class TilesetEditorDialog extends JDialog {
                 GroupLayout jPanel8Layout = new GroupLayout(jPanel8);
                 jPanel8.setLayout(jPanel8Layout);
                 jPanel8Layout.setHorizontalGroup(
-                        jPanel8Layout.createParallelGroup()
-                                .addGroup(jPanel8Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(jPanel8Layout.createParallelGroup()
-                                                .addComponent(jcbBackfaceCulling)
-                                                .addComponent(jcbWireframe))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel8Layout.createParallelGroup()
-                                                .addComponent(jcbShadingEnabled)
-                                                .addComponent(jcbTexturesEnabled))
-                                        .addContainerGap(484, Short.MAX_VALUE))
+                    jPanel8Layout.createParallelGroup()
+                        .addGroup(jPanel8Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel8Layout.createParallelGroup()
+                                .addComponent(jcbBackfaceCulling)
+                                .addComponent(jcbWireframe))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel8Layout.createParallelGroup()
+                                .addComponent(jcbShadingEnabled)
+                                .addComponent(jcbTexturesEnabled))
+                            .addContainerGap(452, Short.MAX_VALUE))
                 );
                 jPanel8Layout.setVerticalGroup(
-                        jPanel8Layout.createParallelGroup()
-                                .addGroup(jPanel8Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(jPanel8Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jcbBackfaceCulling)
-                                                .addComponent(jcbTexturesEnabled))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel8Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jcbWireframe)
-                                                .addComponent(jcbShadingEnabled))
-                                        .addContainerGap(29, Short.MAX_VALUE))
+                    jPanel8Layout.createParallelGroup()
+                        .addGroup(jPanel8Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel8Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jcbBackfaceCulling)
+                                .addComponent(jcbTexturesEnabled))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel8Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jcbWireframe)
+                                .addComponent(jcbShadingEnabled))
+                            .addContainerGap(304, Short.MAX_VALUE))
                 );
             }
             jTabbedPane2.addTab("Display Settings", jPanel8);
         }
+        contentPane.add(jTabbedPane2, "cell 0 1");
 
         //======== jPanel9 ========
         {
@@ -2624,12 +2637,12 @@ public class TilesetEditorDialog extends JDialog {
                     GroupLayout smartGridEditableDisplayLayout = new GroupLayout(smartGridEditableDisplay);
                     smartGridEditableDisplay.setLayout(smartGridEditableDisplayLayout);
                     smartGridEditableDisplayLayout.setHorizontalGroup(
-                            smartGridEditableDisplayLayout.createParallelGroup()
-                                    .addGap(0, 156, Short.MAX_VALUE)
+                        smartGridEditableDisplayLayout.createParallelGroup()
+                            .addGap(0, 156, Short.MAX_VALUE)
                     );
                     smartGridEditableDisplayLayout.setVerticalGroup(
-                            smartGridEditableDisplayLayout.createParallelGroup()
-                                    .addGap(0, 597, Short.MAX_VALUE)
+                        smartGridEditableDisplayLayout.createParallelGroup()
+                            .addGap(0, 597, Short.MAX_VALUE)
                     );
                 }
                 jScrollPaneSmartGrid.setViewportView(smartGridEditableDisplay);
@@ -2658,69 +2671,38 @@ public class TilesetEditorDialog extends JDialog {
             GroupLayout jPanel9Layout = new GroupLayout(jPanel9);
             jPanel9.setLayout(jPanel9Layout);
             jPanel9Layout.setHorizontalGroup(
-                    jPanel9Layout.createParallelGroup()
-                            .addGroup(GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                                    .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jbMoveSPaintUp, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jbAddSmartGrid, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jbMoveSPaintDown, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jbRemoveSmartGrid, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jScrollPaneSmartGrid)
+                jPanel9Layout.createParallelGroup()
+                    .addGroup(GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbMoveSPaintUp, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbAddSmartGrid, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jbMoveSPaintDown, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbRemoveSmartGrid, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPaneSmartGrid)
             );
             jPanel9Layout.setVerticalGroup(
-                    jPanel9Layout.createParallelGroup()
-                            .addGroup(jPanel9Layout.createSequentialGroup()
-                                    .addComponent(jScrollPaneSmartGrid)
-                                    .addGap(9, 9, 9)
-                                    .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jbAddSmartGrid)
-                                            .addComponent(jbRemoveSmartGrid))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jbMoveSPaintUp)
-                                            .addComponent(jbMoveSPaintDown)))
+                jPanel9Layout.createParallelGroup()
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jScrollPaneSmartGrid)
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(jbAddSmartGrid)
+                            .addComponent(jbRemoveSmartGrid))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(jbMoveSPaintUp)
+                            .addComponent(jbMoveSPaintDown)))
             );
         }
-
-        GroupLayout contentPaneLayout = new GroupLayout(contentPane);
-        contentPane.setLayout(contentPaneLayout);
-        contentPaneLayout.setHorizontalGroup(
-                contentPaneLayout.createParallelGroup()
-                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(contentPaneLayout.createParallelGroup()
-                                        .addComponent(jTabbedPane2)
-                                        .addComponent(tileDisplay, GroupLayout.DEFAULT_SIZE, 727, Short.MAX_VALUE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTabbedPane1, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-        );
-        contentPaneLayout.setVerticalGroup(
-                contentPaneLayout.createParallelGroup()
-                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(contentPaneLayout.createParallelGroup()
-                                        .addComponent(jPanel9, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jPanel2, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                                .addComponent(tileDisplay, GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jTabbedPane2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jTabbedPane1))
-                                .addContainerGap())
-        );
+        contentPane.add(jPanel9, "cell 2 0 1 2");
         pack();
         setLocationRelativeTo(getOwner());
-        // JFormDesigner - End of component initialization  
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private TileDisplay tileDisplay;
     private JPanel jPanel2;
     private JScrollPane jScrollPane2;
@@ -2837,5 +2819,5 @@ public class TilesetEditorDialog extends JDialog {
     private JButton jbMoveSPaintDown;
     private JButton jbAddSmartGrid;
     private JButton jbRemoveSmartGrid;
-    // JFormDesigner - End of variables declaration  
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

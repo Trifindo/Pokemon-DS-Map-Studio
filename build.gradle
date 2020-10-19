@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'idea'
     id 'application'
-    id 'org.beryx.runtime' version '1.11.4'
 }
 
 repositories {
@@ -34,11 +33,5 @@ jar {
 
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
-
-runtime {
-    jpackage {
-        installerType = 'deb'
     }
 }

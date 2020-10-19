@@ -322,7 +322,7 @@ public class GameTsetSelectorDialog extends JDialog {
         setTitle("New Map - Select Game and Tileset");
         setResizable(false);
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //======== jpanelIcon ========
         {

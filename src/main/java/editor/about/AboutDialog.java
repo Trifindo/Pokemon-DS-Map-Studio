@@ -52,7 +52,7 @@ public class AboutDialog extends JDialog {
         setTitle("About");
         setResizable(false);
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //---- jlVersionName ----
         jlVersionName.setFont(new Font("Tahoma", Font.BOLD, 18));

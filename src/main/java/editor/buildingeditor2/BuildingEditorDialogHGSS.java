@@ -2212,7 +2212,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Building Editor (Experimental)");
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
                 "insets 0,hidemode 3,gap 5 5",
                 // columns

@@ -1046,7 +1046,7 @@ public class NsbtxEditorDialog2 extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("NSBTX Editor");
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //======== jMenuBar1 ========
         {

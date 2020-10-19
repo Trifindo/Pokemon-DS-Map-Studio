@@ -151,7 +151,7 @@ public class GameSelectorDialog extends JDialog {
         setTitle("New Map - Select Game");
         setResizable(false);
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //---- jcbGame ----
         jcbGame.setModel(new DefaultComboBoxModel<>(new String[] {

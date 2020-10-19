@@ -90,7 +90,7 @@ public class NsbtxColorFormatReplaceSelector extends JDialog {
         setTitle("Choose Color Format");
         setResizable(false);
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //======== jPanel1 ========
         {
@@ -192,7 +192,7 @@ public class NsbtxColorFormatReplaceSelector extends JDialog {
         setLocationRelativeTo(getOwner());
 
         //---- buttonGroup1 ----
-        var buttonGroup1 = new ButtonGroup();
+        ButtonGroup buttonGroup1 = new ButtonGroup();
         buttonGroup1.add(jrbUseSameFormat);
         buttonGroup1.add(jrbChooseFormat);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents

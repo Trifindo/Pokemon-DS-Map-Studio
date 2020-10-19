@@ -41,7 +41,7 @@ public class SettingsDialog extends JDialog {
         //======== this ========
         setTitle("Settings");
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
         //======== dialogPane ========

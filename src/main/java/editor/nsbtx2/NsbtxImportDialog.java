@@ -175,7 +175,7 @@ public class NsbtxImportDialog extends JDialog {
         setTitle("Select the Textures and Palettes to import from the NSBTX");
         setResizable(false);
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //======== jPanel1 ========
         {

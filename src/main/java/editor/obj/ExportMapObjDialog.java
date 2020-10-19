@@ -78,7 +78,7 @@ public class ExportMapObjDialog extends JDialog {
         setTitle("Import Tile Settings");
         setResizable(false);
         setModal(true);
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
 
         //======== jPanel1 ========
         {
@@ -164,7 +164,7 @@ public class ExportMapObjDialog extends JDialog {
         setLocationRelativeTo(getOwner());
 
         //---- bgExportMap ----
-        var bgExportMap = new ButtonGroup();
+        ButtonGroup bgExportMap = new ButtonGroup();
         bgExportMap.add(jrbExportAllMapsSeparately);
         bgExportMap.add(jrbExportCurrentMap);
         bgExportMap.add(jrbExportAllMapsJoined);

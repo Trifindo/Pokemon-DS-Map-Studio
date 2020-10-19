@@ -3,9 +3,10 @@ JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
-		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :::p, par l {comp jPanel3:::::x, comp jPanel4:::::x, comp jPanel6:::::x}, space u:::p, comp vColorEditorDisplay1:::::x, space :::p, par l:::p {comp jPanel5:::::x, comp jPanel2:::::x}, space :::p}}"
-			"$verticalGroup": "par l {seq l {space :::p, par l {comp vColorEditorDisplay1:::::x, seq {comp jPanel2:::p::p, space :::p, comp jPanel5:::p::p, space :0:0:x}, seq l {comp jPanel3:::p::p, space :::p, comp jPanel4:::p::p, space s:::p, comp jPanel6:::::x}}, space :::p}}"
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$columnConstraints": "[fill][grow,fill][fill]"
+			"$rowConstraints": "[fill][fill][fill]"
 		} ) {
 			name: "this"
 			"defaultCloseOperation": 2
@@ -13,10 +14,12 @@ new FormModel {
 			"modal": true
 			add( new FormContainer( "editor.vertexcolors.VColorEditorDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {space :0:623:x}"
-				"$verticalGroup": "par l {space :0:585:x}"
+				"$verticalGroup": "par l {space :0:591:x}"
 			} ) {
 				name: "vColorEditorDisplay1"
 				"border": new javax.swing.border.BevelBorder( 1, null, null, null, null )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 0 1 3"
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq {space :::p, par l {comp jPanel1:::::x, seq {comp colorWheelPanel1:::p::p, space :::x, comp colorBrightnessPanel1:::p::p}, seq {par l {seq l {comp jLabel1:::p::p, space u:::p, comp jtfRed:::p:48:p}, seq l {comp jLabel3:::p::p, space u:::p, comp jtfBlue:::p:48:p}, seq l {comp jLabel2:::p::p, space u:::p, comp jtfGreen:::p:48:p}}, space :0:0:x}}, space :::p}}"
@@ -78,6 +81,8 @@ new FormModel {
 					name: "jtfBlue"
 					"text": "255"
 				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 2 0 1 2"
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq {space :::p, par l:::p {comp jbVertexMode:::::x, comp jbFaceMode::l:::x, comp jbGrabColor::l:::x}, space :::x}}"
@@ -103,6 +108,8 @@ new FormModel {
 					"text": "Grab Vertex Color"
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbGrabColorActionPerformed", true ) )
 				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0"
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq {space :::p, par l {comp jbTextureView:::::x, comp jbSolidView:::::x, comp jbWireframeView::l:::x, comp jbSimpleView::l:::x}, space :::p}}"
@@ -134,6 +141,8 @@ new FormModel {
 					"text": "Simple View"
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSimpleViewActionPerformed", true ) )
 				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1"
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {comp jSlider1::l::0:x}"
@@ -147,10 +156,12 @@ new FormModel {
 					"value": 20
 					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSlider1StateChanged", true ) )
 				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 2 2"
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane1::::0:x, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1::::214:x, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1::::231:x, space :::p}}"
 			} ) {
 				name: "jPanel6"
 				"border": new javax.swing.border.TitledBorder( "Mode Description" )
@@ -169,6 +180,8 @@ new FormModel {
 						"enabled": false
 					} )
 				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 2"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"size": new java.awt.Dimension( 1060, 630 )
