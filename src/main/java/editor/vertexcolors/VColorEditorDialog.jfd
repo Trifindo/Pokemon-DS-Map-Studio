@@ -4,7 +4,7 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$layoutConstraints": "insets dialog,hidemode 3,gap 5 5"
 			"$columnConstraints": "[fill][grow,fill][fill]"
 			"$rowConstraints": "[fill][fill][fill]"
 		} ) {
@@ -13,8 +13,8 @@ new FormModel {
 			"title": "Vertex Color Editor"
 			"modal": true
 			add( new FormContainer( "editor.vertexcolors.VColorEditorDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {space :0:623:x}"
-				"$verticalGroup": "par l {space :0:591:x}"
+				"$horizontalGroup": "par l {space :0:680:x}"
+				"$verticalGroup": "par l {space :0:594:x}"
 			} ) {
 				name: "vColorEditorDisplay1"
 				"border": new javax.swing.border.BevelBorder( 1, null, null, null, null )
@@ -161,7 +161,7 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane1::::0:x, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1::::231:x, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1::::234:x, space :::p}}"
 			} ) {
 				name: "jPanel6"
 				"border": new javax.swing.border.TitledBorder( "Mode Description" )

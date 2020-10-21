@@ -74,14 +74,14 @@ public class AngleCalculatorDialog extends JDialog {
     public void updateTilesForward() {
         jtfTilesForwardEnabled.value = false;
         jtfTilesForward.setText(String.valueOf(tilesForward));
-        jtfTilesForward.setBackground(Color.white);
+        jtfTilesForward.setBackground(UIManager.getColor("TextPane.background"));
         jtfTilesForwardEnabled.value = true;
     }
 
     public void updateTilesUp() {
         jtfTilesUpEnabled.value = false;
         jtfTilesUp.setText(String.valueOf(tilesUp));
-        jtfTilesUp.setBackground(Color.white);
+        jtfTilesUp.setBackground(UIManager.getColor("TextPane.background"));
         jtfTilesUpEnabled.value = true;
     }
 
@@ -122,35 +122,35 @@ public class AngleCalculatorDialog extends JDialog {
         setModal(true);
         Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-                "insets 0,hidemode 3,gap 5 5",
-                // columns
-                "[grow,fill]" +
-                        "[fill]",
-                // rows
-                "[fill]" +
-                        "[fill]" +
-                        "[fill]"));
+            "insets 0,hidemode 3,gap 5 5",
+            // columns
+            "[grow,fill]" +
+            "[fill]",
+            // rows
+            "[fill]" +
+            "[fill]" +
+            "[fill]"));
 
         //======== jPanel1 ========
         {
             jPanel1.setBorder(new TitledBorder("Write the plate orientation"));
             jPanel1.setLayout(new MigLayout(
-                    "insets 0,hidemode 3,gap 5 5",
-                    // columns
-                    "[fill]" +
-                            "[grow,fill]" +
-                            "[fill]",
-                    // rows
-                    "[fill]" +
-                            "[fill]"));
+                "insets 0,hidemode 3,gap 5 5",
+                // columns
+                "[fill]" +
+                "[grow,fill]" +
+                "[fill]",
+                // rows
+                "[fill]" +
+                "[fill]"));
 
             //---- jLabel2 ----
-            jLabel2.setForeground(new Color(102, 0, 0));
+            jLabel2.setForeground(Color.red);
             jLabel2.setText("Tiles forward:");
             jPanel1.add(jLabel2, "cell 0 1");
 
             //---- jLabel3 ----
-            jLabel3.setForeground(new Color(0, 0, 204));
+            jLabel3.setForeground(new Color(51, 204, 255));
             jLabel3.setText("Tiles up:");
             jPanel1.add(jLabel3, "cell 0 0");
 
@@ -189,12 +189,12 @@ public class AngleCalculatorDialog extends JDialog {
         {
             jPanel3.setBorder(new TitledBorder("Resulting angle"));
             jPanel3.setLayout(new MigLayout(
-                    "insets 0,hidemode 3,gap 5 5",
-                    // columns
-                    "[fill]" +
-                            "[grow,fill]",
-                    // rows
-                    "[fill]"));
+                "insets 0,hidemode 3,gap 5 5",
+                // columns
+                "[fill]" +
+                "[grow,fill]",
+                // rows
+                "[fill]"));
 
             //---- jLabel4 ----
             jLabel4.setForeground(new Color(204, 0, 204));

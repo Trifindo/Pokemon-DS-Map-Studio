@@ -314,7 +314,7 @@ public class VColorEditorDialog extends JDialog {
         setModal(true);
         Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 0,hidemode 3,gap 5 5",
+            "insets dialog,hidemode 3,gap 5 5",
             // columns
             "[fill]" +
             "[grow,fill]" +
@@ -332,11 +332,11 @@ public class VColorEditorDialog extends JDialog {
             vColorEditorDisplay1.setLayout(vColorEditorDisplay1Layout);
             vColorEditorDisplay1Layout.setHorizontalGroup(
                 vColorEditorDisplay1Layout.createParallelGroup()
-                    .addGap(0, 623, Short.MAX_VALUE)
+                    .addGap(0, 680, Short.MAX_VALUE)
             );
             vColorEditorDisplay1Layout.setVerticalGroup(
                 vColorEditorDisplay1Layout.createParallelGroup()
-                    .addGap(0, 591, Short.MAX_VALUE)
+                    .addGap(0, 594, Short.MAX_VALUE)
             );
         }
         contentPane.add(vColorEditorDisplay1, "cell 1 0 1 3");
@@ -648,7 +648,7 @@ public class VColorEditorDialog extends JDialog {
                 jPanel6Layout.createParallelGroup()
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                         .addContainerGap())
             );
         }

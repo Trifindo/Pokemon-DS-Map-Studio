@@ -76,6 +76,9 @@ public class MoveMapPanel extends JPanel {
         //---- jbUp ----
         jbUp.setText("\u25b2");
         jbUp.setMargin(new Insets(2, 2, 2, 2));
+        jbUp.setMaximumSize(null);
+        jbUp.setMinimumSize(null);
+        jbUp.setPreferredSize(null);
         jbUp.addActionListener(e -> jbUpActionPerformed(e));
         add(jbUp, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -84,6 +87,9 @@ public class MoveMapPanel extends JPanel {
         //---- jbLeft ----
         jbLeft.setText("\u25c4");
         jbLeft.setMargin(new Insets(2, 2, 2, 2));
+        jbLeft.setMaximumSize(null);
+        jbLeft.setMinimumSize(null);
+        jbLeft.setPreferredSize(null);
         jbLeft.addActionListener(e -> jbLeftActionPerformed(e));
         add(jbLeft, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -92,6 +98,9 @@ public class MoveMapPanel extends JPanel {
         //---- jbRight ----
         jbRight.setText("\u25ba");
         jbRight.setMargin(new Insets(2, 2, 2, 2));
+        jbRight.setMaximumSize(null);
+        jbRight.setMinimumSize(null);
+        jbRight.setPreferredSize(null);
         jbRight.addActionListener(e -> jbRightActionPerformed(e));
         add(jbRight, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -100,6 +109,9 @@ public class MoveMapPanel extends JPanel {
         //---- jbDown ----
         jbDown.setText("\u25bc");
         jbDown.setMargin(new Insets(2, 2, 2, 2));
+        jbDown.setMaximumSize(null);
+        jbDown.setMinimumSize(null);
+        jbDown.setPreferredSize(null);
         jbDown.addActionListener(e -> jbDownActionPerformed(e));
         add(jbDown, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,

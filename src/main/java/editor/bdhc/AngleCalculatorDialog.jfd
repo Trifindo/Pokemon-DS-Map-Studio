@@ -21,14 +21,14 @@ new FormModel {
 				"border": new javax.swing.border.TitledBorder( "Write the plate orientation" )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "jLabel2"
-					"foreground": new java.awt.Color( 102, 0, 0, 255 )
+					"foreground": new java.awt.Color( 255, 0, 0, 255 )
 					"text": "Tiles forward:"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 1"
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "jLabel3"
-					"foreground": new java.awt.Color( 0, 0, 204, 255 )
+					"foreground": new java.awt.Color( 51, 204, 255, 255 )
 					"text": "Tiles up:"
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"

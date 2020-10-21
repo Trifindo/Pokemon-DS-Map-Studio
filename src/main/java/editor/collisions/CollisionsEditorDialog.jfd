@@ -4,7 +4,7 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$layoutConstraints": "insets dialog,hidemode 3,gap 5 5"
 			"$columnConstraints": "[grow,fill][fill][fill]"
 			"$rowConstraints": "[fill][grow,fill][fill][fill]"
 		} ) {
@@ -16,8 +16,8 @@ new FormModel {
 				name: "jPanel1"
 				"border": new javax.swing.border.TitledBorder( null, "Collision Layers", 4, 1 )
 				add( new FormContainer( "editor.collisions.CollisionLayerSelector", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:512:x}"
-					"$verticalGroup": "par l {space :0:84:x}"
+					"$horizontalGroup": "par l {space :0:732:x}"
+					"$verticalGroup": "par l {space :0:85:x}"
 				} ) {
 					name: "collisionLayerSelector"
 				} )
@@ -28,8 +28,8 @@ new FormModel {
 				name: "jPanel2"
 				"border": new javax.swing.border.TitledBorder( null, "Collision Data", 4, 1 )
 				add( new FormContainer( "editor.collisions.CollisionsDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:510:x}"
-					"$verticalGroup": "par l {space :0:510:x}"
+					"$horizontalGroup": "par l {space :0:730:x}"
+					"$verticalGroup": "par l {space :0:542:x}"
 				} ) {
 					name: "collisionsDisplay"
 					"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
@@ -41,8 +41,8 @@ new FormModel {
 				name: "jPanel3"
 				"border": new javax.swing.border.TitledBorder( null, "Collision Type Selector", 4, 1 )
 				add( new FormContainer( "editor.collisions.CollisionsTypesSelector", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:126:x}"
-					"$verticalGroup": "par l {space :0:510:x}"
+					"$horizontalGroup": "par l {space :0:198:x}"
+					"$verticalGroup": "par l {space :0:542:x}"
 				} ) {
 					name: "collisionsTypesDisplay"
 					"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )

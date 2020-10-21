@@ -16,6 +16,9 @@ new FormModel {
 				name: "jbUp"
 				"text": "▲"
 				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbUpActionPerformed", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridx": 1
@@ -24,6 +27,9 @@ new FormModel {
 				name: "jbLeft"
 				"text": "◄"
 				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbLeftActionPerformed", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridy": 1
@@ -32,6 +38,9 @@ new FormModel {
 				name: "jbRight"
 				"text": "►"
 				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRightActionPerformed", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridx": 2
@@ -41,6 +50,9 @@ new FormModel {
 				name: "jbDown"
 				"text": "▼"
 				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbDownActionPerformed", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"gridx": 1

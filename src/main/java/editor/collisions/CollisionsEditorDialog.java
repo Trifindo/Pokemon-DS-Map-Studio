@@ -244,16 +244,16 @@ public class CollisionsEditorDialog extends JDialog {
         setModal(true);
         Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-                "insets 0,hidemode 3,gap 5 5",
-                // columns
-                "[grow,fill]" +
-                        "[fill]" +
-                        "[fill]",
-                // rows
-                "[fill]" +
-                        "[grow,fill]" +
-                        "[fill]" +
-                        "[fill]"));
+            "insets dialog,hidemode 3,gap 5 5",
+            // columns
+            "[grow,fill]" +
+            "[fill]" +
+            "[fill]",
+            // rows
+            "[fill]" +
+            "[grow,fill]" +
+            "[fill]" +
+            "[fill]"));
 
         //======== jPanel1 ========
         {
@@ -266,12 +266,12 @@ public class CollisionsEditorDialog extends JDialog {
                 GroupLayout collisionLayerSelectorLayout = new GroupLayout(collisionLayerSelector);
                 collisionLayerSelector.setLayout(collisionLayerSelectorLayout);
                 collisionLayerSelectorLayout.setHorizontalGroup(
-                        collisionLayerSelectorLayout.createParallelGroup()
-                                .addGap(0, 512, Short.MAX_VALUE)
+                    collisionLayerSelectorLayout.createParallelGroup()
+                        .addGap(0, 732, Short.MAX_VALUE)
                 );
                 collisionLayerSelectorLayout.setVerticalGroup(
-                        collisionLayerSelectorLayout.createParallelGroup()
-                                .addGap(0, 84, Short.MAX_VALUE)
+                    collisionLayerSelectorLayout.createParallelGroup()
+                        .addGap(0, 85, Short.MAX_VALUE)
                 );
             }
             jPanel1.add(collisionLayerSelector);
@@ -290,12 +290,12 @@ public class CollisionsEditorDialog extends JDialog {
                 GroupLayout collisionsDisplayLayout = new GroupLayout(collisionsDisplay);
                 collisionsDisplay.setLayout(collisionsDisplayLayout);
                 collisionsDisplayLayout.setHorizontalGroup(
-                        collisionsDisplayLayout.createParallelGroup()
-                                .addGap(0, 510, Short.MAX_VALUE)
+                    collisionsDisplayLayout.createParallelGroup()
+                        .addGap(0, 730, Short.MAX_VALUE)
                 );
                 collisionsDisplayLayout.setVerticalGroup(
-                        collisionsDisplayLayout.createParallelGroup()
-                                .addGap(0, 510, Short.MAX_VALUE)
+                    collisionsDisplayLayout.createParallelGroup()
+                        .addGap(0, 542, Short.MAX_VALUE)
                 );
             }
             jPanel2.add(collisionsDisplay);
@@ -314,12 +314,12 @@ public class CollisionsEditorDialog extends JDialog {
                 GroupLayout collisionsTypesDisplayLayout = new GroupLayout(collisionsTypesDisplay);
                 collisionsTypesDisplay.setLayout(collisionsTypesDisplayLayout);
                 collisionsTypesDisplayLayout.setHorizontalGroup(
-                        collisionsTypesDisplayLayout.createParallelGroup()
-                                .addGap(0, 126, Short.MAX_VALUE)
+                    collisionsTypesDisplayLayout.createParallelGroup()
+                        .addGap(0, 198, Short.MAX_VALUE)
                 );
                 collisionsTypesDisplayLayout.setVerticalGroup(
-                        collisionsTypesDisplayLayout.createParallelGroup()
-                                .addGap(0, 510, Short.MAX_VALUE)
+                    collisionsTypesDisplayLayout.createParallelGroup()
+                        .addGap(0, 542, Short.MAX_VALUE)
                 );
             }
             jPanel3.add(collisionsTypesDisplay);
@@ -333,7 +333,7 @@ public class CollisionsEditorDialog extends JDialog {
 
             //---- jtfCollisionType ----
             jtfCollisionType.setEditable(false);
-            jtfCollisionType.setBackground(Color.white);
+            jtfCollisionType.setBackground(UIManager.getColor("TextPane.background"));
             jPanel4.add(jtfCollisionType);
         }
         contentPane.add(jPanel4, "cell 1 2");
@@ -353,26 +353,26 @@ public class CollisionsEditorDialog extends JDialog {
         {
             jPanel6.setBorder(new TitledBorder(null, "Collision File", TitledBorder.LEADING, TitledBorder.ABOVE_TOP));
             jPanel6.setLayout(new GridBagLayout());
-            ((GridBagLayout) jPanel6.getLayout()).columnWidths = new int[]{0, 0};
-            ((GridBagLayout) jPanel6.getLayout()).rowHeights = new int[]{0, 0, 0};
-            ((GridBagLayout) jPanel6.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
-            ((GridBagLayout) jPanel6.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)jPanel6.getLayout()).columnWidths = new int[] {0, 0};
+            ((GridBagLayout)jPanel6.getLayout()).rowHeights = new int[] {0, 0, 0};
+            ((GridBagLayout)jPanel6.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+            ((GridBagLayout)jPanel6.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
             //---- jbImportCollisions ----
             jbImportCollisions.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
             jbImportCollisions.setText("Import");
             jbImportCollisions.addActionListener(e -> jbImportCollisionsActionPerformed(e));
             jPanel6.add(jbImportCollisions, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0), 0, 0));
 
             //---- jbExportCollisions ----
             jbExportCollisions.setIcon(new ImageIcon(getClass().getResource("/icons/ExportIcon.png")));
             jbExportCollisions.setText("Export");
             jbExportCollisions.addActionListener(e -> jbExportCollisionsActionPerformed(e));
             jPanel6.add(jbExportCollisions, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0), 0, 0));
         }
         contentPane.add(jPanel6, "cell 2 1 1 3");
 

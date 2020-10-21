@@ -4,7 +4,7 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$layoutConstraints": "insets dialog,hidemode 3,gap 5 5"
 			"$columnConstraints": "[grow,fill][fill]"
 			"$rowConstraints": "[grow,fill]"
 		} ) {
@@ -83,7 +83,7 @@ new FormModel {
 					"border": new javax.swing.border.TitledBorder( "Plate Info" )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "jLabel2"
-						"foreground": new java.awt.Color( 0, 0, 204, 255 )
+						"foreground": new java.awt.Color( 51, 204, 255, 255 )
 						"text": "Z Coordinate: "
 					} )
 					add( new FormComponent( "javax.swing.JTextField" ) {
