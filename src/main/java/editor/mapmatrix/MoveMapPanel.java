@@ -67,40 +67,43 @@ public class MoveMapPanel extends JPanel {
         jbDown = new JButton();
 
         //======== this ========
-        setLayout(new MigLayout(
-            "insets 0,hidemode 3,gap 2 2",
-            // columns
-            "[grow,fill]" +
-            "[grow,fill]" +
-            "[grow,fill]",
-            // rows
-            "[grow,fill]" +
-            "[grow,fill]" +
-            "[grow,fill]"));
+        setLayout(new GridBagLayout());
+        ((GridBagLayout)getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0};
+        ((GridBagLayout)getLayout()).columnWeights = new double[] {1.0, 1.0, 1.0, 1.0E-4};
+        ((GridBagLayout)getLayout()).rowWeights = new double[] {1.0, 1.0, 1.0, 1.0E-4};
 
         //---- jbUp ----
         jbUp.setText("\u25b2");
         jbUp.setMargin(new Insets(2, 2, 2, 2));
         jbUp.addActionListener(e -> jbUpActionPerformed(e));
-        add(jbUp, "cell 1 0");
+        add(jbUp, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
 
         //---- jbLeft ----
         jbLeft.setText("\u25c4");
         jbLeft.setMargin(new Insets(2, 2, 2, 2));
         jbLeft.addActionListener(e -> jbLeftActionPerformed(e));
-        add(jbLeft, "cell 0 1");
+        add(jbLeft, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 5), 0, 0));
 
         //---- jbRight ----
         jbRight.setText("\u25ba");
         jbRight.setMargin(new Insets(2, 2, 2, 2));
         jbRight.addActionListener(e -> jbRightActionPerformed(e));
-        add(jbRight, "cell 2 1");
+        add(jbRight, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 5, 0), 0, 0));
 
         //---- jbDown ----
         jbDown.setText("\u25bc");
         jbDown.setMargin(new Insets(2, 2, 2, 2));
         jbDown.addActionListener(e -> jbDownActionPerformed(e));
-        add(jbDown, "cell 1 2");
+        add(jbDown, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+            new Insets(0, 0, 0, 5), 0, 0));
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 

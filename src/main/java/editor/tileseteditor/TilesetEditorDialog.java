@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
@@ -26,8 +25,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -41,6 +38,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import net.miginfocom.swing.*;
 
 import tileset.NormalsNotFoundException;
@@ -74,7 +72,8 @@ public class TilesetEditorDialog extends JDialog {
 
     private static final Color redColor = new Color(255, 200, 200);
     private static final Color greenColor = new Color(200, 255, 200);
-    private static final Color whiteColor = Color.white;
+    private static final Color defaultTextPaneColor = UIManager.getColor("TextPane.background");
+    private static final Color defaultInactiveTextPaneColor = UIManager.getColor("TextPane.inactiveForeground");
 
     private ArrayList<ImageIcon> materialIcons = new ArrayList<>();
 
@@ -426,7 +425,7 @@ public class TilesetEditorDialog extends JDialog {
             handler.getTileSelected().setGlobalTextureMapping(selected);
             jtfGlobalTexScale.setEditable(selected);
             jbGlobalTexScale.setEnabled(selected);
-            jtfGlobalTexScale.setBackground(selected ? Color.white : Color.lightGray);
+            jtfGlobalTexScale.setBackground(selected ? defaultTextPaneColor : defaultInactiveTextPaneColor);
         }
     }
 
@@ -1034,21 +1033,21 @@ public class TilesetEditorDialog extends JDialog {
     private void updateViewXOffset(Tile tile) {
         jtfXOffsetActive.value = false;
         jtfXOffset.setText(String.valueOf(tile.getXOffset()));
-        jtfXOffset.setBackground(whiteColor);
+        jtfXOffset.setBackground(defaultTextPaneColor);
         jtfXOffsetActive.value = true;
     }
 
     private void updateViewYOffset(Tile tile) {
         jtfYOffsetActive.value = false;
         jtfYOffset.setText(String.valueOf(tile.getYOffset()));
-        jtfYOffset.setBackground(whiteColor);
+        jtfYOffset.setBackground(defaultTextPaneColor);
         jtfYOffsetActive.value = true;
     }
 
     private void updateViewGlobalTexScale(Tile tile) {
         jtfGlobalTexScale.setText(String.valueOf(tile.getGlobalTextureScale()));
         boolean enabled = tile.useGlobalTextureMapping();
-        jtfGlobalTexScale.setBackground(enabled ? Color.white : Color.lightGray);
+        jtfGlobalTexScale.setBackground(enabled ? defaultTextPaneColor : defaultInactiveTextPaneColor);
         jtfGlobalTexScale.setEditable(enabled);
         jbGlobalTexScale.setEnabled(enabled);
     }
@@ -1135,7 +1134,7 @@ public class TilesetEditorDialog extends JDialog {
             String mName = handler.getTileset().getMaterialName(jlistINames.getSelectedIndex());
             jtfMaterialNameActive.value = false;
             jtfMaterialName.setText(mName);
-            jtfMaterialName.setBackground(Color.white);
+            jtfMaterialName.setBackground(defaultTextPaneColor);
             jtfMaterialNameActive.value = true;
         }
     }
@@ -1145,7 +1144,7 @@ public class TilesetEditorDialog extends JDialog {
             String pName = handler.getTileset().getPaletteNameImd(jlistINames.getSelectedIndex());
             jtfPaletteNameActive.value = false;
             jtfPaletteName.setText(pName);
-            jtfPaletteName.setBackground(Color.white);
+            jtfPaletteName.setBackground(defaultTextPaneColor);
             jtfPaletteNameActive.value = true;
         }
     }
@@ -1155,7 +1154,7 @@ public class TilesetEditorDialog extends JDialog {
             String tName = handler.getTileset().getTextureNameImd(jlistINames.getSelectedIndex());
             jtfTextureNameActive.value = false;
             jtfTextureName.setText(tName);
-            jtfTextureName.setBackground(Color.white);
+            jtfTextureName.setBackground(defaultTextPaneColor);
             jtfTextureNameActive.value = true;
         }
     }
@@ -1459,92 +1458,107 @@ public class TilesetEditorDialog extends JDialog {
         tileSelector = new TileSelector();
         jTabbedPane1 = new JTabbedPane();
         jPanel1 = new JPanel();
-        jbRemoveTile = new JButton();
-        jtfIndexTile = new JTextField();
-        jbMoveDown = new JButton();
-        jbMoveUp = new JButton();
+        panel8 = new JPanel();
         jLabel3 = new JLabel();
+        jtfIndexTile = new JTextField();
+        jLabel23 = new JLabel();
+        jbMoveUp = new JButton();
+        jbMoveDown = new JButton();
+        panel1 = new JPanel();
+        jbAddTile = new JButton();
+        jbRemoveTile = new JButton();
         jbDuplicateTile = new JButton();
+        jbImportTiles = new JButton();
         jPanel5 = new JPanel();
-        jLabel10 = new JLabel();
-        jcbTileableY = new JCheckBox();
-        jtfGlobalTexScale = new JTextField();
-        jbGlobalTexScale = new JButton();
+        panel2 = new JPanel();
+        jLabel1 = new JLabel();
+        jbLessSizeX = new JButton();
+        jtfSizeX = new JTextField();
         jbMoreSizeX = new JButton();
-        jcbUtileable = new JCheckBox();
         jLabel2 = new JLabel();
+        jbLessSizeY = new JButton();
+        jtfSizeY = new JTextField();
+        jbMoreSizeY = new JButton();
+        panel4 = new JPanel();
+        jcbTileableX = new JCheckBox();
+        jcbUtileable = new JCheckBox();
+        jcbTileableY = new JCheckBox();
         jcbVtileable = new JCheckBox();
+        panel3 = new JPanel();
         jLabel14 = new JLabel();
         jtfXOffset = new JTextField();
         jLabel15 = new JLabel();
-        jtfYOffset = new JTextField();
-        jtfSizeY = new JTextField();
         jbXOffset = new JButton();
+        jtfYOffset = new JTextField();
         jbYOffset = new JButton();
-        jLabel1 = new JLabel();
-        jtfSizeX = new JTextField();
-        jcbTileableX = new JCheckBox();
-        jbLessSizeX = new JButton();
-        jbMoreSizeY = new JButton();
-        jbLessSizeY = new JButton();
+        panel5 = new JPanel();
+        jLabel10 = new JLabel();
+        jtfGlobalTexScale = new JTextField();
+        jbGlobalTexScale = new JButton();
         jcbGlobalTexMapping = new JCheckBox();
         jPanel6 = new JPanel();
         jLabel5 = new JLabel();
         jtfObjName = new JTextField();
+        panel10 = new JPanel();
         jbExportTileAsObj = new JButton();
         jbImportTileAsObj = new JButton();
         jbEditVertexColors = new JButton();
         jPanel7 = new JPanel();
+        textureDisplay = new TextureDisplay();
+        panel6 = new JPanel();
         jLabel16 = new JLabel();
         jtfNumTextures = new JTextField();
         jLabel4 = new JLabel();
         jSpinner1 = new JSpinner();
-        jcbMaterial = new JComboBox<>();
-        textureDisplay = new TextureDisplay();
-        jbAddTexture = new JButton();
+        panel7 = new JPanel();
         jLabel22 = new JLabel();
-        jbAddTile = new JButton();
-        jLabel23 = new JLabel();
-        jbImportTiles = new JButton();
+        jcbMaterial = new JComboBox<>();
+        jbAddTexture = new JButton();
         jPanel3 = new JPanel();
+        panel13 = new JPanel();
+        jLabel21 = new JLabel();
         jScrollPane1 = new JScrollPane();
         jlistINames = new JList<>();
-        jtfPaletteName = new JTextField();
-        jLabel6 = new JLabel();
-        jLabel7 = new JLabel();
-        jtfTextureName = new JTextField();
-        jbTextName = new JButton();
-        jbPaletteName = new JButton();
-        jcbEnableFog = new JCheckBox();
-        jcbRenderFrontAndBack = new JCheckBox();
-        jcbUniformNormal = new JCheckBox();
+        panel11 = new JPanel();
         jLabel8 = new JLabel();
+        jLabel7 = new JLabel();
+        jLabel6 = new JLabel();
+        jtfPaletteName = new JTextField();
+        jtfTextureName = new JTextField();
         jtfMaterialName = new JTextField();
         jbMaterialName = new JButton();
+        jbTextName = new JButton();
+        jbPaletteName = new JButton();
         jLabel9 = new JLabel();
-        jSpinner2 = new JSpinner();
         jLabel11 = new JLabel();
-        jcbTexGenMode = new JComboBox<>();
-        textureDisplayMaterial = new TextureDisplayMaterial();
-        jcbAlwaysIncludedInImd = new JCheckBox();
-        jbMoveMaterialUp = new JButton();
-        jbMoveMaterialDown = new JButton();
-        jbReplaceMaterial = new JButton();
         jLabel17 = new JLabel();
-        jcbTexTilingU = new JComboBox<>();
         jLabel18 = new JLabel();
-        jcbTexTilingV = new JComboBox<>();
         jLabel19 = new JLabel();
+        jSpinner2 = new JSpinner();
+        jcbTexGenMode = new JComboBox<>();
+        jcbTexTilingU = new JComboBox<>();
+        jcbTexTilingV = new JComboBox<>();
         jcbColorFormat = new JComboBox<>();
+        panel12 = new JPanel();
+        jcbEnableFog = new JCheckBox();
+        jcbUniformNormal = new JCheckBox();
+        jcbRenderFrontAndBack = new JCheckBox();
+        jcbAlwaysIncludedInImd = new JCheckBox();
+        jcbRenderBorder = new JCheckBox();
+        panel14 = new JPanel();
         jLabel20 = new JLabel();
         jcbL0 = new JCheckBox();
         jcbL1 = new JCheckBox();
         jcbL2 = new JCheckBox();
         jcbL3 = new JCheckBox();
-        jbReplaceTexture = new JButton();
-        jcbRenderBorder = new JCheckBox();
-        jLabel21 = new JLabel();
         jcbUseVertexColors = new JCheckBox();
+        panel15 = new JPanel();
+        panel16 = new JPanel();
+        jbMoveMaterialUp = new JButton();
+        jbMoveMaterialDown = new JButton();
+        textureDisplayMaterial = new TextureDisplayMaterial();
+        jbReplaceTexture = new JButton();
+        jbReplaceMaterial = new JButton();
         jTabbedPane2 = new JTabbedPane();
         jPanel4 = new JPanel();
         jLabel12 = new JLabel();
@@ -1565,43 +1579,46 @@ public class TilesetEditorDialog extends JDialog {
         jPanel9 = new JPanel();
         jScrollPaneSmartGrid = new JScrollPane();
         smartGridEditableDisplay = new SmartGridEditableDisplay();
+        panel9 = new JPanel();
         jbMoveSPaintUp = new JButton();
-        jbMoveSPaintDown = new JButton();
         jbAddSmartGrid = new JButton();
+        jbMoveSPaintDown = new JButton();
         jbRemoveSmartGrid = new JButton();
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tileset Editor");
         setIconImage(null);
-        setMinimumSize(new Dimension(1094, 602));
+        setMinimumSize(null);
         setModal(true);
         Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 0,hidemode 3,gap 5 5",
-            // columns
-            "[grow,fill]" +
-            "[fill]" +
-            "[fill]" +
-            "[fill]",
-            // rows
-            "[grow,fill]" +
-            "[fill]"));
+                "insets dialog,hidemode 3,gap 5 5",
+                // columns
+                "[304,grow,fill]" +
+                        "[fill]" +
+                        "[fill]" +
+                        "[487,grow,fill]",
+                // rows
+                "[grow,fill]" +
+                        "[fill]"));
 
         //======== tileDisplay ========
         {
             tileDisplay.setBorder(new BevelBorder(BevelBorder.LOWERED));
-            tileDisplay.setPreferredSize(new Dimension(350, 300));
+            tileDisplay.setPreferredSize(null);
+            tileDisplay.setMaximumSize(null);
+            tileDisplay.setMinimumSize(null);
 
             GroupLayout tileDisplayLayout = new GroupLayout(tileDisplay);
             tileDisplay.setLayout(tileDisplayLayout);
             tileDisplayLayout.setHorizontalGroup(
-                tileDisplayLayout.createParallelGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    tileDisplayLayout.createParallelGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
             );
             tileDisplayLayout.setVerticalGroup(
-                tileDisplayLayout.createParallelGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    tileDisplayLayout.createParallelGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
             );
         }
         contentPane.add(tileDisplay, "cell 0 0");
@@ -1609,6 +1626,8 @@ public class TilesetEditorDialog extends JDialog {
         //======== jPanel2 ========
         {
             jPanel2.setBorder(new TitledBorder("Tile Selector"));
+            jPanel2.setMinimumSize(new Dimension(150, 31));
+            jPanel2.setLayout(new BoxLayout(jPanel2, BoxLayout.X_AXIS));
 
             //======== jScrollPane2 ========
             {
@@ -1618,6 +1637,8 @@ public class TilesetEditorDialog extends JDialog {
                 //======== tileSelector ========
                 {
                     tileSelector.setPreferredSize(new Dimension(128, 0));
+                    tileSelector.setMaximumSize(null);
+                    tileSelector.setMinimumSize(null);
                     tileSelector.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mousePressed(MouseEvent e) {
@@ -1628,834 +1649,1118 @@ public class TilesetEditorDialog extends JDialog {
                     GroupLayout tileSelectorLayout = new GroupLayout(tileSelector);
                     tileSelector.setLayout(tileSelectorLayout);
                     tileSelectorLayout.setHorizontalGroup(
-                        tileSelectorLayout.createParallelGroup()
-                            .addGap(0, 128, Short.MAX_VALUE)
+                            tileSelectorLayout.createParallelGroup()
+                                    .addGap(0, 128, Short.MAX_VALUE)
                     );
                     tileSelectorLayout.setVerticalGroup(
-                        tileSelectorLayout.createParallelGroup()
-                            .addGap(0, 672, Short.MAX_VALUE)
+                            tileSelectorLayout.createParallelGroup()
+                                    .addGap(0, 689, Short.MAX_VALUE)
                     );
                 }
                 jScrollPane2.setViewportView(tileSelector);
             }
-
-            GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
-            jPanel2.setLayout(jPanel2Layout);
-            jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup()
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                        .addGap(0, 0, 0))
-            );
-            jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup()
-                    .addComponent(jScrollPane2)
-            );
+            jPanel2.add(jScrollPane2);
         }
         contentPane.add(jPanel2, "cell 1 0 1 2");
 
         //======== jTabbedPane1 ========
         {
+            jTabbedPane1.setMinimumSize(null);
+            jTabbedPane1.setMaximumSize(null);
+            jTabbedPane1.setPreferredSize(null);
 
             //======== jPanel1 ========
             {
+                jPanel1.setMinimumSize(null);
+                jPanel1.setPreferredSize(null);
+                jPanel1.setMaximumSize(null);
+                jPanel1.setLayout(new GridBagLayout());
+                ((GridBagLayout) jPanel1.getLayout()).columnWidths = new int[]{0, 0};
+                ((GridBagLayout) jPanel1.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+                ((GridBagLayout) jPanel1.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
+                ((GridBagLayout) jPanel1.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
-                //---- jbRemoveTile ----
-                jbRemoveTile.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveTileIcon.png")));
-                jbRemoveTile.setText("Remove Tiles");
-                jbRemoveTile.addActionListener(e -> jbRemoveTileActionPerformed(e));
+                //======== panel8 ========
+                {
+                    panel8.setMaximumSize(null);
+                    panel8.setMinimumSize(null);
+                    panel8.setPreferredSize(null);
+                    panel8.setLayout(new GridBagLayout());
+                    ((GridBagLayout) panel8.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0, 0};
+                    ((GridBagLayout) panel8.getLayout()).rowHeights = new int[]{0, 0};
+                    ((GridBagLayout) panel8.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 1.0E-4};
+                    ((GridBagLayout) panel8.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
 
-                //---- jtfIndexTile ----
-                jtfIndexTile.setHorizontalAlignment(SwingConstants.CENTER);
-                jtfIndexTile.setEnabled(false);
+                    //---- jLabel3 ----
+                    jLabel3.setText("Tile selected: ");
+                    jLabel3.setMaximumSize(null);
+                    jLabel3.setMinimumSize(null);
+                    jLabel3.setPreferredSize(null);
+                    panel8.add(jLabel3, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
-                //---- jbMoveDown ----
-                jbMoveDown.setText("\u25bc");
-                jbMoveDown.addActionListener(e -> jbMoveDownActionPerformed(e));
+                    //---- jtfIndexTile ----
+                    jtfIndexTile.setHorizontalAlignment(SwingConstants.CENTER);
+                    jtfIndexTile.setEnabled(false);
+                    jtfIndexTile.setMaximumSize(null);
+                    jtfIndexTile.setMinimumSize(null);
+                    jtfIndexTile.setPreferredSize(null);
+                    panel8.add(jtfIndexTile, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
-                //---- jbMoveUp ----
-                jbMoveUp.setText("\u25b2");
-                jbMoveUp.addActionListener(e -> jbMoveUpActionPerformed(e));
+                    //---- jLabel23 ----
+                    jLabel23.setText("Move tile:");
+                    jLabel23.setMaximumSize(null);
+                    jLabel23.setMinimumSize(null);
+                    jLabel23.setPreferredSize(null);
+                    panel8.add(jLabel23, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
-                //---- jLabel3 ----
-                jLabel3.setText("Tile selected: ");
+                    //---- jbMoveUp ----
+                    jbMoveUp.setText("\u25b2");
+                    jbMoveUp.setMaximumSize(null);
+                    jbMoveUp.setMinimumSize(null);
+                    jbMoveUp.setPreferredSize(null);
+                    jbMoveUp.addActionListener(e -> jbMoveUpActionPerformed(e));
+                    panel8.add(jbMoveUp, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
-                //---- jbDuplicateTile ----
-                jbDuplicateTile.setIcon(new ImageIcon(getClass().getResource("/icons/DuplicateTileIcon.png")));
-                jbDuplicateTile.setText("Duplicate Tiles");
-                jbDuplicateTile.addActionListener(e -> jbDuplicateTileActionPerformed(e));
+                    //---- jbMoveDown ----
+                    jbMoveDown.setText("\u25bc");
+                    jbMoveDown.setMaximumSize(null);
+                    jbMoveDown.setMinimumSize(null);
+                    jbMoveDown.setPreferredSize(null);
+                    jbMoveDown.addActionListener(e -> jbMoveDownActionPerformed(e));
+                    panel8.add(jbMoveDown, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
+                }
+                jPanel1.add(panel8, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
+
+                //======== panel1 ========
+                {
+                    panel1.setMaximumSize(null);
+                    panel1.setMinimumSize(null);
+                    panel1.setPreferredSize(null);
+                    panel1.setLayout(new GridLayout(1, 4));
+
+                    //---- jbAddTile ----
+                    jbAddTile.setIcon(new ImageIcon(getClass().getResource("/icons/AddTileIcon.png")));
+                    jbAddTile.setText("Add Tiles...");
+                    jbAddTile.setMaximumSize(null);
+                    jbAddTile.setMinimumSize(null);
+                    jbAddTile.setPreferredSize(null);
+                    jbAddTile.addActionListener(e -> jbAddTileActionPerformed(e));
+                    panel1.add(jbAddTile);
+
+                    //---- jbRemoveTile ----
+                    jbRemoveTile.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveTileIcon.png")));
+                    jbRemoveTile.setText("Remove Tiles");
+                    jbRemoveTile.setMaximumSize(null);
+                    jbRemoveTile.setMinimumSize(null);
+                    jbRemoveTile.setPreferredSize(null);
+                    jbRemoveTile.addActionListener(e -> jbRemoveTileActionPerformed(e));
+                    panel1.add(jbRemoveTile);
+
+                    //---- jbDuplicateTile ----
+                    jbDuplicateTile.setIcon(new ImageIcon(getClass().getResource("/icons/DuplicateTileIcon.png")));
+                    jbDuplicateTile.setText("Duplicate Tiles");
+                    jbDuplicateTile.setMaximumSize(null);
+                    jbDuplicateTile.setMinimumSize(null);
+                    jbDuplicateTile.setPreferredSize(null);
+                    jbDuplicateTile.addActionListener(e -> jbDuplicateTileActionPerformed(e));
+                    panel1.add(jbDuplicateTile);
+
+                    //---- jbImportTiles ----
+                    jbImportTiles.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
+                    jbImportTiles.setText("Import Tiles...");
+                    jbImportTiles.setMaximumSize(null);
+                    jbImportTiles.setMinimumSize(null);
+                    jbImportTiles.setPreferredSize(null);
+                    jbImportTiles.addActionListener(e -> jbImportTilesActionPerformed(e));
+                    panel1.add(jbImportTiles);
+                }
+                jPanel1.add(panel1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                 //======== jPanel5 ========
                 {
                     jPanel5.setBorder(new TitledBorder("Tile Properties"));
+                    jPanel5.setMaximumSize(null);
+                    jPanel5.setMinimumSize(null);
+                    jPanel5.setPreferredSize(null);
+                    jPanel5.setLayout(new MigLayout(
+                            "insets 0,hidemode 3,gap 5 5",
+                            // columns
+                            "[grow,fill]" +
+                                    "[fill]",
+                            // rows
+                            "[]" +
+                                    "[fill]" +
+                                    "[fill]"));
 
-                    //---- jLabel10 ----
-                    jLabel10.setText("Texture Scale:");
+                    //======== panel2 ========
+                    {
+                        panel2.setMaximumSize(null);
+                        panel2.setMinimumSize(null);
+                        panel2.setPreferredSize(null);
+                        panel2.setLayout(new GridBagLayout());
+                        ((GridBagLayout) panel2.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0};
+                        ((GridBagLayout) panel2.getLayout()).rowHeights = new int[]{0, 0, 0};
+                        ((GridBagLayout) panel2.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 1.0E-4};
+                        ((GridBagLayout) panel2.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
 
-                    //---- jcbTileableY ----
-                    jcbTileableY.setForeground(new Color(0, 153, 0));
-                    jcbTileableY.setText("Y Tileable");
-                    jcbTileableY.addActionListener(e -> jcbTileableYActionPerformed(e));
+                        //---- jLabel1 ----
+                        jLabel1.setForeground(new Color(204, 0, 0));
+                        jLabel1.setText("X Size:");
+                        jLabel1.setMaximumSize(null);
+                        jLabel1.setMinimumSize(null);
+                        jLabel1.setPreferredSize(null);
+                        panel2.add(jLabel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 5, 5), 0, 0));
 
-                    //---- jtfGlobalTexScale ----
-                    jtfGlobalTexScale.setText(" ");
+                        //---- jbLessSizeX ----
+                        jbLessSizeX.setText("<");
+                        jbLessSizeX.setMaximumSize(null);
+                        jbLessSizeX.setMinimumSize(null);
+                        jbLessSizeX.setPreferredSize(null);
+                        jbLessSizeX.addActionListener(e -> jbLessSizeXActionPerformed(e));
+                        panel2.add(jbLessSizeX, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 5, 5), 0, 0));
 
-                    //---- jbGlobalTexScale ----
-                    jbGlobalTexScale.setText("Apply");
-                    jbGlobalTexScale.addActionListener(e -> jbGlobalTexScaleActionPerformed(e));
+                        //---- jtfSizeX ----
+                        jtfSizeX.setEditable(false);
+                        jtfSizeX.setHorizontalAlignment(SwingConstants.CENTER);
+                        jtfSizeX.setMaximumSize(null);
+                        jtfSizeX.setMinimumSize(null);
+                        jtfSizeX.setPreferredSize(null);
+                        panel2.add(jtfSizeX, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 5, 5), 0, 0));
 
-                    //---- jbMoreSizeX ----
-                    jbMoreSizeX.setText(">");
-                    jbMoreSizeX.addActionListener(e -> jbMoreSizeXActionPerformed(e));
+                        //---- jbMoreSizeX ----
+                        jbMoreSizeX.setText(">");
+                        jbMoreSizeX.setMinimumSize(null);
+                        jbMoreSizeX.setMaximumSize(null);
+                        jbMoreSizeX.setPreferredSize(null);
+                        jbMoreSizeX.addActionListener(e -> jbMoreSizeXActionPerformed(e));
+                        panel2.add(jbMoreSizeX, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 5, 0), 0, 0));
 
-                    //---- jcbUtileable ----
-                    jcbUtileable.setForeground(new Color(204, 0, 0));
-                    jcbUtileable.setText("Texture U Tileable");
-                    jcbUtileable.addActionListener(e -> jcbUtileableActionPerformed(e));
+                        //---- jLabel2 ----
+                        jLabel2.setForeground(new Color(0, 153, 0));
+                        jLabel2.setText("Y Size:");
+                        jLabel2.setMaximumSize(null);
+                        jLabel2.setMinimumSize(null);
+                        jLabel2.setPreferredSize(null);
+                        panel2.add(jLabel2, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
-                    //---- jLabel2 ----
-                    jLabel2.setForeground(new Color(0, 153, 0));
-                    jLabel2.setText("Y Size:");
+                        //---- jbLessSizeY ----
+                        jbLessSizeY.setText("<");
+                        jbLessSizeY.setMaximumSize(null);
+                        jbLessSizeY.setMinimumSize(null);
+                        jbLessSizeY.setPreferredSize(null);
+                        jbLessSizeY.addActionListener(e -> jbLessSizeYActionPerformed(e));
+                        panel2.add(jbLessSizeY, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
-                    //---- jcbVtileable ----
-                    jcbVtileable.setForeground(new Color(0, 153, 0));
-                    jcbVtileable.setText("Texture V Tileable");
-                    jcbVtileable.addActionListener(e -> jcbVtileableActionPerformed(e));
+                        //---- jtfSizeY ----
+                        jtfSizeY.setEditable(false);
+                        jtfSizeY.setHorizontalAlignment(SwingConstants.CENTER);
+                        jtfSizeY.setMaximumSize(null);
+                        jtfSizeY.setMinimumSize(null);
+                        jtfSizeY.setPreferredSize(null);
+                        panel2.add(jtfSizeY, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
-                    //---- jLabel14 ----
-                    jLabel14.setForeground(new Color(204, 0, 0));
-                    jLabel14.setText("X Offset: ");
+                        //---- jbMoreSizeY ----
+                        jbMoreSizeY.setText(">");
+                        jbMoreSizeY.setMinimumSize(null);
+                        jbMoreSizeY.setMaximumSize(null);
+                        jbMoreSizeY.setPreferredSize(null);
+                        jbMoreSizeY.addActionListener(e -> jbMoreSizeYActionPerformed(e));
+                        panel2.add(jbMoreSizeY, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
+                    }
+                    jPanel5.add(panel2, "cell 0 0");
 
-                    //---- jtfXOffset ----
-                    jtfXOffset.setText(" ");
+                    //======== panel4 ========
+                    {
+                        panel4.setMaximumSize(null);
+                        panel4.setMinimumSize(null);
+                        panel4.setPreferredSize(null);
+                        panel4.setLayout(new GridLayout(2, 2));
 
-                    //---- jLabel15 ----
-                    jLabel15.setForeground(new Color(0, 153, 0));
-                    jLabel15.setText("Y Offset: ");
+                        //---- jcbTileableX ----
+                        jcbTileableX.setForeground(new Color(204, 0, 0));
+                        jcbTileableX.setText("X Tileable");
+                        jcbTileableX.setMaximumSize(null);
+                        jcbTileableX.setMinimumSize(null);
+                        jcbTileableX.setPreferredSize(null);
+                        jcbTileableX.addActionListener(e -> jcbTileableXActionPerformed(e));
+                        panel4.add(jcbTileableX);
 
-                    //---- jtfYOffset ----
-                    jtfYOffset.setText(" ");
+                        //---- jcbUtileable ----
+                        jcbUtileable.setForeground(new Color(204, 0, 0));
+                        jcbUtileable.setText("Texture U Tileable");
+                        jcbUtileable.setMaximumSize(null);
+                        jcbUtileable.setMinimumSize(null);
+                        jcbUtileable.setPreferredSize(null);
+                        jcbUtileable.addActionListener(e -> jcbUtileableActionPerformed(e));
+                        panel4.add(jcbUtileable);
 
-                    //---- jtfSizeY ----
-                    jtfSizeY.setEditable(false);
-                    jtfSizeY.setHorizontalAlignment(SwingConstants.CENTER);
+                        //---- jcbTileableY ----
+                        jcbTileableY.setForeground(new Color(0, 153, 0));
+                        jcbTileableY.setText("Y Tileable");
+                        jcbTileableY.setMaximumSize(null);
+                        jcbTileableY.setMinimumSize(null);
+                        jcbTileableY.setPreferredSize(null);
+                        jcbTileableY.addActionListener(e -> jcbTileableYActionPerformed(e));
+                        panel4.add(jcbTileableY);
 
-                    //---- jbXOffset ----
-                    jbXOffset.setText("Apply");
-                    jbXOffset.addActionListener(e -> jbXOffsetActionPerformed(e));
+                        //---- jcbVtileable ----
+                        jcbVtileable.setForeground(new Color(0, 153, 0));
+                        jcbVtileable.setText("Texture V Tileable");
+                        jcbVtileable.setMaximumSize(null);
+                        jcbVtileable.setMinimumSize(null);
+                        jcbVtileable.setPreferredSize(null);
+                        jcbVtileable.addActionListener(e -> jcbVtileableActionPerformed(e));
+                        panel4.add(jcbVtileable);
+                    }
+                    jPanel5.add(panel4, "cell 1 0");
 
-                    //---- jbYOffset ----
-                    jbYOffset.setText("Apply");
-                    jbYOffset.addActionListener(e -> jbYOffsetActionPerformed(e));
+                    //======== panel3 ========
+                    {
+                        panel3.setMaximumSize(null);
+                        panel3.setMinimumSize(null);
+                        panel3.setPreferredSize(null);
+                        panel3.setLayout(new GridBagLayout());
+                        ((GridBagLayout) panel3.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+                        ((GridBagLayout) panel3.getLayout()).rowHeights = new int[]{0, 0};
+                        ((GridBagLayout) panel3.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4};
+                        ((GridBagLayout) panel3.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
 
-                    //---- jLabel1 ----
-                    jLabel1.setForeground(new Color(204, 0, 0));
-                    jLabel1.setText("X Size:");
+                        //---- jLabel14 ----
+                        jLabel14.setForeground(new Color(204, 0, 0));
+                        jLabel14.setText("X Offset: ");
+                        jLabel14.setMaximumSize(null);
+                        jLabel14.setMinimumSize(null);
+                        jLabel14.setPreferredSize(null);
+                        panel3.add(jLabel14, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
-                    //---- jtfSizeX ----
-                    jtfSizeX.setEditable(false);
-                    jtfSizeX.setHorizontalAlignment(SwingConstants.CENTER);
+                        //---- jtfXOffset ----
+                        jtfXOffset.setText(" ");
+                        jtfXOffset.setMaximumSize(null);
+                        jtfXOffset.setMinimumSize(null);
+                        jtfXOffset.setPreferredSize(null);
+                        jtfXOffset.setForeground(UIManager.getColor("TextPane.foreground"));
+                        panel3.add(jtfXOffset, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
-                    //---- jcbTileableX ----
-                    jcbTileableX.setForeground(new Color(204, 0, 0));
-                    jcbTileableX.setText("X Tileable");
-                    jcbTileableX.addActionListener(e -> jcbTileableXActionPerformed(e));
+                        //---- jLabel15 ----
+                        jLabel15.setForeground(new Color(0, 153, 0));
+                        jLabel15.setText("Y Offset: ");
+                        jLabel15.setMaximumSize(null);
+                        jLabel15.setMinimumSize(null);
+                        jLabel15.setPreferredSize(null);
+                        panel3.add(jLabel15, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
-                    //---- jbLessSizeX ----
-                    jbLessSizeX.setText("<");
-                    jbLessSizeX.addActionListener(e -> jbLessSizeXActionPerformed(e));
+                        //---- jbXOffset ----
+                        jbXOffset.setText("Apply");
+                        jbXOffset.setMaximumSize(null);
+                        jbXOffset.setMinimumSize(null);
+                        jbXOffset.setPreferredSize(null);
+                        jbXOffset.addActionListener(e -> jbXOffsetActionPerformed(e));
+                        panel3.add(jbXOffset, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
-                    //---- jbMoreSizeY ----
-                    jbMoreSizeY.setText(">");
-                    jbMoreSizeY.addActionListener(e -> jbMoreSizeYActionPerformed(e));
+                        //---- jtfYOffset ----
+                        jtfYOffset.setText(" ");
+                        jtfYOffset.setMaximumSize(null);
+                        jtfYOffset.setMinimumSize(null);
+                        jtfYOffset.setPreferredSize(null);
+                        panel3.add(jtfYOffset, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
-                    //---- jbLessSizeY ----
-                    jbLessSizeY.setText("<");
-                    jbLessSizeY.addActionListener(e -> jbLessSizeYActionPerformed(e));
+                        //---- jbYOffset ----
+                        jbYOffset.setText("Apply");
+                        jbYOffset.setMaximumSize(null);
+                        jbYOffset.setMinimumSize(null);
+                        jbYOffset.setPreferredSize(null);
+                        jbYOffset.addActionListener(e -> jbYOffsetActionPerformed(e));
+                        panel3.add(jbYOffset, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
+                    }
+                    jPanel5.add(panel3, "cell 0 1 2 1");
 
-                    //---- jcbGlobalTexMapping ----
-                    jcbGlobalTexMapping.setText("Global Texture Mapping");
-                    jcbGlobalTexMapping.addActionListener(e -> jcbGlobalTexMappingActionPerformed(e));
+                    //======== panel5 ========
+                    {
+                        panel5.setMaximumSize(null);
+                        panel5.setMinimumSize(null);
+                        panel5.setPreferredSize(null);
+                        panel5.setLayout(new GridBagLayout());
+                        ((GridBagLayout) panel5.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0};
+                        ((GridBagLayout) panel5.getLayout()).rowHeights = new int[]{0, 0};
+                        ((GridBagLayout) panel5.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout) panel5.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
 
-                    GroupLayout jPanel5Layout = new GroupLayout(jPanel5);
-                    jPanel5.setLayout(jPanel5Layout);
-                    jPanel5Layout.setHorizontalGroup(
-                        jPanel5Layout.createParallelGroup()
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel5Layout.createParallelGroup()
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                                .addComponent(jLabel10)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jtfGlobalTexScale))
-                                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                                .addComponent(jLabel14)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jtfXOffset, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jPanel5Layout.createParallelGroup()
-                                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                                .addComponent(jbXOffset, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jLabel15)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jtfYOffset, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jbYOffset, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                                .addComponent(jbGlobalTexScale)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jcbGlobalTexMapping))))
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addGroup(jPanel5Layout.createParallelGroup()
-                                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jbLessSizeY))
-                                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                                .addComponent(jLabel1)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jbLessSizeX)))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel5Layout.createParallelGroup()
-                                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                                .addComponent(jtfSizeY, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jbMoreSizeY)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jcbTileableY)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jcbVtileable))
-                                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                                .addComponent(jtfSizeX, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jbMoreSizeX)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jcbTileableX)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jcbUtileable)))))
-                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    );
-                    jPanel5Layout.setVerticalGroup(
-                        jPanel5Layout.createParallelGroup()
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jbLessSizeX, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbMoreSizeX, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jcbTileableX)
-                                    .addComponent(jcbUtileable)
-                                    .addComponent(jtfSizeX, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jbLessSizeY, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbMoreSizeY, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jcbTileableY)
-                                    .addComponent(jcbVtileable)
-                                    .addComponent(jtfSizeY, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel14)
-                                    .addComponent(jtfXOffset, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbXOffset)
-                                    .addComponent(jLabel15)
-                                    .addComponent(jtfYOffset, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbYOffset))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel5Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jbGlobalTexScale)
-                                    .addComponent(jcbGlobalTexMapping)
-                                    .addComponent(jtfGlobalTexScale, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel10))
-                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    );
+                        //---- jLabel10 ----
+                        jLabel10.setText("Texture Scale:");
+                        jLabel10.setMaximumSize(null);
+                        jLabel10.setMinimumSize(null);
+                        jLabel10.setPreferredSize(null);
+                        panel5.add(jLabel10, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
+
+                        //---- jtfGlobalTexScale ----
+                        jtfGlobalTexScale.setText(" ");
+                        jtfGlobalTexScale.setMaximumSize(null);
+                        jtfGlobalTexScale.setMinimumSize(null);
+                        jtfGlobalTexScale.setPreferredSize(null);
+                        panel5.add(jtfGlobalTexScale, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
+
+                        //---- jbGlobalTexScale ----
+                        jbGlobalTexScale.setText("Apply");
+                        jbGlobalTexScale.setMaximumSize(null);
+                        jbGlobalTexScale.setMinimumSize(null);
+                        jbGlobalTexScale.setPreferredSize(null);
+                        jbGlobalTexScale.addActionListener(e -> jbGlobalTexScaleActionPerformed(e));
+                        panel5.add(jbGlobalTexScale, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
+
+                        //---- jcbGlobalTexMapping ----
+                        jcbGlobalTexMapping.setText("Global Texture Mapping");
+                        jcbGlobalTexMapping.setMinimumSize(null);
+                        jcbGlobalTexMapping.setMaximumSize(null);
+                        jcbGlobalTexMapping.setPreferredSize(null);
+                        jcbGlobalTexMapping.addActionListener(e -> jcbGlobalTexMappingActionPerformed(e));
+                        panel5.add(jcbGlobalTexMapping, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
+                    }
+                    jPanel5.add(panel5, "cell 0 2 2 1");
                 }
+                jPanel1.add(jPanel5, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                 //======== jPanel6 ========
                 {
                     jPanel6.setBorder(new TitledBorder("Tile 3D Model"));
+                    jPanel6.setMaximumSize(null);
+                    jPanel6.setMinimumSize(null);
+                    jPanel6.setPreferredSize(null);
+                    jPanel6.setLayout(new MigLayout(
+                            "insets 0,hidemode 3,gap 5 5",
+                            // columns
+                            "[fill]" +
+                                    "[grow,fill]",
+                            // rows
+                            "[fill]" +
+                                    "[fill]"));
 
                     //---- jLabel5 ----
                     jLabel5.setText("Model name:");
+                    jLabel5.setMaximumSize(null);
+                    jLabel5.setMinimumSize(null);
+                    jLabel5.setPreferredSize(null);
+                    jPanel6.add(jLabel5, "cell 0 0");
 
                     //---- jtfObjName ----
                     jtfObjName.setEditable(false);
                     jtfObjName.setColumns(17);
                     jtfObjName.setText(" ");
                     jtfObjName.setEnabled(false);
-                    jtfObjName.setMaximumSize(new Dimension(9, 20));
+                    jtfObjName.setMaximumSize(null);
+                    jtfObjName.setMinimumSize(null);
+                    jtfObjName.setPreferredSize(null);
+                    jPanel6.add(jtfObjName, "cell 1 0");
 
-                    //---- jbExportTileAsObj ----
-                    jbExportTileAsObj.setIcon(new ImageIcon(getClass().getResource("/icons/ExportTileIcon.png")));
-                    jbExportTileAsObj.setText("Export OBJ...");
-                    jbExportTileAsObj.addActionListener(e -> jbExportTileAsObjActionPerformed(e));
+                    //======== panel10 ========
+                    {
+                        panel10.setMaximumSize(null);
+                        panel10.setMinimumSize(null);
+                        panel10.setPreferredSize(null);
+                        panel10.setLayout(new GridLayout(1, 3));
 
-                    //---- jbImportTileAsObj ----
-                    jbImportTileAsObj.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
-                    jbImportTileAsObj.setText("Replace OBJ...");
-                    jbImportTileAsObj.addActionListener(e -> jbImportTileAsObjActionPerformed(e));
+                        //---- jbExportTileAsObj ----
+                        jbExportTileAsObj.setIcon(new ImageIcon(getClass().getResource("/icons/ExportTileIcon.png")));
+                        jbExportTileAsObj.setText("Export OBJ...");
+                        jbExportTileAsObj.setMaximumSize(null);
+                        jbExportTileAsObj.setMinimumSize(null);
+                        jbExportTileAsObj.setPreferredSize(null);
+                        jbExportTileAsObj.addActionListener(e -> jbExportTileAsObjActionPerformed(e));
+                        panel10.add(jbExportTileAsObj);
 
-                    //---- jbEditVertexColors ----
-                    jbEditVertexColors.setIcon(new ImageIcon(getClass().getResource("/icons/VertexColorEditorIcon.png")));
-                    jbEditVertexColors.setText("Edit Vertex Colors...");
-                    jbEditVertexColors.addActionListener(e -> jbEditVertexColorsActionPerformed(e));
+                        //---- jbImportTileAsObj ----
+                        jbImportTileAsObj.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
+                        jbImportTileAsObj.setText("Replace OBJ...");
+                        jbImportTileAsObj.setMaximumSize(null);
+                        jbImportTileAsObj.setMinimumSize(null);
+                        jbImportTileAsObj.setPreferredSize(null);
+                        jbImportTileAsObj.addActionListener(e -> jbImportTileAsObjActionPerformed(e));
+                        panel10.add(jbImportTileAsObj);
 
-                    GroupLayout jPanel6Layout = new GroupLayout(jPanel6);
-                    jPanel6.setLayout(jPanel6Layout);
-                    jPanel6Layout.setHorizontalGroup(
-                        jPanel6Layout.createParallelGroup()
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel6Layout.createParallelGroup()
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jbExportTileAsObj)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jbImportTileAsObj)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jbEditVertexColors)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtfObjName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGap(10, 10, 10))
-                    );
-                    jPanel6Layout.setVerticalGroup(
-                        jPanel6Layout.createParallelGroup()
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jtfObjName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel6Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jbExportTileAsObj)
-                                    .addComponent(jbImportTileAsObj)
-                                    .addComponent(jbEditVertexColors))
-                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    );
+                        //---- jbEditVertexColors ----
+                        jbEditVertexColors.setIcon(new ImageIcon(getClass().getResource("/icons/VertexColorEditorIcon.png")));
+                        jbEditVertexColors.setText("Edit Vertex Colors...");
+                        jbEditVertexColors.setMaximumSize(null);
+                        jbEditVertexColors.setMinimumSize(null);
+                        jbEditVertexColors.setPreferredSize(null);
+                        jbEditVertexColors.addActionListener(e -> jbEditVertexColorsActionPerformed(e));
+                        panel10.add(jbEditVertexColors);
+                    }
+                    jPanel6.add(panel10, "cell 1 1");
                 }
+                jPanel1.add(jPanel6, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                 //======== jPanel7 ========
                 {
                     jPanel7.setBorder(new TitledBorder("Materials"));
-
-                    //---- jLabel16 ----
-                    jLabel16.setText("Number of materials:");
-
-                    //---- jtfNumTextures ----
-                    jtfNumTextures.setHorizontalAlignment(SwingConstants.CENTER);
-                    jtfNumTextures.setEnabled(false);
-
-                    //---- jLabel4 ----
-                    jLabel4.setText("Material selected:");
-                    jLabel4.setToolTipText("");
-
-                    //---- jSpinner1 ----
-                    jSpinner1.addChangeListener(e -> jSpinner1StateChanged(e));
-
-                    //---- jcbMaterial ----
-                    jcbMaterial.setModel(new DefaultComboBoxModel<>(new String[] {
-
-                    }));
-                    jcbMaterial.addActionListener(e -> jcbMaterialActionPerformed(e));
+                    jPanel7.setMaximumSize(null);
+                    jPanel7.setMinimumSize(null);
+                    jPanel7.setPreferredSize(null);
+                    jPanel7.setLayout(new MigLayout(
+                            "insets 0,hidemode 3,gap 5 5",
+                            // columns
+                            "[grow,fill]" +
+                                    "[fill]",
+                            // rows
+                            "[fill]" +
+                                    "[grow,fill]"));
 
                     //======== textureDisplay ========
                     {
                         textureDisplay.setBorder(LineBorder.createBlackLineBorder());
-                        textureDisplay.setPreferredSize(new Dimension(128, 128));
+                        textureDisplay.setPreferredSize(new Dimension(127, 127));
+                        textureDisplay.setMaximumSize(new Dimension(127, 127));
+                        textureDisplay.setMinimumSize(new Dimension(127, 127));
 
                         GroupLayout textureDisplayLayout = new GroupLayout(textureDisplay);
                         textureDisplay.setLayout(textureDisplayLayout);
                         textureDisplayLayout.setHorizontalGroup(
-                            textureDisplayLayout.createParallelGroup()
-                                .addGap(0, 126, Short.MAX_VALUE)
+                                textureDisplayLayout.createParallelGroup()
+                                        .addGap(0, 125, Short.MAX_VALUE)
                         );
                         textureDisplayLayout.setVerticalGroup(
-                            textureDisplayLayout.createParallelGroup()
-                                .addGap(0, 126, Short.MAX_VALUE)
+                                textureDisplayLayout.createParallelGroup()
+                                        .addGap(0, 125, Short.MAX_VALUE)
                         );
                     }
+                    jPanel7.add(textureDisplay, "cell 1 0 1 2");
 
-                    //---- jbAddTexture ----
-                    jbAddTexture.setIcon(new ImageIcon(getClass().getResource("/icons/AddTileIcon.png")));
-                    jbAddTexture.setText("Add texture...");
-                    jbAddTexture.addActionListener(e -> jbAddTextureActionPerformed(e));
+                    //======== panel6 ========
+                    {
+                        panel6.setMaximumSize(null);
+                        panel6.setMinimumSize(null);
+                        panel6.setPreferredSize(null);
+                        panel6.setLayout(new GridBagLayout());
+                        ((GridBagLayout) panel6.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0};
+                        ((GridBagLayout) panel6.getLayout()).rowHeights = new int[]{0, 0};
+                        ((GridBagLayout) panel6.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 1.0E-4};
+                        ((GridBagLayout) panel6.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
 
-                    //---- jLabel22 ----
-                    jLabel22.setText("Material: ");
+                        //---- jLabel16 ----
+                        jLabel16.setText("Number of materials:");
+                        jLabel16.setMaximumSize(null);
+                        jLabel16.setMinimumSize(null);
+                        jLabel16.setPreferredSize(null);
+                        panel6.add(jLabel16, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
-                    GroupLayout jPanel7Layout = new GroupLayout(jPanel7);
-                    jPanel7.setLayout(jPanel7Layout);
-                    jPanel7Layout.setHorizontalGroup(
-                        jPanel7Layout.createParallelGroup()
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel7Layout.createParallelGroup()
-                                    .addGroup(jPanel7Layout.createSequentialGroup()
-                                        .addComponent(jLabel22)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jcbMaterial)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jbAddTexture)
-                                        .addGap(16, 16, 16))
-                                    .addGroup(jPanel7Layout.createSequentialGroup()
-                                        .addComponent(jLabel16)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtfNumTextures, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jSpinner1, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addComponent(textureDisplay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                    );
-                    jPanel7Layout.setVerticalGroup(
-                        jPanel7Layout.createParallelGroup()
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel7Layout.createParallelGroup()
-                                    .addComponent(textureDisplay, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel7Layout.createSequentialGroup()
-                                        .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel16)
-                                            .addComponent(jtfNumTextures, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jSpinner1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jPanel7Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel22)
-                                            .addComponent(jcbMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jbAddTexture))))
-                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    );
+                        //---- jtfNumTextures ----
+                        jtfNumTextures.setHorizontalAlignment(SwingConstants.CENTER);
+                        jtfNumTextures.setEnabled(false);
+                        jtfNumTextures.setMaximumSize(null);
+                        jtfNumTextures.setMinimumSize(null);
+                        jtfNumTextures.setPreferredSize(null);
+                        panel6.add(jtfNumTextures, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
+
+                        //---- jLabel4 ----
+                        jLabel4.setText("Material selected:");
+                        jLabel4.setToolTipText("");
+                        jLabel4.setMaximumSize(null);
+                        jLabel4.setMinimumSize(null);
+                        jLabel4.setPreferredSize(null);
+                        panel6.add(jLabel4, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
+
+                        //---- jSpinner1 ----
+                        jSpinner1.setMaximumSize(null);
+                        jSpinner1.setMinimumSize(null);
+                        jSpinner1.setPreferredSize(null);
+                        jSpinner1.addChangeListener(e -> jSpinner1StateChanged(e));
+                        panel6.add(jSpinner1, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
+                    }
+                    jPanel7.add(panel6, "cell 0 0");
+
+                    //======== panel7 ========
+                    {
+                        panel7.setMaximumSize(null);
+                        panel7.setMinimumSize(null);
+                        panel7.setPreferredSize(null);
+                        panel7.setLayout(new GridBagLayout());
+                        ((GridBagLayout) panel7.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
+                        ((GridBagLayout) panel7.getLayout()).rowHeights = new int[]{0, 0};
+                        ((GridBagLayout) panel7.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 1.0E-4};
+                        ((GridBagLayout) panel7.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
+
+                        //---- jLabel22 ----
+                        jLabel22.setText("Material: ");
+                        jLabel22.setMaximumSize(null);
+                        jLabel22.setMinimumSize(null);
+                        jLabel22.setPreferredSize(null);
+                        panel7.add(jLabel22, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
+
+                        //---- jcbMaterial ----
+                        jcbMaterial.setModel(new DefaultComboBoxModel<>(new String[]{
+
+                        }));
+                        jcbMaterial.setMaximumSize(null);
+                        jcbMaterial.setMinimumSize(null);
+                        jcbMaterial.setPreferredSize(null);
+                        jcbMaterial.addActionListener(e -> jcbMaterialActionPerformed(e));
+                        panel7.add(jcbMaterial, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
+
+                        //---- jbAddTexture ----
+                        jbAddTexture.setIcon(new ImageIcon(getClass().getResource("/icons/AddTileIcon.png")));
+                        jbAddTexture.setText("Add texture...");
+                        jbAddTexture.setMaximumSize(null);
+                        jbAddTexture.setMinimumSize(null);
+                        jbAddTexture.setPreferredSize(null);
+                        jbAddTexture.addActionListener(e -> jbAddTextureActionPerformed(e));
+                        panel7.add(jbAddTexture, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
+                    }
+                    jPanel7.add(panel7, "cell 0 1");
                 }
-
-                //---- jbAddTile ----
-                jbAddTile.setIcon(new ImageIcon(getClass().getResource("/icons/AddTileIcon.png")));
-                jbAddTile.setText("Add Tiles...");
-                jbAddTile.addActionListener(e -> jbAddTileActionPerformed(e));
-
-                //---- jLabel23 ----
-                jLabel23.setText("Move tile:");
-
-                //---- jbImportTiles ----
-                jbImportTiles.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
-                jbImportTiles.setText("Import Tiles...");
-                jbImportTiles.addActionListener(e -> jbImportTilesActionPerformed(e));
-
-                GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
-                jPanel1.setLayout(jPanel1Layout);
-                jPanel1Layout.setHorizontalGroup(
-                    jPanel1Layout.createParallelGroup()
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel1Layout.createParallelGroup()
-                                .addComponent(jPanel5, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel7, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup()
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel3)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jtfIndexTile, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jLabel23)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jbMoveUp)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jbMoveDown))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jbAddTile)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jbRemoveTile)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jbDuplicateTile)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jbImportTiles)))
-                                    .addGap(0, 0, Short.MAX_VALUE)))
-                            .addContainerGap())
-                );
-                jPanel1Layout.setVerticalGroup(
-                    jPanel1Layout.createParallelGroup()
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jtfIndexTile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3)
-                                .addComponent(jbMoveUp)
-                                .addComponent(jbMoveDown)
-                                .addComponent(jLabel23))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jbDuplicateTile)
-                                .addComponent(jbRemoveTile)
-                                .addComponent(jbAddTile)
-                                .addComponent(jbImportTiles))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jPanel5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanel6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanel7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                );
+                jPanel1.add(jPanel7, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
             }
             jTabbedPane1.addTab("Tile Editor", jPanel1);
 
             //======== jPanel3 ========
             {
+                jPanel3.setMinimumSize(null);
+                jPanel3.setPreferredSize(null);
+                jPanel3.setMaximumSize(null);
+                jPanel3.setLayout(new MigLayout(
+                        "insets dialog,hidemode 3,gap 5 5",
+                        // columns
+                        "[fill]" +
+                                "[grow,fill]",
+                        // rows
+                        "[grow,fill]" +
+                                "[fill]"));
 
-                //======== jScrollPane1 ========
+                //======== panel13 ========
                 {
-                    jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                    panel13.setMinimumSize(new Dimension(120, 0));
+                    panel13.setMaximumSize(null);
+                    panel13.setPreferredSize(null);
+                    panel13.setLayout(new GridBagLayout());
+                    ((GridBagLayout) panel13.getLayout()).columnWidths = new int[]{0, 0};
+                    ((GridBagLayout) panel13.getLayout()).rowHeights = new int[]{0, 0, 0};
+                    ((GridBagLayout) panel13.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
+                    ((GridBagLayout) panel13.getLayout()).rowWeights = new double[]{0.0, 1.0, 1.0E-4};
 
-                    //---- jlistINames ----
-                    jlistINames.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                    jlistINames.addListSelectionListener(e -> jlistINamesValueChanged(e));
-                    jScrollPane1.setViewportView(jlistINames);
+                    //---- jLabel21 ----
+                    jLabel21.setText("Material list:");
+                    jLabel21.setMaximumSize(null);
+                    jLabel21.setMinimumSize(null);
+                    jLabel21.setPreferredSize(null);
+                    panel13.add(jLabel21, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
+
+                    //======== jScrollPane1 ========
+                    {
+                        jScrollPane1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                        jScrollPane1.setMaximumSize(null);
+                        jScrollPane1.setMinimumSize(null);
+                        jScrollPane1.setPreferredSize(null);
+
+                        //---- jlistINames ----
+                        jlistINames.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                        jlistINames.setMaximumSize(null);
+                        jlistINames.setMinimumSize(null);
+                        jlistINames.setPreferredSize(null);
+                        jlistINames.addListSelectionListener(e -> jlistINamesValueChanged(e));
+                        jScrollPane1.setViewportView(jlistINames);
+                    }
+                    panel13.add(jScrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                 }
+                jPanel3.add(panel13, "cell 0 0 1 2");
 
-                //---- jtfPaletteName ----
-                jtfPaletteName.setText(" ");
-                jtfPaletteName.addActionListener(e -> jtfPaletteNameActionPerformed(e));
-
-                //---- jLabel6 ----
-                jLabel6.setText("Palette Name:");
-
-                //---- jLabel7 ----
-                jLabel7.setText("Texture Name:");
-
-                //---- jtfTextureName ----
-                jtfTextureName.setText(" ");
-                jtfTextureName.addActionListener(e -> jtfTextureNameActionPerformed(e));
-
-                //---- jbTextName ----
-                jbTextName.setText("Apply");
-                jbTextName.addActionListener(e -> jbTextNameActionPerformed(e));
-
-                //---- jbPaletteName ----
-                jbPaletteName.setText("Apply");
-                jbPaletteName.addActionListener(e -> jbPaletteNameActionPerformed(e));
-
-                //---- jcbEnableFog ----
-                jcbEnableFog.setText("Enable Fog");
-                jcbEnableFog.addActionListener(e -> jcbEnableFogActionPerformed(e));
-
-                //---- jcbRenderFrontAndBack ----
-                jcbRenderFrontAndBack.setText("Render Front and Back Face");
-                jcbRenderFrontAndBack.addActionListener(e -> jcbRenderFrontAndBackActionPerformed(e));
-
-                //---- jcbUniformNormal ----
-                jcbUniformNormal.setText("Uniform Normal Orientation");
-                jcbUniformNormal.addActionListener(e -> jcbUniformNormalActionPerformed(e));
-
-                //---- jLabel8 ----
-                jLabel8.setText("Material Name:");
-
-                //---- jtfMaterialName ----
-                jtfMaterialName.setText(" ");
-                jtfMaterialName.addActionListener(e -> jtfMaterialNameActionPerformed(e));
-
-                //---- jbMaterialName ----
-                jbMaterialName.setText("Apply");
-                jbMaterialName.addActionListener(e -> jbMaterialNameActionPerformed(e));
-
-                //---- jLabel9 ----
-                jLabel9.setText("Alpha: ");
-
-                //---- jSpinner2 ----
-                jSpinner2.setModel(new SpinnerNumberModel(0, 0, 31, 1));
-                jSpinner2.addChangeListener(e -> jSpinner2StateChanged(e));
-
-                //---- jLabel11 ----
-                jLabel11.setText("Tex Gen Mode: ");
-
-                //---- jcbTexGenMode ----
-                jcbTexGenMode.setMaximumRowCount(4);
-                jcbTexGenMode.setModel(new DefaultComboBoxModel<>(new String[] {
-                    "None",
-                    "Texture",
-                    "Normal",
-                    "Vertex"
-                }));
-                jcbTexGenMode.addActionListener(e -> jcbTexGenModeActionPerformed(e));
-
-                //======== textureDisplayMaterial ========
+                //======== panel11 ========
                 {
-                    textureDisplayMaterial.setBorder(LineBorder.createBlackLineBorder());
-                    textureDisplayMaterial.setPreferredSize(new Dimension(128, 128));
+                    panel11.setMaximumSize(null);
+                    panel11.setMinimumSize(null);
+                    panel11.setPreferredSize(null);
+                    panel11.setLayout(new GridBagLayout());
+                    ((GridBagLayout) panel11.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
+                    ((GridBagLayout) panel11.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                    ((GridBagLayout) panel11.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 1.0E-4};
+                    ((GridBagLayout) panel11.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
-                    GroupLayout textureDisplayMaterialLayout = new GroupLayout(textureDisplayMaterial);
-                    textureDisplayMaterial.setLayout(textureDisplayMaterialLayout);
-                    textureDisplayMaterialLayout.setHorizontalGroup(
-                        textureDisplayMaterialLayout.createParallelGroup()
-                            .addGap(0, 126, Short.MAX_VALUE)
-                    );
-                    textureDisplayMaterialLayout.setVerticalGroup(
-                        textureDisplayMaterialLayout.createParallelGroup()
-                            .addGap(0, 126, Short.MAX_VALUE)
-                    );
+                    //---- jLabel8 ----
+                    jLabel8.setText("Material Name:");
+                    jLabel8.setMaximumSize(null);
+                    jLabel8.setMinimumSize(null);
+                    jLabel8.setPreferredSize(null);
+                    panel11.add(jLabel8, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- jLabel7 ----
+                    jLabel7.setText("Texture Name:");
+                    jLabel7.setMaximumSize(null);
+                    jLabel7.setMinimumSize(null);
+                    jLabel7.setPreferredSize(null);
+                    panel11.add(jLabel7, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- jLabel6 ----
+                    jLabel6.setText("Palette Name:");
+                    jLabel6.setMaximumSize(null);
+                    jLabel6.setMinimumSize(null);
+                    jLabel6.setPreferredSize(null);
+                    panel11.add(jLabel6, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- jtfPaletteName ----
+                    jtfPaletteName.setText(" ");
+                    jtfPaletteName.setMaximumSize(null);
+                    jtfPaletteName.setMinimumSize(null);
+                    jtfPaletteName.setPreferredSize(null);
+                    jtfPaletteName.addActionListener(e -> jtfPaletteNameActionPerformed(e));
+                    panel11.add(jtfPaletteName, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- jtfTextureName ----
+                    jtfTextureName.setText(" ");
+                    jtfTextureName.setMaximumSize(null);
+                    jtfTextureName.setMinimumSize(null);
+                    jtfTextureName.setPreferredSize(null);
+                    jtfTextureName.addActionListener(e -> jtfTextureNameActionPerformed(e));
+                    panel11.add(jtfTextureName, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- jtfMaterialName ----
+                    jtfMaterialName.setText(" ");
+                    jtfMaterialName.setMaximumSize(null);
+                    jtfMaterialName.setMinimumSize(null);
+                    jtfMaterialName.setPreferredSize(null);
+                    jtfMaterialName.addActionListener(e -> jtfMaterialNameActionPerformed(e));
+                    panel11.add(jtfMaterialName, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- jbMaterialName ----
+                    jbMaterialName.setText("Apply");
+                    jbMaterialName.setMaximumSize(null);
+                    jbMaterialName.setMinimumSize(null);
+                    jbMaterialName.setPreferredSize(null);
+                    jbMaterialName.addActionListener(e -> jbMaterialNameActionPerformed(e));
+                    panel11.add(jbMaterialName, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- jbTextName ----
+                    jbTextName.setText("Apply");
+                    jbTextName.setMaximumSize(null);
+                    jbTextName.setMinimumSize(null);
+                    jbTextName.setPreferredSize(null);
+                    jbTextName.addActionListener(e -> jbTextNameActionPerformed(e));
+                    panel11.add(jbTextName, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- jbPaletteName ----
+                    jbPaletteName.setText("Apply");
+                    jbPaletteName.setMaximumSize(null);
+                    jbPaletteName.setMinimumSize(null);
+                    jbPaletteName.setPreferredSize(null);
+                    jbPaletteName.addActionListener(e -> jbPaletteNameActionPerformed(e));
+                    panel11.add(jbPaletteName, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- jLabel9 ----
+                    jLabel9.setText("Alpha: ");
+                    jLabel9.setMaximumSize(null);
+                    jLabel9.setMinimumSize(null);
+                    jLabel9.setPreferredSize(null);
+                    panel11.add(jLabel9, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- jLabel11 ----
+                    jLabel11.setText("Tex Gen Mode: ");
+                    jLabel11.setMaximumSize(null);
+                    jLabel11.setMinimumSize(null);
+                    jLabel11.setPreferredSize(null);
+                    panel11.add(jLabel11, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- jLabel17 ----
+                    jLabel17.setText("Tex Tiling U: ");
+                    jLabel17.setMaximumSize(null);
+                    jLabel17.setMinimumSize(null);
+                    jLabel17.setPreferredSize(null);
+                    panel11.add(jLabel17, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- jLabel18 ----
+                    jLabel18.setText("Tex Tiling V: ");
+                    jLabel18.setMaximumSize(null);
+                    jLabel18.setMinimumSize(null);
+                    jLabel18.setPreferredSize(null);
+                    panel11.add(jLabel18, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- jLabel19 ----
+                    jLabel19.setText("Color Format:");
+                    jLabel19.setMaximumSize(null);
+                    jLabel19.setMinimumSize(null);
+                    jLabel19.setPreferredSize(null);
+                    panel11.add(jLabel19, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
+
+                    //---- jSpinner2 ----
+                    jSpinner2.setModel(new SpinnerNumberModel(0, 0, 31, 1));
+                    jSpinner2.setMaximumSize(null);
+                    jSpinner2.setMinimumSize(null);
+                    jSpinner2.setPreferredSize(null);
+                    jSpinner2.addChangeListener(e -> jSpinner2StateChanged(e));
+                    panel11.add(jSpinner2, new GridBagConstraints(1, 3, 2, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- jcbTexGenMode ----
+                    jcbTexGenMode.setMaximumRowCount(4);
+                    jcbTexGenMode.setModel(new DefaultComboBoxModel<>(new String[]{
+                            "None",
+                            "Texture",
+                            "Normal",
+                            "Vertex"
+                    }));
+                    jcbTexGenMode.setMaximumSize(null);
+                    jcbTexGenMode.setMinimumSize(null);
+                    jcbTexGenMode.setPreferredSize(null);
+                    jcbTexGenMode.addActionListener(e -> jcbTexGenModeActionPerformed(e));
+                    panel11.add(jcbTexGenMode, new GridBagConstraints(1, 4, 2, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- jcbTexTilingU ----
+                    jcbTexTilingU.setMaximumRowCount(4);
+                    jcbTexTilingU.setModel(new DefaultComboBoxModel<>(new String[]{
+                            "Repeat",
+                            "Clamp",
+                            "Flip"
+                    }));
+                    jcbTexTilingU.setMaximumSize(null);
+                    jcbTexTilingU.setMinimumSize(null);
+                    jcbTexTilingU.setPreferredSize(null);
+                    jcbTexTilingU.addActionListener(e -> jcbTexTilingUActionPerformed(e));
+                    panel11.add(jcbTexTilingU, new GridBagConstraints(1, 5, 2, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- jcbTexTilingV ----
+                    jcbTexTilingV.setMaximumRowCount(4);
+                    jcbTexTilingV.setModel(new DefaultComboBoxModel<>(new String[]{
+                            "Repeat",
+                            "Clamp",
+                            "Flip"
+                    }));
+                    jcbTexTilingV.setMaximumSize(null);
+                    jcbTexTilingV.setMinimumSize(null);
+                    jcbTexTilingV.setPreferredSize(null);
+                    jcbTexTilingV.addActionListener(e -> jcbTexTilingVActionPerformed(e));
+                    panel11.add(jcbTexTilingV, new GridBagConstraints(1, 6, 2, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
+
+                    //---- jcbColorFormat ----
+                    jcbColorFormat.setModel(new DefaultComboBoxModel<>(new String[]{
+                            "Palette 4",
+                            "Palette 16",
+                            "Palette 256",
+                            "A3I5",
+                            "A5I3"
+                    }));
+                    jcbColorFormat.setMaximumSize(null);
+                    jcbColorFormat.setMinimumSize(null);
+                    jcbColorFormat.setPreferredSize(null);
+                    jcbColorFormat.addActionListener(e -> jcbColorFormatActionPerformed(e));
+                    panel11.add(jcbColorFormat, new GridBagConstraints(1, 7, 2, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
+
+                    //======== panel12 ========
+                    {
+                        panel12.setMaximumSize(null);
+                        panel12.setMinimumSize(null);
+                        panel12.setPreferredSize(null);
+                        panel12.setLayout(new GridLayout(6, 0));
+
+                        //---- jcbEnableFog ----
+                        jcbEnableFog.setText("Enable Fog");
+                        jcbEnableFog.setMaximumSize(null);
+                        jcbEnableFog.setMinimumSize(null);
+                        jcbEnableFog.setPreferredSize(null);
+                        jcbEnableFog.addActionListener(e -> jcbEnableFogActionPerformed(e));
+                        panel12.add(jcbEnableFog);
+
+                        //---- jcbUniformNormal ----
+                        jcbUniformNormal.setText("Uniform Normal Orientation");
+                        jcbUniformNormal.setMaximumSize(null);
+                        jcbUniformNormal.setMinimumSize(null);
+                        jcbUniformNormal.setPreferredSize(null);
+                        jcbUniformNormal.addActionListener(e -> jcbUniformNormalActionPerformed(e));
+                        panel12.add(jcbUniformNormal);
+
+                        //---- jcbRenderFrontAndBack ----
+                        jcbRenderFrontAndBack.setText("Render Front and Back Face");
+                        jcbRenderFrontAndBack.setMaximumSize(null);
+                        jcbRenderFrontAndBack.setMinimumSize(null);
+                        jcbRenderFrontAndBack.setPreferredSize(null);
+                        jcbRenderFrontAndBack.addActionListener(e -> jcbRenderFrontAndBackActionPerformed(e));
+                        panel12.add(jcbRenderFrontAndBack);
+
+                        //---- jcbAlwaysIncludedInImd ----
+                        jcbAlwaysIncludedInImd.setText("Always included in IMD");
+                        jcbAlwaysIncludedInImd.setToolTipText("Used in HGSS");
+                        jcbAlwaysIncludedInImd.setMaximumSize(null);
+                        jcbAlwaysIncludedInImd.setMinimumSize(null);
+                        jcbAlwaysIncludedInImd.setPreferredSize(null);
+                        jcbAlwaysIncludedInImd.addActionListener(e -> jcbAlwaysIncludedInImdActionPerformed(e));
+                        panel12.add(jcbAlwaysIncludedInImd);
+
+                        //---- jcbRenderBorder ----
+                        jcbRenderBorder.setText("Draw Outline Border");
+                        jcbRenderBorder.setMaximumSize(null);
+                        jcbRenderBorder.setMinimumSize(null);
+                        jcbRenderBorder.setPreferredSize(null);
+                        jcbRenderBorder.addActionListener(e -> jcbRenderBorderActionPerformed(e));
+                        panel12.add(jcbRenderBorder);
+
+                        //======== panel14 ========
+                        {
+                            panel14.setMaximumSize(null);
+                            panel14.setMinimumSize(null);
+                            panel14.setPreferredSize(null);
+                            panel14.setLayout(new GridBagLayout());
+                            ((GridBagLayout) panel14.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+                            ((GridBagLayout) panel14.getLayout()).rowHeights = new int[]{0, 0};
+                            ((GridBagLayout) panel14.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                            ((GridBagLayout) panel14.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
+
+                            //---- jLabel20 ----
+                            jLabel20.setText("Lights: ");
+                            jLabel20.setMaximumSize(null);
+                            jLabel20.setMinimumSize(null);
+                            jLabel20.setPreferredSize(null);
+                            panel14.add(jLabel20, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                    new Insets(0, 0, 0, 5), 0, 0));
+
+                            //---- jcbL0 ----
+                            jcbL0.setText("L0");
+                            jcbL0.setMaximumSize(null);
+                            jcbL0.setMinimumSize(null);
+                            jcbL0.setPreferredSize(null);
+                            jcbL0.addActionListener(e -> jcbL0ActionPerformed(e));
+                            panel14.add(jcbL0, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                    new Insets(0, 0, 0, 5), 0, 0));
+
+                            //---- jcbL1 ----
+                            jcbL1.setText("L1");
+                            jcbL1.setMaximumSize(null);
+                            jcbL1.setMinimumSize(null);
+                            jcbL1.setPreferredSize(null);
+                            jcbL1.addActionListener(e -> jcbL1ActionPerformed(e));
+                            panel14.add(jcbL1, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                    new Insets(0, 0, 0, 5), 0, 0));
+
+                            //---- jcbL2 ----
+                            jcbL2.setText("L2");
+                            jcbL2.setMaximumSize(null);
+                            jcbL2.setMinimumSize(null);
+                            jcbL2.setPreferredSize(null);
+                            jcbL2.addActionListener(e -> jcbL2ActionPerformed(e));
+                            panel14.add(jcbL2, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                    new Insets(0, 0, 0, 5), 0, 0));
+
+                            //---- jcbL3 ----
+                            jcbL3.setText("L3");
+                            jcbL3.setMaximumSize(null);
+                            jcbL3.setMinimumSize(null);
+                            jcbL3.setPreferredSize(null);
+                            jcbL3.addActionListener(e -> jcbL3ActionPerformed(e));
+                            panel14.add(jcbL3, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
+                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                    new Insets(0, 0, 0, 5), 0, 0));
+
+                            //---- jcbUseVertexColors ----
+                            jcbUseVertexColors.setText("Use Vertex Colors");
+                            jcbUseVertexColors.setMaximumSize(null);
+                            jcbUseVertexColors.setMinimumSize(null);
+                            jcbUseVertexColors.setPreferredSize(null);
+                            jcbUseVertexColors.addActionListener(e -> jcbUseVertexColorsActionPerformed(e));
+                            panel14.add(jcbUseVertexColors, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
+                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                    new Insets(0, 0, 0, 0), 0, 0));
+                        }
+                        panel12.add(panel14);
+                    }
+                    panel11.add(panel12, new GridBagConstraints(0, 8, 3, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
+
+                    //======== panel15 ========
+                    {
+                        panel15.setMaximumSize(new Dimension(127, 500));
+                        panel15.setMinimumSize(null);
+                        panel15.setPreferredSize(null);
+                        panel15.setLayout(new GridBagLayout());
+                        ((GridBagLayout) panel15.getLayout()).columnWidths = new int[]{0, 0, 0};
+                        ((GridBagLayout) panel15.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0};
+                        ((GridBagLayout) panel15.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout) panel15.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0E-4};
+
+                        //======== panel16 ========
+                        {
+                            panel16.setMaximumSize(null);
+                            panel16.setMinimumSize(null);
+                            panel16.setPreferredSize(null);
+                            panel16.setLayout(new GridLayout(1, 2));
+
+                            //---- jbMoveMaterialUp ----
+                            jbMoveMaterialUp.setText("\u25b2");
+                            jbMoveMaterialUp.setMaximumSize(null);
+                            jbMoveMaterialUp.setMinimumSize(null);
+                            jbMoveMaterialUp.setPreferredSize(null);
+                            jbMoveMaterialUp.addActionListener(e -> jbMoveMaterialUpActionPerformed(e));
+                            panel16.add(jbMoveMaterialUp);
+
+                            //---- jbMoveMaterialDown ----
+                            jbMoveMaterialDown.setText("\u25bc");
+                            jbMoveMaterialDown.setMaximumSize(null);
+                            jbMoveMaterialDown.setMinimumSize(null);
+                            jbMoveMaterialDown.setPreferredSize(null);
+                            jbMoveMaterialDown.addActionListener(e -> jbMoveMaterialDownActionPerformed(e));
+                            panel16.add(jbMoveMaterialDown);
+                        }
+                        panel15.add(panel16, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 5, 0), 0, 0));
+
+                        //======== textureDisplayMaterial ========
+                        {
+                            textureDisplayMaterial.setBorder(LineBorder.createBlackLineBorder());
+                            textureDisplayMaterial.setPreferredSize(new Dimension(127, 127));
+                            textureDisplayMaterial.setMaximumSize(new Dimension(127, 127));
+                            textureDisplayMaterial.setMinimumSize(new Dimension(127, 127));
+
+                            GroupLayout textureDisplayMaterialLayout = new GroupLayout(textureDisplayMaterial);
+                            textureDisplayMaterial.setLayout(textureDisplayMaterialLayout);
+                            textureDisplayMaterialLayout.setHorizontalGroup(
+                                    textureDisplayMaterialLayout.createParallelGroup()
+                                            .addGap(0, 165, Short.MAX_VALUE)
+                            );
+                            textureDisplayMaterialLayout.setVerticalGroup(
+                                    textureDisplayMaterialLayout.createParallelGroup()
+                                            .addGap(0, 125, Short.MAX_VALUE)
+                            );
+                        }
+                        panel15.add(textureDisplayMaterial, new GridBagConstraints(0, 0, 1, 4, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
+
+                        //---- jbReplaceTexture ----
+                        jbReplaceTexture.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
+                        jbReplaceTexture.setText("Change Texture");
+                        jbReplaceTexture.setMaximumSize(null);
+                        jbReplaceTexture.setMinimumSize(null);
+                        jbReplaceTexture.setPreferredSize(null);
+                        jbReplaceTexture.addActionListener(e -> jbReplaceTextureActionPerformed(e));
+                        panel15.add(jbReplaceTexture, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 5, 0), 0, 0));
+
+                        //---- jbReplaceMaterial ----
+                        jbReplaceMaterial.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveTileIcon.png")));
+                        jbReplaceMaterial.setText("Replace Material");
+                        jbReplaceMaterial.setMaximumSize(null);
+                        jbReplaceMaterial.setMinimumSize(null);
+                        jbReplaceMaterial.setPreferredSize(null);
+                        jbReplaceMaterial.addActionListener(e -> jbReplaceMaterialActionPerformed(e));
+                        panel15.add(jbReplaceMaterial, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 5, 0), 0, 0));
+                    }
+                    panel11.add(panel15, new GridBagConstraints(0, 9, 2, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
                 }
-
-                //---- jcbAlwaysIncludedInImd ----
-                jcbAlwaysIncludedInImd.setText("Always included in IMD");
-                jcbAlwaysIncludedInImd.setToolTipText("Used in HGSS");
-                jcbAlwaysIncludedInImd.addActionListener(e -> jcbAlwaysIncludedInImdActionPerformed(e));
-
-                //---- jbMoveMaterialUp ----
-                jbMoveMaterialUp.setText("\u25b2");
-                jbMoveMaterialUp.addActionListener(e -> jbMoveMaterialUpActionPerformed(e));
-
-                //---- jbMoveMaterialDown ----
-                jbMoveMaterialDown.setText("\u25bc");
-                jbMoveMaterialDown.addActionListener(e -> jbMoveMaterialDownActionPerformed(e));
-
-                //---- jbReplaceMaterial ----
-                jbReplaceMaterial.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveTileIcon.png")));
-                jbReplaceMaterial.setText("Replace Material");
-                jbReplaceMaterial.addActionListener(e -> jbReplaceMaterialActionPerformed(e));
-
-                //---- jLabel17 ----
-                jLabel17.setText("Tex Tiling U: ");
-
-                //---- jcbTexTilingU ----
-                jcbTexTilingU.setMaximumRowCount(4);
-                jcbTexTilingU.setModel(new DefaultComboBoxModel<>(new String[] {
-                    "Repeat",
-                    "Clamp",
-                    "Flip"
-                }));
-                jcbTexTilingU.addActionListener(e -> jcbTexTilingUActionPerformed(e));
-
-                //---- jLabel18 ----
-                jLabel18.setText("Tex Tiling V: ");
-
-                //---- jcbTexTilingV ----
-                jcbTexTilingV.setMaximumRowCount(4);
-                jcbTexTilingV.setModel(new DefaultComboBoxModel<>(new String[] {
-                    "Repeat",
-                    "Clamp",
-                    "Flip"
-                }));
-                jcbTexTilingV.addActionListener(e -> jcbTexTilingVActionPerformed(e));
-
-                //---- jLabel19 ----
-                jLabel19.setText("Color Format:");
-
-                //---- jcbColorFormat ----
-                jcbColorFormat.setModel(new DefaultComboBoxModel<>(new String[] {
-                    "Palette 4",
-                    "Palette 16",
-                    "Palette 256",
-                    "A3I5",
-                    "A5I3"
-                }));
-                jcbColorFormat.addActionListener(e -> jcbColorFormatActionPerformed(e));
-
-                //---- jLabel20 ----
-                jLabel20.setText("Lights: ");
-
-                //---- jcbL0 ----
-                jcbL0.setText("L0");
-                jcbL0.addActionListener(e -> jcbL0ActionPerformed(e));
-
-                //---- jcbL1 ----
-                jcbL1.setText("L1");
-                jcbL1.addActionListener(e -> jcbL1ActionPerformed(e));
-
-                //---- jcbL2 ----
-                jcbL2.setText("L2");
-                jcbL2.addActionListener(e -> jcbL2ActionPerformed(e));
-
-                //---- jcbL3 ----
-                jcbL3.setText("L3");
-                jcbL3.addActionListener(e -> jcbL3ActionPerformed(e));
-
-                //---- jbReplaceTexture ----
-                jbReplaceTexture.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
-                jbReplaceTexture.setText("Change Texture");
-                jbReplaceTexture.addActionListener(e -> jbReplaceTextureActionPerformed(e));
-
-                //---- jcbRenderBorder ----
-                jcbRenderBorder.setText("Draw Outline Border");
-                jcbRenderBorder.addActionListener(e -> jcbRenderBorderActionPerformed(e));
-
-                //---- jLabel21 ----
-                jLabel21.setText("Material list:");
-
-                //---- jcbUseVertexColors ----
-                jcbUseVertexColors.setText("Use Vertex Colors");
-                jcbUseVertexColors.addActionListener(e -> jcbUseVertexColorsActionPerformed(e));
-
-                GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
-                jPanel3.setLayout(jPanel3Layout);
-                jPanel3Layout.setHorizontalGroup(
-                    jPanel3Layout.createParallelGroup()
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel3Layout.createParallelGroup()
-                                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel21))
-                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(jLabel8, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jLabel7, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jLabel6, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(jtfTextureName, GroupLayout.Alignment.LEADING)
-                                                .addComponent(jtfMaterialName, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                                                .addComponent(jtfPaletteName, GroupLayout.Alignment.LEADING)))
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addComponent(jLabel9, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jSpinner2, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel3Layout.createParallelGroup()
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addGap(10, 10, 10)
-                                            .addComponent(jbMoveMaterialUp)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jbMoveMaterialDown))
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addGroup(jPanel3Layout.createParallelGroup()
-                                                .addComponent(jbPaletteName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jbTextName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jbMaterialName, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE))))
-                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addGap(10, 10, 10)
-                                    .addGroup(jPanel3Layout.createParallelGroup()
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addGroup(jPanel3Layout.createParallelGroup()
-                                                .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
-                                                            .addComponent(jLabel17, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                            .addComponent(jLabel11, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(jPanel3Layout.createParallelGroup()
-                                                            .addComponent(jcbTexTilingU, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(jcbTexGenMode, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
-                                                    .addComponent(jcbEnableFog)
-                                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                                        .addGroup(jPanel3Layout.createParallelGroup()
-                                                            .addComponent(jLabel18, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(jLabel19, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                            .addComponent(jcbTexTilingV)
-                                                            .addComponent(jcbColorFormat))))
-                                                .addComponent(jcbUniformNormal)
-                                                .addComponent(jcbRenderFrontAndBack)
-                                                .addComponent(jcbAlwaysIncludedInImd)
-                                                .addComponent(jcbRenderBorder))
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(textureDisplayMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jbReplaceTexture, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jbReplaceMaterial, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addComponent(jLabel20)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jcbL0)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jcbL1)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jcbL2)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jcbL3)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jcbUseVertexColors)
-                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                );
-                jPanel3Layout.setVerticalGroup(
-                    jPanel3Layout.createParallelGroup()
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel3Layout.createParallelGroup()
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jtfMaterialName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel8)
-                                        .addComponent(jbMaterialName))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jtfTextureName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel7)
-                                        .addComponent(jbTextName))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jtfPaletteName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jbPaletteName))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel9)
-                                        .addComponent(jSpinner2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jbMoveMaterialUp)
-                                        .addComponent(jbMoveMaterialDown))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(jPanel3Layout.createParallelGroup()
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addComponent(textureDisplayMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jbReplaceTexture)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jbReplaceMaterial))
-                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel11)
-                                                .addComponent(jcbTexGenMode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel17)
-                                                .addComponent(jcbTexTilingU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel18)
-                                                .addComponent(jcbTexTilingV, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel19)
-                                                .addComponent(jcbColorFormat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jcbEnableFog)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jcbUniformNormal)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jcbRenderFrontAndBack)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jcbAlwaysIncludedInImd)))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jcbRenderBorder)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(jPanel3Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel20)
-                                        .addComponent(jcbL0)
-                                        .addComponent(jcbL1)
-                                        .addComponent(jcbL2)
-                                        .addComponent(jcbL3)
-                                        .addComponent(jcbUseVertexColors))
-                                    .addGap(0, 163, Short.MAX_VALUE))
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jLabel21)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jScrollPane1)))
-                            .addContainerGap())
-                );
+                jPanel3.add(panel11, "cell 1 0");
             }
             jTabbedPane1.addTab("Material Editor", jPanel3);
         }
@@ -2463,160 +2768,183 @@ public class TilesetEditorDialog extends JDialog {
 
         //======== jTabbedPane2 ========
         {
+            jTabbedPane2.setPreferredSize(null);
+            jTabbedPane2.setMinimumSize(null);
+            jTabbedPane2.setMaximumSize(null);
 
             //======== jPanel4 ========
             {
+                jPanel4.setMaximumSize(null);
+                jPanel4.setMinimumSize(null);
+                jPanel4.setPreferredSize(null);
+                jPanel4.setLayout(new GridBagLayout());
+                ((GridBagLayout) jPanel4.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+                ((GridBagLayout) jPanel4.getLayout()).rowHeights = new int[]{0, 0, 0};
+                ((GridBagLayout) jPanel4.getLayout()).columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0E-4};
+                ((GridBagLayout) jPanel4.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
 
                 //---- jLabel12 ----
                 jLabel12.setText("Rotate: ");
+                jLabel12.setMaximumSize(null);
+                jLabel12.setMinimumSize(null);
+                jLabel12.setPreferredSize(null);
+                jPanel4.add(jLabel12, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                 //---- jbRotateModel ----
                 jbRotateModel.setText("\u21ba");
                 jbRotateModel.setToolTipText("");
+                jbRotateModel.setMaximumSize(null);
+                jbRotateModel.setMinimumSize(null);
+                jbRotateModel.setPreferredSize(null);
                 jbRotateModel.addActionListener(e -> jbRotateModelActionPerformed(e));
+                jPanel4.add(jbRotateModel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                 //---- jLabel13 ----
                 jLabel13.setText("Flip : ");
+                jLabel13.setMaximumSize(null);
+                jLabel13.setMinimumSize(null);
+                jLabel13.setPreferredSize(null);
+                jPanel4.add(jLabel13, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jbFlipModel ----
                 jbFlipModel.setText("\u21c6");
                 jbFlipModel.setToolTipText("");
                 jbFlipModel.setEnabled(false);
+                jbFlipModel.setMaximumSize(null);
+                jbFlipModel.setMinimumSize(null);
+                jbFlipModel.setPreferredSize(null);
                 jbFlipModel.addActionListener(e -> jbFlipModelActionPerformed(e));
+                jPanel4.add(jbFlipModel, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jbMoveModelUp ----
                 jbMoveModelUp.setForeground(new Color(0, 153, 0));
                 jbMoveModelUp.setText("\u25b2");
+                jbMoveModelUp.setMaximumSize(null);
+                jbMoveModelUp.setMinimumSize(null);
+                jbMoveModelUp.setPreferredSize(null);
                 jbMoveModelUp.addActionListener(e -> jbMoveModelUpActionPerformed(e));
+                jPanel4.add(jbMoveModelUp, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                 //---- jbMoveModelDown ----
                 jbMoveModelDown.setForeground(new Color(0, 153, 0));
                 jbMoveModelDown.setText("\u25bc");
+                jbMoveModelDown.setMaximumSize(null);
+                jbMoveModelDown.setMinimumSize(null);
+                jbMoveModelDown.setPreferredSize(null);
                 jbMoveModelDown.addActionListener(e -> jbMoveModelDownActionPerformed(e));
+                jPanel4.add(jbMoveModelDown, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jbMoveModelLeft ----
                 jbMoveModelLeft.setForeground(new Color(204, 0, 0));
                 jbMoveModelLeft.setText("\u25c4");
+                jbMoveModelLeft.setMaximumSize(null);
+                jbMoveModelLeft.setMinimumSize(null);
+                jbMoveModelLeft.setPreferredSize(null);
                 jbMoveModelLeft.addActionListener(e -> jbMoveModelLeftActionPerformed(e));
+                jPanel4.add(jbMoveModelLeft, new GridBagConstraints(2, 0, 1, 2, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jbMoveModelRight ----
                 jbMoveModelRight.setForeground(new Color(204, 0, 0));
                 jbMoveModelRight.setText("\u25ba");
+                jbMoveModelRight.setMaximumSize(null);
+                jbMoveModelRight.setMinimumSize(null);
+                jbMoveModelRight.setPreferredSize(null);
                 jbMoveModelRight.addActionListener(e -> jbMoveModelRightActionPerformed(e));
+                jPanel4.add(jbMoveModelRight, new GridBagConstraints(4, 0, 1, 2, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jbMoveModelUp1 ----
                 jbMoveModelUp1.setForeground(Color.blue);
                 jbMoveModelUp1.setText("\u25b2");
+                jbMoveModelUp1.setMaximumSize(null);
+                jbMoveModelUp1.setMinimumSize(null);
+                jbMoveModelUp1.setPreferredSize(null);
                 jbMoveModelUp1.addActionListener(e -> jbMoveModelUp1ActionPerformed(e));
+                jPanel4.add(jbMoveModelUp1, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                 //---- jbMoveModelDown1 ----
                 jbMoveModelDown1.setForeground(Color.blue);
                 jbMoveModelDown1.setText("\u25bc");
+                jbMoveModelDown1.setMaximumSize(null);
+                jbMoveModelDown1.setMinimumSize(null);
+                jbMoveModelDown1.setPreferredSize(null);
                 jbMoveModelDown1.addActionListener(e -> jbMoveModelDown1ActionPerformed(e));
-
-                GroupLayout jPanel4Layout = new GroupLayout(jPanel4);
-                jPanel4.setLayout(jPanel4Layout);
-                jPanel4Layout.setHorizontalGroup(
-                    jPanel4Layout.createParallelGroup()
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel4Layout.createParallelGroup()
-                                .addComponent(jLabel12)
-                                .addComponent(jLabel13))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel4Layout.createParallelGroup()
-                                .addComponent(jbFlipModel)
-                                .addComponent(jbRotateModel, GroupLayout.Alignment.TRAILING))
-                            .addGap(18, 18, 18)
-                            .addComponent(jbMoveModelLeft, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel4Layout.createParallelGroup()
-                                .addComponent(jbMoveModelDown)
-                                .addComponent(jbMoveModelUp, GroupLayout.Alignment.TRAILING))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jbMoveModelRight, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel4Layout.createParallelGroup()
-                                .addComponent(jbMoveModelUp1)
-                                .addComponent(jbMoveModelDown1))
-                            .addGap(0, 0, Short.MAX_VALUE))
-                );
-                jPanel4Layout.setVerticalGroup(
-                    jPanel4Layout.createParallelGroup()
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel12)
-                                        .addComponent(jbRotateModel)
-                                        .addComponent(jbMoveModelUp))
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel4Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel13)
-                                        .addComponent(jbFlipModel)
-                                        .addComponent(jbMoveModelDown)))
-                                .addComponent(jbMoveModelRight, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbMoveModelLeft, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addComponent(jbMoveModelUp1)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jbMoveModelDown1)))
-                            .addContainerGap(290, Short.MAX_VALUE))
-                );
+                jPanel4.add(jbMoveModelDown1, new GridBagConstraints(5, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
             }
             jTabbedPane2.addTab("Model Editor", jPanel4);
 
             //======== jPanel8 ========
             {
+                jPanel8.setMaximumSize(null);
+                jPanel8.setMinimumSize(null);
+                jPanel8.setPreferredSize(null);
+                jPanel8.setLayout(new GridBagLayout());
+                ((GridBagLayout) jPanel8.getLayout()).columnWidths = new int[]{0, 0, 0};
+                ((GridBagLayout) jPanel8.getLayout()).rowHeights = new int[]{0, 0, 0};
+                ((GridBagLayout) jPanel8.getLayout()).columnWeights = new double[]{1.0, 1.0, 1.0E-4};
+                ((GridBagLayout) jPanel8.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
 
                 //---- jcbBackfaceCulling ----
                 jcbBackfaceCulling.setSelected(true);
                 jcbBackfaceCulling.setText("Backface Culling");
+                jcbBackfaceCulling.setMaximumSize(null);
+                jcbBackfaceCulling.setMinimumSize(null);
+                jcbBackfaceCulling.setPreferredSize(null);
                 jcbBackfaceCulling.addActionListener(e -> jcbBackfaceCullingActionPerformed(e));
+                jPanel8.add(jcbBackfaceCulling, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                 //---- jcbWireframe ----
                 jcbWireframe.setSelected(true);
                 jcbWireframe.setText("Wireframe");
+                jcbWireframe.setMaximumSize(null);
+                jcbWireframe.setMinimumSize(null);
+                jcbWireframe.setPreferredSize(null);
                 jcbWireframe.addActionListener(e -> jcbWireframeActionPerformed(e));
+                jPanel8.add(jcbWireframe, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jcbTexturesEnabled ----
                 jcbTexturesEnabled.setSelected(true);
                 jcbTexturesEnabled.setText("Textures");
+                jcbTexturesEnabled.setMaximumSize(null);
+                jcbTexturesEnabled.setMinimumSize(null);
+                jcbTexturesEnabled.setPreferredSize(null);
                 jcbTexturesEnabled.addActionListener(e -> jcbTexturesEnabledActionPerformed(e));
+                jPanel8.add(jcbTexturesEnabled, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                 //---- jcbShadingEnabled ----
                 jcbShadingEnabled.setText("Shading");
+                jcbShadingEnabled.setMaximumSize(null);
+                jcbShadingEnabled.setMinimumSize(null);
+                jcbShadingEnabled.setPreferredSize(null);
                 jcbShadingEnabled.addActionListener(e -> jcbShadingEnabledActionPerformed(e));
-
-                GroupLayout jPanel8Layout = new GroupLayout(jPanel8);
-                jPanel8.setLayout(jPanel8Layout);
-                jPanel8Layout.setHorizontalGroup(
-                    jPanel8Layout.createParallelGroup()
-                        .addGroup(jPanel8Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel8Layout.createParallelGroup()
-                                .addComponent(jcbBackfaceCulling)
-                                .addComponent(jcbWireframe))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel8Layout.createParallelGroup()
-                                .addComponent(jcbShadingEnabled)
-                                .addComponent(jcbTexturesEnabled))
-                            .addContainerGap(452, Short.MAX_VALUE))
-                );
-                jPanel8Layout.setVerticalGroup(
-                    jPanel8Layout.createParallelGroup()
-                        .addGroup(jPanel8Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel8Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jcbBackfaceCulling)
-                                .addComponent(jcbTexturesEnabled))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel8Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jcbWireframe)
-                                .addComponent(jcbShadingEnabled))
-                            .addContainerGap(304, Short.MAX_VALUE))
-                );
+                jPanel8.add(jcbShadingEnabled, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
             }
             jTabbedPane2.addTab("Display Settings", jPanel8);
         }
@@ -2625,76 +2953,77 @@ public class TilesetEditorDialog extends JDialog {
         //======== jPanel9 ========
         {
             jPanel9.setBorder(new TitledBorder("Smart Drawing"));
+            jPanel9.setMinimumSize(new Dimension(105, 0));
+            jPanel9.setMaximumSize(null);
+            jPanel9.setPreferredSize(null);
+            jPanel9.setLayout(new GridBagLayout());
+            ((GridBagLayout) jPanel9.getLayout()).columnWidths = new int[]{0, 0};
+            ((GridBagLayout) jPanel9.getLayout()).rowHeights = new int[]{0, 0, 0};
+            ((GridBagLayout) jPanel9.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
+            ((GridBagLayout) jPanel9.getLayout()).rowWeights = new double[]{1.0, 0.0, 1.0E-4};
 
             //======== jScrollPaneSmartGrid ========
             {
                 jScrollPaneSmartGrid.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
                 jScrollPaneSmartGrid.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+                jScrollPaneSmartGrid.setPreferredSize(null);
+                jScrollPaneSmartGrid.setMinimumSize(null);
+                jScrollPaneSmartGrid.setMaximumSize(null);
 
                 //======== smartGridEditableDisplay ========
                 {
+                    smartGridEditableDisplay.setMaximumSize(new Dimension(97, 0));
+                    smartGridEditableDisplay.setMinimumSize(null);
+                    smartGridEditableDisplay.setPreferredSize(null);
 
                     GroupLayout smartGridEditableDisplayLayout = new GroupLayout(smartGridEditableDisplay);
                     smartGridEditableDisplay.setLayout(smartGridEditableDisplayLayout);
                     smartGridEditableDisplayLayout.setHorizontalGroup(
-                        smartGridEditableDisplayLayout.createParallelGroup()
-                            .addGap(0, 156, Short.MAX_VALUE)
+                            smartGridEditableDisplayLayout.createParallelGroup()
+                                    .addGap(0, 136, Short.MAX_VALUE)
                     );
                     smartGridEditableDisplayLayout.setVerticalGroup(
-                        smartGridEditableDisplayLayout.createParallelGroup()
-                            .addGap(0, 597, Short.MAX_VALUE)
+                            smartGridEditableDisplayLayout.createParallelGroup()
+                                    .addGap(0, 623, Short.MAX_VALUE)
                     );
                 }
                 jScrollPaneSmartGrid.setViewportView(smartGridEditableDisplay);
             }
+            jPanel9.add(jScrollPaneSmartGrid, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
-            //---- jbMoveSPaintUp ----
-            jbMoveSPaintUp.setText("\u25b2");
-            jbMoveSPaintUp.setFocusable(false);
-            jbMoveSPaintUp.addActionListener(e -> jbMoveSPaintUpActionPerformed(e));
+            //======== panel9 ========
+            {
+                panel9.setLayout(new GridLayout(2, 2));
 
-            //---- jbMoveSPaintDown ----
-            jbMoveSPaintDown.setText("\u25bc");
-            jbMoveSPaintDown.setFocusable(false);
-            jbMoveSPaintDown.addActionListener(e -> jbMoveSPaintDownActionPerformed(e));
+                //---- jbMoveSPaintUp ----
+                jbMoveSPaintUp.setText("\u25b2");
+                jbMoveSPaintUp.setFocusable(false);
+                jbMoveSPaintUp.addActionListener(e -> jbMoveSPaintUpActionPerformed(e));
+                panel9.add(jbMoveSPaintUp);
 
-            //---- jbAddSmartGrid ----
-            jbAddSmartGrid.setText("+");
-            jbAddSmartGrid.setFocusable(false);
-            jbAddSmartGrid.addActionListener(e -> jbAddSmartGridActionPerformed(e));
+                //---- jbAddSmartGrid ----
+                jbAddSmartGrid.setText("+");
+                jbAddSmartGrid.setFocusable(false);
+                jbAddSmartGrid.addActionListener(e -> jbAddSmartGridActionPerformed(e));
+                panel9.add(jbAddSmartGrid);
 
-            //---- jbRemoveSmartGrid ----
-            jbRemoveSmartGrid.setText("-");
-            jbRemoveSmartGrid.setFocusable(false);
-            jbRemoveSmartGrid.addActionListener(e -> jbRemoveSmartGridActionPerformed(e));
+                //---- jbMoveSPaintDown ----
+                jbMoveSPaintDown.setText("\u25bc");
+                jbMoveSPaintDown.setFocusable(false);
+                jbMoveSPaintDown.addActionListener(e -> jbMoveSPaintDownActionPerformed(e));
+                panel9.add(jbMoveSPaintDown);
 
-            GroupLayout jPanel9Layout = new GroupLayout(jPanel9);
-            jPanel9.setLayout(jPanel9Layout);
-            jPanel9Layout.setHorizontalGroup(
-                jPanel9Layout.createParallelGroup()
-                    .addGroup(GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                        .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jbMoveSPaintUp, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbAddSmartGrid, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jbMoveSPaintDown, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbRemoveSmartGrid, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jScrollPaneSmartGrid)
-            );
-            jPanel9Layout.setVerticalGroup(
-                jPanel9Layout.createParallelGroup()
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jScrollPaneSmartGrid)
-                        .addGap(9, 9, 9)
-                        .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbAddSmartGrid)
-                            .addComponent(jbRemoveSmartGrid))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel9Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbMoveSPaintUp)
-                            .addComponent(jbMoveSPaintDown)))
-            );
+                //---- jbRemoveSmartGrid ----
+                jbRemoveSmartGrid.setText("-");
+                jbRemoveSmartGrid.setFocusable(false);
+                jbRemoveSmartGrid.addActionListener(e -> jbRemoveSmartGridActionPerformed(e));
+                panel9.add(jbRemoveSmartGrid);
+            }
+            jPanel9.add(panel9, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
         }
         contentPane.add(jPanel9, "cell 2 0 1 2");
         pack();
@@ -2709,92 +3038,107 @@ public class TilesetEditorDialog extends JDialog {
     private TileSelector tileSelector;
     private JTabbedPane jTabbedPane1;
     private JPanel jPanel1;
-    private JButton jbRemoveTile;
-    private JTextField jtfIndexTile;
-    private JButton jbMoveDown;
-    private JButton jbMoveUp;
+    private JPanel panel8;
     private JLabel jLabel3;
+    private JTextField jtfIndexTile;
+    private JLabel jLabel23;
+    private JButton jbMoveUp;
+    private JButton jbMoveDown;
+    private JPanel panel1;
+    private JButton jbAddTile;
+    private JButton jbRemoveTile;
     private JButton jbDuplicateTile;
+    private JButton jbImportTiles;
     private JPanel jPanel5;
-    private JLabel jLabel10;
-    private JCheckBox jcbTileableY;
-    private JTextField jtfGlobalTexScale;
-    private JButton jbGlobalTexScale;
+    private JPanel panel2;
+    private JLabel jLabel1;
+    private JButton jbLessSizeX;
+    private JTextField jtfSizeX;
     private JButton jbMoreSizeX;
-    private JCheckBox jcbUtileable;
     private JLabel jLabel2;
+    private JButton jbLessSizeY;
+    private JTextField jtfSizeY;
+    private JButton jbMoreSizeY;
+    private JPanel panel4;
+    private JCheckBox jcbTileableX;
+    private JCheckBox jcbUtileable;
+    private JCheckBox jcbTileableY;
     private JCheckBox jcbVtileable;
+    private JPanel panel3;
     private JLabel jLabel14;
     private JTextField jtfXOffset;
     private JLabel jLabel15;
-    private JTextField jtfYOffset;
-    private JTextField jtfSizeY;
     private JButton jbXOffset;
+    private JTextField jtfYOffset;
     private JButton jbYOffset;
-    private JLabel jLabel1;
-    private JTextField jtfSizeX;
-    private JCheckBox jcbTileableX;
-    private JButton jbLessSizeX;
-    private JButton jbMoreSizeY;
-    private JButton jbLessSizeY;
+    private JPanel panel5;
+    private JLabel jLabel10;
+    private JTextField jtfGlobalTexScale;
+    private JButton jbGlobalTexScale;
     private JCheckBox jcbGlobalTexMapping;
     private JPanel jPanel6;
     private JLabel jLabel5;
     private JTextField jtfObjName;
+    private JPanel panel10;
     private JButton jbExportTileAsObj;
     private JButton jbImportTileAsObj;
     private JButton jbEditVertexColors;
     private JPanel jPanel7;
+    private TextureDisplay textureDisplay;
+    private JPanel panel6;
     private JLabel jLabel16;
     private JTextField jtfNumTextures;
     private JLabel jLabel4;
     private JSpinner jSpinner1;
-    private JComboBox<String> jcbMaterial;
-    private TextureDisplay textureDisplay;
-    private JButton jbAddTexture;
+    private JPanel panel7;
     private JLabel jLabel22;
-    private JButton jbAddTile;
-    private JLabel jLabel23;
-    private JButton jbImportTiles;
+    private JComboBox<String> jcbMaterial;
+    private JButton jbAddTexture;
     private JPanel jPanel3;
+    private JPanel panel13;
+    private JLabel jLabel21;
     private JScrollPane jScrollPane1;
     private JList<String> jlistINames;
-    private JTextField jtfPaletteName;
-    private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JTextField jtfTextureName;
-    private JButton jbTextName;
-    private JButton jbPaletteName;
-    private JCheckBox jcbEnableFog;
-    private JCheckBox jcbRenderFrontAndBack;
-    private JCheckBox jcbUniformNormal;
+    private JPanel panel11;
     private JLabel jLabel8;
+    private JLabel jLabel7;
+    private JLabel jLabel6;
+    private JTextField jtfPaletteName;
+    private JTextField jtfTextureName;
     private JTextField jtfMaterialName;
     private JButton jbMaterialName;
+    private JButton jbTextName;
+    private JButton jbPaletteName;
     private JLabel jLabel9;
-    private JSpinner jSpinner2;
     private JLabel jLabel11;
-    private JComboBox<String> jcbTexGenMode;
-    private TextureDisplayMaterial textureDisplayMaterial;
-    private JCheckBox jcbAlwaysIncludedInImd;
-    private JButton jbMoveMaterialUp;
-    private JButton jbMoveMaterialDown;
-    private JButton jbReplaceMaterial;
     private JLabel jLabel17;
-    private JComboBox<String> jcbTexTilingU;
     private JLabel jLabel18;
-    private JComboBox<String> jcbTexTilingV;
     private JLabel jLabel19;
+    private JSpinner jSpinner2;
+    private JComboBox<String> jcbTexGenMode;
+    private JComboBox<String> jcbTexTilingU;
+    private JComboBox<String> jcbTexTilingV;
     private JComboBox<String> jcbColorFormat;
+    private JPanel panel12;
+    private JCheckBox jcbEnableFog;
+    private JCheckBox jcbUniformNormal;
+    private JCheckBox jcbRenderFrontAndBack;
+    private JCheckBox jcbAlwaysIncludedInImd;
+    private JCheckBox jcbRenderBorder;
+    private JPanel panel14;
     private JLabel jLabel20;
     private JCheckBox jcbL0;
     private JCheckBox jcbL1;
     private JCheckBox jcbL2;
     private JCheckBox jcbL3;
-    private JButton jbReplaceTexture;
-    private JCheckBox jcbRenderBorder;
-    private JLabel jLabel21;
     private JCheckBox jcbUseVertexColors;
+    private JPanel panel15;
+    private JPanel panel16;
+    private JButton jbMoveMaterialUp;
+    private JButton jbMoveMaterialDown;
+    private TextureDisplayMaterial textureDisplayMaterial;
+    private JButton jbReplaceTexture;
+    private JButton jbReplaceMaterial;
     private JTabbedPane jTabbedPane2;
     private JPanel jPanel4;
     private JLabel jLabel12;
@@ -2815,9 +3159,10 @@ public class TilesetEditorDialog extends JDialog {
     private JPanel jPanel9;
     private JScrollPane jScrollPaneSmartGrid;
     private SmartGridEditableDisplay smartGridEditableDisplay;
+    private JPanel panel9;
     private JButton jbMoveSPaintUp;
-    private JButton jbMoveSPaintDown;
     private JButton jbAddSmartGrid;
+    private JButton jbMoveSPaintDown;
     private JButton jbRemoveSmartGrid;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

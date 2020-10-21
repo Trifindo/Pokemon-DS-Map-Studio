@@ -1984,14 +1984,14 @@ public class MainFrame extends JFrame {
         });
         Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-                "insets 0,hidemode 3,gap 5 5",
-                // columns
-                "[grow,fill]" +
-                        "[fill]",
-                // rows
-                "[fill]" +
-                        "[grow,fill]" +
-                        "[fill]"));
+            "insets 0,hidemode 3,gap 5 5",
+            // columns
+            "[grow,fill]" +
+            "[fill]",
+            // rows
+            "[fill]" +
+            "[grow,fill]" +
+            "[fill]"));
 
         //======== jmMainMenu ========
         {
@@ -2555,16 +2555,16 @@ public class MainFrame extends JFrame {
         //======== jpGameInfo ========
         {
             jpGameInfo.setLayout(new GridBagLayout());
-            ((GridBagLayout) jpGameInfo.getLayout()).columnWidths = new int[]{0, 0, 0};
-            ((GridBagLayout) jpGameInfo.getLayout()).rowHeights = new int[]{0, 0, 0};
-            ((GridBagLayout) jpGameInfo.getLayout()).columnWeights = new double[]{0.0, 1.0, 1.0E-4};
-            ((GridBagLayout) jpGameInfo.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+            ((GridBagLayout)jpGameInfo.getLayout()).columnWidths = new int[] {0, 0, 0};
+            ((GridBagLayout)jpGameInfo.getLayout()).rowHeights = new int[] {0, 0, 0};
+            ((GridBagLayout)jpGameInfo.getLayout()).columnWeights = new double[] {0.0, 1.0, 1.0E-4};
+            ((GridBagLayout)jpGameInfo.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
             //---- jlGame ----
             jlGame.setText("Map for: ");
             jpGameInfo.add(jlGame, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 5), 0, 0));
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
 
             //---- jlGameIcon ----
             jlGameIcon.setText(" ");
@@ -2578,15 +2578,15 @@ public class MainFrame extends JFrame {
                 }
             });
             jpGameInfo.add(jlGameIcon, new GridBagConstraints(1, 0, 1, 2, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0), 0, 0));
 
             //---- jlGameName ----
             jlGameName.setFont(new Font("Tahoma", Font.BOLD, 11));
             jlGameName.setText("Game Name");
             jpGameInfo.add(jlGameName, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 5), 0, 0));
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 5), 0, 0));
         }
         contentPane.add(jpGameInfo, "cell 1 0, grow");
 
@@ -2597,16 +2597,16 @@ public class MainFrame extends JFrame {
             //======== jpMainWindow ========
             {
                 jpMainWindow.setLayout(new MigLayout(
-                        "hidemode 3",
-                        // columns
-                        "[fill]" +
-                                "[fill]" +
-                                "[grow,fill]" +
-                                "[fill]" +
-                                "[fill]" +
-                                "[fill]",
-                        // rows
-                        "[grow,fill]"));
+                    "hidemode 3",
+                    // columns
+                    "[fill]" +
+                    "[fill]" +
+                    "[grow,fill]" +
+                    "[fill]" +
+                    "[fill]" +
+                    "[fill]",
+                    // rows
+                    "[grow,fill]"));
 
                 //======== jpLayer ========
                 {
@@ -2618,26 +2618,26 @@ public class MainFrame extends JFrame {
                         GroupLayout thumbnailLayerSelectorLayout = new GroupLayout(thumbnailLayerSelector);
                         thumbnailLayerSelector.setLayout(thumbnailLayerSelectorLayout);
                         thumbnailLayerSelectorLayout.setHorizontalGroup(
-                                thumbnailLayerSelectorLayout.createParallelGroup()
-                                        .addGap(0, 64, Short.MAX_VALUE)
+                            thumbnailLayerSelectorLayout.createParallelGroup()
+                                .addGap(0, 64, Short.MAX_VALUE)
                         );
                         thumbnailLayerSelectorLayout.setVerticalGroup(
-                                thumbnailLayerSelectorLayout.createParallelGroup()
-                                        .addGap(0, 512, Short.MAX_VALUE)
+                            thumbnailLayerSelectorLayout.createParallelGroup()
+                                .addGap(0, 512, Short.MAX_VALUE)
                         );
                     }
 
                     GroupLayout jpLayerLayout = new GroupLayout(jpLayer);
                     jpLayer.setLayout(jpLayerLayout);
                     jpLayerLayout.setHorizontalGroup(
-                            jpLayerLayout.createParallelGroup()
-                                    .addGroup(jpLayerLayout.createSequentialGroup()
-                                            .addComponent(thumbnailLayerSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 0, Short.MAX_VALUE))
+                        jpLayerLayout.createParallelGroup()
+                            .addGroup(jpLayerLayout.createSequentialGroup()
+                                .addComponent(thumbnailLayerSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                     );
                     jpLayerLayout.setVerticalGroup(
-                            jpLayerLayout.createParallelGroup()
-                                    .addComponent(thumbnailLayerSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        jpLayerLayout.createParallelGroup()
+                            .addComponent(thumbnailLayerSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     );
                 }
                 jpMainWindow.add(jpLayer, "cell 0 0");
@@ -2660,12 +2660,12 @@ public class MainFrame extends JFrame {
                         GroupLayout mapDisplayLayout = new GroupLayout(mapDisplay);
                         mapDisplay.setLayout(mapDisplayLayout);
                         mapDisplayLayout.setHorizontalGroup(
-                                mapDisplayLayout.createParallelGroup()
-                                        .addGap(0, 542, Short.MAX_VALUE)
+                            mapDisplayLayout.createParallelGroup()
+                                .addGap(0, 542, Short.MAX_VALUE)
                         );
                         mapDisplayLayout.setVerticalGroup(
-                                mapDisplayLayout.createParallelGroup()
-                                        .addGap(0, 542, Short.MAX_VALUE)
+                            mapDisplayLayout.createParallelGroup()
+                                .addGap(0, 542, Short.MAX_VALUE)
                         );
                     }
                     mapDisplayContainer.add(mapDisplay);
@@ -2683,28 +2683,28 @@ public class MainFrame extends JFrame {
                         GroupLayout heightSelectorLayout = new GroupLayout(heightSelector);
                         heightSelector.setLayout(heightSelectorLayout);
                         heightSelectorLayout.setHorizontalGroup(
-                                heightSelectorLayout.createParallelGroup()
-                                        .addGap(0, 16, Short.MAX_VALUE)
+                            heightSelectorLayout.createParallelGroup()
+                                .addGap(0, 16, Short.MAX_VALUE)
                         );
                         heightSelectorLayout.setVerticalGroup(
-                                heightSelectorLayout.createParallelGroup()
-                                        .addGap(0, 496, Short.MAX_VALUE)
+                            heightSelectorLayout.createParallelGroup()
+                                .addGap(0, 496, Short.MAX_VALUE)
                         );
                     }
 
                     GroupLayout jpZLayout = new GroupLayout(jpZ);
                     jpZ.setLayout(jpZLayout);
                     jpZLayout.setHorizontalGroup(
-                            jpZLayout.createParallelGroup()
-                                    .addGroup(jpZLayout.createSequentialGroup()
-                                            .addComponent(heightSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 0, Short.MAX_VALUE))
+                        jpZLayout.createParallelGroup()
+                            .addGroup(jpZLayout.createSequentialGroup()
+                                .addComponent(heightSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                     );
                     jpZLayout.setVerticalGroup(
-                            jpZLayout.createParallelGroup()
-                                    .addGroup(jpZLayout.createSequentialGroup()
-                                            .addComponent(heightSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 0, Short.MAX_VALUE))
+                        jpZLayout.createParallelGroup()
+                            .addGroup(jpZLayout.createSequentialGroup()
+                                .addComponent(heightSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                     );
                 }
                 jpMainWindow.add(jpZ, "cell 3 0");
@@ -2731,12 +2731,12 @@ public class MainFrame extends JFrame {
                             GroupLayout tileSelectorLayout = new GroupLayout(tileSelector);
                             tileSelector.setLayout(tileSelectorLayout);
                             tileSelectorLayout.setHorizontalGroup(
-                                    tileSelectorLayout.createParallelGroup()
-                                            .addGap(0, 0, Short.MAX_VALUE)
+                                tileSelectorLayout.createParallelGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
                             );
                             tileSelectorLayout.setVerticalGroup(
-                                    tileSelectorLayout.createParallelGroup()
-                                            .addGap(0, 0, Short.MAX_VALUE)
+                                tileSelectorLayout.createParallelGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
                             );
                         }
                         jscTileList.setViewportView(tileSelector);
@@ -2745,14 +2745,14 @@ public class MainFrame extends JFrame {
                     GroupLayout jpTileListLayout = new GroupLayout(jpTileList);
                     jpTileList.setLayout(jpTileListLayout);
                     jpTileListLayout.setHorizontalGroup(
-                            jpTileListLayout.createParallelGroup()
-                                    .addComponent(jscTileList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        jpTileListLayout.createParallelGroup()
+                            .addComponent(jscTileList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     );
                     jpTileListLayout.setVerticalGroup(
-                            jpTileListLayout.createParallelGroup()
-                                    .addGroup(jpTileListLayout.createSequentialGroup()
-                                            .addComponent(jscTileList, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-                                            .addGap(0, 0, 0))
+                        jpTileListLayout.createParallelGroup()
+                            .addGroup(jpTileListLayout.createSequentialGroup()
+                                .addComponent(jscTileList, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                                .addGap(0, 0, 0))
                     );
                 }
                 jpMainWindow.add(jpTileList, "cell 4 0");
@@ -2772,12 +2772,12 @@ public class MainFrame extends JFrame {
                             GroupLayout smartGridDisplayLayout = new GroupLayout(smartGridDisplay);
                             smartGridDisplay.setLayout(smartGridDisplayLayout);
                             smartGridDisplayLayout.setHorizontalGroup(
-                                    smartGridDisplayLayout.createParallelGroup()
-                                            .addGap(0, 0, Short.MAX_VALUE)
+                                smartGridDisplayLayout.createParallelGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
                             );
                             smartGridDisplayLayout.setVerticalGroup(
-                                    smartGridDisplayLayout.createParallelGroup()
-                                            .addGap(0, 0, Short.MAX_VALUE)
+                                smartGridDisplayLayout.createParallelGroup()
+                                    .addGap(0, 0, Short.MAX_VALUE)
                             );
                         }
                         jscSmartDrawing.setViewportView(smartGridDisplay);
@@ -2786,14 +2786,14 @@ public class MainFrame extends JFrame {
                     GroupLayout jpSmartDrawingLayout = new GroupLayout(jpSmartDrawing);
                     jpSmartDrawing.setLayout(jpSmartDrawingLayout);
                     jpSmartDrawingLayout.setHorizontalGroup(
-                            jpSmartDrawingLayout.createParallelGroup()
-                                    .addGroup(jpSmartDrawingLayout.createSequentialGroup()
-                                            .addComponent(jscSmartDrawing, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                            .addGap(0, 0, Short.MAX_VALUE))
+                        jpSmartDrawingLayout.createParallelGroup()
+                            .addGroup(jpSmartDrawingLayout.createSequentialGroup()
+                                .addComponent(jscSmartDrawing, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                     );
                     jpSmartDrawingLayout.setVerticalGroup(
-                            jpSmartDrawingLayout.createParallelGroup()
-                                    .addComponent(jscSmartDrawing, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                        jpSmartDrawingLayout.createParallelGroup()
+                            .addComponent(jscSmartDrawing, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                     );
                 }
                 jpMainWindow.add(jpSmartDrawing, "cell 5 0");
@@ -2864,12 +2864,12 @@ public class MainFrame extends JFrame {
                         GroupLayout jpViewLayout = new GroupLayout(jpView);
                         jpView.setLayout(jpViewLayout);
                         jpViewLayout.setHorizontalGroup(
-                                jpViewLayout.createParallelGroup()
-                                        .addComponent(jtView, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            jpViewLayout.createParallelGroup()
+                                .addComponent(jtView, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         );
                         jpViewLayout.setVerticalGroup(
-                                jpViewLayout.createParallelGroup()
-                                        .addComponent(jtView, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            jpViewLayout.createParallelGroup()
+                                .addComponent(jtView, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         );
                     }
                     jpButtons.add(jpView);
@@ -2953,12 +2953,12 @@ public class MainFrame extends JFrame {
                         GroupLayout jpToolsLayout = new GroupLayout(jpTools);
                         jpTools.setLayout(jpToolsLayout);
                         jpToolsLayout.setHorizontalGroup(
-                                jpToolsLayout.createParallelGroup()
-                                        .addComponent(jtTools, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            jpToolsLayout.createParallelGroup()
+                                .addComponent(jtTools, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         );
                         jpToolsLayout.setVerticalGroup(
-                                jpToolsLayout.createParallelGroup()
-                                        .addComponent(jtTools, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                            jpToolsLayout.createParallelGroup()
+                                .addComponent(jtTools, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                         );
                     }
                     jpButtons.add(jpTools);
@@ -2986,13 +2986,13 @@ public class MainFrame extends JFrame {
                             //======== jpAreaTools ========
                             {
                                 jpAreaTools.setLayout(new MigLayout(
-                                        "hidemode 3",
-                                        // columns
-                                        "[grow,fill]",
-                                        // rows
-                                        "[grow,fill]" +
-                                                "[fill]" +
-                                                "[fill]"));
+                                    "hidemode 3",
+                                    // columns
+                                    "[grow,fill]",
+                                    // rows
+                                    "[grow,fill]" +
+                                    "[fill]" +
+                                    "[fill]"));
 
                                 //======== jScrollPaneMapMatrix ========
                                 {
@@ -3012,13 +3012,13 @@ public class MainFrame extends JFrame {
                                 //======== jpArea ========
                                 {
                                     jpArea.setLayout(new MigLayout(
-                                            "insets 0,hidemode 3,gap 5 5",
-                                            // columns
-                                            "[fill]" +
-                                                    "[grow,fill]" +
-                                                    "[fill]",
-                                            // rows
-                                            "[fill]"));
+                                        "insets 0,hidemode 3,gap 5 5",
+                                        // columns
+                                        "[fill]" +
+                                        "[grow,fill]" +
+                                        "[fill]",
+                                        // rows
+                                        "[fill]"));
 
                                     //---- jlArea ----
                                     jlArea.setText("Area:");
@@ -3041,12 +3041,12 @@ public class MainFrame extends JFrame {
                                         GroupLayout jPanelAreaColorLayout = new GroupLayout(jPanelAreaColor);
                                         jPanelAreaColor.setLayout(jPanelAreaColorLayout);
                                         jPanelAreaColorLayout.setHorizontalGroup(
-                                                jPanelAreaColorLayout.createParallelGroup()
-                                                        .addGap(0, 0, Short.MAX_VALUE)
+                                            jPanelAreaColorLayout.createParallelGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
                                         );
                                         jPanelAreaColorLayout.setVerticalGroup(
-                                                jPanelAreaColorLayout.createParallelGroup()
-                                                        .addGap(0, 0, Short.MAX_VALUE)
+                                            jPanelAreaColorLayout.createParallelGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
                                         );
                                     }
                                     jpArea.add(jPanelAreaColor, "cell 2 0");
@@ -3056,10 +3056,16 @@ public class MainFrame extends JFrame {
                                 //======== jpMoveMap ========
                                 {
                                     jpMoveMap.setBorder(new TitledBorder(null, "Move Map", TitledBorder.LEADING, TitledBorder.ABOVE_TOP));
-                                    jpMoveMap.setLayout(new FlowLayout());
-                                    jpMoveMap.add(moveMapPanel);
+                                    jpMoveMap.setMaximumSize(new Dimension(100, 100));
+                                    jpMoveMap.setMinimumSize(new Dimension(100, 100));
+                                    jpMoveMap.setLayout(new BorderLayout());
+
+                                    //---- moveMapPanel ----
+                                    moveMapPanel.setMaximumSize(new Dimension(100, 100));
+                                    moveMapPanel.setMinimumSize(null);
+                                    jpMoveMap.add(moveMapPanel, BorderLayout.CENTER);
                                 }
-                                jpAreaTools.add(jpMoveMap, "cell 0 2");
+                                jpAreaTools.add(jpMoveMap, "cell 0 2,alignx center,growx 0");
                             }
                             jspMatrix.setTopComponent(jpAreaTools);
 
@@ -3079,12 +3085,12 @@ public class MainFrame extends JFrame {
                                     GroupLayout tileDisplayLayout = new GroupLayout(tileDisplay);
                                     tileDisplay.setLayout(tileDisplayLayout);
                                     tileDisplayLayout.setHorizontalGroup(
-                                            tileDisplayLayout.createParallelGroup()
-                                                    .addGap(0, 0, Short.MAX_VALUE)
+                                        tileDisplayLayout.createParallelGroup()
+                                            .addGap(0, 0, Short.MAX_VALUE)
                                     );
                                     tileDisplayLayout.setVerticalGroup(
-                                            tileDisplayLayout.createParallelGroup()
-                                                    .addGap(0, 234, Short.MAX_VALUE)
+                                        tileDisplayLayout.createParallelGroup()
+                                            .addGap(0, 236, Short.MAX_VALUE)
                                     );
                                 }
                                 jpTileSelected.add(tileDisplay);
@@ -3098,16 +3104,16 @@ public class MainFrame extends JFrame {
                     //======== jPanelMapTools ========
                     {
                         jPanelMapTools.setLayout(new MigLayout(
-                                "insets 0,hidemode 3,gap 5 5",
-                                // columns
-                                "[grow,fill]",
-                                // rows
-                                "[fill]" +
-                                        "[fill]" +
-                                        "[fill]" +
-                                        "[fill]" +
-                                        "[fill]" +
-                                        "[fill]"));
+                            "insets 0,hidemode 3,gap 5 5",
+                            // columns
+                            "[grow,fill]",
+                            // rows
+                            "[fill]" +
+                            "[fill]" +
+                            "[fill]" +
+                            "[fill]" +
+                            "[fill]" +
+                            "[fill]"));
 
                         //======== jpHeightMapAlpha ========
                         {
@@ -3121,12 +3127,12 @@ public class MainFrame extends JFrame {
                             GroupLayout jpHeightMapAlphaLayout = new GroupLayout(jpHeightMapAlpha);
                             jpHeightMapAlpha.setLayout(jpHeightMapAlphaLayout);
                             jpHeightMapAlphaLayout.setHorizontalGroup(
-                                    jpHeightMapAlphaLayout.createParallelGroup()
-                                            .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                                jpHeightMapAlphaLayout.createParallelGroup()
+                                    .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
                             );
                             jpHeightMapAlphaLayout.setVerticalGroup(
-                                    jpHeightMapAlphaLayout.createParallelGroup()
-                                            .addComponent(jsHeightMapAlpha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                jpHeightMapAlphaLayout.createParallelGroup()
+                                    .addComponent(jsHeightMapAlpha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                             );
                         }
                         jPanelMapTools.add(jpHeightMapAlpha, "cell 0 0");
@@ -3142,12 +3148,12 @@ public class MainFrame extends JFrame {
                             GroupLayout jpBackImageAlphaLayout = new GroupLayout(jpBackImageAlpha);
                             jpBackImageAlpha.setLayout(jpBackImageAlphaLayout);
                             jpBackImageAlphaLayout.setHorizontalGroup(
-                                    jpBackImageAlphaLayout.createParallelGroup()
-                                            .addComponent(jsBackImageAlpha, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                                jpBackImageAlphaLayout.createParallelGroup()
+                                    .addComponent(jsBackImageAlpha, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                             );
                             jpBackImageAlphaLayout.setVerticalGroup(
-                                    jpBackImageAlphaLayout.createParallelGroup()
-                                            .addComponent(jsBackImageAlpha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                jpBackImageAlphaLayout.createParallelGroup()
+                                    .addComponent(jsBackImageAlpha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                             );
                         }
                         jPanelMapTools.add(jpBackImageAlpha, "cell 0 1");
@@ -3156,25 +3162,25 @@ public class MainFrame extends JFrame {
                         {
                             jpMoveLayer.setBorder(new TitledBorder(null, "Move Layer", TitledBorder.LEADING, TitledBorder.ABOVE_TOP));
                             jpMoveLayer.setLayout(new MigLayout(
-                                    "insets 0,hidemode 3,gap 0 0",
-                                    // columns
-                                    "[fill]" +
-                                            "[fill]",
-                                    // rows
-                                    "[center]"));
+                                "insets 0,hidemode 3,gap 0 0",
+                                // columns
+                                "[fill]" +
+                                "[fill]",
+                                // rows
+                                "[center]"));
 
                             //======== jpDirectionalPad ========
                             {
                                 jpDirectionalPad.setLayout(new MigLayout(
-                                        "insets 0,hidemode 3,gap 3 3",
-                                        // columns
-                                        "[fill]" +
-                                                "[fill]" +
-                                                "[fill]",
-                                        // rows
-                                        "[fill]" +
-                                                "[fill]" +
-                                                "[fill]"));
+                                    "insets 0,hidemode 3,gap 3 3",
+                                    // columns
+                                    "[fill]" +
+                                    "[fill]" +
+                                    "[fill]",
+                                    // rows
+                                    "[fill]" +
+                                    "[fill]" +
+                                    "[fill]"));
 
                                 //---- jbMoveMapUp ----
                                 jbMoveMapUp.setForeground(new Color(0, 153, 0));

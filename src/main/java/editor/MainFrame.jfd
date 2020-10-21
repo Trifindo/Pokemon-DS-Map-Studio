@@ -666,14 +666,20 @@ new FormModel {
 									}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 										"value": "cell 0 1"
 									} )
-									add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+									add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 										name: "jpMoveMap"
 										"border": new javax.swing.border.TitledBorder( null, "Move Map", 4, 1 )
+										"maximumSize": new java.awt.Dimension( 100, 100 )
+										"minimumSize": new java.awt.Dimension( 100, 100 )
 										add( new FormComponent( "editor.mapmatrix.MoveMapPanel" ) {
 											name: "moveMapPanel"
+											"maximumSize": new java.awt.Dimension( 100, 100 )
+											"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+										}, new FormLayoutConstraints( class java.lang.String ) {
+											"value": "Center"
 										} )
 									}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-										"value": "cell 0 2"
+										"value": "cell 0 2,alignx center,growx 0"
 									} )
 								}, new FormLayoutConstraints( class java.lang.String ) {
 									"value": "left"
@@ -688,7 +694,7 @@ new FormModel {
 									} )
 									add( new FormContainer( "editor.tileseteditor.TileDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 										"$horizontalGroup": "par l {space :0:0:x}"
-										"$verticalGroup": "par l {space :0:234:x}"
+										"$verticalGroup": "par l {space :0:236:x}"
 									} ) {
 										name: "tileDisplay"
 										"focusable": false

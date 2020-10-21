@@ -4,15 +4,15 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
-			"$columnConstraints": "[grow,fill][fill][fill][fill]"
+			"$layoutConstraints": "insets dialog,hidemode 3,gap 5 5"
+			"$columnConstraints": "[304,grow,fill][fill][fill][487,grow,fill]"
 			"$rowConstraints": "[grow,fill][fill]"
 		} ) {
 			name: "this"
 			"defaultCloseOperation": 2
 			"title": "Tileset Editor"
 			"iconImage": new FormReference( "null" )
-			"minimumSize": new java.awt.Dimension( 1094, 602 )
+			"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 			"modal": true
 			add( new FormContainer( "editor.tileseteditor.TileDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {space :0:0:x}"
@@ -20,26 +20,28 @@ new FormModel {
 			} ) {
 				name: "tileDisplay"
 				"border": new javax.swing.border.BevelBorder( 1, null, null, null, null )
-				"preferredSize": new java.awt.Dimension( 350, 300 )
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 0"
 			} )
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {comp jScrollPane2::::108:x, space :p:0:p}}"
-				"$verticalGroup": "par l {comp jScrollPane2::l:::x}"
-			} ) {
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
 				name: "jPanel2"
 				"border": new javax.swing.border.TitledBorder( "Tile Selector" )
+				"minimumSize": new java.awt.Dimension( 150, 31 )
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "jScrollPane2"
 					"horizontalScrollBarPolicy": 31
 					"verticalScrollBarPolicy": 22
 					add( new FormContainer( "editor.tileselector.TileSelector", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 						"$horizontalGroup": "par l {space :0:128:x}"
-						"$verticalGroup": "par l {space :0:672:x}"
+						"$verticalGroup": "par l {space :0:689:x}"
 					} ) {
 						name: "tileSelector"
 						"preferredSize": new java.awt.Dimension( 128, 0 )
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "tileSelectorMousePressed", true ) )
 					} )
 				} )
@@ -48,168 +50,423 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "jTabbedPane1"
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq l {space :::p, par l {comp jPanel5:::::x, comp jPanel6::l:::x, comp jPanel7::l:::x, seq {par l {seq {comp jLabel3:::p::p, space :::p, comp jtfIndexTile:::p:55:p, space s:::p, comp jLabel23:::p::p, space u:::p, comp jbMoveUp:::p::p, space :::p, comp jbMoveDown:::p::p}, seq l {comp jbAddTile:::p::p, space :::p, comp jbRemoveTile:::p::p, space :::p, comp jbDuplicateTile:::p::p, space :::p, comp jbImportTiles:::p::p}}, space :0:0:x}}, space :::p}}"
-					"$verticalGroup": "par l {seq l {space s:::p, par b {comp jtfIndexTile::b:p::p, comp jLabel3::b:p::p, comp jbMoveUp::b:p::p, comp jbMoveDown::b:p::p, comp jLabel23::b:p::p}, space :::p, par b {comp jbDuplicateTile::b:p::p, comp jbRemoveTile::b:p::p, comp jbAddTile::b:p::p, comp jbImportTiles::b:p::p}, space u:::p, comp jPanel5:::p::p, space :::p, comp jPanel6:::p::p, space :::p, comp jPanel7:::p::p, space :::x}}"
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0:1.0"
+					"$rowSpecs": "0, 0, 0, 0, 0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignTop": true
+					"$alignLeft": true
 				} ) {
 					name: "jPanel1"
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbRemoveTile"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveTileIcon.png" )
-						"text": "Remove Tiles"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveTileActionPerformed", true ) )
+					"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0:1.0, 0, 0, 0"
+						"$rowSpecs": "0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignLeft": true
+						"$alignTop": true
+					} ) {
+						name: "panel8"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel3"
+							"text": "Tile selected: "
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "jtfIndexTile"
+							"horizontalAlignment": 0
+							"enabled": false
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel23"
+							"text": "Move tile:"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 2
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbMoveUp"
+							"text": "▲"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveUpActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 3
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbMoveDown"
+							"text": "▼"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveDownActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 4
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+						"columns": 4
+					} ) {
+						name: "panel1"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbAddTile"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddTileIcon.png" )
+							"text": "Add Tiles..."
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddTileActionPerformed", true ) )
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbRemoveTile"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveTileIcon.png" )
+							"text": "Remove Tiles"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveTileActionPerformed", true ) )
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbDuplicateTile"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/DuplicateTileIcon.png" )
+							"text": "Duplicate Tiles"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbDuplicateTileActionPerformed", true ) )
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbImportTiles"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
+							"text": "Import Tiles..."
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportTilesActionPerformed", true ) )
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
 					} )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "jtfIndexTile"
-						"horizontalAlignment": 0
-						"enabled": false
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbMoveDown"
-						"text": "▼"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveDownActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbMoveUp"
-						"text": "▲"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveUpActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel3"
-						"text": "Tile selected: "
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbDuplicateTile"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/DuplicateTileIcon.png" )
-						"text": "Duplicate Tiles"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbDuplicateTileActionPerformed", true ) )
-					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq l {space :::p, par l {seq l {par l:::p {seq l {comp jLabel10:::p::p, space u:::p, comp jtfGlobalTexScale:::::x}, seq l {comp jLabel14:::p::p, space u:::p, comp jtfXOffset:::p:68:p}}, space u:::p, par l {seq l {comp jbXOffset:::p:59:p, space :p:18:p, comp jLabel15:::p::p, space :::p, comp jtfYOffset:::p:53:p, space :::p, comp jbYOffset:::p:59:p}, seq l {comp jbGlobalTexScale:::p::p, space s:::p, comp jcbGlobalTexMapping:::p::p}}}, seq l {par l {seq l {comp jLabel2:::p::p, space :::p, comp jbLessSizeY:::p::p}, seq l {comp jLabel1:::p::p, space :::p, comp jbLessSizeX:::p::p}}, space :::p, par l {seq l {comp jtfSizeY:::p:27:p, space :::p, comp jbMoreSizeY:::p::p, space u:::p, comp jcbTileableY:::p::p, space u:::p, comp jcbVtileable:::p::p}, seq l {comp jtfSizeX:::p:27:p, space :p::p, comp jbMoreSizeX:::p::p, space u:::p, comp jcbTileableX:::p::p, space u:::p, comp jcbUtileable:::p::p}}}}, space :::x}}"
-						"$verticalGroup": "par l {seq l {space :::p, par b {comp jLabel1::b:p::p, comp jbLessSizeX::b:p:20:p, comp jbMoreSizeX::b:p:20:p, comp jcbTileableX::b:p::p, comp jcbUtileable::b:p::p, comp jtfSizeX::b:p::p}, space :::p, par b {comp jLabel2::b:p::p, comp jbLessSizeY::b:p:20:p, comp jbMoreSizeY::b:p:20:p, comp jcbTileableY::b:p::p, comp jcbVtileable::b:p::p, comp jtfSizeY::b:p::p}, space :::p, par b {comp jLabel14::b:p::p, comp jtfXOffset::b:p::p, comp jbXOffset::b:p::p, comp jLabel15::b:p::p, comp jtfYOffset::b:p::p, comp jbYOffset::b:p::p}, space :::p, par b {comp jbGlobalTexScale::b:p::p, comp jcbGlobalTexMapping::b:p::p, comp jtfGlobalTexScale::b:p::p, comp jLabel10::b:p::p}, space :::x}}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[grow,fill][fill]"
+						"$rowConstraints": "[][fill][fill]"
 					} ) {
 						name: "jPanel5"
 						"border": new javax.swing.border.TitledBorder( "Tile Properties" )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel10"
-							"text": "Texture Scale:"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0, 0, 0:1.0, 0"
+							"$rowSpecs": "0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel2"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel1"
+								"foreground": new java.awt.Color( 204, 0, 0, 255 )
+								"text": "X Size:"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbLessSizeX"
+								"text": "<"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbLessSizeXActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+							} )
+							add( new FormComponent( "javax.swing.JTextField" ) {
+								name: "jtfSizeX"
+								"editable": false
+								"horizontalAlignment": 0
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbMoreSizeX"
+								"text": ">"
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoreSizeXActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 3
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel2"
+								"foreground": new java.awt.Color( 0, 153, 0, 255 )
+								"text": "Y Size:"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbLessSizeY"
+								"text": "<"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbLessSizeYActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+								"gridy": 1
+							} )
+							add( new FormComponent( "javax.swing.JTextField" ) {
+								name: "jtfSizeY"
+								"editable": false
+								"horizontalAlignment": 0
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 2
+								"gridy": 1
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbMoreSizeY"
+								"text": ">"
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoreSizeYActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 3
+								"gridy": 1
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
 						} )
-						add( new FormComponent( "javax.swing.JCheckBox" ) {
-							name: "jcbTileableY"
-							"foreground": new java.awt.Color( 0, 153, 0, 255 )
-							"text": "Y Tileable"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTileableYActionPerformed", true ) )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+							"columns": 2
+							"rows": 2
+						} ) {
+							name: "panel4"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbTileableX"
+								"foreground": new java.awt.Color( 204, 0, 0, 255 )
+								"text": "X Tileable"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTileableXActionPerformed", true ) )
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbUtileable"
+								"foreground": new java.awt.Color( 204, 0, 0, 255 )
+								"text": "Texture U Tileable"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbUtileableActionPerformed", true ) )
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbTileableY"
+								"foreground": new java.awt.Color( 0, 153, 0, 255 )
+								"text": "Y Tileable"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTileableYActionPerformed", true ) )
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbVtileable"
+								"foreground": new java.awt.Color( 0, 153, 0, 255 )
+								"text": "Texture V Tileable"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbVtileableActionPerformed", true ) )
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 0"
 						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "jtfGlobalTexScale"
-							"text": " "
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0, 0:1.0, 0, 0, 0:1.0, 0"
+							"$rowSpecs": "0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel3"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel14"
+								"foreground": new java.awt.Color( 204, 0, 0, 255 )
+								"text": "X Offset: "
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "javax.swing.JTextField" ) {
+								name: "jtfXOffset"
+								"text": " "
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"foreground": new com.jformdesigner.model.SwingColor( "TextPane.foreground" )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel15"
+								"foreground": new java.awt.Color( 0, 153, 0, 255 )
+								"text": "Y Offset: "
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbXOffset"
+								"text": "Apply"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbXOffsetActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 3
+							} )
+							add( new FormComponent( "javax.swing.JTextField" ) {
+								name: "jtfYOffset"
+								"text": " "
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 4
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbYOffset"
+								"text": "Apply"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbYOffsetActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 5
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1 2 1"
 						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "jbGlobalTexScale"
-							"text": "Apply"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbGlobalTexScaleActionPerformed", true ) )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0, 0:1.0, 0, 0"
+							"$rowSpecs": "0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel5"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel10"
+								"text": "Texture Scale:"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "javax.swing.JTextField" ) {
+								name: "jtfGlobalTexScale"
+								"text": " "
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbGlobalTexScale"
+								"text": "Apply"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbGlobalTexScaleActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 2
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbGlobalTexMapping"
+								"text": "Global Texture Mapping"
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbGlobalTexMappingActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 3
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 2 2 1"
 						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "jbMoreSizeX"
-							"text": ">"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoreSizeXActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JCheckBox" ) {
-							name: "jcbUtileable"
-							"foreground": new java.awt.Color( 204, 0, 0, 255 )
-							"text": "Texture U Tileable"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbUtileableActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel2"
-							"foreground": new java.awt.Color( 0, 153, 0, 255 )
-							"text": "Y Size:"
-						} )
-						add( new FormComponent( "javax.swing.JCheckBox" ) {
-							name: "jcbVtileable"
-							"foreground": new java.awt.Color( 0, 153, 0, 255 )
-							"text": "Texture V Tileable"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbVtileableActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel14"
-							"foreground": new java.awt.Color( 204, 0, 0, 255 )
-							"text": "X Offset: "
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "jtfXOffset"
-							"text": " "
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel15"
-							"foreground": new java.awt.Color( 0, 153, 0, 255 )
-							"text": "Y Offset: "
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "jtfYOffset"
-							"text": " "
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "jtfSizeY"
-							"editable": false
-							"horizontalAlignment": 0
-						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "jbXOffset"
-							"text": "Apply"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbXOffsetActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "jbYOffset"
-							"text": "Apply"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbYOffsetActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel1"
-							"foreground": new java.awt.Color( 204, 0, 0, 255 )
-							"text": "X Size:"
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "jtfSizeX"
-							"editable": false
-							"horizontalAlignment": 0
-						} )
-						add( new FormComponent( "javax.swing.JCheckBox" ) {
-							name: "jcbTileableX"
-							"foreground": new java.awt.Color( 204, 0, 0, 255 )
-							"text": "X Tileable"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTileableXActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "jbLessSizeX"
-							"text": "<"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbLessSizeXActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "jbMoreSizeY"
-							"text": ">"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoreSizeYActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "jbLessSizeY"
-							"text": "<"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbLessSizeYActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JCheckBox" ) {
-							name: "jcbGlobalTexMapping"
-							"text": "Global Texture Mapping"
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbGlobalTexMappingActionPerformed", true ) )
-						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 2
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq l {space :::p, par l {seq {comp jbExportTileAsObj:::p::p, space :::p, comp jbImportTileAsObj:::p::p, space :::p, comp jbEditVertexColors:::p::p, space :0:0:x}, seq {comp jLabel5:::p::p, space :::p, comp jtfObjName:::::x}}, space :p:10:p}}"
-						"$verticalGroup": "par l {seq l {space :::p, par b {comp jLabel5::b:p::p, comp jtfObjName::b:p::p}, space :::p, par b {comp jbExportTileAsObj::b:p::p, comp jbImportTileAsObj::b:p::p, comp jbEditVertexColors::b:p::p}, space :::x}}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[fill][grow,fill]"
+						"$rowConstraints": "[fill][fill]"
 					} ) {
 						name: "jPanel6"
 						"border": new javax.swing.border.TitledBorder( "Tile 3D Model" )
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "jLabel5"
 							"text": "Model name:"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
 						} )
 						add( new FormComponent( "javax.swing.JTextField" ) {
 							name: "jtfObjName"
@@ -217,327 +474,674 @@ new FormModel {
 							"columns": 17
 							"text": " "
 							"enabled": false
-							"maximumSize": new java.awt.Dimension( 9, 20 )
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 0"
 						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "jbExportTileAsObj"
-							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportTileIcon.png" )
-							"text": "Export OBJ..."
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportTileAsObjActionPerformed", true ) )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+							"columns": 3
+						} ) {
+							name: "panel10"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbExportTileAsObj"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportTileIcon.png" )
+								"text": "Export OBJ..."
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportTileAsObjActionPerformed", true ) )
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbImportTileAsObj"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
+								"text": "Replace OBJ..."
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportTileAsObjActionPerformed", true ) )
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbEditVertexColors"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/VertexColorEditorIcon.png" )
+								"text": "Edit Vertex Colors..."
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbEditVertexColorsActionPerformed", true ) )
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 1"
 						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "jbImportTileAsObj"
-							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
-							"text": "Replace OBJ..."
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportTileAsObjActionPerformed", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "jbEditVertexColors"
-							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/VertexColorEditorIcon.png" )
-							"text": "Edit Vertex Colors..."
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbEditVertexColorsActionPerformed", true ) )
-						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 3
 					} )
-					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {seq {space :::p, par l {seq l {comp jLabel22:::p::p, space u:::p, comp jcbMaterial:::::x, space u:::p, comp jbAddTexture:::p::p, space :p:16:p}, seq {comp jLabel16:::p::p, space :::p, comp jtfNumTextures:::p:32:p, space s:::p, comp jLabel4:::p::p, space u:::p, comp jSpinner1:::p:42:p, space :::x}}, comp textureDisplay:::p::p, space :::p}}"
-						"$verticalGroup": "par l {seq l {space :::p, par l {comp textureDisplay:::p::p, seq l {par b {comp jLabel16::b:p::p, comp jtfNumTextures::b:p::p, comp jLabel4::b:p::p, comp jSpinner1::b:p::p}, space u:::p, par b {comp jLabel22::b:p::p, comp jcbMaterial::b:p::p, comp jbAddTexture::b:p::p}}}, space :::x}}"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[grow,fill][fill]"
+						"$rowConstraints": "[fill][grow,fill]"
 					} ) {
 						name: "jPanel7"
 						"border": new javax.swing.border.TitledBorder( "Materials" )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel16"
-							"text": "Number of materials:"
-						} )
-						add( new FormComponent( "javax.swing.JTextField" ) {
-							name: "jtfNumTextures"
-							"horizontalAlignment": 0
-							"enabled": false
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel4"
-							"text": "Material selected:"
-							"toolTipText": ""
-						} )
-						add( new FormComponent( "javax.swing.JSpinner" ) {
-							name: "jSpinner1"
-							addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner1StateChanged", true ) )
-						} )
-						add( new FormComponent( "javax.swing.JComboBox" ) {
-							name: "jcbMaterial"
-							"model": new javax.swing.DefaultComboBoxModel
-							auxiliary() {
-								"JavaCodeGenerator.typeParameters": "String"
-							}
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbMaterialActionPerformed", true ) )
-						} )
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						add( new FormContainer( "editor.tileseteditor.TextureDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {space :0:126:x}"
-							"$verticalGroup": "par l {space :0:126:x}"
+							"$horizontalGroup": "par l {space :0:125:x}"
+							"$verticalGroup": "par l {space :0:125:x}"
 						} ) {
 							name: "textureDisplay"
 							"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
-							"preferredSize": new java.awt.Dimension( 128, 128 )
+							"preferredSize": new java.awt.Dimension( 127, 127 )
+							"maximumSize": new java.awt.Dimension( 127, 127 )
+							"minimumSize": new java.awt.Dimension( 127, 127 )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 0 1 2"
 						} )
-						add( new FormComponent( "javax.swing.JButton" ) {
-							name: "jbAddTexture"
-							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddTileIcon.png" )
-							"text": "Add texture..."
-							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddTextureActionPerformed", true ) )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0, 0:1.0, 0, 0:1.0"
+							"$rowSpecs": "0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel6"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel16"
+								"text": "Number of materials:"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "javax.swing.JTextField" ) {
+								name: "jtfNumTextures"
+								"horizontalAlignment": 0
+								"enabled": false
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel4"
+								"text": "Material selected:"
+								"toolTipText": ""
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 2
+							} )
+							add( new FormComponent( "javax.swing.JSpinner" ) {
+								name: "jSpinner1"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner1StateChanged", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 3
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
 						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "jLabel22"
-							"text": "Material: "
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0, 0:1.0, 0"
+							"$rowSpecs": "0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel7"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel22"
+								"text": "Material: "
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "javax.swing.JComboBox" ) {
+								name: "jcbMaterial"
+								"model": new javax.swing.DefaultComboBoxModel
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbMaterialActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbAddTexture"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddTileIcon.png" )
+								"text": "Add texture..."
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddTextureActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 2
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1"
 						} )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbAddTile"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddTileIcon.png" )
-						"text": "Add Tiles..."
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddTileActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel23"
-						"text": "Move tile:"
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbImportTiles"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
-						"text": "Import Tiles..."
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportTilesActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 4
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "Tile Editor"
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq l {space :::p, par l {comp jScrollPane1:::p:181:p, comp jLabel21::l:p::p}, par t {seq t {space u:::x, par l:::p {seq l {par t:::p {comp jLabel8:::::x, comp jLabel7::l:::x, comp jLabel6::l:p:72:p}, space u:::p, par t:::p {comp jtfTextureName::l:::x, comp jtfMaterialName::l::139:x, comp jtfPaletteName::l:::x}}, seq l {comp jLabel9:::p:72:p, space u:::p, comp jSpinner2:::p:49:p}}, par l {seq {space :p:10:p, comp jbMoveMaterialUp:::p::p, space :::p, comp jbMoveMaterialDown:::p::p}, seq l {space u:::p, par l {comp jbPaletteName:::p:92:p, comp jbTextName:::p:92:p, comp jbMaterialName::l:p:92:p}}}, space :::x}, seq t {space :p:10:p, par l {seq {par l {par l:::p {seq l {par t:::p {comp jLabel17:::::x, comp jLabel11:::::x}, space :::p, par l {comp jcbTexTilingU:::p:89:p, comp jcbTexGenMode:::p:89:p}}, comp jcbEnableFog::l:p::p, seq l {par l {comp jLabel18:::p:76:p, comp jLabel19:::::x}, space :::p, par l:::p {comp jcbTexTilingV:::::x, comp jcbColorFormat:::::x}}}, comp jcbUniformNormal::l:p::p, comp jcbRenderFrontAndBack::l:p::p, comp jcbAlwaysIncludedInImd::l:p::p, comp jcbRenderBorder::l:p::p}, space :::x, par l:::p {comp textureDisplayMaterial::l:p::p, comp jbReplaceTexture::l:::x, comp jbReplaceMaterial::l:::x}, space :::x}, seq {comp jLabel20:::p::p, space u:::p, comp jcbL0:::p::p, space u:::p, comp jcbL1:::p::p, space u:::p, comp jcbL2:::p::p, space u:::p, comp jcbL3:::p::p, space u:::p, comp jcbUseVertexColors:::p::p, space :::x}}}}}}"
-					"$verticalGroup": "par l {seq {space :::p, par l {seq {par b {comp jtfMaterialName::b:p::p, comp jLabel8::b:p::p, comp jbMaterialName::b:p::p}, space :::p, par b {comp jtfTextureName::b:p::p, comp jLabel7::b:p::p, comp jbTextName::b:p::p}, space :::p, par b {comp jtfPaletteName::b:p::p, comp jLabel6::b:p::p, comp jbPaletteName::b:p::p}, space :::p, par b {comp jLabel9::b:p::p, comp jSpinner2::b:p::p, comp jbMoveMaterialUp::b:p::p, comp jbMoveMaterialDown::b:p::p}, space u:::p, par l {seq l {comp textureDisplayMaterial:::p::p, space :::p, comp jbReplaceTexture:::p::p, space :::p, comp jbReplaceMaterial:::p::p}, seq l {par b {comp jLabel11::b:p::p, comp jcbTexGenMode::b:p::p}, space :::p, par b {comp jLabel17::b:p::p, comp jcbTexTilingU::b:p::p}, space :::p, par b {comp jLabel18::b:p::p, comp jcbTexTilingV::b:p::p}, space :::p, par b {comp jLabel19::b:p::p, comp jcbColorFormat::b:p::p}, space u:::p, comp jcbEnableFog:::p::p, space u:::p, comp jcbUniformNormal:::p::p, space u:::p, comp jcbRenderFrontAndBack:::p::p, space u:::p, comp jcbAlwaysIncludedInImd:::p::p}}, space :::p, comp jcbRenderBorder:::p::p, space u:::p, par b {comp jLabel20::b:p::p, comp jcbL0::b:p::p, comp jcbL1::b:p::p, comp jcbL2::b:p::p, comp jcbL3::b:p::p, comp jcbUseVertexColors::b:p::p}, space :0:163:x}, seq {comp jLabel21:::p::p, space :::p, comp jScrollPane1:::::x}}, space :::p}}"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets dialog,hidemode 3,gap 5 5"
+					"$columnConstraints": "[fill][grow,fill]"
+					"$rowConstraints": "[grow,fill][fill]"
 				} ) {
 					name: "jPanel3"
-					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-						name: "jScrollPane1"
-						"verticalScrollBarPolicy": 22
-						add( new FormComponent( "javax.swing.JList" ) {
-							name: "jlistINames"
-							"selectionMode": 0
+					"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0:1.0"
+						"$rowSpecs": "0, 0:1.0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignLeft": true
+						"$alignTop": true
+					} ) {
+						name: "panel13"
+						"minimumSize": new java.awt.Dimension( 120, 0 )
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel21"
+							"text": "Material list:"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jScrollPane1"
+							"verticalScrollBarPolicy": 22
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "jlistINames"
+								"selectionMode": 0
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+								addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlistINamesValueChanged", true ) )
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0 1 2"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+						"$columnSpecs": "0, 0:1.0, 0"
+						"$rowSpecs": "0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+						"$hGap": 5
+						"$vGap": 5
+						"$alignLeft": true
+						"$alignTop": true
+					} ) {
+						name: "panel11"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel8"
+							"text": "Material Name:"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel7"
+							"text": "Texture Name:"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel6"
+							"text": "Palette Name:"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 2
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "jtfPaletteName"
+							"text": " "
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtfPaletteNameActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 2
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "jtfTextureName"
+							"text": " "
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtfTextureNameActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "jtfMaterialName"
+							"text": " "
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtfMaterialNameActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbMaterialName"
+							"text": "Apply"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMaterialNameActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 2
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbTextName"
+							"text": "Apply"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbTextNameActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 2
+							"gridy": 1
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbPaletteName"
+							"text": "Apply"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbPaletteNameActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 2
+							"gridy": 2
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel9"
+							"text": "Alpha: "
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 3
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel11"
+							"text": "Tex Gen Mode: "
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 4
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel17"
+							"text": "Tex Tiling U: "
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 5
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel18"
+							"text": "Tex Tiling V: "
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 6
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel19"
+							"text": "Color Format:"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 7
+						} )
+						add( new FormComponent( "javax.swing.JSpinner" ) {
+							name: "jSpinner2"
+							"model": new javax.swing.SpinnerNumberModel( 0, 0, 31, 1 )
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 3
+							"gridwidth": 2
+						} )
+						add( new FormComponent( "javax.swing.JComboBox" ) {
+							name: "jcbTexGenMode"
+							"maximumRowCount": 4
+							"model": new javax.swing.DefaultComboBoxModel {
+								selectedItem: "None"
+								addElement( "None" )
+								addElement( "Texture" )
+								addElement( "Normal" )
+								addElement( "Vertex" )
+							}
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 							auxiliary() {
 								"JavaCodeGenerator.typeParameters": "String"
 							}
-							addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlistINamesValueChanged", true ) )
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTexGenModeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 4
+							"gridwidth": 2
 						} )
-					} )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "jtfPaletteName"
-						"text": " "
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtfPaletteNameActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel6"
-						"text": "Palette Name:"
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel7"
-						"text": "Texture Name:"
-					} )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "jtfTextureName"
-						"text": " "
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtfTextureNameActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbTextName"
-						"text": "Apply"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbTextNameActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbPaletteName"
-						"text": "Apply"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbPaletteNameActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "jcbEnableFog"
-						"text": "Enable Fog"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbEnableFogActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "jcbRenderFrontAndBack"
-						"text": "Render Front and Back Face"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbRenderFrontAndBackActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "jcbUniformNormal"
-						"text": "Uniform Normal Orientation"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbUniformNormalActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel8"
-						"text": "Material Name:"
-					} )
-					add( new FormComponent( "javax.swing.JTextField" ) {
-						name: "jtfMaterialName"
-						"text": " "
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtfMaterialNameActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbMaterialName"
-						"text": "Apply"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMaterialNameActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel9"
-						"text": "Alpha: "
-					} )
-					add( new FormComponent( "javax.swing.JSpinner" ) {
-						name: "jSpinner2"
-						"model": new javax.swing.SpinnerNumberModel( 0, 0, 31, 1 )
-						addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel11"
-						"text": "Tex Gen Mode: "
-					} )
-					add( new FormComponent( "javax.swing.JComboBox" ) {
-						name: "jcbTexGenMode"
-						"maximumRowCount": 4
-						"model": new javax.swing.DefaultComboBoxModel {
-							selectedItem: "None"
-							addElement( "None" )
-							addElement( "Texture" )
-							addElement( "Normal" )
-							addElement( "Vertex" )
-						}
-						auxiliary() {
-							"JavaCodeGenerator.typeParameters": "String"
-						}
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTexGenModeActionPerformed", true ) )
-					} )
-					add( new FormContainer( "editor.tileseteditor.TextureDisplayMaterial", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {space :0:126:x}"
-						"$verticalGroup": "par l {space :0:126:x}"
-					} ) {
-						name: "textureDisplayMaterial"
-						"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
-						"preferredSize": new java.awt.Dimension( 128, 128 )
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "jcbAlwaysIncludedInImd"
-						"text": "Always included in IMD"
-						"toolTipText": "Used in HGSS"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbAlwaysIncludedInImdActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbMoveMaterialUp"
-						"text": "▲"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMaterialUpActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbMoveMaterialDown"
-						"text": "▼"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMaterialDownActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbReplaceMaterial"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveTileIcon.png" )
-						"text": "Replace Material"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceMaterialActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel17"
-						"text": "Tex Tiling U: "
-					} )
-					add( new FormComponent( "javax.swing.JComboBox" ) {
-						name: "jcbTexTilingU"
-						"maximumRowCount": 4
-						"model": new javax.swing.DefaultComboBoxModel {
-							selectedItem: "Repeat"
-							addElement( "Repeat" )
-							addElement( "Clamp" )
-							addElement( "Flip" )
-						}
-						auxiliary() {
-							"JavaCodeGenerator.typeParameters": "String"
-						}
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTexTilingUActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel18"
-						"text": "Tex Tiling V: "
-					} )
-					add( new FormComponent( "javax.swing.JComboBox" ) {
-						name: "jcbTexTilingV"
-						"maximumRowCount": 4
-						"model": new javax.swing.DefaultComboBoxModel {
-							selectedItem: "Repeat"
-							addElement( "Repeat" )
-							addElement( "Clamp" )
-							addElement( "Flip" )
-						}
-						auxiliary() {
-							"JavaCodeGenerator.typeParameters": "String"
-						}
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTexTilingVActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel19"
-						"text": "Color Format:"
-					} )
-					add( new FormComponent( "javax.swing.JComboBox" ) {
-						name: "jcbColorFormat"
-						"model": new javax.swing.DefaultComboBoxModel {
-							selectedItem: "Palette 4"
-							addElement( "Palette 4" )
-							addElement( "Palette 16" )
-							addElement( "Palette 256" )
-							addElement( "A3I5" )
-							addElement( "A5I3" )
-						}
-						auxiliary() {
-							"JavaCodeGenerator.typeParameters": "String"
-						}
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbColorFormatActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel20"
-						"text": "Lights: "
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "jcbL0"
-						"text": "L0"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL0ActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "jcbL1"
-						"text": "L1"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL1ActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "jcbL2"
-						"text": "L2"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL2ActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "jcbL3"
-						"text": "L3"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL3ActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JButton" ) {
-						name: "jbReplaceTexture"
-						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
-						"text": "Change Texture"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceTextureActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "jcbRenderBorder"
-						"text": "Draw Outline Border"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbRenderBorderActionPerformed", true ) )
-					} )
-					add( new FormComponent( "javax.swing.JLabel" ) {
-						name: "jLabel21"
-						"text": "Material list:"
-					} )
-					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "jcbUseVertexColors"
-						"text": "Use Vertex Colors"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbUseVertexColorsActionPerformed", true ) )
+						add( new FormComponent( "javax.swing.JComboBox" ) {
+							name: "jcbTexTilingU"
+							"maximumRowCount": 4
+							"model": new javax.swing.DefaultComboBoxModel {
+								selectedItem: "Repeat"
+								addElement( "Repeat" )
+								addElement( "Clamp" )
+								addElement( "Flip" )
+							}
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							auxiliary() {
+								"JavaCodeGenerator.typeParameters": "String"
+							}
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTexTilingUActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 5
+							"gridwidth": 2
+						} )
+						add( new FormComponent( "javax.swing.JComboBox" ) {
+							name: "jcbTexTilingV"
+							"maximumRowCount": 4
+							"model": new javax.swing.DefaultComboBoxModel {
+								selectedItem: "Repeat"
+								addElement( "Repeat" )
+								addElement( "Clamp" )
+								addElement( "Flip" )
+							}
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							auxiliary() {
+								"JavaCodeGenerator.typeParameters": "String"
+							}
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTexTilingVActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 6
+							"gridwidth": 2
+						} )
+						add( new FormComponent( "javax.swing.JComboBox" ) {
+							name: "jcbColorFormat"
+							"model": new javax.swing.DefaultComboBoxModel {
+								selectedItem: "Palette 4"
+								addElement( "Palette 4" )
+								addElement( "Palette 16" )
+								addElement( "Palette 256" )
+								addElement( "A3I5" )
+								addElement( "A5I3" )
+							}
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							auxiliary() {
+								"JavaCodeGenerator.typeParameters": "String"
+							}
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbColorFormatActionPerformed", true ) )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridx": 1
+							"gridy": 7
+							"gridwidth": 2
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+							"rows": 6
+						} ) {
+							name: "panel12"
+							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbEnableFog"
+								"text": "Enable Fog"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbEnableFogActionPerformed", true ) )
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbUniformNormal"
+								"text": "Uniform Normal Orientation"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbUniformNormalActionPerformed", true ) )
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbRenderFrontAndBack"
+								"text": "Render Front and Back Face"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbRenderFrontAndBackActionPerformed", true ) )
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbAlwaysIncludedInImd"
+								"text": "Always included in IMD"
+								"toolTipText": "Used in HGSS"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbAlwaysIncludedInImdActionPerformed", true ) )
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbRenderBorder"
+								"text": "Draw Outline Border"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbRenderBorderActionPerformed", true ) )
+							} )
+							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+								"$columnSpecs": "0, 0, 0, 0, 0, 0"
+								"$rowSpecs": "0"
+								"$hGap": 5
+								"$vGap": 5
+								"$alignLeft": true
+								"$alignTop": true
+							} ) {
+								name: "panel14"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								add( new FormComponent( "javax.swing.JLabel" ) {
+									name: "jLabel20"
+									"text": "Lights: "
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+								add( new FormComponent( "javax.swing.JCheckBox" ) {
+									name: "jcbL0"
+									"text": "L0"
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL0ActionPerformed", true ) )
+								}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+									"gridx": 1
+								} )
+								add( new FormComponent( "javax.swing.JCheckBox" ) {
+									name: "jcbL1"
+									"text": "L1"
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL1ActionPerformed", true ) )
+								}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+									"gridx": 2
+								} )
+								add( new FormComponent( "javax.swing.JCheckBox" ) {
+									name: "jcbL2"
+									"text": "L2"
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL2ActionPerformed", true ) )
+								}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+									"gridx": 3
+								} )
+								add( new FormComponent( "javax.swing.JCheckBox" ) {
+									name: "jcbL3"
+									"text": "L3"
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL3ActionPerformed", true ) )
+								}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+									"gridx": 4
+								} )
+								add( new FormComponent( "javax.swing.JCheckBox" ) {
+									name: "jcbUseVertexColors"
+									"text": "Use Vertex Colors"
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbUseVertexColorsActionPerformed", true ) )
+								}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+									"gridx": 5
+								} )
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 8
+							"gridwidth": 3
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0, 0"
+							"$rowSpecs": "0, 0, 0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel15"
+							"maximumSize": new java.awt.Dimension( 127, 500 )
+							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+								"columns": 2
+							} ) {
+								name: "panel16"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								add( new FormComponent( "javax.swing.JButton" ) {
+									name: "jbMoveMaterialUp"
+									"text": "▲"
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMaterialUpActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JButton" ) {
+									name: "jbMoveMaterialDown"
+									"text": "▼"
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMaterialDownActionPerformed", true ) )
+								} )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+							} )
+							add( new FormContainer( "editor.tileseteditor.TextureDisplayMaterial", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+								"$horizontalGroup": "par l {space :0:165:x}"
+								"$verticalGroup": "par l {space :0:125:x}"
+							} ) {
+								name: "textureDisplayMaterial"
+								"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
+								"preferredSize": new java.awt.Dimension( 127, 127 )
+								"maximumSize": new java.awt.Dimension( 127, 127 )
+								"minimumSize": new java.awt.Dimension( 127, 127 )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridheight": 4
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbReplaceTexture"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
+								"text": "Change Texture"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceTextureActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+								"gridx": 1
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbReplaceMaterial"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveTileIcon.png" )
+								"text": "Replace Material"
+								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceMaterialActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 2
+								"gridx": 1
+							} )
+						}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+							"gridy": 9
+							"gridwidth": 2
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 0"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "Material Editor"
@@ -547,98 +1151,187 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "jTabbedPane2"
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {space :::p, par l {comp jLabel12::l:p::p, comp jLabel13::l:p::p}, space u:::p, par l {comp jbFlipModel::l:p::p, comp jbRotateModel::t:p::p}, space :p:18:p, comp jbMoveModelLeft:::p:43:p, space :::p, par l {comp jbMoveModelDown::l:p::p, comp jbMoveModelUp::t:p::p}, space :::p, comp jbMoveModelRight:::p:43:p, space u:::p, par l {comp jbMoveModelUp1:::p::p, comp jbMoveModelDown1:::p::p}, space :0:0:x}}"
-					"$verticalGroup": "par l {seq l {space :::p, par l:::p {seq l {par b {comp jLabel12::b:p::p, comp jbRotateModel::b:p::p, comp jbMoveModelUp::b:p::p}, space :::p, par b {comp jLabel13::b:p::p, comp jbFlipModel::b:p::p, comp jbMoveModelDown::b:p::p}}, comp jbMoveModelRight::l:::x, comp jbMoveModelLeft::l:::x, seq l {comp jbMoveModelUp1:::p::p, space :::x, comp jbMoveModelDown1:::p::p}}, space ::290:x}}"
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0:1.0, 0:1.0, 0:1.0, 0:1.0, 0:1.0, 0:1.0"
+					"$rowSpecs": "0, 0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignTop": true
+					"$alignLeft": true
 				} ) {
 					name: "jPanel4"
+					"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "jLabel12"
 						"text": "Rotate: "
-					} )
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "jbRotateModel"
 						"text": "↺"
 						"toolTipText": ""
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRotateModelActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
 					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "jLabel13"
 						"text": "Flip : "
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "jbFlipModel"
 						"text": "⇆"
 						"toolTipText": ""
 						"enabled": false
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbFlipModelActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 1
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "jbMoveModelUp"
 						"foreground": new java.awt.Color( 0, 153, 0, 255 )
 						"text": "▲"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveModelUpActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 3
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "jbMoveModelDown"
 						"foreground": new java.awt.Color( 0, 153, 0, 255 )
 						"text": "▼"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveModelDownActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 3
+						"gridy": 1
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "jbMoveModelLeft"
 						"foreground": new java.awt.Color( 204, 0, 0, 255 )
 						"text": "◄"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveModelLeftActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 2
+						"gridheight": 2
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "jbMoveModelRight"
 						"foreground": new java.awt.Color( 204, 0, 0, 255 )
 						"text": "►"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveModelRightActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 4
+						"gridheight": 2
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "jbMoveModelUp1"
 						"foreground": new java.awt.Color( 0, 0, 255, 255 )
 						"text": "▲"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveModelUp1ActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 5
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
 						name: "jbMoveModelDown1"
 						"foreground": new java.awt.Color( 0, 0, 255, 255 )
 						"text": "▼"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveModelDown1ActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 5
+						"gridy": 1
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "Model Editor"
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {space :::p, par l {comp jcbBackfaceCulling::l:p::p, comp jcbWireframe::l:p::p}, space s:::p, par l {comp jcbShadingEnabled:::p::p, comp jcbTexturesEnabled:::p::p}, space ::452:x}}"
-					"$verticalGroup": "par l {seq l {space :::p, par b {comp jcbBackfaceCulling::b:p::p, comp jcbTexturesEnabled::b:p::p}, space :::p, par b {comp jcbWireframe::b:p::p, comp jcbShadingEnabled::b:p::p}, space ::304:x}}"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+					"$columnSpecs": "0:1.0, 0:1.0"
+					"$rowSpecs": "0, 0"
+					"$hGap": 5
+					"$vGap": 5
+					"$alignTop": true
+					"$alignLeft": true
 				} ) {
 					name: "jPanel8"
+					"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "jcbBackfaceCulling"
 						"selected": true
 						"text": "Backface Culling"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbBackfaceCullingActionPerformed", true ) )
-					} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "jcbWireframe"
 						"selected": true
 						"text": "Wireframe"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbWireframeActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridy": 1
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "jcbTexturesEnabled"
 						"selected": true
 						"text": "Textures"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTexturesEnabledActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "jcbShadingEnabled"
 						"text": "Shading"
+						"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbShadingEnabledActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+						"gridx": 1
+						"gridy": 1
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "Display Settings"
@@ -646,52 +1339,73 @@ new FormModel {
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 1"
 			} )
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq t {par l:::p {comp jbMoveSPaintUp::l:::x, comp jbAddSmartGrid::l:::x}, space u:::x, par l:::p {comp jbMoveSPaintDown::l:::x, comp jbRemoveSmartGrid::l:::x}}, comp jScrollPaneSmartGrid::l:::x}"
-				"$verticalGroup": "par l {seq l {comp jScrollPaneSmartGrid:::::x, space :p:9:p, par b {comp jbAddSmartGrid::b:p::p, comp jbRemoveSmartGrid::b:p::p}, space :p::p, par b {comp jbMoveSPaintUp::b:p::p, comp jbMoveSPaintDown::b:p::p}}}"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0"
+				"$rowSpecs": "0:1.0, 0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignTop": true
+				"$alignLeft": true
 			} ) {
 				name: "jPanel9"
 				"border": new javax.swing.border.TitledBorder( "Smart Drawing" )
+				"minimumSize": new java.awt.Dimension( 105, 0 )
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 					name: "jScrollPaneSmartGrid"
 					"horizontalScrollBarPolicy": 31
 					"verticalScrollBarPolicy": 22
+					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					add( new FormContainer( "editor.smartdrawing.SmartGridEditableDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-						"$horizontalGroup": "par l {space :0:156:x}"
-						"$verticalGroup": "par l {space :0:597:x}"
+						"$horizontalGroup": "par l {space :0:136:x}"
+						"$verticalGroup": "par l {space :0:623:x}"
 					} ) {
 						name: "smartGridEditableDisplay"
+						"maximumSize": new java.awt.Dimension( 97, 0 )
+						"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					} )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "jbMoveSPaintUp"
-					"text": "▲"
-					"focusable": false
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveSPaintUpActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "jbMoveSPaintDown"
-					"text": "▼"
-					"focusable": false
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveSPaintDownActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "jbAddSmartGrid"
-					"text": "+"
-					"focusable": false
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddSmartGridActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "jbRemoveSmartGrid"
-					"text": "-"
-					"focusable": false
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveSmartGridActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+					"columns": 2
+					"rows": 2
+				} ) {
+					name: "panel9"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbMoveSPaintUp"
+						"text": "▲"
+						"focusable": false
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveSPaintUpActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbAddSmartGrid"
+						"text": "+"
+						"focusable": false
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddSmartGridActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbMoveSPaintDown"
+						"text": "▼"
+						"focusable": false
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveSPaintDownActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbRemoveSmartGrid"
+						"text": "-"
+						"focusable": false
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveSmartGridActionPerformed", true ) )
+					} )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 1
 				} )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 2 0 1 2"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 1640, 740 )
+			"size": new java.awt.Dimension( 1485, 675 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
 	}
