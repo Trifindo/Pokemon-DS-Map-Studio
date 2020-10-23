@@ -696,7 +696,7 @@ new FormModel {
 									} )
 									add( new FormContainer( "editor.tileseteditor.TileDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 										"$horizontalGroup": "par l {space :0:0:x}"
-										"$verticalGroup": "par l {space :0:236:x}"
+										"$verticalGroup": "par l {space :0:246:x}"
 									} ) {
 										name: "tileDisplay"
 										"focusable": false
@@ -716,7 +716,7 @@ new FormModel {
 						} ) {
 							name: "jPanelMapTools"
 							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-								"$horizontalGroup": "par l {comp jsHeightMapAlpha::::334:x}"
+								"$horizontalGroup": "par l {comp jsHeightMapAlpha::::357:x}"
 								"$verticalGroup": "par l {comp jsHeightMapAlpha:::p::p}"
 							} ) {
 								name: "jpHeightMapAlpha"
@@ -922,6 +922,21 @@ new FormModel {
 						"text": "Open Map..."
 						"mnemonic": 79
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiOpenMapActionPerformed", true ) )
+					} )
+					add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+						name: "jmiOpenRecentMap"
+						"text": "Open Recent Map..."
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/openRecentMapIcon_s.png" )
+						"mnemonic": 82
+						add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+							name: "separator2"
+						} )
+						add( new FormComponent( "javax.swing.JMenuItem" ) {
+							name: "jmiClearHistory"
+							"text": "Clear History"
+							"mnemonic": 72
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiClearHistoryActionPerformed", true ) )
+						} )
 					} )
 					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
 						name: "jSeparator2"

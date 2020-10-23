@@ -67,7 +67,8 @@ import utils.Utils;
  */
 public class MainFrame extends JFrame {
     MapEditorHandler handler;
-    public static Preferences prefs = Preferences.userRoot().node(MainFrame.class.getName());
+    public static Preferences prefs = Preferences.userNodeForPackage(MainFrame.class);
+    private static final ArrayList<String> recentMaps = new ArrayList<>();
 
     public static void main(String[] args) {
         try {
@@ -83,6 +84,7 @@ public class MainFrame extends JFrame {
                     UIManager.setLookAndFeel(new FlatDarculaLaf());
                     break;
             }
+            loadRecentMaps();
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
@@ -108,6 +110,9 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         initComponents();
+
+        updateRecentMapsMenu();
+
         jscTileList.getVerticalScrollBar().setUnitIncrement(16);
         jscSmartDrawing.getVerticalScrollBar().setUnitIncrement(16);
         jScrollPaneMapMatrix.getHorizontalScrollBar().setUnitIncrement(16);
@@ -541,6 +546,10 @@ public class MainFrame extends JFrame {
         showPreferences();
     }
 
+    private void jmiClearHistoryActionPerformed(ActionEvent e) {
+        clearRecentMaps();
+    }
+
     public void showPreferences() {
         SettingsDialog settingsDialog = new SettingsDialog(this);
         settingsDialog.setVisible(true);
@@ -622,6 +631,9 @@ public class MainFrame extends JFrame {
         fc.setDialogTitle("Open Map");
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
+            addRecentMap(fc.getSelectedFile().getPath());
+            updateRecentMaps();
+            updateRecentMapsMenu();
             openMap(fc.getSelectedFile().getPath());
         }
     }
@@ -947,6 +959,10 @@ public class MainFrame extends JFrame {
                 //saveBuildings();
 
                 saveMapThumbnail();
+
+                addRecentMap(path);
+                updateRecentMaps();
+                updateRecentMapsMenu();
             } catch (ParserConfigurationException | TransformerException | IOException ex) {
                 JOptionPane.showMessageDialog(this, "There was a problem saving all the map files",
                         "Error saving map files", JOptionPane.ERROR_MESSAGE);
@@ -1804,6 +1820,56 @@ public class MainFrame extends JFrame {
         return jcbViewAreas;
     }
 
+    private static void addRecentMap(String path) {
+        if (recentMaps.size() < 9)
+            recentMaps.add(path);
+        else
+            recentMaps.add(0, path);
+    }
+
+    private static void updateRecentMaps() {
+        for (int i = 0; i < 9; i++) {
+            if (i < recentMaps.size()) {
+                prefs.put("recentMaps" + i, recentMaps.get(i));
+            } else {
+                prefs.remove("recentMaps" + i);
+            }
+        }
+    }
+
+    private void updateRecentMapsMenu() {
+        jmiOpenRecentMap.removeAll();
+        for (String item : recentMaps) {
+            JMenuItem m = new JMenuItem();
+            m.setText(recentMaps.get(recentMaps.indexOf(item)));
+            m.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1 + recentMaps.indexOf(item), InputEvent.CTRL_MASK));
+
+            m.addActionListener(e -> openMap(item));
+            jmiOpenRecentMap.add(m);
+        }
+        jmiOpenRecentMap.addSeparator();
+        jmiOpenRecentMap.add(jmiClearHistory);
+    }
+
+    private void clearRecentMaps() {
+        jmiOpenRecentMap.removeAll();
+        recentMaps.clear();
+        for (int i = 0; i < 9; i++)
+            prefs.put("recentMaps" + i, "");
+        updateRecentMapsMenu();
+    }
+
+    private static void loadRecentMaps() {
+        for (int i = 0; i < 9; i++) {
+            String value = prefs.get("recentMaps" + i, "");
+            if (!value.equals("")) {
+                recentMaps.add(value);
+            } else {
+                break;
+            }
+        }
+    }
+
     public void updateViewAllMapData() {
         renderTilesetThumbnails();
 
@@ -1831,12 +1897,15 @@ public class MainFrame extends JFrame {
         thumbnailLayerSelector.repaint();
     }
 
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         jmMainMenu = new JMenuBar();
         jmFile = new JMenu();
         jmiNewMap = new JMenuItem();
         jmiOpenMap = new JMenuItem();
+        jmiOpenRecentMap = new JMenu();
+        jmiClearHistory = new JMenuItem();
         jmiSaveMap = new JMenuItem();
         jmiSaveMapAs = new JMenuItem();
         jmiAddMaps = new JMenuItem();
@@ -2015,6 +2084,21 @@ public class MainFrame extends JFrame {
                 jmiOpenMap.setMnemonic('O');
                 jmiOpenMap.addActionListener(e -> jmiOpenMapActionPerformed(e));
                 jmFile.add(jmiOpenMap);
+
+                //======== jmiOpenRecentMap ========
+                {
+                    jmiOpenRecentMap.setText("Open Recent Map...");
+                    jmiOpenRecentMap.setIcon(new ImageIcon(getClass().getResource("/icons/openRecentMapIcon_s.png")));
+                    jmiOpenRecentMap.setMnemonic('R');
+                    jmiOpenRecentMap.addSeparator();
+
+                    //---- jmiClearHistory ----
+                    jmiClearHistory.setText("Clear History");
+                    jmiClearHistory.setMnemonic('H');
+                    jmiClearHistory.addActionListener(e -> jmiClearHistoryActionPerformed(e));
+                    jmiOpenRecentMap.add(jmiClearHistory);
+                }
+                jmFile.add(jmiOpenRecentMap);
                 jmFile.addSeparator();
 
                 //---- jmiSaveMap ----
@@ -3092,7 +3176,7 @@ public class MainFrame extends JFrame {
                                     );
                                     tileDisplayLayout.setVerticalGroup(
                                         tileDisplayLayout.createParallelGroup()
-                                            .addGap(0, 236, Short.MAX_VALUE)
+                                            .addGap(0, 246, Short.MAX_VALUE)
                                     );
                                 }
                                 jpTileSelected.add(tileDisplay);
@@ -3130,7 +3214,7 @@ public class MainFrame extends JFrame {
                             jpHeightMapAlpha.setLayout(jpHeightMapAlphaLayout);
                             jpHeightMapAlphaLayout.setHorizontalGroup(
                                 jpHeightMapAlphaLayout.createParallelGroup()
-                                    .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                                    .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
                             );
                             jpHeightMapAlphaLayout.setVerticalGroup(
                                 jpHeightMapAlphaLayout.createParallelGroup()
@@ -3327,6 +3411,8 @@ public class MainFrame extends JFrame {
     private JMenu jmFile;
     private JMenuItem jmiNewMap;
     private JMenuItem jmiOpenMap;
+    private JMenu jmiOpenRecentMap;
+    private JMenuItem jmiClearHistory;
     private JMenuItem jmiSaveMap;
     private JMenuItem jmiSaveMapAs;
     private JMenuItem jmiAddMaps;

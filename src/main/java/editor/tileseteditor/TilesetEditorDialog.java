@@ -72,7 +72,8 @@ public class TilesetEditorDialog extends JDialog {
 
     private static final Color redColor = new Color(255, 200, 200);
     private static final Color greenColor = new Color(200, 255, 200);
-    private static final Color defaultTextPaneColor = UIManager.getColor("TextPane.background");
+    private static final Color defaultTextPaneBackground = UIManager.getColor("TextPane.background");
+    private static final Color defaultTextPaneForeground = UIManager.getColor("TextPane.foreground");
     private static final Color defaultInactiveTextPaneColor = UIManager.getColor("TextPane.inactiveForeground");
 
     private ArrayList<ImageIcon> materialIcons = new ArrayList<>();
@@ -425,7 +426,7 @@ public class TilesetEditorDialog extends JDialog {
             handler.getTileSelected().setGlobalTextureMapping(selected);
             jtfGlobalTexScale.setEditable(selected);
             jbGlobalTexScale.setEnabled(selected);
-            jtfGlobalTexScale.setBackground(selected ? defaultTextPaneColor : defaultInactiveTextPaneColor);
+            jtfGlobalTexScale.setBackground(selected ? defaultTextPaneBackground : defaultInactiveTextPaneColor);
         }
     }
 
@@ -1033,21 +1034,23 @@ public class TilesetEditorDialog extends JDialog {
     private void updateViewXOffset(Tile tile) {
         jtfXOffsetActive.value = false;
         jtfXOffset.setText(String.valueOf(tile.getXOffset()));
-        jtfXOffset.setBackground(defaultTextPaneColor);
+        jtfXOffset.setBackground(defaultTextPaneBackground);
+        jtfXOffset.setForeground(defaultTextPaneForeground);
         jtfXOffsetActive.value = true;
     }
 
     private void updateViewYOffset(Tile tile) {
         jtfYOffsetActive.value = false;
         jtfYOffset.setText(String.valueOf(tile.getYOffset()));
-        jtfYOffset.setBackground(defaultTextPaneColor);
+        jtfYOffset.setBackground(defaultTextPaneBackground);
+        jtfYOffset.setForeground(defaultTextPaneForeground);
         jtfYOffsetActive.value = true;
     }
 
     private void updateViewGlobalTexScale(Tile tile) {
         jtfGlobalTexScale.setText(String.valueOf(tile.getGlobalTextureScale()));
         boolean enabled = tile.useGlobalTextureMapping();
-        jtfGlobalTexScale.setBackground(enabled ? defaultTextPaneColor : defaultInactiveTextPaneColor);
+        jtfGlobalTexScale.setBackground(enabled ? defaultTextPaneBackground : defaultInactiveTextPaneColor);
         jtfGlobalTexScale.setEditable(enabled);
         jbGlobalTexScale.setEnabled(enabled);
     }
@@ -1134,7 +1137,8 @@ public class TilesetEditorDialog extends JDialog {
             String mName = handler.getTileset().getMaterialName(jlistINames.getSelectedIndex());
             jtfMaterialNameActive.value = false;
             jtfMaterialName.setText(mName);
-            jtfMaterialName.setBackground(defaultTextPaneColor);
+            jtfMaterialName.setBackground(defaultTextPaneBackground);
+            jtfMaterialName.setForeground(defaultTextPaneForeground);
             jtfMaterialNameActive.value = true;
         }
     }
@@ -1144,7 +1148,8 @@ public class TilesetEditorDialog extends JDialog {
             String pName = handler.getTileset().getPaletteNameImd(jlistINames.getSelectedIndex());
             jtfPaletteNameActive.value = false;
             jtfPaletteName.setText(pName);
-            jtfPaletteName.setBackground(defaultTextPaneColor);
+            jtfPaletteName.setBackground(defaultTextPaneBackground);
+            jtfPaletteName.setForeground(defaultTextPaneForeground);
             jtfPaletteNameActive.value = true;
         }
     }
@@ -1154,7 +1159,8 @@ public class TilesetEditorDialog extends JDialog {
             String tName = handler.getTileset().getTextureNameImd(jlistINames.getSelectedIndex());
             jtfTextureNameActive.value = false;
             jtfTextureName.setText(tName);
-            jtfTextureName.setBackground(defaultTextPaneColor);
+            jtfTextureName.setBackground(defaultTextPaneBackground);
+            jtfTextureName.setForeground(defaultTextPaneForeground);
             jtfTextureNameActive.value = true;
         }
     }
@@ -1316,6 +1322,7 @@ public class TilesetEditorDialog extends JDialog {
         jtfGlobalTexScale.setText(String.valueOf(value));
         jtfGlobalTexScaleActive.value = false;
         jtfGlobalTexScale.setBackground(greenColor);
+        jtfGlobalTexScale.setForeground(Color.black);
         jtfGlobalTexScaleActive.value = true;
     }
 
@@ -1330,6 +1337,7 @@ public class TilesetEditorDialog extends JDialog {
         jtfXOffset.setText(String.valueOf(value));
         jtfXOffsetActive.value = false;
         jtfXOffset.setBackground(greenColor);
+        jtfXOffset.setForeground(Color.black);
         jtfXOffsetActive.value = true;
     }
 
@@ -1344,6 +1352,7 @@ public class TilesetEditorDialog extends JDialog {
         jtfYOffset.setText(String.valueOf(value));
         jtfYOffsetActive.value = false;
         jtfYOffset.setBackground(greenColor);
+        jtfYOffset.setForeground(Color.black);
         jtfYOffsetActive.value = true;
     }
 
@@ -1354,6 +1363,7 @@ public class TilesetEditorDialog extends JDialog {
 
         jtfMaterialNameActive.value = false;
         jtfMaterialName.setBackground(greenColor);
+        jtfMaterialName.setForeground(Color.black);
         jtfMaterialNameActive.value = true;
     }
 
@@ -1364,6 +1374,7 @@ public class TilesetEditorDialog extends JDialog {
 
         jtfPaletteNameActive.value = false;
         jtfPaletteName.setBackground(greenColor);
+        jtfPaletteName.setForeground(Color.black);
         jtfPaletteNameActive.value = true;
     }
 
@@ -1374,6 +1385,7 @@ public class TilesetEditorDialog extends JDialog {
 
         jtfTextureNameActive.value = false;
         jtfTextureName.setBackground(greenColor);
+        jtfTextureName.setForeground(Color.black);
         jtfTextureNameActive.value = true;
     }
 
@@ -1436,6 +1448,7 @@ public class TilesetEditorDialog extends JDialog {
             public void changeBackground() {
                 if (enabled.value) {
                     jtf.setBackground(redColor);
+                    jtf.setForeground(Color.black);
                 }
             }
         });
