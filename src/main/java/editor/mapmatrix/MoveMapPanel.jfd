@@ -3,15 +3,17 @@ JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
-		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-			"$columnSpecs": "0:1.0, 0:1.0, 0:1.0"
-			"$rowSpecs": "0:1.0, 0:1.0, 0:1.0"
-			"$hGap": 5
-			"$vGap": 5
-			"$alignTop": true
-			"$alignLeft": true
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+			"columns": 3
+			"rows": 3
 		} ) {
 			name: "this"
+			"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+				name: "hSpacer1"
+			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "jbUp"
 				"text": "▲"
@@ -20,8 +22,9 @@ new FormModel {
 				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbUpActionPerformed", true ) )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-				"gridx": 1
+			} )
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+				name: "hSpacer2"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "jbLeft"
@@ -31,8 +34,9 @@ new FormModel {
 				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbLeftActionPerformed", true ) )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-				"gridy": 1
+			} )
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+				name: "hSpacer3"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "jbRight"
@@ -42,9 +46,9 @@ new FormModel {
 				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRightActionPerformed", true ) )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-				"gridx": 2
-				"gridy": 1
+			} )
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+				name: "hSpacer4"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "jbDown"
@@ -54,12 +58,12 @@ new FormModel {
 				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbDownActionPerformed", true ) )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-				"gridx": 1
-				"gridy": 2
+			} )
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+				name: "hSpacer5"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 260, 120 )
+			"size": new java.awt.Dimension( 245, 110 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
 	}

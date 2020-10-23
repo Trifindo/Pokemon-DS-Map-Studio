@@ -46,15 +46,15 @@ public class NsbtxEditorDialog2 extends JDialog {
     private MutableBoolean jtfTextureActive = new MutableBoolean(true);
     private MutableBoolean jtfPaletteActive = new MutableBoolean(true);
 
-    private static final Color editingColor = new Color(255, 200, 200);
+    private static final Color editingColor = new Color(255, 185, 185);
     private static final Color rightColor = new Color(200, 255, 200);
 
     public NsbtxEditorDialog2(Window owner) {
         super(owner);
         initComponents();
 
-        Utils.addListenerToJTextFieldColor(jtfTextureName, jtfTextureActive, editingColor);
-        Utils.addListenerToJTextFieldColor(jtfPaletteName, jtfPaletteActive, editingColor);
+        Utils.addListenerToJTextFieldColor(jtfTextureName, jtfTextureActive, editingColor, Color.black);
+        Utils.addListenerToJTextFieldColor(jtfPaletteName, jtfPaletteActive, editingColor, Color.black);
     }
 
     private void jmiNewNsbtxActionPerformed(ActionEvent e) {
@@ -248,12 +248,14 @@ public class NsbtxEditorDialog2 extends JDialog {
             String name = nsbtxHandler.getSelectedTexture().getName();
             jtfTextureActive.value = false;
             jtfTextureName.setText(name);
-            jtfTextureName.setBackground(Color.white);
+            jtfTextureName.setBackground(UIManager.getColor("TextPane.background"));
+            jtfTextureName.setForeground(UIManager.getColor("TextPane.foreground"));
             jtfTextureActive.value = true;
         } else {
             jtfTextureActive.value = false;
             jtfTextureName.setText("");
-            jtfTextureName.setBackground(Color.white);
+            jtfTextureName.setBackground(UIManager.getColor("TextPane.background"));
+            jtfTextureName.setForeground(UIManager.getColor("TextPane.foreground"));
             jtfTextureActive.value = true;
         }
     }
@@ -263,12 +265,14 @@ public class NsbtxEditorDialog2 extends JDialog {
             String name = nsbtxHandler.getSelectedPalette().getName();
             jtfPaletteActive.value = false;
             jtfPaletteName.setText(name);
-            jtfPaletteName.setBackground(Color.white);
+            jtfPaletteName.setBackground(UIManager.getColor("TextPane.background"));
+            jtfPaletteName.setForeground(UIManager.getColor("TextPane.foreground"));
             jtfPaletteActive.value = true;
         } else {
             jtfPaletteActive.value = false;
             jtfPaletteName.setText("");
-            jtfPaletteName.setBackground(Color.white);
+            jtfPaletteName.setBackground(UIManager.getColor("TextPane.background"));
+            jtfPaletteName.setForeground(UIManager.getColor("TextPane.foreground"));
             jtfPaletteActive.value = true;
         }
     }
@@ -766,6 +770,7 @@ public class NsbtxEditorDialog2 extends JDialog {
                 jtfTextureActive.value = false;
                 nsbtxHandler.getSelectedTexture().setName(name);
                 jtfTextureName.setBackground(rightColor);
+                jtfTextureName.setForeground(Color.black);
                 jtfTextureActive.value = true;
 
                 updateViewTextureNameList(getTextureIndexSelected());
@@ -785,6 +790,7 @@ public class NsbtxEditorDialog2 extends JDialog {
                 jtfPaletteActive.value = false;
                 nsbtxHandler.getSelectedPalette().setName(name);
                 jtfPaletteName.setBackground(rightColor);
+                jtfPaletteName.setForeground(Color.black);
                 jtfPaletteActive.value = true;
 
                 updateViewPaletteNameList(getPaletteIndexSelected());

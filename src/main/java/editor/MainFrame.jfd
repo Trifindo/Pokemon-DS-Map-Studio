@@ -669,7 +669,7 @@ new FormModel {
 									add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 										name: "jpMoveMap"
 										"border": new javax.swing.border.TitledBorder( null, "Move Map", 4, 1 )
-										"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+										"maximumSize": new java.awt.Dimension( 110, 110 )
 										"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 										"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 										add( new FormComponent( "editor.mapmatrix.MoveMapPanel" ) {
@@ -696,7 +696,7 @@ new FormModel {
 									} )
 									add( new FormContainer( "editor.tileseteditor.TileDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 										"$horizontalGroup": "par l {space :0:0:x}"
-										"$verticalGroup": "par l {space :0:243:x}"
+										"$verticalGroup": "par l {space :0:236:x}"
 									} ) {
 										name: "tileDisplay"
 										"focusable": false
@@ -716,7 +716,7 @@ new FormModel {
 						} ) {
 							name: "jPanelMapTools"
 							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-								"$horizontalGroup": "par l {comp jsHeightMapAlpha::::294:x}"
+								"$horizontalGroup": "par l {comp jsHeightMapAlpha::::334:x}"
 								"$verticalGroup": "par l {comp jsHeightMapAlpha:::p::p}"
 							} ) {
 								name: "jpHeightMapAlpha"

@@ -4,7 +4,7 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$layoutConstraints": "insets dialog,hidemode 3,gap 5 5"
 			"$columnConstraints": "[grow,fill][fill]"
 			"$rowConstraints": "[grow,fill][fill][fill]"
 		} ) {
@@ -12,10 +12,11 @@ new FormModel {
 			"defaultCloseOperation": 2
 			"title": "Backsound Editor"
 			"modal": true
+			"resizable": false
 			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "formWindowClosed", true ) )
 			add( new FormContainer( "editor.backsound.BacksoundDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {space :0:582:x}"
-				"$verticalGroup": "par l {space :0:514:x}"
+				"$horizontalGroup": "par l {space :0:558:x}"
+				"$verticalGroup": "par l {space :0:490:x}"
 			} ) {
 				name: "backsoundDisplay"
 				"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )

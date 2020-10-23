@@ -3056,7 +3056,7 @@ public class MainFrame extends JFrame {
                                 //======== jpMoveMap ========
                                 {
                                     jpMoveMap.setBorder(new TitledBorder(null, "Move Map", TitledBorder.LEADING, TitledBorder.ABOVE_TOP));
-                                    jpMoveMap.setMaximumSize(null);
+                                    jpMoveMap.setMaximumSize(new Dimension(110, 110));
                                     jpMoveMap.setMinimumSize(null);
                                     jpMoveMap.setPreferredSize(null);
                                     jpMoveMap.setLayout(new BorderLayout());
@@ -3092,7 +3092,7 @@ public class MainFrame extends JFrame {
                                     );
                                     tileDisplayLayout.setVerticalGroup(
                                         tileDisplayLayout.createParallelGroup()
-                                            .addGap(0, 243, Short.MAX_VALUE)
+                                            .addGap(0, 236, Short.MAX_VALUE)
                                     );
                                 }
                                 jpTileSelected.add(tileDisplay);
@@ -3130,7 +3130,7 @@ public class MainFrame extends JFrame {
                             jpHeightMapAlpha.setLayout(jpHeightMapAlphaLayout);
                             jpHeightMapAlphaLayout.setHorizontalGroup(
                                 jpHeightMapAlphaLayout.createParallelGroup()
-                                    .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                                    .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
                             );
                             jpHeightMapAlphaLayout.setVerticalGroup(
                                 jpHeightMapAlphaLayout.createParallelGroup()

@@ -346,7 +346,6 @@ public class BacksoundDisplay extends JPanel {
             public void mouseDragged(MouseEvent e) {
                 formMouseDragged(e);
             }
-
             @Override
             public void mouseMoved(MouseEvent e) {
                 formMouseMoved(e);
@@ -357,7 +356,6 @@ public class BacksoundDisplay extends JPanel {
             public void mousePressed(MouseEvent e) {
                 formMousePressed(e);
             }
-
             @Override
             public void mouseReleased(MouseEvent e) {
                 formMouseReleased(e);
@@ -367,12 +365,12 @@ public class BacksoundDisplay extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup()
-                        .addGap(0, 400, Short.MAX_VALUE)
+            layout.createParallelGroup()
+                .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup()
-                        .addGap(0, 300, Short.MAX_VALUE)
+            layout.createParallelGroup()
+                .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

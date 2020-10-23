@@ -4,13 +4,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
 import editor.nsbtx2.*;
 import net.miginfocom.swing.*;
-import renderer.*;
 import editor.buildingeditor2.animations.AddBuildAnimationDialog;
 import editor.buildingeditor2.animations.BuildAnimInfoHGSS;
 import editor.buildingeditor2.animations.ModelAnimation;
@@ -37,7 +35,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -108,7 +105,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
 
     private static final Color redColor = new Color(255, 200, 200);
     private static final Color greenColor = new Color(200, 255, 200);
-    private static final Color whiteColor = Color.white;
+    private static final Color defaultTextPaneBackground = UIManager.getColor("TextPane.background");
 
     public BuildingEditorDialogHGSS(Window owner) {
         super(owner);
@@ -185,8 +182,8 @@ public class BuildingEditorDialogHGSS extends JDialog {
             }
         });
 
-        Utils.addListenerToJTextFieldColor(jtfBuildTset, jtfBuildTsetEnabled, new Color(255, 200, 200));
-        Utils.addListenerToJTextFieldColor(jtfMapTset, jtfMapTsetEnabled, new Color(255, 200, 200));
+        Utils.addListenerToJTextFieldColor(jtfBuildTset, jtfBuildTsetEnabled, new Color(255, 185, 185), Color.black);
+        Utils.addListenerToJTextFieldColor(jtfMapTset, jtfMapTsetEnabled, new Color(255, 185, 185), Color.black);
 
         nitroDisplayGL.getObjectsGL().add(new ObjectGL());
         nitroDisplayAreaData.getObjectsGL().add(new ObjectGL());
@@ -648,6 +645,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
             jtfBuildTsetEnabled.value = false;
             jtfBuildTset.setText(String.valueOf(areaData.getBuildingTilesetID()));
             jtfBuildTset.setBackground(greenColor);
+            jtfBuildTset.setForeground(Color.black);
             jtfBuildTsetEnabled.value = true;
         }
     }
@@ -664,6 +662,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
             jtfMapTsetEnabled.value = false;
             jtfMapTset.setText(String.valueOf(areaData.getMapTilesetID()));
             jtfMapTset.setBackground(greenColor);
+            jtfMapTset.setForeground(Color.black);
             jtfMapTsetEnabled.value = true;
         }
     }
@@ -1727,9 +1726,9 @@ public class BuildingEditorDialogHGSS extends JDialog {
             updateViewJcbMapAnimations(areaData.getDynamicTexType());
             //updateViewJCB(jcbDynamicTex, jcbDynamicTexEnabled, AreaDataHGSS.namesDynamicTexType, areaData.getDynamicTexType());
 
-            jtfBuildTset.setBackground(whiteColor);
-            jtfMapTset.setBackground(whiteColor);
-            jcbAreaType.setBackground(whiteColor);
+            jtfBuildTset.setBackground(defaultTextPaneBackground);
+            jtfMapTset.setBackground(defaultTextPaneBackground);
+            jcbAreaType.setBackground(defaultTextPaneBackground);
 
             jtfBuildTsetEnabled.value = true;
             jtfMapTsetEnabled.value = true;

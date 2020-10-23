@@ -31,7 +31,7 @@ public class BdhcEditorDialog extends JDialog {
     private MutableBoolean jtfAngleYEnabled = new MutableBoolean(true);
     private boolean jcbTypeEnabled = true;
 
-    private static final Color redColor = new Color(255, 0, 0);
+    private static final Color redColor = new Color(255, 185, 185);
     private static final Color greenColor = new Color(82, 186, 82);
     private static final Color whiteColor = UIManager.getColor("TextPane.background");
 

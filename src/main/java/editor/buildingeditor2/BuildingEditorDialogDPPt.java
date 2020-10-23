@@ -4,13 +4,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
 import editor.nsbtx2.*;
 import net.miginfocom.swing.*;
-import renderer.*;
 import editor.buildingeditor2.animations.AddBuildAnimationDialog;
 import editor.buildingeditor2.animations.ModelAnimation;
 import editor.buildingeditor2.animations.BuildAnimeListDPPt;
@@ -19,9 +17,7 @@ import editor.buildingeditor2.areabuild.AreaBuild;
 import editor.buildingeditor2.areadata.AreaDataDPPt;
 import editor.buildingeditor2.buildfile.Build;
 import editor.buildingeditor2.buildfile.BuildFile;
-import editor.buildingeditor2.tileset.BuildTileset;
 import editor.handler.MapEditorHandler;
-import editor.nsbtx.NsbtxLoader;
 import editor.nsbtx2.Nsbtx2;
 import editor.nsbtx2.NsbtxLoader2;
 import editor.nsbtx2.NsbtxPalette;
@@ -55,19 +51,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import nitroreader.nsbca.NSBCA;
 import nitroreader.nsbca.NSBCAreader;
-import nitroreader.nsbma.NSBMA;
-import nitroreader.nsbma.NSBMAreader;
-import nitroreader.nsbmd.ModelSet;
-import nitroreader.nsbmd.NSBMD;
-import nitroreader.nsbmd.NSBMDreader;
-import nitroreader.nsbmd.sbccommands.MAT;
-import nitroreader.nsbmd.sbccommands.SBCCommand;
-import nitroreader.nsbmd.sbccommands.SHP;
 import nitroreader.nsbta.NSBTA;
 import nitroreader.nsbta.NSBTAreader;
 import nitroreader.nsbtp.NSBTP;
 import nitroreader.nsbtp.NSBTPreader;
-import nitroreader.nsbtx.TexPlttSet;
 import nitroreader.shared.ByteReader;
 import nitroreader.shared.G3Dheader;
 import renderer.NitroDisplayGL;
@@ -107,7 +94,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
 
     private static final Color redColor = new Color(255, 200, 200);
     private static final Color greenColor = new Color(200, 255, 200);
-    private static final Color whiteColor = Color.white;
+    private static final Color defaultTextPaneBackground = UIManager.getColor("TextPane.background");
 
     public BuildingEditorDialogDPPt(Window owner) {
         super(owner);
@@ -167,9 +154,9 @@ public class BuildingEditorDialogDPPt extends JDialog {
             }
         });
 
-        Utils.addListenerToJTextFieldColor(jtfBuildTset, jtfBuildTsetEnabled, new Color(255, 200, 200));
-        Utils.addListenerToJTextFieldColor(jtfMapTset, jtfMapTsetEnabled, new Color(255, 200, 200));
-        Utils.addListenerToJTextFieldColor(jtfUnknown1, jtfUnknown1Enabled, new Color(255, 200, 200));
+        Utils.addListenerToJTextFieldColor(jtfBuildTset, jtfBuildTsetEnabled,new Color(255, 185, 185), Color.black);
+        Utils.addListenerToJTextFieldColor(jtfMapTset, jtfMapTsetEnabled, new Color(255, 185, 185), Color.black);
+        Utils.addListenerToJTextFieldColor(jtfUnknown1, jtfUnknown1Enabled, new Color(255, 185, 185), Color.black);
 
         nitroDisplayGL.getObjectsGL().add(new ObjectGL());
         nitroDisplayAreaData.getObjectsGL().add(new ObjectGL());
@@ -623,6 +610,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             jtfBuildTsetEnabled.value = false;
             jtfBuildTset.setText(String.valueOf(areaData.getBuildingTilesetID()));
             jtfBuildTset.setBackground(greenColor);
+            jtfBuildTset.setForeground(Color.black);
             jtfBuildTsetEnabled.value = true;
         }
     }
@@ -639,6 +627,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             jtfMapTsetEnabled.value = false;
             jtfMapTset.setText(String.valueOf(areaData.getMapTilesetID()));
             jtfMapTset.setBackground(greenColor);
+            jtfMapTset.setForeground(Color.black);
             jtfMapTsetEnabled.value = true;
         }
     }
@@ -655,6 +644,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             jtfUnknown1Enabled.value = false;
             jtfUnknown1.setText(String.valueOf(areaData.getUnknown1()));
             jtfUnknown1.setBackground(greenColor);
+            jtfUnknown1.setForeground(Color.black);
             jtfUnknown1Enabled.value = true;
         }
     }
@@ -1495,10 +1485,10 @@ public class BuildingEditorDialogDPPt extends JDialog {
             jtfUnknown1.setText(String.valueOf(areaData.getUnknown1()));
             jcbAreaType.setSelectedIndex(Math.max(Math.min(1, areaData.getUnknown2()), 0));
 
-            jtfBuildTset.setBackground(whiteColor);
-            jtfMapTset.setBackground(whiteColor);
-            jtfUnknown1.setBackground(whiteColor);
-            jcbAreaType.setBackground(whiteColor);
+            jtfBuildTset.setBackground(defaultTextPaneBackground);
+            jtfMapTset.setBackground(defaultTextPaneBackground);
+            jtfUnknown1.setBackground(defaultTextPaneBackground);
+            jcbAreaType.setBackground(defaultTextPaneBackground);
 
             jtfBuildTsetEnabled.value = true;
             jtfMapTsetEnabled.value = true;

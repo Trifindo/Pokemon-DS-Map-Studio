@@ -552,8 +552,7 @@ public class Utils {
         }
     }
 
-    public static void addListenerToJTextFieldColor(JTextField jtf,
-                                                    MutableBoolean enabled, Color updateColor) {
+    public static void addListenerToJTextFieldColor(JTextField jtf, MutableBoolean enabled, Color backgroundColor, Color foregroundColor) {
         jtf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -572,7 +571,8 @@ public class Utils {
 
             public void changeBackground() {
                 if (enabled.value) {
-                    jtf.setBackground(updateColor);
+                    jtf.setBackground(backgroundColor);
+                    jtf.setForeground(foregroundColor);
                 }
             }
         });

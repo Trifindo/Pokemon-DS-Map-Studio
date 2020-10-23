@@ -29,7 +29,7 @@ public class AnimationEditorDialog extends JDialog {
     private static final Color playButtonColor = new Color(0, 153, 0);
     private static final Color stopButtonColor = new Color(255, 51, 51);
 
-    private static final Color editingColor = new Color(255, 200, 200);
+    private static final Color editingColor = new Color(255, 185, 185);
     private static final Color rightColor = new Color(200, 255, 200);
 
     private Utils.MutableBoolean jtfAnimNameEnabled = new Utils.MutableBoolean(true);
@@ -40,7 +40,7 @@ public class AnimationEditorDialog extends JDialog {
         super(owner);
         initComponents();
         jScrollPane1.getHorizontalScrollBar().setUnitIncrement(AnimationFramesDisplay.cellSize);
-        Utils.addListenerToJTextFieldColor(jtfAnimationName, jtfAnimNameEnabled, editingColor);
+        Utils.addListenerToJTextFieldColor(jtfAnimationName, jtfAnimNameEnabled, editingColor, Color.black);
         System.out.println(jbPlay.getText());
     }
 
@@ -140,7 +140,8 @@ public class AnimationEditorDialog extends JDialog {
             if (animHandler.getAnimationSelected() != null) {
                 jtfAnimNameEnabled.value = false;
                 jtfAnimationName.setText(animHandler.getAnimationSelected().getName());
-                jtfAnimationName.setBackground(Color.white);
+                jtfAnimationName.setBackground(UIManager.getColor("TextPane.background"));
+                jtfAnimationName.setForeground(UIManager.getColor("TextPane.foreground"));
                 jtfAnimNameEnabled.value = true;
             }
 
@@ -247,6 +248,7 @@ public class AnimationEditorDialog extends JDialog {
             jtfAnimNameEnabled.value = false;
             animHandler.getAnimationSelected().setName(name);
             jtfAnimationName.setBackground(rightColor);
+            jtfAnimationName.setForeground(Color.black);
             jtfAnimNameEnabled.value = true;
 
             updateViewAnimationListNames(jlAnimationNames.getSelectedIndex());

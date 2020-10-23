@@ -18,7 +18,7 @@ public class AngleCalculatorDialog extends JDialog {
     private int returnValue = CANCELED;
     private final MutableBoolean jtfTilesForwardEnabled = new MutableBoolean(true);
     private final MutableBoolean jtfTilesUpEnabled = new MutableBoolean(true);
-    private static final Color editingColor = new Color(255, 200, 200);
+    private static final Color editingColor = new Color(255, 185, 185);
     private static final Color rightColor = new Color(200, 255, 200);
 
     private float tilesForward = 1.0f;
@@ -33,8 +33,8 @@ public class AngleCalculatorDialog extends JDialog {
         this.tilesForward = tilesForward;
         this.tilesUp = (float) (tilesForward * Math.tan(angle * (Math.PI / 180f)));
 
-        Utils.addListenerToJTextFieldColor(jtfTilesForward, jtfTilesForwardEnabled, editingColor);
-        Utils.addListenerToJTextFieldColor(jtfTilesUp, jtfTilesUpEnabled, editingColor);
+        Utils.addListenerToJTextFieldColor(jtfTilesForward, jtfTilesForwardEnabled, editingColor, Color.black);
+        Utils.addListenerToJTextFieldColor(jtfTilesUp, jtfTilesUpEnabled, editingColor, Color.black);
 
         updateTilesForward();
         updateTilesUp();
@@ -75,6 +75,7 @@ public class AngleCalculatorDialog extends JDialog {
         jtfTilesForwardEnabled.value = false;
         jtfTilesForward.setText(String.valueOf(tilesForward));
         jtfTilesForward.setBackground(UIManager.getColor("TextPane.background"));
+        jtfTilesForward.setForeground(UIManager.getColor("TextPane.foreground"));
         jtfTilesForwardEnabled.value = true;
     }
 
@@ -82,6 +83,7 @@ public class AngleCalculatorDialog extends JDialog {
         jtfTilesUpEnabled.value = false;
         jtfTilesUp.setText(String.valueOf(tilesUp));
         jtfTilesUp.setBackground(UIManager.getColor("TextPane.background"));
+        jtfTilesUp.setForeground(UIManager.getColor("TextPane.foreground"));
         jtfTilesUpEnabled.value = true;
     }
 

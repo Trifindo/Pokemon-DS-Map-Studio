@@ -61,17 +61,22 @@ public class MoveMapPanel extends JPanel {
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+        hSpacer1 = new JPanel(null);
         jbUp = new JButton();
+        hSpacer2 = new JPanel(null);
         jbLeft = new JButton();
+        hSpacer3 = new JPanel(null);
         jbRight = new JButton();
+        hSpacer4 = new JPanel(null);
         jbDown = new JButton();
+        hSpacer5 = new JPanel(null);
 
         //======== this ========
-        setLayout(new GridBagLayout());
-        ((GridBagLayout)getLayout()).columnWidths = new int[] {0, 0, 0, 0};
-        ((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0};
-        ((GridBagLayout)getLayout()).columnWeights = new double[] {1.0, 1.0, 1.0, 1.0E-4};
-        ((GridBagLayout)getLayout()).rowWeights = new double[] {1.0, 1.0, 1.0, 1.0E-4};
+        setMaximumSize(null);
+        setMinimumSize(null);
+        setPreferredSize(null);
+        setLayout(new GridLayout(3, 3));
+        add(hSpacer1);
 
         //---- jbUp ----
         jbUp.setText("\u25b2");
@@ -80,9 +85,8 @@ public class MoveMapPanel extends JPanel {
         jbUp.setMinimumSize(null);
         jbUp.setPreferredSize(null);
         jbUp.addActionListener(e -> jbUpActionPerformed(e));
-        add(jbUp, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 5, 5), 0, 0));
+        add(jbUp);
+        add(hSpacer2);
 
         //---- jbLeft ----
         jbLeft.setText("\u25c4");
@@ -91,9 +95,8 @@ public class MoveMapPanel extends JPanel {
         jbLeft.setMinimumSize(null);
         jbLeft.setPreferredSize(null);
         jbLeft.addActionListener(e -> jbLeftActionPerformed(e));
-        add(jbLeft, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 5, 5), 0, 0));
+        add(jbLeft);
+        add(hSpacer3);
 
         //---- jbRight ----
         jbRight.setText("\u25ba");
@@ -102,9 +105,8 @@ public class MoveMapPanel extends JPanel {
         jbRight.setMinimumSize(null);
         jbRight.setPreferredSize(null);
         jbRight.addActionListener(e -> jbRightActionPerformed(e));
-        add(jbRight, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 5, 0), 0, 0));
+        add(jbRight);
+        add(hSpacer4);
 
         //---- jbDown ----
         jbDown.setText("\u25bc");
@@ -113,16 +115,20 @@ public class MoveMapPanel extends JPanel {
         jbDown.setMinimumSize(null);
         jbDown.setPreferredSize(null);
         jbDown.addActionListener(e -> jbDownActionPerformed(e));
-        add(jbDown, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-            new Insets(0, 0, 0, 5), 0, 0));
+        add(jbDown);
+        add(hSpacer5);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    private JPanel hSpacer1;
     private JButton jbUp;
+    private JPanel hSpacer2;
     private JButton jbLeft;
+    private JPanel hSpacer3;
     private JButton jbRight;
+    private JPanel hSpacer4;
     private JButton jbDown;
+    private JPanel hSpacer5;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
