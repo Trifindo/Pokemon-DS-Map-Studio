@@ -427,6 +427,7 @@ public class TilesetEditorDialog extends JDialog {
             jtfGlobalTexScale.setEditable(selected);
             jbGlobalTexScale.setEnabled(selected);
             jtfGlobalTexScale.setBackground(selected ? defaultTextPaneBackground : defaultInactiveTextPaneColor);
+            jtfGlobalTexScale.setForeground(defaultTextPaneForeground);
         }
     }
 
@@ -1051,6 +1052,7 @@ public class TilesetEditorDialog extends JDialog {
         jtfGlobalTexScale.setText(String.valueOf(tile.getGlobalTextureScale()));
         boolean enabled = tile.useGlobalTextureMapping();
         jtfGlobalTexScale.setBackground(enabled ? defaultTextPaneBackground : defaultInactiveTextPaneColor);
+        jtfGlobalTexScale.setForeground(defaultTextPaneForeground);
         jtfGlobalTexScale.setEditable(enabled);
         jbGlobalTexScale.setEnabled(enabled);
     }
@@ -1606,15 +1608,15 @@ public class TilesetEditorDialog extends JDialog {
         setModal(true);
         Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-                "insets dialog,hidemode 3,gap 5 5",
-                // columns
-                "[304,grow,fill]" +
-                        "[fill]" +
-                        "[fill]" +
-                        "[487,grow,fill]",
-                // rows
-                "[grow,fill]" +
-                        "[fill]"));
+            "insets dialog,hidemode 3,gap 5 5",
+            // columns
+            "[304,grow,fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[487,grow,fill]",
+            // rows
+            "[grow,fill]" +
+            "[fill]"));
 
         //======== tileDisplay ========
         {
@@ -1626,12 +1628,12 @@ public class TilesetEditorDialog extends JDialog {
             GroupLayout tileDisplayLayout = new GroupLayout(tileDisplay);
             tileDisplay.setLayout(tileDisplayLayout);
             tileDisplayLayout.setHorizontalGroup(
-                    tileDisplayLayout.createParallelGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
+                tileDisplayLayout.createParallelGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
             );
             tileDisplayLayout.setVerticalGroup(
-                    tileDisplayLayout.createParallelGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
+                tileDisplayLayout.createParallelGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
             );
         }
         contentPane.add(tileDisplay, "cell 0 0");
@@ -1662,12 +1664,12 @@ public class TilesetEditorDialog extends JDialog {
                     GroupLayout tileSelectorLayout = new GroupLayout(tileSelector);
                     tileSelector.setLayout(tileSelectorLayout);
                     tileSelectorLayout.setHorizontalGroup(
-                            tileSelectorLayout.createParallelGroup()
-                                    .addGap(0, 128, Short.MAX_VALUE)
+                        tileSelectorLayout.createParallelGroup()
+                            .addGap(0, 128, Short.MAX_VALUE)
                     );
                     tileSelectorLayout.setVerticalGroup(
-                            tileSelectorLayout.createParallelGroup()
-                                    .addGap(0, 689, Short.MAX_VALUE)
+                        tileSelectorLayout.createParallelGroup()
+                            .addGap(0, 689, Short.MAX_VALUE)
                     );
                 }
                 jScrollPane2.setViewportView(tileSelector);
@@ -1688,10 +1690,10 @@ public class TilesetEditorDialog extends JDialog {
                 jPanel1.setPreferredSize(null);
                 jPanel1.setMaximumSize(null);
                 jPanel1.setLayout(new GridBagLayout());
-                ((GridBagLayout) jPanel1.getLayout()).columnWidths = new int[]{0, 0};
-                ((GridBagLayout) jPanel1.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-                ((GridBagLayout) jPanel1.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
-                ((GridBagLayout) jPanel1.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                ((GridBagLayout)jPanel1.getLayout()).columnWidths = new int[] {0, 0};
+                ((GridBagLayout)jPanel1.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+                ((GridBagLayout)jPanel1.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+                ((GridBagLayout)jPanel1.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                 //======== panel8 ========
                 {
@@ -1699,10 +1701,10 @@ public class TilesetEditorDialog extends JDialog {
                     panel8.setMinimumSize(null);
                     panel8.setPreferredSize(null);
                     panel8.setLayout(new GridBagLayout());
-                    ((GridBagLayout) panel8.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-                    ((GridBagLayout) panel8.getLayout()).rowHeights = new int[]{0, 0};
-                    ((GridBagLayout) panel8.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 1.0E-4};
-                    ((GridBagLayout) panel8.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
+                    ((GridBagLayout)panel8.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0, 0};
+                    ((GridBagLayout)panel8.getLayout()).rowHeights = new int[] {0, 0};
+                    ((GridBagLayout)panel8.getLayout()).columnWeights = new double[] {0.0, 1.0, 0.0, 0.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)panel8.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
                     //---- jLabel3 ----
                     jLabel3.setText("Tile selected: ");
@@ -1710,8 +1712,8 @@ public class TilesetEditorDialog extends JDialog {
                     jLabel3.setMinimumSize(null);
                     jLabel3.setPreferredSize(null);
                     panel8.add(jLabel3, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
                     //---- jtfIndexTile ----
                     jtfIndexTile.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1720,8 +1722,8 @@ public class TilesetEditorDialog extends JDialog {
                     jtfIndexTile.setMinimumSize(null);
                     jtfIndexTile.setPreferredSize(null);
                     panel8.add(jtfIndexTile, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
                     //---- jLabel23 ----
                     jLabel23.setText("Move tile:");
@@ -1729,8 +1731,8 @@ public class TilesetEditorDialog extends JDialog {
                     jLabel23.setMinimumSize(null);
                     jLabel23.setPreferredSize(null);
                     panel8.add(jLabel23, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
                     //---- jbMoveUp ----
                     jbMoveUp.setText("\u25b2");
@@ -1739,8 +1741,8 @@ public class TilesetEditorDialog extends JDialog {
                     jbMoveUp.setPreferredSize(null);
                     jbMoveUp.addActionListener(e -> jbMoveUpActionPerformed(e));
                     panel8.add(jbMoveUp, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
 
                     //---- jbMoveDown ----
                     jbMoveDown.setText("\u25bc");
@@ -1749,12 +1751,12 @@ public class TilesetEditorDialog extends JDialog {
                     jbMoveDown.setPreferredSize(null);
                     jbMoveDown.addActionListener(e -> jbMoveDownActionPerformed(e));
                     panel8.add(jbMoveDown, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
                 }
                 jPanel1.add(panel8, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
                 //======== panel1 ========
                 {
@@ -1800,8 +1802,8 @@ public class TilesetEditorDialog extends JDialog {
                     panel1.add(jbImportTiles);
                 }
                 jPanel1.add(panel1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
                 //======== jPanel5 ========
                 {
@@ -1810,14 +1812,14 @@ public class TilesetEditorDialog extends JDialog {
                     jPanel5.setMinimumSize(null);
                     jPanel5.setPreferredSize(null);
                     jPanel5.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[grow,fill]" +
-                                    "[fill]",
-                            // rows
-                            "[]" +
-                                    "[fill]" +
-                                    "[fill]"));
+                        "insets 0,hidemode 3,gap 5 5",
+                        // columns
+                        "[grow,fill]" +
+                        "[fill]",
+                        // rows
+                        "[]" +
+                        "[fill]" +
+                        "[fill]"));
 
                     //======== panel2 ========
                     {
@@ -1825,10 +1827,10 @@ public class TilesetEditorDialog extends JDialog {
                         panel2.setMinimumSize(null);
                         panel2.setPreferredSize(null);
                         panel2.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel2.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0};
-                        ((GridBagLayout) panel2.getLayout()).rowHeights = new int[]{0, 0, 0};
-                        ((GridBagLayout) panel2.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 1.0E-4};
-                        ((GridBagLayout) panel2.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0};
+                        ((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {0, 0, 0};
+                        ((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
                         //---- jLabel1 ----
                         jLabel1.setForeground(new Color(204, 0, 0));
@@ -1837,8 +1839,8 @@ public class TilesetEditorDialog extends JDialog {
                         jLabel1.setMinimumSize(null);
                         jLabel1.setPreferredSize(null);
                         panel2.add(jLabel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
 
                         //---- jbLessSizeX ----
                         jbLessSizeX.setText("<");
@@ -1847,8 +1849,8 @@ public class TilesetEditorDialog extends JDialog {
                         jbLessSizeX.setPreferredSize(null);
                         jbLessSizeX.addActionListener(e -> jbLessSizeXActionPerformed(e));
                         panel2.add(jbLessSizeX, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
 
                         //---- jtfSizeX ----
                         jtfSizeX.setEditable(false);
@@ -1857,8 +1859,8 @@ public class TilesetEditorDialog extends JDialog {
                         jtfSizeX.setMinimumSize(null);
                         jtfSizeX.setPreferredSize(null);
                         panel2.add(jtfSizeX, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
 
                         //---- jbMoreSizeX ----
                         jbMoreSizeX.setText(">");
@@ -1867,8 +1869,8 @@ public class TilesetEditorDialog extends JDialog {
                         jbMoreSizeX.setPreferredSize(null);
                         jbMoreSizeX.addActionListener(e -> jbMoreSizeXActionPerformed(e));
                         panel2.add(jbMoreSizeX, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jLabel2 ----
                         jLabel2.setForeground(new Color(0, 153, 0));
@@ -1877,8 +1879,8 @@ public class TilesetEditorDialog extends JDialog {
                         jLabel2.setMinimumSize(null);
                         jLabel2.setPreferredSize(null);
                         panel2.add(jLabel2, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jbLessSizeY ----
                         jbLessSizeY.setText("<");
@@ -1887,8 +1889,8 @@ public class TilesetEditorDialog extends JDialog {
                         jbLessSizeY.setPreferredSize(null);
                         jbLessSizeY.addActionListener(e -> jbLessSizeYActionPerformed(e));
                         panel2.add(jbLessSizeY, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jtfSizeY ----
                         jtfSizeY.setEditable(false);
@@ -1897,8 +1899,8 @@ public class TilesetEditorDialog extends JDialog {
                         jtfSizeY.setMinimumSize(null);
                         jtfSizeY.setPreferredSize(null);
                         panel2.add(jtfSizeY, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jbMoreSizeY ----
                         jbMoreSizeY.setText(">");
@@ -1907,8 +1909,8 @@ public class TilesetEditorDialog extends JDialog {
                         jbMoreSizeY.setPreferredSize(null);
                         jbMoreSizeY.addActionListener(e -> jbMoreSizeYActionPerformed(e));
                         panel2.add(jbMoreSizeY, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel5.add(panel2, "cell 0 0");
 
@@ -1963,10 +1965,10 @@ public class TilesetEditorDialog extends JDialog {
                         panel3.setMinimumSize(null);
                         panel3.setPreferredSize(null);
                         panel3.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel3.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                        ((GridBagLayout) panel3.getLayout()).rowHeights = new int[]{0, 0};
-                        ((GridBagLayout) panel3.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4};
-                        ((GridBagLayout) panel3.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
+                        ((GridBagLayout)panel3.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0};
+                        ((GridBagLayout)panel3.getLayout()).rowHeights = new int[] {0, 0};
+                        ((GridBagLayout)panel3.getLayout()).columnWeights = new double[] {0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel3.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
                         //---- jLabel14 ----
                         jLabel14.setForeground(new Color(204, 0, 0));
@@ -1975,8 +1977,8 @@ public class TilesetEditorDialog extends JDialog {
                         jLabel14.setMinimumSize(null);
                         jLabel14.setPreferredSize(null);
                         panel3.add(jLabel14, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jtfXOffset ----
                         jtfXOffset.setText(" ");
@@ -1985,8 +1987,8 @@ public class TilesetEditorDialog extends JDialog {
                         jtfXOffset.setPreferredSize(null);
                         jtfXOffset.setForeground(UIManager.getColor("TextPane.foreground"));
                         panel3.add(jtfXOffset, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jLabel15 ----
                         jLabel15.setForeground(new Color(0, 153, 0));
@@ -1995,8 +1997,8 @@ public class TilesetEditorDialog extends JDialog {
                         jLabel15.setMinimumSize(null);
                         jLabel15.setPreferredSize(null);
                         panel3.add(jLabel15, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jbXOffset ----
                         jbXOffset.setText("Apply");
@@ -2005,8 +2007,8 @@ public class TilesetEditorDialog extends JDialog {
                         jbXOffset.setPreferredSize(null);
                         jbXOffset.addActionListener(e -> jbXOffsetActionPerformed(e));
                         panel3.add(jbXOffset, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jtfYOffset ----
                         jtfYOffset.setText(" ");
@@ -2014,8 +2016,8 @@ public class TilesetEditorDialog extends JDialog {
                         jtfYOffset.setMinimumSize(null);
                         jtfYOffset.setPreferredSize(null);
                         panel3.add(jtfYOffset, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jbYOffset ----
                         jbYOffset.setText("Apply");
@@ -2024,8 +2026,8 @@ public class TilesetEditorDialog extends JDialog {
                         jbYOffset.setPreferredSize(null);
                         jbYOffset.addActionListener(e -> jbYOffsetActionPerformed(e));
                         panel3.add(jbYOffset, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel5.add(panel3, "cell 0 1 2 1");
 
@@ -2035,10 +2037,10 @@ public class TilesetEditorDialog extends JDialog {
                         panel5.setMinimumSize(null);
                         panel5.setPreferredSize(null);
                         panel5.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel5.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0};
-                        ((GridBagLayout) panel5.getLayout()).rowHeights = new int[]{0, 0};
-                        ((GridBagLayout) panel5.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0E-4};
-                        ((GridBagLayout) panel5.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
+                        ((GridBagLayout)panel5.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0};
+                        ((GridBagLayout)panel5.getLayout()).rowHeights = new int[] {0, 0};
+                        ((GridBagLayout)panel5.getLayout()).columnWeights = new double[] {0.0, 1.0, 0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel5.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
                         //---- jLabel10 ----
                         jLabel10.setText("Texture Scale:");
@@ -2046,8 +2048,8 @@ public class TilesetEditorDialog extends JDialog {
                         jLabel10.setMinimumSize(null);
                         jLabel10.setPreferredSize(null);
                         panel5.add(jLabel10, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jtfGlobalTexScale ----
                         jtfGlobalTexScale.setText(" ");
@@ -2055,8 +2057,8 @@ public class TilesetEditorDialog extends JDialog {
                         jtfGlobalTexScale.setMinimumSize(null);
                         jtfGlobalTexScale.setPreferredSize(null);
                         panel5.add(jtfGlobalTexScale, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jbGlobalTexScale ----
                         jbGlobalTexScale.setText("Apply");
@@ -2065,8 +2067,8 @@ public class TilesetEditorDialog extends JDialog {
                         jbGlobalTexScale.setPreferredSize(null);
                         jbGlobalTexScale.addActionListener(e -> jbGlobalTexScaleActionPerformed(e));
                         panel5.add(jbGlobalTexScale, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jcbGlobalTexMapping ----
                         jcbGlobalTexMapping.setText("Global Texture Mapping");
@@ -2075,14 +2077,14 @@ public class TilesetEditorDialog extends JDialog {
                         jcbGlobalTexMapping.setPreferredSize(null);
                         jcbGlobalTexMapping.addActionListener(e -> jcbGlobalTexMappingActionPerformed(e));
                         panel5.add(jcbGlobalTexMapping, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel5.add(panel5, "cell 0 2 2 1");
                 }
                 jPanel1.add(jPanel5, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
                 //======== jPanel6 ========
                 {
@@ -2091,13 +2093,13 @@ public class TilesetEditorDialog extends JDialog {
                     jPanel6.setMinimumSize(null);
                     jPanel6.setPreferredSize(null);
                     jPanel6.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[fill]" +
-                                    "[grow,fill]",
-                            // rows
-                            "[fill]" +
-                                    "[fill]"));
+                        "insets 0,hidemode 3,gap 5 5",
+                        // columns
+                        "[fill]" +
+                        "[grow,fill]",
+                        // rows
+                        "[fill]" +
+                        "[fill]"));
 
                     //---- jLabel5 ----
                     jLabel5.setText("Model name:");
@@ -2153,8 +2155,8 @@ public class TilesetEditorDialog extends JDialog {
                     jPanel6.add(panel10, "cell 1 1");
                 }
                 jPanel1.add(jPanel6, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
                 //======== jPanel7 ========
                 {
@@ -2163,13 +2165,13 @@ public class TilesetEditorDialog extends JDialog {
                     jPanel7.setMinimumSize(null);
                     jPanel7.setPreferredSize(null);
                     jPanel7.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[grow,fill]" +
-                                    "[fill]",
-                            // rows
-                            "[fill]" +
-                                    "[grow,fill]"));
+                        "insets 0,hidemode 3,gap 5 5",
+                        // columns
+                        "[grow,fill]" +
+                        "[fill]",
+                        // rows
+                        "[fill]" +
+                        "[grow,fill]"));
 
                     //======== textureDisplay ========
                     {
@@ -2181,12 +2183,12 @@ public class TilesetEditorDialog extends JDialog {
                         GroupLayout textureDisplayLayout = new GroupLayout(textureDisplay);
                         textureDisplay.setLayout(textureDisplayLayout);
                         textureDisplayLayout.setHorizontalGroup(
-                                textureDisplayLayout.createParallelGroup()
-                                        .addGap(0, 125, Short.MAX_VALUE)
+                            textureDisplayLayout.createParallelGroup()
+                                .addGap(0, 125, Short.MAX_VALUE)
                         );
                         textureDisplayLayout.setVerticalGroup(
-                                textureDisplayLayout.createParallelGroup()
-                                        .addGap(0, 125, Short.MAX_VALUE)
+                            textureDisplayLayout.createParallelGroup()
+                                .addGap(0, 125, Short.MAX_VALUE)
                         );
                     }
                     jPanel7.add(textureDisplay, "cell 1 0 1 2");
@@ -2197,10 +2199,10 @@ public class TilesetEditorDialog extends JDialog {
                         panel6.setMinimumSize(null);
                         panel6.setPreferredSize(null);
                         panel6.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel6.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0};
-                        ((GridBagLayout) panel6.getLayout()).rowHeights = new int[]{0, 0};
-                        ((GridBagLayout) panel6.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 1.0E-4};
-                        ((GridBagLayout) panel6.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
+                        ((GridBagLayout)panel6.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0};
+                        ((GridBagLayout)panel6.getLayout()).rowHeights = new int[] {0, 0};
+                        ((GridBagLayout)panel6.getLayout()).columnWeights = new double[] {0.0, 1.0, 0.0, 1.0, 1.0E-4};
+                        ((GridBagLayout)panel6.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
                         //---- jLabel16 ----
                         jLabel16.setText("Number of materials:");
@@ -2208,8 +2210,8 @@ public class TilesetEditorDialog extends JDialog {
                         jLabel16.setMinimumSize(null);
                         jLabel16.setPreferredSize(null);
                         panel6.add(jLabel16, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jtfNumTextures ----
                         jtfNumTextures.setHorizontalAlignment(SwingConstants.CENTER);
@@ -2218,8 +2220,8 @@ public class TilesetEditorDialog extends JDialog {
                         jtfNumTextures.setMinimumSize(null);
                         jtfNumTextures.setPreferredSize(null);
                         panel6.add(jtfNumTextures, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jLabel4 ----
                         jLabel4.setText("Material selected:");
@@ -2228,8 +2230,8 @@ public class TilesetEditorDialog extends JDialog {
                         jLabel4.setMinimumSize(null);
                         jLabel4.setPreferredSize(null);
                         panel6.add(jLabel4, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jSpinner1 ----
                         jSpinner1.setMaximumSize(null);
@@ -2237,8 +2239,8 @@ public class TilesetEditorDialog extends JDialog {
                         jSpinner1.setPreferredSize(null);
                         jSpinner1.addChangeListener(e -> jSpinner1StateChanged(e));
                         panel6.add(jSpinner1, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel7.add(panel6, "cell 0 0");
 
@@ -2248,10 +2250,10 @@ public class TilesetEditorDialog extends JDialog {
                         panel7.setMinimumSize(null);
                         panel7.setPreferredSize(null);
                         panel7.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel7.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
-                        ((GridBagLayout) panel7.getLayout()).rowHeights = new int[]{0, 0};
-                        ((GridBagLayout) panel7.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 1.0E-4};
-                        ((GridBagLayout) panel7.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
+                        ((GridBagLayout)panel7.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+                        ((GridBagLayout)panel7.getLayout()).rowHeights = new int[] {0, 0};
+                        ((GridBagLayout)panel7.getLayout()).columnWeights = new double[] {0.0, 1.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel7.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
                         //---- jLabel22 ----
                         jLabel22.setText("Material: ");
@@ -2259,11 +2261,11 @@ public class TilesetEditorDialog extends JDialog {
                         jLabel22.setMinimumSize(null);
                         jLabel22.setPreferredSize(null);
                         panel7.add(jLabel22, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jcbMaterial ----
-                        jcbMaterial.setModel(new DefaultComboBoxModel<>(new String[]{
+                        jcbMaterial.setModel(new DefaultComboBoxModel<>(new String[] {
 
                         }));
                         jcbMaterial.setMaximumSize(null);
@@ -2271,8 +2273,8 @@ public class TilesetEditorDialog extends JDialog {
                         jcbMaterial.setPreferredSize(null);
                         jcbMaterial.addActionListener(e -> jcbMaterialActionPerformed(e));
                         panel7.add(jcbMaterial, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jbAddTexture ----
                         jbAddTexture.setIcon(new ImageIcon(getClass().getResource("/icons/AddTileIcon.png")));
@@ -2282,14 +2284,14 @@ public class TilesetEditorDialog extends JDialog {
                         jbAddTexture.setPreferredSize(null);
                         jbAddTexture.addActionListener(e -> jbAddTextureActionPerformed(e));
                         panel7.add(jbAddTexture, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel7.add(panel7, "cell 0 1");
                 }
                 jPanel1.add(jPanel7, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
             }
             jTabbedPane1.addTab("Tile Editor", jPanel1);
 
@@ -2299,13 +2301,13 @@ public class TilesetEditorDialog extends JDialog {
                 jPanel3.setPreferredSize(null);
                 jPanel3.setMaximumSize(null);
                 jPanel3.setLayout(new MigLayout(
-                        "insets dialog,hidemode 3,gap 5 5",
-                        // columns
-                        "[fill]" +
-                                "[grow,fill]",
-                        // rows
-                        "[grow,fill]" +
-                                "[fill]"));
+                    "insets dialog,hidemode 3,gap 5 5",
+                    // columns
+                    "[fill]" +
+                    "[grow,fill]",
+                    // rows
+                    "[grow,fill]" +
+                    "[fill]"));
 
                 //======== panel13 ========
                 {
@@ -2313,10 +2315,10 @@ public class TilesetEditorDialog extends JDialog {
                     panel13.setMaximumSize(null);
                     panel13.setPreferredSize(null);
                     panel13.setLayout(new GridBagLayout());
-                    ((GridBagLayout) panel13.getLayout()).columnWidths = new int[]{0, 0};
-                    ((GridBagLayout) panel13.getLayout()).rowHeights = new int[]{0, 0, 0};
-                    ((GridBagLayout) panel13.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
-                    ((GridBagLayout) panel13.getLayout()).rowWeights = new double[]{0.0, 1.0, 1.0E-4};
+                    ((GridBagLayout)panel13.getLayout()).columnWidths = new int[] {0, 0};
+                    ((GridBagLayout)panel13.getLayout()).rowHeights = new int[] {0, 0, 0};
+                    ((GridBagLayout)panel13.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+                    ((GridBagLayout)panel13.getLayout()).rowWeights = new double[] {0.0, 1.0, 1.0E-4};
 
                     //---- jLabel21 ----
                     jLabel21.setText("Material list:");
@@ -2324,8 +2326,8 @@ public class TilesetEditorDialog extends JDialog {
                     jLabel21.setMinimumSize(null);
                     jLabel21.setPreferredSize(null);
                     panel13.add(jLabel21, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                     //======== jScrollPane1 ========
                     {
@@ -2343,8 +2345,8 @@ public class TilesetEditorDialog extends JDialog {
                         jScrollPane1.setViewportView(jlistINames);
                     }
                     panel13.add(jScrollPane1, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 0), 0, 0));
                 }
                 jPanel3.add(panel13, "cell 0 0 1 2");
 
@@ -2354,10 +2356,10 @@ public class TilesetEditorDialog extends JDialog {
                     panel11.setMinimumSize(null);
                     panel11.setPreferredSize(null);
                     panel11.setLayout(new GridBagLayout());
-                    ((GridBagLayout) panel11.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
-                    ((GridBagLayout) panel11.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-                    ((GridBagLayout) panel11.getLayout()).columnWeights = new double[]{0.0, 1.0, 0.0, 1.0E-4};
-                    ((GridBagLayout) panel11.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)panel11.getLayout()).columnWidths = new int[] {0, 0, 0, 0};
+                    ((GridBagLayout)panel11.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                    ((GridBagLayout)panel11.getLayout()).columnWeights = new double[] {0.0, 1.0, 0.0, 1.0E-4};
+                    ((GridBagLayout)panel11.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                     //---- jLabel8 ----
                     jLabel8.setText("Material Name:");
@@ -2365,8 +2367,8 @@ public class TilesetEditorDialog extends JDialog {
                     jLabel8.setMinimumSize(null);
                     jLabel8.setPreferredSize(null);
                     panel11.add(jLabel8, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- jLabel7 ----
                     jLabel7.setText("Texture Name:");
@@ -2374,8 +2376,8 @@ public class TilesetEditorDialog extends JDialog {
                     jLabel7.setMinimumSize(null);
                     jLabel7.setPreferredSize(null);
                     panel11.add(jLabel7, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- jLabel6 ----
                     jLabel6.setText("Palette Name:");
@@ -2383,8 +2385,8 @@ public class TilesetEditorDialog extends JDialog {
                     jLabel6.setMinimumSize(null);
                     jLabel6.setPreferredSize(null);
                     panel11.add(jLabel6, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- jtfPaletteName ----
                     jtfPaletteName.setText(" ");
@@ -2393,8 +2395,8 @@ public class TilesetEditorDialog extends JDialog {
                     jtfPaletteName.setPreferredSize(null);
                     jtfPaletteName.addActionListener(e -> jtfPaletteNameActionPerformed(e));
                     panel11.add(jtfPaletteName, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- jtfTextureName ----
                     jtfTextureName.setText(" ");
@@ -2403,8 +2405,8 @@ public class TilesetEditorDialog extends JDialog {
                     jtfTextureName.setPreferredSize(null);
                     jtfTextureName.addActionListener(e -> jtfTextureNameActionPerformed(e));
                     panel11.add(jtfTextureName, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- jtfMaterialName ----
                     jtfMaterialName.setText(" ");
@@ -2413,8 +2415,8 @@ public class TilesetEditorDialog extends JDialog {
                     jtfMaterialName.setPreferredSize(null);
                     jtfMaterialName.addActionListener(e -> jtfMaterialNameActionPerformed(e));
                     panel11.add(jtfMaterialName, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- jbMaterialName ----
                     jbMaterialName.setText("Apply");
@@ -2423,8 +2425,8 @@ public class TilesetEditorDialog extends JDialog {
                     jbMaterialName.setPreferredSize(null);
                     jbMaterialName.addActionListener(e -> jbMaterialNameActionPerformed(e));
                     panel11.add(jbMaterialName, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                     //---- jbTextName ----
                     jbTextName.setText("Apply");
@@ -2433,8 +2435,8 @@ public class TilesetEditorDialog extends JDialog {
                     jbTextName.setPreferredSize(null);
                     jbTextName.addActionListener(e -> jbTextNameActionPerformed(e));
                     panel11.add(jbTextName, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                     //---- jbPaletteName ----
                     jbPaletteName.setText("Apply");
@@ -2443,8 +2445,8 @@ public class TilesetEditorDialog extends JDialog {
                     jbPaletteName.setPreferredSize(null);
                     jbPaletteName.addActionListener(e -> jbPaletteNameActionPerformed(e));
                     panel11.add(jbPaletteName, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                     //---- jLabel9 ----
                     jLabel9.setText("Alpha: ");
@@ -2452,8 +2454,8 @@ public class TilesetEditorDialog extends JDialog {
                     jLabel9.setMinimumSize(null);
                     jLabel9.setPreferredSize(null);
                     panel11.add(jLabel9, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- jLabel11 ----
                     jLabel11.setText("Tex Gen Mode: ");
@@ -2461,8 +2463,8 @@ public class TilesetEditorDialog extends JDialog {
                     jLabel11.setMinimumSize(null);
                     jLabel11.setPreferredSize(null);
                     panel11.add(jLabel11, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- jLabel17 ----
                     jLabel17.setText("Tex Tiling U: ");
@@ -2470,8 +2472,8 @@ public class TilesetEditorDialog extends JDialog {
                     jLabel17.setMinimumSize(null);
                     jLabel17.setPreferredSize(null);
                     panel11.add(jLabel17, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- jLabel18 ----
                     jLabel18.setText("Tex Tiling V: ");
@@ -2479,8 +2481,8 @@ public class TilesetEditorDialog extends JDialog {
                     jLabel18.setMinimumSize(null);
                     jLabel18.setPreferredSize(null);
                     panel11.add(jLabel18, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- jLabel19 ----
                     jLabel19.setText("Color Format:");
@@ -2488,8 +2490,8 @@ public class TilesetEditorDialog extends JDialog {
                     jLabel19.setMinimumSize(null);
                     jLabel19.setPreferredSize(null);
                     panel11.add(jLabel19, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 5), 0, 0));
 
                     //---- jSpinner2 ----
                     jSpinner2.setModel(new SpinnerNumberModel(0, 0, 31, 1));
@@ -2498,70 +2500,70 @@ public class TilesetEditorDialog extends JDialog {
                     jSpinner2.setPreferredSize(null);
                     jSpinner2.addChangeListener(e -> jSpinner2StateChanged(e));
                     panel11.add(jSpinner2, new GridBagConstraints(1, 3, 2, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                     //---- jcbTexGenMode ----
                     jcbTexGenMode.setMaximumRowCount(4);
-                    jcbTexGenMode.setModel(new DefaultComboBoxModel<>(new String[]{
-                            "None",
-                            "Texture",
-                            "Normal",
-                            "Vertex"
+                    jcbTexGenMode.setModel(new DefaultComboBoxModel<>(new String[] {
+                        "None",
+                        "Texture",
+                        "Normal",
+                        "Vertex"
                     }));
                     jcbTexGenMode.setMaximumSize(null);
                     jcbTexGenMode.setMinimumSize(null);
                     jcbTexGenMode.setPreferredSize(null);
                     jcbTexGenMode.addActionListener(e -> jcbTexGenModeActionPerformed(e));
                     panel11.add(jcbTexGenMode, new GridBagConstraints(1, 4, 2, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                     //---- jcbTexTilingU ----
                     jcbTexTilingU.setMaximumRowCount(4);
-                    jcbTexTilingU.setModel(new DefaultComboBoxModel<>(new String[]{
-                            "Repeat",
-                            "Clamp",
-                            "Flip"
+                    jcbTexTilingU.setModel(new DefaultComboBoxModel<>(new String[] {
+                        "Repeat",
+                        "Clamp",
+                        "Flip"
                     }));
                     jcbTexTilingU.setMaximumSize(null);
                     jcbTexTilingU.setMinimumSize(null);
                     jcbTexTilingU.setPreferredSize(null);
                     jcbTexTilingU.addActionListener(e -> jcbTexTilingUActionPerformed(e));
                     panel11.add(jcbTexTilingU, new GridBagConstraints(1, 5, 2, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                     //---- jcbTexTilingV ----
                     jcbTexTilingV.setMaximumRowCount(4);
-                    jcbTexTilingV.setModel(new DefaultComboBoxModel<>(new String[]{
-                            "Repeat",
-                            "Clamp",
-                            "Flip"
+                    jcbTexTilingV.setModel(new DefaultComboBoxModel<>(new String[] {
+                        "Repeat",
+                        "Clamp",
+                        "Flip"
                     }));
                     jcbTexTilingV.setMaximumSize(null);
                     jcbTexTilingV.setMinimumSize(null);
                     jcbTexTilingV.setPreferredSize(null);
                     jcbTexTilingV.addActionListener(e -> jcbTexTilingVActionPerformed(e));
                     panel11.add(jcbTexTilingV, new GridBagConstraints(1, 6, 2, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                     //---- jcbColorFormat ----
-                    jcbColorFormat.setModel(new DefaultComboBoxModel<>(new String[]{
-                            "Palette 4",
-                            "Palette 16",
-                            "Palette 256",
-                            "A3I5",
-                            "A5I3"
+                    jcbColorFormat.setModel(new DefaultComboBoxModel<>(new String[] {
+                        "Palette 4",
+                        "Palette 16",
+                        "Palette 256",
+                        "A3I5",
+                        "A5I3"
                     }));
                     jcbColorFormat.setMaximumSize(null);
                     jcbColorFormat.setMinimumSize(null);
                     jcbColorFormat.setPreferredSize(null);
                     jcbColorFormat.addActionListener(e -> jcbColorFormatActionPerformed(e));
                     panel11.add(jcbColorFormat, new GridBagConstraints(1, 7, 2, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                     //======== panel12 ========
                     {
@@ -2617,10 +2619,10 @@ public class TilesetEditorDialog extends JDialog {
                             panel14.setMinimumSize(null);
                             panel14.setPreferredSize(null);
                             panel14.setLayout(new GridBagLayout());
-                            ((GridBagLayout) panel14.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                            ((GridBagLayout) panel14.getLayout()).rowHeights = new int[]{0, 0};
-                            ((GridBagLayout) panel14.getLayout()).columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
-                            ((GridBagLayout) panel14.getLayout()).rowWeights = new double[]{0.0, 1.0E-4};
+                            ((GridBagLayout)panel14.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0};
+                            ((GridBagLayout)panel14.getLayout()).rowHeights = new int[] {0, 0};
+                            ((GridBagLayout)panel14.getLayout()).columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                            ((GridBagLayout)panel14.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
                             //---- jLabel20 ----
                             jLabel20.setText("Lights: ");
@@ -2628,8 +2630,8 @@ public class TilesetEditorDialog extends JDialog {
                             jLabel20.setMinimumSize(null);
                             jLabel20.setPreferredSize(null);
                             panel14.add(jLabel20, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                    new Insets(0, 0, 0, 5), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
                             //---- jcbL0 ----
                             jcbL0.setText("L0");
@@ -2638,8 +2640,8 @@ public class TilesetEditorDialog extends JDialog {
                             jcbL0.setPreferredSize(null);
                             jcbL0.addActionListener(e -> jcbL0ActionPerformed(e));
                             panel14.add(jcbL0, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                    new Insets(0, 0, 0, 5), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
                             //---- jcbL1 ----
                             jcbL1.setText("L1");
@@ -2648,8 +2650,8 @@ public class TilesetEditorDialog extends JDialog {
                             jcbL1.setPreferredSize(null);
                             jcbL1.addActionListener(e -> jcbL1ActionPerformed(e));
                             panel14.add(jcbL1, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                    new Insets(0, 0, 0, 5), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
                             //---- jcbL2 ----
                             jcbL2.setText("L2");
@@ -2658,8 +2660,8 @@ public class TilesetEditorDialog extends JDialog {
                             jcbL2.setPreferredSize(null);
                             jcbL2.addActionListener(e -> jcbL2ActionPerformed(e));
                             panel14.add(jcbL2, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
-                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                    new Insets(0, 0, 0, 5), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
                             //---- jcbL3 ----
                             jcbL3.setText("L3");
@@ -2668,8 +2670,8 @@ public class TilesetEditorDialog extends JDialog {
                             jcbL3.setPreferredSize(null);
                             jcbL3.addActionListener(e -> jcbL3ActionPerformed(e));
                             panel14.add(jcbL3, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0,
-                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                    new Insets(0, 0, 0, 5), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 5), 0, 0));
 
                             //---- jcbUseVertexColors ----
                             jcbUseVertexColors.setText("Use Vertex Colors");
@@ -2678,14 +2680,14 @@ public class TilesetEditorDialog extends JDialog {
                             jcbUseVertexColors.setPreferredSize(null);
                             jcbUseVertexColors.addActionListener(e -> jcbUseVertexColorsActionPerformed(e));
                             panel14.add(jcbUseVertexColors, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
-                                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                    new Insets(0, 0, 0, 0), 0, 0));
+                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                new Insets(0, 0, 0, 0), 0, 0));
                         }
                         panel12.add(panel14);
                     }
                     panel11.add(panel12, new GridBagConstraints(0, 8, 3, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 5, 0), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 5, 0), 0, 0));
 
                     //======== panel15 ========
                     {
@@ -2693,10 +2695,10 @@ public class TilesetEditorDialog extends JDialog {
                         panel15.setMinimumSize(null);
                         panel15.setPreferredSize(null);
                         panel15.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel15.getLayout()).columnWidths = new int[]{0, 0, 0};
-                        ((GridBagLayout) panel15.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0};
-                        ((GridBagLayout) panel15.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
-                        ((GridBagLayout) panel15.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel15.getLayout()).columnWidths = new int[] {0, 0, 0};
+                        ((GridBagLayout)panel15.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+                        ((GridBagLayout)panel15.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel15.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                         //======== panel16 ========
                         {
@@ -2722,8 +2724,8 @@ public class TilesetEditorDialog extends JDialog {
                             panel16.add(jbMoveMaterialDown);
                         }
                         panel15.add(panel16, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //======== textureDisplayMaterial ========
                         {
@@ -2735,17 +2737,17 @@ public class TilesetEditorDialog extends JDialog {
                             GroupLayout textureDisplayMaterialLayout = new GroupLayout(textureDisplayMaterial);
                             textureDisplayMaterial.setLayout(textureDisplayMaterialLayout);
                             textureDisplayMaterialLayout.setHorizontalGroup(
-                                    textureDisplayMaterialLayout.createParallelGroup()
-                                            .addGap(0, 165, Short.MAX_VALUE)
+                                textureDisplayMaterialLayout.createParallelGroup()
+                                    .addGap(0, 165, Short.MAX_VALUE)
                             );
                             textureDisplayMaterialLayout.setVerticalGroup(
-                                    textureDisplayMaterialLayout.createParallelGroup()
-                                            .addGap(0, 125, Short.MAX_VALUE)
+                                textureDisplayMaterialLayout.createParallelGroup()
+                                    .addGap(0, 125, Short.MAX_VALUE)
                             );
                         }
                         panel15.add(textureDisplayMaterial, new GridBagConstraints(0, 0, 1, 4, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jbReplaceTexture ----
                         jbReplaceTexture.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
@@ -2755,8 +2757,8 @@ public class TilesetEditorDialog extends JDialog {
                         jbReplaceTexture.setPreferredSize(null);
                         jbReplaceTexture.addActionListener(e -> jbReplaceTextureActionPerformed(e));
                         panel15.add(jbReplaceTexture, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbReplaceMaterial ----
                         jbReplaceMaterial.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveTileIcon.png")));
@@ -2766,12 +2768,12 @@ public class TilesetEditorDialog extends JDialog {
                         jbReplaceMaterial.setPreferredSize(null);
                         jbReplaceMaterial.addActionListener(e -> jbReplaceMaterialActionPerformed(e));
                         panel15.add(jbReplaceMaterial, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
                     }
                     panel11.add(panel15, new GridBagConstraints(0, 9, 2, 1, 0.0, 0.0,
-                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                            new Insets(0, 0, 0, 5), 0, 0));
+                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                        new Insets(0, 0, 0, 5), 0, 0));
                 }
                 jPanel3.add(panel11, "cell 1 0");
             }
@@ -2791,10 +2793,10 @@ public class TilesetEditorDialog extends JDialog {
                 jPanel4.setMinimumSize(null);
                 jPanel4.setPreferredSize(null);
                 jPanel4.setLayout(new GridBagLayout());
-                ((GridBagLayout) jPanel4.getLayout()).columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-                ((GridBagLayout) jPanel4.getLayout()).rowHeights = new int[]{0, 0, 0};
-                ((GridBagLayout) jPanel4.getLayout()).columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0E-4};
-                ((GridBagLayout) jPanel4.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+                ((GridBagLayout)jPanel4.getLayout()).columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0};
+                ((GridBagLayout)jPanel4.getLayout()).rowHeights = new int[] {0, 0, 0};
+                ((GridBagLayout)jPanel4.getLayout()).columnWeights = new double[] {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0E-4};
+                ((GridBagLayout)jPanel4.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
                 //---- jLabel12 ----
                 jLabel12.setText("Rotate: ");
@@ -2802,8 +2804,8 @@ public class TilesetEditorDialog extends JDialog {
                 jLabel12.setMinimumSize(null);
                 jLabel12.setPreferredSize(null);
                 jPanel4.add(jLabel12, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
                 //---- jbRotateModel ----
                 jbRotateModel.setText("\u21ba");
@@ -2813,8 +2815,8 @@ public class TilesetEditorDialog extends JDialog {
                 jbRotateModel.setPreferredSize(null);
                 jbRotateModel.addActionListener(e -> jbRotateModelActionPerformed(e));
                 jPanel4.add(jbRotateModel, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
                 //---- jLabel13 ----
                 jLabel13.setText("Flip : ");
@@ -2822,8 +2824,8 @@ public class TilesetEditorDialog extends JDialog {
                 jLabel13.setMinimumSize(null);
                 jLabel13.setPreferredSize(null);
                 jPanel4.add(jLabel13, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jbFlipModel ----
                 jbFlipModel.setText("\u21c6");
@@ -2834,8 +2836,8 @@ public class TilesetEditorDialog extends JDialog {
                 jbFlipModel.setPreferredSize(null);
                 jbFlipModel.addActionListener(e -> jbFlipModelActionPerformed(e));
                 jPanel4.add(jbFlipModel, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jbMoveModelUp ----
                 jbMoveModelUp.setForeground(new Color(0, 153, 0));
@@ -2845,8 +2847,8 @@ public class TilesetEditorDialog extends JDialog {
                 jbMoveModelUp.setPreferredSize(null);
                 jbMoveModelUp.addActionListener(e -> jbMoveModelUpActionPerformed(e));
                 jPanel4.add(jbMoveModelUp, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
                 //---- jbMoveModelDown ----
                 jbMoveModelDown.setForeground(new Color(0, 153, 0));
@@ -2856,8 +2858,8 @@ public class TilesetEditorDialog extends JDialog {
                 jbMoveModelDown.setPreferredSize(null);
                 jbMoveModelDown.addActionListener(e -> jbMoveModelDownActionPerformed(e));
                 jPanel4.add(jbMoveModelDown, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jbMoveModelLeft ----
                 jbMoveModelLeft.setForeground(new Color(204, 0, 0));
@@ -2867,8 +2869,8 @@ public class TilesetEditorDialog extends JDialog {
                 jbMoveModelLeft.setPreferredSize(null);
                 jbMoveModelLeft.addActionListener(e -> jbMoveModelLeftActionPerformed(e));
                 jPanel4.add(jbMoveModelLeft, new GridBagConstraints(2, 0, 1, 2, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jbMoveModelRight ----
                 jbMoveModelRight.setForeground(new Color(204, 0, 0));
@@ -2878,8 +2880,8 @@ public class TilesetEditorDialog extends JDialog {
                 jbMoveModelRight.setPreferredSize(null);
                 jbMoveModelRight.addActionListener(e -> jbMoveModelRightActionPerformed(e));
                 jPanel4.add(jbMoveModelRight, new GridBagConstraints(4, 0, 1, 2, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jbMoveModelUp1 ----
                 jbMoveModelUp1.setForeground(Color.blue);
@@ -2889,8 +2891,8 @@ public class TilesetEditorDialog extends JDialog {
                 jbMoveModelUp1.setPreferredSize(null);
                 jbMoveModelUp1.addActionListener(e -> jbMoveModelUp1ActionPerformed(e));
                 jPanel4.add(jbMoveModelUp1, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
                 //---- jbMoveModelDown1 ----
                 jbMoveModelDown1.setForeground(Color.blue);
@@ -2900,8 +2902,8 @@ public class TilesetEditorDialog extends JDialog {
                 jbMoveModelDown1.setPreferredSize(null);
                 jbMoveModelDown1.addActionListener(e -> jbMoveModelDown1ActionPerformed(e));
                 jPanel4.add(jbMoveModelDown1, new GridBagConstraints(5, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
             }
             jTabbedPane2.addTab("Model Editor", jPanel4);
 
@@ -2911,10 +2913,10 @@ public class TilesetEditorDialog extends JDialog {
                 jPanel8.setMinimumSize(null);
                 jPanel8.setPreferredSize(null);
                 jPanel8.setLayout(new GridBagLayout());
-                ((GridBagLayout) jPanel8.getLayout()).columnWidths = new int[]{0, 0, 0};
-                ((GridBagLayout) jPanel8.getLayout()).rowHeights = new int[]{0, 0, 0};
-                ((GridBagLayout) jPanel8.getLayout()).columnWeights = new double[]{1.0, 1.0, 1.0E-4};
-                ((GridBagLayout) jPanel8.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+                ((GridBagLayout)jPanel8.getLayout()).columnWidths = new int[] {0, 0, 0};
+                ((GridBagLayout)jPanel8.getLayout()).rowHeights = new int[] {0, 0, 0};
+                ((GridBagLayout)jPanel8.getLayout()).columnWeights = new double[] {1.0, 1.0, 1.0E-4};
+                ((GridBagLayout)jPanel8.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
                 //---- jcbBackfaceCulling ----
                 jcbBackfaceCulling.setSelected(true);
@@ -2924,8 +2926,8 @@ public class TilesetEditorDialog extends JDialog {
                 jcbBackfaceCulling.setPreferredSize(null);
                 jcbBackfaceCulling.addActionListener(e -> jcbBackfaceCullingActionPerformed(e));
                 jPanel8.add(jcbBackfaceCulling, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
                 //---- jcbWireframe ----
                 jcbWireframe.setSelected(true);
@@ -2935,8 +2937,8 @@ public class TilesetEditorDialog extends JDialog {
                 jcbWireframe.setPreferredSize(null);
                 jcbWireframe.addActionListener(e -> jcbWireframeActionPerformed(e));
                 jPanel8.add(jcbWireframe, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 5), 0, 0));
 
                 //---- jcbTexturesEnabled ----
                 jcbTexturesEnabled.setSelected(true);
@@ -2946,8 +2948,8 @@ public class TilesetEditorDialog extends JDialog {
                 jcbTexturesEnabled.setPreferredSize(null);
                 jcbTexturesEnabled.addActionListener(e -> jcbTexturesEnabledActionPerformed(e));
                 jPanel8.add(jcbTexturesEnabled, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 5, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 0), 0, 0));
 
                 //---- jcbShadingEnabled ----
                 jcbShadingEnabled.setText("Shading");
@@ -2956,8 +2958,8 @@ public class TilesetEditorDialog extends JDialog {
                 jcbShadingEnabled.setPreferredSize(null);
                 jcbShadingEnabled.addActionListener(e -> jcbShadingEnabledActionPerformed(e));
                 jPanel8.add(jcbShadingEnabled, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
-                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                        new Insets(0, 0, 0, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
             }
             jTabbedPane2.addTab("Display Settings", jPanel8);
         }
@@ -2970,10 +2972,10 @@ public class TilesetEditorDialog extends JDialog {
             jPanel9.setMaximumSize(null);
             jPanel9.setPreferredSize(null);
             jPanel9.setLayout(new GridBagLayout());
-            ((GridBagLayout) jPanel9.getLayout()).columnWidths = new int[]{0, 0};
-            ((GridBagLayout) jPanel9.getLayout()).rowHeights = new int[]{0, 0, 0};
-            ((GridBagLayout) jPanel9.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
-            ((GridBagLayout) jPanel9.getLayout()).rowWeights = new double[]{1.0, 0.0, 1.0E-4};
+            ((GridBagLayout)jPanel9.getLayout()).columnWidths = new int[] {0, 0};
+            ((GridBagLayout)jPanel9.getLayout()).rowHeights = new int[] {0, 0, 0};
+            ((GridBagLayout)jPanel9.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+            ((GridBagLayout)jPanel9.getLayout()).rowWeights = new double[] {1.0, 0.0, 1.0E-4};
 
             //======== jScrollPaneSmartGrid ========
             {
@@ -2992,19 +2994,19 @@ public class TilesetEditorDialog extends JDialog {
                     GroupLayout smartGridEditableDisplayLayout = new GroupLayout(smartGridEditableDisplay);
                     smartGridEditableDisplay.setLayout(smartGridEditableDisplayLayout);
                     smartGridEditableDisplayLayout.setHorizontalGroup(
-                            smartGridEditableDisplayLayout.createParallelGroup()
-                                    .addGap(0, 136, Short.MAX_VALUE)
+                        smartGridEditableDisplayLayout.createParallelGroup()
+                            .addGap(0, 136, Short.MAX_VALUE)
                     );
                     smartGridEditableDisplayLayout.setVerticalGroup(
-                            smartGridEditableDisplayLayout.createParallelGroup()
-                                    .addGap(0, 623, Short.MAX_VALUE)
+                        smartGridEditableDisplayLayout.createParallelGroup()
+                            .addGap(0, 623, Short.MAX_VALUE)
                     );
                 }
                 jScrollPaneSmartGrid.setViewportView(smartGridEditableDisplay);
             }
             jPanel9.add(jScrollPaneSmartGrid, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 5, 0), 0, 0));
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 0), 0, 0));
 
             //======== panel9 ========
             {
@@ -3035,8 +3037,8 @@ public class TilesetEditorDialog extends JDialog {
                 panel9.add(jbRemoveSmartGrid);
             }
             jPanel9.add(panel9, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0), 0, 0));
         }
         contentPane.add(jPanel9, "cell 2 0 1 2");
         pack();
