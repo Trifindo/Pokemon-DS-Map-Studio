@@ -16,6 +16,7 @@ new FormModel {
 			"title": "Converter Options"
 			"resizable": false
 			"modal": true
+			"$sizePolicy": 1
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "jbAccept"
 				"text": "OK"

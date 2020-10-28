@@ -4,13 +4,14 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$layoutConstraints": "insets dialog,hidemode 3,gap 5 5"
 			"$columnConstraints": "[grow,fill]"
 			"$rowConstraints": "[fill][grow,fill][fill]"
 		} ) {
 			name: "this"
 			"defaultCloseOperation": 2
 			"modal": true
+			"$sizePolicy": 1
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "jLabel1"
 				"horizontalAlignment": 2

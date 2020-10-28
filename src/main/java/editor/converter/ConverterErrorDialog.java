@@ -42,13 +42,13 @@ public class ConverterErrorDialog extends JDialog {
         setModal(true);
         Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-                "insets 0,hidemode 3,gap 5 5",
-                // columns
-                "[grow,fill]",
-                // rows
-                "[fill]" +
-                        "[grow,fill]" +
-                        "[fill]"));
+            "insets dialog,hidemode 3,gap 5 5",
+            // columns
+            "[grow,fill]",
+            // rows
+            "[fill]" +
+            "[grow,fill]" +
+            "[fill]"));
 
         //---- jLabel1 ----
         jLabel1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -85,7 +85,7 @@ public class ConverterErrorDialog extends JDialog {
             panel1.add(jButton1);
         }
         contentPane.add(panel1, "cell 0 2 2 1,alignx center,growx 0");
-        pack();
+        setSize(640, 285);
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

@@ -114,7 +114,7 @@ public class ConverterDialog extends JDialog {
         contentPane.add(jPanel1, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 0), 0, 0));
-        pack();
+        setSize(400, 130);
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
