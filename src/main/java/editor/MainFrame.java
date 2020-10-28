@@ -1853,7 +1853,7 @@ public class MainFrame extends JFrame {
 
             m.addActionListener(e -> {
                 if (opened_map) {
-                    int returnVal = JOptionPane.showConfirmDialog(this, "Do you want to close current map?", "Create new map", JOptionPane.YES_NO_OPTION);
+                    int returnVal = JOptionPane.showConfirmDialog(this, "Do you want to close current map?", "Open recent", JOptionPane.YES_NO_OPTION);
                     if (returnVal == JOptionPane.YES_OPTION)
                         openMap(item);
                 } else

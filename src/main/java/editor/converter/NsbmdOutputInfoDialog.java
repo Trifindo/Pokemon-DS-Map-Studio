@@ -248,7 +248,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addContainerGap()
                             .addGroup(jPanel2Layout.createParallelGroup()
-                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel5)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
@@ -275,14 +275,14 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel1)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)))
+                                    .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)))
                             .addContainerGap())
                 );
                 jPanel2Layout.setVerticalGroup(
                     jPanel2Layout.createParallelGroup()
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
                             .addGap(21, 21, 21)
                             .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -331,7 +331,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                         );
                         nitroDisplayGL1Layout.setVerticalGroup(
                             nitroDisplayGL1Layout.createParallelGroup()
-                                .addGap(0, 385, Short.MAX_VALUE)
+                                .addGap(0, 390, Short.MAX_VALUE)
                         );
                     }
 
@@ -391,7 +391,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                                 .addContainerGap()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
                                 .addContainerGap())
                     );
                 }
@@ -400,7 +400,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
             jSplitPane1.setRightComponent(jpCard);
         }
         contentPane.add(jSplitPane1, "cell 0 0");
-        setSize(815, 480);
+        setSize(1020, 480);
         setLocationRelativeTo(getOwner());
     }// </editor-fold>//GEN-END:initComponents
 
