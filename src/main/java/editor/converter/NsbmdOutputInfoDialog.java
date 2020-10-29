@@ -152,7 +152,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                 formWindowClosed(e);
             }
         });
-        var contentPane = getContentPane();
+        Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
             "insets 0,hidemode 3,gap 5 5",
             // columns
