@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.tileseteditor;
 
 import static com.jogamp.opengl.GL.GL_BACK;
@@ -47,7 +43,9 @@ import static com.jogamp.opengl.GL2.GL_TEXTURE_MIN_FILTER;
 import static com.jogamp.opengl.GL2.GL_TEXTURE_WRAP_S;
 import static com.jogamp.opengl.GL2.GL_TEXTURE_WRAP_T;
 import static com.jogamp.opengl.GL2.GL_TRIANGLES;
+
 import com.jogamp.opengl.GL2;
+
 import static com.jogamp.opengl.GL2ES1.GL_ALPHA_TEST;
 import static com.jogamp.opengl.GL2ES1.GL_LIGHT_MODEL_AMBIENT;
 import static com.jogamp.opengl.GL2ES1.GL_LIGHT_MODEL_TWO_SIDE;
@@ -55,11 +53,13 @@ import static com.jogamp.opengl.GL2ES3.GL_COLOR;
 import static com.jogamp.opengl.GL2ES3.GL_QUADS;
 import static com.jogamp.opengl.GL2GL3.GL_FILL;
 import static com.jogamp.opengl.GL2GL3.GL_LINE;
+
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLJPanel;
+
 import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_AMBIENT;
 import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_DIFFUSE;
 import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_LIGHT0;
@@ -68,6 +68,7 @@ import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_LIGHT2;
 import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_LIGHTING;
 import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_NORMALIZE;
 import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_POSITION;
+
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.awt.ImageUtil;
 import com.jogamp.opengl.util.texture.Texture;
@@ -75,6 +76,7 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 import editor.handler.MapEditorHandler;
 import geometry.Generator;
 import graphicslib3D.Matrix3D;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -87,13 +89,13 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.SwingUtilities;
+
 import tileset.Tile;
 import tileset.Tileset;
 import utils.GlUtils;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class TileDisplay extends GLJPanel implements GLEventListener, MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
@@ -106,9 +108,9 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
     private float[] grid;
     private float[] axis;
     private final float[] axisColors = {
-        1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f};
+            1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f};
     private ArrayList<Texture> textures = new ArrayList<>();
 
     //Scene

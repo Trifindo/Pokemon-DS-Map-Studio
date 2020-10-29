@@ -1,0 +1,70 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+			"columns": 3
+			"rows": 3
+		} ) {
+			name: "this"
+			"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+				name: "hSpacer1"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbUp"
+				"text": "▲"
+				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbUpActionPerformed", true ) )
+			} )
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+				name: "hSpacer2"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbLeft"
+				"text": "◄"
+				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbLeftActionPerformed", true ) )
+			} )
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+				name: "hSpacer3"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbRight"
+				"text": "►"
+				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRightActionPerformed", true ) )
+			} )
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+				name: "hSpacer4"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbDown"
+				"text": "▼"
+				"margin": new java.awt.Insets( 2, 2, 2, 2 )
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbDownActionPerformed", true ) )
+			} )
+			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+				name: "hSpacer5"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 245, 110 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

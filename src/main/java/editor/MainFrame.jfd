@@ -1,0 +1,1213 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$columnConstraints": "[grow,fill][fill]"
+			"$rowConstraints": "[fill][grow,fill][fill]"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 0
+			"title": "Pokemon DS Map Studio"
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosing", "formWindowClosing", true ) )
+			add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+				name: "jtMainToolbar"
+				"floatable": false
+				"rollover": true
+				"margin": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbNewMap"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/newMapIcon.png" )
+					"toolTipText": "New Map"
+					"borderPainted": false
+					"focusable": false
+					"horizontalTextPosition": 0
+					"iconTextGap": 0
+					"margin": new java.awt.Insets( 0, 0, 0, 0 )
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbNewMapActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbOpenMap"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/openMapIcon.png" )
+					"toolTipText": "Open Map"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbOpenMapActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbSaveMap"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/saveMapIcon.png" )
+					"toolTipText": "Save Map"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSaveMapActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAddMaps"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/importMapIcon.png" )
+					"toolTipText": "Add Maps"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddMapsActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbExportObj"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/exportObjIcon.png" )
+					"toolTipText": "Export Map as OBJ with Textures"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportObjActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbExportImd"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/exportImdIcon.png" )
+					"toolTipText": "Export Map as IMD"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportImdActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbExportNsb"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/exportNsbIcon.png" )
+					"toolTipText": "Export Map as NSBMD"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportNsbActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbExportNsb1"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/exportBtxIcon.png" )
+					"toolTipText": "Export Map NSBTX"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportNsb1ActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbExportNsb2"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/exportAreasIcon.png" )
+					"toolTipText": "Export Area NSBTX"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportNsb2ActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
+					name: "jSeparator4"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbUndo"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoIcon.png" )
+					"toolTipText": "Undo (Ctrl+Z)"
+					"disabledIcon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoDisabledIcon.png" )
+					"enabled": false
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbUndoActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbRedo"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoIcon.png" )
+					"toolTipText": "Redo (Ctrl+Y)"
+					"disabledIcon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoDisabledIcon.png" )
+					"enabled": false
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRedoActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
+					name: "jSeparator11"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbTilelistEditor"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/tilelistEditorIcon.png" )
+					"toolTipText": "Tile List Editor"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbTilelistEditorActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbCollisionsEditor"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/collisionEditorIcon.png" )
+					"toolTipText": "Collisions Editor"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCollisionsEditorActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbBdhcEditor"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/bdhcEditorIcon.png" )
+					"toolTipText": "BDHC Editor"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbBdhcEditorActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbBacksoundEditor"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/backsoundEditorIcon.png" )
+					"toolTipText": "Backsound Editor"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbBacksoundEditorActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbNsbtxEditor1"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/nsbtxEditorIcon.png" )
+					"toolTipText": "NSBTX Editor"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbNsbtxEditor1ActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbBuildingEditor"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/buildingEditorIcon.png" )
+					"toolTipText": "Building Editor"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbBuildingEditorActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAnimationEditor"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/animationEditorIcon.png" )
+					"toolTipText": "Animation Editor"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAnimationEditorActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
+					name: "jSeparator7"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbSettings"
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/settingsIcon.png" )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSettingsActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbKeboardInfo"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/keyboardInfoIcon.png" )
+					"toolTipText": "Keyboard Shortcuts"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbKeboardInfoActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbHelp"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/helpIcon.png" )
+					"toolTipText": "Help"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbHelpActionPerformed", true ) )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0, 0:1.0"
+				"$rowSpecs": "0, 0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignLeft": true
+				"$alignTop": true
+			} ) {
+				name: "jpGameInfo"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlGame"
+					"text": "Map for: "
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlGameIcon"
+					"text": " "
+					"maximumSize": new java.awt.Dimension( 32, 32 )
+					"minimumSize": new java.awt.Dimension( 32, 32 )
+					"preferredSize": new java.awt.Dimension( 32, 32 )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "jlGameIconMousePressed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+					"gridheight": 2
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlGameName"
+					"font": new java.awt.Font( "Tahoma", 1, 11 )
+					"text": "Game Name"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 1
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 0, grow"
+			} )
+			add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
+				name: "jspMainWindow"
+				"resizeWeight": 0.8
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "hidemode 3"
+					"$columnConstraints": "[fill][fill][grow,fill][fill][fill][fill]"
+					"$rowConstraints": "[grow,fill]"
+				} ) {
+					name: "jpMainWindow"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {seq l {comp thumbnailLayerSelector:::p::p, space :0:0:x}}"
+						"$verticalGroup": "par l {comp thumbnailLayerSelector:::p::p}"
+					} ) {
+						name: "jpLayer"
+						"border": new javax.swing.border.TitledBorder( null, "Layer", 2, 1, null, new java.awt.Color( 204, 102, 0, 255 ) )
+						add( new FormContainer( "editor.layerselector.ThumbnailLayerSelector", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:64:x}"
+							"$verticalGroup": "par l {space :0:512:x}"
+						} ) {
+							name: "thumbnailLayerSelector"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+						"hgap": 0
+						"vgap": 0
+					} ) {
+						name: "mapDisplayContainer"
+						addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentResized", "mapDisplayContainerComponentResized", true ) )
+						add( new FormContainer( "editor.mapdisplay.MapDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:542:x}"
+							"$verticalGroup": "par l {space :0:542:x}"
+						} ) {
+							name: "mapDisplay"
+							"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
+							"maximumSize": new java.awt.Dimension( 544, 544 )
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 2 0"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {seq l {comp heightSelector:::p::p, space :0:0:x}}"
+						"$verticalGroup": "par l {seq l {comp heightSelector:::p::p, space :0:0:x}}"
+					} ) {
+						name: "jpZ"
+						"border": new javax.swing.border.TitledBorder( null, "Z", 2, 1, null, new java.awt.Color( 0, 0, 255, 255 ) )
+						add( new FormContainer( "editor.heightselector.HeightSelector", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:16:x}"
+							"$verticalGroup": "par l {space :0:496:x}"
+						} ) {
+							name: "heightSelector"
+							"preferredSize": new java.awt.Dimension( 16, 496 )
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 3 0"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {comp jscTileList::l:p::p}"
+						"$verticalGroup": "par l {seq l {comp jscTileList::::0:x, space :p:0:p}}"
+					} ) {
+						name: "jpTileList"
+						"border": new javax.swing.border.TitledBorder( null, "Tile List", 4, 1 )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jscTileList"
+							"horizontalScrollBarPolicy": 31
+							"verticalScrollBarPolicy": 22
+							add( new FormContainer( "editor.tileselector.TileSelector", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+								"$horizontalGroup": "par l {space :0:0:x}"
+								"$verticalGroup": "par l {space :0:0:x}"
+							} ) {
+								name: "tileSelector"
+								"preferredSize": new java.awt.Dimension( 128, 0 )
+								addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "tileSelectorMousePressed", true ) )
+							} )
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 4 0"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {seq {comp jscSmartDrawing:::p::p, space :0:0:x}}"
+						"$verticalGroup": "par l {comp jscSmartDrawing::l::0:x}"
+					} ) {
+						name: "jpSmartDrawing"
+						"border": new javax.swing.border.TitledBorder( null, "Smart Drawing", 4, 1 )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jscSmartDrawing"
+							"horizontalScrollBarPolicy": 31
+							"verticalScrollBarPolicy": 22
+							add( new FormContainer( "editor.smartdrawing.SmartGridDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+								"$horizontalGroup": "par l {space :0:0:x}"
+								"$verticalGroup": "par l {space :0:0:x}"
+							} ) {
+								name: "smartGridDisplay"
+							} )
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 5 0"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) {
+						"axis": 1
+					} ) {
+						name: "jpButtons"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {comp jtView:::p::p}"
+							"$verticalGroup": "par l {comp jtView:::p::p}"
+						} ) {
+							name: "jpView"
+							"border": new javax.swing.border.TitledBorder( null, "View", 2, 1 )
+							add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+								name: "jtView"
+								"floatable": false
+								"orientation": 1
+								"rollover": true
+								add( new FormComponent( "javax.swing.JToggleButton" ) {
+									name: "jtbView3D"
+									"$buttonGroup": new FormReference( "buttonGroupViewMode" )
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/3DViewIcon.png" )
+									"toolTipText": "3D View"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtbView3DActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JToggleButton" ) {
+									name: "jtbViewOrtho"
+									"$buttonGroup": new FormReference( "buttonGroupViewMode" )
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/topViewIcon.png" )
+									"selected": true
+									"toolTipText": "Top View"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtbViewOrthoActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JToggleButton" ) {
+									name: "jtbViewHeight"
+									"$buttonGroup": new FormReference( "buttonGroupViewMode" )
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/heightViewIcon.png" )
+									"toolTipText": "Height View"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtbViewHeightActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
+									name: "jSeparator14"
+								} )
+								add( new FormComponent( "javax.swing.JToggleButton" ) {
+									name: "jtbViewGrid"
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/gridViewIcon.png" )
+									"selected": true
+									"toolTipText": "Grid"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtbViewGridActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JToggleButton" ) {
+									name: "jtbViewWireframe"
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/wireViewIcon.png" )
+									"toolTipText": "Wireframe"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtbViewWireframeActionPerformed", true ) )
+								} )
+							} )
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {comp jtTools::l:p::p}"
+							"$verticalGroup": "par l {comp jtTools::l::0:x}"
+						} ) {
+							name: "jpTools"
+							"border": new javax.swing.border.TitledBorder( null, "Tools", 2, 1 )
+							add( new FormContainer( "javax.swing.JToolBar", new FormLayoutManager( class javax.swing.JToolBar ) ) {
+								name: "jtTools"
+								"floatable": false
+								"orientation": 1
+								"rollover": true
+								add( new FormComponent( "javax.swing.JToggleButton" ) {
+									name: "jtbModeEdit"
+									"$buttonGroup": new FormReference( "buttonGroupDrawMode" )
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/CursorIcon.png" )
+									"selected": true
+									"toolTipText": "Select Mode"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtbModeEditActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JToggleButton" ) {
+									name: "jtbModeClear"
+									"$buttonGroup": new FormReference( "buttonGroupDrawMode" )
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ClearTileIcon.png" )
+									"toolTipText": "Clear Mode"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtbModeClearActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JToggleButton" ) {
+									name: "jtbModeSmartPaint"
+									"$buttonGroup": new FormReference( "buttonGroupDrawMode" )
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/SmartGridIcon.png" )
+									"toolTipText": "Smart Drawing"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtbModeSmartPaintActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JToggleButton" ) {
+									name: "jtbModeInvSmartPaint"
+									"$buttonGroup": new FormReference( "buttonGroupDrawMode" )
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/SmartGridInvertedIcon.png" )
+									"toolTipText": "Smart Drawing Inverted"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtbModeInvSmartPaintActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
+									name: "jSeparator19"
+								} )
+								add( new FormComponent( "javax.swing.JToggleButton" ) {
+									name: "jtbModeMove"
+									"$buttonGroup": new FormReference( "buttonGroupDrawMode" )
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/MoveIcon.png" )
+									"toolTipText": "Move Camera"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtbModeMoveActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JToggleButton" ) {
+									name: "jtbModeZoom"
+									"$buttonGroup": new FormReference( "buttonGroupDrawMode" )
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ZoomIcon.png" )
+									"toolTipText": "Zoom Camera"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jtbModeZoomActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JButton" ) {
+									name: "jbFitCameraToMap"
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/fitMapIcon.png" )
+									"toolTipText": "Fit Camera in Selected Map"
+									"focusable": false
+									"horizontalTextPosition": 0
+									"verticalTextPosition": 3
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbFitCameraToMapActionPerformed", true ) )
+								} )
+							} )
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 0"
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "left"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+					name: "jpRightPanel"
+					add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+						name: "jtRightPanel"
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+							name: "jPanelMatrixInfo"
+							add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
+								name: "jspMatrix"
+								"orientation": 0
+								"resizeWeight": 0.4
+								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+									"$layoutConstraints": "hidemode 3"
+									"$columnConstraints": "[grow,fill]"
+									"$rowConstraints": "[grow,fill][fill][fill]"
+								} ) {
+									name: "jpAreaTools"
+									add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+										name: "jScrollPaneMapMatrix"
+										"horizontalScrollBarPolicy": 32
+										"verticalScrollBarPolicy": 22
+										"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+										add( new FormContainer( "editor.mapmatrix.MapMatrixDisplay", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+											name: "mapMatrixDisplay"
+											"preferredSize": new java.awt.Dimension( 200, 200 )
+										} )
+									}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+										"value": "cell 0 0"
+									} )
+									add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+										"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+										"$columnConstraints": "[fill][grow,fill][fill]"
+										"$rowConstraints": "[fill]"
+									} ) {
+										name: "jpArea"
+										add( new FormComponent( "javax.swing.JLabel" ) {
+											name: "jlArea"
+											"text": "Area:"
+										}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+											"value": "cell 0 0"
+										} )
+										add( new FormComponent( "javax.swing.JSpinner" ) {
+											name: "jsSelectedArea"
+											"model": new javax.swing.SpinnerNumberModel {
+												minimum: 0
+											}
+											"focusable": false
+											"preferredSize": new java.awt.Dimension( 40, 20 )
+											"requestFocusEnabled": false
+											addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsSelectedAreaStateChanged", true ) )
+										}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+											"value": "cell 1 0"
+										} )
+										add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+											"$horizontalGroup": "par l {space :0:0:x}"
+											"$verticalGroup": "par l {space :0:0:x}"
+										} ) {
+											name: "jPanelAreaColor"
+											"background": new java.awt.Color( 51, 102, 255, 255 )
+											"border": new javax.swing.border.BevelBorder( 0, null, null, null, null )
+											"preferredSize": new java.awt.Dimension( 30, 30 )
+										}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+											"value": "cell 2 0"
+										} )
+									}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+										"value": "cell 0 1"
+									} )
+									add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+										name: "jpMoveMap"
+										"border": new javax.swing.border.TitledBorder( null, "Move Map", 4, 1 )
+										"maximumSize": new java.awt.Dimension( 110, 110 )
+										"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+										"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+										add( new FormComponent( "editor.mapmatrix.MoveMapPanel" ) {
+											name: "moveMapPanel"
+											"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+											"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+											"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+										}, new FormLayoutConstraints( class java.lang.String ) {
+											"value": "Center"
+										} )
+									}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+										"value": "cell 0 2,alignx center,growx 0"
+									} )
+								}, new FormLayoutConstraints( class java.lang.String ) {
+									"value": "left"
+								} )
+								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) {
+									"axis": 1
+								} ) {
+									name: "jpTileSelected"
+									add( new FormComponent( "javax.swing.JLabel" ) {
+										name: "jlTileSelected"
+										"text": "Tile Selected:"
+									} )
+									add( new FormContainer( "editor.tileseteditor.TileDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+										"$horizontalGroup": "par l {space :0:0:x}"
+										"$verticalGroup": "par l {space :0:246:x}"
+									} ) {
+										name: "tileDisplay"
+										"focusable": false
+										"preferredSize": new java.awt.Dimension( 140, 140 )
+									} )
+								}, new FormLayoutConstraints( class java.lang.String ) {
+									"value": "right"
+								} )
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"title": "Matrix"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+							"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+							"$columnConstraints": "[grow,fill]"
+							"$rowConstraints": "[fill][fill][fill][fill][fill][fill]"
+						} ) {
+							name: "jPanelMapTools"
+							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+								"$horizontalGroup": "par l {comp jsHeightMapAlpha::::357:x}"
+								"$verticalGroup": "par l {comp jsHeightMapAlpha:::p::p}"
+							} ) {
+								name: "jpHeightMapAlpha"
+								"border": new javax.swing.border.TitledBorder( null, "Height Map Alpha", 4, 1 )
+								add( new FormComponent( "javax.swing.JSlider" ) {
+									name: "jsHeightMapAlpha"
+									"value": 99
+									"focusable": false
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsHeightMapAlphaStateChanged", true ) )
+								} )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 0"
+							} )
+							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+								"$horizontalGroup": "par l {comp jsBackImageAlpha::l::0:x}"
+								"$verticalGroup": "par l {comp jsBackImageAlpha::l:p::p}"
+							} ) {
+								name: "jpBackImageAlpha"
+								"border": new javax.swing.border.TitledBorder( null, "Back Image Alpha", 4, 1 )
+								add( new FormComponent( "javax.swing.JSlider" ) {
+									name: "jsBackImageAlpha"
+									"focusable": false
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsBackImageAlphaStateChanged", true ) )
+								} )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 1"
+							} )
+							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+								"$layoutConstraints": "insets 0,hidemode 3,gap 0 0"
+								"$columnConstraints": "[fill][fill]"
+								"$rowConstraints": "[center]"
+							} ) {
+								name: "jpMoveLayer"
+								"border": new javax.swing.border.TitledBorder( null, "Move Layer", 4, 1 )
+								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+									"$layoutConstraints": "insets 0,hidemode 3,gap 3 3"
+									"$columnConstraints": "[fill][fill][fill]"
+									"$rowConstraints": "[fill][fill][fill]"
+								} ) {
+									name: "jpDirectionalPad"
+									add( new FormComponent( "javax.swing.JButton" ) {
+										name: "jbMoveMapUp"
+										"foreground": new java.awt.Color( 0, 153, 0, 255 )
+										"text": "▲"
+										"focusable": false
+										addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMapUpActionPerformed", true ) )
+									}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+										"value": "cell 1 0"
+									} )
+									add( new FormComponent( "javax.swing.JButton" ) {
+										name: "jbMoveMapLeft"
+										"foreground": new java.awt.Color( 204, 0, 0, 255 )
+										"text": "◄"
+										"focusable": false
+										addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMapLeftActionPerformed", true ) )
+									}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+										"value": "cell 0 1"
+									} )
+									add( new FormComponent( "javax.swing.JButton" ) {
+										name: "jbMoveMapRight"
+										"foreground": new java.awt.Color( 204, 0, 0, 255 )
+										"text": "►"
+										"focusable": false
+										addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMapRightActionPerformed", true ) )
+									}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+										"value": "cell 2 1"
+									} )
+									add( new FormComponent( "javax.swing.JButton" ) {
+										name: "jbMoveMapDown"
+										"foreground": new java.awt.Color( 0, 153, 0, 255 )
+										"text": "▼"
+										"toolTipText": ""
+										"focusable": false
+										addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMapDownActionPerformed", true ) )
+									}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+										"value": "cell 1 2"
+									} )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 0 0"
+								} )
+								add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+									"columns": 0
+									"rows": 2
+									"vgap": 3
+								} ) {
+									name: "jpZPad"
+									add( new FormComponent( "javax.swing.JButton" ) {
+										name: "jbMoveMapUpZ"
+										"foreground": new java.awt.Color( 0, 0, 255, 255 )
+										"text": "▲"
+										"focusable": false
+										addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMapUpZActionPerformed", true ) )
+									} )
+									add( new FormComponent( "javax.swing.JButton" ) {
+										name: "jbMoveMapDownZ"
+										"foreground": new java.awt.Color( 0, 0, 255, 255 )
+										"text": "▼"
+										"focusable": false
+										addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMapDownZActionPerformed", true ) )
+									} )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 1 0"
+								} )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 2,alignx center,growx 0"
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbRealTimePolyGrouping"
+								"selected": true
+								"text": "Real-Time Poly Grouping"
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbRealTimePolyGroupingActionPerformed", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 3"
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbViewAreas"
+								"selected": true
+								"text": "View Area Contours"
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbViewAreasActionPerformed", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 4"
+							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbViewGridsBorders"
+								"selected": true
+								"text": "View Grids Borders"
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbViewGridsBordersActionPerformed", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 5"
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"title": "Map Tools"
+						} )
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "right"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1 2 1"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"alignment": 0
+				"hgap": 10
+				"vgap": 8
+			} ) {
+				name: "jpStatusBar"
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel4"
+					"font": new java.awt.Font( "Tahoma", 1, 11 )
+					"text": "Selected Map Info:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel6"
+					"text": "Coordinates:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlMapCoords"
+					"text": " "
+					"preferredSize": new java.awt.Dimension( 40, 14 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel2"
+					"text": "# Polygons:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlNumPolygons"
+					"horizontalAlignment": 2
+					"text": " "
+					"preferredSize": new java.awt.Dimension( 40, 14 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel5"
+					"text": "# Materials:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlNumMaterials"
+					"horizontalAlignment": 2
+					"text": " "
+					"preferredSize": new java.awt.Dimension( 40, 14 )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 2 2 1"
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "jmMainMenu"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "jmFile"
+					"text": "File"
+					"mnemonic": 70
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiNewMap"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/newMapIcon_s.png" )
+						"text": "New Map..."
+						"mnemonic": 78
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiNewMapActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator1"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiOpenMap"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/openMapIcon_s.png" )
+						"text": "Open Map..."
+						"mnemonic": 79
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiOpenMapActionPerformed", true ) )
+					} )
+					add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+						name: "jmiOpenRecentMap"
+						"text": "Open Recent Map..."
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/openRecentMapIcon_s.png" )
+						"mnemonic": 82
+						add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+							name: "separator2"
+						} )
+						add( new FormComponent( "javax.swing.JMenuItem" ) {
+							name: "jmiClearHistory"
+							"text": "Clear History"
+							"mnemonic": 72
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiClearHistoryActionPerformed", true ) )
+						} )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator2"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiSaveMap"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/saveMapIconSmall.png" )
+						"text": "Save Map..."
+						"mnemonic": 83
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiSaveMapActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiSaveMapAs"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/saveMapIconSmall.png" )
+						"text": "Save Map as..."
+						"mnemonic": 65
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiSaveMapAsActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator3"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiAddMaps"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddMapIconSmall.png" )
+						"text": "Add Maps..."
+						"mnemonic": 68
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiAddMapsActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator8"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiExportObjWithText"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+						"text": "Export Map as OBJ with textures..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiExportObjWithTextActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiExportMapAsImd"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+						"text": "Export Map as IMD..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiExportMapAsImdActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiExportMapAsNsb"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+						"text": "Export Map as NSBMD..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiExportMapAsNsbActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiExportMapBtx"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+						"text": "Export Map's NSBTX..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiExportMapBtxActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator6"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiImportTileset"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
+						"text": "Import Tileset..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiImportTilesetActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiExportTileset"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+						"text": "Export Tileset..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiExportTilesetActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiExportAllTiles"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+						"text": "Export All Tiles as OBJ..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiExportAllTilesActionPerformed", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "jmEdit"
+					"text": "Edit"
+					"mnemonic": 69
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiUndo"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoIconSmall.png" )
+						"text": "Undo"
+						"mnemonic": 85
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiUndoActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiRedo"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoIconSmall.png" )
+						"text": "Redo"
+						"mnemonic": 82
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiRedoActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator10"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiClearLayer"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+						"text": "Clear Layer"
+						"mnemonic": 76
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiClearLayerActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiClearAllLayers"
+						"text": "Clear All Layers"
+						"enabled": false
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiClearAllLayersActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator13"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiCopyLayer"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/copyIcon.png" )
+						"text": "Copy Layer"
+						"mnemonic": 67
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiCopyLayerActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiPasteLayer"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/pasteIcon.png" )
+						"text": "Paste Layer"
+						"mnemonic": 80
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiPasteLayerActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiPasteLayerTiles"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/pasteTileIcon.png" )
+						"text": "Paste Layer Tiles"
+						"mnemonic": 84
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiPasteLayerTilesActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiPasteLayerHeights"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/pasteHeightIcon.png" )
+						"text": "Paste Layer Heights"
+						"mnemonic": 72
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiPasteLayerHeightsActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "separator1"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "menuItem1"
+						"text": "Settings"
+						"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/settingsIconSmall.png" )
+						"mnemonic": 83
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "menuItem1ActionPerformed", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "jmView"
+					"text": "View"
+					"mnemonic": 86
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmi3dView"
+						"text": "3D View"
+						"mnemonic": 51
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmi3dViewActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiTopView"
+						"text": "Top View"
+						"mnemonic": 84
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiTopViewActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiHeightView"
+						"text": "Height View"
+						"mnemonic": 72
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiHeightViewActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator5"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiToggleGrid"
+						"text": "Toggle Grid"
+						"mnemonic": 71
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiToggleGridActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator9"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiLoadBackImg"
+						"text": "Open Background Image"
+						"mnemonic": 79
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiLoadBackImgActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JCheckBoxMenuItem" ) {
+						name: "jcbUseBackImage"
+						"text": "Use Background Image"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbUseBackImageActionPerformed", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "jmTools"
+					"text": "Tools"
+					"mnemonic": 84
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiTilesetEditor"
+						"text": "Tileset Editor"
+						"mnemonic": 84
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiTilesetEditorActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiCollisionEditor"
+						"text": "Collision Editor"
+						"mnemonic": 67
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiCollisionEditorActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiBdhcEditor"
+						"text": "BDHC Editor"
+						"mnemonic": 66
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiBdhcEditorActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiNsbtxEditor"
+						"text": "NSBTX Editor"
+						"mnemonic": 78
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiNsbtxEditorActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jMenuItem1"
+						"text": "Building Editor"
+						"mnemonic": 85
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jMenuItem1ActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiAnimationEditor"
+						"text": "Animation Editor"
+						"mnemonic": 65
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiAnimationEditorActionPerformed", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "jmHelp"
+					"text": "Help"
+					"mnemonic": 72
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiKeyboardInfo"
+						"text": "Keyboard Shortcuts"
+						"mnemonic": 75
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiKeyboardInfoActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiAbout"
+						"text": "About"
+						"mnemonic": 65
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiAboutActionPerformed", true ) )
+					} )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 1455, 895 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {
+			name: "buttonGroupDrawMode"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 316 )
+		} )
+		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {
+			name: "buttonGroupViewMode"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 378 )
+		} )
+	}
+}

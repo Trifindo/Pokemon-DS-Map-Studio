@@ -1,0 +1,153 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, par l {comp jPanel1:::::x, comp jSplitPane1:::::x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp jSplitPane1::::397:x, space u:::p, comp jPanel1:::p::p, space :p:6:p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Resulting NSBTX files info (Experimental)"
+			"modal": true
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowActivated", "formWindowActivated", true ) )
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "formWindowClosed", true ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+				name: "jPanel1"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAccept"
+					"text": "OK"
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAcceptActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
+				name: "jSplitPane1"
+				"dividerLocation": 550
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {space :::p, par l {comp jScrollPane1::::537:x, seq l {comp jLabel5:::p::p, space u:::p, comp jlResult:::::x}, seq {par l {seq l {comp jLabel4:::p::p, space u:::p, comp jlFilesConverted:::p:44:p}, seq l {comp jLabel8:::p::p, space u:::p, comp jlFilesNotConverted:::p:44:p}, seq l {comp jLabel3:::p::p, space :p::p, comp jlStatus:::p:153:p}, seq l {comp jLabel2:::p::p, space u:::p, comp jlFilesProcessed:::p:44:p}}, space :0:0:x}, seq l {comp jLabel1:::p::p, space u:::p, comp jProgressBar1::::333:x}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1::::215:x, space :p:21:p, par l:::p {comp jLabel1:::::x, comp jProgressBar1:::::x}, space :::p, par b {comp jLabel3::b:p::p, comp jlStatus::b:p::p}, space u:::p, par b {comp jLabel2::b:p::p, comp jlFilesProcessed::b:p::p}, space :p::p, par b {comp jLabel4::b:p:14:p, comp jlFilesConverted::b:p::p}, space :p::p, par b {comp jLabel8::b:p:14:p, comp jlFilesNotConverted::b:p::p}, space u:::p, par b {comp jLabel5::b:p::p, comp jlResult::b:p::p}, space :p:9:p}}"
+				} ) {
+					name: "jPanel2"
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "jScrollPane1"
+						add( new FormComponent( "javax.swing.JTable" ) {
+							name: "jTable1"
+							"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
+								add( "Name" )
+								add( "Status" )
+							}, new java.util.Vector {
+								add( class java.lang.Object )
+								add( class java.lang.Object )
+							}, new java.util.Vector {
+								add( false )
+								add( false )
+							}, new java.util.Vector {
+								add( null )
+								add( null )
+							} )
+							"selectionMode": 0
+						} )
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel1"
+						"text": "NSBMD exporting progress:"
+					} )
+					add( new FormComponent( "javax.swing.JProgressBar" ) {
+						name: "jProgressBar1"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel2"
+						"text": "Files processed:"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jlFilesProcessed"
+						"font": new java.awt.Font( "Tahoma", 1, 11 )
+						"text": "N/N"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel4"
+						"text": "Files converted into IMD:"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jlFilesConverted"
+						"font": new java.awt.Font( "Tahoma", 1, 11 )
+						"text": "N"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel8"
+						"text": "Files not converted:"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jlFilesNotConverted"
+						"font": new java.awt.Font( "Tahoma", 1, 11 )
+						"text": "N"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel3"
+						"text": "Status:"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jlStatus"
+						"font": new java.awt.Font( "Tahoma", 1, 11 )
+						"text": "Converting..."
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel5"
+						"text": "Result:"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jlResult"
+						"font": new java.awt.Font( "Tahoma", 1, 12 )
+						"text": " "
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "left"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
+					name: "jpCard"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {seq l {space :::p, comp nsbtxPanel1:::p::p, space :::x}}"
+						"$verticalGroup": "par l {seq l {space :::p, comp nsbtxPanel1:::p::p, space :::x}}"
+					} ) {
+						name: "jpDisplay"
+						add( new FormComponent( "editor.nsbtx2.NsbtxPanel" ) {
+							name: "nsbtxPanel1"
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "CardDisplay"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {seq {space :::p, par l {comp jScrollPane2::::188:x, seq l {comp jLabel6:::p::p, space :0:0:x}}, space :::p}}"
+						"$verticalGroup": "par l {seq t {space :::p, comp jLabel6:::p::p, space :::p, comp jScrollPane2::::359:x, space :::p}}"
+					} ) {
+						name: "jpErrorInfo"
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jScrollPane2"
+							add( new FormComponent( "javax.swing.JTextArea" ) {
+								name: "jTextArea1"
+								"editable": false
+								"columns": 20
+								"font": new java.awt.Font( "Monospaced", 0, 12 )
+								"rows": 5
+								"tabSize": 3
+							} )
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel6"
+							"text": "Error info:"
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "CardErrorInfo"
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "right"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 775, 490 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.nsbtx2;
 
 import editor.handler.MapEditorHandler;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- *
  * @author Trifindo
  */
 public class NsbtxHandler2 {
@@ -19,19 +15,19 @@ public class NsbtxHandler2 {
     private NsbtxEditorDialog2 dialog;
 
     private Nsbtx2 nsbtx = null;
-    
+
 
     public NsbtxHandler2(MapEditorHandler handler, NsbtxEditorDialog2 dialog) {
         this.handler = handler;
         this.dialog = dialog;
-        
+
         this.nsbtx = new Nsbtx2();
     }
 
-    public void newNsbtx(){
+    public void newNsbtx() {
         this.nsbtx = new Nsbtx2();
     }
-    
+
     public BufferedImage getSelectedImage() {
         if (nsbtx != null) {
             int textureIndex = dialog.getTextureIndexSelected();
@@ -44,23 +40,23 @@ public class NsbtxHandler2 {
         return null;
     }
 
-    public NsbtxPalette getSelectedPalette(){
+    public NsbtxPalette getSelectedPalette() {
         int index = dialog.getPaletteIndexSelected();
-        if(index != -1){
+        if (index != -1) {
             return getNsbtx().getPalette(index);
         }
         return null;
     }
-    
-    public NsbtxTexture getSelectedTexture(){
+
+    public NsbtxTexture getSelectedTexture() {
         int index = dialog.getTextureIndexSelected();
-        if(index != -1){
+        if (index != -1) {
             return getNsbtx().getTexture(index);
         }
         return null;
     }
-    
-    
+
+
     public int indexOfTextureName(String name) {
         return nsbtx.indexOfTextureName(name);
     }

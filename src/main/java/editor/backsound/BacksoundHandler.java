@@ -1,66 +1,62 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.backsound;
 
 import editor.handler.MapEditorHandler;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class BacksoundHandler {
-    
+
     private MapEditorHandler handler;
     //private Backsound backsound;
-    
+
     private BacksoundEditorDialog dialog;
-    
+
     private int indexSelected = 0;
-    
-    public BacksoundHandler(MapEditorHandler handler, BacksoundEditorDialog dialog){
+
+    public BacksoundHandler(MapEditorHandler handler, BacksoundEditorDialog dialog) {
         this.handler = handler;
         this.dialog = dialog;
-        
+
         indexSelected = 0;
     }
-    
-    public int getIndexSelected(){
+
+    public int getIndexSelected() {
         return indexSelected;
     }
-    
-    public void setIndexSelected(int index){
+
+    public void setIndexSelected(int index) {
         this.indexSelected = index;
     }
-    
-    public Backsound getBacksound(){
+
+    public Backsound getBacksound() {
         return handler.getBacksound();
     }
-    
-    public Soundplate getSelectedSoundplate(){
+
+    public Soundplate getSelectedSoundplate() {
         return handler.getBacksound().getSoundplate(indexSelected);
     }
-    
-    public ArrayList<Soundplate> getSoundplates(){
+
+    public ArrayList<Soundplate> getSoundplates() {
         return handler.getBacksound().getSoundplates();
     }
-    
-    public BacksoundEditorDialog getDialog(){
+
+    public BacksoundEditorDialog getDialog() {
         return dialog;
     }
-    
-    public void addSoundplate(){
+
+    public void addSoundplate() {
         handler.getBacksound().getSoundplates().add(new Soundplate());
     }
-    
-    public void removeSelectedSoundplate(){
+
+    public void removeSelectedSoundplate() {
         handler.getBacksound().getSoundplates().remove(indexSelected);
-        if(indexSelected > 0){
+        if (indexSelected > 0) {
             indexSelected--;
-        }else{
+        } else {
             indexSelected = 0;
         }
     }

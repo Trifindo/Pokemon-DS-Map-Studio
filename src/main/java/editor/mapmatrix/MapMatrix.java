@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.mapmatrix;
 
 import com.jogamp.common.nio.Buffers;
@@ -21,6 +17,7 @@ import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
 import editor.imd.ImdModel;
 import editor.obj.ObjWriter;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -43,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
 import tileset.TextureNotFoundException;
 import tileset.Tile;
 import tileset.Tileset;
@@ -50,7 +48,6 @@ import tileset.TilesetIO;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class MapMatrix {
@@ -278,7 +275,7 @@ public class MapMatrix {
         int[] tileLookupTable = new int[tileset.size()];
         for (int i = 0; i < tileset.size(); i++) {
             Tile tile = tileset.get(i);
-            
+
             int index = handler.getTileset().indexOfTileVisualData(tile);
             if (index == -1) {
                 //System.out.println("Tile not found: " + i);
@@ -295,8 +292,8 @@ public class MapMatrix {
 
         handler.getTileset().importTiles(newTiles);
         //handler.getTileset().removeUnusedTextures();
-        
-        
+
+
         loadBDHCsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadCollisionsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBacksoundsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
@@ -306,7 +303,7 @@ public class MapMatrix {
             Point coords = new Point(entry.getKey().x + offset.x, entry.getKey().y + offset.y);
             matrix.put(coords, entry.getValue());
         }
-        
+
     }
 
     public void saveMapsAsObj(String path, boolean saveTextures, boolean includeVertexColors) throws FileNotFoundException {
@@ -402,10 +399,10 @@ public class MapMatrix {
         }
     }
 
-    public void loadBDHCsFromFile(String folderPath, String mapFileName){
+    public void loadBDHCsFromFile(String folderPath, String mapFileName) {
         loadBDHCsFromFile(matrix, folderPath, mapFileName, handler.getGameIndex());
     }
-    
+
     public void loadBDHC(String path, MapData mapData, int game) throws IOException {
         if (game == Game.DIAMOND || game == Game.PEARL) {
             mapData.setBdhc(new BdhcLoaderDP().loadBdhcFromFile(path));
@@ -440,8 +437,8 @@ public class MapMatrix {
             }
         }
     }
-    
-    public void loadBacksoundsFromFile(String folderPath, String mapFileName){
+
+    public void loadBacksoundsFromFile(String folderPath, String mapFileName) {
         loadBacksoundsFromFile(matrix, folderPath, mapFileName, handler.getGameIndex());
     }
 
@@ -479,15 +476,15 @@ public class MapMatrix {
         }
     }
 
-    public void loadCollisionsFromFile(String folderPath, String mapFileName){
+    public void loadCollisionsFromFile(String folderPath, String mapFileName) {
         loadCollisionsFromFile(matrix, folderPath, mapFileName, handler.getGameIndex());
     }
-    
+
     public static void loadBuildingsFromFile(HashMap<Point, MapData> matrix, String folderPath, String mapFileName) {
         if (matrix.size() == 1) {//OLD MAP TYPE
             HashMap.Entry<Point, MapData> mapEntry = matrix.entrySet().iterator().next();
             try {
-                String buildingsPath = getFilePathWithCoords(matrix,folderPath, mapFileName, mapEntry.getKey(), BuildFile.fileExtension);
+                String buildingsPath = getFilePathWithCoords(matrix, folderPath, mapFileName, mapEntry.getKey(), BuildFile.fileExtension);
                 mapEntry.getValue().setBuildings(new BuildFile(buildingsPath));
                 //handler.setBuildings(new BuildFile(buildingsPath));
             } catch (Exception ex) {
@@ -513,8 +510,8 @@ public class MapMatrix {
             }
         }
     }
-    
-    public void loadBuildingsFromFile(String folderPath, String mapFileName){
+
+    public void loadBuildingsFromFile(String folderPath, String mapFileName) {
         loadBuildingsFromFile(matrix, folderPath, mapFileName);
     }
 
@@ -687,7 +684,7 @@ public class MapMatrix {
             removeUnusedMapFiles(folderPath, BuildFile.fileExtension);
             removeUnusedMapFiles(folderPath, Backsound.fileExtension);
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
     }
 
@@ -706,7 +703,7 @@ public class MapMatrix {
             try {
                 Files.deleteIfExists(file.toPath());
             } catch (Exception ex) {
-
+                ex.printStackTrace();
             }
         }
     }
@@ -922,7 +919,7 @@ public class MapMatrix {
                     g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 50));
                     g.fillRect(x, y, MapData.mapThumbnailSize - 1, MapData.mapThumbnailSize - 1);
                 } catch (Exception ex) {
-
+                    ex.printStackTrace();
                 }
 
                 g.setColor(Color.white);

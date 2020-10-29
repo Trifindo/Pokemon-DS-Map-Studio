@@ -1,0 +1,126 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "insets dialog,hidemode 3,gap 5 5"
+			"$columnConstraints": "[grow,fill][fill][fill]"
+			"$rowConstraints": "[fill][grow,fill][fill][fill]"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Collision Editor (BW and BW2 can be bugged)"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( null, "Collision Layers", 4, 1 )
+				add( new FormContainer( "editor.collisions.CollisionLayerSelector", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:732:x}"
+					"$verticalGroup": "par l {space :0:85:x}"
+				} ) {
+					name: "collisionLayerSelector"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 2 1 2"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( null, "Collision Data", 4, 1 )
+				add( new FormContainer( "editor.collisions.CollisionsDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:730:x}"
+					"$verticalGroup": "par l {space :0:542:x}"
+				} ) {
+					name: "collisionsDisplay"
+					"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0 1 2"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "jPanel3"
+				"border": new javax.swing.border.TitledBorder( null, "Collision Type Selector", 4, 1 )
+				add( new FormContainer( "editor.collisions.CollisionsTypesSelector", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:198:x}"
+					"$verticalGroup": "par l {space :0:542:x}"
+				} ) {
+					name: "collisionsTypesDisplay"
+					"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 0 1 2"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "jPanel4"
+				"border": new javax.swing.border.TitledBorder( null, "Collision Type", 4, 1 )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfCollisionType"
+					"editable": false
+					"background": new java.awt.Color( 255, 255, 255, 255 )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 2"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "jPanel5"
+				"border": new javax.swing.border.TitledBorder( null, "Opacity", 4, 1 )
+				add( new FormComponent( "javax.swing.JSlider" ) {
+					name: "jSlider1"
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSlider1StateChanged", true ) )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 3"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0"
+				"$rowSpecs": "0, 0"
+				"$alignTop": true
+				"$alignLeft": true
+			} ) {
+				name: "jPanel6"
+				"border": new javax.swing.border.TitledBorder( null, "Collision File", 4, 1 )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbImportCollisions"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
+					"text": "Import"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportCollisionsActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbExportCollisions"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+					"text": "Export"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportCollisionsActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridy": 1
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 2 1 1 3"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "jPanel7"
+				"border": new javax.swing.border.TitledBorder( null, "Controls", 1, 1 )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbUndo"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoIcon.png" )
+					"disabledIcon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoDisabledIcon.png" )
+					"enabled": false
+					"focusPainted": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbUndoActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbRedo"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoIcon.png" )
+					"disabledIcon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoDisabledIcon.png" )
+					"enabled": false
+					"focusPainted": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRedoActionPerformed", true ) )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 2 0"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 1130, 715 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

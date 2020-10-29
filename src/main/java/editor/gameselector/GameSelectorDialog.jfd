@@ -1,0 +1,105 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, par l:::p {seq {comp jbFinish:::p:100:p, space :::x, comp jbCancel:::p:100:p}, seq l {par l:::p {comp jLabel1::::0:x, comp jLabel2:::::x, comp jLabel3:::::x}, space :::p, par l {seq {par l:::p {comp jcbTileList:::::x, comp jcbGame:::::x}, space s:::p, comp jpanelIcon:::p::p}, comp jScrollPane1:::p::p}}}, space :::x}}"
+			"$verticalGroup": "par l {seq {space :::p, par l {seq {par b {comp jLabel1::b:p::p, comp jcbGame::b:p::p}, space u:::p, par b {comp jLabel2::b:p::p, comp jcbTileList::b:p::p}}, comp jpanelIcon::l:p::p}, space :::p, par l {seq {comp jLabel3:::p::p, space :0:0:x}, comp jScrollPane1::t::143:x}, space s:::p, par b {comp jbFinish::b:p::p, comp jbCancel::b:p::p}, space :::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "New Map - Select Game"
+			"resizable": false
+			"modal": true
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "jcbGame"
+				"model": new javax.swing.DefaultComboBoxModel {
+					selectedItem: "Pokemon Diamond"
+					addElement( "Pokemon Diamond" )
+					addElement( "Pokemon Pearl" )
+					addElement( "Pokemon Platinum" )
+					addElement( "Pokemon Heart Gold" )
+					addElement( "Pokemon Soul Silver" )
+					addElement( "Pokemon Black" )
+					addElement( "Pokemon White" )
+					addElement( "Pokemon Black 2" )
+					addElement( "Pokemon White 2" )
+				}
+				auxiliary() {
+					"JavaCodeGenerator.typeParameters": "String"
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbGameActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jLabel1"
+				"text": "Select Game for this Map: "
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jLabel2"
+				"text": "Use Predesigned Tileset: "
+				"toolTipText": ""
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "jcbTileList"
+				"model": new javax.swing.DefaultComboBoxModel {
+					selectedItem: "Pokemon Diamond / Pearl"
+					addElement( "Pokemon Diamond / Pearl" )
+					addElement( "Pokemon Platinum" )
+					addElement( "Pokemon Heart Gold / Soul Silver" )
+					addElement( "Pokemon Black / White" )
+					addElement( "None" )
+				}
+				auxiliary() {
+					"JavaCodeGenerator.typeParameters": "String"
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTileListActionPerformed", true ) )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp jlGameIcon:::p::p, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jlGameIcon:::p::p, space :::x}}"
+			} ) {
+				name: "jpanelIcon"
+				"border": new javax.swing.border.SoftBevelBorder( 1, null, null, null, null )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlGameIcon"
+					"maximumSize": new java.awt.Dimension( 32, 32 )
+					"minimumSize": new java.awt.Dimension( 32, 32 )
+					"preferredSize": new java.awt.Dimension( 32, 32 )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbFinish"
+				"text": "Finish"
+				"toolTipText": ""
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbFinishActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbCancel"
+				"text": "Cancel"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jLabel3"
+				"text": "Tileset Preview: "
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "jScrollPane1"
+				"horizontalScrollBarPolicy": 31
+				"verticalScrollBarPolicy": 22
+				add( new FormContainer( "editor.gameselector.TilesetThumbnailDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:128:x}"
+					"$verticalGroup": "par l {space :0:141:x}"
+				} ) {
+					name: "tilesetThumbnailDisplay1"
+					"maximumSize": new java.awt.Dimension( 128, 32767 )
+					"minimumSize": new java.awt.Dimension( 128, 100 )
+					"preferredSize": new java.awt.Dimension( 128, 137 )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 535, 310 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

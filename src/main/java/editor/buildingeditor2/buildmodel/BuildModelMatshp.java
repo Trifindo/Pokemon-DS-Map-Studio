@@ -1,19 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.buildingeditor2.buildmodel;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+
 import utils.BinaryReader;
 import utils.BinaryWriter;
 
 /**
- *
  * @author Trifindo
  */
 public class BuildModelMatshp {
@@ -107,7 +103,7 @@ public class BuildModelMatshp {
             materials.set(index, newMaterials);
         }
     }
-    
+
     public void removeBuildingMaterials(int index) {
         if (index >= 0 && index < materials.size()) {
             materials.remove(index);

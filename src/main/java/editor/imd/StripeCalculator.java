@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.imd;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
  * @author Trifindo
  */
 public class StripeCalculator {
@@ -38,7 +33,7 @@ public class StripeCalculator {
     private boolean useVertexColors;
 
     public StripeCalculator(PolygonData pData, boolean isQuad,
-            boolean useUniformNormalOrientation, boolean useVertexColors) {
+                            boolean useUniformNormalOrientation, boolean useVertexColors) {
         this.pData = pData;
         this.isQuad = isQuad;
         this.useVertexColors = useVertexColors;
@@ -161,7 +156,7 @@ public class StripeCalculator {
     }
 
     private void copyEdgeCoords(float[] coordsData, float[] newCoordsData,
-            Edge edge, int coordsPerVertex, int dstEdgeIndex) {
+                                Edge edge, int coordsPerVertex, int dstEdgeIndex) {
         System.arraycopy(
                 coordsData, edge.vertexIndex1 * coordsPerVertex,
                 newCoordsData, dstEdgeIndex * coordsPerVertex * 2, coordsPerVertex);
@@ -245,7 +240,7 @@ public class StripeCalculator {
     }
 
     private ArrayList<Integer> connectedQuadFaces(int startFaceIndex, int forwardEdgeLocalIndex,
-            int backwardEdgeLocalIndex, ArrayList<Edge> edgesLocalConnected) {
+                                                  int backwardEdgeLocalIndex, ArrayList<Edge> edgesLocalConnected) {
         ArrayList<Integer> connectedFaces = new ArrayList<>();
         boolean[] localUsedFaces = new boolean[usedFaces.length];
         localUsedFaces[startFaceIndex] = true;
@@ -270,7 +265,7 @@ public class StripeCalculator {
     }
 
     private ArrayList<Integer> connectedFacesOneDirection(int startFaceIndex,
-            int startEdgeIndex, boolean[] localUsedFaces, ArrayList<Edge> edgesLocalConnected) {
+                                                          int startEdgeIndex, boolean[] localUsedFaces, ArrayList<Edge> edgesLocalConnected) {
         ArrayList<Integer> connectedFaces = new ArrayList<>();
         int secondEdgeIndex;
         int firstEdgeIndex;
@@ -322,7 +317,7 @@ public class StripeCalculator {
     }
 
     private void printConectedEdgesCoords(ArrayList<Edge> edges,
-            ArrayList<ArrayList<Integer>> edgesConnected) {
+                                          ArrayList<ArrayList<Integer>> edgesConnected) {
         for (int i = 0; i < edgesConnected.size(); i++) {
             if (edgesConnected.get(i).size() > 0) {
                 Edge edge = edges.get(edgesConnected.get(i).get(0));
@@ -363,7 +358,7 @@ public class StripeCalculator {
         }
 
         private boolean sameVertexCoords(float[] coordData, int coordsPerVertex,
-                int vertexIndex1, int vertexIndex2) {
+                                         int vertexIndex1, int vertexIndex2) {
             int offset1 = vertexIndex1 * coordsPerVertex;
             int offset2 = vertexIndex2 * coordsPerVertex;
             for (int i = 0; i < coordsPerVertex; i++) {
@@ -375,7 +370,7 @@ public class StripeCalculator {
         }
 
         private boolean sameEdgeCoords(float[] coords, int coordsPerVertex,
-                Edge other) {
+                                       Edge other) {
             /*if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex1, other.vertexIndex1)) {
                 if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex2, other.vertexIndex2)) {
                     return true;
@@ -405,7 +400,7 @@ public class StripeCalculator {
                         return true;
                     }
                 }
-            }else{
+            } else {
                 if (useVertexColors) {
                     if (sameEdgeCoords(vCoords, vPerVertex, other)
                             && sameEdgeCoords(tCoords, tPerVertex, other)

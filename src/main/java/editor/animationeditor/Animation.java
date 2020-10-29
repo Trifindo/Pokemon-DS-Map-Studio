@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.animationeditor;
 
 /**
- *
  * @author Trifindo
  */
 public class Animation {
@@ -23,13 +18,13 @@ public class Animation {
         this.frames = frames;
         this.delays = delays;
     }
-    
+
     public Animation(String name) {
         this.name = name;
         this.frames = new int[maxNumFrames];
         this.delays = new int[maxNumFrames];
-        
-        for(int i = 0; i < frames.length; i++){
+
+        for (int i = 0; i < frames.length; i++) {
             frames[i] = 255;
             delays[i] = 255;
         }
@@ -85,7 +80,7 @@ public class Animation {
         int size = size();
         if (size() > 1) {
             if (frameIndex >= 0 && frameIndex < size) {
-                for(int i = frameIndex; i < size - 1; i++){
+                for (int i = frameIndex; i < size - 1; i++) {
                     frames[i] = frames[i + 1];
                     delays[i] = delays[i + 1];
                 }
@@ -93,9 +88,9 @@ public class Animation {
                 delays[size - 1] = 255;
                 return true;
             }
-        } 
+        }
         return false;
-        
+
     }
 
 }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.handler;
 
 import editor.mapmatrix.MapMatrix;
@@ -18,6 +14,7 @@ import editor.grid.MapLayerGL;
 import editor.smartdrawing.SmartGrid;
 import editor.state.MapLayerState;
 import editor.state.StateHandler;
+
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -27,18 +24,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
+
 import tileset.Tile;
 import tileset.Tileset;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class MapEditorHandler {
 
     //Version name
-    public static final String versionName = "Pokemon DS Map Studio 2.0.1";
+    public static final String versionName = "Pokemon DS Map Studio 2.1";
 
     //Main frame
     private MainFrame mainFrame;
@@ -86,7 +83,7 @@ public class MapEditorHandler {
     private int activeLayer = 0;
     private int[][] tileLayerCopy = null;
     private int[][] heightLayerCopy = null;
-    
+
     //Map State Hanlder
     private StateHandler mapStateHandler = new StateHandler();
     private boolean layerChanged = false;
@@ -225,7 +222,7 @@ public class MapEditorHandler {
     public ArrayList<SmartGrid> getSmartGridArray() {
         return tset.getSmartGridArray();
     }
-    
+
 
     public SmartGrid getSmartGrid(int index) {
         return tset.getSmartGridArray().get(index);
@@ -343,10 +340,10 @@ public class MapEditorHandler {
         //mainFrame.repaintMapDisplay();
     }
 
-    public void setLayerState(int index, boolean enabled){
+    public void setLayerState(int index, boolean enabled) {
         renderLayers[index] = enabled;
     }
-    
+
     public void updateLayerThumbnail(int index) {
         mainFrame.getThumbnailLayerSelector().drawLayerThumbnail(index);
     }
@@ -533,7 +530,7 @@ public class MapEditorHandler {
         setMapSelected(mapCoords, true);
     }
 
-    
+
     public void setDefaultMapSelected() {
         if (mapMatrix.getMatrix().isEmpty()) { //|| mapMatrix.getMatrix().get(new Point(0, 0)) == null) {
             mapSelected = new Point(0, 0);
@@ -570,8 +567,8 @@ public class MapEditorHandler {
     public void setRealTimePostProcessing(boolean enabled) {
         this.realTimePostProcessing = enabled;
     }
-    
-    public void clearLayer(int index){
+
+    public void clearLayer(int index) {
         addMapState(new MapLayerState("Clear Layer", this));
         getGrid().clearLayer(index);
         mainFrame.getThumbnailLayerSelector().drawLayerThumbnail(index);
@@ -579,8 +576,8 @@ public class MapEditorHandler {
         mainFrame.getMapDisplay().updateMapLayerGL(index);
         mainFrame.getMapDisplay().repaint();
     }
-    
-    public void pasteLayer(int index){
+
+    public void pasteLayer(int index) {
         if (getTileset().size() > 0) {
             if (tileLayerCopy != null && heightLayerCopy != null) {
                 addMapState(new MapLayerState("Paste Tile and Height Layer", this));
@@ -593,8 +590,8 @@ public class MapEditorHandler {
             }
         }
     }
-    
-    public void pasteLayerTiles(int index){
+
+    public void pasteLayerTiles(int index) {
         if (getTileset().size() > 0) {
             if (tileLayerCopy != null) {
                 addMapState(new MapLayerState("Paste Tile Layer", this));
@@ -606,8 +603,8 @@ public class MapEditorHandler {
             }
         }
     }
-    
-    public void pasteLayerHeights(int index){
+
+    public void pasteLayerHeights(int index) {
         if (getTileset().size() > 0) {
             if (heightLayerCopy != null) {
                 addMapState(new MapLayerState("Paste Height Layer", this));
@@ -619,8 +616,8 @@ public class MapEditorHandler {
             }
         }
     }
-    
-    
+
+
     public void copySelectedLayer() {
         copyLayer(getActiveLayerIndex());
     }
@@ -632,6 +629,7 @@ public class MapEditorHandler {
     public void pasteHeightLayer() {
         pasteHeightLayer(getActiveLayerIndex());
     }
+
     public void copyLayer(int index) {
         tileLayerCopy = getGrid().cloneTileLayer(index);
         heightLayerCopy = getGrid().cloneHeightLayer(index);
@@ -656,13 +654,13 @@ public class MapEditorHandler {
     public int[][] getHeightLayerCopy() {
         return heightLayerCopy;
     }
-    
+
     public void clearCopyLayer() {
         tileLayerCopy = null;
         heightLayerCopy = null;
     }
-    
-    public void indexOfTileVisualData(){
-        
+
+    public void indexOfTileVisualData() {
+
     }
 }

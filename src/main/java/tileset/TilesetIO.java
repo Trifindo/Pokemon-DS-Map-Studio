@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tileset;
 
 import editor.MainFrame;
 import editor.smartdrawing.SmartGrid;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,10 +16,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class TilesetIO {
@@ -396,7 +393,7 @@ public class TilesetIO {
                             ImageIO.write(Tileset.defaultTexture, "png", file);
                             tset.getMaterial(tile.getTextureIDs().get(i)).setImageName(textName);
                         } catch (FileNotFoundException ex) {
-
+                            ex.printStackTrace();
                         }
                     }
                 }

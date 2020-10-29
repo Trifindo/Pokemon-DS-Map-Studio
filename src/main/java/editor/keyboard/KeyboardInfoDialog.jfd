@@ -1,0 +1,53 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :p::p, comp jPanel1:::::x, space :p::p}, seq l {space :p:129:p, comp jButton1::::445:x, space :p:139:p}}"
+			"$verticalGroup": "par l {seq l {space :p::p, comp jPanel1:::::x, space u:p::p, comp jButton1:::p::p, space :p::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Keyboard and Mouse Shortcuts (Not finished)"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane1:::::x, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :p::p, comp jScrollPane1::::410:x, space :p::p}}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Map Display Key Shortcuts" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane1"
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jList1"
+						"model": new javax.swing.DefaultListModel {
+							addElement( "SPACE - Change perspective" )
+							addElement( "C - Clear tiles" )
+							addElement( "S - Use Smart Drawing" )
+							addElement( "SHIFT - Invert Smart Drawing" )
+							addElement( "H - View Height Map" )
+							addElement( "G - View Grid" )
+							addElement( "LEFT CLICK - Set Tile/Height selected" )
+							addElement( "RIGHT CLICK - Get Tile selected" )
+							addElement( "MOUSE WHEEL CLICK - Flood fill" )
+							addElement( "Ctrl+Z - Undo" )
+							addElement( "Crtl+Y - Redo" )
+						}
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+					} )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jButton1"
+				"text": "OK"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton1ActionPerformed", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 715, 530 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

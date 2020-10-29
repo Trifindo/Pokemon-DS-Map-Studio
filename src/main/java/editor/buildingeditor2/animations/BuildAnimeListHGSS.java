@@ -1,31 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.buildingeditor2.animations;
 
 import editor.narc2.Narc;
 import editor.narc2.NarcFile;
 import editor.narc2.NarcFolder;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import utils.BinaryReader;
 import utils.BinaryWriter;
 
 /**
- *
  * @author Trifindo
  */
 public class BuildAnimeListHGSS {
 
-    
+
     //private ArrayList<ArrayList<Integer>> animations;
     //private ArrayList<Byte> secondBytes;
 
     private ArrayList<BuildAnimInfoHGSS> animations;
-    
+
     public BuildAnimeListHGSS(Narc narc) {
         NarcFolder root = narc.getRoot();
         animations = new ArrayList<>(root.getFiles().size());
@@ -121,7 +118,7 @@ public class BuildAnimeListHGSS {
         }
     }
 
-     public void replaceBuildingAnimation(int buildIndex, int animationIndex, int oldAnimationIndex) {
+    public void replaceBuildingAnimation(int buildIndex, int animationIndex, int oldAnimationIndex) {
         if (buildIndex >= 0 && buildIndex < animations.size()) {
             ArrayList<Integer> buildAnimations = animations.get(buildIndex).getAnimIDs();
             if (oldAnimationIndex >= 0 && oldAnimationIndex < buildAnimations.size()) {

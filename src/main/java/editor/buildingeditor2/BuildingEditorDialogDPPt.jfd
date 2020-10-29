@@ -1,0 +1,1070 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+			"$columnConstraints": "[grow,fill]"
+			"$rowConstraints": "[grow,fill][]"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Building Editor (Experimental)"
+			"modal": true
+			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
+				name: "jTabbedPane1"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+					"$columnConstraints": "[grow,fill][fill]"
+					"$rowConstraints": "[grow,fill][grow,fill]"
+				} ) {
+					name: "jPanel3"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[grow,fill][fill][fill]"
+						"$rowConstraints": "[fill][grow,fill]"
+					} ) {
+						name: "jPanel1"
+						"border": new javax.swing.border.TitledBorder( "Building Selector (build_model.narc)" )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jScrollPane1"
+							"horizontalScrollBarPolicy": 31
+							"verticalScrollBarPolicy": 22
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "jlBuildModel"
+								"model": new javax.swing.DefaultListModel
+								"selectionMode": 0
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+								addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlBuildModelValueChanged", true ) )
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 1"
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel4"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/BuildingIcon.png" )
+							"text": "Building List:"
+							"toolTipText": ""
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 0"
+						} )
+						add( new FormContainer( "renderer.NitroDisplayGL", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:412:x}"
+							"$verticalGroup": "par l {space :0:0:x}"
+						} ) {
+							name: "nitroDisplayGL"
+							"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0 1 2"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0:1.0"
+							"$rowSpecs": "0, 0, 0, 0, 0"
+							"$alignTop": true
+							"$alignLeft": true
+						} ) {
+							name: "panel2"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbAddBuilding"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+								"text": "Add Building"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddBuildingActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbReplaceBuilding"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ReplaceIcon.png" )
+								"text": "Replace Building"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceBuildingActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbExportBuilding"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+								"text": "Export Building"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportBuildingActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbRemoveBuilding"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+								"text": "Remove Building"
+								"enabled": false
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveBuildingActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 3
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbFindBuilding"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/SearchIcon.png" )
+								"text": "Find Usages"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbFindBuildingActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 4
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 2 1"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0 1 2"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[grow,fill][fill][fill]"
+						"$rowConstraints": "[fill][grow,fill]"
+					} ) {
+						name: "jPanel2"
+						"border": new javax.swing.border.TitledBorder( "Selected Building Properties (build_model_matshp.dat)" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel2"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/MaterialIcon2.png" )
+							"text": "Material order:"
+							"toolTipText": ""
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jScrollPane2"
+							"horizontalScrollBarPolicy": 31
+							"verticalScrollBarPolicy": 22
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "jlMaterialOrder"
+								"model": new javax.swing.DefaultListModel
+								"selectionMode": 0
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0:1.0, 0:1.0"
+							"$rowSpecs": "0, 0, 0, 0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel3"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbAddMaterial"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+								"text": "Add Material"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddMaterialActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridwidth": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbRemoveMaterial"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+								"text": "Remove Material"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveMaterialActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+								"gridwidth": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbImportMaterialsFromNsbmd"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
+								"text": "Import from NSBMD"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportMaterialsFromNsbmdActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 2
+								"gridwidth": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbSetAnimation"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AnimationIcon.png" )
+								"text": "Set Animation"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSetAnimationActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 3
+								"gridwidth": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbMoveMaterialUp"
+								"text": "▲"
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMaterialUpActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 4
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbMoveMaterialDown"
+								"text": "▼"
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveMaterialDownActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+								"gridy": 4
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 1"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 0"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[fill][fill]"
+						"$rowConstraints": "[fill][grow,fill]"
+					} ) {
+						name: "jPanel8"
+						"border": new javax.swing.border.TitledBorder( "Selected Building Animations (bm_anime_list.narc)" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel3"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AnimationIcon.png" )
+							"text": "Animations:"
+							"toolTipText": ""
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jScrollPane3"
+							"horizontalScrollBarPolicy": 31
+							"verticalScrollBarPolicy": 22
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "jlSelectedAnimationsList"
+								"model": new javax.swing.DefaultListModel
+								"selectionMode": 0
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0, 0"
+							"$rowSpecs": "0, 0, 0, 0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel4"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbAddAnimToBuild"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+								"text": "Add Animation"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddAnimToBuildActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridwidth": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbReplaceAnimToBuild"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ReplaceIcon.png" )
+								"text": "Replace Animation"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceAnimToBuildActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+								"gridwidth": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbRemoveAnimToBuild"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+								"text": "Remove Animation"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveAnimToBuildActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 2
+								"gridwidth": 2
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel12"
+								"text": "Type:"
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 3
+							} )
+							add( new FormComponent( "javax.swing.JComboBox" ) {
+								name: "jcbAnimationType"
+								"model": new javax.swing.DefaultComboBoxModel {
+									selectedItem: "Disabled"
+									addElement( "Disabled" )
+									addElement( "Loop" )
+									addElement( "Unknown" )
+									addElement( "Trigger (?)" )
+									addElement( "Trigger" )
+								}
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbAnimationTypeActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridx": 1
+								"gridy": 3
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbPlay"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AnimationIcon.png" )
+								"text": "Play Animation"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbPlayActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 4
+								"gridwidth": 2
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 1"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 1"
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Building Editor"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+					"$columnConstraints": "[grow,fill][grow,fill]"
+					"$rowConstraints": "[grow,fill]"
+				} ) {
+					name: "jPanel4"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[grow,fill][fill]"
+						"$rowConstraints": "[fill][grow,fill]"
+					} ) {
+						name: "jPanel5"
+						"border": new javax.swing.border.TitledBorder( "Area Data Selector (area_data.narc)" )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jScrollPane4"
+							"horizontalScrollBarPolicy": 31
+							"verticalScrollBarPolicy": 22
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "jlAreaDataList"
+								"model": new javax.swing.DefaultListModel
+								"selectionMode": 0
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+								addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlAreaDataListValueChanged", true ) )
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1"
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel1"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AreaDataIcon.png" )
+							"text": "Area Data List:"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0"
+							"$rowSpecs": "0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel5"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbAddAreaData"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+								"text": "Add Area Data"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddAreaDataActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbRemoveAreaData"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+								"text": "Remove Area Data"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveAreaDataActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 1"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[fill][grow,fill][fill]"
+						"$rowConstraints": "[fill][fill][fill][fill]"
+					} ) {
+						name: "jPanel6"
+						"border": new javax.swing.border.TitledBorder( "Area Data Properties" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel5"
+							"text": "Building Tileset:"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel6"
+							"text": "Map Tileset:"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1"
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel7"
+							"text": "Unknown 1:"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 2"
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel8"
+							"text": "Area Type:"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 3"
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "jtfUnknown1"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 2"
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "jtfMapTset"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 1"
+						} )
+						add( new FormComponent( "javax.swing.JTextField" ) {
+							name: "jtfBuildTset"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 0"
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbApplyBuildTset"
+							"text": "Apply"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyBuildTsetActionPerformed", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 2 0"
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbApplyMapTset"
+							"text": "Apply"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyMapTsetActionPerformed", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 2 1"
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbApplyUnknown1"
+							"text": "Apply"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyUnknown1ActionPerformed", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 2 2"
+						} )
+						add( new FormComponent( "javax.swing.JComboBox" ) {
+							name: "jcbAreaType"
+							"model": new javax.swing.DefaultComboBoxModel {
+								selectedItem: "Outdoor Area"
+								addElement( "Outdoor Area" )
+								addElement( "Indoor Area" )
+							}
+							auxiliary() {
+								"JavaCodeGenerator.typeParameters": "String"
+							}
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbAreaTypeActionPerformed", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 3 2 1"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 0"
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Area Data Editor"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+					"$columnConstraints": "[fill][fill][grow,fill]"
+					"$rowConstraints": "[grow,fill]"
+				} ) {
+					name: "jPanel7"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[fill][fill][fill]"
+						"$rowConstraints": "[fill][fill][grow,fill]"
+					} ) {
+						name: "jPanel10"
+						"border": new javax.swing.border.TitledBorder( "Building Tileset Selector (areabm_texset.narc)" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel10"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/MaterialIcon.png" )
+							"text": "Building Tileset List:"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 0 2 1"
+						} )
+						add( new FormComponent( "editor.nsbtx2.NsbtxPanel" ) {
+							name: "nsbtxPanel"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0 1 3"
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jScrollPane6"
+							"horizontalScrollBarPolicy": 31
+							"verticalScrollBarPolicy": 22
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "jlBuildTsetList"
+								"model": new javax.swing.DefaultListModel
+								"selectionMode": 0
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+								addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlBuildTsetListValueChanged", true ) )
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 1 1 2"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0"
+							"$rowSpecs": "0, 0, 0, 0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel6"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbAddTset"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+								"text": "Add Tileset"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddTsetActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbAddEmptyTileset"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+								"text": "Add Empty Tileset"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddEmptyTilesetActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbReplaceTset"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ReplaceIcon.png" )
+								"text": "Replace Tileset"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceTsetActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbExportTileset"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+								"text": "Export Tileset"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportTilesetActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 3
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbRemoveTset"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+								"text": "Remove Tileset"
+								"enabled": false
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveTsetActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 4
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 2 1 1 2"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 0"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[fill][grow,fill]"
+						"$rowConstraints": "[fill][fill][grow,fill]"
+					} ) {
+						name: "jPanel11"
+						"border": new javax.swing.border.TitledBorder( "Building Tileset Properties (area_build.narc)" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel9"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/BuildingIcon.png" )
+							"text": "Buildings used by the Tileset:"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0 2 1"
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jScrollPane7"
+							"horizontalScrollBarPolicy": 31
+							"verticalScrollBarPolicy": 22
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "jlAreaBuildList"
+								"model": new javax.swing.DefaultListModel
+								"selectionMode": 0
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+								addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlAreaBuildListValueChanged", true ) )
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1 1 2"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0"
+							"$rowSpecs": "0, 0, 0, 0, 0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel7"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbAddBuildToTset"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+								"text": "Add Building"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddBuildToTsetActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbReplaceBuildToTset"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ReplaceIcon.png" )
+								"text": "Replace Building"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceBuildToTsetActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbRemoveBuildToTset"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+								"text": "Remove Building"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveBuildToTsetActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbAddTexToNsbtx"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+								"text": "Add Texs & Pals to NSBTX"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddTexToNsbtxActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 3
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbRemoveTextures"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+								"text": "Remove Tex & Pals from NSBTX"
+								"toolTipText": ""
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveTexturesActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 4
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbRemoveAllUnusedTexPals"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+								"text": "Removed All Unused Tex & Pals"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveAllUnusedTexPalsActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 5
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 1"
+						} )
+						add( new FormContainer( "renderer.NitroDisplayGL", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:0:x}"
+							"$verticalGroup": "par l {space :0:399:x}"
+						} ) {
+							name: "nitroDisplayAreaData"
+							"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 2"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 2 0"
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Building Tileset Editor"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 0,hidemode 3"
+					"$columnConstraints": "[grow,fill]"
+					"$rowConstraints": "[grow,fill]"
+				} ) {
+					name: "jPanel9"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[fill][fill]"
+						"$rowConstraints": "[fill][grow,fill]"
+					} ) {
+						name: "jPanel12"
+						"border": new javax.swing.border.TitledBorder( "Selected Building Animations (bm_anime.narc)" )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel11"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AnimationIcon.png" )
+							"text": "Animation List:"
+							"toolTipText": ""
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jScrollPane5"
+							"horizontalScrollBarPolicy": 31
+							"verticalScrollBarPolicy": 22
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "jlAnimationsList"
+								"model": new javax.swing.DefaultListModel
+								"selectionMode": 0
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+							"$columnSpecs": "0"
+							"$rowSpecs": "0, 0, 0, 0"
+							"$hGap": 5
+							"$vGap": 5
+							"$alignLeft": true
+							"$alignTop": true
+						} ) {
+							name: "panel8"
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbAddAnim"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+								"text": "Add Animation"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddAnimActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbReplaceAnim"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ReplaceIcon.png" )
+								"text": "Replace Animation"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceAnimActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 1
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbExportAnimation"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+								"text": "Export Animation"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportAnimationActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 2
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbRemoveAnim"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+								"text": "Remove Animation"
+								"enabled": false
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveAnimActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 3
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 1"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Building Animation Editor"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+					"$columnConstraints": "[grow,fill][grow,fill]"
+					"$rowConstraints": "[grow,fill]"
+				} ) {
+					name: "jPanel13"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[fill][grow,fill]"
+						"$rowConstraints": "[fill][grow,fill]"
+					} ) {
+						name: "jPanel14"
+						"border": new javax.swing.border.TitledBorder( "Map Display" )
+						add( new FormContainer( "renderer.NitroDisplayGL", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+							"$horizontalGroup": "par l {space :0:0:x}"
+							"$verticalGroup": "par l {space :0:0:x}"
+						} ) {
+							name: "nitroDisplayMap"
+							"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1 2 1,growy"
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbOpenMap"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
+							"text": "Open Map"
+							"horizontalAlignment": 2
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbOpenMapActionPerformed", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "jLabel21"
+							"text": "*[Note: This map is used as a visual help for placing the buildings easily]"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 0"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$columnConstraints": "[grow,fill][grow,fill]"
+						"$rowConstraints": "[fill][grow,fill]"
+					} ) {
+						name: "jPanel15"
+						"border": new javax.swing.border.TitledBorder( "Building Editor (*.bld)" )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "jScrollPane8"
+							"horizontalScrollBarPolicy": 31
+							"verticalScrollBarPolicy": 22
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "jlBuildFile"
+								"model": new javax.swing.DefaultListModel
+								"selectionMode": 0
+								auxiliary() {
+									"JavaCodeGenerator.typeParameters": "String"
+								}
+								addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlBuildFileValueChanged", true ) )
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0 1 2"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+							"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+							"$columnConstraints": "[fill][grow,fill][fill][grow,fill]"
+							"$rowConstraints": "[fill][fill][fill][fill][fill]"
+						} ) {
+							name: "jPanel16"
+							"border": new javax.swing.border.TitledBorder( "Selected Building" )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel13"
+								"text": "Building ID:"
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 0"
+							} )
+							add( new FormComponent( "javax.swing.JSpinner" ) {
+								name: "jsBuildID"
+								"model": new javax.swing.SpinnerNumberModel {
+									minimum: 0
+								}
+								addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsBuildIDStateChanged", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 1 0"
+							} )
+							add( new FormComponent( "javax.swing.JButton" ) {
+								name: "jbChooseModelBld"
+								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ReplaceIcon.png" )
+								"text": "Change Model"
+								"horizontalAlignment": 2
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbChooseModelBldActionPerformed", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 3 0"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel14"
+								"foreground": new java.awt.Color( 204, 0, 0, 255 )
+								"text": "X: "
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 1"
+							} )
+							add( new FormComponent( "javax.swing.JSpinner" ) {
+								name: "jsBuildX"
+								"model": new javax.swing.SpinnerNumberModel( 0.0f, -16.0f, 15.0f, 1.0f )
+								addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsBuildXStateChanged", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 1 1"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel15"
+								"foreground": new java.awt.Color( 51, 153, 0, 255 )
+								"text": "Y: "
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 2"
+							} )
+							add( new FormComponent( "javax.swing.JSpinner" ) {
+								name: "jsBuildY"
+								"model": new javax.swing.SpinnerNumberModel( 0.0f, -16.0f, 15.0f, 1.0f )
+								addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsBuildYStateChanged", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 1 2"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel16"
+								"foreground": new java.awt.Color( 0, 0, 204, 255 )
+								"text": "Z: "
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 3"
+							} )
+							add( new FormComponent( "javax.swing.JSpinner" ) {
+								name: "jsBuildZ"
+								"model": new javax.swing.SpinnerNumberModel( 0.0f, -16.0f, 15.0f, 1.0f )
+								addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsBuildZStateChanged", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 1 3"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel17"
+								"foreground": new java.awt.Color( 204, 0, 0, 255 )
+								"text": "Scale X: "
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 2 1"
+							} )
+							add( new FormComponent( "javax.swing.JSpinner" ) {
+								name: "jsBuildScaleX"
+								"model": new javax.swing.SpinnerNumberModel( 0.0f, 0.0f, 15.0f, 1.0f )
+								addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsBuildScaleXStateChanged", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 3 1"
+							} )
+							add( new FormComponent( "javax.swing.JSpinner" ) {
+								name: "jsBuildScaleY"
+								"model": new javax.swing.SpinnerNumberModel( 0.0f, 0.0f, 15.0f, 1.0f )
+								addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsBuildScaleYStateChanged", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 3 2"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel18"
+								"foreground": new java.awt.Color( 0, 153, 0, 255 )
+								"text": "Scale Y: "
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 2 2"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel19"
+								"foreground": new java.awt.Color( 0, 0, 204, 255 )
+								"text": "Scale Z: "
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 2 3"
+							} )
+							add( new FormComponent( "javax.swing.JSpinner" ) {
+								name: "jsBuildScaleZ"
+								"model": new javax.swing.SpinnerNumberModel( 0.0f, 0.0f, 15.0f, 1.0f )
+								addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsBuildScaleZStateChanged", true ) )
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 3 3"
+							} )
+							add( new FormComponent( "javax.swing.JLabel" ) {
+								name: "jLabel20"
+								"text": "*[Note: axis are rotated compared to map editor's axis]"
+							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+								"value": "cell 0 4 4 1"
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 1"
+						} )
+						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+							"columns": 2
+							"rows": 2
+						} ) {
+							name: "jPanel17"
+							"border": new javax.swing.border.TitledBorder( "Building File" )
+							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+								"columns": 0
+								"rows": 1
+								"hgap": 5
+							} ) {
+								name: "jPanel18"
+								add( new FormComponent( "javax.swing.JButton" ) {
+									name: "jbImportBld"
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
+									"text": "Import BLD File"
+									"toolTipText": ""
+									"horizontalAlignment": 2
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportBldActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JButton" ) {
+									name: "jbExportBld"
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+									"text": "Export BLD File"
+									"horizontalAlignment": 2
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportBldActionPerformed", true ) )
+								} )
+							} )
+							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+								"columns": 0
+								"rows": 1
+								"hgap": 5
+							} ) {
+								name: "jPanel19"
+								add( new FormComponent( "javax.swing.JButton" ) {
+									name: "jbAddBuildBld"
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+									"text": "Add Building"
+									"toolTipText": ""
+									"horizontalAlignment": 2
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddBuildBldActionPerformed", true ) )
+								} )
+								add( new FormComponent( "javax.swing.JButton" ) {
+									name: "jbRemoveBld"
+									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+									"text": "Remove Building"
+									"horizontalAlignment": 2
+									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveBldActionPerformed", true ) )
+								} )
+							} )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 0"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 0"
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "Map Buildings Editor"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0, 0, 0"
+				"$rowSpecs": "0:1.0"
+				"$alignTop": true
+				"$alignLeft": true
+			} ) {
+				name: "panel1"
+				add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
+					name: "hSpacer1"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbSaveAll"
+					"text": "Save All"
+					"preferredSize": new java.awt.Dimension( 100, 0 )
+					"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSaveAllActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbCancel"
+					"text": "Close"
+					"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"preferredSize": new java.awt.Dimension( 100, 0 )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 2
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 1380, 755 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

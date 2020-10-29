@@ -1,24 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.nsbtx2;
 
 import editor.nsbtx2.exceptions.NsbtxTextureSizeException;
+
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeSet;
+
 import tileset.TilesetMaterial;
 import utils.Utils;
 import utils.image.Clusterer;
 import utils.image.FastColor;
 
 /**
- *
  * @author Trifindo
  */
 public class Nsbtx2 {
@@ -37,14 +34,14 @@ public class Nsbtx2 {
     public static final int[] indicesMask = {0xFF, 0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0x07, 0xFF};
     //public static final int[] numColors = {0, 32, 4, 16, 256, 0, 8, 0};
     public static final String[] formatNames = {
-        "NO TEXTURE",
-        "a3i5",
-        "palette4",
-        "palette16",
-        "palette256",
-        "4X4 TEXEL",
-        "a5i3",
-        "DIRECT TEXTURE"
+            "NO TEXTURE",
+            "a3i5",
+            "palette4",
+            "palette16",
+            "palette256",
+            "4X4 TEXEL",
+            "a5i3",
+            "DIRECT TEXTURE"
     };
 
     public static final int[] jcbToFormatLookup = {2, 3, 4, 1, 6};
@@ -168,20 +165,20 @@ public class Nsbtx2 {
     }
 
     public void drawColorsOpaque(BufferedImage img, ArrayList<Color> colors,
-            byte[] colorIndices) {
+                                 byte[] colorIndices) {
         for (int j = 0, c = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++, c++) {
                 try {
                     img.setRGB(i, j, colors.get(colorIndices[c] & 0xFF).getRGB());
                 } catch (IndexOutOfBoundsException e) {
-
+                    e.printStackTrace();
                 }
             }
         }
     }
 
     private void drawColorsSemitransparent(BufferedImage img,
-            ArrayList<Color> colors, byte[] colorIndices, byte mask, boolean isTransparent) {
+                                           ArrayList<Color> colors, byte[] colorIndices, byte mask, boolean isTransparent) {
         for (int j = 0, c = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++, c++) {
                 try {
@@ -201,14 +198,14 @@ public class Nsbtx2 {
                             transparency);
                     img.setRGB(i, j, transpColor.getRGB());
                 } catch (IndexOutOfBoundsException e) {
-
+                    e.printStackTrace();
                 }
             }
         }
     }
 
     public void replaceTexture(int textureIndex, int paletteIndex,
-            BufferedImage newImg, int colorFormat, boolean isTransparent) {
+                               BufferedImage newImg, int colorFormat, boolean isTransparent) {
         this.textures.set(textureIndex, generateTexture(
                 textures.get(textureIndex).getName(),
                 palettes.get(paletteIndex).getColors(numColors[colorFormat]),
@@ -216,8 +213,8 @@ public class Nsbtx2 {
     }
 
     public void addTexture(int textureIndex, int paletteIndex,
-            BufferedImage newImg, int colorFormat, boolean isTransparent,
-            String textureName) {
+                           BufferedImage newImg, int colorFormat, boolean isTransparent,
+                           String textureName) {
         NsbtxTexture newTexture = generateTexture(textureName,
                 palettes.get(paletteIndex).getColors(numColors[colorFormat]),
                 newImg, colorFormat, isTransparent);
@@ -229,7 +226,7 @@ public class Nsbtx2 {
     }
 
     public void replaceTextureAndPalette(int textureIndex, int paletteIndex,
-            BufferedImage newImg, int colorFormat, boolean isTransparent) {
+                                         BufferedImage newImg, int colorFormat, boolean isTransparent) {
 
         ArrayList<Color> colors = generatePaletteColors(newImg, numColors[colorFormat]);
         NsbtxPalette palette = generatePalette(colors, palettes.get(paletteIndex).getName());
@@ -241,8 +238,8 @@ public class Nsbtx2 {
     }
 
     public void addTextureAndPalette(int textureIndex, int paletteIndex,
-            BufferedImage newImg, int colorFormat, boolean isTransparent,
-            String textureName, String paletteName) {
+                                     BufferedImage newImg, int colorFormat, boolean isTransparent,
+                                     String textureName, String paletteName) {
 
         ArrayList<Color> colors = generatePaletteColors(newImg, numColors[colorFormat]);
 
@@ -293,7 +290,7 @@ public class Nsbtx2 {
     }
 
     private NsbtxPalette generatePalette(ArrayList<Color> colors,
-            String paletteName) {
+                                         String paletteName) {
 
         //Generate NSBTX palette data
         NsbtxPalette newPalette = new NsbtxPalette(paletteName, colors.size());
@@ -303,8 +300,8 @@ public class Nsbtx2 {
     }
 
     private NsbtxPalette generateFixedPalette(BufferedImage oldImg, int numColorsOldImg,
-            NsbtxPalette oldPalette, String paletteName,
-            BufferedImage newImg, byte[] colorIndices, int indexMask)
+                                              NsbtxPalette oldPalette, String paletteName,
+                                              BufferedImage newImg, byte[] colorIndices, int indexMask)
             throws NsbtxTextureSizeException {
 
         //Fix new image size
@@ -332,7 +329,7 @@ public class Nsbtx2 {
                 colors.add(new Color(0, 0, 0, 255));
             }
         }
-        
+
         //Move most transparent color to the front
         int lessAlphaColorIndex = getLessAlphaColorIndex(colors);
         if (colors.get(lessAlphaColorIndex).getAlpha() < 20) {
@@ -351,26 +348,26 @@ public class Nsbtx2 {
     }
 
     public void replacePalette(int textureIndex, int paletteIndex,
-            BufferedImage newImg) throws NsbtxTextureSizeException {
-        
+                               BufferedImage newImg) throws NsbtxTextureSizeException {
+
         byte[] indices = textures.get(textureIndex).getColorIndices();
-        
+
         palettes.set(paletteIndex, generateFixedPalette(
                 getImage(textures.get(textureIndex), palettes.get(paletteIndex)),
                 textures.get(textureIndex).getNumColors(), palettes.get(paletteIndex),
                 palettes.get(paletteIndex).getName(), newImg,
-                textures.get(textureIndex).getColorIndices(), 
+                textures.get(textureIndex).getColorIndices(),
                 indicesMask[textures.get(textureIndex).getColorFormat()]
-                ));
+        ));
     }
 
     public void addPalette(int textureIndex, int paletteIndex, String paletteName,
-            BufferedImage newImg) throws NsbtxTextureSizeException {
+                           BufferedImage newImg) throws NsbtxTextureSizeException {
         NsbtxPalette newPalette = generateFixedPalette(
                 getImage(textures.get(textureIndex), palettes.get(paletteIndex)),
                 textures.get(textureIndex).getNumColors(), palettes.get(paletteIndex),
-                paletteName, newImg, 
-                textures.get(textureIndex).getColorIndices(), 
+                paletteName, newImg,
+                textures.get(textureIndex).getColorIndices(),
                 indicesMask[textures.get(textureIndex).getColorFormat()]
         );
         try {
@@ -380,10 +377,10 @@ public class Nsbtx2 {
         }
     }
 
-    
+
     private ArrayList<Color> fixColorOrder(BufferedImage refImg,
-            BufferedImage fixImg, ArrayList<Color> refPal, ArrayList<Color> fixPal, 
-            byte[] colorIndices, int indexMask) {
+                                           BufferedImage fixImg, ArrayList<Color> refPal, ArrayList<Color> fixPal,
+                                           byte[] colorIndices, int indexMask) {
 
         int[][] colorCount = new int[refPal.size()][fixPal.size()];
         if (refImg.getWidth() == fixImg.getWidth() && refImg.getHeight() == fixImg.getHeight()) {
@@ -394,14 +391,14 @@ public class Nsbtx2 {
                 }
             }
         }
-        
+
 
         ArrayList<Color> newPalette = new ArrayList<>(fixPal.size());
         for (int i = 0; i < colorCount.length; i++) {
             int maxIndex = 0;
             int maxValue = -1;
             for (int j = 0; j < colorCount[i].length; j++) {
-                if(colorCount[i][j] > maxValue){
+                if (colorCount[i][j] > maxValue) {
                     maxIndex = j;
                     maxValue = colorCount[i][j];
                 }
@@ -437,7 +434,7 @@ public class Nsbtx2 {
         return newPalette;
     }
     */
-    
+
     private TreeSet<FastColor> addColorsFromTexture(TreeSet<FastColor> colors, BufferedImage img) {
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
@@ -461,7 +458,7 @@ public class Nsbtx2 {
     }
 
     private NsbtxTexture generateTexture(String textureName, ArrayList<Color> colors,
-            BufferedImage newImg, int colorFormat, boolean isTransparent) {
+                                         BufferedImage newImg, int colorFormat, boolean isTransparent) {
 
         newImg = fixImageSize(newImg);
         NsbtxTexture newTex = new NsbtxTexture(textureName, colorFormat,
@@ -515,7 +512,7 @@ public class Nsbtx2 {
     }
 
     private static byte[] colorIndicesToTexDataSemitransp(byte[] colorIndices,
-            ArrayList<Color> colors, int nBitsColor) {
+                                                          ArrayList<Color> colors, int nBitsColor) {
         final byte[] texData = new byte[colorIndices.length];
         for (int i = 0; i < texData.length; i++) {
             byte data = 0x00;

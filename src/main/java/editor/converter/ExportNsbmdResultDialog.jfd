@@ -1,0 +1,52 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, par l {comp jPanel2:::::x, comp jPanel1:::::x, comp jLabel1::::586:x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :p::p, comp jPanel1:::::x, space :p::p, comp jLabel1:::p:31:p, space :p::p, comp jPanel2:::p::p, space :p::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "NSBMD Successfully Saved"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0"
+				"$rowSpecs": "0"
+			} ) {
+				name: "jPanel2"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jButton1"
+					"text": "OK"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton1ActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"hAlign": 0
+					"vAlign": 0
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp nitroDisplayGL1:::::x, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp nitroDisplayGL1:::::x, space :::p}}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Resulting NSBMD Display" )
+				add( new FormContainer( "renderer.NitroDisplayGL", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:0:x}"
+					"$verticalGroup": "par l {space :0:222:x}"
+				} ) {
+					name: "nitroDisplayGL1"
+					"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jLabel1"
+				"horizontalAlignment": 0
+				"text": "NSBMD succesfully exported."
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 600, 375 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

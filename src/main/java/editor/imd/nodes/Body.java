@@ -1,23 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.imd.nodes;
 
 import editor.imd.ImdAttribute;
 import editor.imd.ImdNode;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
-public class Body extends ImdNode{
-    
+public class Body extends ImdNode {
+
     public Body() {
         super("body");
-        
+
         ImdNode snOriginalCreate = new ImdNode("original_create");
         snOriginalCreate.attributes = new ArrayList<ImdAttribute>() {
             {
@@ -28,7 +24,7 @@ public class Body extends ImdNode{
             }
         };
         subnodes.add(snOriginalCreate);
-        
+
         ImdNode snOriginalGenerator = new ImdNode("original_generator");
         snOriginalGenerator.attributes = new ArrayList<ImdAttribute>() {
             {
@@ -38,5 +34,5 @@ public class Body extends ImdNode{
         };
         subnodes.add(snOriginalGenerator);
     }
-    
+
 }

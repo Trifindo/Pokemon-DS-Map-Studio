@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.imd.nodes;
 
 import editor.imd.ImdAttribute;
 import editor.imd.ImdNode;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class Material extends ImdNode {
@@ -18,9 +14,9 @@ public class Material extends ImdNode {
     private static final String[] texGenModes = {"none", "tex", "nrm", "pos"};
 
     public Material(int index, String name, boolean[] lights, int alpha,
-            boolean renderBorder, int texIndex, int palIndex,
-            boolean doubleFaceRender, boolean fogEnabled, int texGenModeIndex,
-            int texTilingU, int texTilingV) {
+                    boolean renderBorder, int texIndex, int palIndex,
+                    boolean doubleFaceRender, boolean fogEnabled, int texGenModeIndex,
+                    int texTilingU, int texTilingV) {
         super("material");
 
         String faceType;

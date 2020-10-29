@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tileset;
 
 import java.awt.image.BufferedImage;
@@ -12,7 +8,6 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 
 /**
- *
  * @author Trifindo
  */
 public class TilesetMaterial {
@@ -101,7 +96,7 @@ public class TilesetMaterial {
             return false;
         }
         final TilesetMaterial other = (TilesetMaterial) obj;
-        
+
         if (!Objects.equals(this.imageName, other.imageName)) {
             return false;
         }
@@ -112,16 +107,15 @@ public class TilesetMaterial {
         return true;
     }
 
-    
-    
-    public boolean renderBorder(){
+
+    public boolean renderBorder() {
         return renderBorder;
     }
-    
-    public void setRenderBorder(boolean renderBorderEnabled){
+
+    public void setRenderBorder(boolean renderBorderEnabled) {
         this.renderBorder = renderBorderEnabled;
     }
-    
+
     public boolean light0() {
         return light0;
     }
@@ -270,12 +264,12 @@ public class TilesetMaterial {
     public void setAlwaysIncludeInImd(boolean include) {
         this.alwaysIncludeInImd = include;
     }
-    
-    public boolean vertexColorsEnabled(){
+
+    public boolean vertexColorsEnabled() {
         return vertexColorsEnabled;
     }
-    
-    public void setVertexColorsEnabled(boolean enabled){
+
+    public void setVertexColorsEnabled(boolean enabled) {
         this.vertexColorsEnabled = enabled;
     }
 

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package utils;
 
 import java.awt.Color;
@@ -29,10 +25,10 @@ import javax.imageio.ImageIO;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import tileset.Face;
 
 /**
- *
  * @author Trifindo
  */
 public class Utils {
@@ -83,7 +79,7 @@ public class Utils {
     }
 
     public static BufferedImage[] loadHorizontalImageArrayAsResource(String path,
-            int numTiles) {
+                                                                     int numTiles) {
         BufferedImage img = loadTexImageAsResource(path);
 
         BufferedImage[] array = new BufferedImage[numTiles];
@@ -97,7 +93,7 @@ public class Utils {
     }
 
     public static BufferedImage[] loadVerticalImageArrayAsResource(String path,
-            int numTiles) {
+                                                                   int numTiles) {
         BufferedImage img = loadTexImageAsResource(path);
 
         BufferedImage[] array = new BufferedImage[numTiles];
@@ -118,8 +114,8 @@ public class Utils {
                     int c1 = img1.getRGB(i, j);
                     int c2 = img2.getRGB(i, j);
 
-                    totalDiff += Math.abs((((c1 & 0x00FF0000)>> 16) - ((c2 & 0x00FF0000)>> 16)));
-                    totalDiff += Math.abs((((c1 & 0x0000FF00)>> 8) - ((c2 & 0x0000FF00)>> 8)));
+                    totalDiff += Math.abs((((c1 & 0x00FF0000) >> 16) - ((c2 & 0x00FF0000) >> 16)));
+                    totalDiff += Math.abs((((c1 & 0x0000FF00) >> 8) - ((c2 & 0x0000FF00) >> 8)));
                     totalDiff += Math.abs(((c1 & 0x000000FF) - (c2 & 0x000000FF)));
                 }
             }
@@ -140,13 +136,13 @@ public class Utils {
 
         return newImg;
     }
-    
+
     public static BufferedImage[] imageToImageArray(BufferedImage img, int cols, int rows) {
         int width = img.getWidth() / cols;
         int height = img.getHeight() / rows;
         BufferedImage[] array = new BufferedImage[cols * rows];
-        for(int i = 0; i < cols; i++){
-            for(int j = 0; j < rows; j++){
+        for (int i = 0; i < cols; i++) {
+            for (int j = 0; j < rows; j++) {
                 array[i * rows + (cols - j - 1)] = img.getSubimage(i * width, j * height, width, height);
             }
         }
@@ -556,8 +552,7 @@ public class Utils {
         }
     }
 
-    public static void addListenerToJTextFieldColor(JTextField jtf,
-            MutableBoolean enabled, Color updateColor) {
+    public static void addListenerToJTextFieldColor(JTextField jtf, MutableBoolean enabled, Color backgroundColor, Color foregroundColor) {
         jtf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -576,7 +571,8 @@ public class Utils {
 
             public void changeBackground() {
                 if (enabled.value) {
-                    jtf.setBackground(updateColor);
+                    jtf.setBackground(backgroundColor);
+                    jtf.setForeground(foregroundColor);
                 }
             }
         });
@@ -589,7 +585,9 @@ public class Utils {
         public MutableBoolean(boolean value) {
             this.value = value;
         }
-    };
+    }
+
+    ;
 
     public static class MutableInt {
 
@@ -598,7 +596,9 @@ public class Utils {
         public MutableInt(int value) {
             this.value = value;
         }
-    };
+    }
+
+    ;
 
     public static class MutableLong {
 
@@ -607,6 +607,8 @@ public class Utils {
         public MutableLong(long value) {
             this.value = value;
         }
-    };
+    }
+
+    ;
 
 }

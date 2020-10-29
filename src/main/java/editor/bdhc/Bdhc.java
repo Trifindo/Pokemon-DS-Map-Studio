@@ -1,48 +1,43 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.bdhc;
 
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class Bdhc {
-    
+
     public static final String fileExtension = "bdhc";
-    
+
     public static final int sizePointDP = 12;
     public static final int sizeSlopeDP = 12;
     public static final int sizePlateDP = 12;
     public static final int sizeStripeDP = 10;
-    
+
     private ArrayList<Plate> plates = new ArrayList<>();
-    
-    public Bdhc(ArrayList<Plate> plates){
+
+    public Bdhc(ArrayList<Plate> plates) {
         this.plates = plates;
     }
-    
-    public Bdhc(){
+
+    public Bdhc() {
         plates.add(new Plate());
         plates.add(new Plate());
-        
+
     }
-    
-    public ArrayList<Plate> getPlates(){
+
+    public ArrayList<Plate> getPlates() {
         return plates;
     }
-    
-    public Plate getPlate(int index){
+
+    public Plate getPlate(int index) {
         return plates.get(index);
     }
-    
-    public void addPlate(){
+
+    public void addPlate() {
         plates.add(new Plate());
     }
-    
-    
+
+
 }

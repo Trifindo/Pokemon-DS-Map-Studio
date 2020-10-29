@@ -1,21 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.buildingeditor2.animations;
 
 import editor.buildingeditor2.NamedFile;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
 import utils.BinaryReader;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class ModelAnimation implements NamedFile {
@@ -110,10 +107,10 @@ public class ModelAnimation implements NamedFile {
         return typeFileExtensions.get(type);
     }
 
-    public byte[] getData(){
+    public byte[] getData() {
         return data;
     }
-    
+
     private static String getAnimationName(byte[] data) throws Exception {
         long nameOffset = BinaryReader.readUInt32(data, 16);
         String name = BinaryReader.readString(data, (int) (32 + nameOffset), 16);

@@ -1,17 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.imd.nodes;
 
 import editor.imd.ImdAttribute;
 import editor.imd.ImdNode;
 import editor.imd.PolygonData;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class Primitive extends ImdNode {
@@ -31,7 +27,7 @@ public class Primitive extends ImdNode {
     }
 
     public void calculateElementsWithStrips(PolygonData pData, boolean firstPrimitive,
-            boolean isQuad, boolean useUniformNormals, boolean useVertexColors) {
+                                            boolean isQuad, boolean useUniformNormals, boolean useVertexColors) {
         if (firstPrimitive) {
             ImdNode mtx = new ImdNode("mtx");
             mtx.attributes.add(new ImdAttribute("idx", 0));
@@ -115,7 +111,7 @@ public class Primitive extends ImdNode {
     }
 
     public void calculateElements(PolygonData pData, boolean firstPrimitive,
-            boolean isQuad, boolean useUniformNormals, boolean useVertexColors) {
+                                  boolean isQuad, boolean useUniformNormals, boolean useVertexColors) {
         if (firstPrimitive) {
             ImdNode mtx = new ImdNode("mtx");
             mtx.attributes.add(new ImdAttribute("idx", 0));
@@ -368,8 +364,8 @@ public class Primitive extends ImdNode {
         return coords;
     }
 
-    public static void init(){
+    public static void init() {
         lastNormalUsed = new float[]{0.0f, 0.0f, 0.0f};
     }
-    
+
 }

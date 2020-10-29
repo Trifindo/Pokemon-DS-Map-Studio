@@ -1,16 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.obj;
 
 import editor.game.Game;
 import editor.grid.MapGrid;
+
 import static editor.grid.MapGrid.cols;
 import static editor.grid.MapGrid.gridTileSize;
 import static editor.grid.MapGrid.rows;
+
 import editor.handler.MapData;
+
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,6 +19,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
+
 import tileset.Face;
 import tileset.Tile;
 import tileset.Tileset;
@@ -27,7 +27,6 @@ import tileset.TilesetMaterial;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class ObjWriter {
@@ -49,7 +48,7 @@ public class ObjWriter {
     private int maxTileableSize = 8; //TODO: Use 16 instead??
 
     public ObjWriter(Tileset tset, HashMap<Point, MapGrid> maps, String savePath, int game,
-            boolean saveTextures, boolean saveVertexColors) {
+                     boolean saveTextures, boolean saveVertexColors) {
         this.tset = tset;
         this.maps = maps;
         this.savePathObj = savePath;
@@ -64,7 +63,7 @@ public class ObjWriter {
     }
 
     public ObjWriter(Tileset tset, MapGrid grid, String savePath, int game,
-            boolean saveTextures, boolean saveVertexColors) {
+                     boolean saveTextures, boolean saveVertexColors) {
         this.tset = tset;
         this.maps = new HashMap<Point, MapGrid>(1) {
             {
@@ -256,7 +255,7 @@ public class ObjWriter {
                 moveTile(tile);
             }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
     }
 
@@ -394,7 +393,7 @@ public class ObjWriter {
     }
 
     private int getExpansionY(MapGrid grid, int layer, int c, int r,
-            boolean[][] writtenGrid, int width, int height, int xSize) {
+                              boolean[][] writtenGrid, int width, int height, int xSize) {
         int n = 1;
         for (int i = height, limit = rows - r; i < limit && n < maxTileableSize; i += height) {
             for (int j = 0; j < xSize * width; j += width) {
@@ -411,7 +410,7 @@ public class ObjWriter {
     }
 
     private int getExpansionX(MapGrid grid, int layer, int c, int r,
-            boolean[][] writtenGrid, int width, int height, int ySize) {
+                              boolean[][] writtenGrid, int width, int height, int ySize) {
         int n = 1;
         for (int i = width, limit = cols - c; i < limit && n < maxTileableSize; i += width) {
             for (int j = 0; j < ySize * height; j += height) {
@@ -581,7 +580,7 @@ public class ObjWriter {
     }
 
     private void writeVertexLine(PrintWriter out,
-            ArrayList<Float> vertexCoords, int vertexIndex) {
+                                 ArrayList<Float> vertexCoords, int vertexIndex) {
         out.print("v ");
         out.print(vertexCoords.get(vertexIndex * 3) + " ");
         out.print(vertexCoords.get(vertexIndex * 3 + 1) + " ");
@@ -590,7 +589,7 @@ public class ObjWriter {
     }
 
     private void writeTextureCoordLine(PrintWriter out,
-            ArrayList<Float> textureCoords, int textureCoordIndex) {
+                                       ArrayList<Float> textureCoords, int textureCoordIndex) {
         out.print("vt ");
         out.print(textureCoords.get(textureCoordIndex * 2) + " ");
         out.print(textureCoords.get(textureCoordIndex * 2 + 1));
@@ -598,7 +597,7 @@ public class ObjWriter {
     }
 
     private void writeNormalCoordLine(PrintWriter out,
-            ArrayList<Float> normalCoords, int normalCoordIndex) {
+                                      ArrayList<Float> normalCoords, int normalCoordIndex) {
         out.print("vn ");
         out.print(normalCoords.get(normalCoordIndex * 3) + " ");
         out.print(normalCoords.get(normalCoordIndex * 3 + 1) + " ");
@@ -607,7 +606,7 @@ public class ObjWriter {
     }
 
     private void writeColorLine(PrintWriter out,
-            ArrayList<Float> colors, int colorIndex) {
+                                ArrayList<Float> colors, int colorIndex) {
         out.print("c ");
         out.print(colors.get(colorIndex * 3) + " ");
         out.print(colors.get(colorIndex * 3 + 1) + " ");
@@ -630,7 +629,7 @@ public class ObjWriter {
     }
 
     private void writeFaceLine(PrintWriter out, ArrayList<Integer> vInd,
-            ArrayList<Integer> tInd, ArrayList<Integer> nInd, int index) {
+                               ArrayList<Integer> tInd, ArrayList<Integer> nInd, int index) {
         out.print("f ");
         out.print(vInd.get(index * 3) + "/" + tInd.get(index * 3) + "/" + nInd.get(index * 3) + " ");
         out.print(vInd.get(index * 3 + 1) + "/" + tInd.get(index * 3 + 1) + "/" + nInd.get(index * 3 + 1) + " ");

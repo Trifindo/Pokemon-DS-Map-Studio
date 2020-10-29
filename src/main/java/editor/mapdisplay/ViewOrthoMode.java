@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.mapdisplay;
 
 import com.jogamp.opengl.GL2;
 import editor.state.MapLayerState;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,7 +16,6 @@ import java.util.HashSet;
 import javax.swing.SwingUtilities;
 
 /**
- *
  * @author Trifindo
  */
 public class ViewOrthoMode extends ViewMode {
@@ -318,7 +314,7 @@ public class ViewOrthoMode extends ViewMode {
             d.drawBorderBounds(g,
                     d.handler.getMapSelected().x * d.cols * d.tileSize,
                     d.handler.getMapSelected().y * d.rows * d.tileSize, 4);
-            
+
             g2d.setTransform(transform);
         }
     }

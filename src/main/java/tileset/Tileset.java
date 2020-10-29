@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tileset;
 
 import com.jogamp.opengl.GL2;
@@ -11,16 +7,17 @@ import com.jogamp.opengl.util.awt.ImageUtil;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 import editor.smartdrawing.SmartGrid;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.imageio.ImageIO;
+
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class Tileset {
@@ -137,10 +134,10 @@ public class Tileset {
 
         removeUnusedTextures();
     }
-    
-    public void removeTiles(ArrayList<Integer> indices){
-        for(int i = 0; i < indices.size(); i++){
-            
+
+    public void removeTiles(ArrayList<Integer> indices) {
+        for (int i = 0; i < indices.size(); i++) {
+
         }
     }
 
@@ -196,7 +193,7 @@ public class Tileset {
             material.setTextureNameImd(textureNameImd);
             material.setPaletteNameImd(textureNameImd + "_pl");*/
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -302,31 +299,31 @@ public class Tileset {
         tile.setTileset(this);
         this.tiles.add(tile);
     }
-    
-    public void importTile(Tile tile){
+
+    public void importTile(Tile tile) {
         ArrayList<Integer> texIDs = tile.getTextureIDs();
-        for(int i = 0; i < texIDs.size(); i++){
+        for (int i = 0; i < texIDs.size(); i++) {
             TilesetMaterial material = tile.getTileset().getMaterial(texIDs.get(i));
             int index = materials.indexOf(material);
-            if(index == -1){
+            if (index == -1) {
                 texIDs.set(i, materials.size());
                 materials.add(material);
-            }else{
+            } else {
                 texIDs.set(i, index);
             }
         }
         tile.setTileset(this);
         tiles.add(tile);
     }
-    
-    public void importTiles(ArrayList<Tile> tiles){
-        for(Tile tile : tiles){
+
+    public void importTiles(ArrayList<Tile> tiles) {
+        for (Tile tile : tiles) {
             importTile(tile);
         }
-        
+
         System.out.println("Tiles imported");
     }
-    
+
 
     public Tile get(int index) {
         return tiles.get(index);
@@ -355,10 +352,10 @@ public class Tileset {
     public void duplicateTile(int index) {
         tiles.add(index, tiles.get(index).clone());
     }
-    
-    public void duplicateTiles(ArrayList<Integer> indices){
+
+    public void duplicateTiles(ArrayList<Integer> indices) {
         int startIndex = indices.get(indices.size() - 1) + 1;
-        for(int i = 0; i < indices.size(); i++){
+        for (int i = 0; i < indices.size(); i++) {
             tiles.add(startIndex + i, tiles.get(indices.get(i)).clone());
         }
     }
@@ -416,8 +413,7 @@ public class Tileset {
     public void setSgridArray(ArrayList<SmartGrid> sgridArray) {
         this.sgridArray = sgridArray;
     }
-    
-    
+
 
     public ArrayList<TilesetMaterial> getMaterials() {
         return materials;
@@ -427,10 +423,10 @@ public class Tileset {
         return materials.get(index);
     }
 
-    public int indexOfTileVisualData(Tile tile){
+    public int indexOfTileVisualData(Tile tile) {
         if (tile == null) {
             for (int i = 0; i < tiles.size(); i++)
-                if (tiles.get(i)==null)
+                if (tiles.get(i) == null)
                     return i;
         } else {
             for (int i = 0; i < tiles.size(); i++)
@@ -439,5 +435,5 @@ public class Tileset {
         }
         return -1;
     }
-    
+
 }

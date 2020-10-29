@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.nsbtx;
 
 /**
- *
  * @author Trifindo
  */
 public class PaletteInfo {
@@ -20,13 +15,13 @@ public class PaletteInfo {
         numColorsCode = data[offset + 0x02];
         paletteOffset = ((data[offset + 0x01] & 0xFF) << 8 | data[offset] & 0xFF) << 3;
     }
-    
-    public int getNumColors(){
+
+    public int getNumColors() {
         int[] sizes = new int[]{16, 8};
         return sizes[numColorsCode];
     }
-    
-    public int getSize(){
+
+    public int getSize() {
         return getNumColors() * 2;
     }
 

@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.grid;
 
 import editor.handler.MapEditorHandler;
 import editor.obj.ObjWriter;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,12 +13,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.HashSet;
+
 import tileset.Tile;
 import tileset.Tileset;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class MapGrid {
@@ -127,7 +124,7 @@ public class MapGrid {
         input.close();
     }*/
     public void saveMapToOBJ(Tileset tset, String path, boolean saveTextures,
-            boolean saveVertexColors) throws FileNotFoundException {
+                             boolean saveVertexColors) throws FileNotFoundException {
         ObjWriter writer = new ObjWriter(tset, this, path, handler.getGameIndex(),
                 saveTextures, saveVertexColors);
         writer.writeMapObj();
@@ -345,42 +342,42 @@ public class MapGrid {
         heightLayerCopy = null;
     }*/
 
- /*
-    public void copySelectedLayer() {
-        copyLayer(handler.getActiveLayerIndex());
-    }
+    /*
+       public void copySelectedLayer() {
+           copyLayer(handler.getActiveLayerIndex());
+       }
 
-    public void pasteTileLayer() {
-        pasteTileLayer(handler.getActiveLayerIndex());
-    }
+       public void pasteTileLayer() {
+           pasteTileLayer(handler.getActiveLayerIndex());
+       }
 
-    public void pasteHeightLayer() {
-        pasteHeightLayer(handler.getActiveLayerIndex());
-    }
-    public void copyLayer(int index) {
-        tileLayerCopy = cloneTileLayer(index);
-        heightLayerCopy = cloneHeightLayer(index);
-    }
+       public void pasteHeightLayer() {
+           pasteHeightLayer(handler.getActiveLayerIndex());
+       }
+       public void copyLayer(int index) {
+           tileLayerCopy = cloneTileLayer(index);
+           heightLayerCopy = cloneHeightLayer(index);
+       }
 
-    public void pasteTileLayer(int index) {
-        if (tileLayerCopy != null) {
-            tileLayers[index] = cloneLayer(tileLayerCopy);
-        }
-    }
+       public void pasteTileLayer(int index) {
+           if (tileLayerCopy != null) {
+               tileLayers[index] = cloneLayer(tileLayerCopy);
+           }
+       }
 
-    public void pasteHeightLayer(int index) {
-        if (heightLayerCopy != null) {
-            heightLayers[index] = cloneLayer(heightLayerCopy);
-        }
-    }
+       public void pasteHeightLayer(int index) {
+           if (heightLayerCopy != null) {
+               heightLayers[index] = cloneLayer(heightLayerCopy);
+           }
+       }
 
-    public int[][] getTileLayerCopy() {
-        return tileLayerCopy;
-    }
+       public int[][] getTileLayerCopy() {
+           return tileLayerCopy;
+       }
 
-    public int[][] getHeightLayerCopy() {
-        return heightLayerCopy;
-    }*/
+       public int[][] getHeightLayerCopy() {
+           return heightLayerCopy;
+       }*/
     public int[][] cloneLayer(int[][] layer) {
         int[][] copy = new int[cols][rows];
         for (int i = 0; i < layer.length; i++) {

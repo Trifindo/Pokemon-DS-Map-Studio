@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.game;
 
 import java.io.File;
 
 /**
- *
  * @author Trifindo
  */
 public class GameFileSystemHGSS extends GameFileSystem {
@@ -20,11 +15,11 @@ public class GameFileSystemHGSS extends GameFileSystem {
     private final String areaDataPath;
     private final String areaBuildTilesetPath;
     private final String areaBuildModelPath;//
-    
+
     private final String buildModelRoomPath;
     private final String buildModelRoomMatshpPath;//
     private final String buildModelRoomAnimeListPath;//
-    
+
     private final String mapAnimationsPath;
 
     public GameFileSystemHGSS() {
@@ -35,11 +30,11 @@ public class GameFileSystemHGSS extends GameFileSystem {
         areaDataPath = getPath(new String[]{"data", "a", "0", "4", "2"});
         areaBuildTilesetPath = getPath(new String[]{"data", "a", "0", "7", "0"});
         areaBuildModelPath = getPath(new String[]{"data", "a", "0", "4", "3"});
-        
+
         buildModelRoomPath = getPath(new String[]{"data", "a", "1", "4", "8"});
         buildModelRoomMatshpPath = getPath(new String[]{"data", "fielddata", "build_model", "bm_room_matshp.dat"});
         buildModelRoomAnimeListPath = getPath(new String[]{"data", "a", "1", "0", "8"});
-        
+
         mapAnimationsPath = getPath(new String[]{"data", "a", "1", "4", "0"});
     }
 
@@ -86,8 +81,6 @@ public class GameFileSystemHGSS extends GameFileSystem {
     public String getMapAnimationsPath() {
         return mapAnimationsPath;
     }
-    
-    
-    
+
 
 }

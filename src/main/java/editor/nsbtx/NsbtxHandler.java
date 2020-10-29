@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.nsbtx;
 
 import editor.handler.MapEditorHandler;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- *
  * @author Trifindo
  */
 public class NsbtxHandler {
@@ -93,12 +89,12 @@ public class NsbtxHandler {
         this.colorIndexSelected--;
     }
 
-    public String getNsbtxPath(){
+    public String getNsbtxPath() {
         return nsbtxPath;
     }
-    
-    public void setNsbtxPath(String path){
+
+    public void setNsbtxPath(String path) {
         this.nsbtxPath = path;
     }
-    
+
 }

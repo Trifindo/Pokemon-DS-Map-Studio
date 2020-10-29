@@ -1,0 +1,68 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "0:1.0, 0:1.0"
+			"$rowSpecs": "0:1.0, 0"
+			"$hGap": 5
+			"$vGap": 5
+			"$alignTop": true
+			"$alignLeft": true
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Converter Options"
+			"resizable": false
+			"modal": true
+			"$sizePolicy": 1
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbAccept"
+				"text": "OK"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAcceptActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 1
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbCancel"
+				"text": "Cancel"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 1
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0, 0:1.0"
+				"$rowSpecs": "0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignTop": true
+				"$alignLeft": true
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Settings" )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "jcbIncludeNsbtxInNsbmd"
+					"selected": true
+					"text": "Include NSBTX in NSBMD"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbIncludeNsbtxInNsbmdActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbHelp"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/infoIcon.png" )
+					"toolTipText": "Help"
+					"margin": new java.awt.Insets( 2, 2, 2, 2 )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbHelpActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridwidth": 2
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 400, 130 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.buildingeditor2.buildmodel;
 
 import editor.narc2.Narc;
 import editor.narc2.NarcFile;
 import editor.narc2.NarcFolder;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,11 +14,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import utils.BinaryReader;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class BuildModelList {
@@ -51,13 +48,13 @@ public class BuildModelList {
         buildModelsData.add(data);
         calculateModelsName();
     }
-    
-    public void replaceBuildingModel(int index, String path) throws IOException, Exception{
+
+    public void replaceBuildingModel(int index, String path) throws IOException, Exception {
         byte[] data = readBuildingModel(path);
         buildModelsData.set(index, data);
         calculateModelsName();
     }
-    
+
     public void saveBuildingModel(int index, String path) throws IOException {
         byte[] data = buildModelsData.get(index);
         path = Utils.addExtensionToPath(path, "nsbmd");

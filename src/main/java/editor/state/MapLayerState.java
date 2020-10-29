@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.state;
 
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
+
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Set;
 
 /**
- *
  * @author Trifindo
  */
 public class MapLayerState extends State {
@@ -52,14 +48,14 @@ public class MapLayerState extends State {
     @Override
     public void revertState() {
         //TODO: This function doesnt recover extra file data like PER or BDHC files
-        
+
         for (HashMap.Entry<Point, int[][]> mapEntry : mapTileLayers.entrySet()) {
             handler.getMapMatrix().getMapAndCreate(mapEntry.getKey()).getGrid().setTileLayer(layerIndex, mapEntry.getValue());
         }
         for (HashMap.Entry<Point, int[][]> mapEntry : mapHeightLayers.entrySet()) {
             handler.getMapMatrix().getMapAndCreate(mapEntry.getKey()).getGrid().setHeightLayer(layerIndex, mapEntry.getValue());
         }
-        
+
         //Remove maps that were not used
         handler.getMapMatrix().getMatrix().entrySet().removeIf(entry -> !mapTileLayers.containsKey(entry.getKey()));
         
@@ -67,7 +63,7 @@ public class MapLayerState extends State {
         for(MapData mapData : handler.getMapMatrix().getMatrix().values()){
             mapData.getGrid().updateAllMapLayers(handler.useRealTimePostProcessing());
         }*/
-        
+
         //handler.getGrid().setTileLayer(layerIndex, tileLayer);
         //handler.getGrid().setHeightLayer(layerIndex, heightLayer);
     }

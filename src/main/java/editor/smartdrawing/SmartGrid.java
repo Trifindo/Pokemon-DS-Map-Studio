@@ -1,17 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.smartdrawing;
 
 import editor.handler.MapEditorHandler;
 import editor.grid.MapGrid;
+
 import java.util.ArrayList;
+
 import tileset.Tile;
 
 /**
- *
  * @author Trifindo
  */
 public class SmartGrid {
@@ -128,21 +125,21 @@ public class SmartGrid {
                 remainingGrid[i][j] = handler.getActiveTileLayer()[i][j] == prevC;
             }
         }
-        
+
         for (int i = 0; i < MapGrid.cols; i++) {
             for (int j = 0; j < MapGrid.rows; j++) {
-                int tileIndex = handler.getActiveTileLayer()[i][j]; 
-                if(tileIndex != -1 && tileIndex != prevC){
+                int tileIndex = handler.getActiveTileLayer()[i][j];
+                if (tileIndex != -1 && tileIndex != prevC) {
                     Tile tile = handler.getTileset().get(handler.getActiveTileLayer()[i][j]);
                     int xSize = tile.getWidth() - Math.max(0, i + tile.getWidth() - MapGrid.cols);
                     int ySize = tile.getHeight() - Math.max(0, j + tile.getHeight() - MapGrid.rows);
-                    for(int m = 0; m < xSize; m++){
-                        for(int n = 0; n < ySize; n++){
+                    for (int m = 0; m < xSize; m++) {
+                        for (int n = 0; n < ySize; n++) {
                             remainingGrid[i + m][j + n] = false;
                             gridToEdit[i + m][j + n] = false;
                         }
                     }
-                } 
+                }
             }
         }
 

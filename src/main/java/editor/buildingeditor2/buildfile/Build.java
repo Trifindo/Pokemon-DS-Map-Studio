@@ -1,23 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.buildingeditor2.buildfile;
 
 /**
- *
  * @author Trifindo
  */
 public class Build {
-    
+
     public static final int dataSize = 48;
-     
+
     private int modelID;
     private float x, y, z;
     private float scaleX, scaleY, scaleZ;
-    
-    public Build(){
+
+    public Build() {
         this.modelID = 0;
         this.x = 0.0f;
         this.y = 0.0f;
@@ -26,8 +21,8 @@ public class Build {
         this.scaleY = 1.0f;
         this.scaleZ = 1.0f;
     }
-    
-    public Build(int modelID, float x, float y, float z, float scaleX, float scaleY, float scaleZ){
+
+    public Build(int modelID, float x, float y, float z, float scaleX, float scaleY, float scaleZ) {
         this.modelID = modelID;
         this.x = x;
         this.y = y;
@@ -92,7 +87,6 @@ public class Build {
     public void setScaleZ(float scaleZ) {
         this.scaleZ = scaleZ;
     }
-    
-    
-    
+
+
 }

@@ -1,0 +1,340 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, comp jPanel1:::p::p, space u:p::p, comp jPanel2:::p::p, space s:::p, par l:::p {comp jPanel3:::::x, comp jPanel5:::::x}, space s:::p, par l {comp jPanel4:::::x, comp jPanel6:::::x, comp jPanel10:::::x}, space u:::p, par l {comp jPanel9::l:::x, comp jPanel7:::::x, comp jPanel8::l:::x}, space :p::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, par l {comp jPanel2::t:::x, comp jPanel1::t:::x, seq {par l {seq {par l:::p {comp jPanel3:::::x, comp jPanel4:::::x}, space :p::p, par l:::p {comp jPanel5:::p::p, seq {comp jPanel6:::p::p, space :p:9:p, comp jPanel10:::::x}}}, seq l {comp jPanel9:::p::p, space :::p, comp jPanel7:::p::p, space :::p, comp jPanel8:::p::p}}, space :0:0:x}}, space :::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "NSBTX Editor"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, par l {seq {comp jScrollPane1:::p:130:p, space :0:0:x}, seq {comp jLabel7:::p::p, space :::x, comp jbMoveTextureUp:::p::p, space :::p, comp jbMoveTextureDown:::p::p}}, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1:::::x, space u:::p, par b {comp jLabel7::b:p::p, comp jbMoveTextureUp::b:p::p, comp jbMoveTextureDown::b:p::p}, space :::p}}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Texture Names" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane1"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					"preferredSize": new java.awt.Dimension( 130, 130 )
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlTextureNames"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlTextureNamesValueChanged", true ) )
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbMoveTextureUp"
+					"text": "▲"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveTextureUpActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel7"
+					"text": "Move:"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbMoveTextureDown"
+					"text": "▼"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMoveTextureDownActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, par l {comp jScrollPane2:::::x, seq {comp jLabel9:::p::p, space :::x, comp jbMovePaletteUp:::p::p, space :::p, comp jbMovePaletteDown:::p::p}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane2:::::x, space u:::p, par b {comp jLabel9::b:p::p, comp jbMovePaletteUp::b:p::p, comp jbMovePaletteDown::b:p::p}, space :::p}}"
+			} ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( "Palette Names" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane2"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					"preferredSize": new java.awt.Dimension( 130, 130 )
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlPaletteNames"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlPaletteNamesValueChanged", true ) )
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel9"
+					"text": "Move:"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbMovePaletteUp"
+					"text": "▲"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMovePaletteUpActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbMovePaletteDown"
+					"text": "▼"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbMovePaletteDownActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp nsbtxDisplay:::p::p, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp nsbtxDisplay:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel3"
+				"border": new javax.swing.border.TitledBorder( "Texture Display" )
+				add( new FormContainer( "editor.nsbtx2.NsbtxDisplay2", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:158:x}"
+					"$verticalGroup": "par l {space :0:158:x}"
+				} ) {
+					name: "nsbtxDisplay"
+					"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, par l {seq {comp jcbTransparentColor:::p::p, space :0:0:x}, comp jbExportTextureImg:::::x, seq {par l {comp jLabel1::l:p::p, comp jLabel2::l:p::p}, space s:::p, par l {comp jcbColorTexture:::::x, seq {comp jtfTextureName:::p:90:p, space :::x, comp jbApplyTextureName:::p::p}}}, seq l {par l {comp jLabel3::l:p::p, comp jLabel4::l:p::p}, space :p:14:p, par l {comp jtfTextureHeight:::::x, comp jtfTextureWidth:::::x}}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par b {comp jLabel1::b:p::p, comp jcbColorTexture::b:p::p}, space :::p, par b {comp jLabel2::b:p::p, comp jtfTextureName::b:p::p, comp jbApplyTextureName::b:p::p}, space :::p, par b {comp jLabel3::b:p::p, comp jtfTextureWidth::b:p::p}, space :::p, par b {comp jLabel4::b:p::p, comp jtfTextureHeight::b:p::p}, space u:::p, comp jcbTransparentColor:::p::p, space :::x, comp jbExportTextureImg:::p::p, space :::p}}"
+			} ) {
+				name: "jPanel4"
+				"border": new javax.swing.border.TitledBorder( "Texture Properties" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "Color format:"
+				} )
+				add( new FormComponent( "javax.swing.JComboBox" ) {
+					name: "jcbColorTexture"
+					"model": new javax.swing.DefaultComboBoxModel {
+						selectedItem: "Palette 4"
+						addElement( "Palette 4" )
+						addElement( "Palette 16" )
+						addElement( "Palette 256" )
+						addElement( "A3I5" )
+						addElement( "A5I3" )
+					}
+					"enabled": false
+					"minimumSize": new java.awt.Dimension( 120, 20 )
+					"preferredSize": new java.awt.Dimension( 120, 20 )
+					auxiliary() {
+						"JavaCodeGenerator.typeParameters": "String"
+					}
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel2"
+					"text": "Texture Name: "
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfTextureName"
+					"text": " "
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel3"
+					"text": "Texture Width: "
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel4"
+					"text": "Texture Height: "
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfTextureWidth"
+					"text": " "
+					"enabled": false
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfTextureHeight"
+					"text": " "
+					"enabled": false
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbExportTextureImg"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+					"text": "Export Texture Image..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportTextureImgActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "jcbTransparentColor"
+					"text": "Transparent color"
+					"enabled": false
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbApplyTextureName"
+					"text": "Apply"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyTextureNameActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp paletteDisplay:::p::p, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp paletteDisplay:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel5"
+				"border": new javax.swing.border.TitledBorder( "Palette Display" )
+				add( new FormContainer( "editor.nsbtx2.PaletteDisplay2", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:160:x}"
+					"$verticalGroup": "par l {space :0:160:x}"
+				} ) {
+					name: "paletteDisplay"
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, comp jLabel6:::p::p, space s:::p, comp jtfPaletteName:::::x, space :::p, comp jbApplyPaletteName:::p::p, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par b {comp jLabel6::b:p::p, comp jtfPaletteName::b:p::p, comp jbApplyPaletteName::b:p::p}, space :::x}}"
+			} ) {
+				name: "jPanel6"
+				"border": new javax.swing.border.TitledBorder( "Palette Properties" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel6"
+					"text": "Palette Name:"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfPaletteName"
+					"text": " "
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbApplyPaletteName"
+					"text": "Apply"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyPaletteNameActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, par l {comp jbReplaceTexture:::::x, comp jbAddTextures:::::x, comp jbRemoveTexture::l:::x}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jbReplaceTexture:::p::p, space :::p, comp jbAddTextures:::p::p, space :::p, comp jbRemoveTexture:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel7"
+				"border": new javax.swing.border.TitledBorder( "Texture Editor" )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbReplaceTexture"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ReplaceIcon.png" )
+					"text": "Replace Only Texture..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceTextureActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAddTextures"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+					"text": "Add Only Textures..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddTexturesActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbRemoveTexture"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+					"text": "Remove Only Texture"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveTextureActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {comp jbReplacePalette:::::x, comp jbRemovePalette::l:::x, comp jbAddPalettes::l:::x}, space :::p}}"
+				"$verticalGroup": "par l {seq t {space :::p, comp jbReplacePalette:::p::p, space :::p, comp jbAddPalettes:::p::p, space :::p, comp jbRemovePalette:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel8"
+				"border": new javax.swing.border.TitledBorder( "Palette Editor" )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbRemovePalette"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+					"text": "Remove Only Palette"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemovePaletteActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbReplacePalette"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ReplaceIcon.png" )
+					"text": "Replace Only Palette..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplacePaletteActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAddPalettes"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+					"text": "Add Only Palettes..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddPalettesActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {comp jbReplaceTextureAndPalette:::::x, comp jbAddTextureAndPalette::l:::x, comp RemoveTextureAndPalette::l:::x}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jbReplaceTextureAndPalette:::p::p, space :::p, comp jbAddTextureAndPalette:::p::p, space :::p, comp RemoveTextureAndPalette:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel9"
+				"border": new javax.swing.border.TitledBorder( "Texture and Palette Editor" )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAddTextureAndPalette"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+					"text": "Add Textures and Palettes..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddTextureAndPaletteActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbReplaceTextureAndPalette"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ReplaceIcon.png" )
+					"text": "Replace Texture and Palette..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbReplaceTextureAndPaletteActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "RemoveTextureAndPalette"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+					"text": "Remove Texture and Palette"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "RemoveTextureAndPaletteActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {comp jbImportTexAndPalsNsbtx:::::x, comp jbImportTexNsbtx:::::x, comp jbImportPalNsbtx::l:::x}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jbImportTexAndPalsNsbtx:::p::p, space :::p, comp jbImportTexNsbtx:::p::p, space :::p, comp jbImportPalNsbtx:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel10"
+				"border": new javax.swing.border.TitledBorder( "NSBTX Tools" )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbImportTexAndPalsNsbtx"
+					"text": "Import Textures and Palettes from NSBTX..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportTexAndPalsNsbtxActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbImportTexNsbtx"
+					"text": "Import Only Textures from NSBTX..."
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportTexNsbtxActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbImportPalNsbtx"
+					"text": "Import Only Palettes from NSBTX..."
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportPalNsbtxActionPerformed", true ) )
+				} )
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "jMenuBar1"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "jmFile"
+					"text": "File"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiNewNsbtx"
+						"text": "New NSBTX..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiNewNsbtxActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator1"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiOpenNsbtx"
+						"text": "Open NSBTX..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiOpenNsbtxActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JPopupMenu$Separator" ) {
+						name: "jSeparator2"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiSaveNsbtx"
+						"text": "Save NSBTX..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiSaveNsbtxActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jmiSaveNsbtxAs"
+						"text": "Save NSBTX as..."
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jmiSaveNsbtxAsActionPerformed", true ) )
+					} )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 1425, 645 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

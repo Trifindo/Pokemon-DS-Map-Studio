@@ -1,19 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.bdhc;
 
 /**
- *
  * @author Trifindo
  */
 public class BdhcPoint {
     public int x, y;
     public float z;
-    
-    public BdhcPoint(int x, int y, float z){
+
+    public BdhcPoint(int x, int y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -51,6 +46,6 @@ public class BdhcPoint {
         }
         return true;
     }
-    
-    
+
+
 }

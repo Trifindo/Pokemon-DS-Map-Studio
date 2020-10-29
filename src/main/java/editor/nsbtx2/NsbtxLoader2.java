@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.nsbtx2;
 
 import editor.nsbtx2.exceptions.NsbtxTextureFormatException;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -15,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
  * @author Trifindo
  */
 public class NsbtxLoader2 {
@@ -28,7 +24,7 @@ public class NsbtxLoader2 {
     private static final int paletteInfoSize = 0x04;
     private static final int paletteNameSize = 0x10;
 
-    public static Nsbtx2 loadNsbtx(byte[] data){
+    public static Nsbtx2 loadNsbtx(byte[] data) {
         int texSectionSize = readUnsignedInt(data, 0x18);
         int textureDataSize = readUnsignedShort(data, 0x20) << 3;
         int textureInfoOffset = readUnsignedShort(data, 0x22) + headerTexOffset;
@@ -83,38 +79,38 @@ public class NsbtxLoader2 {
                 System.out.println("ERROR LOADING PALETTE " + i);
             }
         }
-        
+
         //Generate NSBTX
         Nsbtx2 nsbtx = new Nsbtx2(textures, palettes);
         //nsbtx.setPath(path);
-        
+
         return nsbtx;
     }
-    
+
     public static Nsbtx2 loadNsbtx(String path) throws IOException {
         File file = new File(path);
         byte[] data = Files.readAllBytes(file.toPath());
 
         Nsbtx2 nsbtx = loadNsbtx(data);
         nsbtx.setPath(path);
-        
+
         return nsbtx;
     }
 
     private static int readUnsignedInt(byte[] data, int offset) {
         byte[] bytes = new byte[]{
-            data[offset],
-            data[offset + 1],
-            data[offset + 2],
-            data[offset + 3]
+                data[offset],
+                data[offset + 1],
+                data[offset + 2],
+                data[offset + 3]
         };
         return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }
 
     private static int readUnsignedShort(byte[] data, int offset) {
         byte[] bytes = new byte[]{
-            data[offset],
-            data[offset + 1]
+                data[offset],
+                data[offset + 1]
         };
         return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getShort();
     }

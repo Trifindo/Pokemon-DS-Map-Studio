@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.imd;
 
 import java.math.BigDecimal;
@@ -11,7 +7,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- *
  * @author Trifindo
  */
 public class PolygonData {
@@ -170,7 +165,7 @@ public class PolygonData {
                     tCoords[i + j] = maxCoordAvailable / imgWidth;
                 }
             }
-            
+
             for (int j = 0; j < tPerPolygon; j += tPerVertex) {
                 if (tCoords[i + j + 1] * imgHeight < minCoordAvailable) {
                     tCoords[i + j + 1] = minCoordAvailable / imgHeight;

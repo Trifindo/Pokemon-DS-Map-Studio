@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.nsbtx;
 
 import java.awt.Color;
@@ -11,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
  * @author Trifindo
  */
 public class Nsbtx {
@@ -123,7 +118,7 @@ public class Nsbtx {
                 int index;
                 if (color.getAlpha() < 250) { //This could be < 255
                     index = 0;
-                    
+
                 } else {
                     index = colors.indexOf(color);
                     if (index == -1) {
@@ -215,7 +210,7 @@ public class Nsbtx {
     }
 
     private short[] getColorIndices(BufferedImage img,
-            ArrayList<Color> colors, int textureIndex, int paletteIndex) {
+                                    ArrayList<Color> colors, int textureIndex, int paletteIndex) {
         short[] colorIndices = new short[img.getWidth() * img.getHeight()];
         for (int j = 0, c = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++, c++) {
@@ -232,7 +227,7 @@ public class Nsbtx {
     }
 
     private short[] getColorIndicesWithTransparency(BufferedImage img,
-            ArrayList<Color> colors) {
+                                                    ArrayList<Color> colors) {
         short[] colorIndices = new short[img.getWidth() * img.getHeight()];
         for (int j = 0, c = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++, c++) {
@@ -273,8 +268,8 @@ public class Nsbtx {
 
     }
 
-    private void drawColorsWithTransparency(BufferedImage img, byte mask, 
-            short[] colorIndices, ArrayList<Color> colors) {
+    private void drawColorsWithTransparency(BufferedImage img, byte mask,
+                                            short[] colorIndices, ArrayList<Color> colors) {
         for (int j = 0, c = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++, c++) {
                 try {
@@ -376,5 +371,5 @@ public class Nsbtx {
 
         return rd * rd + gd * gd + bd * bd;
     }
-    
+
 }

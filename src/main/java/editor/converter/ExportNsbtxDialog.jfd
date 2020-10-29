@@ -1,0 +1,74 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq t {space :::p, par t {comp jPanel2:::::x, comp jPanel1::l:::x, seq t {space :0:0:x, comp jbAccept:::p::p, space u:::p, comp jbCancel:::p::p}}, space :::p}}"
+			"$verticalGroup": "par l {seq t {space :p::p, comp jPanel1:::::x, space :p::p, comp jPanel2:::p::p, space :p::p, par b {comp jbCancel::b:p::p, comp jbAccept::b:p::p}, space :p::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Export Areas as NSBTX (Experimental)"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {comp jScrollCheckboxList::::448:x, seq {par l {comp jLabel1:::p::p, seq l {comp jbSelectAll:::p::p, space u:::p, comp jbDeselectAll:::p::p}}, space :0:0:x}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :p::p, comp jLabel1:::p:14:p, space :p::p, comp jScrollCheckboxList::::108:x, space u:p::p, par b {comp jbSelectAll::b:p::p, comp jbDeselectAll::b:p::p}, space :p::p}}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "NSBTX settings" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "Select the areas that will be exported as NSBTX:"
+				} )
+				add( new FormComponent( "utils.swing.JScrollCheckboxList" ) {
+					name: "jScrollCheckboxList"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbSelectAll"
+					"text": "Select All"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSelectAllActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbDeselectAll"
+					"text": "Deselect All"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbDeselectAllActionPerformed", true ) )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbCancel"
+				"text": "Cancel"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbAccept"
+				"text": "OK"
+				"preferredSize": new java.awt.Dimension( 65, 23 )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAcceptActionPerformed", true ) )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, comp jLabel3:::p::p, space :::p, comp jtfNsbtxFolderPath::::212:x, space :::p, comp jbNsbBrowse:::p::p, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par b {comp jLabel3::b:p::p, comp jtfNsbtxFolderPath::b:p::p, comp jbNsbBrowse::b:p::p}, space :::x}}"
+			} ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( "NSBTX settings" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel3"
+					"text": "NSBTX destination folder path:"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfNsbtxFolderPath"
+					"editable": false
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbNsbBrowse"
+					"text": "Browse..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbNsbBrowseActionPerformed", true ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 400, 300 )
+		} )
+	}
+}

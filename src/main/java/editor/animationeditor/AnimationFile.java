@@ -1,19 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.animationeditor;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import utils.BinaryReader;
 import utils.BinaryWriter;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class AnimationFile {
@@ -24,7 +20,7 @@ public class AnimationFile {
             NullPointerException {
         BinaryReader br = new BinaryReader(path);
 
-        int numAnimations = (int)br.readUInt32();
+        int numAnimations = (int) br.readUInt32();
         animations = new ArrayList<>(numAnimations);
         for (int i = 0; i < numAnimations; i++) {
             String name = Utils.removeLastOcurrences(br.readString(16), '\u0000');
@@ -49,7 +45,7 @@ public class AnimationFile {
         for (int i = 0; i < animations.size(); i++) {
             Animation animation = animations.get(i);
             bw.writeString(animation.getName(), Animation.maxNameSize, (byte) 0);
-            for(int j = 0; j < Animation.maxNumFrames; j++){
+            for (int j = 0; j < Animation.maxNumFrames; j++) {
                 bw.writeUInt8(animation.getFrame(j));
                 bw.writeUInt8(animation.getDelay(j));
             }

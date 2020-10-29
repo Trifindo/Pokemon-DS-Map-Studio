@@ -1,17 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.buildingeditor2;
 
 import editor.handler.MapEditorHandler;
+
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
- *
  * @author Trifindo
  */
 public class BuildingEditorChooser {
@@ -30,7 +26,7 @@ public class BuildingEditorChooser {
             if (isDPPtFolder(folderPath)) {
                 handler.setLastBuildDirectoryUsed(folderPath);
                 BuildHandlerDPPt buildHandler = new BuildHandlerDPPt(folderPath);
-                final BuildingEditorDialogDPPt dialogDPPt = new BuildingEditorDialogDPPt(handler.getMainFrame(), true);
+                final BuildingEditorDialogDPPt dialogDPPt = new BuildingEditorDialogDPPt(handler.getMainFrame());
                 dialogDPPt.init(handler, buildHandler);
                 dialogDPPt.loadGame(fc.getSelectedFile().getPath());
                 dialogDPPt.loadCurrentNsbmd();
@@ -40,7 +36,7 @@ public class BuildingEditorChooser {
             } else if (isHGSSFolder(folderPath)) {
                 handler.setLastBuildDirectoryUsed(folderPath);
                 BuildHandlerHGSS buildHandler = new BuildHandlerHGSS(folderPath);
-                final BuildingEditorDialogHGSS dialogHGSS = new BuildingEditorDialogHGSS(handler.getMainFrame(), true);
+                final BuildingEditorDialogHGSS dialogHGSS = new BuildingEditorDialogHGSS(handler.getMainFrame());
                 dialogHGSS.init(handler, buildHandler);
                 dialogHGSS.loadGame(fc.getSelectedFile().getPath());
                 dialogHGSS.loadCurrentNsbmd();

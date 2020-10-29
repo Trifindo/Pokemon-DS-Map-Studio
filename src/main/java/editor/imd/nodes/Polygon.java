@@ -1,25 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.imd.nodes;
 
 import editor.imd.ImdAttribute;
 import editor.imd.ImdNode;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
-public class Polygon extends ImdNode{
-    
+public class Polygon extends ImdNode {
+
     public Polygon(int index, String name, int vertexSize, int polygonSize,
-            int triangleSize, int quadSize, float[] volumeMin, float volume_r,
-            int mtxPrimSize, boolean useVertexColors) {
+                   int triangleSize, int quadSize, float[] volumeMin, float volume_r,
+                   int mtxPrimSize, boolean useVertexColors) {
         super("polygon");
-        
+
         attributes = new ArrayList<ImdAttribute>() {
             {
                 add(new ImdAttribute("index", index));
@@ -37,10 +33,8 @@ public class Polygon extends ImdNode{
                 add(new ImdAttribute("tex_flag", true));
             }
         };
-        
-        
-        
-        
+
+
     }
-    
+
 }

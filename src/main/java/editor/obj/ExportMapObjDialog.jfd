@@ -1,0 +1,64 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, par l {comp jPanel1:::::x, seq {comp jbAccept:::p:98:p, space ::198:x, comp jbCancel:::p:105:p}}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp jPanel1:::::x, space u:::p, par b {comp jbAccept::b:p::p, comp jbCancel::b:p::p}, space :::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Import Tile Settings"
+			"resizable": false
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {comp jcbVertexColors:::p::p, comp jrbExportAllMapsSeparately::l:p::p, comp jrbExportCurrentMap::l:p::p, comp jrbExportAllMapsJoined::l:p::p}, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jcbVertexColors:::p::p, space s:::p, comp jrbExportAllMapsSeparately:::p:23:p, space u:::p, comp jrbExportAllMapsJoined:::p::p, space u:p::p, comp jrbExportCurrentMap:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Settings" )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "jcbVertexColors"
+					"selected": true
+					"text": "Include Vertex Colors"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbVertexColorsActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "jrbExportAllMapsSeparately"
+					"$buttonGroup": new FormReference( "bgExportMap" )
+					"selected": true
+					"text": "Export All Maps Separately"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "jrbExportCurrentMap"
+					"$buttonGroup": new FormReference( "bgExportMap" )
+					"text": "Export Only Current Map"
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "jrbExportAllMapsJoined"
+					"$buttonGroup": new FormReference( "bgExportMap" )
+					"text": "Export All Maps Joined"
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbAccept"
+				"text": "OK"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAcceptActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jbCancel"
+				"text": "Cancel"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 415, 265 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {
+			name: "bgExportMap"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 316 )
+		} )
+	}
+}

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package utils.swing;
 
 import java.awt.Color;
@@ -11,12 +7,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
- *
  * @author Trifindo
  */
 public class SwingUtils {
-    
-    
+
+
     public static void addListenerToJTextField(JTextField jtf, MutableBoolean enabled, Color color) {
         jtf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -49,5 +44,7 @@ public class SwingUtils {
         public MutableBoolean(boolean value) {
             this.value = value;
         }
-    };
+    }
+
+    ;
 }

@@ -1,0 +1,112 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "0:1.0, 0:1.0"
+			"$rowSpecs": "0:1.0, 0:1.0"
+			"$hGap": 5
+			"$vGap": 5
+			"$alignTop": true
+			"$alignLeft": true
+		} ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0"
+				"$rowSpecs": "0:1.0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignTop": true
+				"$alignLeft": true
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Texture Names" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane1"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlTextureNames"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlTextureNamesValueChanged", true ) )
+					} )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0"
+				"$rowSpecs": "0:1.0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignTop": true
+				"$alignLeft": true
+			} ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( "Palette Names" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane2"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlPaletteNames"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlPaletteNamesValueChanged", true ) )
+					} )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 1
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0"
+				"$rowSpecs": "0:1.0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignTop": true
+				"$alignLeft": true
+			} ) {
+				name: "jPanel3"
+				"border": new javax.swing.border.TitledBorder( "Texture" )
+				add( new FormContainer( "editor.buildingeditor2.tileset.TextureDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:158:x}"
+					"$verticalGroup": "par l {space :0:158:x}"
+				} ) {
+					name: "textureDisplay"
+					"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0"
+				"$rowSpecs": "0:1.0"
+				"$hGap": 5
+				"$vGap": 5
+				"$alignTop": true
+				"$alignLeft": true
+			} ) {
+				name: "jPanel4"
+				"border": new javax.swing.border.TitledBorder( "Palette" )
+				add( new FormContainer( "editor.buildingeditor2.tileset.PaletteDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:160:x}"
+					"$verticalGroup": "par l {space :0:160:x}"
+				} ) {
+					name: "paletteDisplay"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridy": 1
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 370, 430 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

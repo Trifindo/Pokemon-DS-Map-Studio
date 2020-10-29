@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.handler;
 
 import editor.backsound.Backsound;
@@ -11,12 +7,12 @@ import editor.buildingeditor2.buildfile.BuildFile;
 import editor.collisions.Collisions;
 import editor.grid.MapGrid;
 import editor.state.StateHandler;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
- *
  * @author Trifindo
  */
 public class MapData {
@@ -43,7 +39,7 @@ public class MapData {
     public static final int mapThumbnailSize = 64;
     private static final int smallTileSize = 2;
     private BufferedImage mapThumbnail;
-    
+
     //Area index
     private int areaIndex;
 
@@ -55,7 +51,7 @@ public class MapData {
         backsound = new Backsound();
         collisions = new Collisions(handler.getGameIndex());
         buildings = new BuildFile();
-        
+
         areaIndex = 0;
         //System.out.println("Map data created");
     }
@@ -83,14 +79,16 @@ public class MapData {
                     }
 
                     int tileIndex = tiles[maxHeightIndex][i][j];
-                    BufferedImage tileThumbnail = handler.getTileset().get(tileIndex).getSmallThumbnail();
+                    if (tileIndex != -1) {
+                        BufferedImage tileThumbnail = handler.getTileset().get(tileIndex).getSmallThumbnail();
 
-                    g.drawImage(tileThumbnail,
-                            i * smallTileSize,
-                            (MapGrid.cols - j - 1) * smallTileSize - (tileThumbnail.getHeight() - smallTileSize), //+ tileThumbnail.getHeight(), 
-                            null);
+                        g.drawImage(tileThumbnail,
+                                i * smallTileSize,
+                                (MapGrid.cols - j - 1) * smallTileSize - (tileThumbnail.getHeight() - smallTileSize), //+ tileThumbnail.getHeight(),
+                                null);
+                    }
                 } catch (Exception ex) {
-
+                    ex.printStackTrace();
                 }
             }
         }
@@ -140,7 +138,7 @@ public class MapData {
         return mapThumbnail;
     }
 
-    public boolean isUnused(){
+    public boolean isUnused() {
         return grid.isEmpty();
     }
 
@@ -151,7 +149,6 @@ public class MapData {
     public int getAreaIndex() {
         return areaIndex;
     }
-    
-    
-    
+
+
 }

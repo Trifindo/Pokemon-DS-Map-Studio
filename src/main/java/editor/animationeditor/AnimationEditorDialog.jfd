@@ -1,0 +1,161 @@
+JFDML JFormDesigner: "7.0.2.4.305" Java: "11.0.7" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :p::p, par l {comp jPanel2:::::x, seq {comp jPanel3:::p::p, space u:::p, comp jPanel1:::p::p, space u:::p, comp jPanel4:::::x}}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, par t:::p {comp jPanel1::l:::x, comp jPanel4:::::x, comp jPanel3::l:::x}, space s:::p, comp jPanel2:::::x, space :::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Animation Editor"
+			"resizable": false
+			"modal": true
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "formWindowClosed", true ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {par l {seq {space :::p, comp animationDisplay:::p::p}, seq l {space :p:68:p, comp jbPlay:::p::p}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp animationDisplay:::p::p, space s:::p, comp jbPlay:::p:36:p, space :::x}}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "Animation Display" )
+				add( new FormContainer( "editor.animationeditor.AnimationDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {space :0:158:x}"
+					"$verticalGroup": "par l {space :0:158:x}"
+				} ) {
+					name: "animationDisplay"
+					"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbPlay"
+					"foreground": new java.awt.Color( 0, 153, 0, 255 )
+					"text": "▶"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbPlayActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane1:::::x, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp jScrollPane1:::p::p, space :::x}}"
+			} ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( "Frames" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane1"
+					"horizontalScrollBarPolicy": 32
+					"verticalScrollBarPolicy": 21
+					add( new FormContainer( "editor.animationeditor.AnimationFramesDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {space :0:1297:x}"
+						"$verticalGroup": "par l {space :0:96:x}"
+					} ) {
+						name: "animationFramesDisplay"
+						"preferredSize": new java.awt.Dimension( 510, 96 )
+					} )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq t {space :::p, comp jScrollPane3:::p::p, space u:::p, par l:::p {comp jbRemoveFrame:::::x, comp jbAddFrame::l:::x, comp jbOpenNsbtx::l:::x, seq l {comp jLabel2:::p::p, space u:::p, comp jsDelay:::::x}}, space :::x}}"
+				"$verticalGroup": "par l {seq {space :::p, par l {seq l {comp jbOpenNsbtx:::p::p, space u:::p, comp jbAddFrame:::p::p, space :::p, comp jbRemoveFrame:::p::p, space u:::p, par b {comp jsDelay::b:p::p, comp jLabel2::b:p::p}, space :0:0:x}, comp jScrollPane3:::::x}, space :::p}}"
+			} ) {
+				name: "jPanel4"
+				"border": new javax.swing.border.TitledBorder( "NSBTX File" )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbOpenNsbtx"
+					"text": "Open NSBTX"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbOpenNsbtxActionPerformed", true ) )
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane3"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					"preferredSize": new java.awt.Dimension( 130, 130 )
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlTextureNames"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlTextureNamesValueChanged", true ) )
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAddFrame"
+					"text": "Add Frame"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddFrameActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbRemoveFrame"
+					"text": "Remove Frame"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveFrameActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JSpinner" ) {
+					name: "jsDelay"
+					"model": new javax.swing.SpinnerNumberModel( 0, 0, 254, 1 )
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsDelayStateChanged", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel2"
+					"text": "Delay:"
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, comp jScrollPane2:::p::p, space u:::p, par l {comp jbOpenAnimationFile:::::x, comp jbSaveAnimationFile::t:::x, comp jbAddAnimation::l:::x, comp jbRemoveAnimation::l:::x, seq {par l {seq l {comp jtfAnimationName:::p:90:p, space :::p, comp jbApply:::p::p}, comp jLabel1:::p::p}, space :0:0:x}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par l {comp jScrollPane2:::::x, seq {comp jbOpenAnimationFile:::p::p, space :::p, comp jbSaveAnimationFile:::p::p, space s:::p, comp jbAddAnimation:::p::p, space :::p, comp jbRemoveAnimation:::p::p, space u:::p, comp jLabel1:::p::p, space :::p, par b {comp jtfAnimationName::b:p::p, comp jbApply::b:p::p}, space :0:0:x}}, space :::p}}"
+			} ) {
+				name: "jPanel3"
+				"border": new javax.swing.border.TitledBorder( "Animation List" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane2"
+					"horizontalScrollBarPolicy": 31
+					"verticalScrollBarPolicy": 22
+					"preferredSize": new java.awt.Dimension( 130, 130 )
+					add( new FormComponent( "javax.swing.JList" ) {
+						name: "jlAnimationNames"
+						"model": new javax.swing.DefaultListModel
+						"selectionMode": 0
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "jlAnimationNamesValueChanged", true ) )
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbOpenAnimationFile"
+					"text": "Open Animation File"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbOpenAnimationFileActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbSaveAnimationFile"
+					"text": "Save Animation File"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSaveAnimationFileActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAddAnimation"
+					"text": "Add Animation"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddAnimationActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbRemoveAnimation"
+					"text": "Remove Animation"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveAnimationActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfAnimationName"
+					"text": " "
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbApply"
+					"text": "Apply"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "Animation name:"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 1335, 485 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

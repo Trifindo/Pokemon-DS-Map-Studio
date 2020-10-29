@@ -1,74 +1,70 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.bdhc;
 
 import editor.handler.MapEditorHandler;
+
 import java.util.ArrayList;
 
 /**
- *
  * @author Trifindo
  */
 public class BdhcHandler {
-    
+
     private MapEditorHandler handler;
     //private Bdhc bdhc;
     private int indexSelected = 0;
     private BdhcEditorDialog dialog;
-    
-    public BdhcHandler(BdhcEditorDialog dialog){
+
+    public BdhcHandler(BdhcEditorDialog dialog) {
         this.dialog = dialog;
-        
+
         indexSelected = 0;
     }
-    
-    public void init(MapEditorHandler handler){
+
+    public void init(MapEditorHandler handler) {
         this.handler = handler;
         //this.bdhc = handler.getBdhc();
     }
-    
-    public Bdhc getBdhc(){
+
+    public Bdhc getBdhc() {
         return handler.getBdhc();
     }
-    
-    public void setBdhc(Bdhc bdhc){
+
+    public void setBdhc(Bdhc bdhc) {
         this.handler.setBdhc(bdhc);
     }
-    
-    public void addPlate(){
+
+    public void addPlate() {
         handler.getBdhc().addPlate();
     }
-    
-    public void setSelectedPlate(int index){
+
+    public void setSelectedPlate(int index) {
         this.indexSelected = index;
     }
-    
-    public Plate getSelectedPlate(){
+
+    public Plate getSelectedPlate() {
         return handler.getBdhc().getPlate(indexSelected);
     }
-    
-    public int getSelectedPlateIndex(){
+
+    public int getSelectedPlateIndex() {
         return indexSelected;
     }
-    
-    public void removeSelectedPlate(){
+
+    public void removeSelectedPlate() {
         handler.getBdhc().getPlates().remove(indexSelected);
-        if(indexSelected > 0){
+        if (indexSelected > 0) {
             indexSelected--;
-        }else{
+        } else {
             indexSelected = 0;
         }
-        
+
     }
-    
-    public ArrayList<Plate> getPlates(){
+
+    public ArrayList<Plate> getPlates() {
         return handler.getBdhc().getPlates();
     }
-    
-    public BdhcEditorDialog getDialog(){
+
+    public BdhcEditorDialog getDialog() {
         return dialog;
     }
 }

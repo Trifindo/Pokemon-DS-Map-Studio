@@ -1,0 +1,138 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq t {space :::p, par l {comp jPanel1:::::x, comp jPanel2:::::x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp jPanel2:::::x, space :::p, comp jPanel1:::p::p, space :p::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Resulting IMD files info"
+			"modal": true
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowActivated", "formWindowActivated", true ) )
+			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosed", "formWindowClosed", true ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+				name: "jPanel1"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAccept"
+					"text": "OK"
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAcceptActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :p::p, par l {comp jScrollPane1::l:::x, seq l {comp jLabel2:::p::p, space u:::p, comp jlFilesProcessed:::p:44:p}, seq l {comp jLabel4:::p::p, space u:::p, comp jlFilesConverted:::p:44:p}, seq l {comp jLabel6:::p::p, space u:::p, comp jlFilesWithWarnings:::p:44:p}, seq l {comp jLabel8:::p::p, space u:::p, comp jlFilesNotConverted:::p:44:p}, seq l {comp jLabel5:::p::p, space u:::p, comp jlResult:::p:572:p}, seq l {comp jLabel1:::p::p, space u:p::p, comp jProgressBar1:::::x, space u:p::p, comp jLabel3:::p::p, space :p::p, comp jlStatus:::p:153:p}}, space :p::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par l {seq {comp jScrollPane1::::176:x, space :p:21:p, par l:::p {comp jLabel1:::::x, comp jProgressBar1:::::x}}, seq {space :0:0:x, par b {comp jLabel3::b:p::p, comp jlStatus::b:p::p}}}, space u:::p, par b {comp jLabel2::b:p::p, comp jlFilesProcessed::b:p::p}, space :::p, par b {comp jLabel4::b:p:14:p, comp jlFilesConverted::b:p::p}, space :::p, par b {comp jLabel6::b:p:14:p, comp jlFilesWithWarnings::b:p::p}, space :::p, par b {comp jLabel8::b:p:14:p, comp jlFilesNotConverted::b:p::p}, space u:::p, par b {comp jLabel5::b:p::p, comp jlResult::b:p::p}, space :p:9:p}}"
+			} ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( "Export IMD info" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane1"
+					add( new FormComponent( "javax.swing.JTable" ) {
+						name: "jTable1"
+						"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector, new java.util.Vector {
+							add( "Name" )
+							add( "Status" )
+							add( "# Materials" )
+							add( "# Vertices" )
+							add( "# Polygons" )
+							add( "# Triangles" )
+							add( "# Quads" )
+						}, new java.util.Vector {
+							add( class java.lang.Object )
+							add( class java.lang.Object )
+							add( class java.lang.Integer )
+							add( class java.lang.Integer )
+							add( class java.lang.Integer )
+							add( class java.lang.Integer )
+							add( class java.lang.Integer )
+						}, new java.util.Vector {
+							add( false )
+							add( false )
+							add( false )
+							add( false )
+							add( false )
+							add( false )
+							add( false )
+						}, new java.util.Vector {
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						} )
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "IMD exporting progress:"
+				} )
+				add( new FormComponent( "javax.swing.JProgressBar" ) {
+					name: "jProgressBar1"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel2"
+					"text": "Files processed:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlFilesProcessed"
+					"font": new java.awt.Font( "Tahoma", 1, 11 )
+					"text": "0"
+					"toolTipText": ""
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel4"
+					"text": "Files converted into IMD:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlFilesConverted"
+					"font": new java.awt.Font( "Tahoma", 1, 11 )
+					"text": "0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel6"
+					"text": "Files converted but with warnings :"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlFilesWithWarnings"
+					"font": new java.awt.Font( "Tahoma", 1, 11 )
+					"text": "0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel8"
+					"text": "Files not converted:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlFilesNotConverted"
+					"font": new java.awt.Font( "Tahoma", 1, 11 )
+					"text": "0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel3"
+					"text": "Status:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlStatus"
+					"font": new java.awt.Font( "Tahoma", 1, 11 )
+					"text": "Converting..."
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel5"
+					"text": "Result:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jlResult"
+					"font": new java.awt.Font( "Tahoma", 1, 12 )
+					"text": " "
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 725, 465 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

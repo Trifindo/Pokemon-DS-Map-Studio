@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package editor.buildingeditor2;
 
 import editor.buildingeditor2.buildmodel.BuildModelMatshp;
@@ -18,10 +14,12 @@ import editor.buildingeditor2.tileset.BuildTilesetList;
 import editor.game.GameFileSystemHGSS;
 import editor.narc2.Narc;
 import editor.narc2.NarcIO;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import nitroreader.nsbmd.NSBMD;
 import nitroreader.nsbmd.sbccommands.MAT;
 import nitroreader.nsbmd.sbccommands.SBCCommand;
@@ -29,7 +27,6 @@ import nitroreader.nsbmd.sbccommands.SHP;
 import utils.Utils;
 
 /**
- *
  * @author Trifindo
  */
 public class BuildHandlerHGSS {
@@ -49,7 +46,7 @@ public class BuildHandlerHGSS {
     private BuildTilesetList buildTilesetList;
     private AreaBuildList areaBuildList;
     private MapAnimations mapAnimations;
-    
+
 
     public BuildHandlerHGSS(String gameFolderPath) {
         this.gameFolderPath = gameFolderPath;
@@ -111,10 +108,10 @@ public class BuildHandlerHGSS {
 
             Narc areaBuildListNarc = NarcIO.loadNarc(getGameFilePath(gameFileSystem.getAreaBuildModelPath()));
             areaBuildList = new AreaBuildList(areaBuildListNarc);
-            
+
             Narc mapAnimsNarc = NarcIO.loadNarc(getGameFilePath(gameFileSystem.getMapAnimationsPath()));
             mapAnimations = new MapAnimations(mapAnimsNarc);
-            
+
 
         } catch (Exception ex) {
             buildModelList[0] = null;
@@ -266,7 +263,7 @@ public class BuildHandlerHGSS {
     public void saveAnimationFile(int index, String path) throws IOException {
         buildModelAnims.saveAnimation(index, path);
     }
-    
+
     public void addMapAnimationFile(String path) throws IOException {
         mapAnimations.addAnimation(path);
     }
@@ -368,6 +365,6 @@ public class BuildHandlerHGSS {
     public MapAnimations getMapAnimations() {
         return mapAnimations;
     }
-    
+
 
 }

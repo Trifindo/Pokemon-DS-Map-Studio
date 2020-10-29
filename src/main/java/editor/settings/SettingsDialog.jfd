@@ -1,0 +1,69 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "this"
+			"title": "Settings"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				name: "dialogPane"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets dialog,hidemode 3"
+					"$columnConstraints": "[fill][grow,fill]"
+					"$rowConstraints": "[]"
+				} ) {
+					name: "contentPanel"
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label1"
+						"text": "Theme:"
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
+					} )
+					add( new FormComponent( "javax.swing.JComboBox" ) {
+						name: "jcmbTheme"
+						"model": new javax.swing.DefaultComboBoxModel {
+							selectedItem: "Native"
+							addElement( "Native" )
+							addElement( "FlatLaf" )
+							addElement( "FlatLaf Dark" )
+						}
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 0"
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "Center"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets dialog,alignx right"
+					"$columnConstraints": "[button,fill][button,fill]"
+					"$rowSpecs": "[fill]"
+				} ) {
+					name: "buttonBar"
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "okButton"
+						"text": "OK"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "okButtonActionPerformed", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "cancelButton"
+						"text": "Cancel"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "cancelButtonActionPerformed", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 0"
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "South"
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 325, 125 )
+		} )
+	}
+}
