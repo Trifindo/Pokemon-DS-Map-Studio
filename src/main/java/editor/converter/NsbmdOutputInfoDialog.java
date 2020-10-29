@@ -152,7 +152,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                 formWindowClosed(e);
             }
         });
-        Container contentPane = getContentPane();
+        var contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
             "insets 0,hidemode 3,gap 5 5",
             // columns
@@ -179,6 +179,19 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
 
             //======== jPanel2 ========
             {
+                jPanel2.setLayout(new MigLayout(
+                    "insets 0,hidemode 3,gap 5 5",
+                    // columns
+                    "[fill]" +
+                    "[grow,fill]",
+                    // rows
+                    "[fill]" +
+                    "[fill]" +
+                    "[fill]" +
+                    "[fill]" +
+                    "[fill]" +
+                    "[fill]" +
+                    "[fill]"));
 
                 //======== jScrollPane1 ========
                 {
@@ -202,113 +215,57 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                     jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                     jScrollPane1.setViewportView(jTable1);
                 }
+                jPanel2.add(jScrollPane1, "cell 0 0 2 1");
 
                 //---- jLabel1 ----
                 jLabel1.setText("NSBMD exporting progress:");
+                jPanel2.add(jLabel1, "cell 0 1");
+                jPanel2.add(jProgressBar1, "cell 1 1");
 
                 //---- jLabel2 ----
                 jLabel2.setText("Files processed:");
+                jPanel2.add(jLabel2, "cell 0 3");
 
                 //---- jlFilesProcessed ----
                 jlFilesProcessed.setFont(new Font("Tahoma", Font.BOLD, 11));
                 jlFilesProcessed.setText("0");
+                jPanel2.add(jlFilesProcessed, "cell 1 3");
 
                 //---- jLabel4 ----
                 jLabel4.setText("Files converted into NSBMD:");
+                jPanel2.add(jLabel4, "cell 0 4");
 
                 //---- jlFilesConverted ----
                 jlFilesConverted.setFont(new Font("Tahoma", Font.BOLD, 11));
                 jlFilesConverted.setText("0");
+                jPanel2.add(jlFilesConverted, "cell 1 4");
 
                 //---- jLabel8 ----
                 jLabel8.setText("Files not converted:");
+                jPanel2.add(jLabel8, "cell 0 5");
 
                 //---- jlFilesNotConverted ----
                 jlFilesNotConverted.setFont(new Font("Tahoma", Font.BOLD, 11));
                 jlFilesNotConverted.setText("0");
+                jPanel2.add(jlFilesNotConverted, "cell 1 5");
 
                 //---- jLabel3 ----
                 jLabel3.setText("Status:");
+                jPanel2.add(jLabel3, "cell 0 2");
 
                 //---- jlStatus ----
                 jlStatus.setFont(new Font("Tahoma", Font.BOLD, 11));
                 jlStatus.setText("Converting...");
+                jPanel2.add(jlStatus, "cell 1 2");
 
                 //---- jLabel5 ----
                 jLabel5.setText("Result:");
+                jPanel2.add(jLabel5, "cell 0 6");
 
                 //---- jlResult ----
                 jlResult.setFont(new Font("Tahoma", Font.BOLD, 12));
                 jlResult.setText(" ");
-
-                GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
-                jPanel2.setLayout(jPanel2Layout);
-                jPanel2Layout.setHorizontalGroup(
-                    jPanel2Layout.createParallelGroup()
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel2Layout.createParallelGroup()
-                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jlResult, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGroup(jPanel2Layout.createParallelGroup()
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                            .addComponent(jLabel4)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jlFilesConverted, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                            .addComponent(jLabel8)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jlFilesNotConverted, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                            .addComponent(jLabel3)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jlStatus, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                            .addComponent(jLabel2)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jlFilesProcessed, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)))
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)))
-                            .addContainerGap())
-                );
-                jPanel2Layout.setVerticalGroup(
-                    jPanel2Layout.createParallelGroup()
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-                            .addGap(21, 21, 21)
-                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel3)
-                                .addComponent(jlStatus))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel2)
-                                .addComponent(jlFilesProcessed))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jlFilesConverted))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel8, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jlFilesNotConverted))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel5)
-                                .addComponent(jlResult))
-                            .addGap(9, 9, 9))
-                );
+                jPanel2.add(jlResult, "cell 1 6");
             }
             jSplitPane1.setLeftComponent(jPanel2);
 
