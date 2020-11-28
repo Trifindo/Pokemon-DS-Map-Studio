@@ -6,7 +6,7 @@ Pokemon DS Map Studio is a tool for creating gen 4 and gen 5 Pokémon games' map
 It doesn't require 3D modeling, instead it provides a tilemap-like interface that is automatically converted in a 3D model.
 Note that this tool **DOES NOT** import maps from the original games, neither it can modify them.
 
-![Screenshot of PDSMS](https://i.imgur.com/8GNJD8V.png)
+![Screenshot of PDSMS](PDSMS_2_1.png)
 
 ### Supported games:
 - Pokemon Diamond/Pearl
