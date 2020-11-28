@@ -12,7 +12,6 @@ Note that this tool **DOES NOT** import maps from the original games, neither it
 - Pokemon Diamond/Pearl
 - Pokemon Platinum
 - Pokemon Heart Gold/Soul Silver
-### Not completely working
 - Pokemon Black/White
 - Pokemon Black 2/ White 2
 
