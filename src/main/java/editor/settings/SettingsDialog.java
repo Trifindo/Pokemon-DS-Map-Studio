@@ -46,41 +46,47 @@ public class SettingsDialog extends JDialog {
 
         //======== dialogPane ========
         {
-            dialogPane.setLayout(new BorderLayout());
+            dialogPane.setLayout(new MigLayout(
+                "insets 0,hidemode 3,gap 0 0",
+                // columns
+                "[grow,fill]",
+                // rows
+                "[grow,fill]" +
+                "[fill]"));
 
             //======== contentPanel ========
             {
                 contentPanel.setLayout(new MigLayout(
-                        "insets dialog,hidemode 3",
-                        // columns
-                        "[fill]" +
-                                "[grow,fill]",
-                        // rows
-                        "[]"));
+                    "insets dialog,hidemode 3",
+                    // columns
+                    "[fill]" +
+                    "[grow,fill]",
+                    // rows
+                    "[]"));
 
                 //---- label1 ----
                 label1.setText("Theme:");
                 contentPanel.add(label1, "cell 0 0");
 
                 //---- jcmbTheme ----
-                jcmbTheme.setModel(new DefaultComboBoxModel<>(new String[]{
-                        "Native",
-                        "FlatLaf",
-                        "FlatLaf Dark"
+                jcmbTheme.setModel(new DefaultComboBoxModel<>(new String[] {
+                    "Native",
+                    "FlatLaf",
+                    "FlatLaf Dark"
                 }));
                 contentPanel.add(jcmbTheme, "cell 1 0");
             }
-            dialogPane.add(contentPanel, BorderLayout.CENTER);
+            dialogPane.add(contentPanel, "cell 0 0");
 
             //======== buttonBar ========
             {
                 buttonBar.setLayout(new MigLayout(
-                        "insets dialog,alignx right",
-                        // columns
-                        "[button,fill]" +
-                                "[button,fill]",
-                        // rows
-                        null));
+                    "insets dialog,alignx right",
+                    // columns
+                    "[button,fill]" +
+                    "[button,fill]",
+                    // rows
+                    "[fill]"));
 
                 //---- okButton ----
                 okButton.setText("OK");
@@ -92,10 +98,10 @@ public class SettingsDialog extends JDialog {
                 cancelButton.addActionListener(e -> cancelButtonActionPerformed(e));
                 buttonBar.add(cancelButton, "cell 1 0");
             }
-            dialogPane.add(buttonBar, BorderLayout.SOUTH);
+            dialogPane.add(buttonBar, "cell 0 1");
         }
         contentPane.add(dialogPane, BorderLayout.CENTER);
-        pack();
+        setSize(220, 140);
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

@@ -1,5 +1,6 @@
 package editor.smartdrawing;
 
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -7,11 +8,6 @@ import javax.swing.GroupLayout;
 import editor.grid.MapGrid;
 import editor.handler.MapEditorHandler;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -46,8 +42,9 @@ public class SmartGridEditableDisplay extends JPanel {
 
     private void formMouseMoved(MouseEvent evt) {
         if (handler.getTileset().size() > 0) {
-            int x = evt.getX() / MapGrid.tileSize;
-            int y = evt.getY() / MapGrid.tileSize;
+            float scale = getScale();
+            int x = (int)(evt.getX() / (MapGrid.tileSize * scale));
+            int y = (int)(evt.getY() / (MapGrid.tileSize * scale));
             int gridIndex = y / SmartGrid.height;
             y %= SmartGrid.height;
             System.out.println(x + "  " + y);
@@ -68,8 +65,9 @@ public class SmartGridEditableDisplay extends JPanel {
 
     private void formMousePressed(MouseEvent evt) {
         if (handler.getTileset().size() > 0) {
-            int x = evt.getX() / MapGrid.tileSize;
-            int y = evt.getY() / MapGrid.tileSize;
+            float scale = getScale();
+            int x = (int)(evt.getX() / (MapGrid.tileSize * scale));
+            int y = (int)(evt.getY() / (MapGrid.tileSize * scale));
             int gridIndex = y / SmartGrid.height;
             y %= SmartGrid.height;
             //System.out.println(x + "  " + y);
@@ -136,6 +134,10 @@ public class SmartGridEditableDisplay extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        float scale = getScale();
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.scale(scale, scale);
 
         if (gridImage != null && handler != null) {
             for (int k = 0; k < smartGridArray.size(); k++) {
@@ -240,6 +242,10 @@ public class SmartGridEditableDisplay extends JPanel {
             Collections.swap(smartGridArray, index, index + 1);
             handler.setSmartGridIndexSelected(index + 1);
         }
+    }
+
+    private float getScale(){
+        return getWidth() / (float)(SmartGrid.width * MapGrid.tileSize);
     }
 
     private void initComponents() {

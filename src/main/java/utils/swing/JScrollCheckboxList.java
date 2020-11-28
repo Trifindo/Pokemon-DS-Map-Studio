@@ -6,6 +6,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import java.awt.*;
 
 /**
  * @author Trifindo
@@ -39,5 +40,6 @@ public class JScrollCheckboxList extends JScrollPane {
             model.getElementAt(i).setEnabled(enabled);
         }
     }
+
 
 }

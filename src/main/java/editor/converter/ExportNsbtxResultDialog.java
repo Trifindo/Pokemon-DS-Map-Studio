@@ -6,8 +6,8 @@ import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
 
-import editor.nsbtx2.*;
-import editor.nsbtx2.Nsbtx2;
+import formats.nsbtx2.*;
+import formats.nsbtx2.Nsbtx2;
 
 /**
  * @author Trifindo

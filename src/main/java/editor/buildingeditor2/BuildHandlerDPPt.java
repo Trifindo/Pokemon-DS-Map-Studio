@@ -11,9 +11,8 @@ import editor.buildingeditor2.areadata.AreaDataListDPPt;
 import editor.buildingeditor2.tileset.BuildTileset;
 import editor.buildingeditor2.tileset.BuildTilesetList;
 import editor.game.GameFileSystemDPPt;
-import editor.handler.MapEditorHandler;
-import editor.narc2.Narc;
-import editor.narc2.NarcIO;
+import formats.narc2.Narc;
+import formats.narc2.NarcIO;
 
 import java.io.File;
 import java.io.IOException;
@@ -140,7 +139,7 @@ public class BuildHandlerDPPt {
                 buildModelMatshp.addBuildingMaterials(new ArrayList<>());
             }
 
-            buildModelAnimeList.addBuildingAnimation(new ArrayList<>(), (byte) -1);
+            buildModelAnimeList.addBuildingAnimation(new ArrayList<>(), (byte) -1, false);
 
         } catch (Exception ex) {
             throw new IOException();
@@ -151,7 +150,7 @@ public class BuildHandlerDPPt {
         try {
             buildModelList.replaceBuildingModel(index, path);
             buildModelMatshp.replaceBuildingMaterials(index, new ArrayList<>());
-            buildModelAnimeList.replaceBuildingAnimation(index, new ArrayList<>(), (byte) -1);
+            buildModelAnimeList.replaceBuildingAnimation(index, new ArrayList<>(), (byte) -1, false);
         } catch (Exception ex) {
             throw new IOException();
         }

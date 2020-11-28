@@ -4,13 +4,13 @@ package editor.handler;
 import editor.mapmatrix.MapMatrix;
 import editor.grid.MapGrid;
 import editor.MainFrame;
-import editor.backsound.Backsound;
-import editor.bdhc.Bdhc;
+import formats.backsound.Backsound;
+import formats.bdhc.Bdhc;
 import editor.bordermap.BorderMapsGrid;
 import editor.buildingeditor2.buildfile.BuildFile;
-import editor.collisions.Collisions;
+import formats.bdhcam.Bdhcam;
+import formats.collisions.Collisions;
 import editor.game.Game;
-import editor.grid.MapLayerGL;
 import editor.smartdrawing.SmartGrid;
 import editor.state.MapLayerState;
 import editor.state.StateHandler;
@@ -311,6 +311,23 @@ public class MapEditorHandler {
         }
     }
 
+    public boolean isLayerTheOnlyActive(int index) {
+        MapGrid grid = getCurrentMap().getGrid();
+        for(int i = 0; i < grid.numLayers; i++){
+            if(renderLayers[i] && i != index){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void setLayersEnabled(boolean enabled) {
+        MapGrid grid = getCurrentMap().getGrid();
+        for(int i = 0; i< grid.numLayers; i++){
+            renderLayers[i] = enabled;
+        }
+    }
+
     public int[][] getTileLayer(int index) {
         return getCurrentMap().getGrid().tileLayers[index];
     }
@@ -356,6 +373,14 @@ public class MapEditorHandler {
         return getCurrentMap().getBdhc();
     }
 
+    public Bdhcam getBdhcam(){
+        return getCurrentMap().getBdhcam();
+    }
+
+    public void setBdhcam(Bdhcam bdhcam){
+        getCurrentMap().setBdhcam(bdhcam);
+    }
+
     public void setBdhc(Bdhc bdhc) {
         getCurrentMap().setBdhc(bdhc);
     }
@@ -374,6 +399,14 @@ public class MapEditorHandler {
 
     public void setCollisions(Collisions collisions) {
         getCurrentMap().setCollisions(collisions);
+    }
+
+    public Collisions getCollisions2() {
+        return getCurrentMap().getCollisions2();
+    }
+
+    public void setCollisions2(Collisions collisions) {
+        getCurrentMap().setCollisions2(collisions);
     }
 
     public void setGameIndex(int game) {

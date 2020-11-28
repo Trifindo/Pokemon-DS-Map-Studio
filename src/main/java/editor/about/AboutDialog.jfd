@@ -3,25 +3,30 @@ JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
-		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {par l {comp jlVersionName:::p:788:p, comp jlAuthor:::p:788:p, comp jlWebsite:::p:788:p, seq {comp klTrifindo:::p::p, space :5:5:p, comp jScrollPane1:::p:719:p}, seq l {space :p:352:p, comp jbOk:::p::p}, seq {space :p:69:p, comp panel2:::p:719:p}}, space :::p}}"
-			"$verticalGroup": "par l {seq {comp jlVersionName:::p:23:p, space :6:6:p, comp jlAuthor:::p::p, space :7:7:p, comp jlWebsite:::p::p, space :5:5:p, par l {comp klTrifindo:::p:129:p, comp jScrollPane1:::p:129:p}, space :p:5:p, comp panel2:::p::p, space :p:2:p, comp jbOk:::p::p, space :::p}}"
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
+			"$columnConstraints": "[fill][grow,fill]"
+			"$rowConstraints": "[fill][fill][fill][grow,fill][80][49]"
 		} ) {
 			name: "this"
 			"defaultCloseOperation": 2
 			"title": "About"
-			"resizable": false
 			"modal": true
+			"$sizePolicy": 1
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "jlVersionName"
 				"font": new java.awt.Font( "Tahoma", 1, 18 )
 				"horizontalAlignment": 0
 				"text": "Pokemon DS Map Studio 2.1"
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0 2 1"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "jlAuthor"
-				"text": "-- by Trifindo --"
+				"text": "<html>-- by <b style=\"color:#06B006\";>Trifindo</b> --</html>"
 				"horizontalAlignment": 0
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1 2 1"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "jlWebsite"
@@ -29,11 +34,15 @@ new FormModel {
 				"horizontalAlignment": 0
 				"cursor": new java.awt.Cursor( 12 )
 				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "jlWebsiteClick", true ) )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 2 2 1"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "klTrifindo"
 				"horizontalAlignment": 0
 				"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/trifindo.gif" )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 3"
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "jScrollPane1"
@@ -42,29 +51,39 @@ new FormModel {
 					"editable": false
 					"columns": 20
 					"rows": 5
-					"text": "Pokemon DS Map Studio is a tool for creating gen 4 and gen 5 Pokémon games' maps,\ndesigned to be used alongside SDSME.\n\nIt doesn't require 3D modeling, instead it provides a tilemap-like interface that is automatically \nconverted in a 3D model.\nNote that this tool DOES NOT import maps from the original games, neither it can modify them.\n\nSupported games:\n- Pokemon Diamond/Pearl\n- Pokemon Platinum\n- Pokemon Heart Gold/Soul Silver\n\nNot completely working:\n- Pokemon Black/White\n- Pokemon Black 2/ White 2"
+					"text": "Pokemon DS Map Studio is a tool for creating NDS Pokémon maps, designed to be used alongside SDSME, DSPRE or similar.\n\nIt doesn't require 3D modeling knowledge. Rather, it provides a tilemap-like interface that is automatically converted to a 3D model. Please note that this tool DOES NOT allow modification of maps from official games."
 					"lineWrap": true
 					"font": new com.jformdesigner.model.SwingFont( "TextArea.font" )
+					"wrapStyleWord": true
 				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 3"
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 				name: "panel2"
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "jlCredits"
 					"foreground": new com.jformdesigner.model.SwingColor( "Label.foreground" )
-					"text": "<html>\n\n<body>\n    JackHack96<br/>\n    Mikelan98<br/>\n    Driox<br/>\n    Jiboule<br/>\n    Nextworld<br/>\n    Jay<br/>\n    Brom<br/>\n    AdAstra<br/>\n    René<br/>\n    Monkeyboy0<br/>\n</body>\n\n</html>"
+					"text": "<html>\n<table>\t\n\t<tr><th><p style=\"color:#F07903\";>JackHack96</p></th><th><p style=\"color:#333FFF\";>Mikelan98</p></th><th><p style=\"color:#898989\";>Jay</p></th></tr>\n\t<tr><th><p style=\"color:#F00303\";>Driox</p></th><th><p style=\"color:#AD7F36\";>Jiboule</p></th><th><p style=\"color:#3B41A06\";>Brom</p></th></tr>\n\t<tr><th><p style=\"color:#2F9B0F\";>Nextworld</p></th><th><p style=\"color:#603294\";>AdAstra</p></th><th><p style=\"color:#328D94\";>Monkeyboy0</p></th></tr>\n\t<tr><th><p style=\"color:#7AB006\";>René</p></th><th><p style=\"color:#7AB0F6\";>Silast</p></th></tr>\n</table>\n</html>"
 					"border": new javax.swing.border.TitledBorder( "Credits" )
 				}, new FormLayoutConstraints( class java.lang.String ) {
 					"value": "Center"
 				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 4"
 			} )
-			add( new FormComponent( "javax.swing.JButton" ) {
-				name: "jbOk"
-				"text": "OK"
-				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbOkClick", true ) )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+				name: "panel1"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbOk"
+					"text": "OK"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbOkClick", true ) )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 5 2 1"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 790, 480 )
+			"size": new java.awt.Dimension( 635, 425 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
 	}

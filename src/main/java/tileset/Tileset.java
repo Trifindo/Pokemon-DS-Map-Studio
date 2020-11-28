@@ -6,14 +6,17 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.awt.ImageUtil;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
+import editor.MainFrame;
 import editor.smartdrawing.SmartGrid;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 
 import utils.Utils;
 
@@ -80,10 +83,10 @@ public class Tileset {
         for (int i = 0; i < materials.size(); i++) {
             TilesetMaterial material = materials.get(i);
             String outPath = path + File.separator + material.getImageName();
-            File outputfile = new File(outPath);
             try {
+                File outputfile = new File(outPath);
                 ImageIO.write(material.getTextureImg(), "png", outputfile);
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }

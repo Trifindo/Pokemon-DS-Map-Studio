@@ -6,7 +6,7 @@ new FormModel {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 			"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
 			"$columnConstraints": "[grow,fill][grow,fill]"
-			"$rowConstraints": "[grow,fill][fill]"
+			"$rowConstraints": "[350,grow,fill][fill]"
 		} ) {
 			name: "this"
 			"defaultCloseOperation": 2
@@ -44,7 +44,7 @@ new FormModel {
 					"value": "cell 0 1"
 				} )
 				add( new FormContainer( "renderer.NitroDisplayGL", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:343:x}"
+					"$horizontalGroup": "par l {space :0:216:x}"
 					"$verticalGroup": "par l {space :0:0:x}"
 				} ) {
 					name: "nitroDisplayGL"
@@ -60,14 +60,14 @@ new FormModel {
 				"text": "OK"
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAcceptActionPerformed", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 1"
+				"value": "cell 0 1,gapx 5 5,gapy 5 5"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "jbCancel"
 				"text": "Cancel"
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 1 1"
+				"value": "cell 1 1,gapx 5 5,gapy 5 5"
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"size": new java.awt.Dimension( 475, 335 )

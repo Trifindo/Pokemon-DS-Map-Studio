@@ -31,7 +31,7 @@ new FormModel {
 				name: "jSplitPane1"
 				"dividerLocation": 550
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-					"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+					"$layoutConstraints": "insets 10,hidemode 3,gap 5 5"
 					"$columnConstraints": "[fill][grow,fill]"
 					"$rowConstraints": "[fill][fill][fill][fill][fill][fill][fill]"
 				} ) {
@@ -137,7 +137,10 @@ new FormModel {
 				}, new FormLayoutConstraints( class java.lang.String ) {
 					"value": "left"
 				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) {
+					"hgap": 5
+					"vgap": 5
+				} ) {
 					name: "jpCard"
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 						"$horizontalGroup": "par l {seq l {space :::p, comp nitroDisplayGL1:::::x, space :::p}}"
@@ -146,7 +149,7 @@ new FormModel {
 						name: "jpDisplay"
 						add( new FormContainer( "renderer.NitroDisplayGL", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {space :0:0:x}"
-							"$verticalGroup": "par l {space :0:390:x}"
+							"$verticalGroup": "par l {space :0:380:x}"
 						} ) {
 							name: "nitroDisplayGL1"
 							"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
@@ -156,7 +159,7 @@ new FormModel {
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 						"$horizontalGroup": "par l {seq {space :::p, par l {comp jScrollPane2::::0:x, seq l {comp jLabel6:::p::p, space :0:0:x}}, space :::p}}"
-						"$verticalGroup": "par l {seq t {space :::p, comp jLabel6:::p::p, space :::p, comp jScrollPane2::::368:x, space :::p}}"
+						"$verticalGroup": "par l {seq t {space :::p, comp jLabel6:::p::p, space :::p, comp jScrollPane2::::360:x, space :::p}}"
 					} ) {
 						name: "jpErrorInfo"
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {

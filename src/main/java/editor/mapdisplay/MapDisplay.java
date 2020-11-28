@@ -233,7 +233,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     @Override
     public void display(GLAutoDrawable drawable) {
-        GL2 gl = drawable.getGL().getGL2();//getGL().getGL4();//(GL4) GLContext.getCurrentGL();
+        GL2 gl = drawable.getGL().getGL2();
 
         gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -251,7 +251,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         try {
             //Draw grid
             if (drawGridEnabled) {
-                //drawGrid(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f);
                 drawGridMaps(gl);
             }
 
@@ -481,9 +480,16 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                         RenderingHints.KEY_INTERPOLATION,
                         RenderingHints.VALUE_INTERPOLATION_BILINEAR));*/
 
+
         float xScaleWindows = (float) getWidth() / width;
         float yScaleWindows = (float) getHeight() / height;
         g2d.scale(xScaleWindows, yScaleWindows);
+
+        //TODO: Use this code for keeping the aspect ratio
+        //g2d.scale(yScaleWindows, yScaleWindows);
+        //float aspect = getAspectRatio();
+        //g2d.translate((aspect - 1.0f) * width / 2, 1.0f);
+
 
         float xScaleFactor = orthoScale;
         float yScaleFactor = orthoScale;
@@ -492,6 +498,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         float yTranslation = (getHeight() * (1.0f - yScaleFactor) / 2f);
 
         g2d.translate(xTranslation / xScaleWindows, yTranslation / yScaleWindows);
+        //g2d.translate(xTranslation / yScaleWindows, yTranslation / yScaleWindows);
         g2d.scale(xScaleFactor, yScaleFactor);
 
         g2d.translate(-cameraX * tileSize, cameraY * tileSize);
@@ -1249,6 +1256,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         handler.getMainFrame().getJtbModeClear().setEnabled(true);
         handler.getMainFrame().getJtbModeSmartPaint().setEnabled(true);
         handler.getMainFrame().getJtbModeInvSmartPaint().setEnabled(true);
+
+        handler.getMainFrame().updateMapDisplaySize();
     }
 
     public void set3DView() {
@@ -1270,6 +1279,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             setEditMode(EditMode.MODE_EDIT);
         }
 
+        handler.getMainFrame().updateMapDisplaySize();
     }
 
     public void setHeightView() {
@@ -1291,6 +1301,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             handler.getMainFrame().getJtbModeEdit().setSelected(true);
             setEditMode(EditMode.MODE_EDIT);
         }
+
+        handler.getMainFrame().updateMapDisplaySize();
     }
 
     public void toggleGridView() {
@@ -1339,6 +1351,10 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         }
     }
 
+    public float getAspectRatio(){
+        return (float)getWidth() / getHeight();
+    }
+
     boolean checkOpenGLError() {
         GL2 gl = (GL2) GLContext.getCurrentGL();
         boolean foundError = false;
@@ -1357,6 +1373,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     }
 
     protected void drawScreenshot(GL2 gl) {
+
         float xScale = (float) getWidth() / width;
         float yScale = (float) getHeight() / height;
         final int mapWidth = (int) (cols * tileSize * xScale);
@@ -1378,6 +1395,12 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                 graphics.drawRect(w, mapHeight - 2 - h, 1, 1);
             }
         }
+
+        /*
+        BufferedImage upscaledImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics g = upscaledImage.createGraphics();
+        paint(g);
+        g.dispose();*/
 
         screenshot = Utils.resize(upscaledImage, cols * tileSize, rows * tileSize, Image.SCALE_FAST);
     }

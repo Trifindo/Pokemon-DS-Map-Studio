@@ -8,7 +8,7 @@ import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
-import editor.TilesetRenderer;
+import tileset.TilesetRenderer;
 import editor.game.Game;
 import editor.handler.MapEditorHandler;
 import editor.smartdrawing.SmartGrid;
@@ -71,7 +71,8 @@ public class GameTsetSelectorDialog2 extends JDialog {
                     "Tileset_70_-_Tohjo_Falls",
                     "Tileset_73_-_Cerulean_Cave",
                     "Tileset_75_-_Safari_Zone_(by_Mikelan98)",
-                    "Tileset_76_-_Ice_Path"
+                    "Tileset_76_-_Ice_Path",
+                    "Tileset_88_-_Bellchime_Trail_(by_Silast)"
             },
             {
                     "Overworld",
@@ -81,8 +82,15 @@ public class GameTsetSelectorDialog2 extends JDialog {
                     "Tileset_2_-_Overworld_(by_Brom)",
                     "Tileset_2_-_Overworld_(by_AdAstra)",
                     "Cave",
-                    "Chargestone_Cave"},
-            {"Low_Poly_Tileset", "Sylvan_Town_(by_Anarlaurendil)"}};
+                    "Chargestone_Cave",
+                    "Tileset_294_-_Twist_Mountain"
+            },
+            {
+                    "Low_Poly_Tileset",
+                    "Sylvan_Town_(by_Anarlaurendil)",
+                    "Spear_Pillar_Rework_(by_Silast)"
+            }
+    };
 
     private String[][] tsetNames = {
             {"DiamondPearlTileset.pdsts"},
@@ -106,7 +114,8 @@ public class GameTsetSelectorDialog2 extends JDialog {
                     "Tileset_70_HGSS_Tohjo_Falls.pdsts",
                     "Tileset_73_HGSS_Cerulean_cave.pdsts",
                     "Tileset_75_HGSS_safari_zone.pdsts",
-                    "Tileset_76_Ice_Path.pdsts"
+                    "Tileset_76_Ice_Path.pdsts",
+                    "Tileset_88_HGSS_by_Silast.pdsts"
             },
             {
                     "BlackWhiteTileset.pdsts",
@@ -116,9 +125,15 @@ public class GameTsetSelectorDialog2 extends JDialog {
                     "Tileset_2_Overworld_BW2.pdsts",
                     "Tileset_2_BW2_AdAstra.pdsts",
                     "CaveTilesetBW2.pdsts",
-                    "ElectricCave.pdsts"
+                    "ElectricCave.pdsts",
+                    "Tileset_294_BW2_Twist.pdsts"
             },
-            {"LowPolyTileset.pdsts", "Sylvan_Town.pdsts"}};
+            {
+                    "LowPolyTileset.pdsts",
+                    "Sylvan_Town.pdsts",
+                    "Spear_pillar_rework_by_silast.pdsts"
+            }
+    };
 
     public GameTsetSelectorDialog2(Window owner) {
         super(owner);
@@ -274,18 +289,18 @@ public class GameTsetSelectorDialog2 extends JDialog {
             GroupLayout jpanelIconLayout = new GroupLayout(jpanelIcon);
             jpanelIcon.setLayout(jpanelIconLayout);
             jpanelIconLayout.setHorizontalGroup(
-                jpanelIconLayout.createParallelGroup()
-                    .addGroup(jpanelIconLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jlGameIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    jpanelIconLayout.createParallelGroup()
+                            .addGroup(jpanelIconLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jlGameIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
             jpanelIconLayout.setVerticalGroup(
-                jpanelIconLayout.createParallelGroup()
-                    .addGroup(jpanelIconLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jlGameIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    jpanelIconLayout.createParallelGroup()
+                            .addGroup(jpanelIconLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(jlGameIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
         }
 
@@ -313,20 +328,26 @@ public class GameTsetSelectorDialog2 extends JDialog {
             //---- jlGame ----
             jlGame.setModel(new AbstractListModel<String>() {
                 String[] values = {
-                    "Pokemon Diamond",
-                    "Pokemon Pearl",
-                    "Pokemon Platinum",
-                    "Pokemon Heart Gold",
-                    "Pokemon Soul Silver",
-                    "Pokemon Black",
-                    "Pokemon White",
-                    "Pokemon Black 2",
-                    "Pokemon White 2"
+                        "Pokemon Diamond",
+                        "Pokemon Pearl",
+                        "Pokemon Platinum",
+                        "Pokemon Heart Gold",
+                        "Pokemon Soul Silver",
+                        "Pokemon Black",
+                        "Pokemon White",
+                        "Pokemon Black 2",
+                        "Pokemon White 2"
                 };
+
                 @Override
-                public int getSize() { return values.length; }
+                public int getSize() {
+                    return values.length;
+                }
+
                 @Override
-                public String getElementAt(int i) { return values[i]; }
+                public String getElementAt(int i) {
+                    return values[i];
+                }
             });
             jlGame.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             jlGame.setSelectedIndex(0);
@@ -342,10 +363,16 @@ public class GameTsetSelectorDialog2 extends JDialog {
                 String[] values = {
 
                 };
+
                 @Override
-                public int getSize() { return values.length; }
+                public int getSize() {
+                    return values.length;
+                }
+
                 @Override
-                public String getElementAt(int i) { return values[i]; }
+                public String getElementAt(int i) {
+                    return values[i];
+                }
             });
             jlTsetFolder.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             jlTsetFolder.setSelectedIndex(0);
@@ -362,10 +389,16 @@ public class GameTsetSelectorDialog2 extends JDialog {
                 String[] values = {
 
                 };
+
                 @Override
-                public int getSize() { return values.length; }
+                public int getSize() {
+                    return values.length;
+                }
+
                 @Override
-                public String getElementAt(int i) { return values[i]; }
+                public String getElementAt(int i) {
+                    return values[i];
+                }
             });
             jlTsetName.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             jlTsetName.setSelectedIndex(0);
@@ -387,12 +420,12 @@ public class GameTsetSelectorDialog2 extends JDialog {
                 GroupLayout tilesetThumbnailDisplayLayout = new GroupLayout(tilesetThumbnailDisplay);
                 tilesetThumbnailDisplay.setLayout(tilesetThumbnailDisplayLayout);
                 tilesetThumbnailDisplayLayout.setHorizontalGroup(
-                    tilesetThumbnailDisplayLayout.createParallelGroup()
-                        .addGap(0, 128, Short.MAX_VALUE)
+                        tilesetThumbnailDisplayLayout.createParallelGroup()
+                                .addGap(0, 128, Short.MAX_VALUE)
                 );
                 tilesetThumbnailDisplayLayout.setVerticalGroup(
-                    tilesetThumbnailDisplayLayout.createParallelGroup()
-                        .addGap(0, 347, Short.MAX_VALUE)
+                        tilesetThumbnailDisplayLayout.createParallelGroup()
+                                .addGap(0, 339, Short.MAX_VALUE)
                 );
             }
             jScrollPane4.setViewportView(tilesetThumbnailDisplay);
@@ -404,61 +437,61 @@ public class GameTsetSelectorDialog2 extends JDialog {
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
-            contentPaneLayout.createParallelGroup()
-                .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(contentPaneLayout.createParallelGroup()
-                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
-                            .addGroup(contentPaneLayout.createParallelGroup()
-                                .addComponent(jLabel1)
-                                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jpanelIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(contentPaneLayout.createParallelGroup()
-                                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(contentPaneLayout.createParallelGroup()
-                                .addComponent(jLabel3)
-                                .addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(contentPaneLayout.createParallelGroup()
-                                .addComponent(jLabel4)
-                                .addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(jbFinish, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jbCancel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap())
+                contentPaneLayout.createParallelGroup()
+                        .addGroup(contentPaneLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(contentPaneLayout.createParallelGroup()
+                                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                                                .addGroup(contentPaneLayout.createParallelGroup()
+                                                        .addComponent(jLabel1)
+                                                        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jpanelIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(contentPaneLayout.createParallelGroup()
+                                                        .addComponent(jLabel2)
+                                                        .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(contentPaneLayout.createParallelGroup()
+                                                        .addComponent(jLabel3)
+                                                        .addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(contentPaneLayout.createParallelGroup()
+                                                        .addComponent(jLabel4)
+                                                        .addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(jbFinish, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jbCancel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
-            contentPaneLayout.createParallelGroup()
-                .addGroup(contentPaneLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel4))
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(contentPaneLayout.createParallelGroup()
+                contentPaneLayout.createParallelGroup()
                         .addGroup(contentPaneLayout.createSequentialGroup()
-                            .addGroup(contentPaneLayout.createParallelGroup()
-                                .addComponent(jScrollPane4)
-                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
-                                .addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1))
-                            .addGap(11, 11, 11))
-                        .addGroup(contentPaneLayout.createSequentialGroup()
-                            .addComponent(jpanelIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(jbCancel)
-                        .addComponent(jbFinish))
-                    .addContainerGap())
+                                .addContainerGap()
+                                .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel4))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(contentPaneLayout.createParallelGroup()
+                                        .addGroup(contentPaneLayout.createSequentialGroup()
+                                                .addGroup(contentPaneLayout.createParallelGroup()
+                                                        .addComponent(jScrollPane4)
+                                                        .addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                                                        .addComponent(jScrollPane1)
+                                                        .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
+                                                .addGap(11, 11, 11))
+                                        .addGroup(contentPaneLayout.createSequentialGroup()
+                                                .addComponent(jpanelIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jbCancel)
+                                        .addComponent(jbFinish))
+                                .addContainerGap())
         );
         pack();
         setLocationRelativeTo(getOwner());

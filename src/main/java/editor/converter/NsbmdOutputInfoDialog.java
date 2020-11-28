@@ -180,7 +180,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
             //======== jPanel2 ========
             {
                 jPanel2.setLayout(new MigLayout(
-                    "insets 0,hidemode 3,gap 5 5",
+                    "insets 10,hidemode 3,gap 5 5",
                     // columns
                     "[fill]" +
                     "[grow,fill]",
@@ -271,7 +271,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
 
             //======== jpCard ========
             {
-                jpCard.setLayout(new CardLayout());
+                jpCard.setLayout(new CardLayout(5, 5));
 
                 //======== jpDisplay ========
                 {
@@ -288,7 +288,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                         );
                         nitroDisplayGL1Layout.setVerticalGroup(
                             nitroDisplayGL1Layout.createParallelGroup()
-                                .addGap(0, 390, Short.MAX_VALUE)
+                                .addGap(0, 380, Short.MAX_VALUE)
                         );
                     }
 
@@ -348,7 +348,7 @@ public class NsbmdOutputInfoDialog extends javax.swing.JDialog {
                                 .addContainerGap()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
                                 .addContainerGap())
                     );
                 }

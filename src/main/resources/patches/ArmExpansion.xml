@@ -1,0 +1,17 @@
+<Patch>
+    <GamePatch>
+        <GameCode>ADAE</GameCode>
+        <FilePatch>
+            <FilePath>arm9.bin</FilePath>
+            <DataOffset>1064EC</DataOffset>
+            <OldData>00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 FF FF FF FF FF FF FF FF 00 00 00 00</OldData>
+            <NewData>FC B5 05 48 C0 46 41 21 09 22 02 4D A8 47 00 20 03 21 FC BD F1 64 00 02 00 80 FC 02</NewData>
+        </FilePatch>
+        <FilePatch>
+            <FilePath>data/data/weather_sys/weather_sys_9.rlcn</FilePath>
+            <DataOffset>C80</DataOffset>
+            <OldData>00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 FF FF FF FF FF FF FF FF 00 00 00 00</OldData>
+            <NewData>FC B5 05 48 C0 46 41 21 09 22 02 4D A8 47 00 20 03 21 FC BD F1 64 00 02 00 80 FC 02</NewData>
+        </FilePatch>
+    </GamePatch>
+</Patch>

@@ -93,8 +93,10 @@ public class TextureDisplay extends JPanel {
             if (tileHandler.getMapEditorHandler().getTileset().size() > 0) {
                 Tile tile = tileHandler.getMapEditorHandler().getTileSelected();
                 BufferedImage img = tile.getTileset().getTextureImg((tile.getTextureIDs().get(tileHandler.getTextureIdIndexSelected())));
-                int x = getWidth() / 2 - img.getWidth() / 2;
-                int y = getHeight() / 2 - img.getHeight() / 2;
+                int x = size / 2 - img.getWidth() / 2;
+                int y = size / 2 - img.getHeight() / 2;
+                //int x = getWidth() / 2 - img.getWidth() / 2;
+                //int y = getHeight() / 2 - img.getHeight() / 2;
 
                 g.drawImage(img, x, y, null);
             }
@@ -147,12 +149,12 @@ public class TextureDisplay extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup()
-                        .addGap(0, 400, Short.MAX_VALUE)
+            layout.createParallelGroup()
+                .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup()
-                        .addGap(0, 300, Short.MAX_VALUE)
+            layout.createParallelGroup()
+                .addGap(0, 300, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

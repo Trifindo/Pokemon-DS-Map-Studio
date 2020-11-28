@@ -1,0 +1,98 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, par l {comp panel1::t::372:x, comp jPanel2::l:::x, comp jPanel1::l:::x}, space :::p}}"
+			"$verticalGroup": "par l {seq t {space :::p, comp jPanel1:::::x, space :::p, comp jPanel2:::p::p, space :::p, comp panel1:::p::p, space :::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Export maps as IMD settings"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, par l {seq {par l {comp jLabel1:::p::p, seq l {comp jbSelectAll:::p::p, space :::p, comp jbDeselectAll:::p::p}, comp jScrollCheckboxList::l:p:340:p}, space :0:10:x}, seq l {comp jLabel2:::p::p, space :::p, comp jtfObjFolderPath:::::x, space :::p, comp jbObjBrowse:::p::p}}, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :p::p, par b {comp jLabel2::b:p::p, comp jtfObjFolderPath::b:p::p, comp jbObjBrowse::b:p::p}, space u:p::p, comp jLabel1:::p:14:p, space :::p, comp jScrollCheckboxList::::110:x, space :::p, par b {comp jbSelectAll::b:p::p, comp jbDeselectAll::b:p::p}, space :p::p}}"
+			} ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( "OBJ settings" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "Select the OBJ maps that will be converted into IMD:"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel2"
+					"text": "OBJ folder path:"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfObjFolderPath"
+					"editable": false
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbObjBrowse"
+					"text": "Browse..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbObjBrowseActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbSelectAll"
+					"text": "Select All"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSelectAllActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbDeselectAll"
+					"text": "Deselect All"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbDeselectAllActionPerformed", true ) )
+				} )
+				add( new FormContainer( "utils.swing.JScrollCheckboxList", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollCheckboxList"
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp jLabel3:::p::p, space :::p, comp jtfImdFolderPath::::109:x, space :::p, comp jbImdBrowse:::p::p, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par b {comp jLabel3::b:p::p, comp jtfImdFolderPath::b:p::p, comp jbImdBrowse::b:p::p}, space :::x}}"
+			} ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( "IMD settings" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel3"
+					"text": "IMD destination folder path:"
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfImdFolderPath"
+					"editable": false
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbImdBrowse"
+					"text": "Browse..."
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImdBrowseActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "hidemode 3,alignx right"
+				"$columnConstraints": "[fill][right]"
+				"$rowConstraints": "[]"
+			} ) {
+				name: "panel1"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbAccept"
+					"text": "OK"
+					"preferredSize": new java.awt.Dimension( 65, 23 )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAcceptActionPerformed", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbCancel"
+					"text": "Cancel"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 0"
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 400, 415 )
+			"location": new java.awt.Point( 15, 20 )
+		} )
+	}
+}

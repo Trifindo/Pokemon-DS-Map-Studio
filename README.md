@@ -1,31 +1,32 @@
 # Pokemon DS Map Studio
 ![Java CI with Gradle](https://github.com/Trifindo/Pokemon-DS-Map-Studio/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=master)
 
-Pokemon DS Map Studio is a tool for creating NDS Pokémon maps, designed to be used alongside SDSME.
+Pokemon DS Map Studio is a tool for creating gen 4 and gen 5 Pokémon games' maps, designed to be used alongside SDSME.
 
-It doesn't require 3D modeling knowledge. Rather, it provides a tilemap-like interface that is automatically converted to a 3D model. Please note that this tool **DOES NOT** allow modification of maps from official games.
+It doesn't require 3D modeling, instead it provides a tilemap-like interface that is automatically converted in a 3D model.
+Note that this tool **DOES NOT** import maps from the original games, neither it can modify them.
 
 ![Screenshot of PDSMS](https://i.imgur.com/8GNJD8V.png)
 
-### Fully supported:
+### Supported games:
 - Pokemon Diamond/Pearl
 - Pokemon Platinum
 - Pokemon Heart Gold/Soul Silver
-### Partially supported:
+### Not completely working
 - Pokemon Black/White
 - Pokemon Black 2/ White 2
 
 ## Running
-Pokemon DS Map Studio has been tested under Windows, Linux and MacOS.
-In order to run it, Java 8 must be installed on your computer, regardless of the operating system you are using. 
+For running Pokemon DS Map Studio, Java 8 must be installed in the computer.
 Pokemon DS Map Studio can be executed by double clicking the "PokemonDsMapStudio.jar" file. 
+The program is tested under Windows, macOS and Linux.
 
-If it doesn't open, try typing the following command in a terminal:
+If it doesn't open, try to open by opening a terminal and typing
 ```shell
 java -jar PokemonDSMapStudio.jar
 ```
 and look at the output.
-If you don't fully understand that, please open an issue in the appropriate section of this repository.
+If you can't understand that, please open an issue in the appropriate section of this repository.
 
 ## Notes
-For exporting `.nsbmd` files, `g3dcvtr.exe` and `xerces-c_2_5_0.dll` must be placed into the `bin/converter` folder.
+For exporting `.nsbmd` files, `g3dcvtr.exe` and `xerces-c_2_5_0.dll` must be placed int the `bin/converter` folder.

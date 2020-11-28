@@ -1,16 +1,11 @@
 
 package editor.buildingeditor2.animations;
 
-import editor.narc2.Narc;
-import editor.narc2.NarcFile;
-import editor.narc2.NarcFolder;
+import formats.narc2.Narc;
+import formats.narc2.NarcFile;
+import formats.narc2.NarcFolder;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import utils.BinaryReader;
-import utils.BinaryWriter;
 
 /**
  * @author Trifindo

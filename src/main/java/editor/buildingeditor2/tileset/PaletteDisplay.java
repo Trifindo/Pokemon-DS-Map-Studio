@@ -1,10 +1,9 @@
 package editor.buildingeditor2.tileset;
 
-import editor.nsbtx2.NsbtxPalette;
-import editor.nsbtx2.NsbtxTexture;
+import formats.nsbtx2.NsbtxPalette;
+import formats.nsbtx2.NsbtxTexture;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.*;

@@ -79,41 +79,41 @@ public class MoveMapPanel extends JPanel {
         add(hSpacer1);
 
         //---- jbUp ----
-        jbUp.setText("\u25b2");
         jbUp.setMargin(new Insets(2, 2, 2, 2));
         jbUp.setMaximumSize(null);
         jbUp.setMinimumSize(null);
         jbUp.setPreferredSize(null);
+        jbUp.setIcon(new ImageIcon(getClass().getResource("/icons/upIcon.png")));
         jbUp.addActionListener(e -> jbUpActionPerformed(e));
         add(jbUp);
         add(hSpacer2);
 
         //---- jbLeft ----
-        jbLeft.setText("\u25c4");
         jbLeft.setMargin(new Insets(2, 2, 2, 2));
         jbLeft.setMaximumSize(null);
         jbLeft.setMinimumSize(null);
         jbLeft.setPreferredSize(null);
+        jbLeft.setIcon(new ImageIcon(getClass().getResource("/icons/leftIcon.png")));
         jbLeft.addActionListener(e -> jbLeftActionPerformed(e));
         add(jbLeft);
         add(hSpacer3);
 
         //---- jbRight ----
-        jbRight.setText("\u25ba");
         jbRight.setMargin(new Insets(2, 2, 2, 2));
         jbRight.setMaximumSize(null);
         jbRight.setMinimumSize(null);
         jbRight.setPreferredSize(null);
+        jbRight.setIcon(new ImageIcon(getClass().getResource("/icons/rightIcon.png")));
         jbRight.addActionListener(e -> jbRightActionPerformed(e));
         add(jbRight);
         add(hSpacer4);
 
         //---- jbDown ----
-        jbDown.setText("\u25bc");
         jbDown.setMargin(new Insets(2, 2, 2, 2));
         jbDown.setMaximumSize(null);
         jbDown.setMinimumSize(null);
         jbDown.setPreferredSize(null);
+        jbDown.setIcon(new ImageIcon(getClass().getResource("/icons/downIcon.png")));
         jbDown.addActionListener(e -> jbDownActionPerformed(e));
         add(jbDown);
         add(hSpacer5);

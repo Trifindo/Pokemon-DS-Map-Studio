@@ -8,7 +8,7 @@ import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 
 import editor.tileselector.*;
-import editor.TilesetRenderer;
+import tileset.TilesetRenderer;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;

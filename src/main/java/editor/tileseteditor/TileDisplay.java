@@ -131,6 +131,9 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
     private boolean backfaceCullingEnabled = true;
     private boolean texturesEnabled = true;
     private boolean lightingEnabled = false;
+    private boolean normalsEnabled = false;
+
+    private float normalScale = 0.35f;
 
     public TileDisplay() {
         //Add listeners
@@ -229,6 +232,10 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
 
             drawOpaque();
             drawTransparent();
+
+            if(normalsEnabled){
+                drawNormals(gl);
+            }
 
             if (lightingEnabled) {
                 gl.glDisable(GL2.GL_LIGHTING);
@@ -624,6 +631,99 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
 
     }
 
+    public void drawNormals(GL2 gl){
+        gl.glEnable(GL_BLEND);
+        gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+
+        // adjust OpenGL settings and draw model
+        gl.glEnable(GL_DEPTH_TEST);
+        gl.glDepthFunc(GL_LESS); //Less instead of equal for drawing the grid
+
+        gl.glEnable(GL_ALPHA_TEST);
+        gl.glAlphaFunc(GL_GREATER, 0.9f);
+
+        gl.glDisable(GL_TEXTURE_2D);
+        gl.glDisable(GL_LIGHTING);
+        gl.glDisable(GL_LIGHT0);
+
+        gl.glColor3f(1.0f, 0.6f, 0.5f);
+        gl.glLineWidth(1.5f);
+
+        gl.glLoadIdentity();
+        if (orthoEnabled) {
+            float v = 6.0f;
+            gl.glOrtho(-v, v, -v, v, -100.0f, 100.0f);
+        } else {
+            float aspect = (float) this.getWidth() / (float) this.getHeight();
+            glu.gluPerspective(60.0f, aspect, 1.0f, 1000.0f);
+        }
+
+        gl.glTranslatef(-cameraX, -cameraY, -cameraZ); // translate into the screen
+
+        gl.glRotatef(modelRotX, 1.0f, 0.0f, 0.0f); // rotate about the x-axis
+        gl.glRotatef(modelRotY, 0.0f, 1.0f, 0.0f); // rotate about the y-axis
+        gl.glRotatef(modelRotZ, 0.0f, 0.0f, 1.0f); // rotate about the z-axis
+
+        Tile tile = handler.getTileset().get(handler.getTileIndexSelected());
+
+        for (int k = 0; k < tile.getTextureIDs().size(); k++) {
+            //Draw polygons
+            int start, end;
+            final int vPerPolygon = 3;
+            start = tile.getTexOffsetsTri().get(k);
+            if (k + 1 < tile.getTextureIDs().size()) {
+                end = (tile.getTexOffsetsTri().get(k + 1));
+            } else {
+                end = tile.getVCoordsTri().length / (3 * vPerPolygon);
+            }
+
+
+            gl.glBegin(GL_LINES);
+            for (int i = start; i < end; i++) {
+                for (int j = 0; j < vPerPolygon; j++) {
+                    int offset = (i * vPerPolygon + j) * 3;
+                    float[] normal = {
+                            tile.getVCoordsTri()[offset] + tile.getNCoordsTri()[offset] * normalScale,
+                            tile.getVCoordsTri()[offset + 1] + tile.getNCoordsTri()[offset + 1] * normalScale,
+                            tile.getVCoordsTri()[offset + 2] + tile.getNCoordsTri()[offset + 2] * normalScale
+                    };
+                    gl.glVertex3fv(tile.getVCoordsTri(), (i * vPerPolygon + j) * 3);
+                    gl.glVertex3fv(normal, 0);
+                }
+            }
+            gl.glEnd();
+        }
+
+        for (int k = 0; k < tile.getTextureIDs().size(); k++) {
+            //Draw polygons
+            int start, end;
+            final int vPerPolygon = 4;
+            start = tile.getTexOffsetsQuad().get(k);
+            if (k + 1 < tile.getTextureIDs().size()) {
+                end = (tile.getTexOffsetsQuad().get(k + 1));
+            } else {
+                end = tile.getVCoordsQuad().length / (3 * vPerPolygon);
+            }
+
+            gl.glBegin(GL_LINES);
+            for (int i = start; i < end; i++) {
+                for (int j = 0; j < vPerPolygon; j++) {
+                    int offset = (i * vPerPolygon + j) * 3;
+                    float[] normal = {
+                            tile.getVCoordsQuad()[offset] + tile.getNCoordsQuad()[offset] * normalScale,
+                            tile.getVCoordsQuad()[offset + 1] + tile.getNCoordsQuad()[offset + 1] * normalScale,
+                            tile.getVCoordsQuad()[offset + 2] + tile.getNCoordsQuad()[offset + 2] * normalScale
+                    };
+                    gl.glVertex3fv(tile.getVCoordsQuad(), (i * vPerPolygon + j) * 3);
+                    gl.glVertex3fv(normal, 0);
+                }
+            }
+            gl.glEnd();
+
+        }
+
+    }
+
     private void loadTexturesGL() {
         textures = new ArrayList<>();
         for (int i = 0; i < handler.getTileset().getMaterials().size(); i++) {
@@ -673,6 +773,10 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
 
     public boolean isTexturesEnabled() {
         return texturesEnabled;
+    }
+
+    public void setNormalsEnabled(boolean normalsEnabled){
+        this.normalsEnabled = normalsEnabled;
     }
 
 }

@@ -2,21 +2,22 @@
 package editor.mapmatrix;
 
 import com.jogamp.common.nio.Buffers;
-import editor.backsound.Backsound;
-import editor.bdhc.Bdhc;
-import editor.bdhc.BdhcLoaderDP;
-import editor.bdhc.BdhcLoaderHGSS;
-import editor.bdhc.BdhcWriterDP;
-import editor.bdhc.BdhcWriterHGSS;
+import formats.backsound.Backsound;
+import formats.bdhc.Bdhc;
+import formats.bdhc.BdhcLoaderDP;
+import formats.bdhc.BdhcLoaderHGSS;
+import formats.bdhc.BdhcWriterDP;
+import formats.bdhc.BdhcWriterHGSS;
 import editor.buildingeditor2.buildfile.BuildFile;
-import editor.collisions.Collisions;
-import editor.exceptions.WrongFormatException;
+import formats.bdhcam.Bdhcam;
+import formats.bdhcam.BdhcamLoader;
+import formats.bdhcam.BdhcamWriter;
+import formats.collisions.Collisions;
 import editor.game.Game;
 import editor.grid.MapGrid;
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
-import editor.imd.ImdModel;
-import editor.obj.ObjWriter;
+import formats.obj.ObjWriter;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -110,6 +111,7 @@ public class MapMatrix {
         if (!path.endsWith("." + fileExtension)) {
             path = path.concat("." + fileExtension);
         }
+
 
         removeUnusedMaps();
         removeAllUnusedMapFiles();
@@ -295,9 +297,11 @@ public class MapMatrix {
 
 
         loadBDHCsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
+        loadBdhcamsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadCollisionsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBacksoundsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBuildingsFromFile(newMaps, folderPath, fileName);
+
 
         for (HashMap.Entry<Point, MapData> entry : newMaps.entrySet()) {
             Point coords = new Point(entry.getKey().x + offset.x, entry.getKey().y + offset.y);
@@ -306,7 +310,7 @@ public class MapMatrix {
 
     }
 
-    public void saveMapsAsObj(String path, boolean saveTextures, boolean includeVertexColors) throws FileNotFoundException {
+    public void saveMapsAsObj(String path, boolean saveTextures, boolean includeVertexColors, float tileUpscale) throws FileNotFoundException {
         removeUnusedMaps();
 
         String folderPath = new File(path).getParent();
@@ -314,12 +318,12 @@ public class MapMatrix {
 
         for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             String objFilePath = getFilePathWithCoords(matrix, folderPath, fileName, mapEntry.getKey(), "obj");
-            mapEntry.getValue().getGrid().saveMapToOBJ(handler.getTileset(), objFilePath, saveTextures, includeVertexColors);
+            mapEntry.getValue().getGrid().saveMapToOBJ(handler.getTileset(), objFilePath, saveTextures, includeVertexColors, tileUpscale);
         }
         //TODO: This method saves textures for each map. Make that textures are exported only once
     }
 
-    public void saveMapsAsObjJoined(String path, boolean saveTextures, boolean includeVertexColors) throws FileNotFoundException {
+    public void saveMapsAsObjJoined(String path, boolean saveTextures, boolean includeVertexColors, float tileUpscale) throws FileNotFoundException {
         removeUnusedMaps();
 
         String folderPath = new File(path).getParent();
@@ -328,7 +332,7 @@ public class MapMatrix {
         String objFilePath = folderPath + File.separator + fileName + ".obj";
 
         ObjWriter writer = new ObjWriter(handler.getTileset(), generateGridHashMap(), objFilePath, handler.getGameIndex(),
-                saveTextures, includeVertexColors);
+                saveTextures, includeVertexColors, tileUpscale);
         writer.writeMapObj();
 
     }
@@ -357,11 +361,30 @@ public class MapMatrix {
         }
     }
 
+    public void saveBdhcams() throws IOException{
+        int game = handler.getGameIndex();
+        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+            String path = getFilePathWithCoords(matrix, new File(filePath).getParent(),
+                    new File(filePath).getName(), mapEntry.getKey(), Bdhcam.fileExtension);
+            if (game == Game.PLATINUM || game == Game.HEART_GOLD || game == Game.SOUL_SILVER) {
+                BdhcamWriter.writeBdhcamToFile(path, mapEntry.getValue().getBdhcam(), mapEntry.getValue().getBdhc(), game);
+            }
+        }
+    }
+
     public void saveCollisions() throws IOException {
         for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             String path = getFilePathWithCoords(matrix, new File(filePath).getParent(),
                     new File(filePath).getName(), mapEntry.getKey(), Collisions.fileExtension);
             mapEntry.getValue().getCollisions().saveToFile(path);
+
+            if(Game.isGenV(handler.getGameIndex())){
+                if(mapEntry.getValue().getCollisions2() != null){
+                    String path2 = getFilePathWithCoords(matrix, new File(filePath).getParent(),
+                            new File(filePath).getName(), "2", mapEntry.getKey(), Collisions.fileExtension);
+                    mapEntry.getValue().getCollisions2().saveToFile(path2);
+                }
+            }
         }
     }
 
@@ -372,6 +395,8 @@ public class MapMatrix {
             mapEntry.getValue().getBuildings().saveToFile(path);
         }
     }
+
+
 
     public void loadBDHCsFromFile(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, int game) {
         if (matrix.size() == 1) {//OLD MAP TYPE
@@ -409,6 +434,30 @@ public class MapMatrix {
         } else {
             mapData.setBdhc(new BdhcLoaderHGSS().loadBdhcFromFile(path));
         }
+    }
+
+    public static void loadBdhcamsFromFile(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, int game) {
+        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+            try {
+                String bdhcamPath = getFilePathWithCoords(matrix, folderPath, mapFileName, mapEntry.getKey(), Bdhcam.fileExtension);
+                loadBdhcam(bdhcamPath, mapEntry.getValue(), game);
+            } catch (Exception ex) {
+                mapEntry.getValue().setBdhcam(new Bdhcam());
+
+            }
+        }
+    }
+
+    public static void loadBdhcam(String path, MapData mapData, int game) throws Exception {
+        if (game == Game.PLATINUM || game == Game.HEART_GOLD || game == Game.SOUL_SILVER) {
+            mapData.setBdhcam(BdhcamLoader.loadBdhcam(path));
+        } else {
+            mapData.setBdhcam(new Bdhcam());
+        }
+    }
+
+    public void loadBdhcamsFromFile(String folderPath, String mapFileName) {
+        loadBdhcamsFromFile(matrix, folderPath, mapFileName, handler.getGameIndex());
     }
 
     public static void loadBacksoundsFromFile(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, int game) {
@@ -464,6 +513,15 @@ public class MapMatrix {
                     mapEntry.getValue().setCollisions(new Collisions(gameIndex));
                 }
             }
+            if(Game.isGenV(gameIndex)){
+                try{
+                    String collisionsPath = getFilePathWithCoords(matrix, folderPath, mapFileName, "2",
+                            mapEntry.getKey(), Collisions.fileExtension);
+                    mapEntry.getValue().setCollisions2(new Collisions(collisionsPath));
+                }catch(Exception ex){
+                    mapEntry.getValue().setCollisions2(new Collisions(gameIndex));
+                }
+            }
         } else {
             for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
                 try {
@@ -471,6 +529,15 @@ public class MapMatrix {
                     mapEntry.getValue().setCollisions(new Collisions(collisionsPath));
                 } catch (Exception ex) {
                     mapEntry.getValue().setCollisions(new Collisions(gameIndex));
+                }
+                if(Game.isGenV(gameIndex)){
+                    try{
+                        String collisionsPath = getFilePathWithCoords(matrix, folderPath, mapFileName, "2",
+                                mapEntry.getKey(), Collisions.fileExtension);
+                        mapEntry.getValue().setCollisions2(new Collisions(collisionsPath));
+                    }catch(Exception ex){
+                        mapEntry.getValue().setCollisions2(new Collisions(gameIndex));
+                    }
                 }
             }
         }
@@ -515,26 +582,17 @@ public class MapMatrix {
         loadBuildingsFromFile(matrix, folderPath, mapFileName);
     }
 
-    /*
-    private static String getFilePathWithCoords(String folderPath, String mapFileName, Point mapCoords, String extensionName) {
-        String filename = Utils.removeExtensionFromPath(mapFileName);
-        //filename += "_X" + String.valueOf(mapCoords.x) + "_Y" + String.valueOf(mapCoords.y);
-        filename += "_" + String.format("%02d", mapCoords.x) + "_" + String.format("%02d", mapCoords.y);
-        return folderPath + File.separator + filename + "." + extensionName;
-    }*/
     public static String getFilePathWithCoords(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, Point mapCoords, String extensionName) {
-        String filename = Utils.removeExtensionFromPath(mapFileName);
+        return getFilePathWithCoords(matrix, folderPath, mapFileName, "", mapCoords, extensionName);
+    }
+
+    public static String getFilePathWithCoords(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, String nameEnd, Point mapCoords, String extensionName) {
+        String filename = Utils.removeExtensionFromPath(mapFileName) + nameEnd;
         Point minCoords = getMinCoords(matrix);
         filename += "_" + String.format("%02d", mapCoords.x - minCoords.x) + "_" + String.format("%02d", mapCoords.y - minCoords.y);
         return folderPath + File.separator + filename + "." + extensionName;
     }
 
-    /*
-    private String getFilePathWithUnsignedCoords(String folderPath, String mapFileName, Point minCoords, Point mapCoords, String extensionName) {
-        String filename = Utils.removeExtensionFromPath(mapFileName);
-        filename += "_" + String.format("%02d", mapCoords.x - minCoords.x) + "_" + String.format("%02d", mapCoords.y - minCoords.y);
-        return folderPath + File.separator + filename + "." + extensionName;
-    }*/
     private static String getFilePath(String folderPath, String mapFileName, String extensionName) {
         String filename = Utils.removeExtensionFromPath(mapFileName);
         return folderPath + File.separator + filename + "." + extensionName;
@@ -574,7 +632,7 @@ public class MapMatrix {
             borderMaps.remove(map);
         }
 
-        System.out.println("Border maps updated! " + borderMaps.size());
+        //System.out.println("Border maps updated! " + borderMaps.size());
     }
 
     public void updateContourPoints(HashSet<Integer> areaIndices) {
@@ -691,20 +749,29 @@ public class MapMatrix {
     private void removeUnusedMapFiles(String folderPath, String fileExtension) {
         Point minCoords = getMinCoords();
 
-        File folder = new File(folderPath);
-        File[] filesToRemove = folder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return canRemoveMapFile(name, fileExtension, minCoords);
-            }
-        });
+        if(folderPath != null) {
+            File folder = new File(folderPath);
+            File[] filesToRemove = folder.listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return canRemoveMapFile(name, fileExtension, minCoords);
+                }
+            });
 
-        for (File file : filesToRemove) {
-            try {
-                Files.deleteIfExists(file.toPath());
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            for (File file : filesToRemove) {
+                try {
+                    Files.deleteIfExists(file.toPath());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
+        }
+    }
+
+    public void clearAllCollisions(){
+        for (MapData mapData : matrix.values()) {
+            mapData.setCollisions(new Collisions(handler.getGameIndex()));
+            mapData.setCollisions2(new Collisions(handler.getGameIndex()));
         }
     }
 

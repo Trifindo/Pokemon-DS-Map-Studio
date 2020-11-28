@@ -1,0 +1,308 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "fill,insets 5,hidemode 3,gapx 5"
+			"$columnConstraints": "[942,fill][grow,fill]"
+			"$rowConstraints": "[][512,grow,fill]"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "BDHC Editor"
+			"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			"modal": true
+			"$sizePolicy": 1
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "hidemode 3"
+				"$columnConstraints": "[fill][fill][fill][fill]"
+				"$rowConstraints": "[]"
+			} ) {
+				name: "panel4"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jButton2"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
+					"text": "Import BDHC"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton2ActionPerformed", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jButton1"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+					"text": "Export BDHC"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton1ActionPerformed", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"text": "BDHC files are saved automatically when pressing the save map button from the main window"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/informationIcon.png" )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 3 0"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0 2 1"
+			} )
+			add( new FormContainer( "javax.swing.JSplitPane", new FormLayoutManager( class javax.swing.JSplitPane ) ) {
+				name: "splitPane1"
+				"resizeWeight": 0.5
+				"dividerLocation": 350
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "hidemode 3"
+					"$columnConstraints": "0[grow,fill]0"
+					"$rowConstraints": "0[grow,fill]0[grow,fill]0[]"
+				} ) {
+					name: "panel3"
+					add( new FormComponent( "formats.bdhc.BdhcDisplay3D" ) {
+						name: "bdhcDisplay3D"
+						"preferredSize": new java.awt.Dimension( 200, 512 )
+						"border": new javax.swing.border.LineBorder( sfield java.awt.Color lightGray, 1, false )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "hidemode 3"
+						"$columnConstraints": "[grow,fill][grow,fill]"
+						"$rowConstraints": "[][][][]0[grow,fill]0[]0"
+					} ) {
+						name: "panel5"
+						"border": new javax.swing.border.TitledBorder( "View Settings" )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "jcbViewMap"
+							"text": "View Map"
+							"selected": true
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbViewMapActionPerformed", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 1"
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "jcbXRayPlates"
+							"text": "X Ray Plates"
+							"selected": true
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbXRayPlatesActionPerformed", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 1"
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "jcbWireframePlates"
+							"text": "Wireframe Plates"
+							"selected": true
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbWireframePlatesActionPerformed", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 2"
+						} )
+						add( new FormComponent( "javax.swing.JCheckBox" ) {
+							name: "jcbTransparentPlates"
+							"text": "Transparent Plates"
+							"selected": true
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTransparentPlatesActionPerformed", true ) )
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 1 2"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 1"
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "left"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+					"hgap": 0
+					"vgap": 0
+				} ) {
+					name: "displayContainer"
+					"minimumSize": new java.awt.Dimension( 300, 300 )
+					"border": new javax.swing.border.LineBorder( sfield java.awt.Color lightGray, 1, false )
+					addEvent( new FormEvent( "java.awt.event.ComponentListener", "componentResized", "displayContainerComponentResized", true ) )
+					add( new FormComponent( "formats.bdhc.BdhcDisplay" ) {
+						name: "bdhcDisplay"
+						"border": new javax.swing.border.LineBorder( sfield java.awt.Color lightGray, 1, false )
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "right"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "hidemode 3"
+				"$columnConstraints": "[grow,fill]"
+				"$rowConstraints": "[grow][]"
+			} ) {
+				name: "panel1"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 5,hidemode 3"
+					"$columnConstraints": "[grow,fill]"
+					"$rowConstraints": "[grow,fill][]"
+				} ) {
+					name: "jPanel1"
+					"border": new javax.swing.border.TitledBorder( "Plates" )
+					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "jScrollPane1"
+						"horizontalScrollBarPolicy": 31
+						"verticalScrollBarPolicy": 22
+						"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						add( new FormComponent( "javax.swing.JList" ) {
+							name: "plateList"
+							"model": new javax.swing.DefaultListModel
+							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							auxiliary() {
+								"JavaCodeGenerator.typeParameters": "String"
+							}
+							addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "plateListValueChanged", true ) )
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+						"hgap": 5
+					} ) {
+						name: "panel2"
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbAddPlate"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
+							"text": "Add Plate"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddPlateActionPerformed", true ) )
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "jbRemovePlate"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
+							"text": "Remove Plate"
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemovePlateActionPerformed", true ) )
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 1"
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0,growy"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
+					"$columnConstraints": "[97,fill][140,grow,fill][fill][fill]"
+					"$rowConstraints": "[fill][fill][fill][70:70,grow,fill][][]"
+				} ) {
+					name: "jPanel2"
+					"border": new javax.swing.border.TitledBorder( "Plate Info" )
+					"preferredSize": new java.awt.Dimension( 200, 219 )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel2"
+						"foreground": new java.awt.Color( 0, 153, 255, 255 )
+						"text": "Z Coord: "
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0 2 1"
+					} )
+					add( new FormComponent( "javax.swing.JSpinner" ) {
+						name: "jsCoordZ"
+						"model": new javax.swing.SpinnerNumberModel {
+							stepSize: 1.0f
+							value: 0.0f
+						}
+						addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jsCoordZStateChanged", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 0 3 1"
+					} )
+					add( new FormComponent( "javax.swing.JComboBox" ) {
+						name: "jcbType"
+						"model": new javax.swing.DefaultComboBoxModel {
+							selectedItem: "PLANE"
+							addElement( "PLANE" )
+							addElement( "BRIDGE (DP ONLY)" )
+							addElement( "STAIRS LEFT (-X)" )
+							addElement( "STAIRS RIGHT (+X)" )
+							addElement( "STAIRS UP (-Y)" )
+							addElement( "STAIRS DOWN (+Y)" )
+							addElement( "OTHER" )
+						}
+						"preferredSize": new java.awt.Dimension( 100, 30 )
+						auxiliary() {
+							"JavaCodeGenerator.typeParameters": "String"
+						}
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbTypeActionPerformed", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 1 2 1,growx"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel5"
+						"text": "Type: "
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 1"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel6"
+						"foreground": new java.awt.Color( 0, 153, 0, 255 )
+						"horizontalAlignment": 0
+						"text": "Angle Y"
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 2"
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "jLabel7"
+						"foreground": new java.awt.Color( 204, 0, 0, 255 )
+						"horizontalAlignment": 0
+						"text": "Angle X"
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 2 2"
+					} )
+					add( new FormComponent( "formats.bdhc.AngleDisplay" ) {
+						name: "angleDisplay1"
+						"border": new javax.swing.border.SoftBevelBorder( 1, null, null, null, null )
+						"toolTipText": ""
+						"cursor": &Cursor0 new java.awt.Cursor( 12 )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "angleDisplay1MousePressed", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 3"
+					} )
+					add( new FormComponent( "formats.bdhc.AngleDisplay" ) {
+						name: "angleDisplay2"
+						"border": new javax.swing.border.SoftBevelBorder( 1, null, null, null, null )
+						"cursor": #Cursor0
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "angleDisplay2MousePressed", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 2 3"
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "jtfAngleX"
+						"text": " "
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "jtfAngleXFocusGained", true ) )
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "jtfAngleXFocusLost", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 4"
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "jtfAngleY"
+						"text": " "
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusGained", "jtfAngleYFocusGained", true ) )
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "jtfAngleYFocusLost", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 2 4"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbApplyAngleX"
+						"text": "Apply"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyAngleXActionPerformed", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 5"
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "jbApplyAngleY"
+						"text": "Apply"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbApplyAngleYActionPerformed", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 2 5"
+					} )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 1"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 1250, 615 )
+			"location": new java.awt.Point( 95, 0 )
+		} )
+	}
+}

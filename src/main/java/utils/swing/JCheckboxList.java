@@ -50,10 +50,8 @@ public class JCheckboxList extends JList<JCheckBox> {
             JCheckBox checkbox = value;
 
             //Drawing checkbox, change the appearance here
-            checkbox.setBackground(isSelected ? getSelectionBackground()
-                    : getBackground());
-            checkbox.setForeground(isSelected ? getSelectionForeground()
-                    : getForeground());
+            checkbox.setBackground(isSelected ? getSelectionBackground() : getBackground());
+            //checkbox.setForeground(isSelected ? getSelectionForeground() : getForeground());
             checkbox.setEnabled(isEnabled());
             checkbox.setFont(getFont());
             checkbox.setFocusPainted(false);

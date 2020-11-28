@@ -1,12 +1,12 @@
 
 package editor.handler;
 
-import editor.backsound.Backsound;
-import editor.bdhc.Bdhc;
+import formats.backsound.Backsound;
+import formats.bdhc.Bdhc;
 import editor.buildingeditor2.buildfile.BuildFile;
-import editor.collisions.Collisions;
+import formats.bdhcam.Bdhcam;
+import formats.collisions.Collisions;
 import editor.grid.MapGrid;
-import editor.state.StateHandler;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -26,11 +26,15 @@ public class MapData {
     //Bdhc
     private Bdhc bdhc;
 
+    //Bdhcam
+    private Bdhcam bdhcam;
+
     //Backsound
     private Backsound backsound;
 
     //Collisions
     private Collisions collisions;
+    private Collisions collisions2;
 
     //Building file
     private BuildFile buildings;
@@ -50,7 +54,9 @@ public class MapData {
         bdhc = new Bdhc();
         backsound = new Backsound();
         collisions = new Collisions(handler.getGameIndex());
+        collisions2 = new Collisions(handler.getGameIndex());;
         buildings = new BuildFile();
+        bdhcam = new Bdhcam();
 
         areaIndex = 0;
         //System.out.println("Map data created");
@@ -126,6 +132,14 @@ public class MapData {
         this.collisions = collisions;
     }
 
+    public Collisions getCollisions2() {
+        return collisions2;
+    }
+
+    public void setCollisions2(Collisions collisions2) {
+        this.collisions2 = collisions2;
+    }
+
     public BuildFile getBuildings() {
         return buildings;
     }
@@ -150,5 +164,11 @@ public class MapData {
         return areaIndex;
     }
 
+    public Bdhcam getBdhcam() {
+        return bdhcam;
+    }
 
+    public void setBdhcam(Bdhcam bdhcam) {
+        this.bdhcam = bdhcam;
+    }
 }

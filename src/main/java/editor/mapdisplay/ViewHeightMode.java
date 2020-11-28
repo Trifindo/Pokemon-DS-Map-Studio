@@ -217,6 +217,9 @@ public class ViewHeightMode extends ViewMode {
     public void applyCameraTransform(MapDisplay d, GL2 gl) {
         float v = (16.0f + d.borderSize) / d.orthoScale;
         gl.glOrtho(-v, v, -v, v, -100.0f, 100.0f);
+        //TODO: Use this code for keeping the aspect ratio
+        //float aspect = d.getAspectRatio();
+        //gl.glOrtho(-v * aspect, v * aspect, -v, v, -100.0f, 100.0f);
     }
 
     @Override

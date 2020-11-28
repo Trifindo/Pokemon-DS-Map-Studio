@@ -7,16 +7,13 @@ import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 
-import editor.TilesetRenderer;
+import tileset.TilesetRenderer;
 import editor.game.Game;
 import editor.handler.MapEditorHandler;
 import editor.smartdrawing.SmartGrid;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 import tileset.TextureNotFoundException;

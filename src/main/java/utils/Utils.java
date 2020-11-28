@@ -16,11 +16,7 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -316,6 +312,15 @@ public class Utils {
         return newArray;
     }
 
+    public static boolean containsArray(byte[] bigArray, byte[] smallArray, int offset) {
+        for (int i = 0; i < smallArray.length; i++) {
+            if (bigArray[offset + i] != smallArray[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void printArrayInFile(PrintWriter writer, float[] array, int cols) {
         for (int i = 0; i < array.length; i++) {
             if (i % cols == 0) {
@@ -514,6 +519,14 @@ public class Utils {
         floodFillUtil(screen, x - 1, y, prevC, newC, M, N);
         floodFillUtil(screen, x, y + 1, prevC, newC, M, N);
         floodFillUtil(screen, x, y - 1, prevC, newC, M, N);
+    }
+
+    public static byte[] toArray(List<Byte> list){
+        byte[] data = new byte[list.size()];
+        for(int i = 0; i < list.size(); i++){
+            data[i] = list.get(i);
+        }
+        return data;
     }
 
     public static Cursor loadCursor(String path) {

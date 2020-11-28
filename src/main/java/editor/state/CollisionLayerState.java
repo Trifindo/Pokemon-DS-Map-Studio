@@ -1,7 +1,7 @@
 
 package editor.state;
 
-import editor.collisions.CollisionHandler;
+import formats.collisions.CollisionHandler;
 
 /**
  * @author Trifindo

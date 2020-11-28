@@ -12,7 +12,7 @@ new FormModel {
 			"title": "NSBTX Successfully Saved"
 			"resizable": false
 			"modal": true
-			add( new FormComponent( "editor.nsbtx2.NsbtxPanel" ) {
+			add( new FormComponent( "formats.nsbtx2.NsbtxPanel" ) {
 				name: "nsbtxPanel1"
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
@@ -35,7 +35,7 @@ new FormModel {
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 475, 510 )
+			"size": new java.awt.Dimension( 485, 510 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
 	}

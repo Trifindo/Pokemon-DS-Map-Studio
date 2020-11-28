@@ -1,6 +1,6 @@
 package editor.gameselector;
 
-import editor.collisions.Collisions;
+import formats.collisions.Collisions;
 import editor.game.Game;
 import editor.handler.MapEditorHandler;
 
@@ -38,7 +38,12 @@ public class GameChangerDialog extends JDialog {
             int dialogResult = JOptionPane.showConfirmDialog(this, "The map collisions will be deleted. Do you want to continue?", "Warning", JOptionPane.YES_NO_OPTION);
             if (dialogResult == JOptionPane.YES_OPTION) {
                 handler.setGameIndex(newGame);
-                handler.setCollisions(new Collisions(newGame));
+
+                handler.getMapMatrix().clearAllCollisions();
+                /*handler.setCollisions(new Collisions(newGame));
+                if(Game.isGenV(newGame)){
+                    handler.setCollisions2(null);
+                }*/
                 returnValue = ACEPTED;
                 dispose();
             }

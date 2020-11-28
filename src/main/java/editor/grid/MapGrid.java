@@ -2,15 +2,11 @@
 package editor.grid;
 
 import editor.handler.MapEditorHandler;
-import editor.obj.ObjWriter;
+import formats.obj.ObjWriter;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.HashSet;
 
@@ -124,9 +120,9 @@ public class MapGrid {
         input.close();
     }*/
     public void saveMapToOBJ(Tileset tset, String path, boolean saveTextures,
-                             boolean saveVertexColors) throws FileNotFoundException {
+                             boolean saveVertexColors, float tileUpscale) throws FileNotFoundException {
         ObjWriter writer = new ObjWriter(tset, this, path, handler.getGameIndex(),
-                saveTextures, saveVertexColors);
+                saveTextures, saveVertexColors, tileUpscale);
         writer.writeMapObj();
     }
 

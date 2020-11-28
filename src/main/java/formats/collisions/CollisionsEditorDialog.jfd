@@ -1,0 +1,220 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+			"$layoutConstraints": "insets dialog,hidemode 3,gap 5 5"
+			"$columnConstraints": "[shrink 0,fill][shrink 0,fill][shrink 0,fill][grow,fill]"
+			"$rowConstraints": "[][fill][][][][grow,fill]"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 2
+			"title": "Collision Editor"
+			"modal": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "hidemode 3"
+				"$columnConstraints": "[fill][fill][fill][fill]"
+				"$rowConstraints": "[]"
+			} ) {
+				name: "panel1"
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbImportCollisions"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
+					"text": "Import PER"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportCollisionsActionPerformed", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 0"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbExportCollisions"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
+					"text": "Export PER"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportCollisionsActionPerformed", true ) )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"text": "PER files are saved automatically when pressing the save map button from the main window"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/informationIcon.png" )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 3 0"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 0 4 1"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "jPanel1"
+				"border": new javax.swing.border.TitledBorder( null, "Collision Layers", 4, 1 )
+				add( new FormComponent( "formats.collisions.CollisionLayerSelector" ) {
+					name: "collisionLayerSelector"
+					"preferredSize": new java.awt.Dimension( 128, 512 )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 0 1 1 5"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "jPanel2"
+				"border": new javax.swing.border.TitledBorder( null, "Collision Data", 4, 1 )
+				add( new FormComponent( "formats.collisions.CollisionsDisplay" ) {
+					name: "collisionsDisplay"
+					"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 1 1 1 5"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "jPanel3"
+				"border": new javax.swing.border.TitledBorder( null, "Collision Type Selector", 4, 1 )
+				add( new FormComponent( "formats.collisions.CollisionsTypesSelector" ) {
+					name: "collisionsTypesDisplay"
+					"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, false )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 2 1 1 5"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
+				"$columnSpecs": "0:1.0, 0:1.0"
+				"$rowSpecs": "center:0:1.0"
+				"$alignTop": true
+				"$alignLeft": true
+				"$hGap": 5
+				"$vGap": 5
+			} ) {
+				name: "jPanel7"
+				"border": new javax.swing.border.TitledBorder( null, "Controls", 1, 1 )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbUndo"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoIcon.png" )
+					"disabledIcon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoDisabledIcon.png" )
+					"enabled": false
+					"focusPainted": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbUndoActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbRedo"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoIcon.png" )
+					"disabledIcon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoDisabledIcon.png" )
+					"enabled": false
+					"focusPainted": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRedoActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+					"gridx": 1
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 3 1"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "jPanel4"
+				"border": new javax.swing.border.TitledBorder( null, "Collision Type", 4, 1 )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "jtfCollisionType"
+					"editable": false
+					"background": new java.awt.Color( 255, 255, 255, 255 )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 3 2"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) ) {
+				name: "jPanel5"
+				"border": new javax.swing.border.TitledBorder( null, "Opacity", 4, 1 )
+				add( new FormComponent( "javax.swing.JSlider" ) {
+					name: "jSlider1"
+					addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSlider1StateChanged", true ) )
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 3 3"
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
+				name: "cardPanel"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "hidemode 3"
+					"$columnConstraints": "[fill]"
+					"$rowConstraints": "[]"
+				} ) {
+					name: "emptyPanel"
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "emptyPanel"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+					"$layoutConstraints": "hidemode 3"
+					"$columnConstraints": "[fill][grow,fill]"
+					"$rowConstraints": "[][][][]"
+				} ) {
+					name: "fileSelectorPanel"
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label2"
+						"text": "File selected:"
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 0"
+					} )
+					add( new FormComponent( "javax.swing.JComboBox" ) {
+						name: "jcbFileSelected"
+						"model": new javax.swing.DefaultComboBoxModel {
+							selectedItem: "File 1"
+							addElement( "File 1" )
+							addElement( "File 2" )
+						}
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbFileSelectedActionPerformed", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 1 0"
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "jcbLockTerrain"
+						"text": "Lock terrain layers"
+						"selected": true
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbLockTerrainActionPerformed", true ) )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 1 2 1"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "hidemode 3"
+						"$columnConstraints": "[grow,fill]"
+						"$rowConstraints": "[]"
+					} ) {
+						name: "panel2"
+						"border": new javax.swing.border.TitledBorder( "Info" )
+						add( new FormComponent( "javax.swing.JTextArea" ) {
+							name: "textArea2"
+							"editable": false
+							"wrapStyleWord": true
+							"lineWrap": true
+							"text": "The Terrain and Height layers should be edited with the Terrain Editor"
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 2 2 1"
+					} )
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+						"$layoutConstraints": "hidemode 3"
+						"$columnConstraints": "[grow,fill]"
+						"$rowConstraints": "[]"
+					} ) {
+						name: "panel3"
+						"border": new javax.swing.border.TitledBorder( "Warning" )
+						add( new FormComponent( "javax.swing.JTextArea" ) {
+							name: "textArea1"
+							"wrapStyleWord": true
+							"lineWrap": true
+							"text": "SDSME does not import/export PER files from BW/BW2 properly "
+							"editable": false
+						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+							"value": "cell 0 0"
+						} )
+					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+						"value": "cell 0 3 2 1"
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "fileSelectorPanel"
+				} )
+			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+				"value": "cell 3 4"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 1045, 715 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}

@@ -1,0 +1,20 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) {
+			"axis": 0
+		} ) {
+			name: "this"
+			"border": new javax.swing.border.LineBorder( sfield java.awt.Color gray, 1, false )
+			addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "thisMousePressed", true ) )
+			addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseDragged", "thisMouseDragged", true ) )
+			addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseMoved", "thisMouseMoved", true ) )
+			addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "thisKeyPressed", true ) )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 300 )
+		} )
+	}
+}

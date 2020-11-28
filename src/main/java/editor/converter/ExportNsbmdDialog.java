@@ -1,6 +1,11 @@
 
 package editor.converter;
 
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle;
+import javax.swing.border.*;
 import editor.handler.MapEditorHandler;
 
 import java.io.File;
@@ -11,8 +16,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
+import net.miginfocom.swing.*;
 
 import utils.Utils;
+import utils.swing.*;
 
 /**
  * @author Trifindo
@@ -46,195 +53,195 @@ public class ExportNsbmdDialog extends javax.swing.JDialog {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        jPanel1 = new JPanel();
+        jLabel1 = new JLabel();
+        jLabel2 = new JLabel();
+        jtfImdFolderPath = new JTextField();
+        jbImdBrowse = new JButton();
+        jbSelectAll = new JButton();
+        jbDeselectAll = new JButton();
+        jScrollCheckboxList = new JScrollCheckboxList();
+        jPanel2 = new JPanel();
+        jLabel3 = new JLabel();
+        jtfNsbFolderPath = new JTextField();
+        jbNsbBrowse = new JButton();
+        jCheckBox1 = new JCheckBox();
+        panel1 = new JPanel();
+        jbAccept = new JButton();
+        jbCancel = new JButton();
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jScrollCheckboxList = new utils.swing.JScrollCheckboxList();
-        jLabel2 = new javax.swing.JLabel();
-        jtfImdFolderPath = new javax.swing.JTextField();
-        jbImdBrowse = new javax.swing.JButton();
-        jbSelectAll = new javax.swing.JButton();
-        jbDeselectAll = new javax.swing.JButton();
-        jbCancel = new javax.swing.JButton();
-        jbAccept = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jtfNsbFolderPath = new javax.swing.JTextField();
-        jbNsbBrowse = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        //======== this ========
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Export maps as NSBMD settings");
         setModal(true);
+        Container contentPane = getContentPane();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("IMD settings"));
+        //======== jPanel1 ========
+        {
+            jPanel1.setBorder(new TitledBorder("IMD settings"));
 
-        jLabel1.setText("Select the IMD files that will be converted into NSBMD:");
+            //---- jLabel1 ----
+            jLabel1.setText("Select the IMD files that will be converted into NSBMD:");
 
-        jScrollCheckboxList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollCheckboxList.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            //---- jLabel2 ----
+            jLabel2.setText("IMD folder path:");
 
-        jLabel2.setText("IMD folder path:");
+            //---- jtfImdFolderPath ----
+            jtfImdFolderPath.setEditable(false);
 
-        jtfImdFolderPath.setEditable(false);
+            //---- jbImdBrowse ----
+            jbImdBrowse.setText("Browse...");
+            jbImdBrowse.addActionListener(e -> jbImdBrowseActionPerformed(e));
 
-        jbImdBrowse.setText("Browse...");
-        jbImdBrowse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbImdBrowseActionPerformed(evt);
-            }
-        });
+            //---- jbSelectAll ----
+            jbSelectAll.setText("Select All");
+            jbSelectAll.addActionListener(e -> jbSelectAllActionPerformed(e));
 
-        jbSelectAll.setText("Select All");
-        jbSelectAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbSelectAllActionPerformed(evt);
-            }
-        });
+            //---- jbDeselectAll ----
+            jbDeselectAll.setText("Deselect All");
+            jbDeselectAll.addActionListener(e -> jbDeselectAllActionPerformed(e));
 
-        jbDeselectAll.setText("Deselect All");
-        jbDeselectAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbDeselectAllActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollCheckboxList, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jtfImdFolderPath)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jbImdBrowse))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabel1)
-                                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(jbSelectAll)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(jbDeselectAll)))
-                                                .addGap(0, 0, Short.MAX_VALUE)))
-                                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jtfImdFolderPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jbImdBrowse))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollCheckboxList, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
+            jPanel1.setLayout(jPanel1Layout);
+            jPanel1Layout.setHorizontalGroup(
+                jPanel1Layout.createParallelGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup()
+                            .addComponent(jScrollCheckboxList, GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfImdFolderPath)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbImdBrowse))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup()
+                                    .addComponent(jLabel1)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jbSelectAll)
-                                        .addComponent(jbDeselectAll))
-                                .addContainerGap())
-        );
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jbDeselectAll)))
+                                .addGap(0, 62, Short.MAX_VALUE)))
+                        .addContainerGap())
+            );
+            jPanel1Layout.setVerticalGroup(
+                jPanel1Layout.createParallelGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jtfImdFolderPath, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbImdBrowse))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollCheckboxList, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(jbSelectAll)
+                            .addComponent(jbDeselectAll))
+                        .addContainerGap())
+            );
+        }
 
-        jbCancel.setText("Cancel");
-        jbCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbCancelActionPerformed(evt);
-            }
-        });
+        //======== jPanel2 ========
+        {
+            jPanel2.setBorder(new TitledBorder("NSBMD settings"));
 
-        jbAccept.setText("OK");
-        jbAccept.setPreferredSize(new java.awt.Dimension(65, 23));
-        jbAccept.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbAcceptActionPerformed(evt);
-            }
-        });
+            //---- jLabel3 ----
+            jLabel3.setText("NSBMD destination folder path:");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("NSBMD settings"));
+            //---- jtfNsbFolderPath ----
+            jtfNsbFolderPath.setEditable(false);
 
-        jLabel3.setText("NSBMD destination folder path:");
+            //---- jbNsbBrowse ----
+            jbNsbBrowse.setText("Browse...");
+            jbNsbBrowse.addActionListener(e -> jbNsbBrowseActionPerformed(e));
 
-        jtfNsbFolderPath.setEditable(false);
+            //---- jCheckBox1 ----
+            jCheckBox1.setSelected(true);
+            jCheckBox1.setText("Include NSBTX in NSBMD");
 
-        jbNsbBrowse.setText("Browse...");
-        jbNsbBrowse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbNsbBrowseActionPerformed(evt);
-            }
-        });
-
-        jCheckBox1.setSelected(true);
-        jCheckBox1.setText("Include NSBTX in NSBMD");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jLabel3)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jtfNsbFolderPath)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jbNsbBrowse))
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jCheckBox1)
-                                                .addGap(0, 0, Short.MAX_VALUE)))
-                                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jtfNsbFolderPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jbNsbBrowse))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
+            jPanel2.setLayout(jPanel2Layout);
+            jPanel2Layout.setHorizontalGroup(
+                jPanel2Layout.createParallelGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup()
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfNsbFolderPath)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbNsbBrowse))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jCheckBox1)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+            );
+            jPanel2Layout.setVerticalGroup(
+                jPanel2Layout.createParallelGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jtfNsbFolderPath, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbNsbBrowse))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBox1)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
+        }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(0, 0, Short.MAX_VALUE)
-                                                .addComponent(jbAccept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jbCancel)))
-                                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jbCancel)
-                                        .addComponent(jbAccept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap())
-        );
+        //======== panel1 ========
+        {
+            panel1.setLayout(new MigLayout(
+                "hidemode 3,alignx right",
+                // columns
+                "[fill]" +
+                "[fill]",
+                // rows
+                "[]"));
 
+            //---- jbAccept ----
+            jbAccept.setText("OK");
+            jbAccept.setPreferredSize(new Dimension(65, 23));
+            jbAccept.addActionListener(e -> jbAcceptActionPerformed(e));
+            panel1.add(jbAccept, "cell 0 0");
+
+            //---- jbCancel ----
+            jbCancel.setText("Cancel");
+            jbCancel.addActionListener(e -> jbCancelActionPerformed(e));
+            panel1.add(jbCancel, "cell 1 0");
+        }
+
+        GroupLayout contentPaneLayout = new GroupLayout(contentPane);
+        contentPane.setLayout(contentPaneLayout);
+        contentPaneLayout.setHorizontalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(contentPaneLayout.createParallelGroup()
+                        .addComponent(panel1, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                        .addComponent(jPanel2, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap())
+        );
+        contentPaneLayout.setVerticalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(panel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap())
+        );
         pack();
+        setLocationRelativeTo(getOwner());
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbImdBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImdBrowseActionPerformed
@@ -348,21 +355,22 @@ public class ExportNsbmdDialog extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private utils.swing.JScrollCheckboxList jScrollCheckboxList;
-    private javax.swing.JButton jbAccept;
-    private javax.swing.JButton jbCancel;
-    private javax.swing.JButton jbDeselectAll;
-    private javax.swing.JButton jbImdBrowse;
-    private javax.swing.JButton jbNsbBrowse;
-    private javax.swing.JButton jbSelectAll;
-    private javax.swing.JTextField jtfImdFolderPath;
-    private javax.swing.JTextField jtfNsbFolderPath;
+    private JPanel jPanel1;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JTextField jtfImdFolderPath;
+    private JButton jbImdBrowse;
+    private JButton jbSelectAll;
+    private JButton jbDeselectAll;
+    private JScrollCheckboxList jScrollCheckboxList;
+    private JPanel jPanel2;
+    private JLabel jLabel3;
+    private JTextField jtfNsbFolderPath;
+    private JButton jbNsbBrowse;
+    private JCheckBox jCheckBox1;
+    private JPanel panel1;
+    private JButton jbAccept;
+    private JButton jbCancel;
     // End of variables declaration//GEN-END:variables
 
     public void init(MapEditorHandler handler) {

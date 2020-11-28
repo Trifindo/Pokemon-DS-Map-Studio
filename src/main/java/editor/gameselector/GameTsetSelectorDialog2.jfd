@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {space :::p, par l {seq t {par l {comp jLabel1:::p::p, comp jScrollPane1:::p:125:p}, space u:::p, comp jpanelIcon:::p::p, space u:::p, par l {comp jScrollPane2:::p:130:p, comp jLabel2:::p::p}, space u:::p, par l {comp jLabel3:::p::p, comp jScrollPane3:::p:231:p}, space :::p, par l {comp jLabel4:::p::p, comp jScrollPane4:::p::p}, space :0:0:x}, seq t {space :0:0:x, comp jbFinish:::p:100:p, space :::p, comp jbCancel:::p:100:p}}, space :::p}}"
-			"$verticalGroup": "par l {seq l {space :::p, par b {comp jLabel1::b:p::p, comp jLabel2::b:p::p, comp jLabel3::b:p::p, comp jLabel4::b:p::p}, space :::p, par l {seq {par l {comp jScrollPane4:::::x, comp jScrollPane2::::349:x, comp jScrollPane3::::349:x, comp jScrollPane1::l:::x}, space :p:11:p}, seq {comp jpanelIcon:::p::p, space :::x}}, par b {comp jbCancel::b:p::p, comp jbFinish::b:p::p}, space :::p}}"
+			"$horizontalGroup": "par l {seq {space :::p, par l {seq t {par l {comp jLabel1:::p::p, comp jScrollPane1:::p:125:p}, space u:::p, comp jpanelIcon:::p::p, space u:::p, par l {comp jLabel2:::p::p, comp jScrollPane2:::p:158:p}, space :::p, par l {comp jLabel3:::p::p, comp jScrollPane3:::p:231:p}, space :::p, par l {comp jLabel4:::p::p, comp jScrollPane4:::p::p}, space :0:0:x}, seq t {space :0:0:x, comp jbFinish:::p:100:p, space :::p, comp jbCancel:::p:100:p}}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, par b {comp jLabel1::b:p::p, comp jLabel2::b:p::p, comp jLabel3::b:p::p, comp jLabel4::b:p::p}, space :::p, par l {seq {par l {comp jScrollPane4:::::x, comp jScrollPane3::::341:x, comp jScrollPane1::l:::x, comp jScrollPane2::l::341:x}, space :p:11:p}, seq {comp jpanelIcon:::p::p, space :::x}}, par b {comp jbCancel::b:p::p, comp jbFinish::b:p::p}, space :::p}}"
 		} ) {
 			name: "this"
 			"defaultCloseOperation": 2
@@ -104,7 +104,7 @@ new FormModel {
 				"verticalScrollBarPolicy": 22
 				add( new FormContainer( "editor.gameselector.TilesetThumbnailDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {space :0:128:x}"
-					"$verticalGroup": "par l {space :0:347:x}"
+					"$verticalGroup": "par l {space :0:339:x}"
 				} ) {
 					name: "tilesetThumbnailDisplay"
 					"maximumSize": new java.awt.Dimension( 128, 32767 )
@@ -117,7 +117,7 @@ new FormModel {
 				"text": "Tileset preview:"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 740, 455 )
+			"size": new java.awt.Dimension( 770, 455 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
 	}

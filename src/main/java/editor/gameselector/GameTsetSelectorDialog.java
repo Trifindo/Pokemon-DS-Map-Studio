@@ -1,7 +1,6 @@
 package editor.gameselector;
 
-import editor.MainFrame;
-import editor.TilesetRenderer;
+import tileset.TilesetRenderer;
 import editor.game.Game;
 import editor.handler.MapEditorHandler;
 import editor.smartdrawing.SmartGrid;
@@ -13,13 +12,9 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.ListSelectionEvent;

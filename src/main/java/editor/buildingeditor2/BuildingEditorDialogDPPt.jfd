@@ -12,6 +12,7 @@ new FormModel {
 			"defaultCloseOperation": 2
 			"title": "Building Editor (Experimental)"
 			"modal": true
+			"$sizePolicy": 1
 			add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 				name: "jTabbedPane1"
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
@@ -21,8 +22,8 @@ new FormModel {
 				} ) {
 					name: "jPanel3"
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
-						"$columnConstraints": "[grow,fill][fill][fill]"
+						"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
+						"$columnConstraints": "[462,grow,fill][175,fill][fill]"
 						"$rowConstraints": "[fill][grow,fill]"
 					} ) {
 						name: "jPanel1"
@@ -52,19 +53,21 @@ new FormModel {
 							"value": "cell 1 0"
 						} )
 						add( new FormContainer( "renderer.NitroDisplayGL", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-							"$horizontalGroup": "par l {space :0:412:x}"
+							"$horizontalGroup": "par l {space :0:425:x}"
 							"$verticalGroup": "par l {space :0:0:x}"
 						} ) {
 							name: "nitroDisplayGL"
 							"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-							"value": "cell 0 0 1 2"
+							"value": "cell 0 0 1 2,gapx 5 5,gapy 5 5"
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 							"$columnSpecs": "0:1.0"
 							"$rowSpecs": "0, 0, 0, 0, 0"
 							"$alignTop": true
 							"$alignLeft": true
+							"$hGap": 5
+							"$vGap": 5
 						} ) {
 							name: "panel2"
 							add( new FormComponent( "javax.swing.JButton" ) {
@@ -115,11 +118,11 @@ new FormModel {
 							"value": "cell 2 1"
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-						"value": "cell 0 0 1 2"
+						"value": "cell 0 0 1 2,gapx 5 5,gapy 5 5"
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
-						"$columnConstraints": "[grow,fill][fill][fill]"
+						"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
+						"$columnConstraints": "[132,grow,fill][fill]"
 						"$rowConstraints": "[fill][grow,fill]"
 					} ) {
 						name: "jPanel2"
@@ -214,11 +217,11 @@ new FormModel {
 							"value": "cell 1 1"
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-						"value": "cell 1 0"
+						"value": "cell 1 0,gapx 5 5,gapy 5 5"
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
-						"$columnConstraints": "[fill][fill]"
+						"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
+						"$columnConstraints": "[168,fill][fill]"
 						"$rowConstraints": "[fill][grow,fill]"
 					} ) {
 						name: "jPanel8"
@@ -248,7 +251,7 @@ new FormModel {
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
 							"$columnSpecs": "0, 0"
-							"$rowSpecs": "0, 0, 0, 0, 0"
+							"$rowSpecs": "0, 0, 0, 0, 0, 0"
 							"$hGap": 5
 							"$vGap": 5
 							"$alignLeft": true
@@ -308,6 +311,14 @@ new FormModel {
 								"gridx": 1
 								"gridy": 3
 							} )
+							add( new FormComponent( "javax.swing.JCheckBox" ) {
+								name: "jcbSlope"
+								"text": "Slope Animation (?)"
+								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbSlopeActionPerformed", true ) )
+							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+								"gridy": 4
+								"gridwidth": 2
+							} )
 							add( new FormComponent( "javax.swing.JButton" ) {
 								name: "jbPlay"
 								"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AnimationIcon.png" )
@@ -315,27 +326,27 @@ new FormModel {
 								"horizontalAlignment": 2
 								addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbPlayActionPerformed", true ) )
 							}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-								"gridy": 4
+								"gridy": 5
 								"gridwidth": 2
 							} )
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 							"value": "cell 1 1"
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-						"value": "cell 1 1"
+						"value": "cell 1 1,gapx 5 5,gapy 5 5"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "Building Editor"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 					"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
-					"$columnConstraints": "[grow,fill][grow,fill]"
+					"$columnConstraints": "[grow,fill][grow,fill][450,fill]"
 					"$rowConstraints": "[grow,fill]"
 				} ) {
 					name: "jPanel4"
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
-						"$columnConstraints": "[grow,fill][fill]"
+						"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
+						"$columnConstraints": "[154,grow,fill][fill]"
 						"$rowConstraints": "[fill][grow,fill]"
 					} ) {
 						name: "jPanel5"
@@ -392,10 +403,10 @@ new FormModel {
 							"value": "cell 1 1"
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-						"value": "cell 0 0"
+						"value": "cell 0 0,gapx 5 5,gapy 5 5"
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
 						"$columnConstraints": "[fill][grow,fill][fill]"
 						"$rowConstraints": "[fill][fill][fill][fill]"
 					} ) {
@@ -476,20 +487,20 @@ new FormModel {
 							"value": "cell 1 3 2 1"
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-						"value": "cell 1 0"
+						"value": "cell 1 0,gapx 5 5,gapy 5 5"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "Area Data Editor"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-					"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
-					"$columnConstraints": "[fill][fill][grow,fill]"
+					"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
+					"$columnConstraints": "[fill][grow,fill]"
 					"$rowConstraints": "[grow,fill]"
 				} ) {
 					name: "jPanel7"
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
-						"$columnConstraints": "[fill][fill][fill]"
+						"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
+						"$columnConstraints": "[328,shrink 0,fill][150,fill][fill]"
 						"$rowConstraints": "[fill][fill][grow,fill]"
 					} ) {
 						name: "jPanel10"
@@ -579,11 +590,11 @@ new FormModel {
 							"value": "cell 2 1 1 2"
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-						"value": "cell 1 0"
+						"value": "cell 0 0"
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
-						"$columnConstraints": "[fill][grow,fill]"
+						"$columnConstraints": "[150,fill][grow,fill]"
 						"$rowConstraints": "[fill][fill][grow,fill]"
 					} ) {
 						name: "jPanel11"
@@ -678,7 +689,7 @@ new FormModel {
 						} )
 						add( new FormContainer( "renderer.NitroDisplayGL", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 							"$horizontalGroup": "par l {space :0:0:x}"
-							"$verticalGroup": "par l {space :0:399:x}"
+							"$verticalGroup": "par l {space :0:290:x}"
 						} ) {
 							name: "nitroDisplayAreaData"
 							"border": new javax.swing.border.LineBorder( new java.awt.Color( 102, 102, 102, 255 ), 1, false )
@@ -686,7 +697,7 @@ new FormModel {
 							"value": "cell 1 2"
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-						"value": "cell 2 0"
+						"value": "cell 1 0"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "Building Tileset Editor"
@@ -698,7 +709,7 @@ new FormModel {
 				} ) {
 					name: "jPanel9"
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
 						"$columnConstraints": "[fill][fill]"
 						"$rowConstraints": "[fill][grow,fill]"
 					} ) {
@@ -775,7 +786,7 @@ new FormModel {
 							"value": "cell 1 1"
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-						"value": "cell 0 0"
+						"value": "cell 0 0,gapx 5 5,gapy 5 5"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "Building Animation Editor"
@@ -787,7 +798,7 @@ new FormModel {
 				} ) {
 					name: "jPanel13"
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
+						"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
 						"$columnConstraints": "[fill][grow,fill]"
 						"$rowConstraints": "[fill][grow,fill]"
 					} ) {
@@ -818,11 +829,11 @@ new FormModel {
 							"value": "cell 1 0"
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-						"value": "cell 0 0"
+						"value": "cell 0 0,gapx 5 5,gapy 5 5"
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-						"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
-						"$columnConstraints": "[grow,fill][grow,fill]"
+						"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
+						"$columnConstraints": "[185,grow,fill][grow,fill]"
 						"$rowConstraints": "[fill][grow,fill]"
 					} ) {
 						name: "jPanel15"
@@ -844,8 +855,8 @@ new FormModel {
 							"value": "cell 0 0 1 2"
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
-							"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
-							"$columnConstraints": "[fill][grow,fill][fill][grow,fill]"
+							"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
+							"$columnConstraints": "[fill][103,grow,fill][fill][grow,fill]"
 							"$rowConstraints": "[fill][fill][fill][fill][fill]"
 						} ) {
 							name: "jPanel16"
@@ -965,11 +976,13 @@ new FormModel {
 								"value": "cell 0 4 4 1"
 							} )
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-							"value": "cell 1 1"
+							"value": "cell 1 1,gapx 5 5,gapy 5 5"
 						} )
 						add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
 							"columns": 2
 							"rows": 2
+							"hgap": 5
+							"vgap": 5
 						} ) {
 							name: "jPanel17"
 							"border": new javax.swing.border.TitledBorder( "Building File" )
@@ -977,6 +990,7 @@ new FormModel {
 								"columns": 0
 								"rows": 1
 								"hgap": 5
+								"vgap": 5
 							} ) {
 								name: "jPanel18"
 								add( new FormComponent( "javax.swing.JButton" ) {
@@ -984,14 +998,12 @@ new FormModel {
 									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ImportTileIcon.png" )
 									"text": "Import BLD File"
 									"toolTipText": ""
-									"horizontalAlignment": 2
 									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbImportBldActionPerformed", true ) )
 								} )
 								add( new FormComponent( "javax.swing.JButton" ) {
 									name: "jbExportBld"
 									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/ExportIcon.png" )
 									"text": "Export BLD File"
-									"horizontalAlignment": 2
 									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportBldActionPerformed", true ) )
 								} )
 							} )
@@ -999,6 +1011,7 @@ new FormModel {
 								"columns": 0
 								"rows": 1
 								"hgap": 5
+								"vgap": 5
 							} ) {
 								name: "jPanel19"
 								add( new FormComponent( "javax.swing.JButton" ) {
@@ -1006,22 +1019,20 @@ new FormModel {
 									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/AddIcon.png" )
 									"text": "Add Building"
 									"toolTipText": ""
-									"horizontalAlignment": 2
 									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddBuildBldActionPerformed", true ) )
 								} )
 								add( new FormComponent( "javax.swing.JButton" ) {
 									name: "jbRemoveBld"
 									"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/RemoveIcon.png" )
 									"text": "Remove Building"
-									"horizontalAlignment": 2
 									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRemoveBldActionPerformed", true ) )
 								} )
 							} )
 						}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-							"value": "cell 1 0"
+							"value": "cell 1 0,gapx 5 5,gapy 5 5"
 						} )
 					}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-						"value": "cell 1 0"
+						"value": "cell 1 0,gapx 5 5,gapy 5 5"
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "Map Buildings Editor"
@@ -1029,25 +1040,22 @@ new FormModel {
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 0"
 			} )
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridBagLayout ) {
-				"$columnSpecs": "0:1.0, 0, 0"
-				"$rowSpecs": "0:1.0"
-				"$alignTop": true
-				"$alignLeft": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
+				"$layoutConstraints": "insets 5,hidemode 3,gap 5 5"
+				"$columnConstraints": "[grow,fill][fill][fill]"
+				"$rowConstraints": "[grow,fill]"
 			} ) {
 				name: "panel1"
-				add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
-					name: "hSpacer1"
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "jbSaveAll"
 					"text": "Save All"
 					"preferredSize": new java.awt.Dimension( 100, 0 )
 					"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/saveMapIconSmall.png" )
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbSaveAllActionPerformed", true ) )
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 1
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 1 0"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "jbCancel"
@@ -1056,14 +1064,14 @@ new FormModel {
 					"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					"preferredSize": new java.awt.Dimension( 100, 0 )
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
-				}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
-					"gridx": 2
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 2 0"
 				} )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-				"value": "cell 0 1"
+				"value": "cell 0 1,gapx 5 5,gapy 5 5"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 1380, 755 )
+			"size": new java.awt.Dimension( 1200, 660 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
 	}

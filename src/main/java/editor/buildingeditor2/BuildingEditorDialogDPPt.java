@@ -7,7 +7,7 @@ import javax.swing.GroupLayout;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
-import editor.nsbtx2.*;
+import formats.nsbtx2.*;
 import net.miginfocom.swing.*;
 import editor.buildingeditor2.animations.AddBuildAnimationDialog;
 import editor.buildingeditor2.animations.ModelAnimation;
@@ -18,11 +18,11 @@ import editor.buildingeditor2.areadata.AreaDataDPPt;
 import editor.buildingeditor2.buildfile.Build;
 import editor.buildingeditor2.buildfile.BuildFile;
 import editor.handler.MapEditorHandler;
-import editor.nsbtx2.Nsbtx2;
-import editor.nsbtx2.NsbtxLoader2;
-import editor.nsbtx2.NsbtxPalette;
-import editor.nsbtx2.NsbtxTexture;
-import editor.nsbtx2.NsbtxWriter;
+import formats.nsbtx2.Nsbtx2;
+import formats.nsbtx2.NsbtxLoader2;
+import formats.nsbtx2.NsbtxPalette;
+import formats.nsbtx2.NsbtxTexture;
+import formats.nsbtx2.NsbtxWriter;
 
 import java.awt.Color;
 
@@ -1135,7 +1135,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
         if (buildPropertiesEnabled.value) {
             try {
                 Build build = handler.getBuildings().getBuilds().get(jlBuildFile.getSelectedIndex());
-                build.setX((Float) jsBuildX.getValue());
+                build.setX(((Double) jsBuildX.getValue()).floatValue());
 
                 updateViewNitroDisplayMapBuildProperties(jlBuildFile.getSelectedIndex());
             } catch (Exception ex) {
@@ -1148,7 +1148,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
         if (buildPropertiesEnabled.value) {
             try {
                 Build build = handler.getBuildings().getBuilds().get(jlBuildFile.getSelectedIndex());
-                build.setY((Float) jsBuildY.getValue());
+                build.setY(((Double) jsBuildY.getValue()).floatValue());
 
                 updateViewNitroDisplayMapBuildProperties(jlBuildFile.getSelectedIndex());
             } catch (Exception ex) {
@@ -1163,7 +1163,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             try {
                 Build build = handler.getBuildings().getBuilds().get(jlBuildFile.getSelectedIndex());
 
-                build.setZ((Float) jsBuildZ.getValue());
+                build.setZ(((Double) jsBuildZ.getValue()).floatValue());
 
                 updateViewNitroDisplayMapBuildProperties(jlBuildFile.getSelectedIndex());
             } catch (Exception ex) {
@@ -1176,7 +1176,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
         if (buildPropertiesEnabled.value) {
             try {
                 Build build = handler.getBuildings().getBuilds().get(jlBuildFile.getSelectedIndex());
-                build.setScaleX((Float) jsBuildScaleX.getValue());
+                build.setScaleX(((Double) jsBuildScaleX.getValue()).floatValue());
 
                 updateViewNitroDisplayMapBuildProperties(jlBuildFile.getSelectedIndex());
             } catch (Exception ex) {
@@ -1189,7 +1189,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
         if (buildPropertiesEnabled.value) {
             try {
                 Build build = handler.getBuildings().getBuilds().get(jlBuildFile.getSelectedIndex());
-                build.setScaleY((Float) jsBuildScaleY.getValue());
+                build.setScaleY(((Double) jsBuildScaleY.getValue()).floatValue());
 
                 updateViewNitroDisplayMapBuildProperties(jlBuildFile.getSelectedIndex());
             } catch (Exception ex) {
@@ -1202,7 +1202,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
         if (buildPropertiesEnabled.value) {
             try {
                 Build build = handler.getBuildings().getBuilds().get(jlBuildFile.getSelectedIndex());
-                build.setScaleZ((Float) jsBuildScaleZ.getValue());
+                build.setScaleZ(((Double) jsBuildScaleZ.getValue()).floatValue());
 
                 updateViewNitroDisplayMapBuildProperties(jlBuildFile.getSelectedIndex());
             } catch (Exception ex) {
@@ -1463,6 +1463,9 @@ public class BuildingEditorDialogDPPt extends JDialog {
 
             jcbAnimationType.setSelectedIndex(animType + 1);
             jcbAnimationTypeEnabled.value = true;
+
+            boolean slopeAnim = buildHandler.getBuildModelAnimeList().getSlopeAnimations().get(jlBuildModel.getSelectedIndex()).booleanValue();
+            jcbSlope.setSelected(slopeAnim);
         }
     }
 
@@ -1829,6 +1832,10 @@ ex.printStackTrace();
         });
     }
 
+    private void jcbSlopeActionPerformed(ActionEvent e) {
+        buildHandler.getBuildModelAnimeList().getSlopeAnimations().set(jlBuildModel.getSelectedIndex(), jcbSlope.isSelected());
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         jTabbedPane1 = new JTabbedPane();
@@ -1865,6 +1872,7 @@ ex.printStackTrace();
         jbRemoveAnimToBuild = new JButton();
         jLabel12 = new JLabel();
         jcbAnimationType = new JComboBox<>();
+        jcbSlope = new JCheckBox();
         jbPlay = new JButton();
         jPanel4 = new JPanel();
         jPanel5 = new JPanel();
@@ -1953,7 +1961,6 @@ ex.printStackTrace();
         jbAddBuildBld = new JButton();
         jbRemoveBld = new JButton();
         panel1 = new JPanel();
-        hSpacer1 = new JPanel(null);
         jbSaveAll = new JButton();
         jbCancel = new JButton();
 
@@ -1963,12 +1970,12 @@ ex.printStackTrace();
         setModal(true);
         Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-                "insets 0,hidemode 3,gap 5 5",
-                // columns
-                "[grow,fill]",
-                // rows
-                "[grow,fill]" +
-                        "[]"));
+            "insets 0,hidemode 3,gap 5 5",
+            // columns
+            "[grow,fill]",
+            // rows
+            "[grow,fill]" +
+            "[]"));
 
         //======== jTabbedPane1 ========
         {
@@ -1976,26 +1983,26 @@ ex.printStackTrace();
             //======== jPanel3 ========
             {
                 jPanel3.setLayout(new MigLayout(
-                        "insets 0,hidemode 3,gap 5 5",
-                        // columns
-                        "[grow,fill]" +
-                                "[fill]",
-                        // rows
-                        "[grow,fill]" +
-                                "[grow,fill]"));
+                    "insets 0,hidemode 3,gap 5 5",
+                    // columns
+                    "[grow,fill]" +
+                    "[fill]",
+                    // rows
+                    "[grow,fill]" +
+                    "[grow,fill]"));
 
                 //======== jPanel1 ========
                 {
                     jPanel1.setBorder(new TitledBorder("Building Selector (build_model.narc)"));
                     jPanel1.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[grow,fill]" +
-                                    "[fill]" +
-                                    "[fill]",
-                            // rows
-                            "[fill]" +
-                                    "[grow,fill]"));
+                        "insets 5,hidemode 3,gap 5 5",
+                        // columns
+                        "[462,grow,fill]" +
+                        "[175,fill]" +
+                        "[fill]",
+                        // rows
+                        "[fill]" +
+                        "[grow,fill]"));
 
                     //======== jScrollPane1 ========
                     {
@@ -2007,16 +2014,10 @@ ex.printStackTrace();
                             String[] values = {
 
                             };
-
                             @Override
-                            public int getSize() {
-                                return values.length;
-                            }
-
+                            public int getSize() { return values.length; }
                             @Override
-                            public String getElementAt(int i) {
-                                return values[i];
-                            }
+                            public String getElementAt(int i) { return values[i]; }
                         });
                         jlBuildModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                         jlBuildModel.addListSelectionListener(e -> jlBuildModelValueChanged(e));
@@ -2037,23 +2038,23 @@ ex.printStackTrace();
                         GroupLayout nitroDisplayGLLayout = new GroupLayout(nitroDisplayGL);
                         nitroDisplayGL.setLayout(nitroDisplayGLLayout);
                         nitroDisplayGLLayout.setHorizontalGroup(
-                                nitroDisplayGLLayout.createParallelGroup()
-                                        .addGap(0, 412, Short.MAX_VALUE)
+                            nitroDisplayGLLayout.createParallelGroup()
+                                .addGap(0, 425, Short.MAX_VALUE)
                         );
                         nitroDisplayGLLayout.setVerticalGroup(
-                                nitroDisplayGLLayout.createParallelGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
+                            nitroDisplayGLLayout.createParallelGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                         );
                     }
-                    jPanel1.add(nitroDisplayGL, "cell 0 0 1 2");
+                    jPanel1.add(nitroDisplayGL, "cell 0 0 1 2,gapx 5 5,gapy 5 5");
 
                     //======== panel2 ========
                     {
                         panel2.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel2.getLayout()).columnWidths = new int[]{0, 0};
-                        ((GridBagLayout) panel2.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-                        ((GridBagLayout) panel2.getLayout()).columnWeights = new double[]{1.0, 1.0E-4};
-                        ((GridBagLayout) panel2.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0};
+                        ((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+                        ((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {1.0, 1.0E-4};
+                        ((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                         //---- jbAddBuilding ----
                         jbAddBuilding.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png")));
@@ -2061,8 +2062,8 @@ ex.printStackTrace();
                         jbAddBuilding.setHorizontalAlignment(SwingConstants.LEFT);
                         jbAddBuilding.addActionListener(e -> jbAddBuildingActionPerformed(e));
                         panel2.add(jbAddBuilding, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbReplaceBuilding ----
                         jbReplaceBuilding.setIcon(new ImageIcon(getClass().getResource("/icons/ReplaceIcon.png")));
@@ -2070,8 +2071,8 @@ ex.printStackTrace();
                         jbReplaceBuilding.setHorizontalAlignment(SwingConstants.LEFT);
                         jbReplaceBuilding.addActionListener(e -> jbReplaceBuildingActionPerformed(e));
                         panel2.add(jbReplaceBuilding, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbExportBuilding ----
                         jbExportBuilding.setIcon(new ImageIcon(getClass().getResource("/icons/ExportIcon.png")));
@@ -2079,8 +2080,8 @@ ex.printStackTrace();
                         jbExportBuilding.setHorizontalAlignment(SwingConstants.LEFT);
                         jbExportBuilding.addActionListener(e -> jbExportBuildingActionPerformed(e));
                         panel2.add(jbExportBuilding, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbRemoveBuilding ----
                         jbRemoveBuilding.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
@@ -2089,8 +2090,8 @@ ex.printStackTrace();
                         jbRemoveBuilding.setHorizontalAlignment(SwingConstants.LEFT);
                         jbRemoveBuilding.addActionListener(e -> jbRemoveBuildingActionPerformed(e));
                         panel2.add(jbRemoveBuilding, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbFindBuilding ----
                         jbFindBuilding.setIcon(new ImageIcon(getClass().getResource("/icons/SearchIcon.png")));
@@ -2098,25 +2099,24 @@ ex.printStackTrace();
                         jbFindBuilding.setHorizontalAlignment(SwingConstants.LEFT);
                         jbFindBuilding.addActionListener(e -> jbFindBuildingActionPerformed(e));
                         panel2.add(jbFindBuilding, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel1.add(panel2, "cell 2 1");
                 }
-                jPanel3.add(jPanel1, "cell 0 0 1 2");
+                jPanel3.add(jPanel1, "cell 0 0 1 2,gapx 5 5,gapy 5 5");
 
                 //======== jPanel2 ========
                 {
                     jPanel2.setBorder(new TitledBorder("Selected Building Properties (build_model_matshp.dat)"));
                     jPanel2.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[grow,fill]" +
-                                    "[fill]" +
-                                    "[fill]",
-                            // rows
-                            "[fill]" +
-                                    "[grow,fill]"));
+                        "insets 5,hidemode 3,gap 5 5",
+                        // columns
+                        "[132,grow,fill]" +
+                        "[fill]",
+                        // rows
+                        "[fill]" +
+                        "[grow,fill]"));
 
                     //---- jLabel2 ----
                     jLabel2.setIcon(new ImageIcon(getClass().getResource("/icons/MaterialIcon2.png")));
@@ -2134,16 +2134,10 @@ ex.printStackTrace();
                             String[] values = {
 
                             };
-
                             @Override
-                            public int getSize() {
-                                return values.length;
-                            }
-
+                            public int getSize() { return values.length; }
                             @Override
-                            public String getElementAt(int i) {
-                                return values[i];
-                            }
+                            public String getElementAt(int i) { return values[i]; }
                         });
                         jlMaterialOrder.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                         jScrollPane2.setViewportView(jlMaterialOrder);
@@ -2153,10 +2147,10 @@ ex.printStackTrace();
                     //======== panel3 ========
                     {
                         panel3.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel3.getLayout()).columnWidths = new int[]{0, 0, 0};
-                        ((GridBagLayout) panel3.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-                        ((GridBagLayout) panel3.getLayout()).columnWeights = new double[]{1.0, 1.0, 1.0E-4};
-                        ((GridBagLayout) panel3.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel3.getLayout()).columnWidths = new int[] {0, 0, 0};
+                        ((GridBagLayout)panel3.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+                        ((GridBagLayout)panel3.getLayout()).columnWeights = new double[] {1.0, 1.0, 1.0E-4};
+                        ((GridBagLayout)panel3.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                         //---- jbAddMaterial ----
                         jbAddMaterial.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png")));
@@ -2164,8 +2158,8 @@ ex.printStackTrace();
                         jbAddMaterial.setHorizontalAlignment(SwingConstants.LEFT);
                         jbAddMaterial.addActionListener(e -> jbAddMaterialActionPerformed(e));
                         panel3.add(jbAddMaterial, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbRemoveMaterial ----
                         jbRemoveMaterial.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
@@ -2173,8 +2167,8 @@ ex.printStackTrace();
                         jbRemoveMaterial.setHorizontalAlignment(SwingConstants.LEFT);
                         jbRemoveMaterial.addActionListener(e -> jbRemoveMaterialActionPerformed(e));
                         panel3.add(jbRemoveMaterial, new GridBagConstraints(0, 1, 2, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbImportMaterialsFromNsbmd ----
                         jbImportMaterialsFromNsbmd.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
@@ -2182,8 +2176,8 @@ ex.printStackTrace();
                         jbImportMaterialsFromNsbmd.setHorizontalAlignment(SwingConstants.LEFT);
                         jbImportMaterialsFromNsbmd.addActionListener(e -> jbImportMaterialsFromNsbmdActionPerformed(e));
                         panel3.add(jbImportMaterialsFromNsbmd, new GridBagConstraints(0, 2, 2, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbSetAnimation ----
                         jbSetAnimation.setIcon(new ImageIcon(getClass().getResource("/icons/AnimationIcon.png")));
@@ -2191,38 +2185,38 @@ ex.printStackTrace();
                         jbSetAnimation.setHorizontalAlignment(SwingConstants.LEFT);
                         jbSetAnimation.addActionListener(e -> jbSetAnimationActionPerformed(e));
                         panel3.add(jbSetAnimation, new GridBagConstraints(0, 3, 2, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbMoveMaterialUp ----
                         jbMoveMaterialUp.setText("\u25b2");
                         jbMoveMaterialUp.addActionListener(e -> jbMoveMaterialUpActionPerformed(e));
                         panel3.add(jbMoveMaterialUp, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 5), 0, 0));
 
                         //---- jbMoveMaterialDown ----
                         jbMoveMaterialDown.setText("\u25bc");
                         jbMoveMaterialDown.addActionListener(e -> jbMoveMaterialDownActionPerformed(e));
                         panel3.add(jbMoveMaterialDown, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel2.add(panel3, "cell 1 1");
                 }
-                jPanel3.add(jPanel2, "cell 1 0");
+                jPanel3.add(jPanel2, "cell 1 0,gapx 5 5,gapy 5 5");
 
                 //======== jPanel8 ========
                 {
                     jPanel8.setBorder(new TitledBorder("Selected Building Animations (bm_anime_list.narc)"));
                     jPanel8.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[fill]" +
-                                    "[fill]",
-                            // rows
-                            "[fill]" +
-                                    "[grow,fill]"));
+                        "insets 5,hidemode 3,gap 5 5",
+                        // columns
+                        "[168,fill]" +
+                        "[fill]",
+                        // rows
+                        "[fill]" +
+                        "[grow,fill]"));
 
                     //---- jLabel3 ----
                     jLabel3.setIcon(new ImageIcon(getClass().getResource("/icons/AnimationIcon.png")));
@@ -2240,16 +2234,10 @@ ex.printStackTrace();
                             String[] values = {
 
                             };
-
                             @Override
-                            public int getSize() {
-                                return values.length;
-                            }
-
+                            public int getSize() { return values.length; }
                             @Override
-                            public String getElementAt(int i) {
-                                return values[i];
-                            }
+                            public String getElementAt(int i) { return values[i]; }
                         });
                         jlSelectedAnimationsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                         jScrollPane3.setViewportView(jlSelectedAnimationsList);
@@ -2259,10 +2247,10 @@ ex.printStackTrace();
                     //======== panel4 ========
                     {
                         panel4.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel4.getLayout()).columnWidths = new int[]{0, 0, 0};
-                        ((GridBagLayout) panel4.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-                        ((GridBagLayout) panel4.getLayout()).columnWeights = new double[]{0.0, 0.0, 1.0E-4};
-                        ((GridBagLayout) panel4.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel4.getLayout()).columnWidths = new int[] {0, 0, 0};
+                        ((GridBagLayout)panel4.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0};
+                        ((GridBagLayout)panel4.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel4.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                         //---- jbAddAnimToBuild ----
                         jbAddAnimToBuild.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png")));
@@ -2270,8 +2258,8 @@ ex.printStackTrace();
                         jbAddAnimToBuild.setHorizontalAlignment(SwingConstants.LEFT);
                         jbAddAnimToBuild.addActionListener(e -> jbAddAnimToBuildActionPerformed(e));
                         panel4.add(jbAddAnimToBuild, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbReplaceAnimToBuild ----
                         jbReplaceAnimToBuild.setIcon(new ImageIcon(getClass().getResource("/icons/ReplaceIcon.png")));
@@ -2279,8 +2267,8 @@ ex.printStackTrace();
                         jbReplaceAnimToBuild.setHorizontalAlignment(SwingConstants.LEFT);
                         jbReplaceAnimToBuild.addActionListener(e -> jbReplaceAnimToBuildActionPerformed(e));
                         panel4.add(jbReplaceAnimToBuild, new GridBagConstraints(0, 1, 2, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbRemoveAnimToBuild ----
                         jbRemoveAnimToBuild.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
@@ -2288,64 +2276,72 @@ ex.printStackTrace();
                         jbRemoveAnimToBuild.setHorizontalAlignment(SwingConstants.LEFT);
                         jbRemoveAnimToBuild.addActionListener(e -> jbRemoveAnimToBuildActionPerformed(e));
                         panel4.add(jbRemoveAnimToBuild, new GridBagConstraints(0, 2, 2, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jLabel12 ----
                         jLabel12.setText("Type:");
                         panel4.add(jLabel12, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 5), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 5), 0, 0));
 
                         //---- jcbAnimationType ----
-                        jcbAnimationType.setModel(new DefaultComboBoxModel<>(new String[]{
-                                "Disabled",
-                                "Loop",
-                                "Unknown",
-                                "Trigger (?)",
-                                "Trigger"
+                        jcbAnimationType.setModel(new DefaultComboBoxModel<>(new String[] {
+                            "Disabled",
+                            "Loop",
+                            "Unknown",
+                            "Trigger (?)",
+                            "Trigger"
                         }));
                         jcbAnimationType.addActionListener(e -> jcbAnimationTypeActionPerformed(e));
                         panel4.add(jcbAnimationType, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
+
+                        //---- jcbSlope ----
+                        jcbSlope.setText("Slope Animation (?)");
+                        jcbSlope.addActionListener(e -> jcbSlopeActionPerformed(e));
+                        panel4.add(jcbSlope, new GridBagConstraints(0, 4, 2, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbPlay ----
                         jbPlay.setIcon(new ImageIcon(getClass().getResource("/icons/AnimationIcon.png")));
                         jbPlay.setText("Play Animation");
                         jbPlay.setHorizontalAlignment(SwingConstants.LEFT);
                         jbPlay.addActionListener(e -> jbPlayActionPerformed(e));
-                        panel4.add(jbPlay, new GridBagConstraints(0, 4, 2, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                        panel4.add(jbPlay, new GridBagConstraints(0, 5, 2, 1, 0.0, 0.0,
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel8.add(panel4, "cell 1 1");
                 }
-                jPanel3.add(jPanel8, "cell 1 1");
+                jPanel3.add(jPanel8, "cell 1 1,gapx 5 5,gapy 5 5");
             }
             jTabbedPane1.addTab("Building Editor", jPanel3);
 
             //======== jPanel4 ========
             {
                 jPanel4.setLayout(new MigLayout(
-                        "insets 0,hidemode 3,gap 5 5",
-                        // columns
-                        "[grow,fill]" +
-                                "[grow,fill]",
-                        // rows
-                        "[grow,fill]"));
+                    "insets 0,hidemode 3,gap 5 5",
+                    // columns
+                    "[grow,fill]" +
+                    "[grow,fill]" +
+                    "[450,fill]",
+                    // rows
+                    "[grow,fill]"));
 
                 //======== jPanel5 ========
                 {
                     jPanel5.setBorder(new TitledBorder("Area Data Selector (area_data.narc)"));
                     jPanel5.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[grow,fill]" +
-                                    "[fill]",
-                            // rows
-                            "[fill]" +
-                                    "[grow,fill]"));
+                        "insets 5,hidemode 3,gap 5 5",
+                        // columns
+                        "[154,grow,fill]" +
+                        "[fill]",
+                        // rows
+                        "[fill]" +
+                        "[grow,fill]"));
 
                     //======== jScrollPane4 ========
                     {
@@ -2357,16 +2353,10 @@ ex.printStackTrace();
                             String[] values = {
 
                             };
-
                             @Override
-                            public int getSize() {
-                                return values.length;
-                            }
-
+                            public int getSize() { return values.length; }
                             @Override
-                            public String getElementAt(int i) {
-                                return values[i];
-                            }
+                            public String getElementAt(int i) { return values[i]; }
                         });
                         jlAreaDataList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                         jlAreaDataList.addListSelectionListener(e -> jlAreaDataListValueChanged(e));
@@ -2382,10 +2372,10 @@ ex.printStackTrace();
                     //======== panel5 ========
                     {
                         panel5.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel5.getLayout()).columnWidths = new int[]{0, 0};
-                        ((GridBagLayout) panel5.getLayout()).rowHeights = new int[]{0, 0, 0};
-                        ((GridBagLayout) panel5.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
-                        ((GridBagLayout) panel5.getLayout()).rowWeights = new double[]{0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel5.getLayout()).columnWidths = new int[] {0, 0};
+                        ((GridBagLayout)panel5.getLayout()).rowHeights = new int[] {0, 0, 0};
+                        ((GridBagLayout)panel5.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                        ((GridBagLayout)panel5.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
                         //---- jbAddAreaData ----
                         jbAddAreaData.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png")));
@@ -2393,8 +2383,8 @@ ex.printStackTrace();
                         jbAddAreaData.setHorizontalAlignment(SwingConstants.LEFT);
                         jbAddAreaData.addActionListener(e -> jbAddAreaDataActionPerformed(e));
                         panel5.add(jbAddAreaData, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbRemoveAreaData ----
                         jbRemoveAreaData.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
@@ -2402,27 +2392,27 @@ ex.printStackTrace();
                         jbRemoveAreaData.setHorizontalAlignment(SwingConstants.LEFT);
                         jbRemoveAreaData.addActionListener(e -> jbRemoveAreaDataActionPerformed(e));
                         panel5.add(jbRemoveAreaData, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel5.add(panel5, "cell 1 1");
                 }
-                jPanel4.add(jPanel5, "cell 0 0");
+                jPanel4.add(jPanel5, "cell 0 0,gapx 5 5,gapy 5 5");
 
                 //======== jPanel6 ========
                 {
                     jPanel6.setBorder(new TitledBorder("Area Data Properties"));
                     jPanel6.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[fill]" +
-                                    "[grow,fill]" +
-                                    "[fill]",
-                            // rows
-                            "[fill]" +
-                                    "[fill]" +
-                                    "[fill]" +
-                                    "[fill]"));
+                        "insets 5,hidemode 3,gap 5 5",
+                        // columns
+                        "[fill]" +
+                        "[grow,fill]" +
+                        "[fill]",
+                        // rows
+                        "[fill]" +
+                        "[fill]" +
+                        "[fill]" +
+                        "[fill]"));
 
                     //---- jLabel5 ----
                     jLabel5.setText("Building Tileset:");
@@ -2459,41 +2449,40 @@ ex.printStackTrace();
                     jPanel6.add(jbApplyUnknown1, "cell 2 2");
 
                     //---- jcbAreaType ----
-                    jcbAreaType.setModel(new DefaultComboBoxModel<>(new String[]{
-                            "Outdoor Area",
-                            "Indoor Area"
+                    jcbAreaType.setModel(new DefaultComboBoxModel<>(new String[] {
+                        "Outdoor Area",
+                        "Indoor Area"
                     }));
                     jcbAreaType.addActionListener(e -> jcbAreaTypeActionPerformed(e));
                     jPanel6.add(jcbAreaType, "cell 1 3 2 1");
                 }
-                jPanel4.add(jPanel6, "cell 1 0");
+                jPanel4.add(jPanel6, "cell 1 0,gapx 5 5,gapy 5 5");
             }
             jTabbedPane1.addTab("Area Data Editor", jPanel4);
 
             //======== jPanel7 ========
             {
                 jPanel7.setLayout(new MigLayout(
-                        "insets 0,hidemode 3,gap 5 5",
-                        // columns
-                        "[fill]" +
-                                "[fill]" +
-                                "[grow,fill]",
-                        // rows
-                        "[grow,fill]"));
+                    "insets 5,hidemode 3,gap 5 5",
+                    // columns
+                    "[fill]" +
+                    "[grow,fill]",
+                    // rows
+                    "[grow,fill]"));
 
                 //======== jPanel10 ========
                 {
                     jPanel10.setBorder(new TitledBorder("Building Tileset Selector (areabm_texset.narc)"));
                     jPanel10.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[fill]" +
-                                    "[fill]" +
-                                    "[fill]",
-                            // rows
-                            "[fill]" +
-                                    "[fill]" +
-                                    "[grow,fill]"));
+                        "insets 5,hidemode 3,gap 5 5",
+                        // columns
+                        "[328,shrink 0,fill]" +
+                        "[150,fill]" +
+                        "[fill]",
+                        // rows
+                        "[fill]" +
+                        "[fill]" +
+                        "[grow,fill]"));
 
                     //---- jLabel10 ----
                     jLabel10.setIcon(new ImageIcon(getClass().getResource("/icons/MaterialIcon.png")));
@@ -2511,16 +2500,10 @@ ex.printStackTrace();
                             String[] values = {
 
                             };
-
                             @Override
-                            public int getSize() {
-                                return values.length;
-                            }
-
+                            public int getSize() { return values.length; }
                             @Override
-                            public String getElementAt(int i) {
-                                return values[i];
-                            }
+                            public String getElementAt(int i) { return values[i]; }
                         });
                         jlBuildTsetList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                         jlBuildTsetList.addListSelectionListener(e -> jlBuildTsetListValueChanged(e));
@@ -2531,10 +2514,10 @@ ex.printStackTrace();
                     //======== panel6 ========
                     {
                         panel6.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel6.getLayout()).columnWidths = new int[]{0, 0};
-                        ((GridBagLayout) panel6.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-                        ((GridBagLayout) panel6.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
-                        ((GridBagLayout) panel6.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel6.getLayout()).columnWidths = new int[] {0, 0};
+                        ((GridBagLayout)panel6.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0};
+                        ((GridBagLayout)panel6.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                        ((GridBagLayout)panel6.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                         //---- jbAddTset ----
                         jbAddTset.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png")));
@@ -2542,8 +2525,8 @@ ex.printStackTrace();
                         jbAddTset.setHorizontalAlignment(SwingConstants.LEFT);
                         jbAddTset.addActionListener(e -> jbAddTsetActionPerformed(e));
                         panel6.add(jbAddTset, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbAddEmptyTileset ----
                         jbAddEmptyTileset.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png")));
@@ -2551,8 +2534,8 @@ ex.printStackTrace();
                         jbAddEmptyTileset.setHorizontalAlignment(SwingConstants.LEFT);
                         jbAddEmptyTileset.addActionListener(e -> jbAddEmptyTilesetActionPerformed(e));
                         panel6.add(jbAddEmptyTileset, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbReplaceTset ----
                         jbReplaceTset.setIcon(new ImageIcon(getClass().getResource("/icons/ReplaceIcon.png")));
@@ -2560,8 +2543,8 @@ ex.printStackTrace();
                         jbReplaceTset.setHorizontalAlignment(SwingConstants.LEFT);
                         jbReplaceTset.addActionListener(e -> jbReplaceTsetActionPerformed(e));
                         panel6.add(jbReplaceTset, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbExportTileset ----
                         jbExportTileset.setIcon(new ImageIcon(getClass().getResource("/icons/ExportIcon.png")));
@@ -2569,8 +2552,8 @@ ex.printStackTrace();
                         jbExportTileset.setHorizontalAlignment(SwingConstants.LEFT);
                         jbExportTileset.addActionListener(e -> jbExportTilesetActionPerformed(e));
                         panel6.add(jbExportTileset, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbRemoveTset ----
                         jbRemoveTset.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
@@ -2579,25 +2562,25 @@ ex.printStackTrace();
                         jbRemoveTset.setHorizontalAlignment(SwingConstants.LEFT);
                         jbRemoveTset.addActionListener(e -> jbRemoveTsetActionPerformed(e));
                         panel6.add(jbRemoveTset, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel10.add(panel6, "cell 2 1 1 2");
                 }
-                jPanel7.add(jPanel10, "cell 1 0");
+                jPanel7.add(jPanel10, "cell 0 0");
 
                 //======== jPanel11 ========
                 {
                     jPanel11.setBorder(new TitledBorder("Building Tileset Properties (area_build.narc)"));
                     jPanel11.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[fill]" +
-                                    "[grow,fill]",
-                            // rows
-                            "[fill]" +
-                                    "[fill]" +
-                                    "[grow,fill]"));
+                        "insets 0,hidemode 3,gap 5 5",
+                        // columns
+                        "[150,fill]" +
+                        "[grow,fill]",
+                        // rows
+                        "[fill]" +
+                        "[fill]" +
+                        "[grow,fill]"));
 
                     //---- jLabel9 ----
                     jLabel9.setIcon(new ImageIcon(getClass().getResource("/icons/BuildingIcon.png")));
@@ -2614,16 +2597,10 @@ ex.printStackTrace();
                             String[] values = {
 
                             };
-
                             @Override
-                            public int getSize() {
-                                return values.length;
-                            }
-
+                            public int getSize() { return values.length; }
                             @Override
-                            public String getElementAt(int i) {
-                                return values[i];
-                            }
+                            public String getElementAt(int i) { return values[i]; }
                         });
                         jlAreaBuildList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                         jlAreaBuildList.addListSelectionListener(e -> jlAreaBuildListValueChanged(e));
@@ -2634,10 +2611,10 @@ ex.printStackTrace();
                     //======== panel7 ========
                     {
                         panel7.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel7.getLayout()).columnWidths = new int[]{0, 0};
-                        ((GridBagLayout) panel7.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-                        ((GridBagLayout) panel7.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
-                        ((GridBagLayout) panel7.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel7.getLayout()).columnWidths = new int[] {0, 0};
+                        ((GridBagLayout)panel7.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0};
+                        ((GridBagLayout)panel7.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                        ((GridBagLayout)panel7.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                         //---- jbAddBuildToTset ----
                         jbAddBuildToTset.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png")));
@@ -2645,8 +2622,8 @@ ex.printStackTrace();
                         jbAddBuildToTset.setHorizontalAlignment(SwingConstants.LEFT);
                         jbAddBuildToTset.addActionListener(e -> jbAddBuildToTsetActionPerformed(e));
                         panel7.add(jbAddBuildToTset, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbReplaceBuildToTset ----
                         jbReplaceBuildToTset.setIcon(new ImageIcon(getClass().getResource("/icons/ReplaceIcon.png")));
@@ -2654,8 +2631,8 @@ ex.printStackTrace();
                         jbReplaceBuildToTset.setHorizontalAlignment(SwingConstants.LEFT);
                         jbReplaceBuildToTset.addActionListener(e -> jbReplaceBuildToTsetActionPerformed(e));
                         panel7.add(jbReplaceBuildToTset, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbRemoveBuildToTset ----
                         jbRemoveBuildToTset.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
@@ -2663,8 +2640,8 @@ ex.printStackTrace();
                         jbRemoveBuildToTset.setHorizontalAlignment(SwingConstants.LEFT);
                         jbRemoveBuildToTset.addActionListener(e -> jbRemoveBuildToTsetActionPerformed(e));
                         panel7.add(jbRemoveBuildToTset, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbAddTexToNsbtx ----
                         jbAddTexToNsbtx.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png")));
@@ -2672,8 +2649,8 @@ ex.printStackTrace();
                         jbAddTexToNsbtx.setHorizontalAlignment(SwingConstants.LEFT);
                         jbAddTexToNsbtx.addActionListener(e -> jbAddTexToNsbtxActionPerformed(e));
                         panel7.add(jbAddTexToNsbtx, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbRemoveTextures ----
                         jbRemoveTextures.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
@@ -2682,8 +2659,8 @@ ex.printStackTrace();
                         jbRemoveTextures.setHorizontalAlignment(SwingConstants.LEFT);
                         jbRemoveTextures.addActionListener(e -> jbRemoveTexturesActionPerformed(e));
                         panel7.add(jbRemoveTextures, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbRemoveAllUnusedTexPals ----
                         jbRemoveAllUnusedTexPals.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
@@ -2691,8 +2668,8 @@ ex.printStackTrace();
                         jbRemoveAllUnusedTexPals.setHorizontalAlignment(SwingConstants.LEFT);
                         jbRemoveAllUnusedTexPals.addActionListener(e -> jbRemoveAllUnusedTexPalsActionPerformed(e));
                         panel7.add(jbRemoveAllUnusedTexPals, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel11.add(panel7, "cell 1 1");
 
@@ -2703,40 +2680,40 @@ ex.printStackTrace();
                         GroupLayout nitroDisplayAreaDataLayout = new GroupLayout(nitroDisplayAreaData);
                         nitroDisplayAreaData.setLayout(nitroDisplayAreaDataLayout);
                         nitroDisplayAreaDataLayout.setHorizontalGroup(
-                                nitroDisplayAreaDataLayout.createParallelGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
+                            nitroDisplayAreaDataLayout.createParallelGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                         );
                         nitroDisplayAreaDataLayout.setVerticalGroup(
-                                nitroDisplayAreaDataLayout.createParallelGroup()
-                                        .addGap(0, 399, Short.MAX_VALUE)
+                            nitroDisplayAreaDataLayout.createParallelGroup()
+                                .addGap(0, 290, Short.MAX_VALUE)
                         );
                     }
                     jPanel11.add(nitroDisplayAreaData, "cell 1 2");
                 }
-                jPanel7.add(jPanel11, "cell 2 0");
+                jPanel7.add(jPanel11, "cell 1 0");
             }
             jTabbedPane1.addTab("Building Tileset Editor", jPanel7);
 
             //======== jPanel9 ========
             {
                 jPanel9.setLayout(new MigLayout(
-                        "insets 0,hidemode 3",
-                        // columns
-                        "[grow,fill]",
-                        // rows
-                        "[grow,fill]"));
+                    "insets 0,hidemode 3",
+                    // columns
+                    "[grow,fill]",
+                    // rows
+                    "[grow,fill]"));
 
                 //======== jPanel12 ========
                 {
                     jPanel12.setBorder(new TitledBorder("Selected Building Animations (bm_anime.narc)"));
                     jPanel12.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[fill]" +
-                                    "[fill]",
-                            // rows
-                            "[fill]" +
-                                    "[grow,fill]"));
+                        "insets 5,hidemode 3,gap 5 5",
+                        // columns
+                        "[fill]" +
+                        "[fill]",
+                        // rows
+                        "[fill]" +
+                        "[grow,fill]"));
 
                     //---- jLabel11 ----
                     jLabel11.setIcon(new ImageIcon(getClass().getResource("/icons/AnimationIcon.png")));
@@ -2754,16 +2731,10 @@ ex.printStackTrace();
                             String[] values = {
 
                             };
-
                             @Override
-                            public int getSize() {
-                                return values.length;
-                            }
-
+                            public int getSize() { return values.length; }
                             @Override
-                            public String getElementAt(int i) {
-                                return values[i];
-                            }
+                            public String getElementAt(int i) { return values[i]; }
                         });
                         jlAnimationsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                         jScrollPane5.setViewportView(jlAnimationsList);
@@ -2773,10 +2744,10 @@ ex.printStackTrace();
                     //======== panel8 ========
                     {
                         panel8.setLayout(new GridBagLayout());
-                        ((GridBagLayout) panel8.getLayout()).columnWidths = new int[]{0, 0};
-                        ((GridBagLayout) panel8.getLayout()).rowHeights = new int[]{0, 0, 0, 0, 0};
-                        ((GridBagLayout) panel8.getLayout()).columnWeights = new double[]{0.0, 1.0E-4};
-                        ((GridBagLayout) panel8.getLayout()).rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0E-4};
+                        ((GridBagLayout)panel8.getLayout()).columnWidths = new int[] {0, 0};
+                        ((GridBagLayout)panel8.getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0};
+                        ((GridBagLayout)panel8.getLayout()).columnWeights = new double[] {0.0, 1.0E-4};
+                        ((GridBagLayout)panel8.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
                         //---- jbAddAnim ----
                         jbAddAnim.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png")));
@@ -2784,8 +2755,8 @@ ex.printStackTrace();
                         jbAddAnim.setHorizontalAlignment(SwingConstants.LEFT);
                         jbAddAnim.addActionListener(e -> jbAddAnimActionPerformed(e));
                         panel8.add(jbAddAnim, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbReplaceAnim ----
                         jbReplaceAnim.setIcon(new ImageIcon(getClass().getResource("/icons/ReplaceIcon.png")));
@@ -2793,8 +2764,8 @@ ex.printStackTrace();
                         jbReplaceAnim.setHorizontalAlignment(SwingConstants.LEFT);
                         jbReplaceAnim.addActionListener(e -> jbReplaceAnimActionPerformed(e));
                         panel8.add(jbReplaceAnim, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbExportAnimation ----
                         jbExportAnimation.setIcon(new ImageIcon(getClass().getResource("/icons/ExportIcon.png")));
@@ -2802,8 +2773,8 @@ ex.printStackTrace();
                         jbExportAnimation.setHorizontalAlignment(SwingConstants.LEFT);
                         jbExportAnimation.addActionListener(e -> jbExportAnimationActionPerformed(e));
                         panel8.add(jbExportAnimation, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 5, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 5, 0), 0, 0));
 
                         //---- jbRemoveAnim ----
                         jbRemoveAnim.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
@@ -2812,36 +2783,36 @@ ex.printStackTrace();
                         jbRemoveAnim.setHorizontalAlignment(SwingConstants.LEFT);
                         jbRemoveAnim.addActionListener(e -> jbRemoveAnimActionPerformed(e));
                         panel8.add(jbRemoveAnim, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-                                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                new Insets(0, 0, 0, 0), 0, 0));
+                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                            new Insets(0, 0, 0, 0), 0, 0));
                     }
                     jPanel12.add(panel8, "cell 1 1");
                 }
-                jPanel9.add(jPanel12, "cell 0 0");
+                jPanel9.add(jPanel12, "cell 0 0,gapx 5 5,gapy 5 5");
             }
             jTabbedPane1.addTab("Building Animation Editor", jPanel9);
 
             //======== jPanel13 ========
             {
                 jPanel13.setLayout(new MigLayout(
-                        "insets 0,hidemode 3,gap 5 5",
-                        // columns
-                        "[grow,fill]" +
-                                "[grow,fill]",
-                        // rows
-                        "[grow,fill]"));
+                    "insets 0,hidemode 3,gap 5 5",
+                    // columns
+                    "[grow,fill]" +
+                    "[grow,fill]",
+                    // rows
+                    "[grow,fill]"));
 
                 //======== jPanel14 ========
                 {
                     jPanel14.setBorder(new TitledBorder("Map Display"));
                     jPanel14.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[fill]" +
-                                    "[grow,fill]",
-                            // rows
-                            "[fill]" +
-                                    "[grow,fill]"));
+                        "insets 5,hidemode 3,gap 5 5",
+                        // columns
+                        "[fill]" +
+                        "[grow,fill]",
+                        // rows
+                        "[fill]" +
+                        "[grow,fill]"));
 
                     //======== nitroDisplayMap ========
                     {
@@ -2850,12 +2821,12 @@ ex.printStackTrace();
                         GroupLayout nitroDisplayMapLayout = new GroupLayout(nitroDisplayMap);
                         nitroDisplayMap.setLayout(nitroDisplayMapLayout);
                         nitroDisplayMapLayout.setHorizontalGroup(
-                                nitroDisplayMapLayout.createParallelGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
+                            nitroDisplayMapLayout.createParallelGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                         );
                         nitroDisplayMapLayout.setVerticalGroup(
-                                nitroDisplayMapLayout.createParallelGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
+                            nitroDisplayMapLayout.createParallelGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
                         );
                     }
                     jPanel14.add(nitroDisplayMap, "cell 0 1 2 1,growy");
@@ -2871,19 +2842,19 @@ ex.printStackTrace();
                     jLabel21.setText("*[Note: This map is used as a visual help for placing the buildings easily]");
                     jPanel14.add(jLabel21, "cell 1 0");
                 }
-                jPanel13.add(jPanel14, "cell 0 0");
+                jPanel13.add(jPanel14, "cell 0 0,gapx 5 5,gapy 5 5");
 
                 //======== jPanel15 ========
                 {
                     jPanel15.setBorder(new TitledBorder("Building Editor (*.bld)"));
                     jPanel15.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
-                            // columns
-                            "[grow,fill]" +
-                                    "[grow,fill]",
-                            // rows
-                            "[fill]" +
-                                    "[grow,fill]"));
+                        "insets 5,hidemode 3,gap 5 5",
+                        // columns
+                        "[185,grow,fill]" +
+                        "[grow,fill]",
+                        // rows
+                        "[fill]" +
+                        "[grow,fill]"));
 
                     //======== jScrollPane8 ========
                     {
@@ -2895,16 +2866,10 @@ ex.printStackTrace();
                             String[] values = {
 
                             };
-
                             @Override
-                            public int getSize() {
-                                return values.length;
-                            }
-
+                            public int getSize() { return values.length; }
                             @Override
-                            public String getElementAt(int i) {
-                                return values[i];
-                            }
+                            public String getElementAt(int i) { return values[i]; }
                         });
                         jlBuildFile.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                         jlBuildFile.addListSelectionListener(e -> jlBuildFileValueChanged(e));
@@ -2916,18 +2881,18 @@ ex.printStackTrace();
                     {
                         jPanel16.setBorder(new TitledBorder("Selected Building"));
                         jPanel16.setLayout(new MigLayout(
-                                "insets 0,hidemode 3,gap 5 5",
-                                // columns
-                                "[fill]" +
-                                        "[grow,fill]" +
-                                        "[fill]" +
-                                        "[grow,fill]",
-                                // rows
-                                "[fill]" +
-                                        "[fill]" +
-                                        "[fill]" +
-                                        "[fill]" +
-                                        "[fill]"));
+                            "insets 5,hidemode 3,gap 5 5",
+                            // columns
+                            "[fill]" +
+                            "[103,grow,fill]" +
+                            "[fill]" +
+                            "[grow,fill]",
+                            // rows
+                            "[fill]" +
+                            "[fill]" +
+                            "[fill]" +
+                            "[fill]" +
+                            "[fill]"));
 
                         //---- jLabel13 ----
                         jLabel13.setText("Building ID:");
@@ -3009,29 +2974,27 @@ ex.printStackTrace();
                         jLabel20.setText("*[Note: axis are rotated compared to map editor's axis]");
                         jPanel16.add(jLabel20, "cell 0 4 4 1");
                     }
-                    jPanel15.add(jPanel16, "cell 1 1");
+                    jPanel15.add(jPanel16, "cell 1 1,gapx 5 5,gapy 5 5");
 
                     //======== jPanel17 ========
                     {
                         jPanel17.setBorder(new TitledBorder("Building File"));
-                        jPanel17.setLayout(new GridLayout(2, 2));
+                        jPanel17.setLayout(new GridLayout(2, 2, 5, 5));
 
                         //======== jPanel18 ========
                         {
-                            jPanel18.setLayout(new GridLayout(1, 0, 5, 0));
+                            jPanel18.setLayout(new GridLayout(1, 0, 5, 5));
 
                             //---- jbImportBld ----
                             jbImportBld.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
                             jbImportBld.setText("Import BLD File");
                             jbImportBld.setToolTipText("");
-                            jbImportBld.setHorizontalAlignment(SwingConstants.LEFT);
                             jbImportBld.addActionListener(e -> jbImportBldActionPerformed(e));
                             jPanel18.add(jbImportBld);
 
                             //---- jbExportBld ----
                             jbExportBld.setIcon(new ImageIcon(getClass().getResource("/icons/ExportIcon.png")));
                             jbExportBld.setText("Export BLD File");
-                            jbExportBld.setHorizontalAlignment(SwingConstants.LEFT);
                             jbExportBld.addActionListener(e -> jbExportBldActionPerformed(e));
                             jPanel18.add(jbExportBld);
                         }
@@ -3039,28 +3002,26 @@ ex.printStackTrace();
 
                         //======== jPanel19 ========
                         {
-                            jPanel19.setLayout(new GridLayout(1, 0, 5, 0));
+                            jPanel19.setLayout(new GridLayout(1, 0, 5, 5));
 
                             //---- jbAddBuildBld ----
                             jbAddBuildBld.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png")));
                             jbAddBuildBld.setText("Add Building");
                             jbAddBuildBld.setToolTipText("");
-                            jbAddBuildBld.setHorizontalAlignment(SwingConstants.LEFT);
                             jbAddBuildBld.addActionListener(e -> jbAddBuildBldActionPerformed(e));
                             jPanel19.add(jbAddBuildBld);
 
                             //---- jbRemoveBld ----
                             jbRemoveBld.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
                             jbRemoveBld.setText("Remove Building");
-                            jbRemoveBld.setHorizontalAlignment(SwingConstants.LEFT);
                             jbRemoveBld.addActionListener(e -> jbRemoveBldActionPerformed(e));
                             jPanel19.add(jbRemoveBld);
                         }
                         jPanel17.add(jPanel19);
                     }
-                    jPanel15.add(jPanel17, "cell 1 0");
+                    jPanel15.add(jPanel17, "cell 1 0,gapx 5 5,gapy 5 5");
                 }
-                jPanel13.add(jPanel15, "cell 1 0");
+                jPanel13.add(jPanel15, "cell 1 0,gapx 5 5,gapy 5 5");
             }
             jTabbedPane1.addTab("Map Buildings Editor", jPanel13);
         }
@@ -3068,24 +3029,23 @@ ex.printStackTrace();
 
         //======== panel1 ========
         {
-            panel1.setLayout(new GridBagLayout());
-            ((GridBagLayout) panel1.getLayout()).columnWidths = new int[]{0, 0, 0, 0};
-            ((GridBagLayout) panel1.getLayout()).rowHeights = new int[]{0, 0};
-            ((GridBagLayout) panel1.getLayout()).columnWeights = new double[]{1.0, 0.0, 0.0, 1.0E-4};
-            ((GridBagLayout) panel1.getLayout()).rowWeights = new double[]{1.0, 1.0E-4};
-            panel1.add(hSpacer1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+            panel1.setLayout(new MigLayout(
+                "insets 5,hidemode 3,gap 5 5",
+                // columns
+                "[grow,fill]" +
+                "[fill]" +
+                "[fill]",
+                // rows
+                "[grow,fill]"));
 
             //---- jbSaveAll ----
             jbSaveAll.setText("Save All");
             jbSaveAll.setPreferredSize(new Dimension(100, 0));
             jbSaveAll.setMinimumSize(null);
             jbSaveAll.setMaximumSize(null);
+            jbSaveAll.setIcon(new ImageIcon(getClass().getResource("/icons/saveMapIconSmall.png")));
             jbSaveAll.addActionListener(e -> jbSaveAllActionPerformed(e));
-            panel1.add(jbSaveAll, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+            panel1.add(jbSaveAll, "cell 1 0");
 
             //---- jbCancel ----
             jbCancel.setText("Close");
@@ -3093,12 +3053,10 @@ ex.printStackTrace();
             jbCancel.setMinimumSize(null);
             jbCancel.setPreferredSize(new Dimension(100, 0));
             jbCancel.addActionListener(e -> jbCancelActionPerformed(e));
-            panel1.add(jbCancel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                    new Insets(0, 0, 0, 0), 0, 0));
+            panel1.add(jbCancel, "cell 2 0");
         }
-        contentPane.add(panel1, "cell 0 1");
-        pack();
+        contentPane.add(panel1, "cell 0 1,gapx 5 5,gapy 5 5");
+        setSize(1200, 660);
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
@@ -3138,6 +3096,7 @@ ex.printStackTrace();
     private JButton jbRemoveAnimToBuild;
     private JLabel jLabel12;
     private JComboBox<String> jcbAnimationType;
+    private JCheckBox jcbSlope;
     private JButton jbPlay;
     private JPanel jPanel4;
     private JPanel jPanel5;
@@ -3226,7 +3185,6 @@ ex.printStackTrace();
     private JButton jbAddBuildBld;
     private JButton jbRemoveBld;
     private JPanel panel1;
-    private JPanel hSpacer1;
     private JButton jbSaveAll;
     private JButton jbCancel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables

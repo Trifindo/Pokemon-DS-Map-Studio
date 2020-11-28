@@ -10,7 +10,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Queue;
 import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,11 +24,14 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.jogamp.opengl.GLContext;
 import editor.about.AboutDialog;
-import editor.animationeditor.AnimationEditorDialog;
-import editor.backsound.BacksoundEditorDialog;
-import editor.bdhc.BdhcEditorDialog;
+import editor.game.patches.GamePatch;
+import formats.animationeditor.AnimationEditorDialog;
+import formats.backsound.BacksoundEditorDialog;
+import formats.bdhc.BdhcEditorDialog;
+import formats.bdhcam.BdhcamEditorDialog;
 import editor.buildingeditor2.BuildingEditorChooser;
-import editor.collisions.CollisionsEditorDialog;
+import formats.collisions.CollisionsEditorDialog;
+import formats.collisions.bw.CollisionsEditorDialogBW;
 import editor.converter.*;
 import editor.game.Game;
 import editor.gameselector.GameChangerDialog;
@@ -38,19 +40,19 @@ import editor.gameselector.GameTsetSelectorDialog2;
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
 import editor.heightselector.*;
-import editor.imd.ExportImdDialog;
-import editor.imd.ImdModel;
-import editor.imd.ImdOutputInfoDialog;
+import formats.imd.ExportImdDialog;
+import formats.imd.ImdModel;
+import formats.imd.ImdOutputInfoDialog;
 import editor.keyboard.KeyboardInfoDialog2;
 import editor.layerselector.*;
 import editor.mapdisplay.*;
 import editor.mapmatrix.*;
-import editor.nsbtx.NsbtxEditorDialog;
-import editor.nsbtx2.Nsbtx2;
-import editor.nsbtx2.NsbtxEditorDialog2;
-import editor.nsbtx2.NsbtxLoader2;
-import editor.obj.ExportMapObjDialog;
-import editor.obj.ObjWriter;
+import formats.nsbtx.NsbtxEditorDialog;
+import formats.nsbtx2.Nsbtx2;
+import formats.nsbtx2.NsbtxEditorDialog2;
+import formats.nsbtx2.NsbtxLoader2;
+import formats.obj.ExportMapObjDialog;
+import formats.obj.ObjWriter;
 import editor.settings.SettingsDialog;
 import editor.smartdrawing.*;
 import editor.state.MapLayerState;
@@ -58,10 +60,8 @@ import editor.state.StateHandler;
 import editor.tileselector.*;
 import editor.tileseteditor.*;
 import net.miginfocom.swing.MigLayout;
-import tileset.NormalsNotFoundException;
-import tileset.TextureNotFoundException;
-import tileset.Tileset;
-import tileset.TilesetIO;
+import org.xml.sax.SAXException;
+import tileset.*;
 import utils.Utils;
 
 /**
@@ -157,6 +157,8 @@ public class MainFrame extends JFrame {
 
         handler.updateAllMapThumbnails();
         mapMatrixDisplay.updateMapsImage();
+
+
     }
 
     private void formWindowClosing(WindowEvent e) {
@@ -299,6 +301,8 @@ public class MainFrame extends JFrame {
         openBdhcEditor();
     }
 
+    private void jmiBDHCAMActionPerformed(ActionEvent e) {openBdhcamEditor(); }
+
     private void jmiNsbtxEditorActionPerformed(ActionEvent e) {
         openNsbtxEditor();
     }
@@ -383,6 +387,8 @@ public class MainFrame extends JFrame {
         openBacksoundEditor();
     }
 
+    private void jbBdhcamEditorActionPerformed(ActionEvent e) {openBdhcamEditor(); }
+
     private void jbNsbtxEditor1ActionPerformed(ActionEvent e) {
         openNsbtxEditor2();
     }
@@ -411,10 +417,10 @@ public class MainFrame extends JFrame {
         changeGame();
     }
 
+
+
     private void mapDisplayContainerComponentResized(ComponentEvent e) {
-        int size = Math.min(mapDisplayContainer.getWidth(), mapDisplayContainer.getHeight());
-        mapDisplay.setPreferredSize(new Dimension(size, size));
-        mapDisplayContainer.revalidate();
+        updateMapDisplaySize();
     }
 
     private void jtbView3DActionPerformed(ActionEvent e) {
@@ -553,6 +559,16 @@ public class MainFrame extends JFrame {
         clearRecentMaps();
     }
 
+    private void jbHelp2ActionPerformed(ActionEvent e) {
+        CollisionsEditorDialogBW dialog = new CollisionsEditorDialogBW(this);
+        dialog.init(handler);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+
+        mapDisplay.requestUpdate();
+        mapDisplay.repaint();
+    }
+
     public void showPreferences() {
         SettingsDialog settingsDialog = new SettingsDialog(this);
         settingsDialog.setVisible(true);
@@ -608,6 +624,7 @@ public class MainFrame extends JFrame {
             }
 
             handler.getMapMatrix().loadBDHCsFromFile(folderPath, fileName);
+            handler.getMapMatrix().loadBdhcamsFromFile(folderPath, fileName);
             handler.getMapMatrix().loadBacksoundsFromFile(folderPath, fileName);
             handler.getMapMatrix().loadCollisionsFromFile(folderPath, fileName);
             handler.getMapMatrix().loadBuildingsFromFile(folderPath, fileName);
@@ -636,7 +653,7 @@ public class MainFrame extends JFrame {
         fc.setDialogTitle("Open Map");
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            addRecentMap(fc.getSelectedFile().getPath());
+            addRecentMap(Utils.addExtensionToPath(fc.getSelectedFile().getPath(), MapMatrix.fileExtension));
             updateRecentMaps();
             updateRecentMapsMenu();
             openMap(fc.getSelectedFile().getPath());
@@ -717,22 +734,28 @@ public class MainFrame extends JFrame {
     }
 
     public void openBdhcEditor() {
-        if (handler.getGame().gameSelected < Game.BLACK) {
+        if(Game.isGenV(handler.getGameIndex())){
+            CollisionsEditorDialogBW dialog = new CollisionsEditorDialogBW(this);
+            dialog.init(handler);
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+
+            mapDisplay.requestUpdate();
+            mapDisplay.repaint();
+        }else {
             mapDisplay.requestScreenshot();
             mapDisplay.setOrthoView();
             mapDisplay.setCameraAtSelectedMap();
-            boolean gridEnabled = mapDisplay.isGridEnabled();
+            boolean useGrid = mapDisplay.isGridEnabled();
             mapDisplay.disableGridView();
             mapDisplay.display();
             final BdhcEditorDialog dialog = new BdhcEditorDialog(this);
             dialog.init(handler, mapDisplay.getScreenshot());
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
-            mapDisplay.setGridEnabled(gridEnabled);
+            mapDisplay.setGridEnabled(useGrid);
+            mapDisplay.requestUpdate();
             mapDisplay.display();
-        } else {
-            JOptionPane.showMessageDialog(this, "Gen V Games do not have BDHC files",
-                    "BDHC editor is not available", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -741,18 +764,40 @@ public class MainFrame extends JFrame {
             mapDisplay.requestScreenshot();
             mapDisplay.setOrthoView();
             mapDisplay.setCameraAtSelectedMap();
-            boolean gridEnabled = mapDisplay.isGridEnabled();
+            boolean useGrid = mapDisplay.isGridEnabled();
             mapDisplay.disableGridView();
             mapDisplay.display();
             final BacksoundEditorDialog dialog = new BacksoundEditorDialog(this);
             dialog.init(handler, mapDisplay.getScreenshot());
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
-            mapDisplay.setGridEnabled(gridEnabled);
+            mapDisplay.setGridEnabled(useGrid);
             mapDisplay.display();
         } else {
             JOptionPane.showMessageDialog(this, "Only HGSS have Backsound files",
                     "Backsound Editor not available", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public void openBdhcamEditor(){
+        if (handler.getGame().gameSelected > Game.PEARL && handler.getGame().gameSelected < Game.BLACK) {
+            mapDisplay.requestScreenshot();
+            mapDisplay.setOrthoView();
+            mapDisplay.setCameraAtSelectedMap();
+            boolean useGrid = mapDisplay.isGridEnabled();
+            mapDisplay.disableGridView();
+            mapDisplay.display();
+            final BdhcamEditorDialog dialog = new BdhcamEditorDialog(this);
+            dialog.init(handler, mapDisplay.getScreenshot());
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+            mapDisplay.setGridEnabled(useGrid);
+            mapDisplay.requestUpdate();
+            mapDisplay.repaint();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Only Platinum and HGSS have BDCAM files available",
+                    "BDHCAM editor is not available", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -922,6 +967,7 @@ public class MainFrame extends JFrame {
             handler.getMapMatrix().saveCollisions();
             handler.getMapMatrix().saveBacksounds();
             handler.getMapMatrix().saveBDHCs();
+            handler.getMapMatrix().saveBdhcams();
             handler.getMapMatrix().saveBuildings();
             //saveBdhc();
             //saveBacksound();
@@ -950,13 +996,14 @@ public class MainFrame extends JFrame {
                 String path = fc.getSelectedFile().getPath();
                 handler.getMapMatrix().saveGridsToFile(path);
                 handler.getMapMatrix().filePath = path;
-
                 setTitle(handler.getMapName() + " - " + handler.getVersionName());
 
                 saveTileset();
+
                 handler.getMapMatrix().saveCollisions();
                 handler.getMapMatrix().saveBacksounds();
                 handler.getMapMatrix().saveBDHCs();
+                handler.getMapMatrix().saveBdhcams();
                 handler.getMapMatrix().saveBuildings();
                 //saveCollisions();
                 //saveBacksound();
@@ -965,7 +1012,7 @@ public class MainFrame extends JFrame {
 
                 saveMapThumbnail();
 
-                addRecentMap(path);
+                addRecentMap(Utils.addExtensionToPath(path, MapMatrix.fileExtension));
                 updateRecentMaps();
                 updateRecentMapsMenu();
             } catch (ParserConfigurationException | TransformerException | IOException ex) {
@@ -1029,7 +1076,7 @@ public class MainFrame extends JFrame {
                     try {
                         ObjWriter objWriter = new ObjWriter(handler.getTileset(),
                                 handler.getGrid(), fc.getSelectedFile().getPath(),
-                                handler.getGameIndex(), true, includeVertexColors);
+                                handler.getGameIndex(), true, includeVertexColors, 1.0f);
                         objWriter.writeAllTilesObj(scale, flip);
                         JOptionPane.showMessageDialog(this, "Tiles succesfully exported.", "Tiles saved", JOptionPane.INFORMATION_MESSAGE);
                     } catch (IOException ex) {
@@ -1051,6 +1098,7 @@ public class MainFrame extends JFrame {
             boolean includeVertexColors = exportMapDialog.includeVertexColors();
             boolean exportAllMapsSeparately = exportMapDialog.exportAllMapsSeparately();
             boolean exportAllMapsJoined = exportMapDialog.exportAllMapsJoined();
+            float tileUpscale = exportMapDialog.getTileUpscaling();
 
             final JFileChooser fc = new JFileChooser();
             fc.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath)));
@@ -1067,14 +1115,14 @@ public class MainFrame extends JFrame {
                     String path = fc.getSelectedFile().getPath();
                     if (exportAllMapsSeparately) {
                         path = Utils.removeMapCoordsFromName(path);
-                        handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors);
+                        handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors, tileUpscale);
                         JOptionPane.showMessageDialog(this, "OBJ maps succesfully exported.", "Maps saved", JOptionPane.INFORMATION_MESSAGE);
                     } else if (exportAllMapsJoined) {
                         path = Utils.removeMapCoordsFromName(path);
-                        handler.getMapMatrix().saveMapsAsObjJoined(path, saveTextures, includeVertexColors);
+                        handler.getMapMatrix().saveMapsAsObjJoined(path, saveTextures, includeVertexColors, tileUpscale);
                         JOptionPane.showMessageDialog(this, "OBJ map succesfully exported.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        handler.getGrid().saveMapToOBJ(handler.getTileset(), path, saveTextures, includeVertexColors);
+                        handler.getGrid().saveMapToOBJ(handler.getTileset(), path, saveTextures, includeVertexColors, tileUpscale);
                         JOptionPane.showMessageDialog(this, "OBJ map succesfully exported.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (FileNotFoundException ex) {
@@ -1087,6 +1135,7 @@ public class MainFrame extends JFrame {
     public void saveTileset() throws FileNotFoundException, ParserConfigurationException, TransformerException, IOException {
         File file = new File(handler.getMapMatrix().filePath);
         String path = file.getParent();
+
         String filename = Utils.removeExtensionFromPath(file.getName()) + "." + Tileset.fileExtension;
         TilesetIO.saveTilesetToFile(path + File.separator + filename, handler.getTileset());
         handler.getTileset().saveImagesToFile(path);
@@ -1632,6 +1681,7 @@ public class MainFrame extends JFrame {
             updateMapMatrixDisplay();
             thumbnailLayerSelector.drawLayerThumbnail(state.getLayerIndex());
             thumbnailLayerSelector.repaint();
+            updateViewMapInfo();
         }
     }
 
@@ -1656,6 +1706,7 @@ public class MainFrame extends JFrame {
             if (!mapStateHandler.canGetNextState()) {
                 jbRedo.setEnabled(false);
             }
+            updateViewMapInfo();
         }
     }
 
@@ -1873,6 +1924,17 @@ public class MainFrame extends JFrame {
         updateRecentMapsMenu();
     }
 
+    public void updateMapDisplaySize(){
+        if(mapDisplay.getViewMode() == ViewMode.VIEW_3D_MODE){
+            mapDisplay.setPreferredSize(mapDisplayContainer.getSize());
+            mapDisplayContainer.revalidate();
+        }else{
+            int size = Math.min(mapDisplayContainer.getWidth(), mapDisplayContainer.getHeight());
+            mapDisplay.setPreferredSize(new Dimension(size, size));
+            mapDisplayContainer.revalidate();
+        }
+    }
+
     private static void loadRecentMaps() {
         for (int i = 0; i < 9; i++) {
             String value = prefs.get("recentMaps" + i, "");
@@ -1910,6 +1972,11 @@ public class MainFrame extends JFrame {
         thumbnailLayerSelector.drawAllLayerThumbnails();
         thumbnailLayerSelector.repaint();
     }
+
+
+
+
+
 
 
     private void initComponents() {
@@ -1951,6 +2018,7 @@ public class MainFrame extends JFrame {
         jmiTilesetEditor = new JMenuItem();
         jmiCollisionEditor = new JMenuItem();
         jmiBdhcEditor = new JMenuItem();
+        jmiBDHCAM = new JMenuItem();
         jmiNsbtxEditor = new JMenuItem();
         jMenuItem1 = new JMenuItem();
         jmiAnimationEditor = new JMenuItem();
@@ -1972,6 +2040,7 @@ public class MainFrame extends JFrame {
         jbTilelistEditor = new JButton();
         jbCollisionsEditor = new JButton();
         jbBdhcEditor = new JButton();
+        jbBdhcamEditor = new JButton();
         jbBacksoundEditor = new JButton();
         jbNsbtxEditor1 = new JButton();
         jbBuildingEditor = new JButton();
@@ -2028,7 +2097,6 @@ public class MainFrame extends JFrame {
         jpMoveMap = new JPanel();
         moveMapPanel = new MoveMapPanel();
         jpTileSelected = new JPanel();
-        jlTileSelected = new JLabel();
         tileDisplay = new TileDisplay();
         jPanelMapTools = new JPanel();
         jpHeightMapAlpha = new JPanel();
@@ -2069,8 +2137,7 @@ public class MainFrame extends JFrame {
         contentPane.setLayout(new MigLayout(
             "insets 0,hidemode 3,gap 5 5",
             // columns
-            "[grow,fill]" +
-            "[fill]",
+            "[grow,fill]",
             // rows
             "[fill]" +
             "[grow,fill]" +
@@ -2317,10 +2384,15 @@ public class MainFrame extends JFrame {
                 jmTools.add(jmiCollisionEditor);
 
                 //---- jmiBdhcEditor ----
-                jmiBdhcEditor.setText("BDHC Editor");
+                jmiBdhcEditor.setText("Terrain Editor");
                 jmiBdhcEditor.setMnemonic('B');
                 jmiBdhcEditor.addActionListener(e -> jmiBdhcEditorActionPerformed(e));
                 jmTools.add(jmiBdhcEditor);
+
+                //---- jmiBDHCAM ----
+                jmiBDHCAM.setText("Camera Editor");
+                jmiBDHCAM.addActionListener(e -> jmiBDHCAMActionPerformed(e));
+                jmTools.add(jmiBDHCAM);
 
                 //---- jmiNsbtxEditor ----
                 jmiNsbtxEditor.setText("NSBTX Editor");
@@ -2550,7 +2622,7 @@ public class MainFrame extends JFrame {
 
             //---- jbBdhcEditor ----
             jbBdhcEditor.setIcon(new ImageIcon(getClass().getResource("/icons/bdhcEditorIcon.png")));
-            jbBdhcEditor.setToolTipText("BDHC Editor");
+            jbBdhcEditor.setToolTipText("Terrain Editor");
             jbBdhcEditor.setFocusable(false);
             jbBdhcEditor.setHorizontalTextPosition(SwingConstants.CENTER);
             jbBdhcEditor.setMaximumSize(new Dimension(38, 38));
@@ -2560,6 +2632,19 @@ public class MainFrame extends JFrame {
             jbBdhcEditor.setVerticalTextPosition(SwingConstants.BOTTOM);
             jbBdhcEditor.addActionListener(e -> jbBdhcEditorActionPerformed(e));
             jtMainToolbar.add(jbBdhcEditor);
+
+            //---- jbBdhcamEditor ----
+            jbBdhcamEditor.setIcon(new ImageIcon(getClass().getResource("/icons/bdhcamEditorIcon.png")));
+            jbBdhcamEditor.setToolTipText("Bdhcam Editor");
+            jbBdhcamEditor.setFocusable(false);
+            jbBdhcamEditor.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbBdhcamEditor.setMaximumSize(new Dimension(38, 38));
+            jbBdhcamEditor.setMinimumSize(new Dimension(38, 38));
+            jbBdhcamEditor.setName("");
+            jbBdhcamEditor.setPreferredSize(new Dimension(38, 38));
+            jbBdhcamEditor.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbBdhcamEditor.addActionListener(e -> jbBdhcamEditorActionPerformed(e));
+            jtMainToolbar.add(jbBdhcamEditor);
 
             //---- jbBacksoundEditor ----
             jbBacksoundEditor.setIcon(new ImageIcon(getClass().getResource("/icons/backsoundEditorIcon.png")));
@@ -2669,6 +2754,7 @@ public class MainFrame extends JFrame {
             jlGameIcon.setMaximumSize(new Dimension(32, 32));
             jlGameIcon.setMinimumSize(new Dimension(32, 32));
             jlGameIcon.setPreferredSize(new Dimension(32, 32));
+            jlGameIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             jlGameIcon.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
@@ -2686,7 +2772,7 @@ public class MainFrame extends JFrame {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 0, 5), 0, 0));
         }
-        contentPane.add(jpGameInfo, "cell 1 0, grow");
+        contentPane.add(jpGameInfo, "cell 0 0,alignx right,grow 0 100,gapx 5 5,gapy 5 5");
 
         //======== jspMainWindow ========
         {
@@ -2748,7 +2834,7 @@ public class MainFrame extends JFrame {
                             mapDisplayContainerComponentResized(e);
                         }
                     });
-                    mapDisplayContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+                    mapDisplayContainer.setLayout(new FlowLayout());
 
                     //======== mapDisplay ========
                     {
@@ -2768,7 +2854,7 @@ public class MainFrame extends JFrame {
                     }
                     mapDisplayContainer.add(mapDisplay);
                 }
-                jpMainWindow.add(mapDisplayContainer, "cell 2 0");
+                jpMainWindow.add(mapDisplayContainer, "cell 2 0,dock center");
 
                 //======== jpZ ========
                 {
@@ -3067,10 +3153,14 @@ public class MainFrame extends JFrame {
 
             //======== jpRightPanel ========
             {
+                jpRightPanel.setMinimumSize(new Dimension(100, 336));
+                jpRightPanel.setPreferredSize(new Dimension(250, 580));
                 jpRightPanel.setLayout(new BoxLayout(jpRightPanel, BoxLayout.X_AXIS));
 
                 //======== jtRightPanel ========
                 {
+                    jtRightPanel.setPreferredSize(new Dimension(250, 586));
+                    jtRightPanel.setMinimumSize(new Dimension(100, 336));
 
                     //======== jPanelMatrixInfo ========
                     {
@@ -3079,7 +3169,7 @@ public class MainFrame extends JFrame {
                         //======== jspMatrix ========
                         {
                             jspMatrix.setOrientation(JSplitPane.VERTICAL_SPLIT);
-                            jspMatrix.setResizeWeight(0.4);
+                            jspMatrix.setResizeWeight(0.5);
 
                             //======== jpAreaTools ========
                             {
@@ -3090,7 +3180,7 @@ public class MainFrame extends JFrame {
                                     // rows
                                     "[grow,fill]" +
                                     "[fill]" +
-                                    "[fill]"));
+                                    "[]"));
 
                                 //======== jScrollPaneMapMatrix ========
                                 {
@@ -3109,18 +3199,17 @@ public class MainFrame extends JFrame {
 
                                 //======== jpArea ========
                                 {
-                                    jpArea.setLayout(new MigLayout(
-                                        "insets 0,hidemode 3,gap 5 5",
-                                        // columns
-                                        "[fill]" +
-                                        "[grow,fill]" +
-                                        "[fill]",
-                                        // rows
-                                        "[fill]"));
+                                    jpArea.setLayout(new GridBagLayout());
+                                    ((GridBagLayout)jpArea.getLayout()).columnWidths = new int[] {0, 131, 16, 0};
+                                    ((GridBagLayout)jpArea.getLayout()).rowHeights = new int[] {16, 0};
+                                    ((GridBagLayout)jpArea.getLayout()).columnWeights = new double[] {0.0, 1.0, 0.0, 1.0E-4};
+                                    ((GridBagLayout)jpArea.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
                                     //---- jlArea ----
                                     jlArea.setText("Area:");
-                                    jpArea.add(jlArea, "cell 0 0");
+                                    jpArea.add(jlArea, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+                                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                        new Insets(0, 0, 0, 5), 0, 0));
 
                                     //---- jsSelectedArea ----
                                     jsSelectedArea.setModel(new SpinnerNumberModel(0, 0, null, 1));
@@ -3128,7 +3217,9 @@ public class MainFrame extends JFrame {
                                     jsSelectedArea.setPreferredSize(new Dimension(40, 20));
                                     jsSelectedArea.setRequestFocusEnabled(false);
                                     jsSelectedArea.addChangeListener(e -> jsSelectedAreaStateChanged(e));
-                                    jpArea.add(jsSelectedArea, "cell 1 0");
+                                    jpArea.add(jsSelectedArea, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
+                                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                        new Insets(0, 0, 0, 5), 0, 0));
 
                                     //======== jPanelAreaColor ========
                                     {
@@ -3147,7 +3238,9 @@ public class MainFrame extends JFrame {
                                                 .addGap(0, 0, Short.MAX_VALUE)
                                         );
                                     }
-                                    jpArea.add(jPanelAreaColor, "cell 2 0");
+                                    jpArea.add(jPanelAreaColor, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
+                                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                        new Insets(0, 0, 0, 0), 0, 0));
                                 }
                                 jpAreaTools.add(jpArea, "cell 0 1");
 
@@ -3171,11 +3264,8 @@ public class MainFrame extends JFrame {
 
                             //======== jpTileSelected ========
                             {
+                                jpTileSelected.setBorder(new TitledBorder("Tile Selected:"));
                                 jpTileSelected.setLayout(new BoxLayout(jpTileSelected, BoxLayout.Y_AXIS));
-
-                                //---- jlTileSelected ----
-                                jlTileSelected.setText("Tile Selected:");
-                                jpTileSelected.add(jlTileSelected);
 
                                 //======== tileDisplay ========
                                 {
@@ -3190,7 +3280,7 @@ public class MainFrame extends JFrame {
                                     );
                                     tileDisplayLayout.setVerticalGroup(
                                         tileDisplayLayout.createParallelGroup()
-                                            .addGap(0, 246, Short.MAX_VALUE)
+                                            .addGap(0, 219, Short.MAX_VALUE)
                                     );
                                 }
                                 jpTileSelected.add(tileDisplay);
@@ -3204,7 +3294,7 @@ public class MainFrame extends JFrame {
                     //======== jPanelMapTools ========
                     {
                         jPanelMapTools.setLayout(new MigLayout(
-                            "insets 0,hidemode 3,gap 5 5",
+                            "insets 5,hidemode 3,gap 5 5",
                             // columns
                             "[grow,fill]",
                             // rows
@@ -3228,7 +3318,7 @@ public class MainFrame extends JFrame {
                             jpHeightMapAlpha.setLayout(jpHeightMapAlphaLayout);
                             jpHeightMapAlphaLayout.setHorizontalGroup(
                                 jpHeightMapAlphaLayout.createParallelGroup()
-                                    .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+                                    .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
                             );
                             jpHeightMapAlphaLayout.setVerticalGroup(
                                 jpHeightMapAlphaLayout.createParallelGroup()
@@ -3284,34 +3374,34 @@ public class MainFrame extends JFrame {
 
                                 //---- jbMoveMapUp ----
                                 jbMoveMapUp.setForeground(new Color(0, 153, 0));
-                                jbMoveMapUp.setText("\u25b2");
                                 jbMoveMapUp.setFocusable(false);
+                                jbMoveMapUp.setIcon(new ImageIcon(getClass().getResource("/icons/upGreenIcon.png")));
                                 jbMoveMapUp.addActionListener(e -> jbMoveMapUpActionPerformed(e));
                                 jpDirectionalPad.add(jbMoveMapUp, "cell 1 0");
 
                                 //---- jbMoveMapLeft ----
                                 jbMoveMapLeft.setForeground(new Color(204, 0, 0));
-                                jbMoveMapLeft.setText("\u25c4");
                                 jbMoveMapLeft.setFocusable(false);
+                                jbMoveMapLeft.setIcon(new ImageIcon(getClass().getResource("/icons/leftRedIcon.png")));
                                 jbMoveMapLeft.addActionListener(e -> jbMoveMapLeftActionPerformed(e));
                                 jpDirectionalPad.add(jbMoveMapLeft, "cell 0 1");
 
                                 //---- jbMoveMapRight ----
                                 jbMoveMapRight.setForeground(new Color(204, 0, 0));
-                                jbMoveMapRight.setText("\u25ba");
                                 jbMoveMapRight.setFocusable(false);
+                                jbMoveMapRight.setIcon(new ImageIcon(getClass().getResource("/icons/rightRedIcon.png")));
                                 jbMoveMapRight.addActionListener(e -> jbMoveMapRightActionPerformed(e));
                                 jpDirectionalPad.add(jbMoveMapRight, "cell 2 1");
 
                                 //---- jbMoveMapDown ----
                                 jbMoveMapDown.setForeground(new Color(0, 153, 0));
-                                jbMoveMapDown.setText("\u25bc");
                                 jbMoveMapDown.setToolTipText("");
                                 jbMoveMapDown.setFocusable(false);
+                                jbMoveMapDown.setIcon(new ImageIcon(getClass().getResource("/icons/downGreenIcon.png")));
                                 jbMoveMapDown.addActionListener(e -> jbMoveMapDownActionPerformed(e));
                                 jpDirectionalPad.add(jbMoveMapDown, "cell 1 2");
                             }
-                            jpMoveLayer.add(jpDirectionalPad, "cell 0 0");
+                            jpMoveLayer.add(jpDirectionalPad, "cell 2 0");
 
                             //======== jpZPad ========
                             {
@@ -3319,19 +3409,19 @@ public class MainFrame extends JFrame {
 
                                 //---- jbMoveMapUpZ ----
                                 jbMoveMapUpZ.setForeground(Color.blue);
-                                jbMoveMapUpZ.setText("\u25b2");
                                 jbMoveMapUpZ.setFocusable(false);
+                                jbMoveMapUpZ.setIcon(new ImageIcon(getClass().getResource("/icons/upBlueIcon.png")));
                                 jbMoveMapUpZ.addActionListener(e -> jbMoveMapUpZActionPerformed(e));
                                 jpZPad.add(jbMoveMapUpZ);
 
                                 //---- jbMoveMapDownZ ----
                                 jbMoveMapDownZ.setForeground(Color.blue);
-                                jbMoveMapDownZ.setText("\u25bc");
                                 jbMoveMapDownZ.setFocusable(false);
+                                jbMoveMapDownZ.setIcon(new ImageIcon(getClass().getResource("/icons/downBlueIcon.png")));
                                 jbMoveMapDownZ.addActionListener(e -> jbMoveMapDownZActionPerformed(e));
                                 jpZPad.add(jbMoveMapDownZ);
                             }
-                            jpMoveLayer.add(jpZPad, "cell 1 0");
+                            jpMoveLayer.add(jpZPad, "cell 3 0");
                         }
                         jPanelMapTools.add(jpMoveLayer, "cell 0 2,alignx center,growx 0");
 
@@ -3359,7 +3449,7 @@ public class MainFrame extends JFrame {
             }
             jspMainWindow.setRightComponent(jpRightPanel);
         }
-        contentPane.add(jspMainWindow, "cell 0 1 2 1");
+        contentPane.add(jspMainWindow, "cell 0 1");
 
         //======== jpStatusBar ========
         {
@@ -3399,7 +3489,7 @@ public class MainFrame extends JFrame {
             jlNumMaterials.setPreferredSize(new Dimension(40, 14));
             jpStatusBar.add(jlNumMaterials);
         }
-        contentPane.add(jpStatusBar, "cell 0 2 2 1");
+        contentPane.add(jpStatusBar, "cell 0 2");
         pack();
         setLocationRelativeTo(getOwner());
 
@@ -3458,6 +3548,7 @@ public class MainFrame extends JFrame {
     private JMenuItem jmiTilesetEditor;
     private JMenuItem jmiCollisionEditor;
     private JMenuItem jmiBdhcEditor;
+    private JMenuItem jmiBDHCAM;
     private JMenuItem jmiNsbtxEditor;
     private JMenuItem jMenuItem1;
     private JMenuItem jmiAnimationEditor;
@@ -3479,6 +3570,7 @@ public class MainFrame extends JFrame {
     private JButton jbTilelistEditor;
     private JButton jbCollisionsEditor;
     private JButton jbBdhcEditor;
+    private JButton jbBdhcamEditor;
     private JButton jbBacksoundEditor;
     private JButton jbNsbtxEditor1;
     private JButton jbBuildingEditor;
@@ -3535,7 +3627,6 @@ public class MainFrame extends JFrame {
     private JPanel jpMoveMap;
     private MoveMapPanel moveMapPanel;
     private JPanel jpTileSelected;
-    private JLabel jlTileSelected;
     private TileDisplay tileDisplay;
     private JPanel jPanelMapTools;
     private JPanel jpHeightMapAlpha;

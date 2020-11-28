@@ -1,19 +1,15 @@
 
 package editor.buildingeditor2.buildmodel;
 
-import editor.narc2.Narc;
-import editor.narc2.NarcFile;
-import editor.narc2.NarcFolder;
+import formats.narc2.Narc;
+import formats.narc2.NarcFile;
+import formats.narc2.NarcFolder;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import utils.BinaryReader;
 import utils.Utils;

@@ -1,9 +1,9 @@
 
 package editor.buildingeditor2.animations;
 
-import editor.narc2.Narc;
-import editor.narc2.NarcFile;
-import editor.narc2.NarcFolder;
+import formats.narc2.Narc;
+import formats.narc2.NarcFile;
+import formats.narc2.NarcFolder;
 
 import java.io.IOException;
 import java.util.ArrayList;

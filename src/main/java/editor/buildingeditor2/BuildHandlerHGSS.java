@@ -12,8 +12,8 @@ import editor.buildingeditor2.areadata.AreaDataListHGSS;
 import editor.buildingeditor2.tileset.BuildTileset;
 import editor.buildingeditor2.tileset.BuildTilesetList;
 import editor.game.GameFileSystemHGSS;
-import editor.narc2.Narc;
-import editor.narc2.NarcIO;
+import formats.narc2.Narc;
+import formats.narc2.NarcIO;
 
 import java.io.File;
 import java.io.IOException;

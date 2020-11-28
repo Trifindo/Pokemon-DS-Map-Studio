@@ -16,11 +16,11 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "jbUp"
-				"text": "▲"
 				"margin": new java.awt.Insets( 2, 2, 2, 2 )
 				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/upIcon.png" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbUpActionPerformed", true ) )
 			} )
 			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
@@ -28,11 +28,11 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "jbLeft"
-				"text": "◄"
 				"margin": new java.awt.Insets( 2, 2, 2, 2 )
 				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/leftIcon.png" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbLeftActionPerformed", true ) )
 			} )
 			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
@@ -40,11 +40,11 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "jbRight"
-				"text": "►"
 				"margin": new java.awt.Insets( 2, 2, 2, 2 )
 				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/rightIcon.png" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRightActionPerformed", true ) )
 			} )
 			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
@@ -52,11 +52,11 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "jbDown"
-				"text": "▼"
 				"margin": new java.awt.Insets( 2, 2, 2, 2 )
 				"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 				"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/downIcon.png" )
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbDownActionPerformed", true ) )
 			} )
 			add( new FormComponent( "com.jformdesigner.designer.wrapper.HSpacer" ) {
