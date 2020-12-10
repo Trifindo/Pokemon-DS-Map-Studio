@@ -27,5 +27,10 @@ java -jar PokemonDSMapStudio.jar
 and look at the output.
 If you can't understand that, please open an issue in the appropriate section of this repository.
 
+On Linux, the installation can be done directly in an automated way, just open a terminal and type:
+```shell
+sh -c "$(wget -O- https://raw.githubusercontent.com/Trifindo/Pokemon-DS-Map-Studio/pdsms-linux.sh)"
+```
+
 ## Notes
 For exporting `.nsbmd` files, `g3dcvtr.exe` and `xerces-c_2_5_0.dll` must be placed int the `bin/converter` folder.
