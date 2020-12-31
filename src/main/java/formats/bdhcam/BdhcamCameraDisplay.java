@@ -28,6 +28,9 @@ import static com.jogamp.opengl.GL2ES1.GL_ALPHA_TEST;
 import static com.jogamp.opengl.GL2ES3.GL_QUADS;
 
 public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
+	
+	//Cam Choice
+	private static final boolean wideCamMode = false;
 
     //Editor Handler
     protected MapEditorHandler handler;
@@ -242,11 +245,19 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
         gl.glLoadIdentity();
 
         float aspect = (float) getWidth() / (float) getHeight();
-        if (cameraZ < 40.0f) {
-            glu.gluPerspective(38.5f, aspect, 1.0f, 1000.0f);
-        } else {
-            glu.gluPerspective(38.5f, aspect, 1.0f + (cameraZ - 40.0f) / 4, 1000.0f + (cameraZ - 40.0f));
-        }
+		if (wideCamMode) {
+			if (cameraZ < 40.0f) {
+				glu.gluPerspective(38.5f, aspect, 1.0f, 1000.0f);
+			} else {
+				glu.gluPerspective(38.5f, aspect, 1.0f + (cameraZ - 40.0f) / 4, 1000.0f + (cameraZ - 40.0f));
+			}
+		} else {
+			if (cameraZ < 40.0f) {
+				glu.gluPerspective(15.0f, aspect, 1.0f, 1000.0f);
+			} else {
+				glu.gluPerspective(15.0f, aspect, 1.0f + (cameraZ - 40.0f) / 4, 1000.0f + (cameraZ - 40.0f));
+			}
+		}
 
         if(camera != null){
             glu.gluLookAt(
