@@ -160,7 +160,7 @@ public class ExportNsbmdDialog extends javax.swing.JDialog {
             jbNsbBrowse.addActionListener(e -> jbNsbBrowseActionPerformed(e));
 
             //---- jCheckBox1 ----
-            jCheckBox1.setSelected(true);
+            jCheckBox1.setSelected(false);
             jCheckBox1.setText("Include NSBTX in NSBMD");
 
             GroupLayout jPanel2Layout = new GroupLayout(jPanel2);

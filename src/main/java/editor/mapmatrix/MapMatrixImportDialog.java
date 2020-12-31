@@ -182,7 +182,7 @@ public class MapMatrixImportDialog extends JDialog {
                     );
                     jPanel3Layout.setVerticalGroup(
                         jPanel3Layout.createParallelGroup()
-                            .addGap(0, 28, Short.MAX_VALUE)
+                            .addGap(0, 27, Short.MAX_VALUE)
                     );
                 }
                 jPanel2.add(jPanel3);
@@ -204,7 +204,7 @@ public class MapMatrixImportDialog extends JDialog {
                     );
                     jPanel4Layout.setVerticalGroup(
                         jPanel4Layout.createParallelGroup()
-                            .addGap(0, 28, Short.MAX_VALUE)
+                            .addGap(0, 27, Short.MAX_VALUE)
                     );
                 }
                 jPanel2.add(jPanel4);
@@ -226,7 +226,7 @@ public class MapMatrixImportDialog extends JDialog {
                     );
                     jPanel5Layout.setVerticalGroup(
                         jPanel5Layout.createParallelGroup()
-                            .addGap(0, 28, Short.MAX_VALUE)
+                            .addGap(0, 27, Short.MAX_VALUE)
                     );
                 }
                 jPanel2.add(jPanel5);
@@ -248,7 +248,7 @@ public class MapMatrixImportDialog extends JDialog {
                     );
                     jPanel6Layout.setVerticalGroup(
                         jPanel6Layout.createParallelGroup()
-                            .addGap(0, 28, Short.MAX_VALUE)
+                            .addGap(0, 27, Short.MAX_VALUE)
                     );
                 }
                 jPanel2.add(jPanel6);
@@ -270,7 +270,7 @@ public class MapMatrixImportDialog extends JDialog {
                     );
                     jPanel7Layout.setVerticalGroup(
                         jPanel7Layout.createParallelGroup()
-                            .addGap(0, 28, Short.MAX_VALUE)
+                            .addGap(0, 27, Short.MAX_VALUE)
                     );
                 }
                 jPanel2.add(jPanel7);
@@ -282,7 +282,7 @@ public class MapMatrixImportDialog extends JDialog {
                 jPanel1Layout.createParallelGroup()
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
@@ -295,7 +295,7 @@ public class MapMatrixImportDialog extends JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jPanel2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
                         .addContainerGap())
             );
         }

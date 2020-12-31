@@ -1,5 +1,5 @@
 
-package editor.converter;
+package editor.mapgroups;
 
 import java.awt.*;
 import javax.swing.*;
@@ -10,15 +10,12 @@ import javax.swing.border.*;
 import editor.handler.MapEditorHandler;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.TreeSet;
+import java.util.TreeMap;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
 
 import utils.Utils;
 import utils.swing.*;
@@ -26,12 +23,12 @@ import utils.swing.*;
 /**
  * @author Trifindo
  */
-public class ExportNsbtxDialog extends javax.swing.JDialog {
+public class SavePDSMAPAreasDialog extends JDialog {
 
     public static final int APPROVE_OPTION = 1, CANCEL_OPTION = 0;
     private int returnValue = CANCEL_OPTION;
 
-    private String nsbtxFolderPath = "";
+    private String areaFolderPath = "";
     private ArrayList<Integer> selectedAreaIndices = new ArrayList<>();
     private ArrayList<Integer> areaIndices;
 
@@ -40,7 +37,7 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
     /**
      * Creates new form ExportImdDialog
      */
-    public ExportNsbtxDialog(java.awt.Frame parent, boolean modal) {
+    public SavePDSMAPAreasDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
@@ -64,21 +61,21 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
         jbAccept = new JButton();
         jPanel2 = new JPanel();
         jLabel3 = new JLabel();
-        jtfNsbtxFolderPath = new JTextField();
+        jtfAreaFolderPath = new JTextField();
         jbNsbBrowse = new JButton();
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Export Areas as NSBTX (Experimental)");
+        setTitle("Export Areas as PDSMAP");
         setModal(true);
         Container contentPane = getContentPane();
 
         //======== jPanel1 ========
         {
-            jPanel1.setBorder(new TitledBorder("NSBTX settings"));
+            jPanel1.setBorder(new TitledBorder("Area settings"));
 
             //---- jLabel1 ----
-            jLabel1.setText("Select the areas that will be exported as NSBTX:");
+            jLabel1.setText("Select the areas that will be exported as PDSMAP:");
 
             //---- jScrollCheckboxList ----
             jScrollCheckboxList.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -136,13 +133,13 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
 
         //======== jPanel2 ========
         {
-            jPanel2.setBorder(new TitledBorder("NSBTX settings"));
+            jPanel2.setBorder(new TitledBorder("Area settings"));
 
             //---- jLabel3 ----
-            jLabel3.setText("NSBTX destination folder path:");
+            jLabel3.setText("Area destination folder path:");
 
-            //---- jtfNsbtxFolderPath ----
-            jtfNsbtxFolderPath.setEditable(false);
+            //---- jtfAreaFolderPath ----
+            jtfAreaFolderPath.setEditable(false);
 
             //---- jbNsbBrowse ----
             jbNsbBrowse.setText("Browse...");
@@ -156,7 +153,7 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
                                     .addContainerGap()
                                     .addComponent(jLabel3)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jtfNsbtxFolderPath, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                                    .addComponent(jtfAreaFolderPath, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jbNsbBrowse)
                                     .addContainerGap())
@@ -167,7 +164,7 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
                                     .addContainerGap()
                                     .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                             .addComponent(jLabel3)
-                                            .addComponent(jtfNsbtxFolderPath, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jtfAreaFolderPath, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jbNsbBrowse))
                                     .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
@@ -207,10 +204,10 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAcceptActionPerformed
-        if (!new File(nsbtxFolderPath).exists()) {
+        if (!new File(areaFolderPath).exists()) {
             JOptionPane.showMessageDialog(this,
-                    "Please select a valid output folder for exporting the NSBTX files.",
-                    "Invalid NSBTX folder",
+                    "Please select a valid output folder to export the maps.",
+                    "Invalid folder",
                     JOptionPane.ERROR_MESSAGE);
         } else {
             DefaultListModel<JCheckBox> model = (DefaultListModel<JCheckBox>) jScrollCheckboxList.getCheckboxList().getModel();
@@ -225,7 +222,7 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "There are no Areas selected for converting into NSBTX.\n"
+                        "You have selected no Areas to convert to PDSMAP.\n"
                                 + "Select at least one Area from the list.", "No Areas selected",
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -265,8 +262,8 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
         if (returnValOpen == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             if (file.exists() && file.isDirectory()) {
-                nsbtxFolderPath = file.getPath();
-                jtfNsbtxFolderPath.setText(nsbtxFolderPath);
+                areaFolderPath = file.getPath();
+                jtfAreaFolderPath.setText(areaFolderPath);
             }
         }
     }//GEN-LAST:event_jbNsbBrowseActionPerformed
@@ -282,7 +279,7 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
     private JButton jbAccept;
     private JPanel jPanel2;
     private JLabel jLabel3;
-    private JTextField jtfNsbtxFolderPath;
+    private JTextField jtfAreaFolderPath;
     private JButton jbNsbBrowse;
     // End of variables declaration//GEN-END:variables
 
@@ -291,10 +288,10 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
 
         loadAreaIndices();
 
-        String nsbtxFolderPath = new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath)).getParent();
-        if (isFolderPathValid(nsbtxFolderPath)) {
-            this.nsbtxFolderPath = nsbtxFolderPath;
-            jtfNsbtxFolderPath.setText(nsbtxFolderPath);
+        String AreaFolderPath = new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath)).getParent();
+        if (isFolderPathValid(AreaFolderPath)) {
+            this.areaFolderPath = AreaFolderPath;
+            jtfAreaFolderPath.setText(AreaFolderPath);
         }
 
     }
@@ -310,16 +307,16 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
 
     private void loadAreaIndices() {
 
-        TreeSet<Integer> areaIndicesSet = handler.getMapMatrix().getAreaIndices();
+        TreeMap<Integer, MapGroup> areaMap = handler.getMapMatrix().getAreas();
 
         areaIndices = new ArrayList();
-        areaIndices.addAll(areaIndicesSet);
+        areaIndices.addAll(areaMap.keySet());
 
         try {
             DefaultListModel<JCheckBox> model = new DefaultListModel();
             this.jScrollCheckboxList.getCheckboxList().setModel(model);
-            for (Integer areaIndex : areaIndicesSet) {
-                model.addElement(new JCheckBox("Area " + String.valueOf(areaIndex)));
+            for (MapGroup area : areaMap.values()) {
+                model.addElement(new JCheckBox(area.toString()));
             }
 
             for (int i = 0; i < model.getSize(); i++) {
@@ -355,8 +352,8 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
         return returnValue;
     }
 
-    public String getNsbtxFolderPath() {
-        return nsbtxFolderPath;
+    public String getAreaFolderPath() {
+        return areaFolderPath;
     }
 
     public ArrayList<Integer> getSelectedAreaIndices() {

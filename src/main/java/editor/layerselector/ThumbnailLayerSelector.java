@@ -75,8 +75,10 @@ public class ThumbnailLayerSelector extends JPanel {
                     if (!handler.isLayerChanged()) {
                         handler.setLayerChanged(true);
                         handler.addMapState(new MapLayerState("Layer change", handler));
-
                     }
+                    if (index == handler.getActiveLayerIndex())
+                        handler.invertLayerState(index);
+                    
                     handler.setActiveTileLayer(index);
                 } else if (SwingUtilities.isRightMouseButton(evt)) {
                     //LayerPopupMenu popupMenu = new LayerPopupMenu(index);
@@ -182,7 +184,7 @@ public class ThumbnailLayerSelector extends JPanel {
                     //handler.invertLayerState(index);
                 } else if (SwingUtilities.isMiddleMouseButton(evt)) {
                     if (handler.isLayerTheOnlyActive(index))
-                        handler.setLayersEnabled(true);
+                        handler.invertEveryLayer(index);
                     else {
                         handler.setOnlyActiveTileLayer(index);
                     }

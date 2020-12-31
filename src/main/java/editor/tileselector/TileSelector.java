@@ -96,7 +96,8 @@ public class TileSelector extends JPanel {
                 }
             }
         }
-        System.out.println("fitst index: " + handler.getTileIndexSelected() + " second index: " + indexSecondTileSelected);
+        System.out.println("first index: " + handler.getTileIndexSelected() + " second index: " + indexSecondTileSelected);
+        handler.getMainFrame().updateTileSelectedID();
         repaint();
     }
 

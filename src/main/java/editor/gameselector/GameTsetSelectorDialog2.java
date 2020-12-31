@@ -289,18 +289,18 @@ public class GameTsetSelectorDialog2 extends JDialog {
             GroupLayout jpanelIconLayout = new GroupLayout(jpanelIcon);
             jpanelIcon.setLayout(jpanelIconLayout);
             jpanelIconLayout.setHorizontalGroup(
-                    jpanelIconLayout.createParallelGroup()
-                            .addGroup(jpanelIconLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jlGameIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jpanelIconLayout.createParallelGroup()
+                    .addGroup(jpanelIconLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jlGameIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
             jpanelIconLayout.setVerticalGroup(
-                    jpanelIconLayout.createParallelGroup()
-                            .addGroup(jpanelIconLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jlGameIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jpanelIconLayout.createParallelGroup()
+                    .addGroup(jpanelIconLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jlGameIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
         }
 
@@ -328,26 +328,20 @@ public class GameTsetSelectorDialog2 extends JDialog {
             //---- jlGame ----
             jlGame.setModel(new AbstractListModel<String>() {
                 String[] values = {
-                        "Pokemon Diamond",
-                        "Pokemon Pearl",
-                        "Pokemon Platinum",
-                        "Pokemon Heart Gold",
-                        "Pokemon Soul Silver",
-                        "Pokemon Black",
-                        "Pokemon White",
-                        "Pokemon Black 2",
-                        "Pokemon White 2"
+                    "Pokemon Diamond",
+                    "Pokemon Pearl",
+                    "Pokemon Platinum",
+                    "Pokemon Heart Gold",
+                    "Pokemon Soul Silver",
+                    "Pokemon Black",
+                    "Pokemon White",
+                    "Pokemon Black 2",
+                    "Pokemon White 2"
                 };
-
                 @Override
-                public int getSize() {
-                    return values.length;
-                }
-
+                public int getSize() { return values.length; }
                 @Override
-                public String getElementAt(int i) {
-                    return values[i];
-                }
+                public String getElementAt(int i) { return values[i]; }
             });
             jlGame.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             jlGame.setSelectedIndex(0);
@@ -363,16 +357,10 @@ public class GameTsetSelectorDialog2 extends JDialog {
                 String[] values = {
 
                 };
-
                 @Override
-                public int getSize() {
-                    return values.length;
-                }
-
+                public int getSize() { return values.length; }
                 @Override
-                public String getElementAt(int i) {
-                    return values[i];
-                }
+                public String getElementAt(int i) { return values[i]; }
             });
             jlTsetFolder.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             jlTsetFolder.setSelectedIndex(0);
@@ -389,16 +377,10 @@ public class GameTsetSelectorDialog2 extends JDialog {
                 String[] values = {
 
                 };
-
                 @Override
-                public int getSize() {
-                    return values.length;
-                }
-
+                public int getSize() { return values.length; }
                 @Override
-                public String getElementAt(int i) {
-                    return values[i];
-                }
+                public String getElementAt(int i) { return values[i]; }
             });
             jlTsetName.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             jlTsetName.setSelectedIndex(0);
@@ -420,12 +402,12 @@ public class GameTsetSelectorDialog2 extends JDialog {
                 GroupLayout tilesetThumbnailDisplayLayout = new GroupLayout(tilesetThumbnailDisplay);
                 tilesetThumbnailDisplay.setLayout(tilesetThumbnailDisplayLayout);
                 tilesetThumbnailDisplayLayout.setHorizontalGroup(
-                        tilesetThumbnailDisplayLayout.createParallelGroup()
-                                .addGap(0, 128, Short.MAX_VALUE)
+                    tilesetThumbnailDisplayLayout.createParallelGroup()
+                        .addGap(0, 128, Short.MAX_VALUE)
                 );
                 tilesetThumbnailDisplayLayout.setVerticalGroup(
-                        tilesetThumbnailDisplayLayout.createParallelGroup()
-                                .addGap(0, 339, Short.MAX_VALUE)
+                    tilesetThumbnailDisplayLayout.createParallelGroup()
+                        .addGap(0, 339, Short.MAX_VALUE)
                 );
             }
             jScrollPane4.setViewportView(tilesetThumbnailDisplay);
@@ -437,61 +419,61 @@ public class GameTsetSelectorDialog2 extends JDialog {
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
-                contentPaneLayout.createParallelGroup()
-                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(contentPaneLayout.createParallelGroup()
-                                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
-                                                .addGroup(contentPaneLayout.createParallelGroup()
-                                                        .addComponent(jLabel1)
-                                                        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jpanelIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(contentPaneLayout.createParallelGroup()
-                                                        .addComponent(jLabel2)
-                                                        .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(contentPaneLayout.createParallelGroup()
-                                                        .addComponent(jLabel3)
-                                                        .addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(contentPaneLayout.createParallelGroup()
-                                                        .addComponent(jLabel4)
-                                                        .addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
-                                                .addGap(0, 0, Short.MAX_VALUE)
-                                                .addComponent(jbFinish, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jbCancel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap())
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(contentPaneLayout.createParallelGroup()
+                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                            .addGroup(contentPaneLayout.createParallelGroup()
+                                .addComponent(jLabel1)
+                                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jpanelIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(contentPaneLayout.createParallelGroup()
+                                .addComponent(jLabel2)
+                                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(contentPaneLayout.createParallelGroup()
+                                .addComponent(jLabel3)
+                                .addComponent(jScrollPane3, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(contentPaneLayout.createParallelGroup()
+                                .addComponent(jLabel4)
+                                .addComponent(jScrollPane4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(jbFinish, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jbCancel, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
-                contentPaneLayout.createParallelGroup()
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel4))
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(contentPaneLayout.createParallelGroup()
                         .addGroup(contentPaneLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel1)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jLabel4))
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(contentPaneLayout.createParallelGroup()
-                                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                                .addGroup(contentPaneLayout.createParallelGroup()
-                                                        .addComponent(jScrollPane4)
-                                                        .addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
-                                                        .addComponent(jScrollPane1)
-                                                        .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
-                                                .addGap(11, 11, 11))
-                                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                                .addComponent(jpanelIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jbCancel)
-                                        .addComponent(jbFinish))
-                                .addContainerGap())
+                            .addGroup(contentPaneLayout.createParallelGroup()
+                                .addComponent(jScrollPane4)
+                                .addComponent(jScrollPane3, GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1)
+                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE))
+                            .addGap(11, 11, 11))
+                        .addGroup(contentPaneLayout.createSequentialGroup()
+                            .addComponent(jpanelIcon, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbCancel)
+                        .addComponent(jbFinish))
+                    .addContainerGap())
         );
         pack();
         setLocationRelativeTo(getOwner());

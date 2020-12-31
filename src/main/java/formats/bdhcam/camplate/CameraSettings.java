@@ -3,8 +3,8 @@ package formats.bdhcam.camplate;
 public class CameraSettings {
 
     public static final float[] defaultValues = {
-            0.5f, 28.0f, 35.0f,
-            0.5f, 0.0f, 0.0f,
+            0.0f, 13.0f, 14.0f,
+            0.0f, 0.0f, 0.0f,
             0.0f, 0.0f, 1.0f
     };
     public float[] values = new float[defaultValues.length];
@@ -36,7 +36,7 @@ public class CameraSettings {
             if(param.type.camParamIndex != -1) {
                 CamParameterPosIndep paramPosIndep = (CamParameterPosIndep) param;
                 float weight = Math.min((float) frame / paramPosIndep.duration, 1.0f);
-                values[param.type.camParamIndex] += param.getWeightedValue(weight);
+                values[param.type.camParamIndex] += param.getWeightedValue(weight)*1.0; 
             }
         }
     }
@@ -47,7 +47,7 @@ public class CameraSettings {
         //Apply camera parameters
         for (CamParameter param : plate.parameters) {
             if(param.type.camParamIndex !=-1){
-                values[param.type.camParamIndex] += param.getWeightedValue(weight);
+                values[param.type.camParamIndex] += param.getWeightedValue(weight)*1.0;
             }
         }
 
@@ -59,7 +59,7 @@ public class CameraSettings {
         //Apply camera parameters
         for (CamParameter param : plate.parameters) {
             if(param.type.camParamIndex != -1) {
-                values[param.type.camParamIndex] += param.getWeightedValue(weight);
+                values[param.type.camParamIndex] += param.getWeightedValue(weight)*1.0;
             }
         }
 

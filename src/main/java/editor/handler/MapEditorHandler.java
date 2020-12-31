@@ -35,7 +35,7 @@ import utils.Utils;
 public class MapEditorHandler {
 
     //Version name
-    public static final String versionName = "Pokemon DS Map Studio 2.1";
+    public static final String versionName = "Pokemon DS Map Studio 2.1.1 [AdAstra]";
 
     //Main frame
     private MainFrame mainFrame;
@@ -310,6 +310,17 @@ public class MapEditorHandler {
             mainFrame.repaintMapDisplay();
         }
     }
+    
+    public void invertEveryLayer(int index) {
+        MapGrid grid = getCurrentMap().getGrid();
+        if (index >= 0 && index < grid.numLayers) {
+            for (int i = 0; i < grid.numLayers; i++) {
+                renderLayers[i] = !renderLayers[i];
+            }
+            activeLayer = index;
+            mainFrame.repaintMapDisplay();
+        }
+    }
 
     public boolean isLayerTheOnlyActive(int index) {
         MapGrid grid = getCurrentMap().getGrid();
@@ -320,10 +331,10 @@ public class MapEditorHandler {
         }
         return true;
     }
-
-    public void setLayersEnabled(boolean enabled) {
+    
+    public void setAllLayersState(boolean enabled) {
         MapGrid grid = getCurrentMap().getGrid();
-        for(int i = 0; i< grid.numLayers; i++){
+        for(int i = 0; i < grid.numLayers; i++){
             renderLayers[i] = enabled;
         }
     }

@@ -157,12 +157,12 @@ public class MapMatrixDisplay extends JPanel {
         GroupLayout layout = new GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup()
-                        .addGap(0, 530, Short.MAX_VALUE)
+            layout.createParallelGroup()
+                .addGap(0, 530, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup()
-                        .addGap(0, 400, Short.MAX_VALUE)
+            layout.createParallelGroup()
+                .addGap(0, 400, Short.MAX_VALUE)
         );
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

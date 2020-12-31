@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.3.0.337" Java: "11.0.9" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -12,8 +12,8 @@ new FormModel {
 			"title": "Choose where to import the maps"
 			"modal": true
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane1::::258:x, space :::p, comp jPanel2:::p::p, space :::p}}"
-				"$verticalGroup": "par l {seq l {space :::p, par l {seq {comp jPanel2:::p::p, space :0:0:x}, comp jScrollPane1::::186:x}, space :::p}}"
+				"$horizontalGroup": "par l {seq l {space :::p, comp jScrollPane1::::323:x, space :::p, comp jPanel2:::p::p, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, par l {seq {comp jPanel2:::p::p, space :0:0:x}, comp jScrollPane1::::225:x}, space :::p}}"
 			} ) {
 				name: "jPanel1"
 				"border": new javax.swing.border.TitledBorder( "Choose where to import the map" )
@@ -37,7 +37,7 @@ new FormModel {
 					"preferredSize": new java.awt.Dimension( 100, 110 )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 						"$horizontalGroup": "par l {space :0:30:x}"
-						"$verticalGroup": "par l {space :0:28:x}"
+						"$verticalGroup": "par l {space :0:27:x}"
 					} ) {
 						name: "jPanel3"
 					} )
@@ -49,7 +49,7 @@ new FormModel {
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 						"$horizontalGroup": "par l {space :0:30:x}"
-						"$verticalGroup": "par l {space :0:28:x}"
+						"$verticalGroup": "par l {space :0:27:x}"
 					} ) {
 						name: "jPanel4"
 					} )
@@ -61,7 +61,7 @@ new FormModel {
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 						"$horizontalGroup": "par l {space :0:30:x}"
-						"$verticalGroup": "par l {space :0:28:x}"
+						"$verticalGroup": "par l {space :0:27:x}"
 					} ) {
 						name: "jPanel5"
 					} )
@@ -73,7 +73,7 @@ new FormModel {
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 						"$horizontalGroup": "par l {space :0:30:x}"
-						"$verticalGroup": "par l {space :0:28:x}"
+						"$verticalGroup": "par l {space :0:27:x}"
 					} ) {
 						name: "jPanel6"
 					} )
@@ -85,7 +85,7 @@ new FormModel {
 					} )
 					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 						"$horizontalGroup": "par l {space :0:30:x}"
-						"$verticalGroup": "par l {space :0:28:x}"
+						"$verticalGroup": "par l {space :0:27:x}"
 					} ) {
 						name: "jPanel7"
 					} )
@@ -102,7 +102,7 @@ new FormModel {
 				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbCancelActionPerformed", true ) )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 400, 300 )
+			"size": new java.awt.Dimension( 465, 360 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
 	}

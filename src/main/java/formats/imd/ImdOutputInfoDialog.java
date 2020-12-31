@@ -51,7 +51,7 @@ public class ImdOutputInfoDialog extends JDialog {
         TOO_MANY_TRIANGLES_STATUS("SUCCESSFULLY CONVERTED (TOO MANY TRIANGLES)", ORANGE),
         XML_ERROR_STATUS("NOT CONVERTED (XML ERROR)", RED),
         IO_ERROR_STATUS("NOT CONVERTED (IO ERROR)", RED),
-        TEXURE_ERROR_STATUS("NOT CONVERTED (TEXTURES NOT FOUND)", RED),
+        TEXTURE_ERROR_STATUS("NOT CONVERTED (TEXTURES NOT FOUND)", RED),
         NORMALS_ERROR_STATUS("NOT CONVERTED (NORMALS NOT FOUND)", RED),
         UNKNOWN_ERROR_STATUS("NOT CONVERTED (UNKNOWN ERROR)", RED);
 
@@ -147,7 +147,7 @@ public class ImdOutputInfoDialog extends JDialog {
                 } catch (IOException ex) {
                     exportStatus = ConvertStatus.IO_ERROR_STATUS;
                 } catch (TextureNotFoundException ex) {
-                    exportStatus = ConvertStatus.TEXURE_ERROR_STATUS;
+                    exportStatus = ConvertStatus.TEXTURE_ERROR_STATUS;
                 } catch (NormalsNotFoundException ex) {
                     exportStatus = ConvertStatus.NORMALS_ERROR_STATUS;
                 } catch (Exception ex) {

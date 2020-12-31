@@ -193,7 +193,8 @@ public class ExportImdDialog extends JDialog {
             }
 
             for (int i = 0; i < model.getSize(); i++) {
-                model.get(i).setSelected(hasMatrixCoordsInObjName(model.get(i).getText()));
+                //model.get(i).setSelected(hasMatrixCoordsInObjName(model.get(i).getText()));
+                model.get(i).setSelected(true);
             }
             jScrollCheckboxList.getCheckboxList().setModel(model);
 

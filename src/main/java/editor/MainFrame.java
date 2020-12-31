@@ -7,8 +7,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
@@ -24,7 +23,8 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.jogamp.opengl.GLContext;
 import editor.about.AboutDialog;
-import editor.game.patches.GamePatch;
+import editor.mapgroups.SavePDSMAPAreasDialog;
+import editor.mapgroups.VisualizeExportGroupsDialog;
 import formats.animationeditor.AnimationEditorDialog;
 import formats.backsound.BacksoundEditorDialog;
 import formats.bdhc.BdhcEditorDialog;
@@ -51,7 +51,8 @@ import formats.nsbtx.NsbtxEditorDialog;
 import formats.nsbtx2.Nsbtx2;
 import formats.nsbtx2.NsbtxEditorDialog2;
 import formats.nsbtx2.NsbtxLoader2;
-import formats.obj.ExportMapObjDialog;
+import formats.obj.ExportSingleMapObjDialog;
+import formats.obj.ExportMapsObjDialog;
 import formats.obj.ObjWriter;
 import editor.settings.SettingsDialog;
 import editor.smartdrawing.*;
@@ -60,7 +61,6 @@ import editor.state.StateHandler;
 import editor.tileselector.*;
 import editor.tileseteditor.*;
 import net.miginfocom.swing.MigLayout;
-import org.xml.sax.SAXException;
 import tileset.*;
 import utils.Utils;
 
@@ -69,6 +69,9 @@ import utils.Utils;
  */
 public class MainFrame extends JFrame {
     MapEditorHandler handler;
+
+    private String stringForTextThread = "";
+
     public static Preferences prefs = Preferences.userNodeForPackage(MainFrame.class);
     private static final List<String> recentMaps = new ArrayList<>();
     private boolean opened_map = false;
@@ -168,6 +171,44 @@ public class MainFrame extends JFrame {
         if (returnVal == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
+    }
+
+    private void setGUIBlock(boolean status) {
+        this.mapDisplay.setMouseWheelEnabled(!status);
+        this.setEnabled(!status);
+        this.jspMainWindow.setEnabled(!status);
+        this.jspMatrix.setEnabled(!status);
+        this.mapDisplay.setEnabled(!status);
+        this.mapDisplayContainer.setEnabled(!status);
+        this.tileDisplay.setEnabled(!status);
+        this.tileSelector.setEnabled(!status);
+        this.mapMatrixDisplay.setEnabled(!status);
+    }
+
+        private Thread progressText(JLabel destinationLabel, int repetitions, int delay) {
+        Thread t = new Thread( () -> {
+            String backup = destinationLabel.getText();
+            while (!Thread.currentThread().isInterrupted()) {
+                destinationLabel.setText(stringForTextThread);
+
+                for (int i = 0; i < repetitions+1; i++) {
+                    synchronized(destinationLabel) {
+                        try {
+                            destinationLabel.wait(delay);
+                        } catch (InterruptedException e) {
+                            destinationLabel.setText(backup);
+                            stringForTextThread = "";
+                            System.out.println("Text thread stopped");
+                            return;
+                        }
+                        destinationLabel.setText(destinationLabel.getText() + ".");
+                    }
+                }
+            }
+        });
+        t.start();
+        System.out.println("Text thread is running");
+        return t;
     }
 
     private void jmiNewMapActionPerformed() {
@@ -301,7 +342,13 @@ public class MainFrame extends JFrame {
         openBdhcEditor();
     }
 
-    private void jmiBDHCAMActionPerformed(ActionEvent e) {openBdhcamEditor(); }
+    private void jmiBDHCAMActionPerformed(ActionEvent e) {
+        openBdhcamEditor();
+    }
+
+    private void jmiBacksoundActionPerformed(ActionEvent e) {
+        openBacksoundEditor();
+    }
 
     private void jmiNsbtxEditorActionPerformed(ActionEvent e) {
         openNsbtxEditor();
@@ -313,6 +360,10 @@ public class MainFrame extends JFrame {
 
     private void jmiAnimationEditorActionPerformed(ActionEvent e) {
         openAnimationEditor();
+    }
+
+    private void jmiSettingsActionPerformed(ActionEvent e) {
+        showPreferences();
     }
 
     private void jmiKeyboardInfoActionPerformed(ActionEvent e) {
@@ -344,7 +395,7 @@ public class MainFrame extends JFrame {
     }
 
     private void jbExportObjActionPerformed(ActionEvent e) {
-        saveMapAsObjWithDialog(true);
+        saveMapsAsObjWithDialog(true);
     }
 
     private void jbExportImdActionPerformed(ActionEvent e) {
@@ -362,6 +413,29 @@ public class MainFrame extends JFrame {
     private void jbExportNsb2ActionPerformed(ActionEvent e) {
         saveAreasAsBtxWithDialog();
     }
+
+    private void jbSplitPDSMAPbyAreaActionPerformed(ActionEvent e) {
+        splitPDSMAPintoAreas(true);
+    }
+
+    private void jbExportAndConvertAllActionPerformed(ActionEvent e) {
+        boolean ret = saveMapsAsObjWithDialog(true);
+        if (ret)
+            ret = saveMapsAsImdWithDialog();
+        if (ret)
+            ret = saveMapsAsNsbWithDialog();
+        if (ret)
+            saveMapBtxWithDialog();
+    }
+
+    private void jbExportAndConvertActionPerformed(ActionEvent e) {
+        boolean ret = saveMapAsObjWithDialog(true);
+        if (ret)
+            ret = saveMapAsImdWithDialog();
+        if (ret)
+            saveMapAsNsbWithDialog();
+    }
+
 
     private void jbUndoActionPerformed(ActionEvent e) {
         undoMapState();
@@ -387,7 +461,9 @@ public class MainFrame extends JFrame {
         openBacksoundEditor();
     }
 
-    private void jbBdhcamEditorActionPerformed(ActionEvent e) {openBdhcamEditor(); }
+    private void jbBdhcamEditorActionPerformed(ActionEvent e) {
+        openBdhcamEditor();
+    }
 
     private void jbNsbtxEditor1ActionPerformed(ActionEvent e) {
         openNsbtxEditor2();
@@ -397,9 +473,18 @@ public class MainFrame extends JFrame {
         openBuildingEditor2();
     }
 
+    private void jbExportGroupsListActionPerformed(ActionEvent e) {
+        openExportGroupsList();
+    }
+
     private void jbAnimationEditorActionPerformed(ActionEvent e) {
         openAnimationEditor();
     }
+
+    private void jmiSplitPDSMAPbyAreaActionPerformed(ActionEvent e) {
+        splitPDSMAPintoAreas(true);
+    }
+
 
     private void jbKeboardInfoActionPerformed(ActionEvent e) {
         openKeyboardInfoDialog();
@@ -492,6 +577,18 @@ public class MainFrame extends JFrame {
         }
     }
 
+    private void jsSelectedExportgroupStateChanged(ChangeEvent e) {
+        try {
+            handler.getMapData().setExportgroupIndex((Integer) jsSelectedExportgroup.getValue());
+            handler.getMapMatrix().updateExportgroupColors(handler.getMapMatrix().getExportGroupIndices());
+
+            jPanelExportgroupColor.setBackground(handler.getMapMatrix().getExportgroupColors().get(handler.getMapData().getExportGroupIndex()));
+            jPanelExportgroupColor.repaint();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     private void jsHeightMapAlphaStateChanged(ChangeEvent e) {
         mapDisplay.setHeightMapAlpha(jsHeightMapAlpha.getValue() / 100f);
         mapDisplay.repaint();
@@ -574,72 +671,83 @@ public class MainFrame extends JFrame {
         settingsDialog.setVisible(true);
     }
 
-    public void openMap(String path) {
-        try {
-            String folderPath = new File(path).getParent();
-            String fileName = new File(path).getName();
-            handler.setLastMapDirectoryUsed(folderPath);
-
-            handler.getMapMatrix().loadGridsFromFile(path);
-            handler.getMapMatrix().filePath = path;
-            handler.setDefaultMapSelected();
-
-            setTitle(handler.getMapName() + " - " + handler.getVersionName());
-
-            handler.resetMapStateHandler();
-            jbUndo.setEnabled(false);
-            jbRedo.setEnabled(false);
-
+    public void openMap(String path)  {
+        stringForTextThread = "Opening";
+        Thread textThread = this.progressText(jlStatus,6, 75);
+        Thread openMap = new Thread ( () -> {
+			this.setGUIBlock(true);
             try {
-                Tileset tileset = TilesetIO.readTilesetFromFile(handler.getMapMatrix().tilesetFilePath);
-                handler.setTileset(tileset);
-                System.out.println("Textures loaded from path: " + new File(path).getParent());
+                String folderPath = new File(path).getParent();
+                String fileName = new File(path).getName();
+                handler.setLastMapDirectoryUsed(folderPath);
 
-                renderTilesetThumbnails();
+                handler.getMapMatrix().loadGridsFromFile(path);
 
-                handler.setIndexTileSelected(0);
-                handler.setSmartGridIndexSelected(0);
+                System.out.println("oltre");
+                handler.getMapMatrix().filePath = path;
+                handler.setDefaultMapSelected();
 
-                handler.getMapMatrix().updateAllLayersGL();
-                handler.getMapMatrix().updateBordersData();
-                handler.updateAllMapThumbnails();
-                mapMatrixDisplay.updateSize();
-                updateMapMatrixDisplay();
-                updateViewMapInfo();
+                setTitle(handler.getMapName() + " - " + handler.getVersionName());
 
-                tileSelector.updateLayout();
-                tileSelector.repaint();
-                mapDisplay.requestUpdate();
-                mapDisplay.setCameraAtSelectedMap();
-                mapDisplay.repaint();
-                tileDisplay.requestUpdate();
-                tileDisplay.repaint();
+                handler.resetMapStateHandler();
+                jbUndo.setEnabled(false);
+                jbRedo.setEnabled(false);
 
-                smartGridDisplay.updateSize();
-                smartGridDisplay.repaint();
-                thumbnailLayerSelector.drawAllLayerThumbnails();
-                thumbnailLayerSelector.repaint();
-            } catch (IOException | TextureNotFoundException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error opening map", JOptionPane.ERROR_MESSAGE);
+                try {
+                    Tileset tileset = TilesetIO.readTilesetFromFile(handler.getMapMatrix().tilesetFilePath);
+                    handler.setTileset(tileset);
+                    System.out.println("Textures loaded from path: " + new File(path).getParent());
+
+                    renderTilesetThumbnails();
+                    mapDisplay.requestUpdate();
+                    mapDisplay.setCameraAtSelectedMap();
+                    mapDisplay.repaint();
+                    smartGridDisplay.updateSize();
+                    smartGridDisplay.repaint();
+
+                    handler.setIndexTileSelected(0);
+                    handler.setSmartGridIndexSelected(0);
+
+                    handler.getMapMatrix().updateAllLayersGL();
+                    handler.getMapMatrix().updateBordersData();
+                    handler.updateAllMapThumbnails();
+                    mapMatrixDisplay.updateSize();
+                    updateMapMatrixDisplay();
+                    updateViewMapInfo();
+
+                    tileSelector.updateLayout();
+                    tileSelector.repaint();
+                    tileDisplay.requestUpdate();
+                    tileDisplay.repaint();
+
+                    thumbnailLayerSelector.drawAllLayerThumbnails();
+                    thumbnailLayerSelector.repaint();
+                } catch (IOException | TextureNotFoundException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Error opening map", JOptionPane.ERROR_MESSAGE);
+                }
+
+                handler.getMapMatrix().loadBDHCsFromFile(folderPath, fileName);
+                handler.getMapMatrix().loadBdhcamsFromFile(folderPath, fileName);
+                handler.getMapMatrix().loadBacksoundsFromFile(folderPath, fileName);
+                handler.getMapMatrix().loadCollisionsFromFile(folderPath, fileName);
+                handler.getMapMatrix().loadBuildingsFromFile(folderPath, fileName);
+
+                updateViewGame();
+
+                repaintHeightSelector();
+                repaintTileSelector();
+                repaintMapDisplay();
+
+                opened_map = true;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Can't open file", "Error opening map", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                this.setGUIBlock(false);
+                textThread.interrupt();
             }
-
-            handler.getMapMatrix().loadBDHCsFromFile(folderPath, fileName);
-            handler.getMapMatrix().loadBdhcamsFromFile(folderPath, fileName);
-            handler.getMapMatrix().loadBacksoundsFromFile(folderPath, fileName);
-            handler.getMapMatrix().loadCollisionsFromFile(folderPath, fileName);
-            handler.getMapMatrix().loadBuildingsFromFile(folderPath, fileName);
-
-            updateViewGame();
-
-            repaintHeightSelector();
-            repaintTileSelector();
-            repaintMapDisplay();
-
-            opened_map = true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Can't open file", "Error opening map", JOptionPane.ERROR_MESSAGE);
-        }
+        });
+        openMap.start();
     }
 
     public void openMapWithDialog() {
@@ -714,6 +822,15 @@ public class MainFrame extends JFrame {
             thumbnailLayerSelector.drawAllLayerThumbnails();
             thumbnailLayerSelector.repaint();
         }
+
+        repaint();
+    }
+
+    public void openExportGroupsList() {
+        final VisualizeExportGroupsDialog dialog = new VisualizeExportGroupsDialog(this, true);
+        dialog.init(handler);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
 
         repaint();
     }
@@ -824,6 +941,70 @@ public class MainFrame extends JFrame {
         dialog.init(handler);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
+    }
+
+    private void splitPDSMAPintoAreas(boolean includeMapAtOrigin) {
+        final SavePDSMAPAreasDialog configDialog = new SavePDSMAPAreasDialog(this, false);
+        configDialog.init(handler);
+        configDialog.setLocationRelativeTo(this);
+        configDialog.setVisible(true);
+
+        if (configDialog.getReturnValue() == ExportImdDialog.APPROVE_OPTION) {
+            int returnVal = JOptionPane.showConfirmDialog(this, "This operation may create lots of files and can't be undone. Do you wish to proceed?",
+                    "Warning", JOptionPane.OK_CANCEL_OPTION);
+
+            if ( returnVal == JOptionPane.OK_OPTION) {
+                String areaFolderPath = configDialog.getAreaFolderPath();
+
+                handler.setLastMapDirectoryUsed(areaFolderPath);
+                Thread t = new Thread( () -> {
+                    Thread textThread = null;
+                    try {
+                        this.setGUIBlock(true);
+                        textThread = this.progressText(jlStatus, 15, 90);
+
+                        HashMap<Point, MapData> allAreasMap = handler.getMapMatrix().getMatrix();
+                        for (int area : handler.getMapMatrix().getAreaIndices()) {
+                            stringForTextThread = "Saving area " + area;
+
+                            HashMap<Point, MapData> singleAreaMap = new HashMap<>();
+                            if (includeMapAtOrigin) {
+                                Point origin = new Point(0, 0);
+                                singleAreaMap.put(origin, allAreasMap.get(origin));
+                            }
+
+                            for (Point p : handler.getMapMatrix().getAreas().get(area).getCoordList()) {
+                                singleAreaMap.put(p, allAreasMap.get(p));
+                            }
+                            Set<HashMap.Entry<Point, MapData>> areaEntrySet = singleAreaMap.entrySet();
+
+                            handler.getMapMatrix().saveAreaToFile(areaFolderPath, areaEntrySet, area);
+                            saveTileset();
+
+                            handler.getMapMatrix().saveCollisions(areaEntrySet);
+                            handler.getMapMatrix().saveBacksounds(areaEntrySet);
+                            handler.getMapMatrix().saveBDHCs(areaEntrySet);
+                            handler.getMapMatrix().saveBdhcams(areaEntrySet);
+                            handler.getMapMatrix().saveBuildings(areaEntrySet);
+
+                            saveMapThumbnail();
+
+                            addRecentMap(Utils.addExtensionToPath(areaFolderPath, MapMatrix.fileExtension));
+                            updateRecentMaps();
+                            updateRecentMapsMenu();
+                        }
+                    } catch (ParserConfigurationException | TransformerException | IOException ex) {
+                        JOptionPane.showMessageDialog(this, "There was a problem saving all the map files",
+                                "Error saving map files", JOptionPane.ERROR_MESSAGE);
+                    } finally {
+                        textThread.interrupt();
+                        this.setGUIBlock(false);
+                    }
+                });
+                t.setDaemon(false);
+                t.start();
+            }
+        }
     }
 
     public void openKeyboardInfoDialog() {
@@ -958,27 +1139,38 @@ public class MainFrame extends JFrame {
     }
 
     private void saveMap() {
-        try {
-            handler.getMapMatrix().saveGridsToFile(handler.getMapMatrix().filePath);
+        stringForTextThread = "Saving map data";
+        Thread textThread = this.progressText(jlStatus,6, 75);
+        Thread t = new Thread ( () -> {
+            try {
+                setGUIBlock(true);
 
-            setTitle(handler.getMapName() + " - " + handler.getVersionName());
+                Set<Map.Entry<Point, MapData>> entrySet = handler.getMapMatrix().getMatrix().entrySet();
+                handler.getMapMatrix().saveGridsToFile(handler.getMapMatrix().filePath, entrySet);
 
-            saveTileset();
-            handler.getMapMatrix().saveCollisions();
-            handler.getMapMatrix().saveBacksounds();
-            handler.getMapMatrix().saveBDHCs();
-            handler.getMapMatrix().saveBdhcams();
-            handler.getMapMatrix().saveBuildings();
-            //saveBdhc();
-            //saveBacksound();
-            //saveCollisions();
-            //saveBuildings();
+                setTitle(handler.getMapName() + " - " + handler.getVersionName());
 
-            saveMapThumbnail();
-        } catch (ParserConfigurationException | TransformerException | IOException ex) {
-            JOptionPane.showMessageDialog(this, "There was a problem saving all the map files",
-                    "Error saving map files", JOptionPane.ERROR_MESSAGE);
-        }
+                stringForTextThread = "Saving tileset and textures";
+                saveTileset();
+
+                stringForTextThread = "Saving map files";
+                handler.getMapMatrix().saveCollisions(entrySet);
+                handler.getMapMatrix().saveBacksounds(entrySet);
+                handler.getMapMatrix().saveBDHCs(entrySet);
+                handler.getMapMatrix().saveBdhcams(entrySet);
+                handler.getMapMatrix().saveBuildings(entrySet);
+
+                stringForTextThread = "Almost done";
+                saveMapThumbnail();
+            } catch (ParserConfigurationException | TransformerException | IOException ex) {
+                JOptionPane.showMessageDialog(this, "There was a problem saving all the map files",
+                        "Error saving map files", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                setGUIBlock(false);
+                textThread.interrupt();
+            }
+        });
+        t.start();
     }
 
     private void saveMapWithDialog() {
@@ -992,33 +1184,44 @@ public class MainFrame extends JFrame {
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
-            try {
-                String path = fc.getSelectedFile().getPath();
-                handler.getMapMatrix().saveGridsToFile(path);
-                handler.getMapMatrix().filePath = path;
-                setTitle(handler.getMapName() + " - " + handler.getVersionName());
 
-                saveTileset();
+            stringForTextThread = "Saving map data";
+            Thread textThread = this.progressText(jlStatus,6, 75);
+            Thread t = new Thread ( () -> {
+                try {
+                    setGUIBlock(true);
 
-                handler.getMapMatrix().saveCollisions();
-                handler.getMapMatrix().saveBacksounds();
-                handler.getMapMatrix().saveBDHCs();
-                handler.getMapMatrix().saveBdhcams();
-                handler.getMapMatrix().saveBuildings();
-                //saveCollisions();
-                //saveBacksound();
-                //saveBdhc();
-                //saveBuildings();
+                    String path = fc.getSelectedFile().getPath();
+                    Set <Map.Entry<Point, MapData>> entrySet = handler.getMapMatrix().getMatrix().entrySet();
 
-                saveMapThumbnail();
+                    handler.getMapMatrix().saveGridsToFile(path, entrySet);
+                    handler.getMapMatrix().filePath = path;
+                    setTitle(handler.getMapName() + " - " + handler.getVersionName());
 
-                addRecentMap(Utils.addExtensionToPath(path, MapMatrix.fileExtension));
-                updateRecentMaps();
-                updateRecentMapsMenu();
-            } catch (ParserConfigurationException | TransformerException | IOException ex) {
-                JOptionPane.showMessageDialog(this, "There was a problem saving all the map files",
-                        "Error saving map files", JOptionPane.ERROR_MESSAGE);
-            }
+                    stringForTextThread = "Saving tileset and textures";
+                    saveTileset();
+                    saveMapThumbnail();
+
+                    stringForTextThread = "Saving map files";
+                    handler.getMapMatrix().saveCollisions(entrySet);
+                    handler.getMapMatrix().saveBacksounds(entrySet);
+                    handler.getMapMatrix().saveBDHCs(entrySet);
+                    handler.getMapMatrix().saveBdhcams(entrySet);
+                    handler.getMapMatrix().saveBuildings(entrySet);
+
+                    stringForTextThread = "Almost done";
+                    addRecentMap(Utils.addExtensionToPath(path, MapMatrix.fileExtension));
+                    updateRecentMaps();
+                    updateRecentMapsMenu();
+                } catch (ParserConfigurationException | TransformerException | IOException ex) {
+                    JOptionPane.showMessageDialog(this, "There was a problem saving all the map files",
+                            "Error saving map files", JOptionPane.ERROR_MESSAGE);
+                } finally {
+                    textThread.interrupt();
+                    setGUIBlock(false);
+                }
+            });
+            t.start();
         }
     }
 
@@ -1089,15 +1292,52 @@ public class MainFrame extends JFrame {
         }
     }
 
-    private void saveMapAsObjWithDialog(boolean saveTextures) {
-        final ExportMapObjDialog exportMapDialog = new ExportMapObjDialog(this, "Export OBJ Map Settings");
+
+    private boolean saveMapAsObjWithDialog(boolean saveTextures) {
+        final ExportSingleMapObjDialog exportMapDialog = new ExportSingleMapObjDialog(this, "Export Single OBJ Map - Settings");
         exportMapDialog.setLocationRelativeTo(null);
         exportMapDialog.setVisible(true);
 
-        if (exportMapDialog.getReturnValue() == ExportMapObjDialog.APPROVE_OPTION) {
+        if (exportMapDialog.getReturnValue() == ExportMapsObjDialog.APPROVE_OPTION) {
             boolean includeVertexColors = exportMapDialog.includeVertexColors();
+            boolean useExportgroups = exportMapDialog.useExportgroups();
+            float tileUpscale = exportMapDialog.getTileUpscaling();
+
+            final JFileChooser fc = new JFileChooser();
+            fc.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath)));
+            if (handler.getLastMapDirectoryUsed() != null) {
+                fc.setCurrentDirectory(new File(handler.getLastMapDirectoryUsed()));
+            }
+            fc.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
+            fc.setApproveButtonText("Save");
+            fc.setDialogTitle("Select a name for the OBJ map");
+            int returnVal = fc.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
+                try {
+                    String path = fc.getSelectedFile().getPath();
+                    handler.getGrid().saveMapToOBJ(handler.getTileset(), path, saveTextures, includeVertexColors, useExportgroups, tileUpscale);
+                    JOptionPane.showMessageDialog(this, "OBJ map succesfully exported.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
+                } catch (FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(this, "Can't save file.", "Error saving map", JOptionPane.ERROR_MESSAGE);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean saveMapsAsObjWithDialog(boolean saveTextures) {
+        final ExportMapsObjDialog exportMapDialog = new ExportMapsObjDialog(this, "Export OBJ Maps Settings");
+        exportMapDialog.setLocationRelativeTo(null);
+        exportMapDialog.setVisible(true);
+
+        if (exportMapDialog.getReturnValue() == ExportMapsObjDialog.APPROVE_OPTION) {
+            boolean includeVertexColors = exportMapDialog.includeVertexColors();
+            boolean exportAllMapsBothModes = exportMapDialog.exportAllMapsBothModes();
             boolean exportAllMapsSeparately = exportMapDialog.exportAllMapsSeparately();
             boolean exportAllMapsJoined = exportMapDialog.exportAllMapsJoined();
+            boolean useExportgroups = exportMapDialog.useExportgroups();
             float tileUpscale = exportMapDialog.getTileUpscaling();
 
             final JFileChooser fc = new JFileChooser();
@@ -1113,23 +1353,31 @@ public class MainFrame extends JFrame {
                 handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
                 try {
                     String path = fc.getSelectedFile().getPath();
-                    if (exportAllMapsSeparately) {
+                    if (exportAllMapsBothModes) {
                         path = Utils.removeMapCoordsFromName(path);
-                        handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors, tileUpscale);
+                        handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors, useExportgroups, tileUpscale);
+                        handler.getMapMatrix().saveMapsAsObjJoined(path, saveTextures, includeVertexColors, tileUpscale);
+                        JOptionPane.showMessageDialog(this, "OBJ maps succesfully exported in both modes.", "Maps saved", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else if (exportAllMapsSeparately) {
+                        path = Utils.removeMapCoordsFromName(path);
+                        handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors, useExportgroups, tileUpscale);
                         JOptionPane.showMessageDialog(this, "OBJ maps succesfully exported.", "Maps saved", JOptionPane.INFORMATION_MESSAGE);
                     } else if (exportAllMapsJoined) {
                         path = Utils.removeMapCoordsFromName(path);
                         handler.getMapMatrix().saveMapsAsObjJoined(path, saveTextures, includeVertexColors, tileUpscale);
                         JOptionPane.showMessageDialog(this, "OBJ map succesfully exported.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        handler.getGrid().saveMapToOBJ(handler.getTileset(), path, saveTextures, includeVertexColors, tileUpscale);
+                    } else { //Mappa singola
+                        handler.getGrid().saveMapToOBJ(handler.getTileset(), path, saveTextures, includeVertexColors, useExportgroups, tileUpscale);
                         JOptionPane.showMessageDialog(this, "OBJ map succesfully exported.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (FileNotFoundException ex) {
                     JOptionPane.showMessageDialog(this, "Can't save file.", "Error saving map", JOptionPane.ERROR_MESSAGE);
                 }
+                return true;
             }
         }
+        return false;
     }
 
     public void saveTileset() throws FileNotFoundException, ParserConfigurationException, TransformerException, IOException {
@@ -1201,7 +1449,7 @@ public class MainFrame extends JFrame {
         String filename = Utils.removeExtensionFromPath(file.getName()) + "." + BuildFile.fileExtension;
         handler.getBuildings().saveToFile(path + File.separator + filename);
     }*/
-    public void saveMapsAsImdWithDialog() {
+    public boolean saveMapsAsImdWithDialog() {
         if (handler.getTileset().size() == 0) {
             JOptionPane.showMessageDialog(this,
                     "There is no tileset loaded.\n"
@@ -1225,10 +1473,13 @@ public class MainFrame extends JFrame {
             outputDialog.setLocationRelativeTo(null);
             outputDialog.setVisible(true);
 
+            return true;
         }
+
+        return false;
     }
 
-    public void saveMapAsImdWithDialog() {
+    public boolean saveMapAsImdWithDialog() {
         if (handler.getTileset().size() == 0) {
             JOptionPane.showMessageDialog(this,
                     "There is no tileset loaded.\n"
@@ -1267,23 +1518,23 @@ public class MainFrame extends JFrame {
                         final int numTris = model.getNumTris();
                         final int numQuads = model.getNumQuads();
                         JOptionPane.showMessageDialog(this, "IMD map succesfully exported.\n\n"
-                                        + "Number of Materials: " + String.valueOf(model.getNumMaterials()) + "\n"
-                                        + "Number of Vertices: " + String.valueOf(numVertices) + "\n"
-                                        + "Number of Polygons: " + String.valueOf(numPolygons) + "\n"
-                                        + "Number of Triangles: " + String.valueOf(numTris) + "\n"
-                                        + "Number of Quads: " + String.valueOf(numQuads),
+                                        + "Number of Materials: " + model.getNumMaterials() + "\n"
+                                        + "Number of Vertices: " + numVertices + "\n"
+                                        + "Number of Polygons: " + numPolygons + "\n"
+                                        + "Number of Triangles: " + numTris + "\n"
+                                        + "Number of Quads: " + numQuads,
                                 "Map saved", JOptionPane.INFORMATION_MESSAGE);
                         final int maxNumPolygons = 1800;
                         final int maxNumTris = 1200;
                         if (numTris > maxNumTris) {
                             JOptionPane.showMessageDialog(this, "The map might not work properly in game.\n\n"
-                                            + "The map contains " + String.valueOf(numTris) + " triangles" + "\n"
+                                            + "The map contains " + numTris + " triangles" + "\n"
                                             + "Try to use less than " + maxNumTris + " triangles" + "\n"
                                             + "Or try to use quads instead of triangles" + "\n",
                                     "Too many triangles", JOptionPane.INFORMATION_MESSAGE);
                         } else if (numPolygons > maxNumPolygons) {
                             JOptionPane.showMessageDialog(this, "The map may not work properly in game.\n\n"
-                                            + "The map contains " + String.valueOf(numPolygons) + " polygons" + "\n"
+                                            + "The map contains " + numPolygons + " polygons" + "\n"
                                             + "Try to use less than " + maxNumPolygons + " polygons",
                                     "Too many polygons", JOptionPane.WARNING_MESSAGE);
                         }
@@ -1303,6 +1554,7 @@ public class MainFrame extends JFrame {
                                 "Can't export IMD",
                                 JOptionPane.ERROR_MESSAGE);
                     }
+                    return true;
                 }
             } else {
                 JOptionPane.showMessageDialog(this,
@@ -1311,9 +1563,11 @@ public class MainFrame extends JFrame {
                         JOptionPane.ERROR_MESSAGE);
             }
         }
+
+        return false;
     }
 
-    public void saveMapsAsNsbWithDialog() {
+    public boolean saveMapsAsNsbWithDialog() {
         final ExportNsbmdDialog configDialog = new ExportNsbmdDialog(this, true);
         configDialog.init(handler);
         configDialog.setLocationRelativeTo(this);
@@ -1328,10 +1582,13 @@ public class MainFrame extends JFrame {
             outputDialog.init(handler, fileNames, imdFolderPath, nsbFolderPath, configDialog.includeNsbtxInNsbmd());
             outputDialog.setLocationRelativeTo(null);
             outputDialog.setVisible(true);
+            return true;
         }
+
+        return false;
     }
 
-    public void saveMapAsNsbWithDialog() {
+    public boolean saveMapAsNsbWithDialog() {
         final ConverterDialog convDialog = new ConverterDialog(this);
         convDialog.setLocationRelativeTo(this);
         convDialog.setVisible(true);
@@ -1457,6 +1714,7 @@ public class MainFrame extends JFrame {
                                     "Problem converting the model",
                                     JOptionPane.ERROR_MESSAGE);
                         }
+                        return true;
                     }
                 }
             } catch (IOException ex) {
@@ -1466,6 +1724,7 @@ public class MainFrame extends JFrame {
                         JOptionPane.ERROR_MESSAGE);
             }
         }
+        return false;
     }
 
     public void saveMapBtxWithDialog() {
@@ -1585,6 +1844,7 @@ public class MainFrame extends JFrame {
             outputDialog.setVisible(true);
         }
     }
+
 
     public void changeGame() {
         final GameChangerDialog dialog = new GameChangerDialog(this);
@@ -1767,10 +2027,14 @@ public class MainFrame extends JFrame {
     public void updateViewMapInfo() {
         getjPanelAreaColor().setBackground(handler.getMapMatrix().getAreaColors().get(handler.getCurrentMap().getAreaIndex()));
         getjPanelAreaColor().repaint();
+        getjPanelExportgroupColor().setBackground(handler.getMapMatrix().getExportgroupColors().get(handler.getCurrentMap().getExportGroupIndex()));
+        getjPanelExportgroupColor().repaint();
 
         getJsSelectedArea().setValue(handler.getCurrentMap().getAreaIndex());
+        getJsSelectedExportgroup().setValue(handler.getCurrentMap().getExportGroupIndex());
 
         updateViewGeometryCount();
+        updateTileSelectedID();
 
         Point coords = handler.getMapSelected();
         jlMapCoords.setText("(" + coords.x + ", " + coords.y + ")");
@@ -1781,8 +2045,20 @@ public class MainFrame extends JFrame {
             jlNumPolygons.setText(String.valueOf(handler.getGrid().getNumPolygons()));
             jlNumMaterials.setText(String.valueOf(handler.getGrid().getNumMaterials()));
         } catch (Exception ex) {
-            jlNumPolygons.setText("");
-            jlNumMaterials.setText("");
+            ex.printStackTrace();
+            jlNumPolygons.setText("Error!");
+            jlNumMaterials.setText("Error!");
+        }
+    }
+
+    public void updateTileSelectedID() {
+        try {
+            String tileInfo = handler.getTileIndexSelected() + "   ";
+            tileInfo += String.valueOf(handler.getTileSelected().getObjFilename());
+            jLabelTileText.setText(tileInfo);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            jLabelTileText.setText("Error!");
         }
     }
 
@@ -1864,9 +2140,18 @@ public class MainFrame extends JFrame {
         return jPanelAreaColor;
     }
 
+    public JPanel getjPanelExportgroupColor() {
+        return jPanelExportgroupColor;
+    }
+
     public JSpinner getJsSelectedArea() {
         return jsSelectedArea;
     }
+
+    public JSpinner getJsSelectedExportgroup() {
+        return jsSelectedExportgroup;
+    }
+
 
     public JToggleButton getJtbViewWireframe() {
         return jtbViewWireframe;
@@ -1928,7 +2213,7 @@ public class MainFrame extends JFrame {
         if(mapDisplay.getViewMode() == ViewMode.VIEW_3D_MODE){
             mapDisplay.setPreferredSize(mapDisplayContainer.getSize());
             mapDisplayContainer.revalidate();
-        }else{
+        } else {
             int size = Math.min(mapDisplayContainer.getWidth(), mapDisplayContainer.getHeight());
             mapDisplay.setPreferredSize(new Dimension(size, size));
             mapDisplayContainer.revalidate();
@@ -1974,11 +2259,6 @@ public class MainFrame extends JFrame {
     }
 
 
-
-
-
-
-
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         jmMainMenu = new JMenuBar();
@@ -1990,6 +2270,7 @@ public class MainFrame extends JFrame {
         jmiSaveMap = new JMenuItem();
         jmiSaveMapAs = new JMenuItem();
         jmiAddMaps = new JMenuItem();
+        jmiSplitPDSMAPbyArea = new JMenuItem();
         jmiExportObjWithText = new JMenuItem();
         jmiExportMapAsImd = new JMenuItem();
         jmiExportMapAsNsb = new JMenuItem();
@@ -2019,10 +2300,12 @@ public class MainFrame extends JFrame {
         jmiCollisionEditor = new JMenuItem();
         jmiBdhcEditor = new JMenuItem();
         jmiBDHCAM = new JMenuItem();
+        jmiBacksound = new JMenuItem();
         jmiNsbtxEditor = new JMenuItem();
         jMenuItem1 = new JMenuItem();
         jmiAnimationEditor = new JMenuItem();
         jmHelp = new JMenu();
+        jmiSettings = new JMenuItem();
         jmiKeyboardInfo = new JMenuItem();
         jmiAbout = new JMenuItem();
         jtMainToolbar = new JToolBar();
@@ -2030,11 +2313,14 @@ public class MainFrame extends JFrame {
         jbOpenMap = new JButton();
         jbSaveMap = new JButton();
         jbAddMaps = new JButton();
-        jbExportObj = new JButton();
+        jbExportObj2 = new JButton();
         jbExportImd = new JButton();
         jbExportNsb = new JButton();
         jbExportNsb1 = new JButton();
         jbExportNsb2 = new JButton();
+        jbSplitPDSMAPbyArea = new JButton();
+        jbExportAndConvert = new JButton();
+        jbExportAndConvertAll = new JButton();
         jbUndo = new JButton();
         jbRedo = new JButton();
         jbTilelistEditor = new JButton();
@@ -2045,6 +2331,7 @@ public class MainFrame extends JFrame {
         jbNsbtxEditor1 = new JButton();
         jbBuildingEditor = new JButton();
         jbAnimationEditor = new JButton();
+        jbExportGroupsList = new JButton();
         jbSettings = new JButton();
         jbKeboardInfo = new JButton();
         jbHelp = new JButton();
@@ -2094,6 +2381,9 @@ public class MainFrame extends JFrame {
         jlArea = new JLabel();
         jsSelectedArea = new JSpinner();
         jPanelAreaColor = new JPanel();
+        jlExportgroup = new JLabel();
+        jsSelectedExportgroup = new JSpinner();
+        jPanelExportgroupColor = new JPanel();
         jpMoveMap = new JPanel();
         moveMapPanel = new MoveMapPanel();
         jpTileSelected = new JPanel();
@@ -2123,6 +2413,9 @@ public class MainFrame extends JFrame {
         jlNumPolygons = new JLabel();
         jLabel5 = new JLabel();
         jlNumMaterials = new JLabel();
+        jLabel7 = new JLabel();
+        jLabelTileText = new JLabel();
+        jlStatus = new JLabel();
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -2135,13 +2428,13 @@ public class MainFrame extends JFrame {
         });
         Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
-            "insets 0,hidemode 3,gap 5 5",
-            // columns
-            "[grow,fill]",
-            // rows
-            "[fill]" +
-            "[grow,fill]" +
-            "[fill]"));
+                "insets 0,hidemode 3,gap 5 5",
+                // columns
+                "[grow,fill]",
+                // rows
+                "[fill]" +
+                        "[grow,fill]" +
+                        "[fill]"));
 
         //======== jmMainMenu ========
         {
@@ -2205,9 +2498,16 @@ public class MainFrame extends JFrame {
                 jmFile.add(jmiAddMaps);
                 jmFile.addSeparator();
 
+                //---- jmiSplitPDSMAPbyArea ----
+                jmiSplitPDSMAPbyArea.setText("Split PDSMAP by Area");
+                jmiSplitPDSMAPbyArea.setIcon(new ImageIcon(getClass().getResource("/icons/exportMapsByAreaSmall.png")));
+                jmiSplitPDSMAPbyArea.addActionListener(e -> jmiSplitPDSMAPbyAreaActionPerformed(e));
+                jmFile.add(jmiSplitPDSMAPbyArea);
+                jmFile.addSeparator();
+
                 //---- jmiExportObjWithText ----
                 jmiExportObjWithText.setIcon(new ImageIcon(getClass().getResource("/icons/ExportIcon.png")));
-                jmiExportObjWithText.setText("Export Map as OBJ with textures...");
+                jmiExportObjWithText.setText("Export current Map as OBJ...");
                 jmiExportObjWithText.addActionListener(e -> jmiExportObjWithTextActionPerformed(e));
                 jmFile.add(jmiExportObjWithText);
 
@@ -2394,6 +2694,11 @@ public class MainFrame extends JFrame {
                 jmiBDHCAM.addActionListener(e -> jmiBDHCAMActionPerformed(e));
                 jmTools.add(jmiBDHCAM);
 
+                //---- jmiBacksound ----
+                jmiBacksound.setText("Backsound Editor");
+                jmiBacksound.addActionListener(e -> jmiBacksoundActionPerformed(e));
+                jmTools.add(jmiBacksound);
+
                 //---- jmiNsbtxEditor ----
                 jmiNsbtxEditor.setText("NSBTX Editor");
                 jmiNsbtxEditor.setMnemonic('N');
@@ -2418,6 +2723,12 @@ public class MainFrame extends JFrame {
             {
                 jmHelp.setText("Help");
                 jmHelp.setMnemonic('H');
+
+                //---- jmiSettings ----
+                jmiSettings.setText("Settings");
+                jmiSettings.setMnemonic('P');
+                jmiSettings.addActionListener(e -> jmiSettingsActionPerformed(e));
+                jmHelp.add(jmiSettings);
 
                 //---- jmiKeyboardInfo ----
                 jmiKeyboardInfo.setText("Keyboard Shortcuts");
@@ -2496,71 +2807,6 @@ public class MainFrame extends JFrame {
             jbAddMaps.setVerticalTextPosition(SwingConstants.BOTTOM);
             jbAddMaps.addActionListener(e -> jbAddMapsActionPerformed(e));
             jtMainToolbar.add(jbAddMaps);
-
-            //---- jbExportObj ----
-            jbExportObj.setIcon(new ImageIcon(getClass().getResource("/icons/exportObjIcon.png")));
-            jbExportObj.setToolTipText("Export Map as OBJ with Textures");
-            jbExportObj.setFocusable(false);
-            jbExportObj.setHorizontalTextPosition(SwingConstants.CENTER);
-            jbExportObj.setMaximumSize(new Dimension(38, 38));
-            jbExportObj.setMinimumSize(new Dimension(38, 38));
-            jbExportObj.setName("");
-            jbExportObj.setPreferredSize(new Dimension(38, 38));
-            jbExportObj.setVerticalTextPosition(SwingConstants.BOTTOM);
-            jbExportObj.addActionListener(e -> jbExportObjActionPerformed(e));
-            jtMainToolbar.add(jbExportObj);
-
-            //---- jbExportImd ----
-            jbExportImd.setIcon(new ImageIcon(getClass().getResource("/icons/exportImdIcon.png")));
-            jbExportImd.setToolTipText("Export Map as IMD");
-            jbExportImd.setFocusable(false);
-            jbExportImd.setHorizontalTextPosition(SwingConstants.CENTER);
-            jbExportImd.setMaximumSize(new Dimension(38, 38));
-            jbExportImd.setMinimumSize(new Dimension(38, 38));
-            jbExportImd.setName("");
-            jbExportImd.setPreferredSize(new Dimension(38, 38));
-            jbExportImd.setVerticalTextPosition(SwingConstants.BOTTOM);
-            jbExportImd.addActionListener(e -> jbExportImdActionPerformed(e));
-            jtMainToolbar.add(jbExportImd);
-
-            //---- jbExportNsb ----
-            jbExportNsb.setIcon(new ImageIcon(getClass().getResource("/icons/exportNsbIcon.png")));
-            jbExportNsb.setToolTipText("Export Map as NSBMD");
-            jbExportNsb.setFocusable(false);
-            jbExportNsb.setHorizontalTextPosition(SwingConstants.CENTER);
-            jbExportNsb.setMaximumSize(new Dimension(38, 38));
-            jbExportNsb.setMinimumSize(new Dimension(38, 38));
-            jbExportNsb.setName("");
-            jbExportNsb.setPreferredSize(new Dimension(38, 38));
-            jbExportNsb.setVerticalTextPosition(SwingConstants.BOTTOM);
-            jbExportNsb.addActionListener(e -> jbExportNsbActionPerformed(e));
-            jtMainToolbar.add(jbExportNsb);
-
-            //---- jbExportNsb1 ----
-            jbExportNsb1.setIcon(new ImageIcon(getClass().getResource("/icons/exportBtxIcon.png")));
-            jbExportNsb1.setToolTipText("Export Map NSBTX");
-            jbExportNsb1.setFocusable(false);
-            jbExportNsb1.setHorizontalTextPosition(SwingConstants.CENTER);
-            jbExportNsb1.setMaximumSize(new Dimension(38, 38));
-            jbExportNsb1.setMinimumSize(new Dimension(38, 38));
-            jbExportNsb1.setName("");
-            jbExportNsb1.setPreferredSize(new Dimension(38, 38));
-            jbExportNsb1.setVerticalTextPosition(SwingConstants.BOTTOM);
-            jbExportNsb1.addActionListener(e -> jbExportNsb1ActionPerformed(e));
-            jtMainToolbar.add(jbExportNsb1);
-
-            //---- jbExportNsb2 ----
-            jbExportNsb2.setIcon(new ImageIcon(getClass().getResource("/icons/exportAreasIcon.png")));
-            jbExportNsb2.setToolTipText("Export Area NSBTX");
-            jbExportNsb2.setFocusable(false);
-            jbExportNsb2.setHorizontalTextPosition(SwingConstants.CENTER);
-            jbExportNsb2.setMaximumSize(new Dimension(38, 38));
-            jbExportNsb2.setMinimumSize(new Dimension(38, 38));
-            jbExportNsb2.setName("");
-            jbExportNsb2.setPreferredSize(new Dimension(38, 38));
-            jbExportNsb2.setVerticalTextPosition(SwingConstants.BOTTOM);
-            jbExportNsb2.addActionListener(e -> jbExportNsb2ActionPerformed(e));
-            jtMainToolbar.add(jbExportNsb2);
             jtMainToolbar.addSeparator();
 
             //---- jbUndo ----
@@ -2592,6 +2838,126 @@ public class MainFrame extends JFrame {
             jbRedo.setVerticalTextPosition(SwingConstants.BOTTOM);
             jbRedo.addActionListener(e -> jbRedoActionPerformed(e));
             jtMainToolbar.add(jbRedo);
+            jtMainToolbar.addSeparator();
+
+            //---- jbExportObj2 ----
+            jbExportObj2.setIcon(new ImageIcon(getClass().getResource("/icons/exportObjIcon.png")));
+            jbExportObj2.setToolTipText("Export as OBJ with Textures");
+            jbExportObj2.setFocusable(false);
+            jbExportObj2.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbExportObj2.setMaximumSize(new Dimension(38, 38));
+            jbExportObj2.setMinimumSize(new Dimension(38, 38));
+            jbExportObj2.setName("");
+            jbExportObj2.setPreferredSize(new Dimension(38, 38));
+            jbExportObj2.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbExportObj2.addActionListener(e -> jbExportObjActionPerformed(e));
+            jtMainToolbar.add(jbExportObj2);
+
+            //---- jbExportImd ----
+            jbExportImd.setIcon(new ImageIcon(getClass().getResource("/icons/exportImdIcon.png")));
+            jbExportImd.setToolTipText("OBJ to IMD");
+            jbExportImd.setFocusable(false);
+            jbExportImd.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbExportImd.setMaximumSize(new Dimension(38, 38));
+            jbExportImd.setMinimumSize(new Dimension(38, 38));
+            jbExportImd.setName("");
+            jbExportImd.setPreferredSize(new Dimension(38, 38));
+            jbExportImd.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbExportImd.addActionListener(e -> jbExportImdActionPerformed(e));
+            jtMainToolbar.add(jbExportImd);
+
+            //---- jbExportNsb ----
+            jbExportNsb.setIcon(new ImageIcon(getClass().getResource("/icons/exportNsbIcon.png")));
+            jbExportNsb.setToolTipText("IMD to NSBMD");
+            jbExportNsb.setFocusable(false);
+            jbExportNsb.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbExportNsb.setMaximumSize(new Dimension(38, 38));
+            jbExportNsb.setMinimumSize(new Dimension(38, 38));
+            jbExportNsb.setName("");
+            jbExportNsb.setPreferredSize(new Dimension(38, 38));
+            jbExportNsb.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbExportNsb.addActionListener(e -> jbExportNsbActionPerformed(e));
+            jtMainToolbar.add(jbExportNsb);
+
+            //---- jbExportNsb1 ----
+            jbExportNsb1.setIcon(new ImageIcon(getClass().getResource("/icons/exportBtxIcon.png")));
+            jbExportNsb1.setToolTipText("IMD to NSBTX");
+            jbExportNsb1.setFocusable(false);
+            jbExportNsb1.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbExportNsb1.setMaximumSize(new Dimension(38, 38));
+            jbExportNsb1.setMinimumSize(new Dimension(38, 38));
+            jbExportNsb1.setName("");
+            jbExportNsb1.setPreferredSize(new Dimension(38, 38));
+            jbExportNsb1.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbExportNsb1.addActionListener(e -> jbExportNsb1ActionPerformed(e));
+            jtMainToolbar.add(jbExportNsb1);
+            jtMainToolbar.addSeparator();
+
+            //---- jbExportAndConvert ----
+            jbExportAndConvert.setIcon(new ImageIcon(getClass().getResource("/icons/exportCompleteIcon.png")));
+            jbExportAndConvert.setToolTipText("Export and convert Current Map");
+            jbExportAndConvert.setFocusable(false);
+            jbExportAndConvert.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbExportAndConvert.setMaximumSize(new Dimension(38, 38));
+            jbExportAndConvert.setMinimumSize(new Dimension(38, 38));
+            jbExportAndConvert.setName("");
+            jbExportAndConvert.setPreferredSize(new Dimension(38, 38));
+            jbExportAndConvert.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbExportAndConvert.addActionListener(e -> jbExportAndConvertActionPerformed(e));
+            jtMainToolbar.add(jbExportAndConvert);
+
+            //---- jbExportAndConvertAll ----
+            jbExportAndConvertAll.setIcon(new ImageIcon(getClass().getResource("/icons/exportAllCompleteIcon.png")));
+            jbExportAndConvertAll.setToolTipText("Export and convert all Maps");
+            jbExportAndConvertAll.setFocusable(false);
+            jbExportAndConvertAll.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbExportAndConvertAll.setMaximumSize(new Dimension(38, 38));
+            jbExportAndConvertAll.setMinimumSize(new Dimension(38, 38));
+            jbExportAndConvertAll.setName("");
+            jbExportAndConvertAll.setPreferredSize(new Dimension(38, 38));
+            jbExportAndConvertAll.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbExportAndConvertAll.addActionListener(e -> jbExportAndConvertAllActionPerformed(e));
+            jtMainToolbar.add(jbExportAndConvertAll);
+            jtMainToolbar.addSeparator();
+
+            //---- jbExportNsb2 ----
+            jbExportNsb2.setIcon(new ImageIcon(getClass().getResource("/icons/exportAreasIcon.png")));
+            jbExportNsb2.setToolTipText("Export Area NSBTX");
+            jbExportNsb2.setFocusable(false);
+            jbExportNsb2.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbExportNsb2.setMaximumSize(new Dimension(38, 38));
+            jbExportNsb2.setMinimumSize(new Dimension(38, 38));
+            jbExportNsb2.setName("");
+            jbExportNsb2.setPreferredSize(new Dimension(38, 38));
+            jbExportNsb2.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbExportNsb2.addActionListener(e -> jbExportNsb2ActionPerformed(e));
+            jtMainToolbar.add(jbExportNsb2);
+
+            //---- jbSplitPDSMAPbyArea ----
+            jbSplitPDSMAPbyArea.setIcon(new ImageIcon(getClass().getResource("/icons/exportMapsByAreasIcon.png")));
+            jbSplitPDSMAPbyArea.setToolTipText("Animation Editor");
+            jbSplitPDSMAPbyArea.setFocusable(false);
+            jbSplitPDSMAPbyArea.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbSplitPDSMAPbyArea.setMaximumSize(new Dimension(38, 38));
+            jbSplitPDSMAPbyArea.setMinimumSize(new Dimension(38, 38));
+            jbSplitPDSMAPbyArea.setName("");
+            jbSplitPDSMAPbyArea.setPreferredSize(new Dimension(38, 38));
+            jbSplitPDSMAPbyArea.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbSplitPDSMAPbyArea.addActionListener(e -> jbSplitPDSMAPbyAreaActionPerformed(e));
+            jtMainToolbar.add(jbSplitPDSMAPbyArea);
+
+            //---- jbExportGroupsList ----
+            jbExportGroupsList.setIcon(new ImageIcon(getClass().getResource("/icons/exportGroupsListIcon.png")));
+            jbExportGroupsList.setToolTipText("Visualize Export Groups");
+            jbExportGroupsList.setFocusable(false);
+            jbExportGroupsList.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbExportGroupsList.setMaximumSize(new Dimension(38, 38));
+            jbExportGroupsList.setMinimumSize(new Dimension(38, 38));
+            jbExportGroupsList.setName("");
+            jbExportGroupsList.setPreferredSize(new Dimension(38, 38));
+            jbExportGroupsList.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbExportGroupsList.addActionListener(e -> jbExportGroupsListActionPerformed(e));
+            jtMainToolbar.add(jbExportGroupsList);
             jtMainToolbar.addSeparator();
 
             //---- jbTilelistEditor ----
@@ -2746,8 +3112,8 @@ public class MainFrame extends JFrame {
             //---- jlGame ----
             jlGame.setText("Map for: ");
             jpGameInfo.add(jlGame, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 5, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 5, 5), 0, 0));
 
             //---- jlGameIcon ----
             jlGameIcon.setText(" ");
@@ -2762,15 +3128,15 @@ public class MainFrame extends JFrame {
                 }
             });
             jpGameInfo.add(jlGameIcon, new GridBagConstraints(1, 0, 1, 2, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 0), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 0), 0, 0));
 
             //---- jlGameName ----
             jlGameName.setFont(new Font("Tahoma", Font.BOLD, 11));
             jlGameName.setText("Game Name");
             jpGameInfo.add(jlGameName, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                new Insets(0, 0, 0, 5), 0, 0));
+                    GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                    new Insets(0, 0, 0, 5), 0, 0));
         }
         contentPane.add(jpGameInfo, "cell 0 0,alignx right,grow 0 100,gapx 5 5,gapy 5 5");
 
@@ -2781,16 +3147,16 @@ public class MainFrame extends JFrame {
             //======== jpMainWindow ========
             {
                 jpMainWindow.setLayout(new MigLayout(
-                    "hidemode 3",
-                    // columns
-                    "[fill]" +
-                    "[fill]" +
-                    "[grow,fill]" +
-                    "[fill]" +
-                    "[fill]" +
-                    "[fill]",
-                    // rows
-                    "[grow,fill]"));
+                        "hidemode 3",
+                        // columns
+                        "[fill]" +
+                                "[fill]" +
+                                "[grow,fill]" +
+                                "[fill]" +
+                                "[fill]" +
+                                "[fill]",
+                        // rows
+                        "[grow,fill]"));
 
                 //======== jpLayer ========
                 {
@@ -2802,26 +3168,26 @@ public class MainFrame extends JFrame {
                         GroupLayout thumbnailLayerSelectorLayout = new GroupLayout(thumbnailLayerSelector);
                         thumbnailLayerSelector.setLayout(thumbnailLayerSelectorLayout);
                         thumbnailLayerSelectorLayout.setHorizontalGroup(
-                            thumbnailLayerSelectorLayout.createParallelGroup()
-                                .addGap(0, 64, Short.MAX_VALUE)
+                                thumbnailLayerSelectorLayout.createParallelGroup()
+                                        .addGap(0, 64, Short.MAX_VALUE)
                         );
                         thumbnailLayerSelectorLayout.setVerticalGroup(
-                            thumbnailLayerSelectorLayout.createParallelGroup()
-                                .addGap(0, 512, Short.MAX_VALUE)
+                                thumbnailLayerSelectorLayout.createParallelGroup()
+                                        .addGap(0, 576, Short.MAX_VALUE)
                         );
                     }
 
                     GroupLayout jpLayerLayout = new GroupLayout(jpLayer);
                     jpLayer.setLayout(jpLayerLayout);
                     jpLayerLayout.setHorizontalGroup(
-                        jpLayerLayout.createParallelGroup()
-                            .addGroup(jpLayerLayout.createSequentialGroup()
-                                .addComponent(thumbnailLayerSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            jpLayerLayout.createParallelGroup()
+                                    .addGroup(jpLayerLayout.createSequentialGroup()
+                                            .addComponent(thumbnailLayerSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addGap(0, 0, Short.MAX_VALUE))
                     );
                     jpLayerLayout.setVerticalGroup(
-                        jpLayerLayout.createParallelGroup()
-                            .addComponent(thumbnailLayerSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            jpLayerLayout.createParallelGroup()
+                                    .addComponent(thumbnailLayerSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     );
                 }
                 jpMainWindow.add(jpLayer, "cell 0 0");
@@ -2844,12 +3210,12 @@ public class MainFrame extends JFrame {
                         GroupLayout mapDisplayLayout = new GroupLayout(mapDisplay);
                         mapDisplay.setLayout(mapDisplayLayout);
                         mapDisplayLayout.setHorizontalGroup(
-                            mapDisplayLayout.createParallelGroup()
-                                .addGap(0, 542, Short.MAX_VALUE)
+                                mapDisplayLayout.createParallelGroup()
+                                        .addGap(0, 542, Short.MAX_VALUE)
                         );
                         mapDisplayLayout.setVerticalGroup(
-                            mapDisplayLayout.createParallelGroup()
-                                .addGap(0, 542, Short.MAX_VALUE)
+                                mapDisplayLayout.createParallelGroup()
+                                        .addGap(0, 542, Short.MAX_VALUE)
                         );
                     }
                     mapDisplayContainer.add(mapDisplay);
@@ -2867,28 +3233,28 @@ public class MainFrame extends JFrame {
                         GroupLayout heightSelectorLayout = new GroupLayout(heightSelector);
                         heightSelector.setLayout(heightSelectorLayout);
                         heightSelectorLayout.setHorizontalGroup(
-                            heightSelectorLayout.createParallelGroup()
-                                .addGap(0, 16, Short.MAX_VALUE)
+                                heightSelectorLayout.createParallelGroup()
+                                        .addGap(0, 16, Short.MAX_VALUE)
                         );
                         heightSelectorLayout.setVerticalGroup(
-                            heightSelectorLayout.createParallelGroup()
-                                .addGap(0, 496, Short.MAX_VALUE)
+                                heightSelectorLayout.createParallelGroup()
+                                        .addGap(0, 496, Short.MAX_VALUE)
                         );
                     }
 
                     GroupLayout jpZLayout = new GroupLayout(jpZ);
                     jpZ.setLayout(jpZLayout);
                     jpZLayout.setHorizontalGroup(
-                        jpZLayout.createParallelGroup()
-                            .addGroup(jpZLayout.createSequentialGroup()
-                                .addComponent(heightSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            jpZLayout.createParallelGroup()
+                                    .addGroup(jpZLayout.createSequentialGroup()
+                                            .addComponent(heightSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addGap(0, 0, Short.MAX_VALUE))
                     );
                     jpZLayout.setVerticalGroup(
-                        jpZLayout.createParallelGroup()
-                            .addGroup(jpZLayout.createSequentialGroup()
-                                .addComponent(heightSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            jpZLayout.createParallelGroup()
+                                    .addGroup(jpZLayout.createSequentialGroup()
+                                            .addComponent(heightSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addGap(0, 0, Short.MAX_VALUE))
                     );
                 }
                 jpMainWindow.add(jpZ, "cell 3 0");
@@ -2915,12 +3281,12 @@ public class MainFrame extends JFrame {
                             GroupLayout tileSelectorLayout = new GroupLayout(tileSelector);
                             tileSelector.setLayout(tileSelectorLayout);
                             tileSelectorLayout.setHorizontalGroup(
-                                tileSelectorLayout.createParallelGroup()
-                                    .addGap(0, 0, Short.MAX_VALUE)
+                                    tileSelectorLayout.createParallelGroup()
+                                            .addGap(0, 0, Short.MAX_VALUE)
                             );
                             tileSelectorLayout.setVerticalGroup(
-                                tileSelectorLayout.createParallelGroup()
-                                    .addGap(0, 0, Short.MAX_VALUE)
+                                    tileSelectorLayout.createParallelGroup()
+                                            .addGap(0, 0, Short.MAX_VALUE)
                             );
                         }
                         jscTileList.setViewportView(tileSelector);
@@ -2929,14 +3295,14 @@ public class MainFrame extends JFrame {
                     GroupLayout jpTileListLayout = new GroupLayout(jpTileList);
                     jpTileList.setLayout(jpTileListLayout);
                     jpTileListLayout.setHorizontalGroup(
-                        jpTileListLayout.createParallelGroup()
-                            .addComponent(jscTileList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            jpTileListLayout.createParallelGroup()
+                                    .addComponent(jscTileList, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     );
                     jpTileListLayout.setVerticalGroup(
-                        jpTileListLayout.createParallelGroup()
-                            .addGroup(jpTileListLayout.createSequentialGroup()
-                                .addComponent(jscTileList, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-                                .addGap(0, 0, 0))
+                            jpTileListLayout.createParallelGroup()
+                                    .addGroup(jpTileListLayout.createSequentialGroup()
+                                            .addComponent(jscTileList, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                                            .addGap(0, 0, 0))
                     );
                 }
                 jpMainWindow.add(jpTileList, "cell 4 0");
@@ -2956,12 +3322,12 @@ public class MainFrame extends JFrame {
                             GroupLayout smartGridDisplayLayout = new GroupLayout(smartGridDisplay);
                             smartGridDisplay.setLayout(smartGridDisplayLayout);
                             smartGridDisplayLayout.setHorizontalGroup(
-                                smartGridDisplayLayout.createParallelGroup()
-                                    .addGap(0, 0, Short.MAX_VALUE)
+                                    smartGridDisplayLayout.createParallelGroup()
+                                            .addGap(0, 0, Short.MAX_VALUE)
                             );
                             smartGridDisplayLayout.setVerticalGroup(
-                                smartGridDisplayLayout.createParallelGroup()
-                                    .addGap(0, 0, Short.MAX_VALUE)
+                                    smartGridDisplayLayout.createParallelGroup()
+                                            .addGap(0, 0, Short.MAX_VALUE)
                             );
                         }
                         jscSmartDrawing.setViewportView(smartGridDisplay);
@@ -2970,14 +3336,14 @@ public class MainFrame extends JFrame {
                     GroupLayout jpSmartDrawingLayout = new GroupLayout(jpSmartDrawing);
                     jpSmartDrawing.setLayout(jpSmartDrawingLayout);
                     jpSmartDrawingLayout.setHorizontalGroup(
-                        jpSmartDrawingLayout.createParallelGroup()
-                            .addGroup(jpSmartDrawingLayout.createSequentialGroup()
-                                .addComponent(jscSmartDrawing, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            jpSmartDrawingLayout.createParallelGroup()
+                                    .addGroup(jpSmartDrawingLayout.createSequentialGroup()
+                                            .addComponent(jscSmartDrawing, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addGap(0, 0, Short.MAX_VALUE))
                     );
                     jpSmartDrawingLayout.setVerticalGroup(
-                        jpSmartDrawingLayout.createParallelGroup()
-                            .addComponent(jscSmartDrawing, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                            jpSmartDrawingLayout.createParallelGroup()
+                                    .addComponent(jscSmartDrawing, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                     );
                 }
                 jpMainWindow.add(jpSmartDrawing, "cell 5 0");
@@ -3048,12 +3414,12 @@ public class MainFrame extends JFrame {
                         GroupLayout jpViewLayout = new GroupLayout(jpView);
                         jpView.setLayout(jpViewLayout);
                         jpViewLayout.setHorizontalGroup(
-                            jpViewLayout.createParallelGroup()
-                                .addComponent(jtView, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                jpViewLayout.createParallelGroup()
+                                        .addComponent(jtView, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         );
                         jpViewLayout.setVerticalGroup(
-                            jpViewLayout.createParallelGroup()
-                                .addComponent(jtView, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                jpViewLayout.createParallelGroup()
+                                        .addComponent(jtView, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         );
                     }
                     jpButtons.add(jpView);
@@ -3137,12 +3503,12 @@ public class MainFrame extends JFrame {
                         GroupLayout jpToolsLayout = new GroupLayout(jpTools);
                         jpTools.setLayout(jpToolsLayout);
                         jpToolsLayout.setHorizontalGroup(
-                            jpToolsLayout.createParallelGroup()
-                                .addComponent(jtTools, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                jpToolsLayout.createParallelGroup()
+                                        .addComponent(jtTools, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         );
                         jpToolsLayout.setVerticalGroup(
-                            jpToolsLayout.createParallelGroup()
-                                .addComponent(jtTools, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                                jpToolsLayout.createParallelGroup()
+                                        .addComponent(jtTools, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                         );
                     }
                     jpButtons.add(jpTools);
@@ -3174,13 +3540,13 @@ public class MainFrame extends JFrame {
                             //======== jpAreaTools ========
                             {
                                 jpAreaTools.setLayout(new MigLayout(
-                                    "hidemode 3",
-                                    // columns
-                                    "[grow,fill]",
-                                    // rows
-                                    "[grow,fill]" +
-                                    "[fill]" +
-                                    "[]"));
+                                        "hidemode 3",
+                                        // columns
+                                        "[grow,fill]",
+                                        // rows
+                                        "[grow,fill]" +
+                                                "[fill]" +
+                                                "[]"));
 
                                 //======== jScrollPaneMapMatrix ========
                                 {
@@ -3201,15 +3567,15 @@ public class MainFrame extends JFrame {
                                 {
                                     jpArea.setLayout(new GridBagLayout());
                                     ((GridBagLayout)jpArea.getLayout()).columnWidths = new int[] {0, 131, 16, 0};
-                                    ((GridBagLayout)jpArea.getLayout()).rowHeights = new int[] {16, 0};
+                                    ((GridBagLayout)jpArea.getLayout()).rowHeights = new int[] {21, 0, 0};
                                     ((GridBagLayout)jpArea.getLayout()).columnWeights = new double[] {0.0, 1.0, 0.0, 1.0E-4};
-                                    ((GridBagLayout)jpArea.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
+                                    ((GridBagLayout)jpArea.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
 
                                     //---- jlArea ----
                                     jlArea.setText("Area:");
                                     jpArea.add(jlArea, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-                                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                        new Insets(0, 0, 0, 5), 0, 0));
+                                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                            new Insets(0, 0, 5, 5), 0, 0));
 
                                     //---- jsSelectedArea ----
                                     jsSelectedArea.setModel(new SpinnerNumberModel(0, 0, null, 1));
@@ -3218,8 +3584,8 @@ public class MainFrame extends JFrame {
                                     jsSelectedArea.setRequestFocusEnabled(false);
                                     jsSelectedArea.addChangeListener(e -> jsSelectedAreaStateChanged(e));
                                     jpArea.add(jsSelectedArea, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-                                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                        new Insets(0, 0, 0, 5), 0, 0));
+                                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                            new Insets(0, 0, 5, 5), 0, 0));
 
                                     //======== jPanelAreaColor ========
                                     {
@@ -3230,17 +3596,54 @@ public class MainFrame extends JFrame {
                                         GroupLayout jPanelAreaColorLayout = new GroupLayout(jPanelAreaColor);
                                         jPanelAreaColor.setLayout(jPanelAreaColorLayout);
                                         jPanelAreaColorLayout.setHorizontalGroup(
-                                            jPanelAreaColorLayout.createParallelGroup()
-                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                jPanelAreaColorLayout.createParallelGroup()
+                                                        .addGap(0, 0, Short.MAX_VALUE)
                                         );
                                         jPanelAreaColorLayout.setVerticalGroup(
-                                            jPanelAreaColorLayout.createParallelGroup()
-                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                jPanelAreaColorLayout.createParallelGroup()
+                                                        .addGap(0, 0, Short.MAX_VALUE)
                                         );
                                     }
                                     jpArea.add(jPanelAreaColor, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-                                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                        new Insets(0, 0, 0, 0), 0, 0));
+                                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                            new Insets(0, 0, 5, 0), 0, 0));
+
+                                    //---- jlExportgroup ----
+                                    jlExportgroup.setText("Export Group:");
+                                    jpArea.add(jlExportgroup, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+                                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                            new Insets(0, 0, 0, 5), 0, 0));
+
+                                    //---- jsSelectedExportgroup ----
+                                    jsSelectedExportgroup.setModel(new SpinnerNumberModel(0, 0, null, 1));
+                                    jsSelectedExportgroup.setFocusable(false);
+                                    jsSelectedExportgroup.setPreferredSize(new Dimension(40, 20));
+                                    jsSelectedExportgroup.setRequestFocusEnabled(false);
+                                    jsSelectedExportgroup.addChangeListener(e -> jsSelectedExportgroupStateChanged(e));
+                                    jpArea.add(jsSelectedExportgroup, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+                                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                            new Insets(0, 0, 0, 5), 0, 0));
+
+                                    //======== jPanelExportgroupColor ========
+                                    {
+                                        jPanelExportgroupColor.setBackground(new Color(51, 102, 255));
+                                        jPanelExportgroupColor.setBorder(new BevelBorder(BevelBorder.RAISED));
+                                        jPanelExportgroupColor.setPreferredSize(new Dimension(30, 30));
+
+                                        GroupLayout jPanelExportgroupColorLayout = new GroupLayout(jPanelExportgroupColor);
+                                        jPanelExportgroupColor.setLayout(jPanelExportgroupColorLayout);
+                                        jPanelExportgroupColorLayout.setHorizontalGroup(
+                                                jPanelExportgroupColorLayout.createParallelGroup()
+                                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        );
+                                        jPanelExportgroupColorLayout.setVerticalGroup(
+                                                jPanelExportgroupColorLayout.createParallelGroup()
+                                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        );
+                                    }
+                                    jpArea.add(jPanelExportgroupColor, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
+                                            GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                                            new Insets(0, 0, 0, 0), 0, 0));
                                 }
                                 jpAreaTools.add(jpArea, "cell 0 1");
 
@@ -3275,12 +3678,12 @@ public class MainFrame extends JFrame {
                                     GroupLayout tileDisplayLayout = new GroupLayout(tileDisplay);
                                     tileDisplay.setLayout(tileDisplayLayout);
                                     tileDisplayLayout.setHorizontalGroup(
-                                        tileDisplayLayout.createParallelGroup()
-                                            .addGap(0, 0, Short.MAX_VALUE)
+                                            tileDisplayLayout.createParallelGroup()
+                                                    .addGap(0, 0, Short.MAX_VALUE)
                                     );
                                     tileDisplayLayout.setVerticalGroup(
-                                        tileDisplayLayout.createParallelGroup()
-                                            .addGap(0, 219, Short.MAX_VALUE)
+                                            tileDisplayLayout.createParallelGroup()
+                                                    .addGap(0, 223, Short.MAX_VALUE)
                                     );
                                 }
                                 jpTileSelected.add(tileDisplay);
@@ -3294,16 +3697,16 @@ public class MainFrame extends JFrame {
                     //======== jPanelMapTools ========
                     {
                         jPanelMapTools.setLayout(new MigLayout(
-                            "insets 5,hidemode 3,gap 5 5",
-                            // columns
-                            "[grow,fill]",
-                            // rows
-                            "[fill]" +
-                            "[fill]" +
-                            "[fill]" +
-                            "[fill]" +
-                            "[fill]" +
-                            "[fill]"));
+                                "insets 5,hidemode 3,gap 5 5",
+                                // columns
+                                "[grow,fill]",
+                                // rows
+                                "[fill]" +
+                                        "[fill]" +
+                                        "[fill]" +
+                                        "[fill]" +
+                                        "[fill]" +
+                                        "[fill]"));
 
                         //======== jpHeightMapAlpha ========
                         {
@@ -3317,12 +3720,12 @@ public class MainFrame extends JFrame {
                             GroupLayout jpHeightMapAlphaLayout = new GroupLayout(jpHeightMapAlpha);
                             jpHeightMapAlpha.setLayout(jpHeightMapAlphaLayout);
                             jpHeightMapAlphaLayout.setHorizontalGroup(
-                                jpHeightMapAlphaLayout.createParallelGroup()
-                                    .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+                                    jpHeightMapAlphaLayout.createParallelGroup()
+                                            .addComponent(jsHeightMapAlpha, GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                             );
                             jpHeightMapAlphaLayout.setVerticalGroup(
-                                jpHeightMapAlphaLayout.createParallelGroup()
-                                    .addComponent(jsHeightMapAlpha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    jpHeightMapAlphaLayout.createParallelGroup()
+                                            .addComponent(jsHeightMapAlpha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                             );
                         }
                         jPanelMapTools.add(jpHeightMapAlpha, "cell 0 0");
@@ -3338,12 +3741,12 @@ public class MainFrame extends JFrame {
                             GroupLayout jpBackImageAlphaLayout = new GroupLayout(jpBackImageAlpha);
                             jpBackImageAlpha.setLayout(jpBackImageAlphaLayout);
                             jpBackImageAlphaLayout.setHorizontalGroup(
-                                jpBackImageAlphaLayout.createParallelGroup()
-                                    .addComponent(jsBackImageAlpha, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                                    jpBackImageAlphaLayout.createParallelGroup()
+                                            .addComponent(jsBackImageAlpha, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                             );
                             jpBackImageAlphaLayout.setVerticalGroup(
-                                jpBackImageAlphaLayout.createParallelGroup()
-                                    .addComponent(jsBackImageAlpha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                    jpBackImageAlphaLayout.createParallelGroup()
+                                            .addComponent(jsBackImageAlpha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                             );
                         }
                         jPanelMapTools.add(jpBackImageAlpha, "cell 0 1");
@@ -3352,25 +3755,25 @@ public class MainFrame extends JFrame {
                         {
                             jpMoveLayer.setBorder(new TitledBorder(null, "Move Layer", TitledBorder.LEADING, TitledBorder.ABOVE_TOP));
                             jpMoveLayer.setLayout(new MigLayout(
-                                "insets 0,hidemode 3,gap 0 0",
-                                // columns
-                                "[fill]" +
-                                "[fill]",
-                                // rows
-                                "[center]"));
+                                    "insets 0,hidemode 3,gap 0 0",
+                                    // columns
+                                    "[fill]" +
+                                            "[fill]",
+                                    // rows
+                                    "[center]"));
 
                             //======== jpDirectionalPad ========
                             {
                                 jpDirectionalPad.setLayout(new MigLayout(
-                                    "insets 0,hidemode 3,gap 3 3",
-                                    // columns
-                                    "[fill]" +
-                                    "[fill]" +
-                                    "[fill]",
-                                    // rows
-                                    "[fill]" +
-                                    "[fill]" +
-                                    "[fill]"));
+                                        "insets 0,hidemode 3,gap 3 3",
+                                        // columns
+                                        "[fill]" +
+                                                "[fill]" +
+                                                "[fill]",
+                                        // rows
+                                        "[fill]" +
+                                                "[fill]" +
+                                                "[fill]"));
 
                                 //---- jbMoveMapUp ----
                                 jbMoveMapUp.setForeground(new Color(0, 153, 0));
@@ -3488,6 +3891,22 @@ public class MainFrame extends JFrame {
             jlNumMaterials.setText(" ");
             jlNumMaterials.setPreferredSize(new Dimension(40, 14));
             jpStatusBar.add(jlNumMaterials);
+
+            //---- jLabel7 ----
+            jLabel7.setText("Tile Selected:");
+            jpStatusBar.add(jLabel7);
+
+            //---- jLabelTileText ----
+            jLabelTileText.setHorizontalAlignment(SwingConstants.LEFT);
+            jLabelTileText.setText(" ");
+            jLabelTileText.setPreferredSize(new Dimension(300, 16));
+            jpStatusBar.add(jLabelTileText);
+
+            //---- jlStatus ----
+            jlStatus.setHorizontalAlignment(SwingConstants.LEFT);
+            jlStatus.setText(" ");
+            jlStatus.setPreferredSize(new Dimension(300, 16));
+            jpStatusBar.add(jlStatus);
         }
         contentPane.add(jpStatusBar, "cell 0 2");
         pack();
@@ -3520,6 +3939,7 @@ public class MainFrame extends JFrame {
     private JMenuItem jmiSaveMap;
     private JMenuItem jmiSaveMapAs;
     private JMenuItem jmiAddMaps;
+    private JMenuItem jmiSplitPDSMAPbyArea;
     private JMenuItem jmiExportObjWithText;
     private JMenuItem jmiExportMapAsImd;
     private JMenuItem jmiExportMapAsNsb;
@@ -3549,10 +3969,12 @@ public class MainFrame extends JFrame {
     private JMenuItem jmiCollisionEditor;
     private JMenuItem jmiBdhcEditor;
     private JMenuItem jmiBDHCAM;
+    private JMenuItem jmiBacksound;
     private JMenuItem jmiNsbtxEditor;
     private JMenuItem jMenuItem1;
     private JMenuItem jmiAnimationEditor;
     private JMenu jmHelp;
+    private JMenuItem jmiSettings;
     private JMenuItem jmiKeyboardInfo;
     private JMenuItem jmiAbout;
     private JToolBar jtMainToolbar;
@@ -3560,11 +3982,14 @@ public class MainFrame extends JFrame {
     private JButton jbOpenMap;
     private JButton jbSaveMap;
     private JButton jbAddMaps;
-    private JButton jbExportObj;
+    private JButton jbExportObj2;
     private JButton jbExportImd;
     private JButton jbExportNsb;
     private JButton jbExportNsb1;
     private JButton jbExportNsb2;
+    private JButton jbSplitPDSMAPbyArea;
+    private JButton jbExportAndConvert;
+    private JButton jbExportAndConvertAll;
     private JButton jbUndo;
     private JButton jbRedo;
     private JButton jbTilelistEditor;
@@ -3575,6 +4000,7 @@ public class MainFrame extends JFrame {
     private JButton jbNsbtxEditor1;
     private JButton jbBuildingEditor;
     private JButton jbAnimationEditor;
+    private JButton jbExportGroupsList;
     private JButton jbSettings;
     private JButton jbKeboardInfo;
     private JButton jbHelp;
@@ -3624,6 +4050,9 @@ public class MainFrame extends JFrame {
     private JLabel jlArea;
     private JSpinner jsSelectedArea;
     private JPanel jPanelAreaColor;
+    private JLabel jlExportgroup;
+    private JSpinner jsSelectedExportgroup;
+    private JPanel jPanelExportgroupColor;
     private JPanel jpMoveMap;
     private MoveMapPanel moveMapPanel;
     private JPanel jpTileSelected;
@@ -3653,5 +4082,8 @@ public class MainFrame extends JFrame {
     private JLabel jlNumPolygons;
     private JLabel jLabel5;
     private JLabel jlNumMaterials;
+    private JLabel jLabel7;
+    private JLabel jLabelTileText;
+    private JLabel jlStatus;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

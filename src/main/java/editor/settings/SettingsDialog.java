@@ -101,7 +101,7 @@ public class SettingsDialog extends JDialog {
             dialogPane.add(buttonBar, "cell 0 1");
         }
         contentPane.add(dialogPane, BorderLayout.CENTER);
-        setSize(220, 140);
+        setSize(240, 140);
         setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }

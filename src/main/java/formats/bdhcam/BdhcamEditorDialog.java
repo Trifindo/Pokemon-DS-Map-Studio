@@ -208,7 +208,17 @@ public class BdhcamEditorDialog extends JDialog {
             platesDisplay.repaint();
         }
     }
-
+    
+	private void jbDuplicatePlateActionPerformed(ActionEvent e) {
+		Bdhcam archive = this.bdhcamHandler.getBdhcam();
+		if (archive.getPlates().size() > 0) {
+			archive.duplicatePlate(this.bdhcamHandler.getIndexSelected());
+			updateViewPlateList(archive.getPlates().size() - 1);
+			updateView();
+			this.platesDisplay.repaint();
+		} 
+	}
+	
     private void jcbPlateTypeActionPerformed(ActionEvent e) {
         if (jcbPlateTypeEnabled) {
             if (bdhcamHandler.getSelectedPlate() != null) {
@@ -217,6 +227,7 @@ public class BdhcamEditorDialog extends JDialog {
             }
         }
     }
+   
 
     private void jcbHeightActionPerformed(ActionEvent e) {
         if(jcbHeightEnabled){
@@ -320,6 +331,7 @@ public class BdhcamEditorDialog extends JDialog {
         panel4 = new JPanel();
         jbAddPlate = new JButton();
         jbRemovePlate = new JButton();
+        jbDuplicatePlate = new JButton();
         bdhcamDisplay = new BdhcamCameraDisplay();
         panel3 = new JPanel();
         label3 = new JLabel();
@@ -352,6 +364,7 @@ public class BdhcamEditorDialog extends JDialog {
         jsFirstValue = new JSpinner();
         label10 = new JLabel();
         jsSecondValue = new JSpinner();
+		hSpacer2 = new JPanel(null);
         panel6 = new JPanel();
         label12 = new JLabel();
         jlTutorial = new JLabel();
@@ -479,6 +492,12 @@ public class BdhcamEditorDialog extends JDialog {
                             jbRemovePlate.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
                             jbRemovePlate.addActionListener(e -> jbRemovePlateActionPerformed(e));
                             panel4.add(jbRemovePlate);
+                            
+                            //---- jbDuplicatePlate ----
+                            jbDuplicatePlate.setText("Duplicate");
+     						jbDuplicatePlate.setIcon(new ImageIcon(getClass().getResource("/icons/copyIcon.png")));
+     						jbDuplicatePlate.addActionListener(e -> jbDuplicatePlateActionPerformed(e));
+     						panel4.add(this.jbDuplicatePlate);
                         }
                         panel2.add(panel4, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
                             GridBagConstraints.BASELINE, GridBagConstraints.HORIZONTAL,
@@ -1055,6 +1074,7 @@ public class BdhcamEditorDialog extends JDialog {
     private JButton jbImportBdhcam;
     private JButton jbExportBdhcam;
     private JLabel label11;
+    private JPanel hSpacer1;
     private JSplitPane splitPane1;
     private JPanel displayContainer;
     private BdhcamPlatesDisplay platesDisplay;
@@ -1067,6 +1087,7 @@ public class BdhcamEditorDialog extends JDialog {
     private JPanel panel4;
     private JButton jbAddPlate;
     private JButton jbRemovePlate;
+	private JButton jbDuplicatePlate;
     private BdhcamCameraDisplay bdhcamDisplay;
     private JPanel panel3;
     private JLabel label3;
@@ -1099,6 +1120,7 @@ public class BdhcamEditorDialog extends JDialog {
     private JSpinner jsFirstValue;
     private JLabel label10;
     private JSpinner jsSecondValue;
+    private JPanel hSpacer2;
     private JPanel panel6;
     private JLabel label12;
     private JLabel jlTutorial;

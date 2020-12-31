@@ -47,6 +47,7 @@ public class ViewOrthoMode extends ViewMode {
                         } else if (SwingUtilities.isRightMouseButton(e)) {
                             d.setTileIndexFromGrid(e);
                             d.repaint();
+                            d.handler.getMainFrame().updateTileSelectedID();
                             d.handler.getMainFrame().repaintTileSelector();
                             d.handler.getMainFrame().updateTileSelectorScrollBar();
                             d.handler.getMainFrame().repaintTileDisplay();
@@ -255,6 +256,7 @@ public class ViewOrthoMode extends ViewMode {
                 case MODE_EDIT:
                     int delta = e.getWheelRotation() > 0 ? 1 : -1;
                     d.handler.incrementTileSelected(delta);
+                    d.handler.getMainFrame().updateTileSelectedID();
                     d.handler.getMainFrame().repaintTileSelector();
                     d.handler.getMainFrame().repaintTileDisplay();
                     d.repaint();

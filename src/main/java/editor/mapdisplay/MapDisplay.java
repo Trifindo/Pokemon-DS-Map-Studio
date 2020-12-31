@@ -13,12 +13,10 @@ import static com.jogamp.opengl.GL.GL_FRONT_AND_BACK;
 import static com.jogamp.opengl.GL.GL_GREATER;
 import static com.jogamp.opengl.GL.GL_LEQUAL;
 import static com.jogamp.opengl.GL.GL_LESS;
-import static com.jogamp.opengl.GL.GL_LINEAR_MIPMAP_LINEAR;
 import static com.jogamp.opengl.GL.GL_LINES;
 import static com.jogamp.opengl.GL.GL_NEAREST;
 import static com.jogamp.opengl.GL.GL_NOTEQUAL;
 import static com.jogamp.opengl.GL.GL_NO_ERROR;
-import static com.jogamp.opengl.GL.GL_ONE;
 import static com.jogamp.opengl.GL.GL_ONE_MINUS_DST_ALPHA;
 import static com.jogamp.opengl.GL.GL_ONE_MINUS_SRC_ALPHA;
 import static com.jogamp.opengl.GL.GL_REPEAT;
@@ -47,15 +45,11 @@ import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.texture.Texture;
-import editor.bordermap.BorderMapsGrid;
 import editor.grid.GeometryGL;
-import editor.grid.MapGrid;
 import editor.grid.MapLayerGL;
 import editor.handler.MapData;
 import editor.state.MapLayerState;
 import geometry.Generator;
-import graphicslib3D.Matrix3D;
-import graphicslib3D.Vector3D;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -79,13 +73,10 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import javax.swing.SwingUtilities;
 
 import tileset.Tile;
 import utils.ImageTiler;
@@ -97,6 +88,7 @@ import utils.Utils;
 public class MapDisplay extends GLJPanel implements GLEventListener, MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 
     //Editor Handler
+    private boolean mouseWheelEnabled = false;
     protected MapEditorHandler handler;
 
     //Grid
@@ -199,6 +191,14 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         //smartGridCursor = Utils.loadCursor("/cursors/smartGridCursor.png");
         //smartGridInvertedCursor = Utils.loadCursor("/cursors/smartGridInvertedCursor.png");
         //clearTileCursor = Utils.loadCursor("/cursors/clearTileCursor.png");
+    }
+
+    public boolean isMouseWheelEnabled() {
+        return mouseWheelEnabled;
+    }
+
+    public void setMouseWheelEnabled(boolean mouseWheelEnabled) {
+        this.mouseWheelEnabled = mouseWheelEnabled;
     }
 
     @Override
@@ -438,6 +438,15 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                 changeLayerWithNumKey(e, 7);
                 repaint();
                 break;
+            case KeyEvent.VK_9:
+                changeLayerWithNumKey(e, 8);
+                repaint();
+                break;
+            case KeyEvent.VK_BACK_SLASH:
+                handler.setAllLayersState(true);
+                handler.getMainFrame().getThumbnailLayerSelector().repaint();
+                repaint();
+                break;
         }
 
     }
@@ -454,7 +463,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        viewMode.mouseWheelMoved(this, e);
+        if (mouseWheelEnabled)
+            viewMode.mouseWheelMoved(this, e);
     }
 
     @Override
@@ -463,10 +473,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
         if (handler != null) {
             viewMode.paintComponent(this, g);
-
-            if (backImageEnabled) {
-                drawBackImage(g);
-            }
         }
 
     }
@@ -1407,8 +1413,12 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     public void drawBackImage(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+
+        Point p = handler.getMapSelected();
         g2d.setComposite(AlphaComposite.SrcOver.derive(backImageAlpha));
-        g2d.drawImage(backImage, borderSize * tileSize, borderSize * tileSize, null);
+        g2d.drawImage(backImage,
+                borderSize * tileSize + p.x * cols * tileSize,
+                borderSize * tileSize + p.y * rows * tileSize, null);
         g2d.setComposite(AlphaComposite.SrcOver.derive(1.0f));
     }
 

@@ -12,7 +12,7 @@ public class ConverterDialog extends JDialog {
 
     public static final int APPROVE_OPTION = 1, CANCEL_OPTION = 0;
     private int returnValue = CANCEL_OPTION;
-    private boolean includeNsbtxInNsbmd = true;
+    private boolean includeNsbtxInNsbmd = false;
 
     public ConverterDialog(Window owner) {
         super(owner);
@@ -44,6 +44,7 @@ public class ConverterDialog extends JDialog {
     }
 
     public int getReturnValue() {
+
         return returnValue;
     }
 
@@ -95,7 +96,6 @@ public class ConverterDialog extends JDialog {
             ((GridBagLayout)jPanel1.getLayout()).rowWeights = new double[] {0.0, 1.0E-4};
 
             //---- jcbIncludeNsbtxInNsbmd ----
-            jcbIncludeNsbtxInNsbmd.setSelected(true);
             jcbIncludeNsbtxInNsbmd.setText("Include NSBTX in NSBMD");
             jcbIncludeNsbtxInNsbmd.addActionListener(e -> jcbIncludeNsbtxInNsbmdActionPerformed(e));
             jPanel1.add(jcbIncludeNsbtxInNsbmd, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,

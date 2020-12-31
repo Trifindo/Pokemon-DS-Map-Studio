@@ -243,9 +243,9 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
 
         float aspect = (float) getWidth() / (float) getHeight();
         if (cameraZ < 40.0f) {
-            glu.gluPerspective(15.0f, aspect, 1.0f, 1000.0f);
+            glu.gluPerspective(38.5f, aspect, 1.0f, 1000.0f);
         } else {
-            glu.gluPerspective(15.0f, aspect, 1.0f + (cameraZ - 40.0f) / 4, 1000.0f + (cameraZ - 40.0f));
+            glu.gluPerspective(38.5f, aspect, 1.0f + (cameraZ - 40.0f) / 4, 1000.0f + (cameraZ - 40.0f));
         }
 
         if(camera != null){

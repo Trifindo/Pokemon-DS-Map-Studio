@@ -4,10 +4,7 @@ package editor.grid;
 import editor.handler.MapEditorHandler;
 import formats.obj.ObjWriter;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.HashSet;
 
 import tileset.Tile;
@@ -37,7 +34,7 @@ public class MapGrid {
     public static final int height = rows * tileSize;
     public static final float gridTileSize = 1.0f;
 
-    public static final int numLayers = 8;
+    public static final int numLayers = 9;
     public int[][][] tileLayers = new int[numLayers][cols][rows];
     public int[][][] heightLayers = new int[numLayers][cols][rows];
 
@@ -120,9 +117,19 @@ public class MapGrid {
         input.close();
     }*/
     public void saveMapToOBJ(Tileset tset, String path, boolean saveTextures,
-                             boolean saveVertexColors, float tileUpscale) throws FileNotFoundException {
-        ObjWriter writer = new ObjWriter(tset, this, path, handler.getGameIndex(),
-                saveTextures, saveVertexColors, tileUpscale);
+                             boolean includeVertexColors, boolean useExportgroups, float tileUpscale) throws FileNotFoundException {
+        MapGrid grid;
+
+        if (useExportgroups) {
+            //TO COMPLETE! EXPORT ONE MAP BUT WITH ITS GROUPS AS WELL
+            grid = this;
+        }
+        else
+            //TO COMPLETE
+            grid = this;
+
+        ObjWriter writer = new ObjWriter(tset, grid, path, handler.getGameIndex(),
+                saveTextures, includeVertexColors, tileUpscale);
         writer.writeMapObj();
     }
 

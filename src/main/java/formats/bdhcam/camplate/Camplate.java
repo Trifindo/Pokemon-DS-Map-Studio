@@ -57,8 +57,8 @@ public abstract class Camplate {
         parameters = new ArrayList<>(numParameters);
     }
 
-    public Camplate(Camplate other, int type, int numParams){
-        this(other.x, other.y, other.z,  other.width, other.height, type, numParams, other.useZ);
+    public Camplate(Camplate other, int type, int numParams) {
+        this(other.x, other.y, other.z, other.width, other.height, type, numParams, other.useZ);
     }
 
     public Color getFillColor() {
@@ -77,7 +77,7 @@ public abstract class Camplate {
                 0.0f};
     }
 
-    public float[] getCenter(){
+    public float[] getCenter() {
         return new float[]{
                 (2 * x + width) / 2.0f,
                 (2 * y + height) / 2.0f,
@@ -86,9 +86,8 @@ public abstract class Camplate {
 
     public abstract void addParameter();
 
-    public void setType(int type){
+    public void setType(int type) {
         this.type = Type.values()[type];
         parameters = new ArrayList<>();
     }
-
 }
