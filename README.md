@@ -7,6 +7,11 @@ It doesn't require 3D modeling knowledge. Rather, it provides a tilemap-like int
 
 ![Screenshot of PDSMS](PDSMS_2_1.png)
 
+### WARNING !
+Saving your old maps with this new version doesn't guarantee backwards compatibility with other PDSMS versions, 
+since this release adds a new "exportgroup" keyword to PDSMAP files.
+
+
 ### Supported games:
 - Pokemon Diamond/Pearl
 - Pokemon Platinum
