@@ -88,7 +88,7 @@ import utils.Utils;
 public class MapDisplay extends GLJPanel implements GLEventListener, MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 
     //Editor Handler
-    private boolean mouseWheelEnabled = false;
+    private boolean mouseWheelEnabled = true;
     protected MapEditorHandler handler;
 
     //Grid

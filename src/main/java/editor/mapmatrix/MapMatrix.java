@@ -376,14 +376,30 @@ public class MapMatrix {
             for (int index : this.getExportGroupIndices()) { //loop through each exportGroup
                 HashMap<Point, MapGrid> currentExportGroup = generateGridHashMap(index);
                 if (index == 0) { //export maps of Group 0 separately
-                    for (HashMap.Entry<Point, MapGrid> mapEntry : currentExportGroup.entrySet()) {
+                    for (HashMap.Entry<Point, MapGrid> mapEntry : currentExportGroup.entrySet()) { //Loop through entries of the group
                         objFilePath = getFilePathWithCoords(matrix, folderPath, fileName, mapEntry.getKey(), "obj");
                         mapEntry.getValue().saveMapToOBJ(handler.getTileset(), objFilePath, saveTextures, useExportgroups, includeVertexColors, tileUpscale);
                     }
-                }
-                else { //export every other group as one map
+                } else { //export every other group as one map
+                    TreeSet<Point> ts = new TreeSet<>(new PointComparator());
+                    for (Point p : currentExportGroup.keySet())
+                        ts.add(p);
+
+                    int minx = (int) ts.first().getX();
+                    int miny = (int) ts.first().getY();
+
+                    ts = null;
+
+                    HashMap<Point, MapGrid> newExportGroup = new HashMap<>();
+                    for (HashMap.Entry<Point, MapGrid> mapEntry : currentExportGroup.entrySet()) {
+                        Point currentPoint = new Point(mapEntry.getKey());
+                        currentPoint.translate(-minx, -miny);
+
+                        newExportGroup.put(currentPoint, mapEntry.getValue());
+                    }
+
                     objFilePath = folderPath + File.separator + fileName + "Group" + index + ".obj";
-                    ObjWriter writer = new ObjWriter(handler.getTileset(), currentExportGroup, objFilePath, handler.getGameIndex(),
+                    ObjWriter writer = new ObjWriter(handler.getTileset(), newExportGroup, objFilePath, handler.getGameIndex(),
                             saveTextures, includeVertexColors, tileUpscale);
                     writer.writeMapObj();
                 } 
@@ -1103,12 +1119,14 @@ public class MapMatrix {
     }
     
     public HashMap<Point, MapGrid> generateGridHashMap(int exportGroup) {
-        HashMap<Point, MapGrid> map = new HashMap<>(matrix.size());
+        HashMap<Point, MapGrid> map = new HashMap<>();
         for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             MapData mapd = mapEntry.getValue();
+
             if (mapd.getExportGroupIndex() == exportGroup)
                 map.put(mapEntry.getKey(), mapd.getGrid());
         }
+
         return map;
     }
 

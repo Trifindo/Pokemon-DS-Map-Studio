@@ -1,15 +1,13 @@
 package editor.mapgroups;
 
+import editor.mapmatrix.PointComparator;
+
 import java.awt.*;
 import java.util.TreeSet;
 
 public class MapGroup implements Comparable<MapGroup>{
     private final int index;
-    private final TreeSet<Point> coordList = new TreeSet<>((o1, o2) -> {
-        int cmpX = Double.compare(o1.getX(), o2.getX());
-        int cmpY = Double.compare(o1.getY(), o2.getY());
-        return (cmpX == 0 ? cmpY : cmpX);
-    });
+    private final TreeSet<Point> coordList = new TreeSet<>(new PointComparator());
 
     //Add the first element
     public MapGroup(int index, Point p) {

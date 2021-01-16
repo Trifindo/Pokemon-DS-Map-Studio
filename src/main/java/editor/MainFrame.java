@@ -174,6 +174,7 @@ public class MainFrame extends JFrame {
     }
 
     private void setGUIBlock(boolean status) {
+        System.out.println("Gui block status changed: " + status);
         this.mapDisplay.setMouseWheelEnabled(!status);
         this.setEnabled(!status);
         this.jspMainWindow.setEnabled(!status);
@@ -185,7 +186,7 @@ public class MainFrame extends JFrame {
         this.mapMatrixDisplay.setEnabled(!status);
     }
 
-        private Thread progressText(JLabel destinationLabel, int repetitions, int delay) {
+        private Thread startProgressText(JLabel destinationLabel, int repetitions, int delay) {
         Thread t = new Thread( () -> {
             String backup = destinationLabel.getText();
             while (!Thread.currentThread().isInterrupted()) {
@@ -673,7 +674,7 @@ public class MainFrame extends JFrame {
 
     public void openMap(String path)  {
         stringForTextThread = "Opening";
-        Thread textThread = this.progressText(jlStatus,6, 75);
+        Thread textThread = this.startProgressText(jlStatus,6, 75);
         Thread openMap = new Thread ( () -> {
 			this.setGUIBlock(true);
             try {
@@ -961,7 +962,7 @@ public class MainFrame extends JFrame {
                     Thread textThread = null;
                     try {
                         this.setGUIBlock(true);
-                        textThread = this.progressText(jlStatus, 15, 90);
+                        textThread = this.startProgressText(jlStatus, 15, 90);
 
                         HashMap<Point, MapData> allAreasMap = handler.getMapMatrix().getMatrix();
                         for (int area : handler.getMapMatrix().getAreaIndices()) {
@@ -1140,7 +1141,7 @@ public class MainFrame extends JFrame {
 
     private void saveMap() {
         stringForTextThread = "Saving map data";
-        Thread textThread = this.progressText(jlStatus,6, 75);
+        Thread textThread = this.startProgressText(jlStatus,6, 75);
         Thread t = new Thread ( () -> {
             try {
                 setGUIBlock(true);
@@ -1186,7 +1187,7 @@ public class MainFrame extends JFrame {
             handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
 
             stringForTextThread = "Saving map data";
-            Thread textThread = this.progressText(jlStatus,6, 75);
+            Thread textThread = this.startProgressText(jlStatus,6, 75);
             Thread t = new Thread ( () -> {
                 try {
                     setGUIBlock(true);
@@ -2052,13 +2053,15 @@ public class MainFrame extends JFrame {
     }
 
     public void updateTileSelectedID() {
-        try {
-            String tileInfo = handler.getTileIndexSelected() + "   ";
-            tileInfo += String.valueOf(handler.getTileSelected().getObjFilename());
-            jLabelTileText.setText(tileInfo);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            jLabelTileText.setText("Error!");
+        if (handler.getTileset().getTiles().size() > 0) {
+            try {
+                String tileInfo = handler.getTileIndexSelected() + "   ";
+                tileInfo += String.valueOf(handler.getTileSelected().getObjFilename());
+                jLabelTileText.setText(tileInfo);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                jLabelTileText.setText("Error!");
+            }
         }
     }
 
