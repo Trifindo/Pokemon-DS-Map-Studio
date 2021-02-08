@@ -49,6 +49,7 @@ public class MapData {
     
     //Exportgroup index
     private int exportgroupIndex;
+    private boolean isExportGroupCenter = false;
 
     public MapData(MapEditorHandler handler) {
         this.handler = handler;
@@ -182,5 +183,13 @@ public class MapData {
 
     public void setBdhcam(Bdhcam bdhcam) {
         this.bdhcam = bdhcam;
+    }
+
+    public boolean isExportGroupCenter() {
+        return isExportGroupCenter;
+    }
+
+    public void setExportGroupCenter(boolean exportGroupCenter) {
+        isExportGroupCenter = exportGroupCenter;
     }
 }

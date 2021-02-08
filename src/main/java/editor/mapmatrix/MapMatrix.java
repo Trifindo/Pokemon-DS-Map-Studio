@@ -55,7 +55,8 @@ public class MapMatrix {
 
     private static final String mapstartTag = "mapstart";
     private static final String areaIndexTag = "areaindex";
-    private static final String exportgroupIndexTag = "exportgroup";
+    private static final String exportgroupTag = "exportgroup";
+    private static final String exportgroupCenterTag = "egcenter";
     private static final String mapEndTag = "mapend";
     private static final String gameIndexTag = "gameindex";
     private static final String tileGridTag = "tilegrid";
@@ -113,7 +114,6 @@ public class MapMatrix {
             path = path.concat("." + fileExtension);
         }
 
-
         removeUnusedMaps();
         removeAllUnusedMapFiles();
 
@@ -134,7 +134,12 @@ public class MapMatrix {
             out.println(areaIndexTag);
             out.println(map.getValue().getAreaIndex());
             
-            out.println(exportgroupIndexTag);
+            out.print(exportgroupTag);
+            if(map.getValue().isExportGroupCenter()) {
+                out.print(" " + exportgroupCenterTag);
+            } else {
+                out.println("");
+            }
             out.println(map.getValue().getExportGroupIndex());
 
             for (int[][] tLayer : map.getValue().getGrid().tileLayers) {
@@ -170,7 +175,8 @@ public class MapMatrix {
         Point currentMapCoords = new Point(0, 0);
         MapGrid currentGrid = new MapGrid(handler);
         int currentAreaIndex = 0, currentExportgroupIndex = 0;
-        
+        boolean currentMapIsExportGroupCenter = false;
+
         String line;
         while ((line = br.readLine()) != null) {
             if (line.startsWith(gameIndexTag)) {
@@ -180,15 +186,17 @@ public class MapMatrix {
                 tilesetFilePath = folderPath + File.separator + br.readLine();
                 System.out.println("Tileset path: " + tilesetFilePath);
             } else if (line.startsWith(mapstartTag)) {
-                String[] splittedLine = br.readLine().split(" ");
-                int x = Integer.parseInt(splittedLine[0]);
-                int y = Integer.parseInt(splittedLine[1]);
+                String[] splitLine = br.readLine().split(" ");
+                int x = Integer.parseInt(splitLine[0]);
+                int y = Integer.parseInt(splitLine[1]);
                 currentMapCoords = new Point(x, y);
                 currentGrid = new MapGrid(handler);
             } else if (line.startsWith(areaIndexTag)) {
                 currentAreaIndex = Integer.parseInt(br.readLine());
-            } else if (line.startsWith(exportgroupIndexTag)) {
+            } else if (line.startsWith(exportgroupTag)) {
                 currentExportgroupIndex = Integer.parseInt(br.readLine());
+                if(line.startsWith(exportgroupCenterTag, exportgroupTag.length()))
+                    currentMapIsExportGroupCenter = true;
             } else if (line.startsWith(tileGridTag)) {
                 MapGrid.loadMatrixFromFile(br, currentGrid.tileLayers[numTileLayersRead]);
                 numTileLayersRead++;
@@ -200,6 +208,7 @@ public class MapMatrix {
                 mapData.setGrid(currentGrid);
                 mapData.setAreaIndex(currentAreaIndex);
                 mapData.setExportgroupIndex(currentExportgroupIndex);
+                mapData.setExportGroupCenter(currentMapIsExportGroupCenter);
                 matrix.put(currentMapCoords, mapData);
                 numMapsRead++;
                 numTileLayersRead = 0;
@@ -231,14 +240,14 @@ public class MapMatrix {
         Point currentMapCoords = new Point(0, 0);
         MapGrid currentGrid = new MapGrid(handler);
         int currentAreaIndex = 0, currentExportgroupIndex = 0;
+        boolean currentMapIsExportGroupCenter = false;
+
         String line;
         while ((line = br.readLine()) != null) {
             if (line.startsWith(gameIndexTag)) {
-
             } else if (line.startsWith(tilesetTag)) {
                 String folderPath = new File(path).getParent();
                 tilesetFilePath = folderPath + File.separator + br.readLine();
-
             } else if (line.startsWith(mapstartTag)) {
                 String[] splittedLine = br.readLine().split(" ");
                 int x = Integer.parseInt(splittedLine[0]);
@@ -247,8 +256,11 @@ public class MapMatrix {
                 currentGrid = new MapGrid(handler);
             } else if (line.startsWith(areaIndexTag)) {
                 currentAreaIndex = Integer.parseInt(br.readLine());
-            } else if (line.startsWith(exportgroupIndexTag)) {
+            } else if (line.startsWith(exportgroupTag)) {
                 currentExportgroupIndex = Integer.parseInt(br.readLine());
+
+                if(line.startsWith(exportgroupCenterTag, exportgroupTag.length()))
+                    currentMapIsExportGroupCenter = true;
             } else if (line.startsWith(tileGridTag)) {
                 MapGrid.loadMatrixFromFile(br, currentGrid.tileLayers[numTileLayersRead]);
                 numTileLayersRead++;
@@ -260,6 +272,7 @@ public class MapMatrix {
                 mapData.setGrid(currentGrid);
                 mapData.setAreaIndex(currentAreaIndex);
                 mapData.setExportgroupIndex(currentExportgroupIndex);
+                mapData.setExportGroupCenter(currentMapIsExportGroupCenter);
                 matrix.put(currentMapCoords, mapData);
                 numMapsRead++;
                 numTileLayersRead = 0;
@@ -306,7 +319,9 @@ public class MapMatrix {
             out.println(areaIndexTag);
             out.println(md.getAreaIndex());
 
-            out.println(exportgroupIndexTag);
+            out.print(exportgroupTag);
+            if (md.isExportGroupCenter())
+                out.println(" " + exportgroupCenterTag);
             out.println(md.getExportGroupIndex());
 
             for (int[][] tLayer : md.getGrid().tileLayers) {
@@ -350,13 +365,11 @@ public class MapMatrix {
         handler.getTileset().importTiles(newTiles);
         //handler.getTileset().removeUnusedTextures();
 
-
         loadBDHCsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBdhcamsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadCollisionsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBacksoundsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBuildingsFromFile(newMaps, folderPath, fileName);
-
 
         for (HashMap.Entry<Point, MapData> entry : newMaps.entrySet()) {
             Point coords = new Point(entry.getKey().x + offset.x, entry.getKey().y + offset.y);

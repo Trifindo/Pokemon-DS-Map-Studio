@@ -2384,6 +2384,7 @@ public class MainFrame extends JFrame {
         jlArea = new JLabel();
         jsSelectedArea = new JSpinner();
         jPanelAreaColor = new JPanel();
+        jCbExportGroupCenter = new JCheckBox();
         jlExportgroup = new JLabel();
         jsSelectedExportgroup = new JSpinner();
         jPanelExportgroupColor = new JPanel();
@@ -2423,6 +2424,7 @@ public class MainFrame extends JFrame {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Pokemon DS Map Studio");
+        setMinimumSize(new Dimension(1280, 710));
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -3146,6 +3148,7 @@ public class MainFrame extends JFrame {
         //======== jspMainWindow ========
         {
             jspMainWindow.setResizeWeight(0.8);
+            jspMainWindow.setDividerLocation(1055);
 
             //======== jpMainWindow ========
             {
@@ -3208,7 +3211,8 @@ public class MainFrame extends JFrame {
                     //======== mapDisplay ========
                     {
                         mapDisplay.setBorder(new LineBorder(new Color(102, 102, 102)));
-                        mapDisplay.setMaximumSize(new Dimension(544, 544));
+                        mapDisplay.setMinimumSize(new Dimension(440, 440));
+                        mapDisplay.setMaximumSize(new Dimension(580, 580));
 
                         GroupLayout mapDisplayLayout = new GroupLayout(mapDisplay);
                         mapDisplay.setLayout(mapDisplayLayout);
@@ -3529,7 +3533,7 @@ public class MainFrame extends JFrame {
                 //======== jtRightPanel ========
                 {
                     jtRightPanel.setPreferredSize(new Dimension(250, 586));
-                    jtRightPanel.setMinimumSize(new Dimension(100, 336));
+                    jtRightPanel.setMinimumSize(null);
 
                     //======== jPanelMatrixInfo ========
                     {
@@ -3542,6 +3546,9 @@ public class MainFrame extends JFrame {
 
                             //======== jpAreaTools ========
                             {
+                                jpAreaTools.setMinimumSize(null);
+                                jpAreaTools.setMaximumSize(null);
+                                jpAreaTools.setPreferredSize(null);
                                 jpAreaTools.setLayout(new MigLayout(
                                         "hidemode 3",
                                         // columns
@@ -3560,6 +3567,8 @@ public class MainFrame extends JFrame {
                                     //======== mapMatrixDisplay ========
                                     {
                                         mapMatrixDisplay.setPreferredSize(new Dimension(200, 200));
+                                        mapMatrixDisplay.setMinimumSize(null);
+                                        mapMatrixDisplay.setMaximumSize(null);
                                         mapMatrixDisplay.setLayout(new BoxLayout(mapMatrixDisplay, BoxLayout.X_AXIS));
                                     }
                                     jScrollPaneMapMatrix.setViewportView(mapMatrixDisplay);
@@ -3583,7 +3592,9 @@ public class MainFrame extends JFrame {
                                     //---- jsSelectedArea ----
                                     jsSelectedArea.setModel(new SpinnerNumberModel(0, 0, null, 1));
                                     jsSelectedArea.setFocusable(false);
-                                    jsSelectedArea.setPreferredSize(new Dimension(40, 20));
+                                    jsSelectedArea.setPreferredSize(null);
+                                    jsSelectedArea.setMinimumSize(null);
+                                    jsSelectedArea.setMaximumSize(null);
                                     jsSelectedArea.setRequestFocusEnabled(false);
                                     jsSelectedArea.addChangeListener(e -> jsSelectedAreaStateChanged(e));
                                     jpArea.add(jsSelectedArea, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
@@ -3594,6 +3605,7 @@ public class MainFrame extends JFrame {
                                     {
                                         jPanelAreaColor.setBackground(new Color(51, 102, 255));
                                         jPanelAreaColor.setBorder(new BevelBorder(BevelBorder.RAISED));
+                                        jPanelAreaColor.setMinimumSize(new Dimension(30, 30));
                                         jPanelAreaColor.setPreferredSize(new Dimension(30, 30));
 
                                         GroupLayout jPanelAreaColorLayout = new GroupLayout(jPanelAreaColor);
@@ -3620,7 +3632,9 @@ public class MainFrame extends JFrame {
                                     //---- jsSelectedExportgroup ----
                                     jsSelectedExportgroup.setModel(new SpinnerNumberModel(0, 0, null, 1));
                                     jsSelectedExportgroup.setFocusable(false);
-                                    jsSelectedExportgroup.setPreferredSize(new Dimension(40, 20));
+                                    jsSelectedExportgroup.setPreferredSize(null);
+                                    jsSelectedExportgroup.setMinimumSize(null);
+                                    jsSelectedExportgroup.setMaximumSize(null);
                                     jsSelectedExportgroup.setRequestFocusEnabled(false);
                                     jsSelectedExportgroup.addChangeListener(e -> jsSelectedExportgroupStateChanged(e));
                                     jpArea.add(jsSelectedExportgroup, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
@@ -3631,6 +3645,7 @@ public class MainFrame extends JFrame {
                                     {
                                         jPanelExportgroupColor.setBackground(new Color(51, 102, 255));
                                         jPanelExportgroupColor.setBorder(new BevelBorder(BevelBorder.RAISED));
+                                        jPanelExportgroupColor.setMinimumSize(new Dimension(30, 30));
                                         jPanelExportgroupColor.setPreferredSize(new Dimension(30, 30));
 
                                         GroupLayout jPanelExportgroupColorLayout = new GroupLayout(jPanelExportgroupColor);
@@ -3647,8 +3662,15 @@ public class MainFrame extends JFrame {
                                     jpArea.add(jPanelExportgroupColor, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0,
                                             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                                             new Insets(0, 0, 0, 0), 0, 0));
+
                                 }
                                 jpAreaTools.add(jpArea, "cell 0 1");
+                                //---- exportGroupCenterJCheckBox ----
+                                jCbExportGroupCenter.setText("Set as center of Export Group");
+                                jCbExportGroupCenter.setPreferredSize(null);
+                                jCbExportGroupCenter.setMinimumSize(null);
+                                jCbExportGroupCenter.setMaximumSize(null);
+                                jpAreaTools.add(jCbExportGroupCenter, "cell 0 2");
 
                                 //======== jpMoveMap ========
                                 {
@@ -3664,13 +3686,15 @@ public class MainFrame extends JFrame {
                                     moveMapPanel.setPreferredSize(null);
                                     jpMoveMap.add(moveMapPanel, BorderLayout.CENTER);
                                 }
-                                jpAreaTools.add(jpMoveMap, "cell 0 2,alignx center,growx 0");
+                                jpAreaTools.add(jpMoveMap, "cell 0 3,alignx center,growx 0");
                             }
                             jspMatrix.setTopComponent(jpAreaTools);
 
                             //======== jpTileSelected ========
                             {
                                 jpTileSelected.setBorder(new TitledBorder("Tile Selected:"));
+                                jpTileSelected.setMinimumSize(null);
+                                jpTileSelected.setMaximumSize(null);
                                 jpTileSelected.setLayout(new BoxLayout(jpTileSelected, BoxLayout.Y_AXIS));
 
                                 //======== tileDisplay ========
@@ -3699,6 +3723,8 @@ public class MainFrame extends JFrame {
 
                     //======== jPanelMapTools ========
                     {
+                        jPanelMapTools.setMinimumSize(null);
+                        jPanelMapTools.setMaximumSize(null);
                         jPanelMapTools.setLayout(new MigLayout(
                                 "insets 5,hidemode 3,gap 5 5",
                                 // columns
@@ -3719,6 +3745,8 @@ public class MainFrame extends JFrame {
                             jsHeightMapAlpha.setValue(99);
                             jsHeightMapAlpha.setFocusable(false);
                             jsHeightMapAlpha.addChangeListener(e -> jsHeightMapAlphaStateChanged(e));
+                            jpHeightMapAlpha.setMinimumSize(null);
+                            jpHeightMapAlpha.setMaximumSize(null);
 
                             GroupLayout jpHeightMapAlphaLayout = new GroupLayout(jpHeightMapAlpha);
                             jpHeightMapAlpha.setLayout(jpHeightMapAlphaLayout);
@@ -3740,7 +3768,8 @@ public class MainFrame extends JFrame {
                             //---- jsBackImageAlpha ----
                             jsBackImageAlpha.setFocusable(false);
                             jsBackImageAlpha.addChangeListener(e -> jsBackImageAlphaStateChanged(e));
-
+                            jsBackImageAlpha.setMaximumSize(null);
+                            jsBackImageAlpha.setMinimumSize(null);
                             GroupLayout jpBackImageAlphaLayout = new GroupLayout(jpBackImageAlpha);
                             jpBackImageAlpha.setLayout(jpBackImageAlphaLayout);
                             jpBackImageAlphaLayout.setHorizontalGroup(
@@ -3764,7 +3793,8 @@ public class MainFrame extends JFrame {
                                             "[fill]",
                                     // rows
                                     "[center]"));
-
+                            jpMoveLayer.setMaximumSize(null);
+                            jpMoveLayer.setMinimumSize(null);
                             //======== jpDirectionalPad ========
                             {
                                 jpDirectionalPad.setLayout(new MigLayout(
@@ -4053,6 +4083,7 @@ public class MainFrame extends JFrame {
     private JLabel jlArea;
     private JSpinner jsSelectedArea;
     private JPanel jPanelAreaColor;
+    private JCheckBox jCbExportGroupCenter;
     private JLabel jlExportgroup;
     private JSpinner jsSelectedExportgroup;
     private JPanel jPanelExportgroupColor;
