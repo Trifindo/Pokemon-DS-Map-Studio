@@ -33,7 +33,7 @@ If you don't fully understand that, please open an issue in the appropriate sect
 
 On Linux, the installation can be done directly in an automated way, just open a terminal and type:
 ```shell
-sh -c "$(wget -O- https://raw.githubusercontent.com/Trifindo/Pokemon-DS-Map-Studio/master/pdsms-linux.sh)"
+sh -c "$(wget -O- https://raw.githubusercontent.com/AdAstra-LD/Pokemon-DS-Map-Studio/master/pdsms-linux.sh)"
 ```
 
 ## Notes
