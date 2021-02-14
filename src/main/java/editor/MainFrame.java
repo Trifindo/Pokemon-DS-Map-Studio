@@ -2424,7 +2424,7 @@ public class MainFrame extends JFrame {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Pokemon DS Map Studio");
-        setMinimumSize(new Dimension(1280, 710));
+        setMinimumSize(new Dimension(1300, 710));
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -3147,8 +3147,8 @@ public class MainFrame extends JFrame {
 
         //======== jspMainWindow ========
         {
-            jspMainWindow.setResizeWeight(0.8);
-            jspMainWindow.setDividerLocation(1055);
+            jspMainWindow.setResizeWeight(0.75);
+            jspMainWindow.setDividerLocation(1020);
 
             //======== jpMainWindow ========
             {
@@ -3166,7 +3166,7 @@ public class MainFrame extends JFrame {
 
                 //======== jpLayer ========
                 {
-                    jpLayer.setBorder(new TitledBorder(null, "Layer", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(204, 102, 0)));
+                    jpLayer.setBorder(new TitledBorder(null, "", TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(204, 102, 0)));
 
                     //======== thumbnailLayerSelector ========
                     {
@@ -3532,7 +3532,7 @@ public class MainFrame extends JFrame {
 
                 //======== jtRightPanel ========
                 {
-                    jtRightPanel.setPreferredSize(new Dimension(250, 586));
+                    jtRightPanel.setPreferredSize(new Dimension(200, 586));
                     jtRightPanel.setMinimumSize(null);
 
                     //======== jPanelMatrixInfo ========
@@ -3566,7 +3566,7 @@ public class MainFrame extends JFrame {
 
                                     //======== mapMatrixDisplay ========
                                     {
-                                        mapMatrixDisplay.setPreferredSize(new Dimension(200, 200));
+                                        mapMatrixDisplay.setPreferredSize(new Dimension(120, 200));
                                         mapMatrixDisplay.setMinimumSize(null);
                                         mapMatrixDisplay.setMaximumSize(null);
                                         mapMatrixDisplay.setLayout(new BoxLayout(mapMatrixDisplay, BoxLayout.X_AXIS));
@@ -3700,7 +3700,9 @@ public class MainFrame extends JFrame {
                                 //======== tileDisplay ========
                                 {
                                     tileDisplay.setFocusable(false);
-                                    tileDisplay.setPreferredSize(new Dimension(140, 140));
+                                    tileDisplay.setMinimumSize(null);
+                                    tileDisplay.setMaximumSize(null);
+                                    tileDisplay.setPreferredSize(new Dimension(100, 100));
 
                                     GroupLayout tileDisplayLayout = new GroupLayout(tileDisplay);
                                     tileDisplay.setLayout(tileDisplayLayout);
