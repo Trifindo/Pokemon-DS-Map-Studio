@@ -5,7 +5,7 @@ Pokemon DS Map Studio is a tool for creating NDS Pokémon maps, designed to be u
 
 It doesn't require 3D modeling knowledge. Rather, it provides a tilemap-like interface that is automatically converted to a 3D model. Please note that this tool **DOES NOT** allow modification of maps from official games.
 
-![Screenshot of PDSMS](PDSMS_2_1_1.png)
+
 
 ### WARNING !
 Saving your old maps with this new version doesn't guarantee backwards compatibility with other PDSMS versions, 
