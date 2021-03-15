@@ -57,17 +57,17 @@ public class TileReaderObj {
                     materialNames.add(name);
                 }
             } else if (lineObj.startsWith("f")) {
-                String[] splittedLine = (lineObj.substring(2)).split(" ");
+                String[] splitLine = (lineObj.substring(2)).split(" ");
                 int numVertex = 0;
-                for (int i = 0; i < splittedLine.length; i++) {
-                    if (splittedLine[i].contains("/")) {
+                for (int i = 0; i < splitLine.length; i++) {
+                    if (splitLine[i].contains("/")) {
                         numVertex++;
                     }
                 }
                 if (numVertex > 3) {
-                    fIndsQuadArray.get(materialIndex).add(loadFaceIndicesObj(splittedLine, 4));
+                    fIndsQuadArray.get(materialIndex).add(loadFaceIndicesObj(splitLine, 4));
                 } else {
-                    fIndsTriArray.get(materialIndex).add(loadFaceIndicesObj(splittedLine, 3));
+                    fIndsTriArray.get(materialIndex).add(loadFaceIndicesObj(splitLine, 3));
                 }
             }
         }
@@ -123,9 +123,9 @@ public class TileReaderObj {
         //Fix material names for avoiding sub folder issues
         for (int i = 0; i < textureIDs.size(); i++) {
             TilesetMaterial material = tileset.getMaterial(textureIDs.get(i));
-            String[] splittedName = material.getImageName().split("/");
-            if (splittedName.length > 1) {
-                String newName = splittedName[splittedName.length - 1];
+            String[] splitName = material.getImageName().split("/");
+            if (splitName.length > 1) {
+                String newName = splitName[splitName.length - 1];
                 int index = tileset.getIndexOfMaterialByImgName(newName);
                 if (index == -1) {
                     material.setImageName(newName);
@@ -196,13 +196,13 @@ public class TileReaderObj {
 
     private static ArrayList<Float> loadFloatLineObj(String line, int minNumElemn,
                                                      int maxNumElem, float defaultValue) {
-        String[] splittedLine = line.split(" ");
-        int numElements = Math.max(Math.min(maxNumElem, splittedLine.length - 1), minNumElemn);
+        String[] splitLine = line.split(" ");
+        int numElements = Math.max(Math.min(maxNumElem, splitLine.length - 1), minNumElemn);
         ArrayList<Float> floats = new ArrayList<>(numElements);
         for (int i = 0; i < numElements; i++) {
             float value;
             try {
-                value = Float.valueOf(splittedLine[i + 1]);
+                value = Float.valueOf(splitLine[i + 1]);
             } catch (NumberFormatException | IndexOutOfBoundsException ex) {
                 value = defaultValue;
             }
@@ -211,10 +211,10 @@ public class TileReaderObj {
         return floats;
     }
 
-    private static Face loadFaceIndicesObj(String[] splittedLine, int numVertex) {
+    private static Face loadFaceIndicesObj(String[] splitLine, int numVertex) {
         Face f = new Face(numVertex);
         for (int i = 0; i < numVertex; i++) {
-            String[] sArray = splittedLine[i].split("/");
+            String[] sArray = splitLine[i].split("/");
             f.vInd[i] = Integer.valueOf(sArray[0]);
             f.tInd[i] = Integer.valueOf(sArray[1]);
             if (sArray.length > 2) {

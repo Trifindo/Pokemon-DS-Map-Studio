@@ -8,12 +8,12 @@ import java.io.File;
  */
 public abstract class GameFileSystem {
 
-    protected static String getPath(String[] splittedPath) {
+    protected static String getPath(String[] splitPath) {
         String path = "";
-        for (int i = 0; i < splittedPath.length - 1; i++) {
-            path += splittedPath[i] + File.separator;
+        for (int i = 0; i < splitPath.length - 1; i++) {
+            path += splitPath[i] + File.separator;
         }
-        path += splittedPath[splittedPath.length - 1];
+        path += splitPath[splitPath.length - 1];
         return path;
     }
 

@@ -257,9 +257,9 @@ public class Utils {
     private static boolean nameHasMapCoords(String fileName) {
         String name = Utils.removeExtensionFromPath(fileName);
         try {
-            String[] splittedName = name.split("_");
-            return canParseInteger(splittedName[splittedName.length - 1])
-                    && canParseInteger(splittedName[splittedName.length - 2]);
+            String[] splitName = name.split("_");
+            return canParseInteger(splitName[splitName.length - 1])
+                    && canParseInteger(splitName[splitName.length - 2]);
         } catch (Exception ex) {
             return false;
         }

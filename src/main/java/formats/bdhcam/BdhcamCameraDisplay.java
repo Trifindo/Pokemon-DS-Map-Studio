@@ -259,13 +259,7 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
 			}
 		}
 
-        if(camera != null){
-            glu.gluLookAt(
-                    camera.values[0], -camera.values[1], camera.values[2],
-                    camera.values[3], -camera.values[4], camera.values[5],
-                    camera.values[6], -camera.values[7], camera.values[8]
-            );
-        }else{
+        if (camera == null) {
             glu.gluLookAt(
                     0.0f, 0.0f, cameraZ,
                     0.0f, 0.0f, 0.0f,
@@ -276,6 +270,12 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
             gl.glRotatef(-cameraRotZ, 0.0f, 0.0f, 1.0f);
 
             gl.glTranslatef(-cameraX, -cameraY, 0.0f);
+        } else {
+            glu.gluLookAt(
+                    camera.values[0], -camera.values[1], camera.values[2],
+                    camera.values[3], -camera.values[4], camera.values[5],
+                    camera.values[6], -camera.values[7], camera.values[8]
+            );
         }
 
         //Point mapCoords = handler.getMapSelected();

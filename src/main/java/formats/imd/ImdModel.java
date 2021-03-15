@@ -484,10 +484,10 @@ public class ImdModel extends ImdNode {
                 //materialNames.add(lineObj.split(" ")[1]);
                 materialNames.add(lineObj.substring(lineObj.indexOf(" ") + 1));
             } else if (lineObj.startsWith("f")) {
-                String[] splittedLine = (lineObj.substring(2)).split(" ");
-                Face f = new Face(splittedLine.length > 3);
-                for (int i = 0; i < splittedLine.length; i++) {
-                    String[] sArray = splittedLine[i].split("/");
+                String[] splitLine = (lineObj.substring(2)).split(" ");
+                Face f = new Face(splitLine.length > 3);
+                for (int i = 0; i < splitLine.length; i++) {
+                    String[] sArray = splitLine[i].split("/");
                     f.vInd[i] = Integer.valueOf(sArray[0]);
                     f.tInd[i] = Integer.valueOf(sArray[1]);
                     if (sArray.length > 2) {

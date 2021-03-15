@@ -249,9 +249,9 @@ public class MapMatrix {
                 String folderPath = new File(path).getParent();
                 tilesetFilePath = folderPath + File.separator + br.readLine();
             } else if (line.startsWith(mapstartTag)) {
-                String[] splittedLine = br.readLine().split(" ");
-                int x = Integer.parseInt(splittedLine[0]);
-                int y = Integer.parseInt(splittedLine[1]);
+                String[] splitLine = br.readLine().split(" ");
+                int x = Integer.parseInt(splitLine[0]);
+                int y = Integer.parseInt(splitLine[1]);
                 currentMapCoords = new Point(x, y);
                 currentGrid = new MapGrid(handler);
             } else if (line.startsWith(areaIndexTag)) {
@@ -259,7 +259,7 @@ public class MapMatrix {
             } else if (line.startsWith(exportgroupTag)) {
                 currentExportgroupIndex = Integer.parseInt(br.readLine());
 
-                if(line.startsWith(exportgroupCenterTag, exportgroupTag.length()))
+                if(line.startsWith(exportgroupCenterTag, exportgroupCenterTag.length()))
                     currentMapIsExportGroupCenter = true;
             } else if (line.startsWith(tileGridTag)) {
                 MapGrid.loadMatrixFromFile(br, currentGrid.tileLayers[numTileLayersRead]);
@@ -1070,18 +1070,18 @@ public class MapMatrix {
 
     private Point geMapCoordsFromName(String fileName) {
         String name = Utils.removeExtensionFromPath(fileName);
-        String[] splittedName = name.split("_");
-        return new Point(Integer.parseInt(splittedName[splittedName.length - 2]),
-                Integer.parseInt(splittedName[splittedName.length - 1]));
+        String[] splitName = name.split("_");
+        return new Point(Integer.parseInt(splitName[splitName.length - 2]),
+                Integer.parseInt(splitName[splitName.length - 1]));
     }
 
     private boolean nameHasMapCoords(String fileName) {
         //System.out.println(fileName);
         String name = Utils.removeExtensionFromPath(fileName);
         try {
-            String[] splittedName = name.split("_");
-            return canParseInteger(splittedName[splittedName.length - 1])
-                    && canParseInteger(splittedName[splittedName.length - 2]);
+            String[] splitName = name.split("_");
+            return canParseInteger(splitName[splitName.length - 1])
+                    && canParseInteger(splitName[splitName.length - 2]);
         } catch (Exception ex) {
             return false;
         }

@@ -136,9 +136,9 @@ public class MapGrid {
     public static void loadMatrixFromFile(BufferedReader br, int[][] matrix) throws IOException {
         for (int i = 0; i < rows; i++) {
             String line = br.readLine();
-            String[] lineSplitted = line.split(" ");
+            String[] linesplit = line.split(" ");
             for (int j = 0; j < cols; j++) {
-                matrix[j][i] = Integer.parseInt(lineSplitted[j]);
+                matrix[j][i] = Integer.parseInt(linesplit[j]);
             }
         }
     }
@@ -147,9 +147,9 @@ public class MapGrid {
         Integer[][] layer = new Integer[cols][rows];
         for (int i = 0; i < rows; i++) {
             String line = br.readLine();
-            String[] lineSplitted = line.split(" ");
+            String[] linesplit = line.split(" ");
             for (int j = 0; j < cols; j++) {
-                layer[j][i] = Integer.parseInt(lineSplitted[j]);
+                layer[j][i] = Integer.parseInt(linesplit[j]);
             }
         }
         return layer;
