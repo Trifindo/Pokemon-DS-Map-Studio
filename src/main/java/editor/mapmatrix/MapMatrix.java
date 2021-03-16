@@ -128,26 +128,28 @@ public class MapMatrix {
 
         Point minCoords = getMinCoords();
         for (HashMap.Entry<Point, MapData> map : entrySet) {
+            Point coords = map.getKey();
+            MapData md = map.getValue();
+
             out.println(mapstartTag);
-            out.println((map.getKey().x - minCoords.x) + " " + (map.getKey().y - minCoords.y));
+            out.println((coords.x - minCoords.x) + " " + (coords.y - minCoords.y));
 
             out.println(areaIndexTag);
-            out.println(map.getValue().getAreaIndex());
+            out.println(md.getAreaIndex());
             
-            out.print(exportgroupTag);
-            if(map.getValue().isExportGroupCenter()) {
-                out.print(" " + exportgroupCenterTag);
-            } else {
-                out.println("");
-            }
-            out.println(map.getValue().getExportGroupIndex());
+            out.println(exportgroupTag);
+            out.println(md.getExportGroupIndex());
 
-            for (int[][] tLayer : map.getValue().getGrid().tileLayers) {
+            if(md.getExportGroupIndex() > 0 && md.isExportGroupCenter()) {
+                out.println(exportgroupCenterTag);
+            }
+
+            for (int[][] tLayer : md.getGrid().tileLayers) {
                 out.println(tileGridTag);
                 MapGrid.printMatrixInFile(out, tLayer); //Todo change this
             }
 
-            for (int[][] hLayer : map.getValue().getGrid().heightLayers) {
+            for (int[][] hLayer : md.getGrid().heightLayers) {
                 out.println(heightGridTag);
                 MapGrid.printMatrixInFile(out, hLayer); //Todo change this
             }
@@ -195,8 +197,8 @@ public class MapMatrix {
                 currentAreaIndex = Integer.parseInt(br.readLine());
             } else if (line.startsWith(exportgroupTag)) {
                 currentExportgroupIndex = Integer.parseInt(br.readLine());
-                if(line.startsWith(exportgroupCenterTag, exportgroupTag.length()))
-                    currentMapIsExportGroupCenter = true;
+            } else if (line.startsWith(exportgroupCenterTag)) {
+                currentMapIsExportGroupCenter = true;
             } else if (line.startsWith(tileGridTag)) {
                 MapGrid.loadMatrixFromFile(br, currentGrid.tileLayers[numTileLayersRead]);
                 numTileLayersRead++;
@@ -205,6 +207,7 @@ public class MapMatrix {
                 numHeightLayersRead++;
             } else if (line.startsWith(mapEndTag)) {
                 MapData mapData = new MapData(handler);
+
                 mapData.setGrid(currentGrid);
                 mapData.setAreaIndex(currentAreaIndex);
                 mapData.setExportgroupIndex(currentExportgroupIndex);
@@ -213,6 +216,7 @@ public class MapMatrix {
                 numMapsRead++;
                 numTileLayersRead = 0;
                 numHeightLayersRead = 0;
+                currentMapIsExportGroupCenter = false;
             }
         }
         if (numMapsRead == 0) {
@@ -258,9 +262,8 @@ public class MapMatrix {
                 currentAreaIndex = Integer.parseInt(br.readLine());
             } else if (line.startsWith(exportgroupTag)) {
                 currentExportgroupIndex = Integer.parseInt(br.readLine());
-
-                if(line.startsWith(exportgroupCenterTag, exportgroupCenterTag.length()))
-                    currentMapIsExportGroupCenter = true;
+            } else if(line.startsWith(exportgroupCenterTag)) {
+                currentMapIsExportGroupCenter = true;
             } else if (line.startsWith(tileGridTag)) {
                 MapGrid.loadMatrixFromFile(br, currentGrid.tileLayers[numTileLayersRead]);
                 numTileLayersRead++;
@@ -269,6 +272,7 @@ public class MapMatrix {
                 numHeightLayersRead++;
             } else if (line.startsWith(mapEndTag)) {
                 MapData mapData = new MapData(handler);
+
                 mapData.setGrid(currentGrid);
                 mapData.setAreaIndex(currentAreaIndex);
                 mapData.setExportgroupIndex(currentExportgroupIndex);
@@ -277,6 +281,7 @@ public class MapMatrix {
                 numMapsRead++;
                 numTileLayersRead = 0;
                 numHeightLayersRead = 0;
+                currentMapIsExportGroupCenter = false;
             }
         }
         if (numMapsRead == 0) {
@@ -319,10 +324,12 @@ public class MapMatrix {
             out.println(areaIndexTag);
             out.println(md.getAreaIndex());
 
-            out.print(exportgroupTag);
-            if (md.isExportGroupCenter())
-                out.println(" " + exportgroupCenterTag);
+            out.println(exportgroupTag);
             out.println(md.getExportGroupIndex());
+
+            if(md.getExportGroupIndex() > 0 && md.isExportGroupCenter()) {
+                out.println(exportgroupCenterTag);
+            }
 
             for (int[][] tLayer : md.getGrid().tileLayers) {
                 out.println(tileGridTag);
@@ -394,19 +401,26 @@ public class MapMatrix {
                         mapEntry.getValue().saveMapToOBJ(handler.getTileset(), objFilePath, saveTextures, useExportgroups, includeVertexColors, tileUpscale);
                     }
                 } else { //export every other group as one map
-                    TreeSet<Point> ts = new TreeSet<>(new PointComparator());
-                    for (Point p : currentExportGroup.keySet())
-                        ts.add(p);
+                    int lowestXcoord;
+                    int lowestYcoord;
 
-                    int minx = (int) ts.first().getX();
-                    int miny = (int) ts.first().getY();
+                    Point groupCenterCoords = this.getExportGroupCenterCoords(index);
+                    if (groupCenterCoords == null) { //User didn't specify a center map for this group
+                        TreeSet<Point> pointTS = new TreeSet<>(new PointComparator());
+                        for (Point p : currentExportGroup.keySet())
+                            pointTS.add(p);
 
-                    ts = null;
+                        lowestXcoord = (int) pointTS.first().getX();
+                        lowestYcoord = (int) pointTS.first().getY();
+                    } else {
+                        lowestXcoord = (int)groupCenterCoords.getX();
+                        lowestYcoord = (int)groupCenterCoords.getY();
+                    }
 
                     HashMap<Point, MapGrid> newExportGroup = new HashMap<>();
                     for (HashMap.Entry<Point, MapGrid> mapEntry : currentExportGroup.entrySet()) {
                         Point currentPoint = new Point(mapEntry.getKey());
-                        currentPoint.translate(-minx, -miny);
+                        currentPoint.translate(-lowestXcoord, -lowestYcoord);
 
                         newExportGroup.put(currentPoint, mapEntry.getValue());
                     }
@@ -1139,8 +1153,17 @@ public class MapMatrix {
             if (mapd.getExportGroupIndex() == exportGroup)
                 map.put(mapEntry.getKey(), mapd.getGrid());
         }
-
         return map;
+    }
+
+    public Point getExportGroupCenterCoords (int exportGroup) {
+        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+            MapData mapd = mapEntry.getValue();
+
+            if (mapd.getExportGroupIndex() == exportGroup && mapd.isExportGroupCenter())
+                return mapEntry.getKey();
+        }
+        return null;
     }
 
     public BufferedImage getMapMatrixImage() {

@@ -580,11 +580,32 @@ public class MainFrame extends JFrame {
 
     private void jsSelectedExportgroupStateChanged(ChangeEvent e) {
         try {
-            handler.getMapData().setExportgroupIndex((Integer) jsSelectedExportgroup.getValue());
+            MapData md = handler.getMapData();
+            Integer newExportGroupIndex = (Integer) jsSelectedExportgroup.getValue();
+            md.setExportgroupIndex(newExportGroupIndex);
+
+            if (newExportGroupIndex == 0) {
+                jCbExportGroupCenter.setEnabled(false);
+                jCbExportGroupCenter.setSelected(false);
+            } else {
+                jCbExportGroupCenter.setEnabled(true);
+            }
+
             handler.getMapMatrix().updateExportgroupColors(handler.getMapMatrix().getExportGroupIndices());
 
-            jPanelExportgroupColor.setBackground(handler.getMapMatrix().getExportgroupColors().get(handler.getMapData().getExportGroupIndex()));
+            jPanelExportgroupColor.setBackground(handler.getMapMatrix().getExportgroupColors().get(newExportGroupIndex));
             jPanelExportgroupColor.repaint();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void jCbExportGroupCenterStateChanged(ChangeEvent e) {
+        try {
+            MapData md = handler.getMapData();
+            if (md.getExportGroupIndex() > 0) {
+                md.setExportGroupCenter(jCbExportGroupCenter.isSelected());
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -965,7 +986,7 @@ public class MainFrame extends JFrame {
                         textThread = this.startProgressText(jlStatus, 15, 90);
 
                         HashMap<Point, MapData> allAreasMap = handler.getMapMatrix().getMatrix();
-                        for (int area : handler.getMapMatrix().getAreaIndices()) {
+                        for (int area : configDialog.getSelectedAreaIndices()) {
                             stringForTextThread = "Saving area " + area;
 
                             HashMap<Point, MapData> singleAreaMap = new HashMap<>();
@@ -2026,13 +2047,16 @@ public class MainFrame extends JFrame {
     }
 
     public void updateViewMapInfo() {
-        getjPanelAreaColor().setBackground(handler.getMapMatrix().getAreaColors().get(handler.getCurrentMap().getAreaIndex()));
+        MapData currentMap = handler.getCurrentMap();
+
+        getjPanelAreaColor().setBackground(handler.getMapMatrix().getAreaColors().get(currentMap.getAreaIndex()));
         getjPanelAreaColor().repaint();
-        getjPanelExportgroupColor().setBackground(handler.getMapMatrix().getExportgroupColors().get(handler.getCurrentMap().getExportGroupIndex()));
+        getjPanelExportgroupColor().setBackground(handler.getMapMatrix().getExportgroupColors().get(currentMap.getExportGroupIndex()));
         getjPanelExportgroupColor().repaint();
 
-        getJsSelectedArea().setValue(handler.getCurrentMap().getAreaIndex());
-        getJsSelectedExportgroup().setValue(handler.getCurrentMap().getExportGroupIndex());
+        getJsSelectedArea().setValue(currentMap.getAreaIndex());
+        getJCbExportGroupCenter().setSelected(currentMap.isExportGroupCenter());
+        getJsSelectedExportgroup().setValue(currentMap.getExportGroupIndex());
 
         updateViewGeometryCount();
         updateTileSelectedID();
@@ -2153,6 +2177,10 @@ public class MainFrame extends JFrame {
 
     public JSpinner getJsSelectedExportgroup() {
         return jsSelectedExportgroup;
+    }
+
+    private JCheckBox getJCbExportGroupCenter() {
+        return jCbExportGroupCenter;
     }
 
 
@@ -2940,7 +2968,7 @@ public class MainFrame extends JFrame {
 
             //---- jbSplitPDSMAPbyArea ----
             jbSplitPDSMAPbyArea.setIcon(new ImageIcon(getClass().getResource("/icons/exportMapsByAreasIcon.png")));
-            jbSplitPDSMAPbyArea.setToolTipText("Animation Editor");
+            jbSplitPDSMAPbyArea.setToolTipText("Split PDSMAP by Area");
             jbSplitPDSMAPbyArea.setFocusable(false);
             jbSplitPDSMAPbyArea.setHorizontalTextPosition(SwingConstants.CENTER);
             jbSplitPDSMAPbyArea.setMaximumSize(new Dimension(38, 38));
@@ -3670,6 +3698,7 @@ public class MainFrame extends JFrame {
                                 jCbExportGroupCenter.setPreferredSize(null);
                                 jCbExportGroupCenter.setMinimumSize(null);
                                 jCbExportGroupCenter.setMaximumSize(null);
+                                jCbExportGroupCenter.addChangeListener(e -> jCbExportGroupCenterStateChanged(e));
                                 jpAreaTools.add(jCbExportGroupCenter, "cell 0 2");
 
                                 //======== jpMoveMap ========
