@@ -30,7 +30,6 @@ public class ExportSingleMapObjDialog extends JDialog {
     }
 
     private void jcbExportgroupsActionPerformed(ActionEvent e) {
-
         useExportgroups = jcbExportgroups.isSelected();
     }
 
@@ -55,13 +54,14 @@ public class ExportSingleMapObjDialog extends JDialog {
     }
 
     public boolean useExportgroups() {
+
         return useExportgroups;
     }
 
     public float getTileUpscaling(){
-        try{
+        try {
             return (Float)jsTileUpscaling.getValue();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             return 1.0f;
         }
     }

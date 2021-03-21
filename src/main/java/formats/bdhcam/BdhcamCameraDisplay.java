@@ -61,7 +61,7 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
     protected static final float defaultCamRotX = 40.0f, defaultCamRotY = 0.0f, defaultCamRotZ = 0.0f;
 
     //Camera
-    protected CameraSettings camera = new CameraSettings();
+    protected CameraSettings camera = new CameraSettings(wideCamMode);
 
     //Update
     protected boolean updateRequested = false;
@@ -245,19 +245,19 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
         gl.glLoadIdentity();
 
         float aspect = (float) getWidth() / (float) getHeight();
+        float jogampV;
+
 		if (wideCamMode) {
-			if (cameraZ < 40.0f) {
-				glu.gluPerspective(38.5f, aspect, 1.0f, 1000.0f);
-			} else {
-				glu.gluPerspective(38.5f, aspect, 1.0f + (cameraZ - 40.0f) / 4, 1000.0f + (cameraZ - 40.0f));
-			}
+		    jogampV = 38.5f;
 		} else {
-			if (cameraZ < 40.0f) {
-				glu.gluPerspective(15.0f, aspect, 1.0f, 1000.0f);
-			} else {
-				glu.gluPerspective(15.0f, aspect, 1.0f + (cameraZ - 40.0f) / 4, 1000.0f + (cameraZ - 40.0f));
-			}
+            jogampV = 15.0f;
 		}
+
+        if (cameraZ < 40.0f) {
+            glu.gluPerspective(jogampV, aspect, 1.0f, 1000.0f);
+        } else {
+            glu.gluPerspective(jogampV, aspect, 1.0f + (cameraZ - 40.0f) / 4, 1000.0f + (cameraZ - 40.0f));
+        }
 
         if (camera == null) {
             glu.gluLookAt(

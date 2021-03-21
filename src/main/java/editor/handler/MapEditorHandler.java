@@ -19,12 +19,14 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 
+import formats.obj.ObjWriter;
 import tileset.Tile;
 import tileset.Tileset;
 import utils.Utils;

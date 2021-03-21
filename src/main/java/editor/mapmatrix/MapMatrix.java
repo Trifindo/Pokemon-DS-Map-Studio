@@ -385,26 +385,28 @@ public class MapMatrix {
 
     }
 
-    public void saveMapsAsObj(String path, boolean saveTextures, boolean includeVertexColors, boolean useExportgroups, float tileUpscale) throws FileNotFoundException {
+    public void saveMapsAsObj(String path, boolean saveTextures, boolean includeVertexColors, HashSet<Integer> exportGroups, float tileUpscale) throws FileNotFoundException {
         removeUnusedMaps();
 
         String folderPath = new File(path).getParent();
         String fileName = Utils.removeExtensionFromPath(new File(path).getName());
         String objFilePath;
-        
-        if (useExportgroups) {
-            for (int index : this.getExportGroupIndices()) { //loop through each exportGroup
-                HashMap<Point, MapGrid> currentExportGroup = generateGridHashMap(index);
+
+        if (exportGroups != null) {
+            for (int index : exportGroups) { //loop through each exportGroup
+                HashMap<Point, MapGrid> currentExportGroup = generateGridHashMap(index); //generate export grid for each group
+
                 if (index == 0) { //export maps of Group 0 separately
                     for (HashMap.Entry<Point, MapGrid> mapEntry : currentExportGroup.entrySet()) { //Loop through entries of the group
                         objFilePath = getFilePathWithCoords(matrix, folderPath, fileName, mapEntry.getKey(), "obj");
-                        mapEntry.getValue().saveMapToOBJ(handler.getTileset(), objFilePath, saveTextures, useExportgroups, includeVertexColors, tileUpscale);
+                        mapEntry.getValue().saveMapToOBJ(handler.getTileset(), objFilePath, saveTextures, includeVertexColors, tileUpscale);
                     }
                 } else { //export every other group as one map
                     int lowestXcoord;
                     int lowestYcoord;
 
                     Point groupCenterCoords = this.getExportGroupCenterCoords(index);
+
                     if (groupCenterCoords == null) { //User didn't specify a center map for this group
                         TreeSet<Point> pointTS = new TreeSet<>(new PointComparator());
                         for (Point p : currentExportGroup.keySet())
@@ -435,7 +437,7 @@ public class MapMatrix {
         else { //save each map separately
             for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
                 objFilePath = getFilePathWithCoords(matrix, folderPath, fileName, mapEntry.getKey(), "obj");
-                mapEntry.getValue().getGrid().saveMapToOBJ(handler.getTileset(), objFilePath, saveTextures, useExportgroups, includeVertexColors, tileUpscale);
+                mapEntry.getValue().getGrid().saveMapToOBJ(handler.getTileset(), objFilePath, saveTextures, includeVertexColors, tileUpscale);
             }
         }
         //TODO: This method saves textures for each map. Make that textures are exported only once

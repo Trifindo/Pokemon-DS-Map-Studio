@@ -117,18 +117,9 @@ public class MapGrid {
         input.close();
     }*/
     public void saveMapToOBJ(Tileset tset, String path, boolean saveTextures,
-                             boolean includeVertexColors, boolean useExportgroups, float tileUpscale) throws FileNotFoundException {
-        MapGrid grid;
+                             boolean includeVertexColors, float tileUpscale) throws FileNotFoundException {
 
-        if (useExportgroups) {
-            //TO COMPLETE! EXPORT ONE MAP BUT WITH ITS GROUPS AS WELL
-            grid = this;
-        }
-        else
-            //TO COMPLETE
-            grid = this;
-
-        ObjWriter writer = new ObjWriter(tset, grid, path, handler.getGameIndex(),
+        ObjWriter writer = new ObjWriter(tset, this, path, handler.getGameIndex(),
                 saveTextures, includeVertexColors, tileUpscale);
         writer.writeMapObj();
     }

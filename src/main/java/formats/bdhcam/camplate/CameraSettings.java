@@ -2,21 +2,27 @@ package formats.bdhcam.camplate;
 
 public class CameraSettings {
 
-    public static final float[] defaultValues = {
+    public static final float[] gen4CamPreset = {
             0.5f, 28.0f, 35.0f,
             0.5f, 0.0f, 0.0f,
             0.0f, 0.0f, 1.0f
     };
-	public static final float[] wideCamValues = {
+	public static final float[] wideCamPreset = {
             0.0f, 13.0f, 14.0f,
             0.0f, 0.0f, 0.0f,
             0.0f, 0.0f, 1.0f
     };
 	
-    public float[] values = new float[defaultValues.length];
+    public float[] values = new float[3*3];
+    public float[] defaultCam = new float[3*3];
 
-    public CameraSettings(){
-        System.arraycopy(defaultValues, 0, values, 0, defaultValues.length);
+    public CameraSettings(boolean wideCamMode) {
+        if (wideCamMode) {
+            defaultCam = wideCamPreset;
+        } else {
+            defaultCam = gen4CamPreset;
+        }
+        System.arraycopy(defaultCam, 0, values, 0, defaultCam.length);
     }
 
     public CameraSettings(float x, float y, float z,
@@ -31,7 +37,6 @@ public class CameraSettings {
         values[6] = upX;
         values[7] = upY;
         values[8] = upZ;
-
     }
 
     public CameraSettings(CamplatePosIndep plate, int frame){
@@ -73,7 +78,7 @@ public class CameraSettings {
 
     private void moveCameraToPlayer(Camplate plate, float[] playerPos){
         //Copy default values
-        System.arraycopy(defaultValues, 0, values, 0, defaultValues.length);
+        System.arraycopy(defaultCam, 0, values, 0, defaultCam.length);
 
         //Move camera to player position
         for (int i = 0; i < 6; i++) {
@@ -88,7 +93,7 @@ public class CameraSettings {
 
     private void moveCameraToPlate(Camplate plate){
         //Copy default values
-        System.arraycopy(defaultValues, 0, values, 0, defaultValues.length);
+        System.arraycopy(defaultCam, 0, values, 0, defaultCam.length);
 
         //Move camera to center of plate
         float[] plateCenter = plate.getCenterInWorld();

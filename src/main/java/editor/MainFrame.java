@@ -1327,19 +1327,36 @@ public class MainFrame extends JFrame {
 
             final JFileChooser fc = new JFileChooser();
             fc.setSelectedFile(new File(Utils.removeExtensionFromPath(handler.getMapMatrix().filePath)));
+
             if (handler.getLastMapDirectoryUsed() != null) {
                 fc.setCurrentDirectory(new File(handler.getLastMapDirectoryUsed()));
             }
+
             fc.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
             fc.setApproveButtonText("Save");
             fc.setDialogTitle("Select a name for the OBJ map");
             int returnVal = fc.showOpenDialog(this);
+
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
                 try {
                     String path = fc.getSelectedFile().getPath();
-                    handler.getGrid().saveMapToOBJ(handler.getTileset(), path, saveTextures, includeVertexColors, useExportgroups, tileUpscale);
-                    JOptionPane.showMessageDialog(this, "OBJ map succesfully exported.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
+
+                    String type;
+                    int currentExpGroupIndex = handler.getCurrentMap().getExportGroupIndex();
+                    if (useExportgroups && currentExpGroupIndex != 0) {
+                        type = "group";
+
+                        HashSet<Integer> groupsToExport = new HashSet();
+                        groupsToExport.add(currentExpGroupIndex);
+
+                        handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors, groupsToExport, tileUpscale);
+                    } else {
+                        type = "map";
+
+                        handler.getGrid().saveMapToOBJ(handler.getTileset(), path, saveTextures, includeVertexColors, tileUpscale);
+                    }
+                    JOptionPane.showMessageDialog(this, "OBJ " + type + " succesfully exported.", type.substring(0, 1).toUpperCase() + type.substring(1) + " saved", JOptionPane.INFORMATION_MESSAGE);
                 } catch (FileNotFoundException ex) {
                     JOptionPane.showMessageDialog(this, "Can't save file.", "Error saving map", JOptionPane.ERROR_MESSAGE);
                 }
@@ -1371,26 +1388,44 @@ public class MainFrame extends JFrame {
             fc.setApproveButtonText("Save");
             fc.setDialogTitle("Select a name for saving the maps as OBJ");
             int returnVal = fc.showOpenDialog(this);
+
+            String type;
+            if (useExportgroups) {
+                type = "groups";
+            } else {
+                type = "maps";
+            }
+
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
                 try {
                     String path = fc.getSelectedFile().getPath();
                     if (exportAllMapsBothModes) {
                         path = Utils.removeMapCoordsFromName(path);
-                        handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors, useExportgroups, tileUpscale);
+                        handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors, handler.getMapMatrix().getExportGroupIndices(), tileUpscale);
                         handler.getMapMatrix().saveMapsAsObjJoined(path, saveTextures, includeVertexColors, tileUpscale);
-                        JOptionPane.showMessageDialog(this, "OBJ maps succesfully exported in both modes.", "Maps saved", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else if (exportAllMapsSeparately) {
+
+                        JOptionPane.showMessageDialog(this, "OBJ " + type + " succesfully exported in both modes.", type.substring(0, 1).toUpperCase() + type.substring(1) + " saved", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (exportAllMapsSeparately) {
                         path = Utils.removeMapCoordsFromName(path);
-                        handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors, useExportgroups, tileUpscale);
-                        JOptionPane.showMessageDialog(this, "OBJ maps succesfully exported.", "Maps saved", JOptionPane.INFORMATION_MESSAGE);
+                        handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors, handler.getMapMatrix().getExportGroupIndices(), tileUpscale);
+
+                        JOptionPane.showMessageDialog(this, "OBJ " + type + " succesfully exported separately.", type.substring(0, 1).toUpperCase() + type.substring(1) + " saved", JOptionPane.INFORMATION_MESSAGE);
                     } else if (exportAllMapsJoined) {
                         path = Utils.removeMapCoordsFromName(path);
                         handler.getMapMatrix().saveMapsAsObjJoined(path, saveTextures, includeVertexColors, tileUpscale);
-                        JOptionPane.showMessageDialog(this, "OBJ map succesfully exported.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
+
+                        JOptionPane.showMessageDialog(this, "OBJ maps succesfully exported as one.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
                     } else { //Mappa singola
-                        handler.getGrid().saveMapToOBJ(handler.getTileset(), path, saveTextures, includeVertexColors, useExportgroups, tileUpscale);
+                        if (useExportgroups) {
+                            HashSet<Integer> groupsToExport = new HashSet();
+                            groupsToExport.add(handler.getCurrentMap().getExportGroupIndex());
+
+                            handler.getMapMatrix().saveMapsAsObj(path, saveTextures, includeVertexColors, groupsToExport, tileUpscale);
+                        } else {
+                            handler.getGrid().saveMapToOBJ(handler.getTileset(), path, saveTextures, includeVertexColors, tileUpscale);
+                        }
+
                         JOptionPane.showMessageDialog(this, "OBJ map succesfully exported.", "Map saved", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (FileNotFoundException ex) {
