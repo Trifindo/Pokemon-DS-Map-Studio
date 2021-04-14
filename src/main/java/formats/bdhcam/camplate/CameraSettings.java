@@ -12,17 +12,21 @@ public class CameraSettings {
             0.0f, 0.0f, 0.0f,
             0.0f, 0.0f, 1.0f
     };
-	
+
+	public static boolean wideCamMode;
     public float[] values = new float[3*3];
-    public float[] defaultCam = new float[3*3];
 
     public CameraSettings(boolean wideCamMode) {
+        this.wideCamMode = wideCamMode;
+        copyDefaultValues();
+    }
+
+    public void copyDefaultValues() {
         if (wideCamMode) {
-            defaultCam = wideCamPreset;
+            System.arraycopy(wideCamPreset, 0, values, 0, gen4CamPreset.length);
         } else {
-            defaultCam = gen4CamPreset;
+            System.arraycopy(gen4CamPreset, 0, values, 0, gen4CamPreset.length);
         }
-        System.arraycopy(defaultCam, 0, values, 0, defaultCam.length);
     }
 
     public CameraSettings(float x, float y, float z,
@@ -37,6 +41,7 @@ public class CameraSettings {
         values[6] = upX;
         values[7] = upY;
         values[8] = upZ;
+
     }
 
     public CameraSettings(CamplatePosIndep plate, int frame){
@@ -78,7 +83,7 @@ public class CameraSettings {
 
     private void moveCameraToPlayer(Camplate plate, float[] playerPos){
         //Copy default values
-        System.arraycopy(defaultCam, 0, values, 0, defaultCam.length);
+        copyDefaultValues();
 
         //Move camera to player position
         for (int i = 0; i < 6; i++) {
@@ -93,7 +98,7 @@ public class CameraSettings {
 
     private void moveCameraToPlate(Camplate plate){
         //Copy default values
-        System.arraycopy(defaultCam, 0, values, 0, defaultCam.length);
+        copyDefaultValues();
 
         //Move camera to center of plate
         float[] plateCenter = plate.getCenterInWorld();
