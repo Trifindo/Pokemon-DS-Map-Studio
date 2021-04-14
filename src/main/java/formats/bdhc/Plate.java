@@ -83,7 +83,14 @@ public class Plate {
     }
 
     public Plate(Plate toCopy) {
-        this(toCopy.x, toCopy.y, toCopy.z, toCopy.width, toCopy.height, toCopy.type, toCopy.customSlope);
+        this.x = toCopy.x;
+        this.y = toCopy.y;
+        this.z = toCopy.z;
+        this.width = toCopy.width;
+        this.height = toCopy.height;
+        this.type = toCopy.type;
+
+        System.arraycopy(toCopy.customSlope, 0, this.customSlope, 0, toCopy.customSlope.length);
     }
 
     public Color getColor() {
