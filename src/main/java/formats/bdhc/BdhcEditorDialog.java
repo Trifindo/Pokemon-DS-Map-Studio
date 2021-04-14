@@ -604,7 +604,7 @@ public class BdhcEditorDialog extends JDialog {
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("BDHC Editor");
-        setMinimumSize(null);
+        setMinimumSize(new Dimension(1300, 625));
         setModal(true);
         Container contentPane = getContentPane();
         contentPane.setLayout(new MigLayout(
@@ -614,7 +614,7 @@ public class BdhcEditorDialog extends JDialog {
             "[grow,fill]",
             // rows
             "[]" +
-            "[612,grow,fill]"));
+            "[622,grow,fill]"));
 
         //======== panel4 ========
         {
