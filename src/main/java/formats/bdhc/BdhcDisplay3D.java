@@ -403,13 +403,14 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
         for(int i = 0; i < bdhcHandler.getPlates().size(); i++){
             Plate plate = bdhcHandler.getPlates().get(i);
             float[] coords = plate.getVertexCoords();
+
+            for (int j = 2; j < coords.length; j+=3) { //push each plate up a little, to avoid Z-fighting
+                coords[i] += 0.075f;
+            }
+
             System.arraycopy(coords, 0,plateCoords, i * coordsPerPlate, coords.length);
         }
         this.plateCoords = plateCoords;
-
-        for (int i = 2; i < coordsPerPlate; i+=3) { //push each plate up a little, to avoid Z-fighting
-            plateCoords[i] += 0.075f;
-        }
     }
 
 
