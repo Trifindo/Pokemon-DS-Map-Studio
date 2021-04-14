@@ -39,5 +39,9 @@ public class Bdhc {
         plates.add(new Plate());
     }
 
+    public void addPlate(Plate toDuplicate) {
+        plates.add(new Plate(toDuplicate));
+    }
+
 
 }

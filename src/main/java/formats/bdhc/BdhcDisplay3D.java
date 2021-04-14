@@ -398,7 +398,7 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
     }
 
     public void updatePlateCoords(){
-        final int coordsPerPlate = 3 * 4;
+        final int coordsPerPlate = 3 * 4; //3 dimensions, 4 sizes
         float[] plateCoords = new float[bdhcHandler.getPlates().size() * coordsPerPlate];
         for(int i = 0; i < bdhcHandler.getPlates().size(); i++){
             Plate plate = bdhcHandler.getPlates().get(i);
@@ -406,6 +406,10 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
             System.arraycopy(coords, 0,plateCoords, i * coordsPerPlate, coords.length);
         }
         this.plateCoords = plateCoords;
+
+        for (int i = 2; i < coordsPerPlate; i+=3) { //push each plate up a little, to avoid Z-fighting
+            plateCoords[i] += 0.075f;
+        }
     }
 
 

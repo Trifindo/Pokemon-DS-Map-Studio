@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
@@ -201,19 +202,20 @@ public class BdhcamEditorDialog extends JDialog {
     }
 
     private void jbRemovePlateActionPerformed(ActionEvent e) {
-        if (bdhcamHandler.getBdhcam().getPlates().size() > 0) {
-            bdhcamHandler.getBdhcam().getPlates().remove(bdhcamHandler.getIndexSelected());
-            updateViewPlateList(bdhcamHandler.getBdhcam().getPlates().size() - 1);
+        ArrayList<Camplate> plateList = this.bdhcamHandler.getBdhcam().getPlates();
+        if (plateList.size() > 0) {
+            plateList.remove(bdhcamHandler.getIndexSelected());
+            updateViewPlateList(plateList.size() - 1);
             updateView();
             platesDisplay.repaint();
         }
     }
     
 	private void jbDuplicatePlateActionPerformed(ActionEvent e) {
-		Bdhcam archive = this.bdhcamHandler.getBdhcam();
-		if (archive.getPlates().size() > 0) {
-			archive.duplicatePlate(this.bdhcamHandler.getIndexSelected());
-			updateViewPlateList(archive.getPlates().size() - 1);
+		ArrayList<Camplate> plateList = this.bdhcamHandler.getBdhcam().getPlates();
+		if (plateList.size() > 0) {
+			bdhcamHandler.getBdhcam().duplicatePlate(plateList.get(bdhcamHandler.getIndexSelected()));
+			updateViewPlateList(plateList.size() - 1);
 			updateView();
 			this.platesDisplay.repaint();
 		} 

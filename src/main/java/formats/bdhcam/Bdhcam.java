@@ -66,30 +66,25 @@ public class Bdhcam {
         return count;
     }
 
-    public void duplicatePlate(int index) {
-        if (plates.size() > 0) {
-            if (index >= 0 && index < plates.size()) {   
-                Camplate sourceplate = plates.get(index);
-                Camplate newPlate;
-                
-                if (sourceplate.type.ID == Camplate.Type.POS_INDEPENDENT.ID) {
-                    newPlate = new CamplatePosIndep(sourceplate, sourceplate.type.ID, 0);
-                    
-                    for (int i = 0; i < sourceplate.parameters.size(); i++) {
-                        CamParameterPosIndep sourceparam = (CamParameterPosIndep) sourceplate.parameters.get(i);
-                        newPlate.parameters.add(new CamParameterPosIndep(sourceparam.type, sourceparam.duration, sourceparam.finalValue));
-                    }
-                } else {
-                    newPlate = new CamplatePosDep(sourceplate, sourceplate.type.ID, 0);
+    public void duplicatePlate(Camplate toCopy) {
+        Camplate newPlate;
 
-                    for (int i = 0; i < sourceplate.parameters.size(); i++) {
-                        CamParameterPosDep sourceparam = (CamParameterPosDep) sourceplate.parameters.get(i);
-                        newPlate.parameters.add(new CamParameterPosDep(sourceparam.type, sourceparam.firstValue, sourceparam.secondValue));
-                    }
-                    
-                }
-                plates.add(newPlate);
+        if (toCopy.type.ID == Camplate.Type.POS_INDEPENDENT.ID) {
+            newPlate = new CamplatePosIndep(toCopy, toCopy.type.ID, 0);
+
+            for (int i = 0; i < toCopy.parameters.size(); i++) {
+                CamParameterPosIndep sourceparam = (CamParameterPosIndep) toCopy.parameters.get(i);
+                newPlate.parameters.add(new CamParameterPosIndep(sourceparam.type, sourceparam.duration, sourceparam.finalValue));
             }
+        } else {
+            newPlate = new CamplatePosDep(toCopy, toCopy.type.ID, 0);
+
+            for (int i = 0; i < toCopy.parameters.size(); i++) {
+                CamParameterPosDep sourceparam = (CamParameterPosDep) toCopy.parameters.get(i);
+                newPlate.parameters.add(new CamParameterPosDep(sourceparam.type, sourceparam.firstValue, sourceparam.secondValue));
+            }
+
         }
+        plates.add(newPlate);
     }
 }

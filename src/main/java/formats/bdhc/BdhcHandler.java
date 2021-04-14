@@ -60,6 +60,12 @@ public class BdhcHandler {
 
     }
 
+    public void duplicateSelectedPlate() {
+        ArrayList<Plate> plateList = handler.getBdhc().getPlates();
+        handler.getBdhc().addPlate(plateList.get(indexSelected));
+        indexSelected = plateList.size()-1;
+    }
+
     public ArrayList<Plate> getPlates() {
         return handler.getBdhc().getPlates();
     }
@@ -67,4 +73,6 @@ public class BdhcHandler {
     public BdhcEditorDialog getDialog() {
         return dialog;
     }
+
+
 }

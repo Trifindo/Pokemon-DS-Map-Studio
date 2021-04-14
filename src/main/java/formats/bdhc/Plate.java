@@ -82,6 +82,10 @@ public class Plate {
         //this.color = defaultColor;
     }
 
+    public Plate(Plate toCopy) {
+        this(toCopy.x, toCopy.y, toCopy.z, toCopy.width, toCopy.height, toCopy.type, toCopy.customSlope);
+    }
+
     public Color getColor() {
         return applyZToColor(colors[type], 100);
     }
