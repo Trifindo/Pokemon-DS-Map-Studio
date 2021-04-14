@@ -405,7 +405,7 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
             float[] coords = plate.getVertexCoords();
 
             for (int j = 2; j < coords.length; j+=3) { //push each plate up a little, to avoid Z-fighting
-                coords[i] += 0.075f;
+                coords[j] += 0.075f;
             }
 
             System.arraycopy(coords, 0,plateCoords, i * coordsPerPlate, coords.length);
