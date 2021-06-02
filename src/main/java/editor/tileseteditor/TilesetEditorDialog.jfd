@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.9" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -8,7 +8,7 @@ new FormModel {
 			"defaultCloseOperation": 2
 			"title": "Tileset Editor"
 			"iconImage": new FormReference( "null" )
-			"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			"minimumSize": new java.awt.Dimension( 1250, 600 )
 			"modal": true
 			"$sizePolicy": 1
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class javax.swing.BoxLayout ) {
@@ -17,16 +17,6 @@ new FormModel {
 				name: "panel18"
 				"minimumSize": new java.awt.Dimension( 200, 500 )
 				"preferredSize": new java.awt.Dimension( 400, 450 )
-				add( new FormContainer( "editor.tileseteditor.TileDisplay", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:322:x}"
-					"$verticalGroup": "par l {space :0:542:x}"
-				} ) {
-					name: "tileDisplay"
-					"border": new javax.swing.border.BevelBorder( 1, null, null, null, null )
-					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
-					"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
-					"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
-				} )
 				add( new FormContainer( "javax.swing.JTabbedPane", new FormLayoutManager( class javax.swing.JTabbedPane ) ) {
 					name: "jTabbedPane2"
 					"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
@@ -217,7 +207,7 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq l {comp jScrollPane2:::p::p, space :0:0:x}}"
-				"$verticalGroup": "par l {comp jScrollPane2::l::638:x}"
+				"$verticalGroup": "par l {comp jScrollPane2::l::645:x}"
 			} ) {
 				name: "jPanel2"
 				"border": new javax.swing.border.TitledBorder( "Tile Selector" )
@@ -240,7 +230,7 @@ new FormModel {
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq l {par l:::p {comp panel9:::::x, comp jScrollPaneSmartGrid::::95:x}, space :0:0:p}}"
-				"$verticalGroup": "par l {seq l {comp jScrollPaneSmartGrid::::574:x, space :::p, comp panel9:::p:58:p}}"
+				"$verticalGroup": "par l {seq l {comp jScrollPaneSmartGrid::::581:x, space :::p, comp panel9:::p:58:p}}"
 			} ) {
 				name: "jPanel9"
 				"border": new javax.swing.border.TitledBorder( "Smart Drawing" )
@@ -1111,7 +1101,7 @@ new FormModel {
 						} )
 						add( new FormComponent( "javax.swing.JSpinner" ) {
 							name: "jSpinner2"
-							"model": new javax.swing.SpinnerNumberModel( 0, 0, 31, 1 )
+							"model": &SpinnerNumberModel0 new javax.swing.SpinnerNumberModel( 0, 0, 31, 1 )
 							"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 							"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 							"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
@@ -1270,7 +1260,7 @@ new FormModel {
 							add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 								"$layoutConstraints": "insets 0,hidemode 3,gap 5 5"
 								"$columnConstraints": "[fill][fill][fill][fill][fill]"
-								"$rowConstraints": "[fill]"
+								"$rowConstraints": "[fill][][][][][][]"
 							} ) {
 								name: "panel14"
 								"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
@@ -1293,7 +1283,7 @@ new FormModel {
 									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL0ActionPerformed", true ) )
 								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-									"value": "cell 1 0"
+									"value": "cell 1 0,align center center,grow 0 0"
 								} )
 								add( new FormComponent( "javax.swing.JCheckBox" ) {
 									name: "jcbL1"
@@ -1303,7 +1293,7 @@ new FormModel {
 									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL1ActionPerformed", true ) )
 								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-									"value": "cell 2 0"
+									"value": "cell 2 0,align center center,grow 0 0"
 								} )
 								add( new FormComponent( "javax.swing.JCheckBox" ) {
 									name: "jcbL2"
@@ -1313,7 +1303,7 @@ new FormModel {
 									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL2ActionPerformed", true ) )
 								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-									"value": "cell 3 0"
+									"value": "cell 3 0,align center center,grow 0 0"
 								} )
 								add( new FormComponent( "javax.swing.JCheckBox" ) {
 									name: "jcbL3"
@@ -1323,7 +1313,154 @@ new FormModel {
 									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
 									addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jcbL3ActionPerformed", true ) )
 								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
-									"value": "cell 4 0"
+									"value": "cell 4 0,align center center,grow 0 0"
+								} )
+								add( new FormComponent( "javax.swing.JLabel" ) {
+									name: "jLabelR"
+									"text": "Red: "
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 0 1"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerDR"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 1 1,alignx center,growx 0,width 55:55:55"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerAR"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 2 1,alignx center,growx 0,width 55:55:55"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerSR"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 3 1,alignx center,growx 0,width 55:55:55"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerER"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 4 1,alignx center,growx 0,width 55:55:55"
+								} )
+								add( new FormComponent( "javax.swing.JLabel" ) {
+									name: "jLabelG"
+									"text": "Green: "
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 0 2"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerDG"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 1 2,alignx center,growx 0,width 55:55:55"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerAG"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 2 2,alignx center,growx 0,width 55:55:55"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerSG"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 3 2,alignx center,growx 0,width 55:55:55"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerEG"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 4 2,alignx center,growx 0,width 55:55:55"
+								} )
+								add( new FormComponent( "javax.swing.JLabel" ) {
+									name: "jLabelB"
+									"text": "Blue:"
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 0 3"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerDB"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 1 3,alignx center,growx 0,width 55:55:55"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerAB"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 2 3,alignx center,growx 0,width 55:55:55"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerSB"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 3 3,alignx center,growx 0,width 55:55:55"
+								} )
+								add( new FormComponent( "javax.swing.JSpinner" ) {
+									name: "jSpinnerEB"
+									"model": #SpinnerNumberModel0
+									"maximumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"minimumSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									"preferredSize": sfield com.jformdesigner.model.FormObject NULL_VALUE
+									addEvent( new FormEvent( "javax.swing.event.ChangeListener", "stateChanged", "jSpinner2StateChanged", true ) )
+								}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+									"value": "cell 4 3,alignx center,growx 0,width 55:55:55"
 								} )
 							}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 								"value": "cell 0 6"
@@ -1383,7 +1520,7 @@ new FormModel {
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 1180, 700 )
+			"size": new java.awt.Dimension( 1225, 700 )
 			"location": new java.awt.Point( 5, 5 )
 		} )
 	}

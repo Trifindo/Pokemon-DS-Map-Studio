@@ -22,10 +22,17 @@ public class TilesetMaterial {
     private boolean renderBothFaces;
     private boolean uniformNormalOrientation;
     private boolean alwaysIncludeInImd;
+
     private boolean light0;
     private boolean light1;
     private boolean light2;
     private boolean light3;
+
+    private int[] diffuseRGB;
+    private int[] ambientRGB;
+    private int[] specularRGB;
+    private int[] emissionRGB;
+
     private int alpha;
     private int texGenMode;
     private int texTilingU;
@@ -45,6 +52,12 @@ public class TilesetMaterial {
         light1 = false;
         light2 = false;
         light3 = false;
+
+        diffuseRGB = new int[]{ 25, 25, 25 };
+        ambientRGB = new int[]{ 31, 31, 31 };
+        specularRGB = new int[]{ 0, 0, 0 };
+        emissionRGB = new int[]{ 0, 0, 0 };
+
         renderBorder = false;
         vertexColorsEnabled = false;
         uniformNormalOrientation = true;
@@ -52,29 +65,36 @@ public class TilesetMaterial {
 
     @Override
     public TilesetMaterial clone() {
-        TilesetMaterial material = new TilesetMaterial();
-        material.imageName = imageName;
-        material.materialName = materialName;
-        material.paletteNameImd = paletteNameImd;
-        material.textureNameImd = textureNameImd;
-        material.textureImg = textureImg;
-        material.enableFog = enableFog;
-        material.renderBothFaces = renderBothFaces;
-        material.uniformNormalOrientation = uniformNormalOrientation;
-        material.alwaysIncludeInImd = alwaysIncludeInImd;
-        material.light0 = light0;
-        material.light1 = light1;
-        material.light2 = light2;
-        material.light3 = light3;
-        material.alpha = alpha;
-        material.texGenMode = texGenMode;
-        material.texTilingU = texTilingU;
-        material.texTilingV = texTilingV;
-        material.colorFormat = colorFormat;
-        material.renderBorder = renderBorder;
-        material.vertexColorsEnabled = vertexColorsEnabled;
+        TilesetMaterial duplicate = new TilesetMaterial();
+        duplicate.imageName = imageName;
+        duplicate.materialName = materialName;
+        duplicate.paletteNameImd = paletteNameImd;
+        duplicate.textureNameImd = textureNameImd;
+        duplicate.textureImg = textureImg;
+        duplicate.enableFog = enableFog;
+        duplicate.renderBothFaces = renderBothFaces;
+        duplicate.uniformNormalOrientation = uniformNormalOrientation;
+        duplicate.alwaysIncludeInImd = alwaysIncludeInImd;
 
-        return material;
+        duplicate.light0 = light0;
+        duplicate.light1 = light1;
+        duplicate.light2 = light2;
+        duplicate.light3 = light3;
+
+        System.arraycopy(diffuseRGB,0, duplicate.diffuseRGB,0,3);
+        System.arraycopy(ambientRGB, 0, duplicate.ambientRGB,0,3);
+        System.arraycopy(specularRGB,0, duplicate.specularRGB,0,3);
+        System.arraycopy(emissionRGB,0, duplicate.emissionRGB,0,3);
+
+        duplicate.alpha = alpha;
+        duplicate.texGenMode = texGenMode;
+        duplicate.texTilingU = texTilingU;
+        duplicate.texTilingV = texTilingV;
+        duplicate.colorFormat = colorFormat;
+        duplicate.renderBorder = renderBorder;
+        duplicate.vertexColorsEnabled = vertexColorsEnabled;
+
+        return duplicate;
     }
 
     @Override
@@ -108,7 +128,7 @@ public class TilesetMaterial {
     }
 
 
-    public boolean renderBorder() {
+    public boolean hasRenderBorder() {
         return renderBorder;
     }
 
@@ -116,36 +136,135 @@ public class TilesetMaterial {
         this.renderBorder = renderBorderEnabled;
     }
 
-    public boolean light0() {
+    public boolean getLight0() {
         return light0;
     }
 
-    public void setLight0(boolean lightEnabled) {
-        this.light0 = lightEnabled;
+    public void setLight0(boolean status) {
+        this.light0 = status;
     }
 
-    public boolean light1() {
+    public int[] getDiffuse() {
+        return this.diffuseRGB;
+    }
+    public void setDiffuse(int[] rgb) {
+        this.diffuseRGB = rgb;
+    }
+    public int getDiffuseR() {
+        return diffuseRGB[0];
+    }
+    public int getDiffuseG() {
+        return diffuseRGB[1];
+    }
+    public int getDiffuseB() {
+        return diffuseRGB[2];
+    }
+    public void setDiffuseR(int R) {
+        this.diffuseRGB[0] = R;
+    }
+    public void setDiffuseG(int G) {
+        this.diffuseRGB[1] = G;
+    }
+    public void setDiffuseB(int B) {
+        this.diffuseRGB[2] = B;
+    }
+
+    public boolean getLight1() {
         return light1;
     }
-
-    public void setLight1(boolean lightEnabled) {
-        this.light1 = lightEnabled;
+    public void setLight1(boolean status) {
+        this.light1 = status;
     }
 
-    public boolean light2() {
+    public int[] getAmbient() {
+        return this.ambientRGB;
+    }
+    public void setAmbient(int[] rgb) {
+        this.ambientRGB = rgb;
+    }
+    public int getAmbientR() {
+        return ambientRGB[0];
+    }
+    public int getAmbientG() {
+        return ambientRGB[1];
+    }
+    public int getAmbientB() {
+        return ambientRGB[2];
+    }
+    public void setAmbientR(int R) {
+        this.ambientRGB[0] = R;
+    }
+    public void setAmbientG(int G) {
+        this.ambientRGB[1] = G;
+    }
+    public void setAmbientB(int B) {
+        this.ambientRGB[2] = B;
+    }
+
+    public boolean getLight2() {
         return light2;
     }
 
-    public void setLight2(boolean lightEnabled) {
-        this.light2 = lightEnabled;
+    public void setLight2(boolean status) {
+        this.light2 = status;
     }
 
-    public boolean light3() {
+    public int[] getSpecular() {
+        return this.specularRGB;
+    }
+    public void setSpecular(int[] rgb) {
+        this.specularRGB = rgb;
+    }
+    public int getSpecularR() {
+        return specularRGB[0];
+    }
+    public int getSpecularG() {
+        return specularRGB[1];
+    }
+    public int getSpecularB() {
+        return specularRGB[2];
+    }
+    public void setSpecularR(int R) {
+        this.specularRGB[0] = R;
+    }
+    public void setSpecularG(int G) {
+        this.specularRGB[1] = G;
+    }
+    public void setSpecularB(int B) {
+        this.specularRGB[2] = B;
+    }
+
+    public boolean getLight3() {
         return light3;
     }
 
-    public void setLight3(boolean lightEnabled) {
-        this.light3 = lightEnabled;
+    public void setLight3(boolean status) {
+        this.light3 = status;
+    }
+
+    public int[] getEmission() {
+        return this.emissionRGB;
+    }
+    public void setEmission(int[] rgb) {
+        this.emissionRGB = rgb;
+    }
+    public int getEmissionR() {
+        return emissionRGB[0];
+    }
+    public int getEmissionG() {
+        return emissionRGB[1];
+    }
+    public int getEmissionB() {
+        return emissionRGB[2];
+    }
+    public void setEmissionR(int R) {
+        this.emissionRGB[0] = R;
+    }
+    public void setEmissionG(int G) {
+        this.emissionRGB[1] = G;
+    }
+    public void setEmissionB(int B) {
+        this.emissionRGB[2] = B;
     }
 
     public int getColorFormat() {
@@ -265,7 +384,7 @@ public class TilesetMaterial {
         this.alwaysIncludeInImd = include;
     }
 
-    public boolean vertexColorsEnabled() {
+    public boolean areVertexColorsEnabled() {
         return vertexColorsEnabled;
     }
 

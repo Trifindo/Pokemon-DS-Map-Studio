@@ -241,7 +241,7 @@ public class MainFrame extends JFrame {
     }
 
     private void jmiExportMapAsImdActionPerformed(ActionEvent e) {
-        saveMapAsImdWithDialog();
+        singleObjToImdDialog();
     }
 
     private void jmiExportMapAsNsbActionPerformed(ActionEvent e) {
@@ -400,7 +400,7 @@ public class MainFrame extends JFrame {
     }
 
     private void jbExportImdActionPerformed(ActionEvent e) {
-        saveMapsAsImdWithDialog();
+        multipleObjsToImdDialog();
     }
 
     private void jbExportNsbActionPerformed(ActionEvent e) {
@@ -422,7 +422,7 @@ public class MainFrame extends JFrame {
     private void jbExportAndConvertAllActionPerformed(ActionEvent e) {
         boolean ret = saveMapsAsObjWithDialog(true);
         if (ret)
-            ret = saveMapsAsImdWithDialog();
+            ret = multipleObjsToImdDialog();
         if (ret)
             ret = saveMapsAsNsbWithDialog();
         if (ret)
@@ -432,7 +432,7 @@ public class MainFrame extends JFrame {
     private void jbExportAndConvertActionPerformed(ActionEvent e) {
         boolean ret = saveMapAsObjWithDialog(true);
         if (ret)
-            ret = saveMapAsImdWithDialog();
+            ret = singleObjToImdDialog();
         if (ret)
             saveMapAsNsbWithDialog();
     }
@@ -1001,7 +1001,7 @@ public class MainFrame extends JFrame {
                             Set<HashMap.Entry<Point, MapData>> areaEntrySet = singleAreaMap.entrySet();
 
                             handler.getMapMatrix().saveAreaToFile(areaFolderPath, areaEntrySet, area);
-                            saveTileset();
+                            writeTileset();
 
                             handler.getMapMatrix().saveCollisions(areaEntrySet);
                             handler.getMapMatrix().saveBacksounds(areaEntrySet);
@@ -1173,7 +1173,7 @@ public class MainFrame extends JFrame {
                 setTitle(handler.getMapName() + " - " + handler.getVersionName());
 
                 stringForTextThread = "Saving tileset and textures";
-                saveTileset();
+                writeTileset();
 
                 stringForTextThread = "Saving map files";
                 handler.getMapMatrix().saveCollisions(entrySet);
@@ -1221,7 +1221,7 @@ public class MainFrame extends JFrame {
                     setTitle(handler.getMapName() + " - " + handler.getVersionName());
 
                     stringForTextThread = "Saving tileset and textures";
-                    saveTileset();
+                    writeTileset();
                     saveMapThumbnail();
 
                     stringForTextThread = "Saving map files";
@@ -1263,7 +1263,7 @@ public class MainFrame extends JFrame {
                     File file = fc.getSelectedFile();
                     String path = file.getParent();
                     String filename = Utils.removeExtensionFromPath(file.getName()) + "." + Tileset.fileExtension;
-                    TilesetIO.saveTilesetToFile(path + File.separator + filename, handler.getTileset());
+                    TilesetIO.writeTilesetToFile(path + File.separator + filename, handler.getTileset());
                     handler.getTileset().saveImagesToFile(path);
 
                     saveTilesetThumbnail(path + File.separator + "TilesetThumbnail.png");
@@ -1437,12 +1437,12 @@ public class MainFrame extends JFrame {
         return false;
     }
 
-    public void saveTileset() throws FileNotFoundException, ParserConfigurationException, TransformerException, IOException {
+    public void writeTileset() throws FileNotFoundException, ParserConfigurationException, TransformerException, IOException {
         File file = new File(handler.getMapMatrix().filePath);
         String path = file.getParent();
 
         String filename = Utils.removeExtensionFromPath(file.getName()) + "." + Tileset.fileExtension;
-        TilesetIO.saveTilesetToFile(path + File.separator + filename, handler.getTileset());
+        TilesetIO.writeTilesetToFile(path + File.separator + filename, handler.getTileset());
         handler.getTileset().saveImagesToFile(path);
 
         saveTilesetThumbnail(path + File.separator + "TilesetThumbnail.png");
@@ -1506,7 +1506,7 @@ public class MainFrame extends JFrame {
         String filename = Utils.removeExtensionFromPath(file.getName()) + "." + BuildFile.fileExtension;
         handler.getBuildings().saveToFile(path + File.separator + filename);
     }*/
-    public boolean saveMapsAsImdWithDialog() {
+    public boolean multipleObjsToImdDialog() {
         if (handler.getTileset().size() == 0) {
             JOptionPane.showMessageDialog(this,
                     "There is no tileset loaded.\n"
@@ -1536,7 +1536,7 @@ public class MainFrame extends JFrame {
         return false;
     }
 
-    public boolean saveMapAsImdWithDialog() {
+    public boolean singleObjToImdDialog() {
         if (handler.getTileset().size() == 0) {
             JOptionPane.showMessageDialog(this,
                     "There is no tileset loaded.\n"

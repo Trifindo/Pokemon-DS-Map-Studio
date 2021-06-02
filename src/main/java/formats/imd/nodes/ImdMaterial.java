@@ -9,14 +9,14 @@ import java.util.ArrayList;
 /**
  * @author Trifindo
  */
-public class Material extends ImdNode {
+public class ImdMaterial extends ImdNode {
 
     private static final String[] texGenModes = {"none", "tex", "nrm", "pos"};
 
-    public Material(int index, String name, boolean[] lights, int alpha,
-                    boolean renderBorder, int texIndex, int palIndex,
-                    boolean doubleFaceRender, boolean fogEnabled, int texGenModeIndex,
-                    int texTilingU, int texTilingV) {
+    public ImdMaterial(int index, String name, boolean[] lights, int [][] lightProperties,
+                       int alpha, boolean renderBorder, int texIndex, int palIndex,
+                       boolean doubleFaceRender, boolean fogEnabled, int texGenModeIndex,
+                       int texTilingU, int texTilingV) {
         super("material");
 
         String faceType;
@@ -42,10 +42,10 @@ public class Material extends ImdNode {
             {
                 add(new ImdAttribute("index", index));
                 add(new ImdAttribute("name", name));//"mtl" + index));
-                add(new ImdAttribute("light0", lights[0]));
-                add(new ImdAttribute("light1", lights[1]));
-                add(new ImdAttribute("light2", lights[2]));
-                add(new ImdAttribute("light3", lights[3]));
+                add(new ImdAttribute("getLight0", lights[0]));
+                add(new ImdAttribute("getLight1", lights[1]));
+                add(new ImdAttribute("getLight2", lights[2]));
+                add(new ImdAttribute("getLight3", lights[3]));
                 add(new ImdAttribute("face", faceType));
                 add(new ImdAttribute("alpha", alpha)); //Check this
                 add(new ImdAttribute("wire_mode", false));
@@ -56,10 +56,10 @@ public class Material extends ImdNode {
                 add(new ImdAttribute("translucent_update_depth", false));
                 add(new ImdAttribute("render_1_pixel", false));
                 add(new ImdAttribute("far_clipping", false));
-                add(new ImdAttribute("diffuse", new int[]{25, 25, 25}));
-                add(new ImdAttribute("ambient", new int[]{31, 31, 31}));
-                add(new ImdAttribute("specular", new int[]{0, 0, 0}));
-                add(new ImdAttribute("emission", new int[]{0, 0, 0}));
+                add(new ImdAttribute("diffuse", lightProperties[0]));
+                add(new ImdAttribute("ambient", lightProperties[1]));
+                add(new ImdAttribute("specular", lightProperties[2]));
+                add(new ImdAttribute("emission", lightProperties[3]));
                 add(new ImdAttribute("shininess_table_flag", false));
                 add(new ImdAttribute("tex_image_idx", texIndex));
                 add(new ImdAttribute("tex_palette_idx", palIndex));
