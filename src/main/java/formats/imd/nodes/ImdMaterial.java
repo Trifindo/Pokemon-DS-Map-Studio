@@ -42,10 +42,10 @@ public class ImdMaterial extends ImdNode {
             {
                 add(new ImdAttribute("index", index));
                 add(new ImdAttribute("name", name));//"mtl" + index));
-                add(new ImdAttribute("getLight0", lights[0]));
-                add(new ImdAttribute("getLight1", lights[1]));
-                add(new ImdAttribute("getLight2", lights[2]));
-                add(new ImdAttribute("getLight3", lights[3]));
+                add(new ImdAttribute("light0", lights[0]));
+                add(new ImdAttribute("light1", lights[1]));
+                add(new ImdAttribute("light2", lights[2]));
+                add(new ImdAttribute("light3", lights[3]));
                 add(new ImdAttribute("face", faceType));
                 add(new ImdAttribute("alpha", alpha)); //Check this
                 add(new ImdAttribute("wire_mode", false));
