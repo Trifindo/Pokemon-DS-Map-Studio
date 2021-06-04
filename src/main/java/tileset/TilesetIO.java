@@ -64,6 +64,7 @@ public class TilesetIO {
     private static final byte TAG_GLOBALTEXSCALE = 28;
     private static final byte TAG_XOFFSET = 38;
     private static final byte TAG_YOFFSET = 39;
+    private static final byte TAG_ZOFFSET = 23; //40 and 37 were already taken
     private static final byte TAG_VCOORDS = 15;
     private static final byte TAG_TCOORDS = 16;
     private static final byte TAG_NCOORDS = 22;
@@ -139,6 +140,7 @@ public class TilesetIO {
             writeFloatElement(out, TAG_GLOBALTEXSCALE, tile.getGlobalTextureScale());
             writeFloatElement(out, TAG_XOFFSET, tile.getXOffset());
             writeFloatElement(out, TAG_YOFFSET, tile.getYOffset());
+            writeFloatElement(out, TAG_ZOFFSET, tile.getZOffset());
             writeFloatElement(out, TAG_VCOORDS, tile.getVertexCoordsObj());
             writeFloatElement(out, TAG_TCOORDS, tile.getTextureCoordsObj());
             writeFloatElement(out, TAG_NCOORDS, tile.getNormalCoordsObj());
@@ -334,6 +336,9 @@ public class TilesetIO {
                     break;
                 case TAG_YOFFSET:
                     tile.setYOffset(readFloatElement(in));
+                    break;
+                case TAG_ZOFFSET:
+                    tile.setZOffset(readFloatElement(in));
                     break;
                 case TAG_VCOORDS:
                     tile.setVertexCoordsObj(readFloatArray(in));

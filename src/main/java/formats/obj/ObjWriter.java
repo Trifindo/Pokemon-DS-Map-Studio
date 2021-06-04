@@ -369,12 +369,14 @@ public class ObjWriter {
     private void moveTile(Tile tile) {
         ArrayList<Float> vertexCoords = tile.getVertexCoordsObj();
         int numVertex = vertexCoords.size() / 3;
-        if (tile.getXOffset() != 0.0f || tile.getYOffset() != 0.0f) {
+        if (tile.getXOffset() != 0.0f || tile.getYOffset() != 0.0f || tile.getZOffset() != 0.0f) {
             for (int i = 0; i < numVertex; i++) {
                 float xValue = vertexCoords.get(i * 3) + tile.getXOffset();
                 float yValue = vertexCoords.get(i * 3 + 1) + tile.getYOffset();
+                float zValue = vertexCoords.get(i * 3 + 2) + tile.getZOffset();
                 vertexCoords.set(i * 3, xValue);
                 vertexCoords.set(i * 3 + 1, yValue);
+                vertexCoords.set(i * 3 + 2, zValue);
             }
         }
     }

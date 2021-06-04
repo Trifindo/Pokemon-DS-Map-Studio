@@ -137,7 +137,7 @@ public class MapLayerGL {
                         float[] offset = new float[]{
                                 (i - (MapGrid.cols) / 2) + tile.getXOffset(),
                                 (j - (MapGrid.rows) / 2) + tile.getYOffset(),
-                                heightGrid[i][j]
+                                heightGrid[i][j] + tile.getZOffset(),
                         };
 
                         float[] scale = new float[]{

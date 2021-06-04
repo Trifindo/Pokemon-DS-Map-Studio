@@ -43,6 +43,7 @@ public class Tile {
     private float globalTexScale;
     private float xOffset;
     private float yOffset;
+    private float zOffset;
 
     private String folderPath;
     private String objFilename;
@@ -78,7 +79,7 @@ public class Tile {
                 int width, int height, boolean xTileable, boolean yTileable,
                 boolean uTileable, boolean vTileable,
                 boolean globalTexMapping, float globalTexScale,
-                float xOffset, float yOffset)
+                float xOffset, float yOffset, float zOffset)
             throws IOException, TextureNotFoundException,
             NormalsNotFoundException {
 
@@ -99,6 +100,7 @@ public class Tile {
         this.globalTexScale = globalTexScale;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
+        this.zOffset = zOffset;
 
         loadFromObj(folderPath, objFilename);
 
@@ -108,7 +110,8 @@ public class Tile {
             TextureNotFoundException, NormalsNotFoundException {
         this(tileset, new File(filePath).getParent(),
                 new File(filePath).getName(), 1, 1, false,
-                false, false, false, false, 1.0f, 0.0f, 0.0f);
+                false, false, false, false, 1.0f,
+                0.0f, 0.0f, 0.0f);
     }
 
     public Tile(Tileset tileset, String filePath, Tile tile) throws IOException,
@@ -119,7 +122,7 @@ public class Tile {
                 tile.isUtileable(), tile.isVtileable(),
                 tile.useGlobalTextureMapping(),
                 tile.getGlobalTextureScale(),
-                tile.getXOffset(), tile.getYOffset());
+                tile.getXOffset(), tile.getYOffset(), tile.getZOffset());
     }
 
     public Tile() {
@@ -153,6 +156,7 @@ public class Tile {
         tile.globalTexScale = globalTexScale;
         tile.xOffset = xOffset;
         tile.yOffset = yOffset;
+        tile.zOffset = zOffset;
 
         tile.folderPath = folderPath;
         tile.objFilename = objFilename;
@@ -199,6 +203,7 @@ public class Tile {
         tile.globalTexScale = globalTexScale;
         tile.xOffset = xOffset;
         tile.yOffset = yOffset;
+        tile.zOffset = zOffset;
 
         tile.folderPath = folderPath;
         tile.objFilename = objFilename;
@@ -231,6 +236,7 @@ public class Tile {
         hash = 11 * hash + Float.floatToIntBits(this.globalTexScale);
         hash = 11 * hash + Float.floatToIntBits(this.xOffset);
         hash = 11 * hash + Float.floatToIntBits(this.yOffset);
+        hash = 11 * hash + Float.floatToIntBits(this.zOffset);
         hash = 11 * hash + Objects.hashCode(this.objFilename);
         hash = 11 * hash + Objects.hashCode(this.vCoordsObj);
         hash = 11 * hash + Objects.hashCode(this.tCoordsObj);
@@ -282,6 +288,9 @@ public class Tile {
             return false;
         }
         if (Float.floatToIntBits(this.yOffset) != Float.floatToIntBits(other.yOffset)) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.zOffset) != Float.floatToIntBits(other.zOffset)) {
             return false;
         }
         if (!Objects.equals(this.objFilename, other.objFilename)) {
@@ -341,6 +350,9 @@ public class Tile {
             return false;
         }
         if (Float.floatToIntBits(this.yOffset) != Float.floatToIntBits(other.yOffset)) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.zOffset) != Float.floatToIntBits(other.zOffset)) {
             return false;
         }
         if (!Objects.equals(this.objFilename, other.objFilename)) {
@@ -1285,6 +1297,14 @@ public class Tile {
 
     public void setYOffset(float yOffset) {
         this.yOffset = yOffset;
+    }
+
+    public float getZOffset() {
+        return zOffset;
+    }
+
+    public void setZOffset(float zOffset) {
+        this.zOffset = zOffset;
     }
 
     public void printTileData(PrintWriter writer) {

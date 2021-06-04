@@ -65,6 +65,7 @@ public class TilesetEditorDialog extends JDialog {
     private MutableBoolean jtfGlobalTexScaleActive = new MutableBoolean(true);
     private MutableBoolean jtfXOffsetActive = new MutableBoolean(true);
     private MutableBoolean jtfYOffsetActive = new MutableBoolean(true);
+    private MutableBoolean jtfZOffsetActive = new MutableBoolean(true);
     private boolean jlTileMaterialsEnabled = true;
 
     private static final Color redColor = new Color(255, 200, 200);
@@ -94,6 +95,7 @@ public class TilesetEditorDialog extends JDialog {
         addListenerToJTextField(jtfGlobalTexScale, jtfGlobalTexScaleActive);
         addListenerToJTextField(jtfXOffset, jtfXOffsetActive);
         addListenerToJTextField(jtfYOffset, jtfYOffsetActive);
+        addListenerToJTextField(jtfZOffset, jtfZOffsetActive);
     }
 
     private void tileSelectorMousePressed(MouseEvent e) {
@@ -617,6 +619,12 @@ public class TilesetEditorDialog extends JDialog {
         }
     }
 
+    private void jbZOffsetActionPerformed(ActionEvent evt) {
+        if (handler.getTileset().size() > 0) {
+            changeZOffset();
+        }
+    }
+
     private void jbReplaceMaterialActionPerformed(ActionEvent evt) {
         if (handler.getTileset().size() > 0) {
             replaceMaterial();
@@ -1023,6 +1031,7 @@ public class TilesetEditorDialog extends JDialog {
 
             updateViewXOffset(tile);
             updateViewYOffset(tile);
+            updateViewZOffset(tile);
             updateViewGlobalTexScale(tile);
 
             jtfObjName.setText(tile.getObjFilename());
@@ -1114,6 +1123,14 @@ public class TilesetEditorDialog extends JDialog {
         jtfYOffset.setBackground(defaultTextPaneBackground);
         jtfYOffset.setForeground(defaultTextPaneForeground);
         jtfYOffsetActive.value = true;
+    }
+
+    private void updateViewZOffset(Tile tile) {
+        jtfZOffsetActive.value = false;
+        jtfZOffset.setText(String.valueOf(tile.getZOffset()));
+        jtfZOffset.setBackground(defaultTextPaneBackground);
+        jtfZOffset.setForeground(defaultTextPaneForeground);
+        jtfZOffsetActive.value = true;
     }
 
     private void updateViewGlobalTexScale(Tile tile) {
@@ -1445,6 +1462,21 @@ public class TilesetEditorDialog extends JDialog {
         jtfYOffsetActive.value = true;
     }
 
+    private void changeZOffset() {
+        float value;
+        try {
+            value = Float.valueOf(jtfZOffset.getText());
+        } catch (NumberFormatException e) {
+            value = handler.getTileSelected().getZOffset();
+        }
+        handler.getTileSelected().setZOffset(value);
+        jtfZOffset.setText(String.valueOf(value));
+        jtfZOffsetActive.value = false;
+        jtfZOffset.setBackground(greenColor);
+        jtfZOffset.setForeground(Color.black);
+        jtfZOffsetActive.value = true;
+    }
+
     private void changeMaterialName() {
         String mName = jtfMaterialName.getText();
         int index = jlistINames.getSelectedIndex();
@@ -1617,12 +1649,15 @@ public class TilesetEditorDialog extends JDialog {
         jcbTileableY = new JCheckBox();
         jcbVtileable = new JCheckBox();
         panel3 = new JPanel();
-        jLabel14 = new JLabel();
+        jlXOffset = new JLabel();
         jtfXOffset = new JTextField();
         jbXOffset = new JButton();
-        jLabel15 = new JLabel();
+        jlYOffset = new JLabel();
         jtfYOffset = new JTextField();
         jbYOffset = new JButton();
+        jlZOffset = new JLabel();
+        jtfZOffset = new JTextField();
+        jbZOffset = new JButton();
         panel5 = new JPanel();
         jcbGlobalTexMapping = new JCheckBox();
         jLabel10 = new JLabel();
@@ -2354,12 +2389,12 @@ public class TilesetEditorDialog extends JDialog {
                                 "[fill]"));
 
                         //---- jLabel14 ----
-                        jLabel14.setForeground(new Color(204, 0, 0));
-                        jLabel14.setText("X Offset: ");
-                        jLabel14.setMaximumSize(null);
-                        jLabel14.setMinimumSize(null);
-                        jLabel14.setPreferredSize(null);
-                        panel3.add(jLabel14, "cell 0 0");
+                        jlXOffset.setForeground(new Color(204, 0, 0));
+                        jlXOffset.setText("X Offset: ");
+                        jlXOffset.setMaximumSize(null);
+                        jlXOffset.setMinimumSize(null);
+                        jlXOffset.setPreferredSize(null);
+                        panel3.add(jlXOffset, "cell 0 0");
 
                         //---- jtfXOffset ----
                         jtfXOffset.setText(" ");
@@ -2378,12 +2413,12 @@ public class TilesetEditorDialog extends JDialog {
                         panel3.add(jbXOffset, "cell 2 0");
 
                         //---- jLabel15 ----
-                        jLabel15.setForeground(new Color(0, 153, 0));
-                        jLabel15.setText("Y Offset: ");
-                        jLabel15.setMaximumSize(null);
-                        jLabel15.setMinimumSize(null);
-                        jLabel15.setPreferredSize(null);
-                        panel3.add(jLabel15, "cell 3 0");
+                        jlYOffset.setForeground(new Color(0, 153, 0));
+                        jlYOffset.setText("Y Offset: ");
+                        jlYOffset.setMaximumSize(null);
+                        jlYOffset.setMinimumSize(null);
+                        jlYOffset.setPreferredSize(null);
+                        panel3.add(jlYOffset, "cell 3 0");
 
                         //---- jtfYOffset ----
                         jtfYOffset.setText(" ");
@@ -2399,6 +2434,29 @@ public class TilesetEditorDialog extends JDialog {
                         jbYOffset.setPreferredSize(null);
                         jbYOffset.addActionListener(e -> jbYOffsetActionPerformed(e));
                         panel3.add(jbYOffset, "cell 5 0");
+
+                        //---- jLabelZoffset ----
+                        jlZOffset.setForeground(new Color(0, 0, 200));
+                        jlZOffset.setText("Z Offset: ");
+                        jlZOffset.setMaximumSize(null);
+                        jlZOffset.setMinimumSize(null);
+                        jlZOffset.setPreferredSize(null);
+                        panel3.add(jlZOffset, "cell 6 0");
+
+                        //---- jtfYOffset ----
+                        jtfZOffset.setText(" ");
+                        jtfZOffset.setMaximumSize(null);
+                        jtfZOffset.setMinimumSize(null);
+                        jtfZOffset.setPreferredSize(null);
+                        panel3.add(jtfZOffset, "cell 7 0");
+
+                        //---- jbYOffset ----
+                        jbZOffset.setText("Apply");
+                        jbZOffset.setMaximumSize(null);
+                        jbZOffset.setMinimumSize(null);
+                        jbZOffset.setPreferredSize(null);
+                        jbZOffset.addActionListener(e -> jbZOffsetActionPerformed(e));
+                        panel3.add(jbZOffset, "cell 8 0");
                     }
                     jPanel5.add(panel3, "cell 0 1 2 1");
 
@@ -3374,12 +3432,15 @@ public class TilesetEditorDialog extends JDialog {
     private JCheckBox jcbTileableY;
     private JCheckBox jcbVtileable;
     private JPanel panel3;
-    private JLabel jLabel14;
+    private JLabel jlXOffset;
     private JTextField jtfXOffset;
     private JButton jbXOffset;
-    private JLabel jLabel15;
+    private JLabel jlYOffset;
     private JTextField jtfYOffset;
     private JButton jbYOffset;
+    private JLabel jlZOffset;
+    private JTextField jtfZOffset;
+    private JButton jbZOffset;
     private JPanel panel5;
     private JCheckBox jcbGlobalTexMapping;
     private JLabel jLabel10;

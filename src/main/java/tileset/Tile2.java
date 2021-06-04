@@ -31,6 +31,7 @@ public class Tile2 {
     private float globalTexScale;
     private float xOffset;
     private float yOffset;
+    private float zOffset;
 
     //Path and OBJ file name
     private String folderPath;
@@ -49,7 +50,7 @@ public class Tile2 {
                  int width, int height, boolean xTileable, boolean yTileable,
                  boolean uTileable, boolean vTileable,
                  boolean globalTexMapping, float globalTexScale,
-                 float xOffset, float yOffset)
+                 float xOffset, float yOffset, float zOffset)
             throws IOException, TextureNotFoundException,
             NormalsNotFoundException {
 
@@ -70,6 +71,7 @@ public class Tile2 {
         this.globalTexScale = globalTexScale;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
+        this.zOffset = zOffset;
 
         //loadFromObj(folderPath, objFilename);
     }
