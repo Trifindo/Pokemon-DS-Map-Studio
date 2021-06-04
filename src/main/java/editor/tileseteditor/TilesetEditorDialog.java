@@ -1748,6 +1748,7 @@ public class TilesetEditorDialog extends JDialog {
         setTitle("Tileset Editor");
         setIconImage(null);
         setMinimumSize(new Dimension(1215, 650));
+        setPreferredSize(new Dimension(1565, 700));
         setModal(true);
         Container contentPane = getContentPane();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
@@ -2092,7 +2093,7 @@ public class TilesetEditorDialog extends JDialog {
 
         //======== jTabbedPane1 ========
         {
-            jTabbedPane1.setMinimumSize(null);
+            jTabbedPane1.setMinimumSize(new Dimension(650, 0));
             jTabbedPane1.setMaximumSize(null);
             jTabbedPane1.setPreferredSize(null);
 
@@ -2380,10 +2381,13 @@ public class TilesetEditorDialog extends JDialog {
                                 "insets 0,hidemode 3,gap 5 5",
                                 // columns
                                 "[fill]" +
-                                        "[133:n,grow,fill]" +
+                                        "[10:n,grow,shrinkprio 80,shrink 80,fill]" +
                                         "[fill]" +
-                                        "[54:n,fill]" +
-                                        "[117:n,grow,fill]" +
+                                        "[fill]" +
+                                        "[10:n,grow,shrinkprio 80,shrink 80,fill]" +
+                                        "[fill]" +
+                                        "[fill]" +
+                                        "[10:n,grow,shrinkprio 80,shrink 80,fill]" +
                                         "[fill]",
                                 // rows
                                 "[fill]"));
@@ -2436,7 +2440,7 @@ public class TilesetEditorDialog extends JDialog {
                         panel3.add(jbYOffset, "cell 5 0");
 
                         //---- jLabelZoffset ----
-                        jlZOffset.setForeground(new Color(0, 0, 200));
+                        jlZOffset.setForeground(new Color(0, 100, 255));
                         jlZOffset.setText("Z Offset: ");
                         jlZOffset.setMaximumSize(null);
                         jlZOffset.setMinimumSize(null);
@@ -3304,7 +3308,7 @@ public class TilesetEditorDialog extends JDialog {
             }
         }
     }
-/////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////
     private void jSpinnerDGStateChanged(ChangeEvent e) {
         if (handler.getTileset().size() > 0) {
             int value = (int) jSpinnerDG.getValue();
