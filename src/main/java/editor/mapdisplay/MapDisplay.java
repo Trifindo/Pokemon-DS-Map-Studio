@@ -87,6 +87,10 @@ import java.util.Map;
 import java.util.Set;
 import javax.swing.SwingUtilities;
 
+import math.mat.Mat4f;
+import math.transf.TransfMat;
+import math.vec.Vec3f;
+import math.vec.Vec4f;
 import tileset.Tile;
 import utils.ImageTiler;
 import utils.Utils;
@@ -124,6 +128,15 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     protected float targetX, targetY, targetZ;
     protected float cameraRotX, cameraRotY, cameraRotZ;
     protected static final float defaultCamRotX = 40.0f, defaultCamRotY = 0.0f, defaultCamRotZ = 0.0f;
+    protected Mat4f camModelView = new Mat4f();
+    protected Mat4f camProj = new Mat4f();
+    protected Mat4f camMVP = new Mat4f();
+    protected final Vec4f[] cornerDeltas = new Vec4f[]{
+            new Vec4f(-MapGrid.cols / 2, -MapGrid.rows / 2, 0.0f, 0.0f),
+            new Vec4f(+MapGrid.cols / 2, -MapGrid.rows / 2, 0.0f, 0.0f),
+            new Vec4f(+MapGrid.cols / 2, +MapGrid.rows / 2, 0.0f, 0.0f),
+            new Vec4f(-MapGrid.cols / 2, +MapGrid.rows / 2, 0.0f, 0.0f)
+    };
 
     //Scene displays
     protected boolean drawGridEnabled = true;
@@ -236,6 +249,22 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         GL2 gl = drawable.getGL().getGL2();
 
         gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        applyCameraTransform(gl);
+
+        /*
+        gl.glPushMatrix();
+        gl.glLoadIdentity();
+
+        Vec3f point = new Vec4f(8.0f, 8.0f, 0.0f, 1.0f).mul(camMVP).toVec3f();
+        gl.glPointSize(5.0f);
+
+        gl.glBegin(GL2.GL_POINTS);
+        gl.glVertex2f(point.x, point.y);
+        gl.glEnd();
+
+        gl.glPopMatrix();
+        //point.print();*/
 
         if (updateRequested) {
 
@@ -616,7 +645,9 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     }
 
     protected void drawGrid(GL2 gl, float x, float y, float z, float r, float g, float b, float a) {
-        applyCameraTransform(gl);
+        //applyCameraTransform(gl);
+
+        gl.glPushMatrix();
 
         gl.glTranslatef(x, y, z);
 
@@ -632,6 +663,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         drawLines(gl, gridBuffer);
 
         gl.glColor4f(1, 1, 1, 1);
+
+        gl.glPopMatrix();
     }
 
     protected void drawGridBorderMaps(GL2 gl) {
@@ -656,7 +689,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     protected void drawAxis() {
         GL2 gl = (GL2) GLContext.getCurrentGL();
 
-        applyCameraTransform(gl);
+        //applyCameraTransform(gl);
 
         gl.glDisable(GL_TEXTURE_2D);
 
@@ -684,9 +717,11 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glEnable(GL_ALPHA_TEST);
         gl.glAlphaFunc(GL_GREATER, 0.9f);
 
+        //long before = System.nanoTime();
         drawAllMaps(gl, (gl2, geometryGL, textures) -> {
             drawGeometryGL(gl2, geometryGL, textures);
         });
+        //System.out.println("Elapsed: " + (System.nanoTime() - before));
     }
 
     protected void drawTransparentMaps(GL2 gl) {
@@ -728,11 +763,75 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     }
 
     protected void drawAllMaps(GL2 gl, DrawGeometryGLFunction drawFunction) {
+
+
         for (HashMap.Entry<Point, MapData> map : handler.getMapMatrix().getMatrix().entrySet()) {
+
             drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL,
                     map.getKey().x * cols, -map.getKey().y * rows, 0);
-            /*drawAllMapLayersGL(gl, map.getValue().getGrid().mapLayersGL,
-                    map.getKey().x * cols, -map.getKey().y * rows, 0);*/
+
+
+            /*
+            //Simple optimization culling map corners
+            for(Vec4f cornerDelta : cornerDeltas){
+                Vec3f mapCenter = new Vec4f(
+                        map.getKey().x * MapGrid.cols,
+                        -map.getKey().y * MapGrid.rows,
+                        0.0f,
+                        1.0f).add(cornerDelta).mul(camMVP).toVec3f();
+
+                gl.glPushMatrix();
+                gl.glLoadIdentity();
+
+                gl.glPointSize(5.0f);
+
+                gl.glBegin(GL2.GL_POINTS);
+                gl.glVertex2f(mapCenter.x, mapCenter.y);
+                gl.glEnd();
+
+                gl.glPopMatrix();
+
+                if (mapCenter.x > -1.0f && mapCenter.x < 1.0f && mapCenter.y > -1.0f && mapCenter.y < 1.0f && mapCenter.z > 0.0f) {
+                    drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL,
+                            map.getKey().x * cols, -map.getKey().y * rows, 0);
+                    break;
+                }
+            }
+            */
+
+
+            /*
+            //Simple optimization culling map centers
+            Vec3f mapCenter = new Vec4f(
+                    map.getKey().x * MapGrid.cols,
+                    -map.getKey().y * MapGrid.rows,
+                    0.0f,
+                    1.0f).mul(camMVP).toVec3f();
+
+
+
+            gl.glPushMatrix();
+            gl.glLoadIdentity();
+
+            gl.glPointSize(5.0f);
+
+            gl.glBegin(GL2.GL_POINTS);
+            gl.glVertex2f(mapCenter.x, mapCenter.y);
+            gl.glEnd();
+
+            gl.glPopMatrix();
+
+
+            if (mapCenter.x > -1.0f && mapCenter.x < 1.0f && mapCenter.y > -1.0f && mapCenter.y < 1.0f && mapCenter.z > 0.0f) {
+                drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL,
+                        map.getKey().x * cols, -map.getKey().y * rows, 0);
+            }
+            */
+
+            /*
+            drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL,
+                    map.getKey().x * cols, -map.getKey().y * rows, 0);
+            */
         }
     }
 
@@ -747,7 +846,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     }
 
     protected void drawMapLayerGL(GL2 gl, DrawGeometryGLFunction drawFunction, MapLayerGL mapLayerGL, float x, float y, float z) {
-        applyCameraTransform(gl);
+        //applyCameraTransform(gl);
+        gl.glPushMatrix();
 
         gl.glTranslatef(x, y, z);
 
@@ -755,6 +855,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             drawFunction.draw(gl, geometryGL, handler.getTileset().getTextures());
             //drawGeometryGL(gl, geometryGL, handler.getTileset().getTextures());
         }
+
+        gl.glPopMatrix();
     }
 
     protected void drawGeometryGL(GL2 gl, GeometryGL geometryGL, ArrayList<Texture> textures) {
@@ -889,7 +991,9 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glDisable(GL_TEXTURE_2D);
         gl.glLineWidth(3f);
 
-        applyCameraTransform(gl);
+        //applyCameraTransform(gl);
+        gl.glPushMatrix();
+
         gl.glTranslatef(-cols / 2, rows / 2, 0.025f);
         gl.glScalef(cols, -rows, 1.0f);
 
@@ -906,6 +1010,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         }
 
         gl.glLineWidth(1f);
+
+        gl.glPopMatrix();
     }
 
     protected void drawLines(GL2 gl, FloatBuffer vCoordsPoints) {
@@ -922,6 +1028,16 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     }
 
+    public static void rotToDir(Vec3f rot, Vec3f dir) {
+        dir.mul(TransfMat.eulerDegToMat_(rot));
+    }
+
+    public static Vec3f rotToDir_(Vec3f angles) {
+        Vec3f dir = new Vec3f(0.0f, 0.0f, -1.0f);
+        rotToDir(angles, dir);
+        return dir;
+    }
+
     protected void applyCameraTransform(GL2 gl) {
         gl.glLoadIdentity();
 
@@ -936,6 +1052,27 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glRotatef(-cameraRotZ, 0.0f, 0.0f, 1.0f);
 
         gl.glTranslatef(-cameraX, -cameraY, 0.0f);
+
+
+        Mat4f rx = TransfMat.rotationDeg_(-cameraRotX, new Vec3f(1.0f, 0.0f, 0.0f));
+        Mat4f ry = TransfMat.rotationDeg_(-cameraRotY, new Vec3f(0.0f, 1.0f, 0.0f));
+        Mat4f rz = TransfMat.rotationDeg_(-cameraRotZ, new Vec3f(0.0f, 0.0f, 1.0f));
+        Vec3f tarPos = new Vec3f(cameraX, cameraY, 0.0f);
+        Vec3f camDir = rotToDir_(new Vec3f(cameraRotX, cameraRotY, cameraRotZ));
+        Vec3f camPos = tarPos.add_(camDir.negate_().scale_(cameraZ));
+        Mat4f t = TransfMat.translation_(camPos.negate_());
+        camModelView = rx.mul_(ry).mul(rz).mul(t);
+        camProj = TransfMat.perspective_(60.0f, (float) getWidth() / getHeight(), 1.0f, 1000.0f);
+        camMVP = camProj.mul_(camModelView);
+
+        /*
+        System.out.println("MODELVIEW: ");
+        camModelView.print();
+        System.out.println("PROJECTION: ");
+        camProj.print();*/
+
+        //new Vec3f(cameraX, cameraY, cameraZ).print();
+        //rotToDir_(new Vec3f(cameraRotX, cameraRotY, cameraRotZ)).print();
 
     }
 
@@ -1351,8 +1488,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         }
     }
 
-    public float getAspectRatio(){
-        return (float)getWidth() / getHeight();
+    public float getAspectRatio() {
+        return (float) getWidth() / getHeight();
     }
 
     boolean checkOpenGLError() {

@@ -133,6 +133,7 @@ public class View3dMode extends ViewMode {
         } else {
             d.glu.gluPerspective(60.0f, aspect, 1.0f + (d.cameraZ - 40.0f) / 4, 1000.0f + (d.cameraZ - 40.0f));
         }
+
     }
 
     @Override

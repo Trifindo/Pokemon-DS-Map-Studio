@@ -18,7 +18,7 @@ dependencies {
     implementation group: 'com.miglayout', name: 'miglayout-swing', version: '5.0'
 }
 
-version '2.1'
+version '2.2'
 mainClassName = "editor.MainFrame"
 
 compileJava.options.encoding = 'UTF-8'
