@@ -250,6 +250,9 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
         gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        //gl.glLoadIdentity();
+        //lighting(gl);
+
         applyCameraTransform(gl);
 
         /*
@@ -278,13 +281,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         }
 
         try {
-            //Draw grid
-            if (drawGridEnabled) {
-                drawGridMaps(gl);
-            }
 
-            //Draw axis
-            drawAxis();
+            //gl.glEnable(GL2.GL_LIGHTING);
 
             //Draw opaque tiles
             if (handler.getTileset().size() > 0) {
@@ -295,6 +293,16 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             if (handler.getTileset().size() > 0) {
                 drawTransparentMaps(gl);
             }
+
+            //gl.glDisable(GL2.GL_LIGHTING);
+
+            //Draw grid
+            if (drawGridEnabled) {
+                drawGridMaps(gl);
+            }
+
+            //Draw axis
+            drawAxis();
 
             if (drawWireframeEnabled) {
                 if (handler.getTileset().size() > 0) {
@@ -879,16 +887,19 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                     gl.glEnableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
                     gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
                     gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
+                    //gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
 
                     gl.glTexCoordPointer(2, GL2.GL_FLOAT, 0, geometryGL.tCoordsTriBuffer);
                     gl.glColorPointer(3, GL2.GL_FLOAT, 0, geometryGL.colorsTriBuffer);
                     gl.glVertexPointer(3, GL2.GL_FLOAT, 0, geometryGL.vCoordsTriBuffer);
+                    //gl.glNormalPointer(GL2.GL_FLOAT, 0, geometryGL.nCoordsTriBuffer);
 
                     gl.glDrawArrays(GL2.GL_TRIANGLES, 0, geometryGL.vCoordsTri.length / 3);
 
                     gl.glDisableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
                     gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
                     gl.glDisableClientState(GL2.GL_COLOR_ARRAY);
+                    //gl.glDisableClientState(GL2.GL_NORMAL_ARRAY);
 
                 } catch (Exception ex) {
                     gl.glBegin(GL_TRIANGLES);
@@ -907,16 +918,19 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                     gl.glEnableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
                     gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
                     gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
+                    //gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
 
                     gl.glTexCoordPointer(2, GL2.GL_FLOAT, 0, geometryGL.tCoordsQuadBuffer);
                     gl.glColorPointer(3, GL2.GL_FLOAT, 0, geometryGL.colorsQuadBuffer);
                     gl.glVertexPointer(3, GL2.GL_FLOAT, 0, geometryGL.vCoordsQuadBuffer);
+                    //gl.glNormalPointer(GL2.GL_FLOAT, 0, geometryGL.nCoordsQuadBuffer);
 
                     gl.glDrawArrays(GL2.GL_QUADS, 0, geometryGL.vCoordsQuad.length / 3);
 
                     gl.glDisableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
                     gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
                     gl.glDisableClientState(GL2.GL_COLOR_ARRAY);
+                    //gl.glDisableClientState(GL2.GL_NORMAL_ARRAY);
 
                 } catch (Exception ex) {
                     gl.glBegin(GL_QUADS);
@@ -1039,9 +1053,12 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     }
 
     protected void applyCameraTransform(GL2 gl) {
+        gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-
         viewMode.applyCameraTransform(this, gl);
+
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glLoadIdentity();
         glu.gluLookAt(
                 0.0f, 0.0f, cameraZ,
                 0.0f, 0.0f, 0.0f,
@@ -1565,6 +1582,28 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             handler.setActiveTileLayer(layerIndex);
         }
         handler.getMainFrame().getThumbnailLayerSelector().repaint();
+    }
+
+    private void lighting(GL2 gl) {
+        //gl.glEnable(GL2.GL_LIGHTING);
+        //gl.glEnable (GL2.GL_COLOR_MATERIAL ) ;
+        //gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, new float[]{1.0f, 1.0f, 1.0f, 0.0f}, 0);
+        //gl.glLightModelfv(GL2.GL_LIGHT_MODEL_LOCAL_VIEWER, new float[]{1.0f, 0.0f, 1.0f, 0.0f}, 0);
+        gl.glLightModelfv(GL2.GL_LIGHT_MODEL_LOCAL_VIEWER, new float[]{1.0f, 0.0f, 1.0f, 0.0f}, 0);
+
+        //gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, new float[]{0.2f, 0.2f, 0.2f, 0.0f}, 0);
+        //gl.glMaterialf(GL2.GL_FRONT_AND_BACK, GL2.GL_SHININESS, 55.0f);
+
+        gl.glEnable(GL2.GL_LIGHT0);
+        //gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, new float[]{1.0f, 1.0f, 1.0f, 0.0f}, 0);
+        //gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, new float[]{-1.0f, 1.0f, 1.0f, 0.0f}, 0);
+        //gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, new float[]{1.0f, 1.0f, 1.0f, 1.0f}, 0);
+        //gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPECULAR, new float[]{1.0f, 1.0f, 1.0f, 0.0f}, 0);
+
+        gl.glEnable(GL2.GL_LIGHT1);
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, new float[]{0.8f, 0.8f, 0.8f, 0.0f}, 0);
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, new float[]{1.0f, -1.0f, -1.0f, 1.0f}, 0);
+
     }
 
     public void requestScreenshot() {

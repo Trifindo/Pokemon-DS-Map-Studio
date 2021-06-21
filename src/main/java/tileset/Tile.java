@@ -74,6 +74,10 @@ public class Tile {
     private BufferedImage thumbnail;
     private BufferedImage smallThumbnail;
 
+    //Bounds
+    private float[] boundsPos;
+    private float[] boundsSca;
+
     public Tile(Tileset tileset, String folderPath, String objFilename,
                 int width, int height, boolean xTileable, boolean yTileable,
                 boolean uTileable, boolean vTileable,
@@ -1049,6 +1053,20 @@ public class Tile {
 
     private boolean areSameEdgeCoordInds(int[] coords1, int[] coords2, int ind1, int ind2) {//UNFINISHED
         return coords1[ind1] == coords2[(ind2 + 1) % coords2.length] && coords1[ind1 + 1] % coords1.length == coords2[ind2];
+    }
+
+    //Code for frustum culling?
+    protected void calculateBounds(){
+        float[] min = new float[]{+Float.MAX_VALUE, +Float.MAX_VALUE, +Float.MAX_VALUE};
+        float[] max = new float[]{-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE};
+
+        for(int i = 0, j = 0; i < vCoordsObj.size(); i++, j = i % 3){
+            if(vCoordsObj.get(i) < min[j]){
+                min[j] = vCoordsObj.get(i);
+            }else if(vCoordsObj.get(i) > max[j]){
+                max[j] = vCoordsObj.get(i);
+            }
+        }
     }
 
     public void updateObjData() {

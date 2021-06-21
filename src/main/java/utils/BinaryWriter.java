@@ -99,4 +99,13 @@ public class BinaryWriter {
         writeUInt16(fullData, offset + 2, (int) intValue);
     }
 
+    public static void writeString(byte[] fullData, int offset, String string) throws Exception{
+        byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+        System.arraycopy(bytes, 0, fullData, offset, bytes.length);
+    }
+
+    public static void writeBytes(byte[] fullData, int offset, byte[] bytes){
+        System.arraycopy(bytes, 0, fullData, offset, bytes.length);
+    }
+
 }

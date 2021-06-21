@@ -969,6 +969,8 @@ public class MainFrame extends JFrame {
             handler.getMapMatrix().saveBDHCs();
             handler.getMapMatrix().saveBdhcams();
             handler.getMapMatrix().saveBuildings();
+
+            handler.getMapMatrix().saveBinaryMaps();
             //saveBdhc();
             //saveBacksound();
             //saveCollisions();
@@ -1005,6 +1007,8 @@ public class MainFrame extends JFrame {
                 handler.getMapMatrix().saveBDHCs();
                 handler.getMapMatrix().saveBdhcams();
                 handler.getMapMatrix().saveBuildings();
+
+                handler.getMapMatrix().saveBinaryMaps();
                 //saveCollisions();
                 //saveBacksound();
                 //saveBdhc();
