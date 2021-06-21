@@ -5,6 +5,7 @@ import com.jogamp.opengl.GL2;
 import editor.state.MapLayerState;
 import graphicslib3D.Matrix3D;
 import graphicslib3D.Vector3D;
+import math.vec.Vec3f;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -47,5 +48,11 @@ public abstract class ViewMode {
     public abstract void setCameraAtMap(MapDisplay d);
 
     public abstract ViewID getViewID();
+
+    public abstract Vec3f[][] getFrustumPlanes(MapDisplay d);
+
+    public abstract float getZNear(MapDisplay d);
+
+    public abstract float getZFar(MapDisplay d);
 
 }

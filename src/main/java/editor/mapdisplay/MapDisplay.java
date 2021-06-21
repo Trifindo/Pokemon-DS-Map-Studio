@@ -137,6 +137,11 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             new Vec4f(+MapGrid.cols / 2, +MapGrid.rows / 2, 0.0f, 0.0f),
             new Vec4f(-MapGrid.cols / 2, +MapGrid.rows / 2, 0.0f, 0.0f)
     };
+    protected final float fovDeg = 60.0f;
+    //protected HashMap<Point, MapData> filteredMaps;
+    //protected Vec3f[][] frustum;
+    //protected final float zNear = 1.0f;
+    //protected final float zFar = 1000.0f;
 
     //Scene displays
     protected boolean drawGridEnabled = true;
@@ -207,6 +212,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
         //Set focusable for keyListener
         setFocusable(true);
+
 
         //Create custom cursors
         //smartGridCursor = Utils.loadCursor("/cursors/smartGridCursor.png");
@@ -282,16 +288,19 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
         try {
 
+            Vec3f[][] frustum = viewMode.getFrustumPlanes(this);
+            HashMap<Point, MapData> filteredMaps = getMapsInsideFrustum(frustum);
+
             //gl.glEnable(GL2.GL_LIGHTING);
 
             //Draw opaque tiles
             if (handler.getTileset().size() > 0) {
-                drawOpaqueMaps(gl);
+                drawOpaqueMaps(gl, filteredMaps);
             }
 
             //Draw semitransparent tiles
             if (handler.getTileset().size() > 0) {
-                drawTransparentMaps(gl);
+                drawTransparentMaps(gl, filteredMaps);
             }
 
             //gl.glDisable(GL2.GL_LIGHTING);
@@ -306,7 +315,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
             if (drawWireframeEnabled) {
                 if (handler.getTileset().size() > 0) {
-                    drawWireframeMaps(gl);
+                    drawWireframeMaps(gl, filteredMaps);
                 }
             }
 
@@ -715,7 +724,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glEnd();
     }
 
-    protected void drawOpaqueMaps(GL2 gl) {
+    protected void drawOpaqueMaps(GL2 gl, HashMap<Point, MapData> maps) {
         gl.glEnable(GL_BLEND);
         gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 
@@ -726,13 +735,13 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glAlphaFunc(GL_GREATER, 0.9f);
 
         //long before = System.nanoTime();
-        drawAllMaps(gl, (gl2, geometryGL, textures) -> {
+        drawAllMaps(gl, maps, (gl2, geometryGL, textures) -> {
             drawGeometryGL(gl2, geometryGL, textures);
         });
         //System.out.println("Elapsed: " + (System.nanoTime() - before));
     }
 
-    protected void drawTransparentMaps(GL2 gl) {
+    protected void drawTransparentMaps(GL2 gl, HashMap<Point, MapData> maps) {
         gl.glEnable(GL_BLEND);
 
         gl.glBlendFunc(GL2.GL_ONE, GL2.GL_ONE_MINUS_SRC_ALPHA);
@@ -744,12 +753,12 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glEnable(GL_ALPHA_TEST);
         gl.glAlphaFunc(GL_NOTEQUAL, 0.0f);
 
-        drawAllMaps(gl, (gl2, geometryGL, textures) -> {
+        drawAllMaps(gl, maps, (gl2, geometryGL, textures) -> {
             drawGeometryGL(gl2, geometryGL, textures);
         });
     }
 
-    protected void drawWireframeMaps(GL2 gl) {
+    protected void drawWireframeMaps(GL2 gl, HashMap<Point, MapData> maps) {
         gl.glEnable(GL_BLEND);
         gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -763,17 +772,16 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glDisable(GL_TEXTURE_2D);
         gl.glLineWidth(1.5f);
 
-        drawAllMaps(gl, (gl2, geometryGL, textures) -> {
+        drawAllMaps(gl, maps, (gl2, geometryGL, textures) -> {
             drawWireframeGeometryGL(gl2, geometryGL, textures);
         });
 
         gl.glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 
-    protected void drawAllMaps(GL2 gl, DrawGeometryGLFunction drawFunction) {
+    protected void drawAllMaps(GL2 gl, HashMap<Point, MapData> maps, DrawGeometryGLFunction drawFunction) {
 
-
-        for (HashMap.Entry<Point, MapData> map : handler.getMapMatrix().getMatrix().entrySet()) {
+        for (HashMap.Entry<Point, MapData> map : maps.entrySet()) {
 
             drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL,
                     map.getKey().x * cols, -map.getKey().y * rows, 0);
@@ -1050,6 +1058,23 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         Vec3f dir = new Vec3f(0.0f, 0.0f, -1.0f);
         rotToDir(angles, dir);
         return dir;
+    }
+
+    public static void rotToUp(Vec3f rot, Vec3f dst){
+        dst.set(0.0f, 1.0f, 0.0f);
+        dst.mul(TransfMat.eulerDegToMat_(rot));
+    }
+
+    public static Vec3f rotToUp_(Vec3f rot){
+        Vec3f dst = new Vec3f();
+        rotToUp(rot, dst);
+        return dst;
+    }
+
+    public static float distPointPlaneSigned(Vec3f point, Vec3f[] plane){
+        Vec3f normal = plane[1].sub_(plane[0]).cross(plane[2].sub_(plane[0])).normalize();
+        //Vec3f normal = plane[2].sub_(plane[1]).cross(plane[0].sub_(plane[1])).normalize();
+        return normal.dot(point) -normal.dot(plane[0]);
     }
 
     protected void applyCameraTransform(GL2 gl) {
@@ -1507,6 +1532,33 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     public float getAspectRatio() {
         return (float) getWidth() / getHeight();
+    }
+
+    public boolean isSphereInsideFrustum(Vec3f spherePos, float radius, Vec3f[][] frustum){
+        for(Vec3f[] plane : frustum){
+            float distance = distPointPlaneSigned(spherePos, plane);
+            if(distance < -radius){
+                return false;
+            }else if(distance < radius){
+                //return false;
+            }
+        }
+        return true;
+    }
+
+    public HashMap<Point, MapData> getMapsInsideFrustum(Vec3f[][] frustum){
+        //System.out.println("---------------");
+        float radius = (float) Math.sqrt((MapGrid.cols * MapGrid.cols) / 2.0f);
+        HashMap<Point, MapData> maps = new HashMap<Point, MapData>();
+        for (HashMap.Entry<Point, MapData> map : handler.getMapMatrix().getMatrix().entrySet()) {
+            Point p = map.getKey();
+            Vec3f center = new Vec3f(p.x * MapGrid.cols, -p.y * MapGrid.rows, 0.0f);
+            if(isSphereInsideFrustum(center, radius, frustum)){
+                maps.put(map.getKey(), map.getValue());
+                //System.out.println("INSIDE: " + p.x + " " + p.y);
+            }
+        }
+        return maps;
     }
 
     boolean checkOpenGLError() {
