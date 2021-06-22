@@ -1479,7 +1479,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
                     handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
 
                     if (!fc.getSelectedFile().getPath().isEmpty()) {
-                        buildHandler.saveMapAnimationFile(jlAnimationsList.getSelectedIndex(), fc.getSelectedFile().getPath());
+                        buildHandler.saveMapAnimationFile(jlMapAnimationsList.getSelectedIndex(), fc.getSelectedFile().getPath());
                     } else {
                         JOptionPane.showMessageDialog(this, "The entered name must be valid",
                                 "Enter a valid name", JOptionPane.ERROR_MESSAGE);
