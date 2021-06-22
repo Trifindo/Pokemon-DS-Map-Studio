@@ -16,7 +16,7 @@ new FormModel {
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class net.miginfocom.swing.MigLayout ) {
 				"$layoutConstraints": "insets 5,hidemode 3"
 				"$columnConstraints": "[fill]"
-				"$rowConstraints": "[fill]"
+				"$rowConstraints": "[fill][]"
 			} ) {
 				name: "panel2"
 				add( new FormComponent( "javax.swing.JLabel" ) {
@@ -25,6 +25,13 @@ new FormModel {
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/WarningIcon.png" )
 				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 					"value": "cell 0 0"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label2"
+					"text": "Non-empty BDHCAM files will be included in the BIN"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/informationIcon.png" )
+				}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
+					"value": "cell 0 1"
 				} )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 0"
@@ -78,7 +85,7 @@ new FormModel {
 				"value": "cell 0 2,alignx right,growx 0"
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 435, 215 )
+			"size": new java.awt.Dimension( 435, 230 )
 			"location": new java.awt.Point( 0, 0 )
 		} )
 		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {

@@ -345,9 +345,11 @@ public class ExportMapBinInfoDialog extends JDialog {
 
                     int game = handler.getGameIndex();
                     MapBin mapBin;
-                    if(game < Game.HEART_GOLD){
+                    if(game < Game.PLATINUM){//DIAMOND, PEARL
                         mapBin = new MapBinDP(binFolderPath, mapName);
-                    } else {// if(game < Game.BLACK){
+                    } else if(game < Game.HEART_GOLD){//PLATINUM
+                        mapBin = new MapBinPt(binFolderPath, mapName);
+                    }else {//HEART GOLD, SOUL SILVER
                         mapBin = new MapBinHGSS(binFolderPath, mapName);
                     }
                     try {

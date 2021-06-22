@@ -51,6 +51,7 @@ public class ExportMapBinDialog extends JDialog {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         panel2 = new JPanel();
         label1 = new JLabel();
+        label2 = new JLabel();
         jPanel1 = new JPanel();
         jrbExportCurrentMapBin = new JRadioButton();
         jrbExportAllMapsBin = new JRadioButton();
@@ -79,12 +80,18 @@ public class ExportMapBinDialog extends JDialog {
                 // columns
                 "[fill]",
                 // rows
-                "[fill]"));
+                "[fill]" +
+                "[]"));
 
             //---- label1 ----
             label1.setText("Save the map and export it as NSBMD before exporting the BIN file");
             label1.setIcon(new ImageIcon(getClass().getResource("/icons/WarningIcon.png")));
             panel2.add(label1, "cell 0 0");
+
+            //---- label2 ----
+            label2.setText("Non-empty BDHCAM files will be included in the BIN");
+            label2.setIcon(new ImageIcon(getClass().getResource("/icons/informationIcon.png")));
+            panel2.add(label2, "cell 0 1");
         }
         contentPane.add(panel2, "cell 0 0");
 
@@ -132,7 +139,7 @@ public class ExportMapBinDialog extends JDialog {
             panel1.add(jbCancel, "cell 1 0");
         }
         contentPane.add(panel1, "cell 0 2,alignx right,growx 0");
-        setSize(435, 215);
+        setSize(435, 230);
         setLocationRelativeTo(getOwner());
 
         //---- bgExportMap ----
@@ -145,6 +152,7 @@ public class ExportMapBinDialog extends JDialog {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     private JPanel panel2;
     private JLabel label1;
+    private JLabel label2;
     private JPanel jPanel1;
     private JRadioButton jrbExportCurrentMapBin;
     private JRadioButton jrbExportAllMapsBin;

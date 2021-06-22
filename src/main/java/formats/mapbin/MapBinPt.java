@@ -1,11 +1,9 @@
 package formats.mapbin;
 
 import editor.buildingeditor2.buildfile.BuildFile;
-import formats.backsound.Backsound;
 import formats.bdhc.Bdhc;
 import formats.bdhcam.Bdhcam;
 import formats.collisions.Collisions;
-import utils.BinaryArrayWriter;
 import utils.BinaryWriter;
 import utils.Utils;
 
@@ -14,22 +12,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class MapBinHGSS extends MapBin {
+public class MapBinPt extends MapBin {
 
-    private byte[] bgs;
     private byte[] per;
     private byte[] bld;
     private byte[] nsbmd;
     private byte[] bdhc;
 
-    public MapBinHGSS(String folderPath, String mapName) throws MissingMapBinFileException, NsbmdConversionException {
+    public MapBinPt(String folderPath, String mapName) throws MissingMapBinFileException, NsbmdConversionException {
         mapName = Utils.removeExtensionFromPath(mapName);
-        try {
-            bgs = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + Backsound.fileExtension));
-        } catch (Exception ex) {
-            throw new MissingMapBinFileException(MissingMapBinFileException.MISSING_BGS);
-        }
-
         try {
             per = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + Collisions.fileExtension));
         } catch (Exception ex) {
@@ -54,7 +45,6 @@ public class MapBinHGSS extends MapBin {
             throw new NsbmdConversionException();
         }
 
-
         try {
             bdhc = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + Bdhc.fileExtension));
             try {
@@ -68,22 +58,19 @@ public class MapBinHGSS extends MapBin {
         } catch (Exception ex) {
             throw new MissingMapBinFileException(MissingMapBinFileException.MISSING_BDHC);
         }
-
     }
 
-    public static byte[] toByteArray(MapBinHGSS map) throws Exception {
+    public static byte[] toByteArray(MapBinPt map) throws Exception {
         byte[] header = new byte[16];
         BinaryWriter.writeUInt32(header, 0, map.per.length);
         BinaryWriter.writeUInt32(header, 4, map.bld.length);
         BinaryWriter.writeUInt32(header, 8, map.nsbmd.length);
         BinaryWriter.writeUInt32(header, 12, map.bdhc.length);
 
-        byte[] data = new byte[header.length + map.bgs.length + map.per.length + map.bld.length + map.nsbmd.length + map.bdhc.length];
+        byte[] data = new byte[header.length + map.per.length + map.bld.length + map.nsbmd.length + map.bdhc.length];
         int offset = 0;
         System.arraycopy(header, 0, data, offset, header.length);
         offset += header.length;
-        System.arraycopy(map.bgs, 0, data, offset, map.bgs.length);
-        offset += map.bgs.length;
         System.arraycopy(map.per, 0, data, offset, map.per.length);
         offset += map.per.length;
         System.arraycopy(map.bld, 0, data, offset, map.bld.length);
@@ -104,5 +91,4 @@ public class MapBinHGSS extends MapBin {
             throw new IOException();
         }
     }
-
 }
