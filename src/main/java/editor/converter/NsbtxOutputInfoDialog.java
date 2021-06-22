@@ -59,6 +59,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
     private enum ConvertStatus {
         SUCCESS_STATUS("SUCCESSFULLY CONVERTED", GREEN),
         PALETTE_MISSED_STATUS("CONVERTED (SOME PALETTES NOT CONVERTED)", ORANGE),
+        TEXTURE_MISSED_STATUS("CONVERTED (SOME TEXTURES NOT CONVERTED", ORANGE),
         CONVERTER_NOT_FOUND_STATUS("NOT CONVERTED (CONVERTER NOT FOUND)", RED),
         CONVERSION_ERROR_STATUS("NOT CONVERTED (CONVERSION ERROR)", RED),
         IMD_NOT_FOUND_ERROR_STATUS("NOT CONVERTED (IMD NOT FOUND)", RED),
@@ -473,6 +474,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
         for (Integer areaIndex : areaIndices) {
             ConvertStatus exportStatus;
             boolean paletteMissed = false;
+            boolean textureMissed = false;
             if (!Thread.currentThread().isInterrupted()) {
                 try {
                     HashSet<Integer> usedMaterialIndices = new HashSet<>();
@@ -503,8 +505,18 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                     Map<String, String> texPalNames = new HashMap<>();
                     for (Integer matIndex : usedMaterialIndices) {
                         TilesetMaterial mat = handler.getTileset().getMaterial(matIndex);
-                        if(!texPalNames.containsKey(mat.getTextureNameImd())){
+                        if (!texPalNames.containsKey(mat.getTextureNameImd())) {
                             texPalNames.put(mat.getTextureNameImd(), mat.getPaletteNameImd());
+                        }
+                    }
+
+                    //Map used for knowing which texture is used by a certain palette
+                    //They key is the palette name, the value is the texture name
+                    Map<String, String> palTexNames = new HashMap<>();
+                    for (Integer matIndex : usedMaterialIndices) {
+                        TilesetMaterial mat = handler.getTileset().getMaterial(matIndex);
+                        if (!palTexNames.containsKey(mat.getPaletteNameImd())) {
+                            palTexNames.put(mat.getPaletteNameImd(), mat.getTextureNameImd());
                         }
                     }
 
@@ -531,8 +543,22 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                                         nsbtx.getPaletteNames().indexOf(texPalNames.get(mat.getTextureNameImd())),
                                         mat.getPaletteNameImd(),
                                         mat.getTextureImg());
-                            }catch(NsbtxTextureSizeException ex){
+                            } catch (Exception ex) {
                                 paletteMissed = true;
+                            }
+                        } else if ((!nsbtx.isTextureNameUsed(mat.getTextureNameImd()))
+                                && (nsbtx.isPaletteNameUsed(mat.getPaletteNameImd()))) {
+                            try {
+                                nsbtx.addTexture(
+                                        nsbtx.getTextureNames().indexOf(palTexNames.get(mat.getPaletteNameImd())),
+                                        nsbtx.getPaletteNames().indexOf(mat.getPaletteNameImd()),
+                                        mat.getTextureImg(),
+                                        Nsbtx2.jcbToFormatLookup[mat.getColorFormat()],
+                                        isTransparent,
+                                        mat.getTextureNameImd()
+                                );
+                            } catch (Exception ex) {
+                                textureMissed = true;
                             }
                         }
                     }
@@ -588,9 +614,11 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                                     Files.move(srcFile.toPath(), dstFile.toPath(),
                                             StandardCopyOption.REPLACE_EXISTING);
                                     //srcFile.renameTo(new File(nsbPath));
-                                    if(paletteMissed){
+                                    if (paletteMissed) {
                                         exportStatus = ConvertStatus.PALETTE_MISSED_STATUS;
-                                    }else{
+                                    } else if(textureMissed){
+                                        exportStatus = ConvertStatus.TEXTURE_MISSED_STATUS;
+                                    }else {
                                         exportStatus = ConvertStatus.SUCCESS_STATUS;
                                     }
                                     nFilesConverted++;
