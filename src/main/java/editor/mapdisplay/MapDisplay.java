@@ -306,7 +306,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             }
 
             if (drawGridBorderMaps) {
-                drawGridBorderMaps(gl);
+                HashSet<Point> filteredGridBorderMaps = getGridBorderMapsInsideFrustum(frustum);
+                drawGridBorderMaps(gl, filteredGridBorderMaps);
             }
 
             if (drawAreasEnabled) {
@@ -670,10 +671,10 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glPopMatrix();
     }
 
-    protected void drawGridBorderMaps(GL2 gl) {
+    protected void drawGridBorderMaps(GL2 gl, HashSet<Point> gridBorderMaps) {
         gl.glEnable(GL_BLEND);
         gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        for (Point borderMap : handler.getMapMatrix().getBorderMaps()) {
+        for (Point borderMap : gridBorderMaps) {
             drawGrid(gl, borderMap.x * cols, -borderMap.y * rows, 0, 1.0f, 1.0f, 1.0f, 0.2f);
         }
     }
@@ -1542,6 +1543,18 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             }
         }
         return maps;
+    }
+
+    public HashSet<Point> getGridBorderMapsInsideFrustum(Vec3f[][] frustum){
+        float radius = (float) Math.sqrt((MapGrid.cols * MapGrid.cols) / 2.0f);
+        HashSet<Point> borderMaps = new HashSet<>();
+        for (Point borderMap : handler.getMapMatrix().getBorderMaps()) {
+            Vec3f center = new Vec3f(borderMap.x * MapGrid.cols, -borderMap.y * MapGrid.rows, 0.0f);
+            if(isSphereInsideFrustum(center, radius, frustum)){
+                borderMaps.add(borderMap);
+            }
+        }
+        return borderMaps;
     }
 
     boolean checkOpenGLError() {
