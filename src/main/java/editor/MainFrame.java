@@ -906,7 +906,7 @@ public class MainFrame extends JFrame {
     }
 
     private void newMap() {
-        int returnVal = JOptionPane.showConfirmDialog(this, "Do you want to close current map?", "Create new map", JOptionPane.YES_NO_OPTION);
+        int returnVal = JOptionPane.showConfirmDialog(this, "Do you want to close the current map?", "Create new map", JOptionPane.YES_NO_OPTION);
         if (returnVal == JOptionPane.YES_OPTION) {
             final GameTsetSelectorDialog2 dialog = new GameTsetSelectorDialog2(this);
             dialog.init(handler);

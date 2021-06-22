@@ -261,20 +261,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
         applyCameraTransform(gl);
 
-        /*
-        gl.glPushMatrix();
-        gl.glLoadIdentity();
-
-        Vec3f point = new Vec4f(8.0f, 8.0f, 0.0f, 1.0f).mul(camMVP).toVec3f();
-        gl.glPointSize(5.0f);
-
-        gl.glBegin(GL2.GL_POINTS);
-        gl.glVertex2f(point.x, point.y);
-        gl.glEnd();
-
-        gl.glPopMatrix();
-        //point.print();*/
-
         if (updateRequested) {
 
             //Load Textures into OpenGL
@@ -287,7 +273,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         }
 
         try {
-
+            //Update view frustum and filter maps
             Vec3f[][] frustum = viewMode.getFrustumPlanes(this);
             HashMap<Point, MapData> filteredMaps = getMapsInsideFrustum(frustum);
 
@@ -307,7 +293,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
             //Draw grid
             if (drawGridEnabled) {
-                drawGridMaps(gl);
+                drawGridMaps(gl, filteredMaps);
             }
 
             //Draw axis
@@ -692,10 +678,9 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         }
     }
 
-    protected void drawGridMaps(GL2 gl) {
-        Set<Point> maps = handler.getMapMatrix().getMatrix().keySet();
+    protected void drawGridMaps(GL2 gl, HashMap<Point, MapData> maps) {
         Point mapSelected = handler.getMapSelected();
-        for (Point map : maps) {
+        for (Point map : maps.keySet()) {
             if (!map.equals(mapSelected)) {
                 drawGrid(gl, map.x * cols, -map.y * rows, 0, 1.0f, 1.0f, 1.0f, 1.0f);
             }
@@ -1547,7 +1532,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     }
 
     public HashMap<Point, MapData> getMapsInsideFrustum(Vec3f[][] frustum){
-        //System.out.println("---------------");
         float radius = (float) Math.sqrt((MapGrid.cols * MapGrid.cols) / 2.0f);
         HashMap<Point, MapData> maps = new HashMap<Point, MapData>();
         for (HashMap.Entry<Point, MapData> map : handler.getMapMatrix().getMatrix().entrySet()) {
@@ -1555,7 +1539,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             Vec3f center = new Vec3f(p.x * MapGrid.cols, -p.y * MapGrid.rows, 0.0f);
             if(isSphereInsideFrustum(center, radius, frustum)){
                 maps.put(map.getKey(), map.getValue());
-                //System.out.println("INSIDE: " + p.x + " " + p.y);
             }
         }
         return maps;
