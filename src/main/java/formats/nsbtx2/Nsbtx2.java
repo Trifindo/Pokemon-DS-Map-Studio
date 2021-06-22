@@ -483,10 +483,10 @@ public class Nsbtx2 {
                 newTex.setData(colorIndicesToTexData(colorIndices, newTex.getBitDepth()));
                 break;
             case FORMAT_A3I5:
-                newTex.setData(colorIndicesToTexDataSemitransp(colorIndices, colors, 5));
+                newTex.setData(colorIndicesToTexDataSemitransp(colorIndices, newImg, colors, 5));
                 break;
             case FORMAT_A5I3:
-                newTex.setData(colorIndicesToTexDataSemitransp(colorIndices, colors, 3));
+                newTex.setData(colorIndicesToTexDataSemitransp(colorIndices, newImg, colors, 3));
                 break;
         }
         return newTex;
@@ -516,6 +516,24 @@ public class Nsbtx2 {
         for (int i = 0; i < texData.length; i++) {
             byte data = 0x00;
             data |= (colorIndices[i] & 0xFF) | (((colors.get(colorIndices[i] & 0xFF).getAlpha() & 0xFF) >> nBitsColor) << nBitsColor);
+            //texData[i + 1 - (i % 2) * 2] = data;
+            texData[i] = data;
+        }
+        return texData;
+    }
+
+    private static byte[] colorIndicesToTexDataSemitransp(byte[] colorIndices, BufferedImage img, ArrayList<Color> colors, int nBitsColor) {
+        final int[] alphas = new int[colorIndices.length];
+        for (int j = 0, c = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++, c++) {
+                alphas[c] = getDsColor(new Color(img.getRGB(i, j), true)).getAlpha();
+            }
+        }
+
+        final byte[] texData = new byte[colorIndices.length];
+        for (int i = 0; i < texData.length; i++) {
+            byte data = 0x00;
+            data |= (colorIndices[i] & 0xFF) | (((alphas[i] & 0xFF) >> nBitsColor) << nBitsColor);
             //texData[i + 1 - (i % 2) * 2] = data;
             texData[i] = data;
         }
@@ -602,7 +620,7 @@ public class Nsbtx2 {
         return rd * rd + gd * gd + bd * bd + ad * ad;
     }
 
-    private Color getDsColor(Color c) {
+    private static Color getDsColor(Color c) {
         int r = (c.getRed() / 8) * 8;
         int g = (c.getGreen() / 8) * 8;
         int b = (c.getBlue() / 8) * 8;
