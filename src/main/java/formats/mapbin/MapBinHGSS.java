@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class MapBinHGSS {
+public class MapBinHGSS extends MapBin{
 
     private byte[] bgs;
     private byte[] per;
@@ -21,14 +21,43 @@ public class MapBinHGSS {
     private byte[] nsbmd;
     private byte[] bdhc;
 
-    public MapBinHGSS(String folderPath, String mapName) throws Exception {
+    public MapBinHGSS(String folderPath, String mapName) throws MissingMapBinFileException, NsbmdConversionException{
         mapName = Utils.removeExtensionFromPath(mapName);
-        bgs = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + Backsound.fileExtension));
-        per = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + Collisions.fileExtension));
-        bld = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + BuildFile.fileExtension));
-        nsbmd = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + "nsbmd"));
-        nsbmd = NsbmdUtils.nsbmdTexToNsbmdOnly(nsbmd);
-        bdhc = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + Bdhc.fileExtension));
+        try{
+            bgs = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + Backsound.fileExtension));
+        }catch(Exception ex){
+            throw new MissingMapBinFileException(MissingMapBinFileException.MISSING_BGS);
+        }
+
+        try{
+            per = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + Collisions.fileExtension));
+        }catch(Exception ex){
+            throw new MissingMapBinFileException(MissingMapBinFileException.MISSING_PER);
+        }
+
+        try{
+            bld = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + BuildFile.fileExtension));
+        }catch(Exception ex){
+            throw new MissingMapBinFileException(MissingMapBinFileException.MISSING_BLD);
+        }
+
+        try{
+            nsbmd = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + "nsbmd"));
+        }catch(Exception ex){
+            throw new MissingMapBinFileException(MissingMapBinFileException.MISSING_NSBMD);
+        }
+
+        try{
+            nsbmd = NsbmdUtils.nsbmdTexToNsbmdOnly(nsbmd);
+        }catch(Exception ex){
+            throw new NsbmdConversionException();
+        }
+
+        try{
+            bdhc = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + Bdhc.fileExtension));
+        }catch(Exception ex){
+            throw new MissingMapBinFileException(MissingMapBinFileException.MISSING_BDHC);
+        }
     }
 
     public static byte[] toByteArray(MapBinHGSS map) throws Exception{
@@ -55,6 +84,7 @@ public class MapBinHGSS {
         return data;
     }
 
+    @Override
     public void saveToFile(String path) throws IOException {
         try {
             byte[] byteData = toByteArray(this);

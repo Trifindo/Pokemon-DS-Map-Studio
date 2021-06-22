@@ -73,6 +73,42 @@ new FormModel {
 					"verticalTextPosition": 3
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbAddMapsActionPerformed", true ) )
 				} )
+				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
+					name: "jSeparator15"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbUndo"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoIcon.png" )
+					"toolTipText": "Undo (Ctrl+Z)"
+					"disabledIcon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoDisabledIcon.png" )
+					"enabled": false
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbUndoActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbRedo"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoIcon.png" )
+					"toolTipText": "Redo (Ctrl+Y)"
+					"disabledIcon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoDisabledIcon.png" )
+					"enabled": false
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": new java.awt.Dimension( 38, 38 )
+					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"name": ""
+					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRedoActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
+					name: "jSeparator4"
+				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "jbExportObj"
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/exportObjIcon.png" )
@@ -105,12 +141,28 @@ new FormModel {
 					"toolTipText": "Export Map as NSBMD"
 					"focusable": false
 					"horizontalTextPosition": 0
-					"maximumSize": new java.awt.Dimension( 38, 38 )
-					"minimumSize": new java.awt.Dimension( 38, 38 )
+					"maximumSize": &Dimension0 new java.awt.Dimension( 38, 38 )
+					"minimumSize": &Dimension1 new java.awt.Dimension( 38, 38 )
 					"name": ""
-					"preferredSize": new java.awt.Dimension( 38, 38 )
+					"preferredSize": &Dimension2 new java.awt.Dimension( 38, 38 )
 					"verticalTextPosition": 3
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportNsbActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "jbExportBin"
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/exportBinIcon.png" )
+					"toolTipText": "Export Map as BIN"
+					"focusable": false
+					"horizontalTextPosition": 0
+					"maximumSize": #Dimension0
+					"minimumSize": #Dimension1
+					"name": ""
+					"preferredSize": #Dimension2
+					"verticalTextPosition": 3
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportBinActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
+					name: "jSeparator12"
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "jbExportNsb1"
@@ -137,39 +189,6 @@ new FormModel {
 					"preferredSize": new java.awt.Dimension( 38, 38 )
 					"verticalTextPosition": 3
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbExportNsb2ActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
-					name: "jSeparator4"
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "jbUndo"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoIcon.png" )
-					"toolTipText": "Undo (Ctrl+Z)"
-					"disabledIcon": new com.jformdesigner.model.SwingIcon( 0, "/icons/undoDisabledIcon.png" )
-					"enabled": false
-					"focusable": false
-					"horizontalTextPosition": 0
-					"maximumSize": new java.awt.Dimension( 38, 38 )
-					"minimumSize": new java.awt.Dimension( 38, 38 )
-					"name": ""
-					"preferredSize": new java.awt.Dimension( 38, 38 )
-					"verticalTextPosition": 3
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbUndoActionPerformed", true ) )
-				} )
-				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "jbRedo"
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoIcon.png" )
-					"toolTipText": "Redo (Ctrl+Y)"
-					"disabledIcon": new com.jformdesigner.model.SwingIcon( 0, "/icons/redoDisabledIcon.png" )
-					"enabled": false
-					"focusable": false
-					"horizontalTextPosition": 0
-					"maximumSize": new java.awt.Dimension( 38, 38 )
-					"minimumSize": new java.awt.Dimension( 38, 38 )
-					"name": ""
-					"preferredSize": new java.awt.Dimension( 38, 38 )
-					"verticalTextPosition": 3
-					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbRedoActionPerformed", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JToolBar$Separator" ) {
 					name: "jSeparator11"
@@ -219,10 +238,10 @@ new FormModel {
 					"toolTipText": "Bdhcam Editor"
 					"focusable": false
 					"horizontalTextPosition": 0
-					"maximumSize": &Dimension0 new java.awt.Dimension( 38, 38 )
-					"minimumSize": &Dimension1 new java.awt.Dimension( 38, 38 )
+					"maximumSize": &Dimension3 new java.awt.Dimension( 38, 38 )
+					"minimumSize": &Dimension4 new java.awt.Dimension( 38, 38 )
 					"name": ""
-					"preferredSize": &Dimension2 new java.awt.Dimension( 38, 38 )
+					"preferredSize": &Dimension5 new java.awt.Dimension( 38, 38 )
 					"verticalTextPosition": 3
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbBdhcamEditorActionPerformed", true ) )
 				} )
@@ -232,10 +251,10 @@ new FormModel {
 					"toolTipText": "Backsound Editor"
 					"focusable": false
 					"horizontalTextPosition": 0
-					"maximumSize": #Dimension0
-					"minimumSize": #Dimension1
+					"maximumSize": #Dimension3
+					"minimumSize": #Dimension4
 					"name": ""
-					"preferredSize": #Dimension2
+					"preferredSize": #Dimension5
 					"verticalTextPosition": 3
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jbBacksoundEditorActionPerformed", true ) )
 				} )

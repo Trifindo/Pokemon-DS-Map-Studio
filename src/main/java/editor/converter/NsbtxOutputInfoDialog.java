@@ -139,14 +139,13 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Resulting NSBTX files info (Experimental)");
+        setTitle("Resulting NSBTX files info");
         setModal(true);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
                 formWindowActivated(e);
             }
-
             @Override
             public void windowClosed(WindowEvent e) {
                 formWindowClosed(e);
@@ -178,16 +177,15 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
                     //---- jTable1 ----
                     jTable1.setModel(new DefaultTableModel(
-                            new Object[][]{
-                            },
-                            new String[]{
-                                    "Name", "Status"
-                            }
+                        new Object[][] {
+                        },
+                        new String[] {
+                            "Name", "Status"
+                        }
                     ) {
-                        boolean[] columnEditable = new boolean[]{
-                                false, false
+                        boolean[] columnEditable = new boolean[] {
+                            false, false
                         };
-
                         @Override
                         public boolean isCellEditable(int rowIndex, int columnIndex) {
                             return columnEditable[columnIndex];
@@ -238,70 +236,70 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                 GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
                 jPanel2.setLayout(jPanel2Layout);
                 jPanel2Layout.setHorizontalGroup(
-                        jPanel2Layout.createParallelGroup()
+                    jPanel2Layout.createParallelGroup()
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel2Layout.createParallelGroup()
+                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(jPanel2Layout.createParallelGroup()
-                                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
-                                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                                        .addComponent(jLabel5)
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(jlResult, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                                        .addGroup(jPanel2Layout.createParallelGroup()
-                                                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                        .addComponent(jLabel4)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jlFilesConverted, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
-                                                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                        .addComponent(jLabel8)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jlFilesNotConverted, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
-                                                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                        .addComponent(jLabel3)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                                        .addComponent(jlStatus, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE))
-                                                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                                                        .addComponent(jLabel2)
-                                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                        .addComponent(jlFilesProcessed, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)))
-                                                        .addGap(0, 0, Short.MAX_VALUE))
-                                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                                        .addComponent(jLabel1)
-                                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)))
-                                        .addContainerGap())
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jlResult, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup()
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel4)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jlFilesConverted, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel8)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jlFilesNotConverted, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel3)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jlStatus, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel2)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jlFilesProcessed, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)))
+                            .addContainerGap())
                 );
                 jPanel2Layout.setVerticalGroup(
-                        jPanel2Layout.createParallelGroup()
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                                        .addGap(21, 21, 21)
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel3)
-                                                .addComponent(jlStatus))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel2)
-                                                .addComponent(jlFilesProcessed))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jlFilesConverted))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel8, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jlFilesNotConverted))
-                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel5)
-                                                .addComponent(jlResult))
-                                        .addGap(9, 9, 9))
+                    jPanel2Layout.createParallelGroup()
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                            .addGap(21, 21, 21)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel3)
+                                .addComponent(jlStatus))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(jlFilesProcessed))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jlFilesConverted))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel8, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jlFilesNotConverted))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel5)
+                                .addComponent(jlResult))
+                            .addGap(9, 9, 9))
                 );
             }
             jSplitPane1.setLeftComponent(jPanel2);
@@ -316,18 +314,18 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                     GroupLayout jpDisplayLayout = new GroupLayout(jpDisplay);
                     jpDisplay.setLayout(jpDisplayLayout);
                     jpDisplayLayout.setHorizontalGroup(
-                            jpDisplayLayout.createParallelGroup()
-                                    .addGroup(jpDisplayLayout.createSequentialGroup()
-                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(nsbtxPanel1, GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
-                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        jpDisplayLayout.createParallelGroup()
+                            .addGroup(jpDisplayLayout.createSequentialGroup()
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nsbtxPanel1, GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     );
                     jpDisplayLayout.setVerticalGroup(
-                            jpDisplayLayout.createParallelGroup()
-                                    .addGroup(jpDisplayLayout.createSequentialGroup()
-                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(nsbtxPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        jpDisplayLayout.createParallelGroup()
+                            .addGroup(jpDisplayLayout.createSequentialGroup()
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nsbtxPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     );
                 }
                 jpCard.add(jpDisplay, "CardDisplay");
@@ -353,24 +351,24 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                     GroupLayout jpErrorInfoLayout = new GroupLayout(jpErrorInfo);
                     jpErrorInfo.setLayout(jpErrorInfoLayout);
                     jpErrorInfoLayout.setHorizontalGroup(
-                            jpErrorInfoLayout.createParallelGroup()
+                        jpErrorInfoLayout.createParallelGroup()
+                            .addGroup(jpErrorInfoLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jpErrorInfoLayout.createParallelGroup()
+                                    .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
                                     .addGroup(jpErrorInfoLayout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addGroup(jpErrorInfoLayout.createParallelGroup()
-                                                    .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
-                                                    .addGroup(jpErrorInfoLayout.createSequentialGroup()
-                                                            .addComponent(jLabel6)
-                                                            .addGap(0, 0, Short.MAX_VALUE)))
-                                            .addContainerGap())
+                                        .addComponent(jLabel6)
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addContainerGap())
                     );
                     jpErrorInfoLayout.setVerticalGroup(
-                            jpErrorInfoLayout.createParallelGroup()
-                                    .addGroup(GroupLayout.Alignment.TRAILING, jpErrorInfoLayout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addComponent(jLabel6)
-                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
-                                            .addContainerGap())
+                        jpErrorInfoLayout.createParallelGroup()
+                            .addGroup(GroupLayout.Alignment.TRAILING, jpErrorInfoLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                                .addContainerGap())
                     );
                 }
                 jpCard.add(jpErrorInfo, "CardErrorInfo");
@@ -381,22 +379,22 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
         contentPane.setLayout(contentPaneLayout);
         contentPaneLayout.setHorizontalGroup(
-                contentPaneLayout.createParallelGroup()
-                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(contentPaneLayout.createParallelGroup()
-                                        .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jSplitPane1, GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE))
-                                .addContainerGap())
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(contentPaneLayout.createParallelGroup()
+                        .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSplitPane1))
+                    .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
-                contentPaneLayout.createParallelGroup()
-                        .addGroup(contentPaneLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jSplitPane1)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6))
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jSplitPane1)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addGap(6, 6, 6))
         );
         setSize(910, 490);
         setLocationRelativeTo(getOwner());

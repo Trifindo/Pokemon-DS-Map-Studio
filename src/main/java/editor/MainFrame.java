@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.prefs.Preferences;
 import javax.imageio.ImageIO;
@@ -47,6 +48,8 @@ import editor.keyboard.KeyboardInfoDialog2;
 import editor.layerselector.*;
 import editor.mapdisplay.*;
 import editor.mapmatrix.*;
+import formats.mapbin.ExportMapBinDialog;
+import formats.mapbin.ExportMapBinInfoDialog;
 import formats.nsbtx.NsbtxEditorDialog;
 import formats.nsbtx2.Nsbtx2;
 import formats.nsbtx2.NsbtxEditorDialog2;
@@ -355,6 +358,8 @@ public class MainFrame extends JFrame {
         saveMapsAsNsbWithDialog();
     }
 
+    private void jbExportBinActionPerformed(ActionEvent e) {saveMapAsBinWithDialog();}
+
     private void jbExportNsb1ActionPerformed(ActionEvent e) {
         saveMapBtxWithDialog();
     }
@@ -562,7 +567,7 @@ public class MainFrame extends JFrame {
     private void jbHelp2ActionPerformed(ActionEvent e) {
         CollisionsEditorDialogBW dialog = new CollisionsEditorDialogBW(this);
         dialog.init(handler);
-        dialog.setLocationRelativeTo(null);
+        dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
         mapDisplay.requestUpdate();
@@ -737,7 +742,7 @@ public class MainFrame extends JFrame {
         if(Game.isGenV(handler.getGameIndex())){
             CollisionsEditorDialogBW dialog = new CollisionsEditorDialogBW(this);
             dialog.init(handler);
-            dialog.setLocationRelativeTo(null);
+            dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
 
             mapDisplay.requestUpdate();
@@ -970,7 +975,7 @@ public class MainFrame extends JFrame {
             handler.getMapMatrix().saveBdhcams();
             handler.getMapMatrix().saveBuildings();
 
-            handler.getMapMatrix().saveBinaryMaps();
+            //handler.getMapMatrix().saveBinaryMaps();
             //saveBdhc();
             //saveBacksound();
             //saveCollisions();
@@ -1008,7 +1013,7 @@ public class MainFrame extends JFrame {
                 handler.getMapMatrix().saveBdhcams();
                 handler.getMapMatrix().saveBuildings();
 
-                handler.getMapMatrix().saveBinaryMaps();
+                //handler.getMapMatrix().saveBinaryMaps();
                 //saveCollisions();
                 //saveBacksound();
                 //saveBdhc();
@@ -1095,7 +1100,7 @@ public class MainFrame extends JFrame {
 
     private void saveMapAsObjWithDialog(boolean saveTextures) {
         final ExportMapObjDialog exportMapDialog = new ExportMapObjDialog(this, "Export OBJ Map Settings");
-        exportMapDialog.setLocationRelativeTo(null);
+        exportMapDialog.setLocationRelativeTo(this);
         exportMapDialog.setVisible(true);
 
         if (exportMapDialog.getReturnValue() == ExportMapObjDialog.APPROVE_OPTION) {
@@ -1132,6 +1137,32 @@ public class MainFrame extends JFrame {
                 } catch (FileNotFoundException ex) {
                     JOptionPane.showMessageDialog(this, "Can't save file.", "Error saving map", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        }
+    }
+
+    private void saveMapAsBinWithDialog(){
+        if(handler.getGame().gameSelected >= Game.BLACK){
+            JOptionPane.showMessageDialog(this, "Can't save Gen V binary files yet", "Error saving bin map", JOptionPane.ERROR_MESSAGE);
+        }else{
+            final ExportMapBinDialog exportBinDialog = new ExportMapBinDialog(this, "Export Bin Map Settings");
+            exportBinDialog.setLocationRelativeTo(this);
+            exportBinDialog.setVisible(true);
+
+            if (exportBinDialog.getReturnValue() == ExportMapBinDialog.APPROVE_OPTION) {
+                HashSet<Point> maps = new HashSet<>();
+                if(exportBinDialog.exportCurrentMapBin()){
+                    maps.add(handler.getMapSelected());
+                }else if(exportBinDialog.exportAllMapsBin()){
+                    maps.addAll(handler.getMapMatrix().getMatrix().keySet());
+                }else{
+                    return;//Nothing selected
+                }
+
+                ExportMapBinInfoDialog exportInfoDialog = new ExportMapBinInfoDialog(this);
+                exportInfoDialog.init(handler, maps, new File(handler.getMapMatrix().filePath).getParent());
+                exportInfoDialog.setLocationRelativeTo(this);
+                exportInfoDialog.setVisible(true);
             }
         }
     }
@@ -1226,7 +1257,7 @@ public class MainFrame extends JFrame {
 
             final ImdOutputInfoDialog outputDialog = new ImdOutputInfoDialog(this);
             outputDialog.init(handler, fileNames, objFolderPath, imdFolderPath);
-            outputDialog.setLocationRelativeTo(null);
+            outputDialog.setLocationRelativeTo(this);
             outputDialog.setVisible(true);
 
         }
@@ -1330,7 +1361,7 @@ public class MainFrame extends JFrame {
 
             final NsbmdOutputInfoDialog outputDialog = new NsbmdOutputInfoDialog(this, true);
             outputDialog.init(handler, fileNames, imdFolderPath, nsbFolderPath, configDialog.includeNsbtxInNsbmd());
-            outputDialog.setLocationRelativeTo(null);
+            outputDialog.setLocationRelativeTo(this);
             outputDialog.setVisible(true);
         }
     }
@@ -1585,7 +1616,7 @@ public class MainFrame extends JFrame {
 
             final NsbtxOutputInfoDialog outputDialog = new NsbtxOutputInfoDialog(this, true);
             outputDialog.init(handler, areaIndices, nsbtxFolderPath);
-            outputDialog.setLocationRelativeTo(null);
+            outputDialog.setLocationRelativeTo(this);
             outputDialog.setVisible(true);
         }
     }
@@ -1983,6 +2014,8 @@ public class MainFrame extends JFrame {
 
 
 
+
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         jmMainMenu = new JMenuBar();
@@ -2034,13 +2067,14 @@ public class MainFrame extends JFrame {
         jbOpenMap = new JButton();
         jbSaveMap = new JButton();
         jbAddMaps = new JButton();
+        jbUndo = new JButton();
+        jbRedo = new JButton();
         jbExportObj = new JButton();
         jbExportImd = new JButton();
         jbExportNsb = new JButton();
+        jbExportBin = new JButton();
         jbExportNsb1 = new JButton();
         jbExportNsb2 = new JButton();
-        jbUndo = new JButton();
-        jbRedo = new JButton();
         jbTilelistEditor = new JButton();
         jbCollisionsEditor = new JButton();
         jbBdhcEditor = new JButton();
@@ -2500,6 +2534,38 @@ public class MainFrame extends JFrame {
             jbAddMaps.setVerticalTextPosition(SwingConstants.BOTTOM);
             jbAddMaps.addActionListener(e -> jbAddMapsActionPerformed(e));
             jtMainToolbar.add(jbAddMaps);
+            jtMainToolbar.addSeparator();
+
+            //---- jbUndo ----
+            jbUndo.setIcon(new ImageIcon(getClass().getResource("/icons/undoIcon.png")));
+            jbUndo.setToolTipText("Undo (Ctrl+Z)");
+            jbUndo.setDisabledIcon(new ImageIcon(getClass().getResource("/icons/undoDisabledIcon.png")));
+            jbUndo.setEnabled(false);
+            jbUndo.setFocusable(false);
+            jbUndo.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbUndo.setMaximumSize(new Dimension(38, 38));
+            jbUndo.setMinimumSize(new Dimension(38, 38));
+            jbUndo.setName("");
+            jbUndo.setPreferredSize(new Dimension(38, 38));
+            jbUndo.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbUndo.addActionListener(e -> jbUndoActionPerformed(e));
+            jtMainToolbar.add(jbUndo);
+
+            //---- jbRedo ----
+            jbRedo.setIcon(new ImageIcon(getClass().getResource("/icons/redoIcon.png")));
+            jbRedo.setToolTipText("Redo (Ctrl+Y)");
+            jbRedo.setDisabledIcon(new ImageIcon(getClass().getResource("/icons/redoDisabledIcon.png")));
+            jbRedo.setEnabled(false);
+            jbRedo.setFocusable(false);
+            jbRedo.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbRedo.setMaximumSize(new Dimension(38, 38));
+            jbRedo.setMinimumSize(new Dimension(38, 38));
+            jbRedo.setName("");
+            jbRedo.setPreferredSize(new Dimension(38, 38));
+            jbRedo.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbRedo.addActionListener(e -> jbRedoActionPerformed(e));
+            jtMainToolbar.add(jbRedo);
+            jtMainToolbar.addSeparator();
 
             //---- jbExportObj ----
             jbExportObj.setIcon(new ImageIcon(getClass().getResource("/icons/exportObjIcon.png")));
@@ -2540,6 +2606,20 @@ public class MainFrame extends JFrame {
             jbExportNsb.addActionListener(e -> jbExportNsbActionPerformed(e));
             jtMainToolbar.add(jbExportNsb);
 
+            //---- jbExportBin ----
+            jbExportBin.setIcon(new ImageIcon(getClass().getResource("/icons/exportBinIcon.png")));
+            jbExportBin.setToolTipText("Export Map as BIN");
+            jbExportBin.setFocusable(false);
+            jbExportBin.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbExportBin.setMaximumSize(new Dimension(38, 38));
+            jbExportBin.setMinimumSize(new Dimension(38, 38));
+            jbExportBin.setName("");
+            jbExportBin.setPreferredSize(new Dimension(38, 38));
+            jbExportBin.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbExportBin.addActionListener(e -> jbExportBinActionPerformed(e));
+            jtMainToolbar.add(jbExportBin);
+            jtMainToolbar.addSeparator();
+
             //---- jbExportNsb1 ----
             jbExportNsb1.setIcon(new ImageIcon(getClass().getResource("/icons/exportBtxIcon.png")));
             jbExportNsb1.setToolTipText("Export Map NSBTX");
@@ -2565,37 +2645,6 @@ public class MainFrame extends JFrame {
             jbExportNsb2.setVerticalTextPosition(SwingConstants.BOTTOM);
             jbExportNsb2.addActionListener(e -> jbExportNsb2ActionPerformed(e));
             jtMainToolbar.add(jbExportNsb2);
-            jtMainToolbar.addSeparator();
-
-            //---- jbUndo ----
-            jbUndo.setIcon(new ImageIcon(getClass().getResource("/icons/undoIcon.png")));
-            jbUndo.setToolTipText("Undo (Ctrl+Z)");
-            jbUndo.setDisabledIcon(new ImageIcon(getClass().getResource("/icons/undoDisabledIcon.png")));
-            jbUndo.setEnabled(false);
-            jbUndo.setFocusable(false);
-            jbUndo.setHorizontalTextPosition(SwingConstants.CENTER);
-            jbUndo.setMaximumSize(new Dimension(38, 38));
-            jbUndo.setMinimumSize(new Dimension(38, 38));
-            jbUndo.setName("");
-            jbUndo.setPreferredSize(new Dimension(38, 38));
-            jbUndo.setVerticalTextPosition(SwingConstants.BOTTOM);
-            jbUndo.addActionListener(e -> jbUndoActionPerformed(e));
-            jtMainToolbar.add(jbUndo);
-
-            //---- jbRedo ----
-            jbRedo.setIcon(new ImageIcon(getClass().getResource("/icons/redoIcon.png")));
-            jbRedo.setToolTipText("Redo (Ctrl+Y)");
-            jbRedo.setDisabledIcon(new ImageIcon(getClass().getResource("/icons/redoDisabledIcon.png")));
-            jbRedo.setEnabled(false);
-            jbRedo.setFocusable(false);
-            jbRedo.setHorizontalTextPosition(SwingConstants.CENTER);
-            jbRedo.setMaximumSize(new Dimension(38, 38));
-            jbRedo.setMinimumSize(new Dimension(38, 38));
-            jbRedo.setName("");
-            jbRedo.setPreferredSize(new Dimension(38, 38));
-            jbRedo.setVerticalTextPosition(SwingConstants.BOTTOM);
-            jbRedo.addActionListener(e -> jbRedoActionPerformed(e));
-            jtMainToolbar.add(jbRedo);
             jtMainToolbar.addSeparator();
 
             //---- jbTilelistEditor ----
@@ -3564,13 +3613,14 @@ public class MainFrame extends JFrame {
     private JButton jbOpenMap;
     private JButton jbSaveMap;
     private JButton jbAddMaps;
+    private JButton jbUndo;
+    private JButton jbRedo;
     private JButton jbExportObj;
     private JButton jbExportImd;
     private JButton jbExportNsb;
+    private JButton jbExportBin;
     private JButton jbExportNsb1;
     private JButton jbExportNsb2;
-    private JButton jbUndo;
-    private JButton jbRedo;
     private JButton jbTilelistEditor;
     private JButton jbCollisionsEditor;
     private JButton jbBdhcEditor;

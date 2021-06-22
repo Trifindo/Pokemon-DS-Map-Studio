@@ -397,7 +397,7 @@ public class MapMatrix {
         }
     }
 
-
+    /*
     public void saveBinaryMaps() {
         System.out.println("Saving Binary maps...");
         int game = handler.getGameIndex();
@@ -420,7 +420,7 @@ public class MapMatrix {
 
             }
         }
-    }
+    }*/
 
 
     public void loadBDHCsFromFile(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, int game) {
@@ -612,10 +612,22 @@ public class MapMatrix {
     }
 
     public static String getFilePathWithCoords(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, String nameEnd, Point mapCoords, String extensionName) {
-        String filename = Utils.removeExtensionFromPath(mapFileName) + nameEnd;
-        Point minCoords = getMinCoords(matrix);
-        filename += "_" + String.format("%02d", mapCoords.x - minCoords.x) + "_" + String.format("%02d", mapCoords.y - minCoords.y);
+        //String filename = Utils.removeExtensionFromPath(mapFileName) + nameEnd;
+        //Point minCoords = getMinCoords(matrix);
+        //filename += "_" + String.format("%02d", mapCoords.x - minCoords.x) + "_" + String.format("%02d", mapCoords.y - minCoords.y);
+        String filename = getMapName(matrix, mapFileName, nameEnd, mapCoords);
         return folderPath + File.separator + filename + "." + extensionName;
+    }
+
+    public static String getMapName(HashMap<Point, MapData> matrix, String mapFileName, String nameEnd, Point mapCoords){
+        String mapName = Utils.removeExtensionFromPath(mapFileName) + nameEnd;
+        Point minCoords = getMinCoords(matrix);
+        mapName += "_" + String.format("%02d", mapCoords.x - minCoords.x) + "_" + String.format("%02d", mapCoords.y - minCoords.y);
+        return mapName;
+    }
+
+    public String getMapName(Point mapCoords){
+        return getMapName(this.matrix, new File(filePath).getName(),"",mapCoords);
     }
 
     private static String getFilePath(String folderPath, String mapFileName, String extensionName) {
