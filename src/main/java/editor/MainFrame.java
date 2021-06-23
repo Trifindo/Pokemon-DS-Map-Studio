@@ -23,6 +23,7 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.jogamp.opengl.GLContext;
 import editor.about.AboutDialog;
+import editor.game.patches.GamePatch;
 import editor.mapgroups.SavePDSMAPAreasDialog;
 import editor.mapgroups.VisualizeExportGroupsDialog;
 import formats.animationeditor.AnimationEditorDialog;
@@ -47,6 +48,8 @@ import editor.keyboard.KeyboardInfoDialog2;
 import editor.layerselector.*;
 import editor.mapdisplay.*;
 import editor.mapmatrix.*;
+import formats.mapbin.ExportMapBinDialog;
+import formats.mapbin.ExportMapBinInfoDialog;
 import formats.nsbtx.NsbtxEditorDialog;
 import formats.nsbtx2.Nsbtx2;
 import formats.nsbtx2.NsbtxEditorDialog2;
@@ -61,6 +64,7 @@ import editor.state.StateHandler;
 import editor.tileselector.*;
 import editor.tileseteditor.*;
 import net.miginfocom.swing.MigLayout;
+import org.xml.sax.SAXException;
 import tileset.*;
 import utils.Utils;
 
@@ -407,6 +411,8 @@ public class MainFrame extends JFrame {
         saveMapsAsNsbWithDialog();
     }
 
+    private void jbExportBinActionPerformed(ActionEvent e) {saveMapAsBinWithDialog();}
+
     private void jbExportNsb1ActionPerformed(ActionEvent e) {
         saveMapBtxWithDialog();
     }
@@ -681,7 +687,7 @@ public class MainFrame extends JFrame {
     private void jbHelp2ActionPerformed(ActionEvent e) {
         CollisionsEditorDialogBW dialog = new CollisionsEditorDialogBW(this);
         dialog.init(handler);
-        dialog.setLocationRelativeTo(null);
+        dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
         mapDisplay.requestUpdate();
@@ -876,7 +882,7 @@ public class MainFrame extends JFrame {
         if(Game.isGenV(handler.getGameIndex())){
             CollisionsEditorDialogBW dialog = new CollisionsEditorDialogBW(this);
             dialog.init(handler);
-            dialog.setLocationRelativeTo(null);
+            dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
 
             mapDisplay.requestUpdate();
@@ -1181,6 +1187,12 @@ public class MainFrame extends JFrame {
                 handler.getMapMatrix().saveBDHCs(entrySet);
                 handler.getMapMatrix().saveBdhcams(entrySet);
                 handler.getMapMatrix().saveBuildings(entrySet);
+                
+                //handler.getMapMatrix().saveBinaryMaps();
+	            //saveBdhc();
+	            //saveBacksound();
+	            //saveCollisions();
+	            //saveBuildings();
 
                 stringForTextThread = "Almost done";
                 saveMapThumbnail();
@@ -1230,6 +1242,12 @@ public class MainFrame extends JFrame {
                     handler.getMapMatrix().saveBDHCs(entrySet);
                     handler.getMapMatrix().saveBdhcams(entrySet);
                     handler.getMapMatrix().saveBuildings(entrySet);
+                    
+                    //handler.getMapMatrix().saveBinaryMaps();
+	                //saveCollisions();
+	                //saveBacksound();
+	                //saveBdhc();
+	                //saveBuildings();
 
                     stringForTextThread = "Almost done";
                     addRecentMap(Utils.addExtensionToPath(path, MapMatrix.fileExtension));
@@ -1317,7 +1335,7 @@ public class MainFrame extends JFrame {
 
     private boolean saveMapAsObjWithDialog(boolean saveTextures) {
         final ExportSingleMapObjDialog exportMapDialog = new ExportSingleMapObjDialog(this, "Export Single OBJ Map - Settings");
-        exportMapDialog.setLocationRelativeTo(null);
+        exportMapDialog.setLocationRelativeTo(this);
         exportMapDialog.setVisible(true);
 
         if (exportMapDialog.getReturnValue() == ExportMapsObjDialog.APPROVE_OPTION) {
@@ -1364,6 +1382,32 @@ public class MainFrame extends JFrame {
             }
         }
         return false;
+    }
+    
+    private void saveMapAsBinWithDialog(){
+        if(handler.getGame().gameSelected >= Game.BLACK){
+            JOptionPane.showMessageDialog(this, "Can't save Gen V binary files yet", "Error saving bin map", JOptionPane.ERROR_MESSAGE);
+        }else{
+            final ExportMapBinDialog exportBinDialog = new ExportMapBinDialog(this, "Export Bin Map Settings");
+            exportBinDialog.setLocationRelativeTo(this);
+            exportBinDialog.setVisible(true);
+
+            if (exportBinDialog.getReturnValue() == ExportMapBinDialog.APPROVE_OPTION) {
+                HashSet<Point> maps = new HashSet<>();
+                if(exportBinDialog.exportCurrentMapBin()){
+                    maps.add(handler.getMapSelected());
+                }else if(exportBinDialog.exportAllMapsBin()){
+                    maps.addAll(handler.getMapMatrix().getMatrix().keySet());
+                }else{
+                    return;//Nothing selected
+                }
+
+                ExportMapBinInfoDialog exportInfoDialog = new ExportMapBinInfoDialog(this);
+                exportInfoDialog.init(handler, maps, new File(handler.getMapMatrix().filePath).getParent());
+                exportInfoDialog.setLocationRelativeTo(this);
+                exportInfoDialog.setVisible(true);
+            }
+        }
     }
 
     private boolean saveMapsAsObjWithDialog(boolean saveTextures) {
@@ -1527,7 +1571,7 @@ public class MainFrame extends JFrame {
 
             final ImdOutputInfoDialog outputDialog = new ImdOutputInfoDialog(this);
             outputDialog.init(handler, fileNames, objFolderPath, imdFolderPath);
-            outputDialog.setLocationRelativeTo(null);
+            outputDialog.setLocationRelativeTo(this);
             outputDialog.setVisible(true);
 
             return true;
@@ -1637,7 +1681,7 @@ public class MainFrame extends JFrame {
 
             final NsbmdOutputInfoDialog outputDialog = new NsbmdOutputInfoDialog(this, true);
             outputDialog.init(handler, fileNames, imdFolderPath, nsbFolderPath, configDialog.includeNsbtxInNsbmd());
-            outputDialog.setLocationRelativeTo(null);
+            outputDialog.setLocationRelativeTo(this);
             outputDialog.setVisible(true);
             return true;
         }
@@ -2382,6 +2426,7 @@ public class MainFrame extends JFrame {
         jbExportObj2 = new JButton();
         jbExportImd = new JButton();
         jbExportNsb = new JButton();
+        jbExportBin = new JButton();
         jbExportNsb1 = new JButton();
         jbExportNsb2 = new JButton();
         jbSplitPDSMAPbyArea = new JButton();
@@ -2946,6 +2991,20 @@ public class MainFrame extends JFrame {
             jbExportNsb.setVerticalTextPosition(SwingConstants.BOTTOM);
             jbExportNsb.addActionListener(e -> jbExportNsbActionPerformed(e));
             jtMainToolbar.add(jbExportNsb);
+
+            //---- jbExportBin ----
+            jbExportBin.setIcon(new ImageIcon(getClass().getResource("/icons/exportBinIcon.png")));
+            jbExportBin.setToolTipText("Export Map as BIN");
+            jbExportBin.setFocusable(false);
+            jbExportBin.setHorizontalTextPosition(SwingConstants.CENTER);
+            jbExportBin.setMaximumSize(new Dimension(38, 38));
+            jbExportBin.setMinimumSize(new Dimension(38, 38));
+            jbExportBin.setName("");
+            jbExportBin.setPreferredSize(new Dimension(38, 38));
+            jbExportBin.setVerticalTextPosition(SwingConstants.BOTTOM);
+            jbExportBin.addActionListener(e -> jbExportBinActionPerformed(e));
+            jtMainToolbar.add(jbExportBin);
+            jtMainToolbar.addSeparator();
 
             //---- jbExportNsb1 ----
             jbExportNsb1.setIcon(new ImageIcon(getClass().getResource("/icons/exportBtxIcon.png")));
@@ -3853,26 +3912,25 @@ public class MainFrame extends JFrame {
                         {
                             jpMoveLayer.setBorder(new TitledBorder(null, "Move Layer", TitledBorder.LEADING, TitledBorder.ABOVE_TOP));
                             jpMoveLayer.setLayout(new MigLayout(
-                                    "insets 0,hidemode 3,gap 0 0",
-                                    // columns
-                                    "[fill]" +
-                                            "[fill]",
-                                    // rows
-                                    "[center]"));
-                            jpMoveLayer.setMaximumSize(null);
-                            jpMoveLayer.setMinimumSize(null);
+                                "insets 0,hidemode 3,gap 0 0",
+                                // columns
+                                "[fill]" +
+                                "[fill]",
+                                // rows
+                                "[center]"));
+
                             //======== jpDirectionalPad ========
                             {
                                 jpDirectionalPad.setLayout(new MigLayout(
-                                        "insets 0,hidemode 3,gap 3 3",
-                                        // columns
-                                        "[fill]" +
-                                                "[fill]" +
-                                                "[fill]",
-                                        // rows
-                                        "[fill]" +
-                                                "[fill]" +
-                                                "[fill]"));
+                                    "insets 0,hidemode 3,gap 3 3",
+                                    // columns
+                                    "[fill]" +
+                                    "[fill]" +
+                                    "[fill]",
+                                    // rows
+                                    "[fill]" +
+                                    "[fill]" +
+                                    "[fill]"));
 
                                 //---- jbMoveMapUp ----
                                 jbMoveMapUp.setForeground(new Color(0, 153, 0));
@@ -4081,16 +4139,17 @@ public class MainFrame extends JFrame {
     private JButton jbOpenMap;
     private JButton jbSaveMap;
     private JButton jbAddMaps;
+    private JButton jbUndo;
+    private JButton jbRedo;
     private JButton jbExportObj2;
     private JButton jbExportImd;
     private JButton jbExportNsb;
+    private JButton jbExportBin;
     private JButton jbExportNsb1;
     private JButton jbExportNsb2;
     private JButton jbSplitPDSMAPbyArea;
     private JButton jbExportAndConvert;
     private JButton jbExportAndConvertAll;
-    private JButton jbUndo;
-    private JButton jbRedo;
     private JButton jbTilelistEditor;
     private JButton jbCollisionsEditor;
     private JButton jbBdhcEditor;

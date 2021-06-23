@@ -18,6 +18,7 @@ import editor.game.Game;
 import editor.grid.MapGrid;
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
+import formats.mapbin.MapBinHGSS;
 import formats.obj.ObjWriter;
 
 import java.awt.BasicStroke;
@@ -114,6 +115,7 @@ public class MapMatrix {
             path = path.concat("." + fileExtension);
         }
 
+
         removeUnusedMaps();
         removeAllUnusedMapFiles();
 
@@ -165,6 +167,7 @@ public class MapMatrix {
 
         filePath = "";
         tilesetFilePath = "";
+
         matrix = new HashMap<>(expectedMaxNumMaps);
 
         borderMaps = new HashSet<>();
@@ -372,11 +375,13 @@ public class MapMatrix {
         handler.getTileset().importTiles(newTiles);
         //handler.getTileset().removeUnusedTextures();
 
+
         loadBDHCsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBdhcamsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadCollisionsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBacksoundsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBuildingsFromFile(newMaps, folderPath, fileName);
+
 
         for (HashMap.Entry<Point, MapData> entry : newMaps.entrySet()) {
             Point coords = new Point(entry.getKey().x + offset.x, entry.getKey().y + offset.y);
@@ -454,6 +459,7 @@ public class MapMatrix {
         ObjWriter writer = new ObjWriter(handler.getTileset(), generateGridHashMap(), objFilePath, handler.getGameIndex(),
                 saveTextures, includeVertexColors, tileUpscale);
         writer.writeMapObj();
+
     }
 
     public void saveBDHCs(Set<Map.Entry<Point, MapData>> entrySet) throws IOException {
@@ -515,6 +521,30 @@ public class MapMatrix {
         }
     }
 
+    /*
+    public void saveBinaryMaps() {
+        System.out.println("Saving Binary maps...");
+        int game = handler.getGameIndex();
+        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+            Point p = mapEntry.getKey();
+            try {
+                if (game == Game.HEART_GOLD || game == Game.SOUL_SILVER) {
+                    String path = getFilePathWithCoords(matrix, new File(filePath).getParent(),
+                            new File(filePath).getName(), mapEntry.getKey(), "bin");
+
+                    File file = new File(path);
+                    MapBinHGSS mapBin = new MapBinHGSS(file.getParent(), file.getName());
+                    mapBin.saveToFile(path);
+
+                    System.out.println("Map BIN saved (" + p.x + ", " + p.y + ")");
+                }
+            } catch (Exception ex) {
+                //ex.printStackTrace();
+                System.out.println("Map BIN NOT saved! (" + p.x + ", " + p.y + ")");
+
+            }
+        }
+    }*/
 
 
     public void loadBDHCsFromFile(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, int game) {
@@ -632,12 +662,12 @@ public class MapMatrix {
                     mapEntry.getValue().setCollisions(new Collisions(gameIndex));
                 }
             }
-            if(Game.isGenV(gameIndex)){
-                try{
+            if (Game.isGenV(gameIndex)) {
+                try {
                     String collisionsPath = getFilePathWithCoords(matrix, folderPath, mapFileName, "2",
                             mapEntry.getKey(), Collisions.fileExtension);
                     mapEntry.getValue().setCollisions2(new Collisions(collisionsPath));
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     mapEntry.getValue().setCollisions2(new Collisions(gameIndex));
                 }
             }
@@ -649,12 +679,12 @@ public class MapMatrix {
                 } catch (Exception ex) {
                     mapEntry.getValue().setCollisions(new Collisions(gameIndex));
                 }
-                if(Game.isGenV(gameIndex)){
-                    try{
+                if (Game.isGenV(gameIndex)) {
+                    try {
                         String collisionsPath = getFilePathWithCoords(matrix, folderPath, mapFileName, "2",
                                 mapEntry.getKey(), Collisions.fileExtension);
                         mapEntry.getValue().setCollisions2(new Collisions(collisionsPath));
-                    }catch(Exception ex){
+                    } catch (Exception ex) {
                         mapEntry.getValue().setCollisions2(new Collisions(gameIndex));
                     }
                 }
@@ -706,10 +736,22 @@ public class MapMatrix {
     }
 
     public static String getFilePathWithCoords(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, String nameEnd, Point mapCoords, String extensionName) {
-        String filename = Utils.removeExtensionFromPath(mapFileName) + nameEnd;
-        Point minCoords = getMinCoords(matrix);
-        filename += "_" + String.format("%02d", mapCoords.x - minCoords.x) + "_" + String.format("%02d", mapCoords.y - minCoords.y);
+        //String filename = Utils.removeExtensionFromPath(mapFileName) + nameEnd;
+        //Point minCoords = getMinCoords(matrix);
+        //filename += "_" + String.format("%02d", mapCoords.x - minCoords.x) + "_" + String.format("%02d", mapCoords.y - minCoords.y);
+        String filename = getMapName(matrix, mapFileName, nameEnd, mapCoords);
         return folderPath + File.separator + filename + "." + extensionName;
+    }
+
+    public static String getMapName(HashMap<Point, MapData> matrix, String mapFileName, String nameEnd, Point mapCoords){
+        String mapName = Utils.removeExtensionFromPath(mapFileName) + nameEnd;
+        Point minCoords = getMinCoords(matrix);
+        mapName += "_" + String.format("%02d", mapCoords.x - minCoords.x) + "_" + String.format("%02d", mapCoords.y - minCoords.y);
+        return mapName;
+    }
+
+    public String getMapName(Point mapCoords){
+        return getMapName(this.matrix, new File(filePath).getName(),"",mapCoords);
     }
 
     private static String getFilePath(String folderPath, String mapFileName, String extensionName) {
@@ -880,7 +922,7 @@ public class MapMatrix {
     private void removeUnusedMapFiles(String folderPath, String fileExtension) {
         Point minCoords = getMinCoords();
 
-        if(folderPath != null) {
+        if (folderPath != null) {
             File folder = new File(folderPath);
             File[] filesToRemove = folder.listFiles(new FilenameFilter() {
                 @Override
@@ -899,7 +941,7 @@ public class MapMatrix {
         }
     }
 
-    public void clearAllCollisions(){
+    public void clearAllCollisions() {
         for (MapData mapData : matrix.values()) {
             mapData.setCollisions(new Collisions(handler.getGameIndex()));
             mapData.setCollisions2(new Collisions(handler.getGameIndex()));
@@ -1226,4 +1268,5 @@ public class MapMatrix {
         }
 
     }
+
 }

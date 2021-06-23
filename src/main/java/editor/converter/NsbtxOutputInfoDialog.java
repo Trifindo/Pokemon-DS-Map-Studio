@@ -25,9 +25,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -35,6 +33,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import formats.nsbtx2.exceptions.NsbtxTextureSizeException;
 import tileset.TilesetMaterial;
 import utils.Utils;
 
@@ -59,6 +58,8 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
     private enum ConvertStatus {
         SUCCESS_STATUS("SUCCESSFULLY CONVERTED", GREEN),
+        PALETTE_MISSED_STATUS("CONVERTED (SOME PALETTES NOT CONVERTED)", ORANGE),
+        TEXTURE_MISSED_STATUS("CONVERTED (SOME TEXTURES NOT CONVERTED", ORANGE),
         CONVERTER_NOT_FOUND_STATUS("NOT CONVERTED (CONVERTER NOT FOUND)", RED),
         CONVERSION_ERROR_STATUS("NOT CONVERTED (CONVERSION ERROR)", RED),
         IMD_NOT_FOUND_ERROR_STATUS("NOT CONVERTED (IMD NOT FOUND)", RED),
@@ -87,8 +88,8 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
         getRootPane().setDefaultButton(jbAccept);
         jbAccept.requestFocus();
 
-        jTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
-        jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(350);
 
         jTable1.getColumnModel().getColumn(1).setCellRenderer(new StatusColumnCellRenderer());
 
@@ -138,7 +139,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Resulting NSBTX files info (Experimental)");
+        setTitle("Resulting NSBTX files info");
         setModal(true);
         addWindowListener(new WindowAdapter() {
             @Override
@@ -239,7 +240,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addContainerGap()
                             .addGroup(jPanel2Layout.createParallelGroup()
-                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel5)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
@@ -266,7 +267,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel1)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)))
+                                    .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)))
                             .addContainerGap())
                 );
                 jPanel2Layout.setVerticalGroup(
@@ -316,7 +317,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                         jpDisplayLayout.createParallelGroup()
                             .addGroup(jpDisplayLayout.createSequentialGroup()
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nsbtxPanel1, GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                                .addComponent(nsbtxPanel1, GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     );
                     jpDisplayLayout.setVerticalGroup(
@@ -354,7 +355,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                             .addGroup(jpErrorInfoLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(jpErrorInfoLayout.createParallelGroup()
-                                    .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
                                     .addGroup(jpErrorInfoLayout.createSequentialGroup()
                                         .addComponent(jLabel6)
                                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -383,7 +384,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                     .addContainerGap()
                     .addGroup(contentPaneLayout.createParallelGroup()
                         .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSplitPane1, GroupLayout.DEFAULT_SIZE, 882, Short.MAX_VALUE))
+                        .addComponent(jSplitPane1))
                     .addContainerGap())
         );
         contentPaneLayout.setVerticalGroup(
@@ -470,8 +471,9 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
         int nFilesNotConverted = 0;
         for (Integer areaIndex : areaIndices) {
             ConvertStatus exportStatus;
+            boolean paletteMissed = false;
+            boolean textureMissed = false;
             if (!Thread.currentThread().isInterrupted()) {
-
                 try {
                     HashSet<Integer> usedMaterialIndices = new HashSet<>();
 
@@ -496,6 +498,26 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                         }
                     }
 
+                    //Map used for knowing which palette is used by a certain texture
+                    //They key is the texture name, the value is the palette name
+                    Map<String, String> texPalNames = new HashMap<>();
+                    for (Integer matIndex : usedMaterialIndices) {
+                        TilesetMaterial mat = handler.getTileset().getMaterial(matIndex);
+                        if (!texPalNames.containsKey(mat.getTextureNameImd())) {
+                            texPalNames.put(mat.getTextureNameImd(), mat.getPaletteNameImd());
+                        }
+                    }
+
+                    //Map used for knowing which texture is used by a certain palette
+                    //They key is the palette name, the value is the texture name
+                    Map<String, String> palTexNames = new HashMap<>();
+                    for (Integer matIndex : usedMaterialIndices) {
+                        TilesetMaterial mat = handler.getTileset().getMaterial(matIndex);
+                        if (!palTexNames.containsKey(mat.getPaletteNameImd())) {
+                            palTexNames.put(mat.getPaletteNameImd(), mat.getTextureNameImd());
+                        }
+                    }
+
                     Nsbtx2 nsbtx = new Nsbtx2();
                     for (Integer matIndex : usedMaterialIndices) {
                         TilesetMaterial mat = handler.getTileset().getMaterial(matIndex);
@@ -511,6 +533,31 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                                     mat.getTextureNameImd(),
                                     mat.getPaletteNameImd()
                             );
+                        } else if ((nsbtx.isTextureNameUsed(mat.getTextureNameImd()))
+                                && (!nsbtx.isPaletteNameUsed(mat.getPaletteNameImd()))) {
+                            try {
+                                nsbtx.addPalette(
+                                        nsbtx.getTextureNames().indexOf(mat.getTextureNameImd()),
+                                        nsbtx.getPaletteNames().indexOf(texPalNames.get(mat.getTextureNameImd())),
+                                        mat.getPaletteNameImd(),
+                                        mat.getTextureImg());
+                            } catch (Exception ex) {
+                                paletteMissed = true;
+                            }
+                        } else if ((!nsbtx.isTextureNameUsed(mat.getTextureNameImd()))
+                                && (nsbtx.isPaletteNameUsed(mat.getPaletteNameImd()))) {
+                            try {
+                                nsbtx.addTexture(
+                                        nsbtx.getTextureNames().indexOf(palTexNames.get(mat.getPaletteNameImd())),
+                                        nsbtx.getPaletteNames().indexOf(mat.getPaletteNameImd()),
+                                        mat.getTextureImg(),
+                                        Nsbtx2.jcbToFormatLookup[mat.getColorFormat()],
+                                        isTransparent,
+                                        mat.getTextureNameImd()
+                                );
+                            } catch (Exception ex) {
+                                textureMissed = true;
+                            }
                         }
                     }
 
@@ -565,7 +612,13 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                                     Files.move(srcFile.toPath(), dstFile.toPath(),
                                             StandardCopyOption.REPLACE_EXISTING);
                                     //srcFile.renameTo(new File(nsbPath));
-                                    exportStatus = ConvertStatus.SUCCESS_STATUS;
+                                    if (paletteMissed) {
+                                        exportStatus = ConvertStatus.PALETTE_MISSED_STATUS;
+                                    } else if(textureMissed){
+                                        exportStatus = ConvertStatus.TEXTURE_MISSED_STATUS;
+                                    }else {
+                                        exportStatus = ConvertStatus.SUCCESS_STATUS;
+                                    }
                                     nFilesConverted++;
                                     nsbtxData.set(nFilesProcessed, nsbtx);
                                 } catch (IOException ex) {

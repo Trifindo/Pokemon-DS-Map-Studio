@@ -13,10 +13,12 @@ import static com.jogamp.opengl.GL.GL_FRONT_AND_BACK;
 import static com.jogamp.opengl.GL.GL_GREATER;
 import static com.jogamp.opengl.GL.GL_LEQUAL;
 import static com.jogamp.opengl.GL.GL_LESS;
+import static com.jogamp.opengl.GL.GL_LINEAR_MIPMAP_LINEAR;
 import static com.jogamp.opengl.GL.GL_LINES;
 import static com.jogamp.opengl.GL.GL_NEAREST;
 import static com.jogamp.opengl.GL.GL_NOTEQUAL;
 import static com.jogamp.opengl.GL.GL_NO_ERROR;
+import static com.jogamp.opengl.GL.GL_ONE;
 import static com.jogamp.opengl.GL.GL_ONE_MINUS_DST_ALPHA;
 import static com.jogamp.opengl.GL.GL_ONE_MINUS_SRC_ALPHA;
 import static com.jogamp.opengl.GL.GL_REPEAT;
@@ -45,11 +47,15 @@ import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.texture.Texture;
+import editor.bordermap.BorderMapsGrid;
 import editor.grid.GeometryGL;
+import editor.grid.MapGrid;
 import editor.grid.MapLayerGL;
 import editor.handler.MapData;
 import editor.state.MapLayerState;
 import geometry.Generator;
+import graphicslib3D.Matrix3D;
+import graphicslib3D.Vector3D;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -73,11 +79,18 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import javax.swing.SwingUtilities;
 
+import math.mat.Mat4f;
+import math.transf.TransfMat;
+import math.vec.Vec3f;
+import math.vec.Vec4f;
 import tileset.Tile;
 import utils.ImageTiler;
 import utils.Utils;
@@ -116,6 +129,20 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     protected float targetX, targetY, targetZ;
     protected float cameraRotX, cameraRotY, cameraRotZ;
     protected static final float defaultCamRotX = 40.0f, defaultCamRotY = 0.0f, defaultCamRotZ = 0.0f;
+    protected Mat4f camModelView = new Mat4f();
+    protected Mat4f camProj = new Mat4f();
+    protected Mat4f camMVP = new Mat4f();
+    protected final Vec4f[] cornerDeltas = new Vec4f[]{
+            new Vec4f(-MapGrid.cols / 2, -MapGrid.rows / 2, 0.0f, 0.0f),
+            new Vec4f(+MapGrid.cols / 2, -MapGrid.rows / 2, 0.0f, 0.0f),
+            new Vec4f(+MapGrid.cols / 2, +MapGrid.rows / 2, 0.0f, 0.0f),
+            new Vec4f(-MapGrid.cols / 2, +MapGrid.rows / 2, 0.0f, 0.0f)
+    };
+    protected final float fovDeg = 60.0f;
+    //protected HashMap<Point, MapData> filteredMaps;
+    //protected Vec3f[][] frustum;
+    //protected final float zNear = 1.0f;
+    //protected final float zFar = 1000.0f;
 
     //Scene displays
     protected boolean drawGridEnabled = true;
@@ -187,6 +214,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         //Set focusable for keyListener
         setFocusable(true);
 
+
         //Create custom cursors
         //smartGridCursor = Utils.loadCursor("/cursors/smartGridCursor.png");
         //smartGridInvertedCursor = Utils.loadCursor("/cursors/smartGridInvertedCursor.png");
@@ -237,6 +265,11 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
         gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        //gl.glLoadIdentity();
+        //lighting(gl);
+
+        applyCameraTransform(gl);
+
         if (updateRequested) {
 
             //Load Textures into OpenGL
@@ -249,32 +282,41 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         }
 
         try {
+            //Update view frustum and filter maps
+            Vec3f[][] frustum = viewMode.getFrustumPlanes(this);
+            HashMap<Point, MapData> filteredMaps = getMapsInsideFrustum(frustum);
+
+            //gl.glEnable(GL2.GL_LIGHTING);
+
+            //Draw opaque tiles
+            if (handler.getTileset().size() > 0) {
+                drawOpaqueMaps(gl, filteredMaps);
+            }
+
+            //Draw semitransparent tiles
+            if (handler.getTileset().size() > 0) {
+                drawTransparentMaps(gl, filteredMaps);
+            }
+
+            //gl.glDisable(GL2.GL_LIGHTING);
+
             //Draw grid
             if (drawGridEnabled) {
-                drawGridMaps(gl);
+                drawGridMaps(gl, filteredMaps);
             }
 
             //Draw axis
             drawAxis();
 
-            //Draw opaque tiles
-            if (handler.getTileset().size() > 0) {
-                drawOpaqueMaps(gl);
-            }
-
-            //Draw semitransparent tiles
-            if (handler.getTileset().size() > 0) {
-                drawTransparentMaps(gl);
-            }
-
             if (drawWireframeEnabled) {
                 if (handler.getTileset().size() > 0) {
-                    drawWireframeMaps(gl);
+                    drawWireframeMaps(gl, filteredMaps);
                 }
             }
 
             if (drawGridBorderMaps) {
-                drawGridBorderMaps(gl);
+                HashSet<Point> filteredGridBorderMaps = getGridBorderMapsInsideFrustum(frustum);
+                drawGridBorderMaps(gl, filteredGridBorderMaps);
             }
 
             if (drawAreasEnabled) {
@@ -473,6 +515,10 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
         if (handler != null) {
             viewMode.paintComponent(this, g);
+
+            if (backImageEnabled) {
+                drawBackImage(g);
+            }
         }
 
     }
@@ -622,7 +668,9 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     }
 
     protected void drawGrid(GL2 gl, float x, float y, float z, float r, float g, float b, float a) {
-        applyCameraTransform(gl);
+        //applyCameraTransform(gl);
+
+        gl.glPushMatrix();
 
         gl.glTranslatef(x, y, z);
 
@@ -638,20 +686,21 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         drawLines(gl, gridBuffer);
 
         gl.glColor4f(1, 1, 1, 1);
+
+        gl.glPopMatrix();
     }
 
-    protected void drawGridBorderMaps(GL2 gl) {
+    protected void drawGridBorderMaps(GL2 gl, HashSet<Point> gridBorderMaps) {
         gl.glEnable(GL_BLEND);
         gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        for (Point borderMap : handler.getMapMatrix().getBorderMaps()) {
+        for (Point borderMap : gridBorderMaps) {
             drawGrid(gl, borderMap.x * cols, -borderMap.y * rows, 0, 1.0f, 1.0f, 1.0f, 0.2f);
         }
     }
 
-    protected void drawGridMaps(GL2 gl) {
-        Set<Point> maps = handler.getMapMatrix().getMatrix().keySet();
+    protected void drawGridMaps(GL2 gl, HashMap<Point, MapData> maps) {
         Point mapSelected = handler.getMapSelected();
-        for (Point map : maps) {
+        for (Point map : maps.keySet()) {
             if (!map.equals(mapSelected)) {
                 drawGrid(gl, map.x * cols, -map.y * rows, 0, 1.0f, 1.0f, 1.0f, 1.0f);
             }
@@ -662,7 +711,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     protected void drawAxis() {
         GL2 gl = (GL2) GLContext.getCurrentGL();
 
-        applyCameraTransform(gl);
+        //applyCameraTransform(gl);
 
         gl.glDisable(GL_TEXTURE_2D);
 
@@ -680,7 +729,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glEnd();
     }
 
-    protected void drawOpaqueMaps(GL2 gl) {
+    protected void drawOpaqueMaps(GL2 gl, HashMap<Point, MapData> maps) {
         gl.glEnable(GL_BLEND);
         gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 
@@ -690,12 +739,14 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glEnable(GL_ALPHA_TEST);
         gl.glAlphaFunc(GL_GREATER, 0.9f);
 
-        drawAllMaps(gl, (gl2, geometryGL, textures) -> {
+        //long before = System.nanoTime();
+        drawAllMaps(gl, maps, (gl2, geometryGL, textures) -> {
             drawGeometryGL(gl2, geometryGL, textures);
         });
+        //System.out.println("Elapsed: " + (System.nanoTime() - before));
     }
 
-    protected void drawTransparentMaps(GL2 gl) {
+    protected void drawTransparentMaps(GL2 gl, HashMap<Point, MapData> maps) {
         gl.glEnable(GL_BLEND);
 
         gl.glBlendFunc(GL2.GL_ONE, GL2.GL_ONE_MINUS_SRC_ALPHA);
@@ -707,12 +758,12 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glEnable(GL_ALPHA_TEST);
         gl.glAlphaFunc(GL_NOTEQUAL, 0.0f);
 
-        drawAllMaps(gl, (gl2, geometryGL, textures) -> {
+        drawAllMaps(gl, maps, (gl2, geometryGL, textures) -> {
             drawGeometryGL(gl2, geometryGL, textures);
         });
     }
 
-    protected void drawWireframeMaps(GL2 gl) {
+    protected void drawWireframeMaps(GL2 gl, HashMap<Point, MapData> maps) {
         gl.glEnable(GL_BLEND);
         gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -726,19 +777,82 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glDisable(GL_TEXTURE_2D);
         gl.glLineWidth(1.5f);
 
-        drawAllMaps(gl, (gl2, geometryGL, textures) -> {
+        drawAllMaps(gl, maps, (gl2, geometryGL, textures) -> {
             drawWireframeGeometryGL(gl2, geometryGL, textures);
         });
 
         gl.glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 
-    protected void drawAllMaps(GL2 gl, DrawGeometryGLFunction drawFunction) {
-        for (HashMap.Entry<Point, MapData> map : handler.getMapMatrix().getMatrix().entrySet()) {
+    protected void drawAllMaps(GL2 gl, HashMap<Point, MapData> maps, DrawGeometryGLFunction drawFunction) {
+
+        for (HashMap.Entry<Point, MapData> map : maps.entrySet()) {
+
             drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL,
                     map.getKey().x * cols, -map.getKey().y * rows, 0);
-            /*drawAllMapLayersGL(gl, map.getValue().getGrid().mapLayersGL,
-                    map.getKey().x * cols, -map.getKey().y * rows, 0);*/
+
+
+            /*
+            //Simple optimization culling map corners
+            for(Vec4f cornerDelta : cornerDeltas){
+                Vec3f mapCenter = new Vec4f(
+                        map.getKey().x * MapGrid.cols,
+                        -map.getKey().y * MapGrid.rows,
+                        0.0f,
+                        1.0f).add(cornerDelta).mul(camMVP).toVec3f();
+
+                gl.glPushMatrix();
+                gl.glLoadIdentity();
+
+                gl.glPointSize(5.0f);
+
+                gl.glBegin(GL2.GL_POINTS);
+                gl.glVertex2f(mapCenter.x, mapCenter.y);
+                gl.glEnd();
+
+                gl.glPopMatrix();
+
+                if (mapCenter.x > -1.0f && mapCenter.x < 1.0f && mapCenter.y > -1.0f && mapCenter.y < 1.0f && mapCenter.z > 0.0f) {
+                    drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL,
+                            map.getKey().x * cols, -map.getKey().y * rows, 0);
+                    break;
+                }
+            }
+            */
+
+
+            /*
+            //Simple optimization culling map centers
+            Vec3f mapCenter = new Vec4f(
+                    map.getKey().x * MapGrid.cols,
+                    -map.getKey().y * MapGrid.rows,
+                    0.0f,
+                    1.0f).mul(camMVP).toVec3f();
+
+
+
+            gl.glPushMatrix();
+            gl.glLoadIdentity();
+
+            gl.glPointSize(5.0f);
+
+            gl.glBegin(GL2.GL_POINTS);
+            gl.glVertex2f(mapCenter.x, mapCenter.y);
+            gl.glEnd();
+
+            gl.glPopMatrix();
+
+
+            if (mapCenter.x > -1.0f && mapCenter.x < 1.0f && mapCenter.y > -1.0f && mapCenter.y < 1.0f && mapCenter.z > 0.0f) {
+                drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL,
+                        map.getKey().x * cols, -map.getKey().y * rows, 0);
+            }
+            */
+
+            /*
+            drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL,
+                    map.getKey().x * cols, -map.getKey().y * rows, 0);
+            */
         }
     }
 
@@ -753,7 +867,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     }
 
     protected void drawMapLayerGL(GL2 gl, DrawGeometryGLFunction drawFunction, MapLayerGL mapLayerGL, float x, float y, float z) {
-        applyCameraTransform(gl);
+        //applyCameraTransform(gl);
+        gl.glPushMatrix();
 
         gl.glTranslatef(x, y, z);
 
@@ -761,6 +876,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             drawFunction.draw(gl, geometryGL, handler.getTileset().getTextures());
             //drawGeometryGL(gl, geometryGL, handler.getTileset().getTextures());
         }
+
+        gl.glPopMatrix();
     }
 
     protected void drawGeometryGL(GL2 gl, GeometryGL geometryGL, ArrayList<Texture> textures) {
@@ -783,16 +900,19 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                     gl.glEnableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
                     gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
                     gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
+                    //gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
 
                     gl.glTexCoordPointer(2, GL2.GL_FLOAT, 0, geometryGL.tCoordsTriBuffer);
                     gl.glColorPointer(3, GL2.GL_FLOAT, 0, geometryGL.colorsTriBuffer);
                     gl.glVertexPointer(3, GL2.GL_FLOAT, 0, geometryGL.vCoordsTriBuffer);
+                    //gl.glNormalPointer(GL2.GL_FLOAT, 0, geometryGL.nCoordsTriBuffer);
 
                     gl.glDrawArrays(GL2.GL_TRIANGLES, 0, geometryGL.vCoordsTri.length / 3);
 
                     gl.glDisableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
                     gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
                     gl.glDisableClientState(GL2.GL_COLOR_ARRAY);
+                    //gl.glDisableClientState(GL2.GL_NORMAL_ARRAY);
 
                 } catch (Exception ex) {
                     gl.glBegin(GL_TRIANGLES);
@@ -811,16 +931,19 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                     gl.glEnableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
                     gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
                     gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
+                    //gl.glEnableClientState(GL2.GL_NORMAL_ARRAY);
 
                     gl.glTexCoordPointer(2, GL2.GL_FLOAT, 0, geometryGL.tCoordsQuadBuffer);
                     gl.glColorPointer(3, GL2.GL_FLOAT, 0, geometryGL.colorsQuadBuffer);
                     gl.glVertexPointer(3, GL2.GL_FLOAT, 0, geometryGL.vCoordsQuadBuffer);
+                    //gl.glNormalPointer(GL2.GL_FLOAT, 0, geometryGL.nCoordsQuadBuffer);
 
                     gl.glDrawArrays(GL2.GL_QUADS, 0, geometryGL.vCoordsQuad.length / 3);
 
                     gl.glDisableClientState(GL2.GL_TEXTURE_COORD_ARRAY);
                     gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
                     gl.glDisableClientState(GL2.GL_COLOR_ARRAY);
+                    //gl.glDisableClientState(GL2.GL_NORMAL_ARRAY);
 
                 } catch (Exception ex) {
                     gl.glBegin(GL_QUADS);
@@ -895,7 +1018,9 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glDisable(GL_TEXTURE_2D);
         gl.glLineWidth(3f);
 
-        applyCameraTransform(gl);
+        //applyCameraTransform(gl);
+        gl.glPushMatrix();
+
         gl.glTranslatef(-cols / 2, rows / 2, 0.025f);
         gl.glScalef(cols, -rows, 1.0f);
 
@@ -912,6 +1037,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         }
 
         gl.glLineWidth(1f);
+
+        gl.glPopMatrix();
     }
 
     protected void drawLines(GL2 gl, FloatBuffer vCoordsPoints) {
@@ -928,10 +1055,40 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     }
 
-    protected void applyCameraTransform(GL2 gl) {
-        gl.glLoadIdentity();
+    public static void rotToDir(Vec3f rot, Vec3f dir) {
+        dir.mul(TransfMat.eulerDegToMat_(rot));
+    }
 
+    public static Vec3f rotToDir_(Vec3f angles) {
+        Vec3f dir = new Vec3f(0.0f, 0.0f, -1.0f);
+        rotToDir(angles, dir);
+        return dir;
+    }
+
+    public static void rotToUp(Vec3f rot, Vec3f dst){
+        dst.set(0.0f, 1.0f, 0.0f);
+        dst.mul(TransfMat.eulerDegToMat_(rot));
+    }
+
+    public static Vec3f rotToUp_(Vec3f rot){
+        Vec3f dst = new Vec3f();
+        rotToUp(rot, dst);
+        return dst;
+    }
+
+    public static float distPointPlaneSigned(Vec3f point, Vec3f[] plane){
+        Vec3f normal = plane[1].sub_(plane[0]).cross(plane[2].sub_(plane[0])).normalize();
+        //Vec3f normal = plane[2].sub_(plane[1]).cross(plane[0].sub_(plane[1])).normalize();
+        return normal.dot(point) -normal.dot(plane[0]);
+    }
+
+    protected void applyCameraTransform(GL2 gl) {
+        gl.glMatrixMode(GL2.GL_PROJECTION);
+        gl.glLoadIdentity();
         viewMode.applyCameraTransform(this, gl);
+
+        gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glLoadIdentity();
         glu.gluLookAt(
                 0.0f, 0.0f, cameraZ,
                 0.0f, 0.0f, 0.0f,
@@ -942,6 +1099,27 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glRotatef(-cameraRotZ, 0.0f, 0.0f, 1.0f);
 
         gl.glTranslatef(-cameraX, -cameraY, 0.0f);
+
+
+        Mat4f rx = TransfMat.rotationDeg_(-cameraRotX, new Vec3f(1.0f, 0.0f, 0.0f));
+        Mat4f ry = TransfMat.rotationDeg_(-cameraRotY, new Vec3f(0.0f, 1.0f, 0.0f));
+        Mat4f rz = TransfMat.rotationDeg_(-cameraRotZ, new Vec3f(0.0f, 0.0f, 1.0f));
+        Vec3f tarPos = new Vec3f(cameraX, cameraY, 0.0f);
+        Vec3f camDir = rotToDir_(new Vec3f(cameraRotX, cameraRotY, cameraRotZ));
+        Vec3f camPos = tarPos.add_(camDir.negate_().scale_(cameraZ));
+        Mat4f t = TransfMat.translation_(camPos.negate_());
+        camModelView = rx.mul_(ry).mul(rz).mul(t);
+        camProj = TransfMat.perspective_(60.0f, (float) getWidth() / getHeight(), 1.0f, 1000.0f);
+        camMVP = camProj.mul_(camModelView);
+
+        /*
+        System.out.println("MODELVIEW: ");
+        camModelView.print();
+        System.out.println("PROJECTION: ");
+        camProj.print();*/
+
+        //new Vec3f(cameraX, cameraY, cameraZ).print();
+        //rotToDir_(new Vec3f(cameraRotX, cameraRotY, cameraRotZ)).print();
 
     }
 
@@ -1357,8 +1535,45 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         }
     }
 
-    public float getAspectRatio(){
-        return (float)getWidth() / getHeight();
+    public float getAspectRatio() {
+        return (float) getWidth() / getHeight();
+    }
+
+    public boolean isSphereInsideFrustum(Vec3f spherePos, float radius, Vec3f[][] frustum){
+        for(Vec3f[] plane : frustum){
+            float distance = distPointPlaneSigned(spherePos, plane);
+            if(distance < -radius){
+                return false;
+            }else if(distance < radius){
+                //return false;
+            }
+        }
+        return true;
+    }
+
+    public HashMap<Point, MapData> getMapsInsideFrustum(Vec3f[][] frustum){
+        float radius = (float) Math.sqrt((MapGrid.cols * MapGrid.cols) / 2.0f);
+        HashMap<Point, MapData> maps = new HashMap<Point, MapData>();
+        for (HashMap.Entry<Point, MapData> map : handler.getMapMatrix().getMatrix().entrySet()) {
+            Point p = map.getKey();
+            Vec3f center = new Vec3f(p.x * MapGrid.cols, -p.y * MapGrid.rows, 0.0f);
+            if(isSphereInsideFrustum(center, radius, frustum)){
+                maps.put(map.getKey(), map.getValue());
+            }
+        }
+        return maps;
+    }
+
+    public HashSet<Point> getGridBorderMapsInsideFrustum(Vec3f[][] frustum){
+        float radius = (float) Math.sqrt((MapGrid.cols * MapGrid.cols) / 2.0f);
+        HashSet<Point> borderMaps = new HashSet<>();
+        for (Point borderMap : handler.getMapMatrix().getBorderMaps()) {
+            Vec3f center = new Vec3f(borderMap.x * MapGrid.cols, -borderMap.y * MapGrid.rows, 0.0f);
+            if(isSphereInsideFrustum(center, radius, frustum)){
+                borderMaps.add(borderMap);
+            }
+        }
+        return borderMaps;
     }
 
     boolean checkOpenGLError() {
@@ -1413,12 +1628,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     public void drawBackImage(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-
-        Point p = handler.getMapSelected();
         g2d.setComposite(AlphaComposite.SrcOver.derive(backImageAlpha));
-        g2d.drawImage(backImage,
-                borderSize * tileSize + p.x * cols * tileSize,
-                borderSize * tileSize + p.y * rows * tileSize, null);
+        g2d.drawImage(backImage, borderSize * tileSize, borderSize * tileSize, null);
         g2d.setComposite(AlphaComposite.SrcOver.derive(1.0f));
     }
 
@@ -1438,6 +1649,28 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             handler.setActiveTileLayer(layerIndex);
         }
         handler.getMainFrame().getThumbnailLayerSelector().repaint();
+    }
+
+    private void lighting(GL2 gl) {
+        //gl.glEnable(GL2.GL_LIGHTING);
+        //gl.glEnable (GL2.GL_COLOR_MATERIAL ) ;
+        //gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, new float[]{1.0f, 1.0f, 1.0f, 0.0f}, 0);
+        //gl.glLightModelfv(GL2.GL_LIGHT_MODEL_LOCAL_VIEWER, new float[]{1.0f, 0.0f, 1.0f, 0.0f}, 0);
+        gl.glLightModelfv(GL2.GL_LIGHT_MODEL_LOCAL_VIEWER, new float[]{1.0f, 0.0f, 1.0f, 0.0f}, 0);
+
+        //gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, new float[]{0.2f, 0.2f, 0.2f, 0.0f}, 0);
+        //gl.glMaterialf(GL2.GL_FRONT_AND_BACK, GL2.GL_SHININESS, 55.0f);
+
+        gl.glEnable(GL2.GL_LIGHT0);
+        //gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, new float[]{1.0f, 1.0f, 1.0f, 0.0f}, 0);
+        //gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, new float[]{-1.0f, 1.0f, 1.0f, 0.0f}, 0);
+        //gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, new float[]{1.0f, 1.0f, 1.0f, 1.0f}, 0);
+        //gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPECULAR, new float[]{1.0f, 1.0f, 1.0f, 0.0f}, 0);
+
+        gl.glEnable(GL2.GL_LIGHT1);
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, new float[]{0.8f, 0.8f, 0.8f, 0.0f}, 0);
+        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, new float[]{1.0f, -1.0f, -1.0f, 1.0f}, 0);
+
     }
 
     public void requestScreenshot() {

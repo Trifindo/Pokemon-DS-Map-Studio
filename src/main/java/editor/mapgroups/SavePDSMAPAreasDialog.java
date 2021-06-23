@@ -37,7 +37,7 @@ public class SavePDSMAPAreasDialog extends JDialog {
     /**
      * Creates new form ExportImdDialog
      */
-    public SavePDSMAPAreasDialog(java.awt.Frame parent, boolean modal) {
+    public SavePDSMAPAreasDialog(Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 

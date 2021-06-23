@@ -1,8 +1,6 @@
 
 package editor.tileseteditor;
 
-import javax.swing.*;
-import javax.swing.GroupLayout;
 import static com.jogamp.opengl.GL.GL_BACK;
 import static com.jogamp.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static com.jogamp.opengl.GL.GL_CULL_FACE;
@@ -781,22 +779,4 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
         this.normalsEnabled = normalsEnabled;
     }
 
-
-    private void initComponents() {
-        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-
-        //======== this ========
-
-        GroupLayout layout = new GroupLayout(this);
-        setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGap(0, 300, Short.MAX_VALUE)
-        );
-        // JFormDesigner - End of component initialization  //GEN-END:initComponents
-    }
 }

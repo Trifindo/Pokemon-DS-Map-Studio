@@ -4,7 +4,10 @@ package editor.grid;
 import editor.handler.MapEditorHandler;
 import formats.obj.ObjWriter;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashSet;
 
 import tileset.Tile;
