@@ -18,24 +18,24 @@ command -v java >/dev/null 2>&1 || {
     exit 1
 }
 
-# download PDSMS 2.1 to local user applications
+# download PDSMS 2.2 to local user applications
 cd ~/.local/share/applications/ || exit
-wget "https://github.com/Trifindo/Pokemon-DS-Map-Studio/releases/download/2.1/Pokemon.DS.Map.Studio-2.1.zip"
-unzip "Pokemon.DS.Map.Studio-2.1.zip"
+wget "https://github.com/Trifindo/Pokemon-DS-Map-Studio/releases/download/2.2/Pokemon.DS.Map.Studio-2.2.zip"
+unzip "Pokemon.DS.Map.Studio-2.2.zip"
 # remove the downloaded archive
-rm -f "Pokemon.DS.Map.Studio-2.1.zip"
+rm -f "Pokemon.DS.Map.Studio-2.2.zip"
 
 # download icon
 wget "https://github.com/Trifindo/Pokemon-DS-Map-Studio/raw/master/src/main/resources/icons/programIconHD.png"
-mv "programIconHD.png" "Pokemon DS Map Studio-2.1/icon.png"
+mv "programIconHD.png" "Pokemon DS Map Studio-2.2/icon.png"
 
 # create a desktop shortcut
 echo "#!/usr/bin/env xdg-open
 [Desktop Entry]
 Type=Application
 Name=Pokemon DS Map Studio
-Exec=/usr/bin/java -jar \"${PWD}/Pokemon DS Map Studio-2.1/lib/Pokemon DS Map Studio-2.1.jar\"
-Icon=${PWD}/Pokemon DS Map Studio-2.1/icon.png
+Exec=/usr/bin/java -jar \"${PWD}/Pokemon DS Map Studio-2.2/lib/Pokemon DS Map Studio-2.2.jar\"
+Icon=${PWD}/Pokemon DS Map Studio-2.2/icon.png
 Categories=Development;
 " > PDSMS.desktop
 
