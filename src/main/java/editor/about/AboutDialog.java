@@ -72,7 +72,7 @@ public class AboutDialog extends JDialog {
         //---- jlVersionName ----
         jlVersionName.setFont(new Font("Tahoma", Font.BOLD, 18));
         jlVersionName.setHorizontalAlignment(SwingConstants.CENTER);
-        jlVersionName.setText("Pokemon DS Map Studio 2.1");
+        jlVersionName.setText("Pokemon DS Map Studio 2.2");
         contentPane.add(jlVersionName, "cell 0 0 2 1");
 
         //---- jlAuthor ----
