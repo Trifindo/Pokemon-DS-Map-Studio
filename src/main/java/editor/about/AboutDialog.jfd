@@ -64,7 +64,7 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "jlCredits"
 					"foreground": new com.jformdesigner.model.SwingColor( "Label.foreground" )
-					"text": "<html>\n<table>\t\n\t<tr><th><p style=\"color:#F07903\";>JackHack96</p></th><th><p style=\"color:#333FFF\";>Mikelan98</p></th><th><p style=\"color:#898989\";>Jay</p></th></tr>\n\t<tr><th><p style=\"color:#F00303\";>Driox</p></th><th><p style=\"color:#AD7F36\";>Jiboule</p></th><th><p style=\"color:#3B41A06\";>Brom</p></th></tr>\n\t<tr><th><p style=\"color:#2F9B0F\";>Nextworld</p></th><th><p style=\"color:#603294\";>AdAstra</p></th><th><p style=\"color:#328D94\";>Monkeyboy0</p></th></tr>\n\t<tr><th><p style=\"color:#7AB006\";>René</p></th><th><p style=\"color:#7AB0F6\";>Silast</p></th></tr>\n</table>\n</html>"
+					"text": "<html>\n<table>\t\n\t<tr><th><p style=\"color:#F07903\";>JackHack96</p></th><th><p style=\"color:#333FFF\";>Mikelan98</p></th><th><p style=\"color:#898989\";>Jay</p></th><th><p style=\"color:#CE0D0D\";>BagBoy</p></th></tr>\n\t<tr><th><p style=\"color:#F00303\";>Driox</p></th><th><p style=\"color:#AD7F36\";>Jiboule</p></th><th><p style=\"color:#3B41A06\";>Brom</p></th><th><p style=\"color:#FF960B\";>Gonhex</p></th></tr>\n\t<tr><th><p style=\"color:#2F9B0F\";>Nextworld</p></th><th><p style=\"color:#603294\";>AdAstra</p></th><th><p style=\"color:#328D94\";>Monkeyboy0</p></th><th><p style=\"color:#B3AF2E\";>turtleisaac</p></th></tr>\n\t<tr><th><p style=\"color:#7AB006\";>René</p></th><th><p style=\"color:#7AB0F6\";>Silast</p></th> </tr>\n</table>\n</html>"
 					"border": new javax.swing.border.TitledBorder( "Credits" )
 				}, new FormLayoutConstraints( class java.lang.String ) {
 					"value": "Center"
