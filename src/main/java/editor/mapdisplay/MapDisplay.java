@@ -516,9 +516,9 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         if (handler != null) {
             viewMode.paintComponent(this, g);
 
-            if (backImageEnabled) {
-                drawBackImage(g);
-            }
+            //if (backImageEnabled) {
+            //    drawBackImage(g);
+            //}
         }
 
     }
@@ -1628,8 +1628,12 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     public void drawBackImage(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
+
+        Point p = handler.getMapSelected();
         g2d.setComposite(AlphaComposite.SrcOver.derive(backImageAlpha));
-        g2d.drawImage(backImage, borderSize * tileSize, borderSize * tileSize, null);
+        g2d.drawImage(backImage,
+                borderSize * tileSize + p.x * cols * tileSize,
+                borderSize * tileSize + p.y * rows * tileSize, null);
         g2d.setComposite(AlphaComposite.SrcOver.derive(1.0f));
     }
 
