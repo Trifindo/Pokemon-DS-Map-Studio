@@ -30,7 +30,7 @@ import static com.jogamp.opengl.GL2ES3.GL_QUADS;
 public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 	
 	//Cam Choice
-	private static final boolean wideCamMode = false;
+	private static final boolean wideCamMode = true;
 
     //Editor Handler
     protected MapEditorHandler handler;

@@ -11,21 +11,21 @@ public abstract class CamParameter{
         UNKNOWN_4(0x0C,"Unknown 4", Color.black, 3,-1),
         UNKNOWN_5(0x10,"Unknown 5", Color.black, 4,-1),
         CAMERA_X(0x14,"Camera X", Color.red, 5, 0),
-        CAMERA_Y(0x1C,"Camera Y", Color.green, 6, 1),
-        CAMERA_Z(0x18,"Camera Z", Color.blue, 7, 2),
+        CAMERA_Y(0x18,"Camera Y", Color.green, 6, 2),
+        CAMERA_Z(0x1C,"Camera Z", Color.blue, 7, 1),
         TARGET_X(0x20,"Target X", Color.red, 8, 3),
-        TARGET_Y(0x28,"Target Y", Color.green, 9, 4),
-        TARGET_Z(0x24,"Target Z", Color.blue, 10, 5),
-        CAMERA_UP_X(0X2C, "Camera Up X",Color.red, 11, 6),
-        CAMERA_UP_Y(0X34, "Camera Up Y",Color.green, 12, 7),
-        CAMERA_UP_Z(0X30, "Camera Up Z",Color.blue, 13, 8),
+        TARGET_Y(0x24,"Target Y", Color.green, 9, 5),
+        TARGET_Z(0x28,"Target Z", Color.blue, 10, 4),
+        CAMERA_UP_X(0x2C, "Camera Up X",Color.red, 11, 6),
+        CAMERA_UP_Y(0x30, "Camera Up Y",Color.green, 12, 8),
+        CAMERA_UP_Z(0x34, "Camera Up Z",Color.blue, 13, 7),
         UNKNOWN_6(0x38,"Unknown 6", Color.black, 14,-1),
         UNKNOWN_7(0x3C,"Unknown 7", Color.black, 15,-1),
         UNKNOWN_8(0x40,"Unknown 8", Color.black, 16,-1),
         UNKNOWN_9(0x44,"Unknown 9", Color.black, 17,-1),
         TARGET_PREV_X(0x48, "Target Prev X",Color.black, 18,-1),
-        TARGET_PREV_Y(0x50, "Target Prev Y",Color.black, 19,-1),
-        TARGET_PREV_Z(0x4C, "Target Prev Z",Color.black, 20,-1);
+        TARGET_PREV_Y(0x4C, "Target Prev Y",Color.black, 19,-1),
+        TARGET_PREV_Z(0x50, "Target Prev Z",Color.black, 20,-1);
 
         public final String name;
         public final Color color;

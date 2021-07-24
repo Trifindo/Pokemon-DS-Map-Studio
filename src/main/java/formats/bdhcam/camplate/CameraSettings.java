@@ -33,14 +33,16 @@ public class CameraSettings {
                           float targetX, float targetY, float targetZ,
                           float upX, float upY, float upZ) {
         values[0] = x;
-        values[1] = y;
-        values[2] = z;
+        values[2] = y;
+        values[1] = z;
+
         values[3] = targetX;
-        values[4] = targetY;
-        values[5] = targetZ;
+        values[5] = targetY;
+        values[4] = targetZ;
+
         values[6] = upX;
-        values[7] = upY;
-        values[8] = upZ;
+        values[8] = upY;
+        values[7] = upZ;
 
     }
 
