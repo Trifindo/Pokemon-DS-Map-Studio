@@ -35,7 +35,7 @@ public class SavePDSMAPAreasDialog extends JDialog {
     private MapEditorHandler handler;
 
     /**
-     * Creates new form ExportImdDialog
+     * Creates new form SavePDSMAPAreasDialog
      */
     public SavePDSMAPAreasDialog(Frame parent, boolean modal) {
         super(parent, modal);
@@ -328,17 +328,6 @@ public class SavePDSMAPAreasDialog extends JDialog {
         }
     }
 
-    private boolean hasMatrixCoordsInImdName(String imdName) {
-        String name = Utils.removeExtensionFromPath(imdName);
-        try {
-            String[] splitName = name.split("_");
-            return (hasCoordInName(splitName[splitName.length - 2])
-                    && hasCoordInName(splitName[splitName.length - 1]));
-        } catch (Exception ex) {
-            return false;
-        }
-    }
-
     private boolean hasCoordInName(String name) {
         try {
             Integer.parseInt(name);
@@ -359,6 +348,4 @@ public class SavePDSMAPAreasDialog extends JDialog {
     public ArrayList<Integer> getSelectedAreaIndices() {
         return selectedAreaIndices;
     }
-
-
 }

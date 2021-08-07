@@ -568,9 +568,39 @@ public class TilesetEditorDialog extends JDialog {
                 jlistINames.setSelectedIndex(index + 1);
             }
         }
-
     }
 
+    private void jbMoveMaterialAllTheWayUpActionPerformed(ActionEvent evt) {
+        if (handler.getTileset().size() > 0) {
+            int firstIndex;
+            int i;
+
+            for (firstIndex = tileHandler.getMaterialIndexSelected(), i = firstIndex; i > 0; i--) {
+                handler.getTileset().swapMaterials(i, i - 1);
+                tileDisplay.swapTextures(i, i - 1);
+            }
+            updateJComboBox();
+            updateViewTextNames();
+            jlistINames.setSelectedIndex(Math.min(firstIndex+1, handler.getTileset().getMaterials().size() - 1));
+        }
+    }
+
+    private void jbMoveMaterialAllTheWayDownActionPerformed(ActionEvent evt) {
+        if (handler.getTileset().size() > 0) {
+            int i;
+            int firstIndex;
+            int limit = handler.getTileset().getMaterials().size() - 1;
+
+            for (firstIndex = tileHandler.getMaterialIndexSelected(), i = firstIndex; i < limit; i++) {
+                handler.getTileset().swapMaterials(i, i + 1);
+                tileDisplay.swapTextures(i, i + 1);
+            }
+            updateJComboBox();
+            updateViewTextNames();
+            jlistINames.setSelectedIndex(Math.max(firstIndex-1, 0));
+        }
+
+    }
     private void jtfMaterialNameActionPerformed(ActionEvent evt) {
         if (handler.getTileset().size() > 0) {
             changeMaterialName();
@@ -1689,6 +1719,8 @@ public class TilesetEditorDialog extends JDialog {
         panel17 = new JPanel();
         jbMoveMaterialUp = new JButton();
         jbMoveMaterialDown = new JButton();
+        jbMoveMaterialAllTheWayUp = new JButton();
+        jbMoveMaterialAllTheWayDown = new JButton();
         jLabel8 = new JLabel();
         jLabel7 = new JLabel();
         jLabel6 = new JLabel();
@@ -2777,7 +2809,9 @@ public class TilesetEditorDialog extends JDialog {
                                 "insets 0,hidemode 3,gap 10 0",
                                 // columns
                                 "[shrink 0,fill]" +
-                                        "[shrink 0,fill]",
+                                "[shrink 0,fill]" +
+                                "[shrink 0,fill]" +
+                                "[shrink 0,fill]",
                                 // rows
                                 "[grow,fill]"));
 
@@ -2796,6 +2830,22 @@ public class TilesetEditorDialog extends JDialog {
                         jbMoveMaterialDown.setPreferredSize(null);
                         jbMoveMaterialDown.addActionListener(e -> jbMoveMaterialDownActionPerformed(e));
                         panel17.add(jbMoveMaterialDown, "cell 1 0");
+
+                        //---- jbMoveMaterialAllTheWayUp ----
+                        jbMoveMaterialAllTheWayUp.setText("\u25b2\u25b2\u25b2");
+                        jbMoveMaterialAllTheWayUp.setMaximumSize(null);
+                        jbMoveMaterialAllTheWayUp.setMinimumSize(null);
+                        jbMoveMaterialAllTheWayUp.setPreferredSize(null);
+                        jbMoveMaterialAllTheWayUp.addActionListener(e -> jbMoveMaterialAllTheWayUpActionPerformed(e));
+                        panel17.add(jbMoveMaterialAllTheWayUp, "cell 2 0");
+
+                        //---- jbMoveMaterialAllTheWayDown ----
+                        jbMoveMaterialAllTheWayDown.setText("\u25bc\u25bc\u25bc");
+                        jbMoveMaterialAllTheWayDown.setMaximumSize(null);
+                        jbMoveMaterialAllTheWayDown.setMinimumSize(null);
+                        jbMoveMaterialAllTheWayDown.setPreferredSize(null);
+                        jbMoveMaterialAllTheWayDown.addActionListener(e -> jbMoveMaterialAllTheWayDownActionPerformed(e));
+                        panel17.add(jbMoveMaterialAllTheWayDown, "cell 3 0");
                     }
                     panel11.add(panel17, "cell 1 0");
 
@@ -3476,6 +3526,8 @@ public class TilesetEditorDialog extends JDialog {
     private JPanel panel17;
     private JButton jbMoveMaterialUp;
     private JButton jbMoveMaterialDown;
+    private JButton jbMoveMaterialAllTheWayUp;
+    private JButton jbMoveMaterialAllTheWayDown;
     private JLabel jLabel8;
     private JLabel jLabel7;
     private JLabel jLabel6;

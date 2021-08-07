@@ -115,7 +115,6 @@ public class MapMatrix {
             path = path.concat("." + fileExtension);
         }
 
-
         removeUnusedMaps();
         removeAllUnusedMapFiles();
 
