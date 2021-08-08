@@ -312,37 +312,39 @@ public class MapMatrix {
             Point p = entry.getKey();
             MapData md = entry.getValue();
 
-            out.println(gameIndexTag);
-            out.println(handler.getGameIndex());
+            if (p != null && md != null) {
+                out.println(gameIndexTag);
+                out.println(handler.getGameIndex());
 
-            out.println(tilesetTag);
-            String filename = Utils.removeExtensionFromPath(new File(filePath).getName());
-            out.println(filename + "." + Tileset.fileExtension);
+                out.println(tilesetTag);
+                String filename = Utils.removeExtensionFromPath(new File(filePath).getName());
+                out.println(filename + "." + Tileset.fileExtension);
 
-            Point minCoords = getMinCoords();
-            out.println(mapstartTag);
-            out.println((p.x - minCoords.x) + " " + (p.y - minCoords.y));
+                Point minCoords = getMinCoords();
+                out.println(mapstartTag);
+                out.println((p.x - minCoords.x) + " " + (p.y - minCoords.y));
 
-            out.println(areaIndexTag);
-            out.println(md.getAreaIndex());
+                out.println(areaIndexTag);
+                out.println(md.getAreaIndex());
 
-            out.println(exportgroupTag);
-            out.println(md.getExportGroupIndex());
+                out.println(exportgroupTag);
+                out.println(md.getExportGroupIndex());
 
-            if(md.getExportGroupIndex() > 0 && md.isExportGroupCenter()) {
-                out.println(exportgroupCenterTag);
+                if (md.getExportGroupIndex() > 0 && md.isExportGroupCenter()) {
+                    out.println(exportgroupCenterTag);
+                }
+
+                for (int[][] tLayer : md.getGrid().tileLayers) {
+                    out.println(tileGridTag);
+                    MapGrid.printMatrixInFile(out, tLayer); //Todo change this
+                }
+
+                for (int[][] hLayer : md.getGrid().heightLayers) {
+                    out.println(heightGridTag);
+                    MapGrid.printMatrixInFile(out, hLayer); //Todo change this
+                }
+                out.println(mapEndTag);
             }
-
-            for (int[][] tLayer : md.getGrid().tileLayers) {
-                out.println(tileGridTag);
-                MapGrid.printMatrixInFile(out, tLayer); //Todo change this
-            }
-
-            for (int[][] hLayer : md.getGrid().heightLayers) {
-                out.println(heightGridTag);
-                MapGrid.printMatrixInFile(out, hLayer); //Todo change this
-            }
-            out.println(mapEndTag);
         }
         out.close();
     }

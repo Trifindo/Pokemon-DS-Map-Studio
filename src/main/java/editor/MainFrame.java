@@ -996,9 +996,11 @@ public class MainFrame extends JFrame {
                             stringForTextThread = "Saving area " + area;
 
                             HashMap<Point, MapData> singleAreaMap = new HashMap<>();
-                            if (includeMapAtOrigin) {
-                                Point origin = new Point(0, 0);
-                                singleAreaMap.put(origin, allAreasMap.get(origin));
+
+                            Point origin = new Point(0, 0);
+                            MapData originMap = allAreasMap.get(origin);
+                            if (includeMapAtOrigin && originMap != null) {
+                                singleAreaMap.put(origin, originMap);
                             }
 
                             for (Point p : handler.getMapMatrix().getAreas().get(area).getCoordList()) {
@@ -1027,6 +1029,8 @@ public class MainFrame extends JFrame {
                     } finally {
                         textThread.interrupt();
                         this.setGUIBlock(false);
+                        JOptionPane.showMessageDialog(this, "Your maps have been split and saved.",
+                                "Success", JOptionPane.INFORMATION_MESSAGE);
                     }
                 });
                 t.setDaemon(false);
