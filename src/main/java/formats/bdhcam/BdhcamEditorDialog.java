@@ -497,7 +497,7 @@ public class BdhcamEditorDialog extends JDialog {
                             
                             //---- jbDuplicatePlate ----
                             jbDuplicatePlate.setText("Duplicate");
-     						jbDuplicatePlate.setIcon(new ImageIcon(getClass().getResource("/icons/copyIcon.png")));
+     						jbDuplicatePlate.setIcon(new ImageIcon(getClass().getResource("/icons/CopyIcon.png")));
      						jbDuplicatePlate.addActionListener(e -> jbDuplicatePlateActionPerformed(e));
      						panel4.add(this.jbDuplicatePlate);
                         }

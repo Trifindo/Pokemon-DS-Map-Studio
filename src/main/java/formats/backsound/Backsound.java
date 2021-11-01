@@ -16,7 +16,7 @@ import utils.BinaryWriter;
 public class Backsound {
 
     public static final String fileExtension = "bgs";
-    private static final int SIGNATURE = 4660;
+    private static final int SIGNATURE = 0x1234;
     private static final int BYTES_PER_SOUNDPLATE = 8;
 
     private ArrayList<Soundplate> soundplates = new ArrayList<>();

@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -794,7 +793,7 @@ public class BdhcEditorDialog extends JDialog {
                     panel2.add(jbRemovePlate);
 
                     //---- jbDuplicatePlate ----
-                    jbDuplicatePlate.setIcon(new ImageIcon(getClass().getResource("/icons/copyIcon.png")));
+                    jbDuplicatePlate.setIcon(new ImageIcon(getClass().getResource("/icons/CopyIcon.png")));
                     jbDuplicatePlate.setText("Duplicate Plate");
                     jbDuplicatePlate.addActionListener(e -> jbDuplicatePlateActionPerformed(e));
                     panel2.add(jbDuplicatePlate);

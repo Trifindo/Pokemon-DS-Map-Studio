@@ -42,6 +42,4 @@ public class Bdhc {
     public void addPlate(Plate toDuplicate) {
         plates.add(new Plate(toDuplicate));
     }
-
-
 }

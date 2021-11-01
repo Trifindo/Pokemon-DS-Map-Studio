@@ -86,6 +86,14 @@ public class BacksoundEditorDialog extends JDialog {
         }
     }
 
+    private void jbDuplicatePlateActionPerformed(ActionEvent e) {
+        if (backsoundHandler.getSoundplates().size() > 0) {
+            backsoundHandler.duplicateSelectedSoundplate();
+            updateView();
+            repaint();
+        }
+    }
+
     private void jcbSoundTypeActionPerformed(ActionEvent e) {
         if (backsoundHandler.getSoundplates().size() > 0) {
             backsoundHandler.getSelectedSoundplate().setSoundCode(jcbSoundType.getSelectedIndex());
@@ -157,7 +165,7 @@ public class BacksoundEditorDialog extends JDialog {
     private void updateViewSoundType() {
         if (backsoundHandler.getSoundplates().size() > 0) {
             jcbSoundTypeEnabled = false;
-            int index = Math.max(0, Math.min(backsoundHandler.getSelectedSoundplate().soundCode, 15));
+            int index = Math.max(0, Math.min(backsoundHandler.getSelectedSoundplate().soundCode, Soundplate.SOUNDS_COUNT));
             jcbSoundType.setSelectedIndex(index);
             jcbSoundTypeEnabled = true;
         }
@@ -166,7 +174,7 @@ public class BacksoundEditorDialog extends JDialog {
     private void updateViewVolume() {
         if (backsoundHandler.getSoundplates().size() > 0) {
             jsVolumeEnabled = false;
-            int volume = Math.max(0, Math.min(backsoundHandler.getSelectedSoundplate().volume, 2));
+            int volume = Math.max(0, Math.min(backsoundHandler.getSelectedSoundplate().volume, Soundplate.MAX_VOLUME));
             jsVolume.setValue(volume);
             jsVolumeEnabled = true;
         }
@@ -247,6 +255,7 @@ public class BacksoundEditorDialog extends JDialog {
         panel1 = new JPanel();
         jbAddPlate = new JButton();
         jbRemovePlate = new JButton();
+        jbDuplicatePlate = new JButton();
         jPanel2 = new JPanel();
         jLabel1 = new JLabel();
         jcbSoundType = new JComboBox<>();
@@ -259,6 +268,7 @@ public class BacksoundEditorDialog extends JDialog {
         setTitle("Backsound Editor");
         setModal(true);
         setResizable(false);
+        setMinimumSize(new Dimension(975, 610));
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -279,6 +289,7 @@ public class BacksoundEditorDialog extends JDialog {
 
         //======== panel2 ========
         {
+            panel2.setMinimumSize(new Dimension(880, 44));
             panel2.setLayout(new MigLayout(
                 "hidemode 3",
                 // columns
@@ -287,8 +298,7 @@ public class BacksoundEditorDialog extends JDialog {
                 "[fill]" +
                 "[fill]",
                 // rows
-                "[]0" +
-                "[]"));
+                "0"));
 
             //---- jbImport ----
             jbImport.setIcon(new ImageIcon(getClass().getResource("/icons/ImportTileIcon.png")));
@@ -316,6 +326,8 @@ public class BacksoundEditorDialog extends JDialog {
         //======== jPanel1 ========
         {
             jPanel1.setBorder(new TitledBorder("Soundplates"));
+            jPanel1.setMaximumSize(new Dimension(425, 2147483647));
+            jPanel1.setPreferredSize(new Dimension(425, 232));
             jPanel1.setLayout(new MigLayout(
                 "insets 5,hidemode 3,gap 5 5",
                 // columns
@@ -345,20 +357,33 @@ public class BacksoundEditorDialog extends JDialog {
 
             //======== panel1 ========
             {
-                panel1.setLayout(new GridLayout(0, 2, 5, 5));
+                panel1.setMaximumSize(new Dimension(32767, 500));
+                panel1.setLayout(new GridLayout(0, 3, 3, 5));
 
                 //---- jbAddPlate ----
                 jbAddPlate.setIcon(new ImageIcon(getClass().getResource("/icons/AddIcon.png")));
                 jbAddPlate.setText("Add Plate");
                 jbAddPlate.setPreferredSize(new Dimension(119, 25));
+                jbAddPlate.setMinimumSize(new Dimension(29, 30));
+                jbAddPlate.setIconTextGap(5);
                 jbAddPlate.addActionListener(e -> jbAddPlateActionPerformed(e));
                 panel1.add(jbAddPlate);
 
                 //---- jbRemovePlate ----
                 jbRemovePlate.setIcon(new ImageIcon(getClass().getResource("/icons/RemoveIcon.png")));
                 jbRemovePlate.setText("Remove Plate");
+                jbRemovePlate.setMinimumSize(new Dimension(29, 30));
+                jbRemovePlate.setIconTextGap(5);
                 jbRemovePlate.addActionListener(e -> jbRemovePlateActionPerformed(e));
                 panel1.add(jbRemovePlate);
+
+                //---- jbDuplicatePlate ----
+                jbDuplicatePlate.setIcon(new ImageIcon(getClass().getResource("/icons/CopyIcon.png")));
+                jbDuplicatePlate.setText("Duplicate Plate");
+                jbDuplicatePlate.setMinimumSize(new Dimension(29, 30));
+                jbDuplicatePlate.setIconTextGap(5);
+                jbDuplicatePlate.addActionListener(e -> jbDuplicatePlateActionPerformed(e));
+                panel1.add(jbDuplicatePlate);
             }
             jPanel1.add(panel1, "cell 0 1");
         }
@@ -442,6 +467,7 @@ public class BacksoundEditorDialog extends JDialog {
     private JPanel panel1;
     private JButton jbAddPlate;
     private JButton jbRemovePlate;
+    private JButton jbDuplicatePlate;
     private JPanel jPanel2;
     private JLabel jLabel1;
     private JComboBox<String> jcbSoundType;

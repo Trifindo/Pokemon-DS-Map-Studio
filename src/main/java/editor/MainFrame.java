@@ -23,7 +23,6 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.jogamp.opengl.GLContext;
 import editor.about.AboutDialog;
-import editor.game.patches.GamePatch;
 import editor.mapgroups.SavePDSMAPAreasDialog;
 import editor.mapgroups.VisualizeExportGroupsDialog;
 import formats.animationeditor.AnimationEditorDialog;
@@ -64,7 +63,6 @@ import editor.state.StateHandler;
 import editor.tileselector.*;
 import editor.tileseteditor.*;
 import net.miginfocom.swing.MigLayout;
-import org.xml.sax.SAXException;
 import tileset.*;
 import utils.Utils;
 
@@ -2702,7 +2700,7 @@ public class MainFrame extends JFrame {
                 jmEdit.addSeparator();
 
                 //---- jmiCopyLayer ----
-                jmiCopyLayer.setIcon(new ImageIcon(getClass().getResource("/icons/copyIcon.png")));
+                jmiCopyLayer.setIcon(new ImageIcon(getClass().getResource("/icons/CopyIcon.png")));
                 jmiCopyLayer.setText("Copy Layer");
                 jmiCopyLayer.setMnemonic('C');
                 jmiCopyLayer.addActionListener(e -> jmiCopyLayerActionPerformed(e));

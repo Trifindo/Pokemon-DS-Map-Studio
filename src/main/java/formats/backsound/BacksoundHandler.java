@@ -52,6 +52,15 @@ public class BacksoundHandler {
         handler.getBacksound().getSoundplates().add(new Soundplate());
     }
 
+    public void duplicateSoundplate(Soundplate toDuplicate) {
+        handler.getBacksound().getSoundplates().add(new Soundplate(toDuplicate));
+    }
+
+    public void duplicateSelectedSoundplate() {
+        ArrayList<Soundplate> splates = handler.getBacksound().getSoundplates();
+        splates.add( new Soundplate(splates.get(indexSelected)) );
+    }
+
     public void removeSelectedSoundplate() {
         handler.getBacksound().getSoundplates().remove(indexSelected);
         if (indexSelected > 0) {
