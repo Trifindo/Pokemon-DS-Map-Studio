@@ -4,9 +4,14 @@ plugins {
     id 'application'
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 repositories {
     mavenCentral()
-    jcenter()
     flatDir {
         dirs 'libs'
     }
@@ -14,11 +19,11 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation group: 'com.formdev', name: 'flatlaf', version: '0.39'
-    implementation group: 'com.miglayout', name: 'miglayout-swing', version: '5.0'
+    implementation group: 'com.formdev', name: 'flatlaf', version: '1.2'
+    implementation group: 'com.miglayout', name: 'miglayout-swing', version: '5.3'
 }
 
-version '2.2'
+version '2.3'
 mainClassName = "editor.MainFrame"
 
 compileJava.options.encoding = 'UTF-8'
