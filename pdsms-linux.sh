@@ -36,7 +36,8 @@ Type=Application
 Name=Pokemon DS Map Studio
 Exec=/usr/bin/java -jar \"${PWD}/Pokemon DS Map Studio-2.2/lib/Pokemon DS Map Studio-2.2.jar\"
 Icon=${PWD}/Pokemon DS Map Studio-2.2/icon.png
-Categories=Development;
+Categories=Graphics;Development;
+Comment=Create maps for Pokemon DS games in a tilebased format
 " > PDSMS.desktop
 
 echo "Pokemon DS Map Studio has been installed! Enjoy ;)"
