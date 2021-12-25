@@ -6,6 +6,7 @@ import formats.narc2.NarcFile;
 import formats.narc2.NarcFolder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import utils.BinaryReader;
 import utils.BinaryWriter;
@@ -16,9 +17,9 @@ import utils.BinaryWriter;
 public class BuildAnimeListDPPt {
 
     public static final int MAX_ANIMS_PER_BUILDING = 4;
-    private ArrayList<ArrayList<Integer>> animations;
-    private ArrayList<Byte> secondBytes;
-    private ArrayList<Boolean> slopeAnimations;
+    private final List<List<Integer>> animations;
+    private final List<Byte> secondBytes;
+    private final List<Boolean> slopeAnimations;
 
     public BuildAnimeListDPPt(Narc narc) {
         NarcFolder root = narc.getRoot();
@@ -32,10 +33,10 @@ public class BuildAnimeListDPPt {
         }
     }
 
-    public Narc toNarc() throws Exception {
+    public Narc toNarc() {
         NarcFolder root = new NarcFolder();
 
-        ArrayList<NarcFile> files = new ArrayList<>(animations.size());
+        List<NarcFile> files = new ArrayList<>(animations.size());
         for (int i = 0; i < animations.size(); i++) {
             files.add(new NarcFile("", root, animationToByteArray(i)));
         }
@@ -43,7 +44,7 @@ public class BuildAnimeListDPPt {
         return new Narc(root);
     }
 
-    private byte[] animationToByteArray(int animationIndex) throws Exception {
+    private byte[] animationToByteArray(int animationIndex) {
         byte[] data = new byte[4 + MAX_ANIMS_PER_BUILDING * 4];
         if (animations.get(animationIndex).isEmpty()) {
             BinaryWriter.writeUInt16(data, 0, 0xFFFF);
@@ -65,8 +66,8 @@ public class BuildAnimeListDPPt {
         return data;
     }
 
-    private static ArrayList<Integer> loadAnimation(byte[] data) {
-        ArrayList<Integer> animationIndices;
+    private static List<Integer> loadAnimation(byte[] data) {
+        List<Integer> animationIndices;
         try {
             if (BinaryReader.readUInt8(data, 0) != 255) { //Has animation
                 animationIndices = new ArrayList<>();
@@ -98,7 +99,7 @@ public class BuildAnimeListDPPt {
 
     public void addBuildingAnimation(int buildIndex, int animationIndex) {
         if (buildIndex >= 0 && buildIndex < animations.size()) {
-            ArrayList<Integer> buildAnimations = animations.get(buildIndex);
+            List<Integer> buildAnimations = animations.get(buildIndex);
             if (buildAnimations.size() < MAX_ANIMS_PER_BUILDING) {
                 buildAnimations.add(animationIndex);
             }
@@ -107,7 +108,7 @@ public class BuildAnimeListDPPt {
 
     public void removeBuildingAnimation(int buildIndex, int animationIndex) {
         if (buildIndex >= 0 && buildIndex < animations.size()) {
-            ArrayList<Integer> buildAnimations = animations.get(buildIndex);
+            List<Integer> buildAnimations = animations.get(buildIndex);
             if (!buildAnimations.isEmpty()) {
                 buildAnimations.remove(animationIndex);
                 if (buildAnimations.isEmpty()) {
@@ -119,7 +120,7 @@ public class BuildAnimeListDPPt {
 
     public void replaceBuildingAnimation(int buildIndex, int animationIndex, int oldAnimationIndex) {
         if (buildIndex >= 0 && buildIndex < animations.size()) {
-            ArrayList<Integer> buildAnimations = animations.get(buildIndex);
+            List<Integer> buildAnimations = animations.get(buildIndex);
             if (oldAnimationIndex >= 0 && oldAnimationIndex < buildAnimations.size()) {
                 buildAnimations.set(oldAnimationIndex, animationIndex);
             }
@@ -142,14 +143,13 @@ public class BuildAnimeListDPPt {
         }
     }
 
-    public ArrayList<ArrayList<Integer>> getAnimations() {
+    public List<List<Integer>> getAnimations() {
         return animations;
     }
 
-    public ArrayList<Byte> getSecondBytes() {
+    public List<Byte> getSecondBytes() {
         return secondBytes;
     }
 
-    public ArrayList<Boolean> getSlopeAnimations(){return slopeAnimations; }
-
+    public List<Boolean> getSlopeAnimations(){return slopeAnimations; }
 }

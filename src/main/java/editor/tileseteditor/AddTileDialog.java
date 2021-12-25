@@ -3,10 +3,7 @@ package editor.tileseteditor;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
-import java.awt.Color;
 
 import utils.swing.SwingUtils;
 import utils.swing.SwingUtils.MutableBoolean;
@@ -16,7 +13,7 @@ import utils.swing.SwingUtils.MutableBoolean;
  */
 public class AddTileDialog extends JDialog {
 
-    private MutableBoolean jtfScaleEnabled = new MutableBoolean(true);
+    private final MutableBoolean jtfScaleEnabled = new MutableBoolean(true);
     public static final int APPROVE_OPTION = 1, CANCEL_OPTION = 0;
     private int returnValue = CANCEL_OPTION;
     private float scale = 1.0f;
@@ -47,7 +44,7 @@ public class AddTileDialog extends JDialog {
     private void jbApplyScaleActionPerformed(ActionEvent e) {
         float value;
         try {
-            value = Float.valueOf(jtfScale.getText());
+            value = Float.parseFloat(jtfScale.getText());
             if (value < minScale) {
                 value = minScale;
             }

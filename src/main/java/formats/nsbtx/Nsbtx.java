@@ -4,6 +4,9 @@ package formats.nsbtx;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author Trifindo
@@ -12,24 +15,23 @@ public class Nsbtx {
 
     public static final String fileExtension = "nsbtx";
     public static final int maxNumColors = 16;
-    public ArrayList<Byte[]> textureData;
-    public ArrayList<Byte[]> paletteData;
-    public ArrayList<TextureInfo> textureInfos;
-    public ArrayList<PaletteInfo> paletteInfos;
-    public ArrayList<String> textureNames;
-    public ArrayList<String> paletteNames;
-    public ArrayList<Integer> textureDataOffsets;
-    public ArrayList<Integer> paletteDataOffsets;
+    public List<Byte[]> textureData;
+    public List<Byte[]> paletteData;
+    public List<TextureInfo> textureInfos;
+    public List<PaletteInfo> paletteInfos;
+    public List<String> textureNames;
+    public List<String> paletteNames;
+    public List<Integer> textureDataOffsets;
+    public List<Integer> paletteDataOffsets;
     public byte[] rawData;
 
     public BufferedImage getImage(int textureIndex, int paletteIndex) {
-
         BufferedImage img = new BufferedImage(
                 textureInfos.get(textureIndex).width,
                 textureInfos.get(textureIndex).height,
                 BufferedImage.TYPE_INT_ARGB);
 
-        ArrayList<Color> colors = getPaletteColorsExtended(paletteIndex);
+        List<Color> colors = getPaletteColorsExtended(paletteIndex);
         if (textureInfos.get(textureIndex).transparent) {
             colors.set(0, new Color(
                     colors.get(0).getRed(),
@@ -45,44 +47,36 @@ public class Nsbtx {
     }
 
     public void importTextureOnly(BufferedImage img, int textureIndex, int paletteIndex) {
-        ArrayList<Color> colors = getPaletteColors(paletteIndex);
+        List<Color> colors = getPaletteColors(paletteIndex);
         short[] colorIndices;
         TextureInfo texInfo = textureInfos.get(textureIndex);
         int format = texInfo.format;
-        switch (format) {
-            case 1:
-                //colorIndices = getColorIndices(img, colors, textureIndex, paletteIndex); //TODO: Change this
-                break;
-            default:
-                if (texInfo.transparent) {
-                    colorIndices = getColorIndicesWithTransparency(img, colors);
-                } else {
-                    colorIndices = getColorIndices(img, colors, textureIndex, paletteIndex);
-                }
-                setColorIndices(colorIndices, textureIndex);
-                break;
+        if (format == 1) {//colorIndices = getColorIndices(img, colors, textureIndex, paletteIndex); //TODO: Change this
+        } else {
+            if (texInfo.transparent) {
+                colorIndices = getColorIndicesWithTransparency(img, colors);
+            } else {
+                colorIndices = getColorIndices(img, colors, textureIndex, paletteIndex);
+            }
+            setColorIndices(colorIndices, textureIndex);
         }
     }
 
     public void importTextureAndPalette(BufferedImage img, int textureIndex, int paletteIndex) {
         TextureInfo texInfo = textureInfos.get(textureIndex);
         int format = texInfo.format;
-        switch (format) {
-            case 1:
-                break;
-            default:
-                if (texInfo.transparent) {
-                    setTextureAndPaletteWithTransparency(img, textureIndex, paletteIndex);
-                } else {
-                    setTextureAndPalette(img, textureIndex, paletteIndex);
-                }
-                break;
+        if (format == 1) {
+        } else {
+            if (texInfo.transparent) {
+                setTextureAndPaletteWithTransparency(img, textureIndex, paletteIndex);
+            } else {
+                setTextureAndPalette(img, textureIndex, paletteIndex);
+            }
         }
-
     }
 
     public void setTextureAndPalette(BufferedImage img, int textureIndex, int paletteIndex) {
-        ArrayList<Color> colors = new ArrayList<>();
+        List<Color> colors = new ArrayList<>();
         TextureInfo texInfo = textureInfos.get(textureIndex);
         PaletteInfo palInfo = paletteInfos.get(paletteIndex);
         short[] colorIndices = new short[texInfo.width * texInfo.height];
@@ -106,7 +100,7 @@ public class Nsbtx {
     }
 
     public void setTextureAndPaletteWithTransparency(BufferedImage img, int textureIndex, int paletteIndex) {
-        ArrayList<Color> colors = new ArrayList<>();
+        List<Color> colors = new ArrayList<>();
         colors.add(new Color(255, 0, 255, 0));
         TextureInfo texInfo = textureInfos.get(textureIndex);
         PaletteInfo palInfo = paletteInfos.get(paletteIndex);
@@ -180,7 +174,6 @@ public class Nsbtx {
             palette[index1 + i] = palette[index2 + i];
             palette[index2 + i] = temp;
         }
-
     }
 
     private void setColorIndices(short[] colorIndices, int textureIndex) {
@@ -198,7 +191,7 @@ public class Nsbtx {
         }
     }
 
-    private void setPaletteColorsExtended(ArrayList<Color> colors, PaletteInfo palInfo, int paletteIndex) {
+    private void setPaletteColorsExtended(List<Color> colors, PaletteInfo palInfo, int paletteIndex) {
         for (int i = colors.size(); i < palInfo.getNumColors(); i++) {
             colors.add(Color.black);
         }
@@ -208,8 +201,7 @@ public class Nsbtx {
         }
     }
 
-    private short[] getColorIndices(BufferedImage img,
-                                    ArrayList<Color> colors, int textureIndex, int paletteIndex) {
+    private short[] getColorIndices(BufferedImage img, List<Color> colors, int textureIndex, int paletteIndex) {
         short[] colorIndices = new short[img.getWidth() * img.getHeight()];
         for (int j = 0, c = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++, c++) {
@@ -225,8 +217,7 @@ public class Nsbtx {
         return colorIndices;
     }
 
-    private short[] getColorIndicesWithTransparency(BufferedImage img,
-                                                    ArrayList<Color> colors) {
+    private short[] getColorIndicesWithTransparency(BufferedImage img, List<Color> colors) {
         short[] colorIndices = new short[img.getWidth() * img.getHeight()];
         for (int j = 0, c = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++, c++) {
@@ -244,7 +235,7 @@ public class Nsbtx {
         return colorIndices;
     }
 
-    public void drawColors(BufferedImage img, int format, short[] colorIndices, ArrayList<Color> colors) {
+    public void drawColors(BufferedImage img, int format, short[] colorIndices, List<Color> colors) {
         switch (format) {
             case 1:
                 drawColorsWithTransparency(img, (byte) 0x0F, colorIndices, colors);
@@ -264,11 +255,9 @@ public class Nsbtx {
                 }
                 break;
         }
-
     }
 
-    private void drawColorsWithTransparency(BufferedImage img, byte mask,
-                                            short[] colorIndices, ArrayList<Color> colors) {
+    private void drawColorsWithTransparency(BufferedImage img, byte mask, short[] colorIndices, List<Color> colors) {
         for (int j = 0, c = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++, c++) {
                 try {
@@ -287,12 +276,11 @@ public class Nsbtx {
         }
     }
 
-    public ArrayList<Color> getPaletteColorsExtended(int paletteIndex) {
+    public List<Color> getPaletteColorsExtended(int paletteIndex) {
         int numColors = paletteInfos.get(paletteIndex).getNumColors();
-        ArrayList<Color> colors = new ArrayList<>(numColors);
-        for (int i = 0; i < maxNumColors; i++) {
-            colors.add(new Color(0, 0, 0));
-        }
+        List<Color> colors = IntStream.range(0, maxNumColors)
+                .mapToObj(i -> new Color(0, 0, 0))
+                .collect(Collectors.toList());
         for (int i = 0; i < numColors; i++) {
             byte b2 = paletteData.get(paletteIndex)[i * 2];
             byte b1 = paletteData.get(paletteIndex)[i * 2 + 1];
@@ -316,9 +304,9 @@ public class Nsbtx {
         return new Color(r, g, b);
     }
 
-    public ArrayList<Color> getPaletteColors(int paletteIndex) {
+    public List<Color> getPaletteColors(int paletteIndex) {
         int numColors = paletteInfos.get(paletteIndex).getNumColors();
-        ArrayList<Color> colors = new ArrayList<>(numColors);
+        List<Color> colors = new ArrayList<>(numColors);
         for (int i = 0; i < numColors; i++) {
             byte b2 = paletteData.get(paletteIndex)[i * 2];
             byte b1 = paletteData.get(paletteIndex)[i * 2 + 1];
@@ -350,7 +338,7 @@ public class Nsbtx {
         return colorIndices;
     }
 
-    private int getCloserColorIndex(Color c, ArrayList<Color> colors) {
+    private int getCloserColorIndex(Color c, List<Color> colors) {
         int index = 0;
         int minDist = Integer.MAX_VALUE;
         for (int i = 0; i < colors.size(); i++) {
@@ -370,5 +358,4 @@ public class Nsbtx {
 
         return rd * rd + gd * gd + bd * bd;
     }
-
 }

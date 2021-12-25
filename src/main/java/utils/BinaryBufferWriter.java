@@ -7,14 +7,13 @@ import java.util.Arrays;
 public class BinaryBufferWriter {
 
     private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
-    protected byte buf[];
+    protected byte[] buf;
     protected int pos;
     protected int size;
     protected int mark;
 
     public BinaryBufferWriter(int size){
         buf = new byte[size];
-
     }
 
     public BinaryBufferWriter(){
@@ -41,12 +40,10 @@ public class BinaryBufferWriter {
     private static int hugeCapacity(int minCapacity) {
         if (minCapacity < 0) // overflow
             throw new OutOfMemoryError();
-        return (minCapacity > MAX_ARRAY_SIZE) ?
-                Integer.MAX_VALUE :
-                MAX_ARRAY_SIZE;
+        return (minCapacity > MAX_ARRAY_SIZE) ? Integer.MAX_VALUE : MAX_ARRAY_SIZE;
     }
 
-    public synchronized byte toByteArray()[] {
+    public synchronized byte[] toByteArray() {
         return Arrays.copyOf(buf, size);
     }
 
@@ -57,13 +54,12 @@ public class BinaryBufferWriter {
         size = Math.max(pos, size);
     }
 
-    public synchronized void write(byte b[]) {
+    public synchronized void write(byte[] b) {
         write(b, 0, b.length);
     }
 
-    public synchronized void write(byte b[], int off, int len) {
-        if ((off < 0) || (off > b.length) || (len < 0) ||
-                ((off + len) - b.length > 0)) {
+    public synchronized void write(byte[] b, int off, int len) {
+        if (off < 0 || off > b.length || len < 0 || (off + len - b.length > 0)) {
             throw new IndexOutOfBoundsException();
         }
         ensureCapacity(pos + len);
@@ -88,11 +84,11 @@ public class BinaryBufferWriter {
         pos = relOffset;
     }
 
-    public void writeUInt8(int value) throws Exception {
+    public void writeUInt8(int value) {
         write(value);
     }
 
-    public void writeUInt16(int value) throws Exception {
+    public void writeUInt16(int value) {
         ByteBuffer byteBuffer = ByteBuffer.allocate(2);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         byteBuffer.putShort((short) (value & 0xffffL));
@@ -100,7 +96,7 @@ public class BinaryBufferWriter {
         write(array, 0, array.length);
     }
 
-    public void writeUInt32(long value) throws Exception {
+    public void writeUInt32(long value) {
         ByteBuffer byteBuffer = ByteBuffer.allocate(4);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         byteBuffer.putInt((int) (value & 0xffffffffL));
@@ -108,7 +104,7 @@ public class BinaryBufferWriter {
         write(array, 0, array.length);
     }
 
-    public void writeInt32(long value) throws Exception {
+    public void writeInt32(long value) {
         ByteBuffer byteBuffer = ByteBuffer.allocate(4);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         byteBuffer.putInt((int)value);

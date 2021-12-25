@@ -11,6 +11,4 @@ public class TileGeometry {
     public float[] tCoords;
     public float[] nCoords;
     public float[] colors;
-
-
 }

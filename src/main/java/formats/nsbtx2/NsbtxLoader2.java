@@ -10,6 +10,7 @@ import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Trifindo
@@ -40,15 +41,13 @@ public class NsbtxLoader2 {
         //Load textures
         int textureInfoArrayOffset = readUnsignedShort(data, 0x02 + sectionTextInfoOffset) + sectionTextInfoOffset;
         int textureNamesOffset = textureInfoArrayOffset + textureInfoSize * numTextures;
-        ArrayList<NsbtxTexture> textures = new ArrayList<>(numTextures);
+        List<NsbtxTexture> textures = new ArrayList<>(numTextures);
         for (int i = 0; i < numTextures; i++) {
             int texInfoOffset = textureInfoArrayOffset + i * textureInfoSize;
             int texNameOffset = textureNamesOffset + i * textureNameSize;
             try {
                 textures.add(new NsbtxTexture(data, texInfoOffset, textureDataOffset, texNameOffset));
-            } catch (IndexOutOfBoundsException ex) {
-                System.out.println("ERROR LOADING TEXTURE " + i);
-            } catch (NsbtxTextureFormatException ex) {
+            } catch (IndexOutOfBoundsException | NsbtxTextureFormatException ex) {
                 System.out.println("ERROR LOADING TEXTURE " + i);
             }
         }
@@ -56,7 +55,7 @@ public class NsbtxLoader2 {
         //Calculate palette offsets for dividing the palette data
         int sectionPalInfoOffset = paletteInfoOffset + 0x04;
         int paletteInfoArrayOffset = readUnsignedShort(data, 0x02 + sectionPalInfoOffset) + sectionPalInfoOffset;
-        ArrayList<Integer> paletteOffsets = new ArrayList<>();
+        List<Integer> paletteOffsets = new ArrayList<>();
         for (int i = 0; i < numPalettes; i++) {
             int palInfoOffset = paletteInfoArrayOffset + i * paletteInfoSize;
             int paletteOffset = ((data[palInfoOffset + 0x01] & 0xFF) << 8 | data[palInfoOffset] & 0xFF) << 3;
@@ -69,7 +68,7 @@ public class NsbtxLoader2 {
 
         //Load palettes 
         int paletteNamesOffset = paletteInfoArrayOffset + paletteInfoSize * numPalettes;
-        ArrayList<NsbtxPalette> palettes = new ArrayList<>(numPalettes);
+        List<NsbtxPalette> palettes = new ArrayList<>(numPalettes);
         for (int i = 0; i < numPalettes; i++) {
             int palInfoOffset = paletteInfoArrayOffset + i * paletteInfoSize;
             int palNameOffset = paletteNamesOffset + i * paletteNameSize;
@@ -81,10 +80,9 @@ public class NsbtxLoader2 {
         }
 
         //Generate NSBTX
-        Nsbtx2 nsbtx = new Nsbtx2(textures, palettes);
         //nsbtx.setPath(path);
 
-        return nsbtx;
+        return new Nsbtx2(textures, palettes);
     }
 
     public static Nsbtx2 loadNsbtx(String path) throws IOException {
@@ -118,5 +116,4 @@ public class NsbtxLoader2 {
     private static int readUnsignedByte(byte[] data, int offset) {
         return data[offset] & 0xFF;
     }
-
 }

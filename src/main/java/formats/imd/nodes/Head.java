@@ -4,7 +4,7 @@ package formats.imd.nodes;
 import formats.imd.ImdAttribute;
 import formats.imd.ImdNode;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
@@ -15,14 +15,11 @@ public class Head extends ImdNode {
         super("head");
 
         ImdNode snCreate = new ImdNode("create");
-        snCreate.attributes = new ArrayList<ImdAttribute>() {
-            {
-                add(new ImdAttribute("user", "unknown"));
-                add(new ImdAttribute("host", "unknown"));
-                add(new ImdAttribute("date", "2019-01-11T13:52:52"));
-                add(new ImdAttribute("source", "untitled"));
-            }
-        };
+        snCreate.attributes = List.of(
+                new ImdAttribute("user", "unknown"), 
+                new ImdAttribute("host", "unknown"), 
+                new ImdAttribute("date", "2019-01-11T13:52:52"), 
+                new ImdAttribute("source", "untitled"));
         subnodes.add(snCreate);
 
         ImdNode snTitle = new ImdNode("title");
@@ -30,14 +27,9 @@ public class Head extends ImdNode {
         subnodes.add(snTitle);
 
         ImdNode snGenerator = new ImdNode("generator");
-        snGenerator.attributes = new ArrayList<ImdAttribute>() {
-            {
-                add(new ImdAttribute("name", "Pokemon DS Map Studio"));
-                add(new ImdAttribute("version", "1.0"));
-            }
-        };
+        snGenerator.attributes = List.of(
+                new ImdAttribute("name", "Pokemon DS Map Studio"), 
+                new ImdAttribute("version", "1.0"));
         subnodes.add(snGenerator);
-
     }
-
 }

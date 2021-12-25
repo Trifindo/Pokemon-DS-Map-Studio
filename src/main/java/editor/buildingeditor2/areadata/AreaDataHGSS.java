@@ -1,10 +1,6 @@
 
 package editor.buildingeditor2.areadata;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import utils.BinaryReader;
 import utils.BinaryWriter;
 
@@ -30,13 +26,12 @@ public class AreaDataHGSS {
     private int areaType;
     private int lightType;
 
-    public AreaDataHGSS(byte[] data) throws Exception {
+    public AreaDataHGSS(byte[] data) {
         buildingTilesetID = (int) BinaryReader.readUInt16(data, 0);
         mapTilesetID = (int) BinaryReader.readUInt16(data, 2);
         dynamicTexType = (int) BinaryReader.readUInt16(data, 4);
-        areaType = (int) BinaryReader.readUInt8(data, 6);
-        lightType = (int) BinaryReader.readUInt8(data, 7);
-
+        areaType = BinaryReader.readUInt8(data, 6);
+        lightType = BinaryReader.readUInt8(data, 7);
     }
 
     public AreaDataHGSS() {
@@ -47,7 +42,7 @@ public class AreaDataHGSS {
         lightType = 1;
     }
 
-    public byte[] toByteArray() throws Exception {
+    public byte[] toByteArray() {
         byte[] data = new byte[8];
         BinaryWriter.writeUInt16(data, 0, buildingTilesetID);
         BinaryWriter.writeUInt16(data, 2, mapTilesetID);
@@ -104,5 +99,4 @@ public class AreaDataHGSS {
     public void setLightType(int lightType) {
         this.lightType = lightType;
     }
-
 }

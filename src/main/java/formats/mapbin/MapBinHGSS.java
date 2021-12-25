@@ -5,7 +5,6 @@ import formats.backsound.Backsound;
 import formats.bdhc.Bdhc;
 import formats.bdhcam.Bdhcam;
 import formats.collisions.Collisions;
-import utils.BinaryArrayWriter;
 import utils.BinaryWriter;
 import utils.Utils;
 
@@ -54,7 +53,6 @@ public class MapBinHGSS extends MapBin {
             throw new NsbmdConversionException();
         }
 
-
         try {
             bdhc = Files.readAllBytes(Paths.get(folderPath + File.separator + mapName + "." + Bdhc.fileExtension));
             try {
@@ -68,10 +66,9 @@ public class MapBinHGSS extends MapBin {
         } catch (Exception ex) {
             throw new MissingMapBinFileException(MissingMapBinFileException.MISSING_BDHC);
         }
-
     }
 
-    public static byte[] toByteArray(MapBinHGSS map) throws Exception {
+    public static byte[] toByteArray(MapBinHGSS map) {
         byte[] header = new byte[16];
         BinaryWriter.writeUInt32(header, 0, map.per.length);
         BinaryWriter.writeUInt32(header, 4, map.bld.length);
@@ -104,5 +101,4 @@ public class MapBinHGSS extends MapBin {
             throw new IOException();
         }
     }
-
 }

@@ -5,7 +5,6 @@ public class CamParameterPosIndep extends CamParameter{
     public int duration;
     public float finalValue;
 
-
     public CamParameterPosIndep(CamParameter.Type type, int duration, float finalValue){
         super(type);
         this.duration = duration;

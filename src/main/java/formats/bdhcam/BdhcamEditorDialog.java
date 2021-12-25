@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
@@ -47,9 +48,9 @@ public class BdhcamEditorDialog extends JDialog {
     private boolean jsSecondValueEnabled = true;
 
     protected ImageIcon[] plateIcons = {
-            new ImageIcon(getClass().getResource("/icons/clockIcon.png")),
-            new ImageIcon(getClass().getResource("/icons/posDepXIcon.png")),
-            new ImageIcon(getClass().getResource("/icons/posDepYIcon.png")),
+            new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/clockIcon.png"))),
+            new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/posDepXIcon.png"))),
+            new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/posDepYIcon.png"))),
     };
 
     public BdhcamEditorDialog(Window owner) {
@@ -60,15 +61,15 @@ public class BdhcamEditorDialog extends JDialog {
         jlParameters.setCellRenderer(new ParameterListCellRenderer());
         jcbPlateType.setRenderer(new PlateTypeCellRenderer());
 
-        DefaultComboBoxModel plateTypeModel = new DefaultComboBoxModel();
+        DefaultComboBoxModel<String> plateTypeModel = new DefaultComboBoxModel<>();
         for(Camplate.Type type : Camplate.Type.values()){
-            plateTypeModel.addElement(type);
+            plateTypeModel.addElement(type.toString());
         }
         jcbPlateType.setModel(plateTypeModel);
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         for (CamParameter.Type type : CamParameter.Type.values()) {
-            model.addElement(type);
+            model.addElement(type.toString());
         }
         jcbParamType1.setModel(model);
         jcbParamType1.setRenderer(new ParameterTypeListCellRenderer());
@@ -149,27 +150,21 @@ public class BdhcamEditorDialog extends JDialog {
         }
     }
 
-
     private void jcbParamType1ActionPerformed(ActionEvent e) {
-        if (jcbParamType1Enabled) {
-            if (bdhcamHandler.getSelectedParameter() != null) {
-                CamParameter param = bdhcamHandler.getSelectedParameter();
-                param.type = CamParameter.Type.values()[jcbParamType1.getSelectedIndex()];
-                updateViewParameterList();
-            }
+        if (jcbParamType1Enabled && bdhcamHandler.getSelectedParameter() != null) {
+            CamParameter param = bdhcamHandler.getSelectedParameter();
+            param.type = CamParameter.Type.values()[jcbParamType1.getSelectedIndex()];
+            updateViewParameterList();
         }
     }
 
     private void jcbParamType2ActionPerformed(ActionEvent e) {
-        if (jcbParamType2Enabled) {
-            if (bdhcamHandler.getSelectedParameter() != null) {
-                CamParameter param = bdhcamHandler.getSelectedParameter();
-                param.type = CamParameter.Type.values()[jcbParamType2.getSelectedIndex()];
-                updateViewParameterList();
-            }
+        if (jcbParamType2Enabled && bdhcamHandler.getSelectedParameter() != null) {
+            CamParameter param = bdhcamHandler.getSelectedParameter();
+            param.type = CamParameter.Type.values()[jcbParamType2.getSelectedIndex()];
+            updateViewParameterList();
         }
     }
-
 
     private void jsFirstValueStateChanged(ChangeEvent e) {
         if (jsFirstValueEnabled) {
@@ -210,30 +205,24 @@ public class BdhcamEditorDialog extends JDialog {
     }
 
     private void jcbPlateTypeActionPerformed(ActionEvent e) {
-        if (jcbPlateTypeEnabled) {
-            if (bdhcamHandler.getSelectedPlate() != null) {
-                bdhcamHandler.getBdhcam().changePlateType(bdhcamHandler.getIndexSelected(), jcbPlateType.getSelectedIndex());
-                updateView();
-            }
+        if (jcbPlateTypeEnabled && bdhcamHandler.getSelectedPlate() != null) {
+            bdhcamHandler.getBdhcam().changePlateType(bdhcamHandler.getIndexSelected(), jcbPlateType.getSelectedIndex());
+            updateView();
         }
     }
 
     private void jcbHeightActionPerformed(ActionEvent e) {
-        if(jcbHeightEnabled){
-            if(bdhcamHandler.getSelectedPlate() != null){
-                bdhcamHandler.getSelectedPlate().useZ = jcbHeight.isSelected();
-                updateViewPlateSettings();
-            }
+        if (jcbHeightEnabled && bdhcamHandler.getSelectedPlate() != null) {
+            bdhcamHandler.getSelectedPlate().useZ = jcbHeight.isSelected();
+            updateViewPlateSettings();
         }
     }
 
     private void jsHeightStateChanged(ChangeEvent e) {
-        if(jsHeightEnabled){
-            if(bdhcamHandler.getSelectedPlate() != null){
-                bdhcamHandler.getSelectedPlate().z = (Integer)jsHeight.getValue();
-                updateViewPlateSettings();
-                updateViewCameraDisplay();
-            }
+        if (jsHeightEnabled && bdhcamHandler.getSelectedPlate() != null) {
+            bdhcamHandler.getSelectedPlate().z = (Integer) jsHeight.getValue();
+            updateViewPlateSettings();
+            updateViewCameraDisplay();
         }
     }
 
@@ -245,7 +234,6 @@ public class BdhcamEditorDialog extends JDialog {
         }
     }
 
-
     private void jbImportBdhcamActionPerformed(ActionEvent e) {
         final JFileChooser fc = new JFileChooser();
         if (handler.getLastBdhcDirectoryUsed() != null) {
@@ -254,21 +242,21 @@ public class BdhcamEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Terrain File (*.bdhcam)", Bdhcam.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open BDHCAM");
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            try {
-                String path = fc.getSelectedFile().getPath();
-                handler.setLastBdhcDirectoryUsed(fc.getSelectedFile().getParent());
 
-                Bdhcam bdhcam = BdhcamLoader.loadBdhcam(path);
-                bdhcamHandler.setBdhcam(bdhcam);
+        if (fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        try {
+            String path = fc.getSelectedFile().getPath();
+            handler.setLastBdhcDirectoryUsed(fc.getSelectedFile().getParent());
 
-                updateView();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Can't open file",
-                        "Error opening BDHCAM file", JOptionPane.ERROR_MESSAGE);
-            }
+            Bdhcam bdhcam = BdhcamLoader.loadBdhcam(path);
+            bdhcamHandler.setBdhcam(bdhcam);
 
+            updateView();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Can't open file",
+                    "Error opening BDHCAM file", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -296,11 +284,6 @@ public class BdhcamEditorDialog extends JDialog {
 
         }
     }
-
-
-
-
-
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -819,11 +802,7 @@ public class BdhcamEditorDialog extends JDialog {
         if (indexSelected >= model.getSize()) {
             indexSelected = model.getSize() - 1;
         }
-        if (indexSelected >= 0) {
-            bdhcamHandler.setSelectedPlate(indexSelected);
-        } else {
-            bdhcamHandler.setSelectedPlate(0);
-        }
+        bdhcamHandler.setSelectedPlate(Math.max(indexSelected, 0));
         bdhcamHandler.stopAnimation();
 
         jlPlates.setSelectedIndex(bdhcamHandler.getIndexSelected());
@@ -848,11 +827,7 @@ public class BdhcamEditorDialog extends JDialog {
             if (indexSelected >= model.getSize()) {
                 indexSelected = model.getSize() - 1;
             }
-            if (indexSelected >= 0) {
-                bdhcamHandler.setIndexParamSelected(indexSelected);
-            } else {
-                bdhcamHandler.setIndexParamSelected(0);
-            }
+            bdhcamHandler.setIndexParamSelected(Math.max(indexSelected, 0));
             jlParameters.setSelectedIndex(bdhcamHandler.getIndexParamSelected());
         } else {
             jlParameters.setModel(new DefaultListModel<>());
@@ -868,11 +843,7 @@ public class BdhcamEditorDialog extends JDialog {
             CardLayout cl = (CardLayout) (cardPanel.getLayout());
 
             Camplate plate = bdhcamHandler.getSelectedPlate();
-            if (plate.type.ID == Camplate.Type.POS_INDEPENDENT.ID) {
-                cl.show(cardPanel, "cardPosIndep");
-            } else {
-                cl.show(cardPanel, "cardPosDep");
-            }
+            cl.show(cardPanel, plate.type.ID == Camplate.Type.POS_INDEPENDENT.ID ? "cardPosIndep" : "cardPosDep");
         }
     }
 
@@ -950,27 +921,23 @@ public class BdhcamEditorDialog extends JDialog {
     }
 
     public void updateViewPlateSettings(){
-        if(bdhcamHandler.getSelectedPlate() != null){
-            jcbPlateTypeEnabled = false;
-            jcbPlateType.setSelectedIndex(bdhcamHandler.getSelectedPlate().type.ID);
-            jcbPlateType.setForeground(bdhcamHandler.getSelectedPlate().type.color);
-            //(jcbPlateType.get).setIcon(plateIcons[bdhcamHandler.getSelectedPlate().type.ID]);
-            jcbPlateTypeEnabled = true;
-
-            jcbHeightEnabled = false;
-            jcbHeight.setSelected(bdhcamHandler.getSelectedPlate().useZ);
-            jcbHeightEnabled = true;
-
-            jsHeightEnabled = false;
-            jsHeight.setValue(bdhcamHandler.getSelectedPlate().z);
-            jsHeightEnabled = true;
-            if(bdhcamHandler.getSelectedPlate().useZ){
-                jsHeight.setEnabled(true);
-            }else{
-                jsHeight.setEnabled(false);
-            }
-
+        if (bdhcamHandler.getSelectedPlate() == null) {
+            return;
         }
+        jcbPlateTypeEnabled = false;
+        jcbPlateType.setSelectedIndex(bdhcamHandler.getSelectedPlate().type.ID);
+        jcbPlateType.setForeground(bdhcamHandler.getSelectedPlate().type.color);
+        //(jcbPlateType.get).setIcon(plateIcons[bdhcamHandler.getSelectedPlate().type.ID]);
+        jcbPlateTypeEnabled = true;
+
+        jcbHeightEnabled = false;
+        jcbHeight.setSelected(bdhcamHandler.getSelectedPlate().useZ);
+        jcbHeightEnabled = true;
+
+        jsHeightEnabled = false;
+        jsHeight.setValue(bdhcamHandler.getSelectedPlate().z);
+        jsHeightEnabled = true;
+        jsHeight.setEnabled(bdhcamHandler.getSelectedPlate().useZ);
     }
 
     public BdhcamCameraDisplay getBdhcamDisplay() {
@@ -983,18 +950,14 @@ public class BdhcamEditorDialog extends JDialog {
 
     private class PlateListCellRenderer extends DefaultListCellRenderer {
         @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             JLabel jlabel = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
             Camplate plate = (Camplate) value;
             Color c = plate.getFillColor();
             String colorHex = String.format("#%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue());
-            jlabel.setText(
-                    "<html><b>Plate " + String.valueOf(index) + "</b>" +
-                            " [<font color='" + colorHex + "'> " +
-                            plate.type.name +
-                            "<font color='black'>" + "]" + "</font></html>");
+            jlabel.setText("<html><b>Plate " + index + "</b>" +
+                            " [<font color='" + colorHex + "'> " + plate.type.name + "<font color='black'>" + "]" + "</font></html>");
 
             return jlabel;
         }
@@ -1002,15 +965,13 @@ public class BdhcamEditorDialog extends JDialog {
 
     private class ParameterListCellRenderer extends DefaultListCellRenderer {
         @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             JLabel jlabel = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
             CamParameter parameter = (CamParameter) value;
             Color c = parameter.type.color;
             String colorHex = String.format("#%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue());
-            jlabel.setText(
-                    "<html><b><font color='" + colorHex + "'>" + parameter.type.name + "</font></b>" +
+            jlabel.setText("<html><b><font color='" + colorHex + "'>" + parameter.type.name + "</font></b>" +
                             "<font color='black'></font></html>");
 
             return jlabel;
@@ -1019,16 +980,13 @@ public class BdhcamEditorDialog extends JDialog {
 
     private class ParameterTypeListCellRenderer extends DefaultListCellRenderer {
         @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             JLabel jlabel = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
             CamParameter.Type parameter = (CamParameter.Type) value;
             Color c = parameter.color;
             String colorHex = String.format("#%02x%02x%02x", c.getRed(), c.getGreen(), c.getBlue());
-            jlabel.setText(
-                    "<html><font color='" + colorHex + "'>" + parameter.name + "</font>" +
-                            "<font color='black'></font></html>");
+            jlabel.setText("<html><font color='" + colorHex + "'>" + parameter.name + "</font>" + "<font color='black'></font></html>");
 
             return jlabel;
         }
@@ -1036,8 +994,7 @@ public class BdhcamEditorDialog extends JDialog {
 
     private class PlateTypeCellRenderer extends BasicComboBoxRenderer {
         @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             JLabel c = (JLabel)super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
             Camplate.Type type = (Camplate.Type) value;
@@ -1047,7 +1004,6 @@ public class BdhcamEditorDialog extends JDialog {
 
             return c;
         }
-
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables

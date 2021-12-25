@@ -2,13 +2,14 @@
 package formats.narc2;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NarcFolder {
 
     private String name = "";
     private NarcFolder parent;
-    private ArrayList<NarcFolder> subfolders = new ArrayList<>();
-    private ArrayList<NarcFile> files = new ArrayList<>();
+    private List<NarcFolder> subfolders = new ArrayList<>();
+    private List<NarcFile> files = new ArrayList<>();
     private int ID;
 
     public NarcFolder() {
@@ -40,11 +41,11 @@ public class NarcFolder {
         return parent;
     }
 
-    public ArrayList<NarcFolder> getSubfolders() {
+    public List<NarcFolder> getSubfolders() {
         return subfolders;
     }
 
-    public ArrayList<NarcFile> getFiles() {
+    public List<NarcFile> getFiles() {
         return files;
     }
 
@@ -56,26 +57,19 @@ public class NarcFolder {
         return ID;
     }
 
-    public void setFiles(ArrayList<NarcFile> files) {
+    public void setFiles(List<NarcFile> files) {
         this.files = files;
     }
 
     public NarcFolder getFolderByName(String folderName){
-        for(NarcFolder folder : subfolders){
-            if(folder.getName().equals(folderName)){
-                return folder;
-            }
-        }
-        return null;
+        return subfolders.stream()
+                .filter(folder -> folder.getName().equals(folderName))
+                .findFirst().orElse(null);
     }
 
     public NarcFile getFileByName(String fileName){
-        for(NarcFile file : files){
-            if(file.getName().equals(fileName)){
-                return file;
-            }
-        }
-        return null;
+        return files.stream()
+                .filter(file -> file.getName().equals(fileName))
+                .findFirst().orElse(null);
     }
-
 }

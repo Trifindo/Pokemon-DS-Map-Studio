@@ -1,7 +1,6 @@
 package formats.mapbin;
 
 import editor.buildingeditor2.buildfile.BuildFile;
-import formats.backsound.Backsound;
 import formats.bdhc.Bdhc;
 import formats.collisions.Collisions;
 import utils.BinaryWriter;
@@ -52,7 +51,7 @@ public class MapBinDP extends MapBin{
         }
     }
 
-    public static byte[] toByteArray(MapBinDP map) throws Exception{
+    public static byte[] toByteArray(MapBinDP map) {
         byte[] header = new byte[16];
         BinaryWriter.writeUInt32(header, 0, map.per.length);
         BinaryWriter.writeUInt32(header, 4, map.bld.length);
@@ -83,5 +82,4 @@ public class MapBinDP extends MapBin{
             throw new IOException();
         }
     }
-
 }

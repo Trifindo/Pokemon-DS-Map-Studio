@@ -2,21 +2,14 @@ package editor.layerselector;
 
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 import editor.handler.MapEditorHandler;
 import editor.grid.MapGrid;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import javax.swing.SwingUtilities;
 
 import utils.Utils;
 
@@ -32,8 +25,7 @@ public class LayerSelector extends JPanel {
 
     public LayerSelector() {
         initComponents();
-        setPreferredSize(new Dimension(MapGrid.tileSize,
-                MapGrid.tileSize * MapGrid.numLayers));
+        setPreferredSize(new Dimension(MapGrid.tileSize, MapGrid.tileSize * MapGrid.numLayers));
     }
 
     private void formMousePressed(MouseEvent evt) {
@@ -67,25 +59,17 @@ public class LayerSelector extends JPanel {
                 g.drawImage(img, 0, i * MapGrid.tileSize, null);
             }
             g.setColor(new Color(255, 100, 100, 100));
-            g.fillRect(0, handler.getActiveLayerIndex() * MapGrid.tileSize,
-                    MapGrid.tileSize - 1, MapGrid.tileSize - 1);
+            g.fillRect(0, handler.getActiveLayerIndex() * MapGrid.tileSize, MapGrid.tileSize - 1, MapGrid.tileSize - 1);
             g.setColor(Color.red);
-            g.drawRect(0, handler.getActiveLayerIndex() * MapGrid.tileSize,
-                    MapGrid.tileSize - 1, MapGrid.tileSize - 1);
-
+            g.drawRect(0, handler.getActiveLayerIndex() * MapGrid.tileSize, MapGrid.tileSize - 1, MapGrid.tileSize - 1);
         }
     }
 
     public void init(MapEditorHandler handler) {
         this.handler = handler;
 
-        layersOnImgs = Utils.loadVerticalImageArrayAsResource(
-                "/imgs/layersSelected.png",
-                MapGrid.numLayers);
-
-        layersOffImgs = Utils.loadVerticalImageArrayAsResource(
-                "/imgs/layersNoSelected.png",
-                MapGrid.numLayers);
+        layersOnImgs = Utils.loadVerticalImageArrayAsResource("/imgs/layersSelected.png", MapGrid.numLayers);
+        layersOffImgs = Utils.loadVerticalImageArrayAsResource("/imgs/layersNoSelected.png", MapGrid.numLayers);
     }
 
     private void initComponents() {

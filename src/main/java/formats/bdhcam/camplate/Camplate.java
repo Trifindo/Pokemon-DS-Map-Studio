@@ -2,6 +2,8 @@ package formats.bdhcam.camplate;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Trifindo
@@ -9,8 +11,7 @@ import java.util.ArrayList;
 
 public abstract class Camplate {
 
-    public static enum Type {
-
+    public enum Type {
         POS_INDEPENDENT(0, "Position independent", Color.orange),
         POS_DEPENDENT_X(1, "Position dependent X", Color.red),
         POS_DEPENDENT_Y(2, "Position dependent Y", Color.green);
@@ -22,12 +23,10 @@ public abstract class Camplate {
         }
 
         public static Type get(int ID) {
-            for (Type type : values()) {
-                if (type.ID == ID) {
-                    return type;
-                }
-            }
-            return POS_INDEPENDENT;
+            return Arrays.stream(values())
+                    .filter(type -> type.ID == ID)
+                    .findFirst()
+                    .orElse(POS_INDEPENDENT);
         }
 
         public final int ID;
@@ -43,7 +42,7 @@ public abstract class Camplate {
     public boolean useZ;
     public static final int useZCode = 0x80;
 
-    public ArrayList<CamParameter> parameters;
+    public List<CamParameter> parameters;
 
     public Camplate(int x, int y, int z, int width, int height, int type, int numParameters, boolean useZ) {
         this.x = x;
@@ -90,5 +89,4 @@ public abstract class Camplate {
         this.type = Type.values()[type];
         parameters = new ArrayList<>();
     }
-
 }

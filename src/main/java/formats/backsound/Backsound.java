@@ -3,7 +3,6 @@ package formats.backsound;
 
 import utils.exceptions.WrongFormatException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -26,7 +25,7 @@ public class Backsound {
         //soundplates.add(new Soundplate());
     }
 
-    public Backsound(String path) throws FileNotFoundException, IOException, WrongFormatException {
+    public Backsound(String path) throws IOException, WrongFormatException {
         BinaryReader reader = new BinaryReader(path);
 
         if (reader.readUInt16() != SIGNATURE) {
@@ -53,14 +52,13 @@ public class Backsound {
         reader.close();
     }
 
-    public void writeToFile(String path) throws FileNotFoundException, IOException {
+    public void writeToFile(String path) throws IOException {
         BinaryWriter writer = new BinaryWriter(path);
 
         writer.writeUInt16(SIGNATURE);
         writer.writeUInt16(soundplates.size() * BYTES_PER_SOUNDPLATE);
 
-        for (int i = 0; i < soundplates.size(); i++) {
-            Soundplate soundplate = soundplates.get(i);
+        for (Soundplate soundplate : soundplates) {
             writer.writeUInt8(soundplate.getSoundCode());
             writer.writeUInt8(soundplate.getVolume());
             writer.writeUInt8(soundplate.byte3);//Unknown
@@ -81,5 +79,4 @@ public class Backsound {
     public Soundplate getSoundplate(int index) {
         return soundplates.get(index);
     }
-
 }

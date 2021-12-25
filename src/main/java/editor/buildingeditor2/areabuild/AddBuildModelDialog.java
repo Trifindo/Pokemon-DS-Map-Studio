@@ -2,10 +2,9 @@ package editor.buildingeditor2.areabuild;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
@@ -17,20 +16,18 @@ import renderer.*;
  * @author Trifindo, JackHack96
  */
 public class AddBuildModelDialog extends JDialog {
-    public static final int ACEPTED = 0, CANCELED = 1;
+    public static final int ACCEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int indexSelected = 0;
 
     private BuildModelList buildings;
     //private AreaBuild areaBuild;
-    private ArrayList<Integer> addedBuildings;
-
-    private ImageIcon nsbmdIcon;
+    private List<Integer> addedBuildings;
 
     public AddBuildModelDialog(Window owner) {
         super(owner);
         initComponents();
-        nsbmdIcon = new ImageIcon(getClass().getResource("/icons/NsbmdIcon.png"));
+        ImageIcon nsbmdIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/NsbmdIcon.png")));
 
         addIconToJList(jlBuildModelList, nsbmdIcon);
 
@@ -55,14 +52,14 @@ public class AddBuildModelDialog extends JDialog {
     private void jbAcceptActionPerformed(ActionEvent e) {
         if (addedBuildings != null) {
             if (!addedBuildings.contains(indexSelected)) {
-                returnValue = ACEPTED;
+                returnValue = ACCEPTED;
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "The building selected is already in the list.",
                         "Can't add building", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            returnValue = ACEPTED;
+            returnValue = ACCEPTED;
             dispose();
         }
     }
@@ -72,7 +69,7 @@ public class AddBuildModelDialog extends JDialog {
         dispose();
     }
 
-    public void init(BuildModelList buildings, ArrayList<Integer> addedBuildings) {
+    public void init(BuildModelList buildings, List<Integer> addedBuildings) {
         this.buildings = buildings;
         this.addedBuildings = addedBuildings;
 
@@ -94,10 +91,10 @@ public class AddBuildModelDialog extends JDialog {
 
     }
 
-    private static void addElementsToListWithIndices(JList list, ArrayList<String> elements, int indexSelected) {
-        DefaultListModel listModel = new DefaultListModel();
+    private static void addElementsToListWithIndices(JList<String> list, List<String> elements, int indexSelected) {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
         for (int i = 0; i < elements.size(); i++) {
-            listModel.addElement(String.valueOf(i) + ": " + elements.get(i));
+            listModel.addElement(i + ": " + elements.get(i));
         }
         list.setModel(listModel);
 
@@ -106,7 +103,7 @@ public class AddBuildModelDialog extends JDialog {
         list.ensureIndexIsVisible(indexSelected);
     }
 
-    private static void addIconToJList(JList list, ImageIcon icon) {
+    private static void addIconToJList(JList<String> list, ImageIcon icon) {
         list.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {

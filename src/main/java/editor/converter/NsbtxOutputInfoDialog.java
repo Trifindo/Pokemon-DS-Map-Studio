@@ -4,19 +4,11 @@ package editor.converter;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
 import formats.nsbtx2.*;
-import formats.nsbtx2.Nsbtx2;
-import formats.nsbtx2.NsbtxImd;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,14 +18,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import java.util.List;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import formats.nsbtx2.exceptions.NsbtxTextureSizeException;
 import tileset.TilesetMaterial;
 import utils.Utils;
 
@@ -44,11 +32,11 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
     private MapEditorHandler handler;
 
-    private ArrayList<Integer> areaIndices;
+    private List<Integer> areaIndices;
     private String nsbtxFolderPath;
 
-    private ArrayList<Nsbtx2> nsbtxData;
-    private ArrayList<String> errorMsgs;
+    private List<Nsbtx2> nsbtxData;
+    private List<String> errorMsgs;
 
     private Thread convertingThread;
 
@@ -70,13 +58,11 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
         public final String msg;
         public final Color color;
 
-        private ConvertStatus(String msg, Color color) {
+        ConvertStatus(String msg, Color color) {
             this.msg = msg;
             this.color = color;
         }
     }
-
-    ;
 
     /**
      * Creates new form ImdOutputInfoDialog
@@ -93,14 +79,10 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
         jTable1.getColumnModel().getColumn(1).setCellRenderer(new StatusColumnCellRenderer());
 
-        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent event) {
-                int index = jTable1.getSelectedRow();
-                updateView(index);
-            }
+        jTable1.getSelectionModel().addListSelectionListener(event -> {
+            int index = jTable1.getSelectedRow();
+            updateView(index);
         });
-
     }
 
     /**
@@ -402,12 +384,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         if (convertingThread == null) {
-            convertingThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    saveAllNsbtx();
-                }
-            });
+            convertingThread = new Thread(this::saveAllNsbtx);
             convertingThread.start();
         }
     }//GEN-LAST:event_formWindowActivated
@@ -449,8 +426,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
     private JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 
-    public void init(MapEditorHandler handler, ArrayList<Integer> areaIndices,
-                     String nsbtxFolderPath) {
+    public void init(MapEditorHandler handler, List<Integer> areaIndices, String nsbtxFolderPath) {
         this.handler = handler;
         this.areaIndices = areaIndices;
         this.nsbtxFolderPath = nsbtxFolderPath;
@@ -475,7 +451,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
             boolean textureMissed = false;
             if (!Thread.currentThread().isInterrupted()) {
                 try {
-                    HashSet<Integer> usedMaterialIndices = new HashSet<>();
+                    Set<Integer> usedMaterialIndices = new HashSet<>();
 
                     // Add materials always included
                     for (int i = 0; i < handler.getTileset().getMaterials().size(); i++) {
@@ -484,7 +460,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                         }
                     }
 
-                    HashSet<Integer> usedTileIndices = new HashSet<>();
+                    Set<Integer> usedTileIndices = new HashSet<>();
                     for (MapData mapData : handler.getMapMatrix().getMatrix().values()) {
                         if (mapData.getAreaIndex() == areaIndex) {
                             mapData.getGrid().addTileIndicesUsed(usedTileIndices);
@@ -492,10 +468,8 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                     }
 
                     for (Integer tileIndex : usedTileIndices) {
-                        ArrayList<Integer> texIDs = handler.getTileset().get(tileIndex).getTextureIDs();
-                        for (Integer texID : texIDs) {
-                            usedMaterialIndices.add(texID);
-                        }
+                        List<Integer> texIDs = handler.getTileset().get(tileIndex).getTextureIDs();
+                        usedMaterialIndices.addAll(texIDs);
                     }
 
                     //Map used for knowing which palette is used by a certain texture
@@ -524,8 +498,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
                         boolean isTransparent = Utils.hasTransparentColor(mat.getTextureImg());
 
-                        if ((!nsbtx.isTextureNameUsed(mat.getTextureNameImd())
-                                && (!nsbtx.isPaletteNameUsed(mat.getPaletteNameImd())))) {
+                        if (!nsbtx.isTextureNameUsed(mat.getTextureNameImd()) && !nsbtx.isPaletteNameUsed(mat.getPaletteNameImd())) {
                             nsbtx.addTextureAndPalette(-1, -1,
                                     mat.getTextureImg(),
                                     Nsbtx2.jcbToFormatLookup[mat.getColorFormat()],
@@ -563,7 +536,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
                     NsbtxImd imd = new NsbtxImd(nsbtx);
 
-                    String pathSave = nsbtxFolderPath + File.separator + "Area_" + String.valueOf(areaIndex) + ".imd";
+                    String pathSave = nsbtxFolderPath + File.separator + "Area_" + areaIndex + ".imd";
                     imd.saveToFile(pathSave);
 
                     File file = new File(pathSave);
@@ -609,8 +582,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                             File dstFile = new File(nsbPath);
                             if (srcFile.exists()) {
                                 try {
-                                    Files.move(srcFile.toPath(), dstFile.toPath(),
-                                            StandardCopyOption.REPLACE_EXISTING);
+                                    Files.move(srcFile.toPath(), dstFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                                     //srcFile.renameTo(new File(nsbPath));
                                     if (paletteMissed) {
                                         exportStatus = ConvertStatus.PALETTE_MISSED_STATUS;
@@ -652,8 +624,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                         } catch (InterruptedException ex) {
                             nFilesNotConverted++;
                             exportStatus = ConvertStatus.INTERRUPT_ERROR_STATUS;
-                            errorMsgs.set(nFilesProcessed,
-                                    "The model was not converted (InterruptedException)");
+                            errorMsgs.set(nFilesProcessed, "The model was not converted (InterruptedException)");
                         }
                     } else {
                         nFilesNotConverted++;
@@ -679,7 +650,7 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                     jlStatus.setText("Finished with errors");
 
                     jlResult.setForeground(RED);
-                    jlResult.setText(String.valueOf(nFilesNotConverted) + " Area(s) could not be converted into NSBTX");
+                    jlResult.setText(nFilesNotConverted + " Area(s) could not be converted into NSBTX");
                 } else {
                     jlStatus.setForeground(GREEN);
                     jlStatus.setText("Finished");
@@ -689,13 +660,13 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
                 }
 
                 tableModel.addRow(new Object[]{
-                        "Area_" + String.valueOf(areaIndex),
+                        "Area_" + areaIndex,
                         exportStatus
                 });
 
                 nFilesProcessed++;
 
-                jlFilesProcessed.setText(String.valueOf(nFilesProcessed) + "/" + String.valueOf(areaIndices.size()));
+                jlFilesProcessed.setText(nFilesProcessed + "/" + areaIndices.size());
                 jlFilesConverted.setText(String.valueOf(nFilesConverted));
                 jlFilesNotConverted.setText(String.valueOf(nFilesNotConverted));
 
@@ -758,8 +729,6 @@ public class NsbtxOutputInfoDialog extends javax.swing.JDialog {
 
             //Return the JLabel which renders the cell.
             return l;
-
         }
     }
-
 }

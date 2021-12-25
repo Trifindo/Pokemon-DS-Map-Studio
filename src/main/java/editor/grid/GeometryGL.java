@@ -69,7 +69,6 @@ public class GeometryGL {
         this.tCoordsQuad = new float[numQuads * verticesPerQuad * coordsPerT];
         this.nCoordsQuad = new float[numQuads * verticesPerQuad * coordsPerN];
         this.colorsQuad = new float[numQuads * verticesPerQuad * coordsPerColor];
-
     }
 
     public void updateBuffers() {
@@ -83,7 +82,6 @@ public class GeometryGL {
         this.nCoordsQuadBuffer = Buffers.newDirectFloatBuffer(nCoordsQuad);
         this.colorsQuadBuffer = Buffers.newDirectFloatBuffer(colorsQuad);
     }
-
 
     public boolean hasTriData() {
         return vCoordsTri != null && vCoordsTri.length > 0
@@ -112,5 +110,4 @@ public class GeometryGL {
                 && nCoordsQuadBuffer != null && nCoordsQuadBuffer.hasRemaining()
                 && colorsQuadBuffer != null && colorsQuadBuffer.hasRemaining();
     }
-
 }

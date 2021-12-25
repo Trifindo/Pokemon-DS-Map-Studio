@@ -16,7 +16,6 @@ public class NsbtxHandler2 {
 
     private Nsbtx2 nsbtx = null;
 
-
     public NsbtxHandler2(MapEditorHandler handler, NsbtxEditorDialog2 dialog) {
         this.handler = handler;
         this.dialog = dialog;
@@ -33,8 +32,7 @@ public class NsbtxHandler2 {
             int textureIndex = dialog.getTextureIndexSelected();
             int paletteIndex = dialog.getPaletteIndexSelected();
             if (textureIndex != -1 && paletteIndex != -1) {
-                return nsbtx.getImage(dialog.getTextureIndexSelected(),
-                        dialog.getPaletteIndexSelected());
+                return nsbtx.getImage(dialog.getTextureIndexSelected(), dialog.getPaletteIndexSelected());
             }
         }
         return null;
@@ -56,7 +54,6 @@ public class NsbtxHandler2 {
         return null;
     }
 
-
     public int indexOfTextureName(String name) {
         return nsbtx.indexOfTextureName(name);
     }
@@ -72,5 +69,4 @@ public class NsbtxHandler2 {
     public Nsbtx2 getNsbtx() {
         return nsbtx;
     }
-
 }

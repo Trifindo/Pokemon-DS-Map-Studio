@@ -2,7 +2,6 @@ package editor.smartdrawing;
 
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 import editor.handler.MapEditorHandler;
 import editor.grid.MapGrid;
@@ -14,13 +13,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
 
 import utils.Utils;
 
@@ -29,7 +22,7 @@ import utils.Utils;
  */
 public class SmartGridDisplay extends JPanel {
 
-    private static BufferedImage gridImage = Utils.loadTexImageAsResource("/imgs/smartGrid.png");
+    private static final BufferedImage gridImage = Utils.loadTexImageAsResource("/imgs/smartGrid.png");
 
     private MapEditorHandler handler;
     private boolean editable = true;
@@ -50,7 +43,6 @@ public class SmartGridDisplay extends JPanel {
                 int y = evt.getY() / MapGrid.tileSize;
                 int gridIndex = y / SmartGrid.height;
                 y %= SmartGrid.height;
-                ;
                 System.out.println(x + "  " + y);
                 if (gridIndex < handler.getSmartGridArray().size() && gridIndex >= 0) {
                     if (!((y == 2) && (x == 4 || x == 3))) {
@@ -77,7 +69,7 @@ public class SmartGridDisplay extends JPanel {
                 y %= SmartGrid.height;
                 //System.out.println(x + "  " + y);
                 if (gridIndex < handler.getSmartGridArray().size() && gridIndex >= 0) {
-                    if (!((y == 2) && (x == 4 || x == 3))) {
+                    if (!(y == 2 && (x == 4 || x == 3))) {
                         int[][] grid = handler.getSmartGrid(gridIndex).sgrid;
                         if (new Rectangle(SmartGrid.width, SmartGrid.height).contains(x, y)) {
                             if (SwingUtilities.isLeftMouseButton(evt)) {
@@ -104,31 +96,25 @@ public class SmartGridDisplay extends JPanel {
                     JPopupMenu menu = new JPopupMenu();
                     JMenuItem item1 = new JMenuItem("Add Smart Painter");
                     JMenuItem item2 = new JMenuItem("Remove Smart Painter");
-                    item1.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            handler.getSmartGridArray().add(new SmartGrid());
-                            updateSize();
-                            repaint();
-                        }
+                    item1.addActionListener(e -> {
+                        handler.getSmartGridArray().add(new SmartGrid());
+                        updateSize();
+                        repaint();
                     });
-                    item2.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            if (handler.getSmartGridArray().size() > 1) {
-                                if (gridIndex >= 0 && gridIndex < handler.getSmartGridArray().size()) {
-                                    handler.getSmartGridArray().remove(gridIndex);
-                                    handler.setSmartGridIndexSelected(Math.max(0, gridIndex - 1));
-                                    updateSize();
-                                    repaint();
-                                }
-                            } else {
-                                System.out.println("No se puede");
-                                JOptionPane.showMessageDialog(menu,
-                                        "There must me at least one Smart Painter",
-                                        "Can't delete Smart Painter",
-                                        JOptionPane.ERROR_MESSAGE);
+                    item2.addActionListener(e -> {
+                        if (handler.getSmartGridArray().size() > 1) {
+                            if (gridIndex >= 0 && gridIndex < handler.getSmartGridArray().size()) {
+                                handler.getSmartGridArray().remove(gridIndex);
+                                handler.setSmartGridIndexSelected(Math.max(0, gridIndex - 1));
+                                updateSize();
+                                repaint();
                             }
+                        } else {
+                            System.out.println("No se puede");
+                            JOptionPane.showMessageDialog(menu,
+                                    "There must me at least one Smart Painter",
+                                    "Can't delete Smart Painter",
+                                    JOptionPane.ERROR_MESSAGE);
                         }
                     });
                     menu.add(item1);
@@ -162,10 +148,8 @@ public class SmartGridDisplay extends JPanel {
 
         if (gridImage != null && handler != null) {
             for (int k = 0; k < handler.getSmartGridArray().size(); k++) {
-                g.drawImage(gridImage, 0,
-                        SmartGrid.height * k * MapGrid.tileSize, null);
+                g.drawImage(gridImage, 0, SmartGrid.height * k * MapGrid.tileSize, null);
             }
-
         }
 
         if (handler != null) {

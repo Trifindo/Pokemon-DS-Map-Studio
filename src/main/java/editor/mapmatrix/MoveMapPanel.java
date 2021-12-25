@@ -3,13 +3,8 @@ package editor.mapmatrix;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 import editor.handler.MapEditorHandler;
-import editor.state.MapLayerState;
-
-import java.awt.Point;
-import net.miginfocom.swing.*;
 
 /**
  * @author Trifindo, JackHack96
@@ -55,8 +50,6 @@ public class MoveMapPanel extends JPanel {
 
         handler.getMapMatrix().updateBordersData();
         handler.getMainFrame().updateMapMatrixDisplay();
-
-
     }
 
     private void initComponents() {

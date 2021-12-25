@@ -15,6 +15,4 @@ public class CParam2D implements Comparable<CParam2D> {
     public int compareTo(CParam2D o) {
         return slopeX.compareTo(o.slopeX);
     }
-
-
 }

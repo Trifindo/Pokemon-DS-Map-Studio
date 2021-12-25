@@ -7,13 +7,14 @@ import formats.narc2.NarcFolder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
  */
 public class MapAnimations {
 
-    private ArrayList<ModelAnimation> animations;
+    private final List<ModelAnimation> animations;
 
     public MapAnimations(Narc narc) {
         final int numAnimations = narc.getRoot().getFiles().size();
@@ -25,7 +26,7 @@ public class MapAnimations {
 
     public Narc toNarc() {
         NarcFolder root = new NarcFolder();
-        ArrayList<NarcFile> files = new ArrayList<>(animations.size());
+        List<NarcFile> files = new ArrayList<>(animations.size());
         for (ModelAnimation animation : animations) {
             files.add(new NarcFile("", root, animation.getData()));
         }
@@ -57,7 +58,7 @@ public class MapAnimations {
         }
     }
 
-    public ArrayList<ModelAnimation> getAnimations() {
+    public List<ModelAnimation> getAnimations() {
         return animations;
     }
 
@@ -68,5 +69,4 @@ public class MapAnimations {
     public int getAnimationType(int index) {
         return animations.get(index).getAnimationType();
     }
-
 }

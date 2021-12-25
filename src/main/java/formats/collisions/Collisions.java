@@ -1,11 +1,9 @@
 
 package formats.collisions;
 
-import utils.BinaryArrayWriter;
 import utils.BinaryBufferWriter;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -74,8 +72,8 @@ public class Collisions {
         }
         writer.write(data);
 
-        for (int i = 0; i < lastBytes.size(); i++) {
-            writer.write(lastBytes.get(i));
+        for (Byte lastByte : lastBytes) {
+            writer.write(lastByte);
         }
         return writer.toByteArray();
     }
@@ -139,6 +137,4 @@ public class Collisions {
     public void setLayer(int layerIndex, byte[][] layers) {
         this.layers[layerIndex] = layers;
     }
-
-
 }

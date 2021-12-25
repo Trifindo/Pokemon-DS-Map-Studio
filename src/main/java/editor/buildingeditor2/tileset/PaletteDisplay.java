@@ -5,9 +5,8 @@ import formats.nsbtx2.NsbtxTexture;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 /**
  * @author Trifindo, JackHack96
@@ -21,8 +20,8 @@ public class PaletteDisplay extends JPanel {
     private static final Color borderColor = new Color(102, 102, 102);
     private static final Color selectionFillColor = new Color(255, 0, 0, 120);
     private static final Color selectionBorderColor = Color.red;
-    private BufferedImage backImg;
-    public ArrayList<Color> palette;
+    private final BufferedImage backImg;
+    public List<Color> palette;
 
     public PaletteDisplay() {
         initComponents();
@@ -54,7 +53,6 @@ public class PaletteDisplay extends JPanel {
 
         g.setColor(borderColor);
         g.drawRect(0, 0, cols * tileSize - 1, rows * tileSize - 1);
-
     }
 
     public void updatePalette(NsbtxTexture nsbtxTex, NsbtxPalette nsbtxPal) {
@@ -90,8 +88,7 @@ public class PaletteDisplay extends JPanel {
     }
 
     private BufferedImage createBackImg(BufferedImage noPalImg) {
-        BufferedImage img = new BufferedImage(tileSize * cols, tileSize * rows,
-                BufferedImage.TYPE_INT_RGB);
+        BufferedImage img = new BufferedImage(tileSize * cols, tileSize * rows, BufferedImage.TYPE_INT_RGB);
 
         Graphics g = img.getGraphics();
         for (int i = 0; i < cols; i++) {

@@ -19,6 +19,4 @@ public class DaeImage extends DaeNode {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-
-
 }

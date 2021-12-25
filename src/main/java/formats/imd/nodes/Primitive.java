@@ -5,7 +5,8 @@ import formats.imd.ImdAttribute;
 import formats.imd.ImdNode;
 import formats.imd.PolygonData;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Trifindo
@@ -17,13 +18,10 @@ public class Primitive extends ImdNode {
     public Primitive(int index, String type, int vertexSize) {
         super("primitive");
 
-        attributes = new ArrayList<ImdAttribute>() {
-            {
-                add(new ImdAttribute("index", index));
-                add(new ImdAttribute("type", type));
-                add(new ImdAttribute("vertex_size", vertexSize));
-            }
-        };
+        attributes = List.of(
+                new ImdAttribute("index", index), 
+                new ImdAttribute("type", type), 
+                new ImdAttribute("vertex_size", vertexSize));
     }
 
     public void calculateElementsWithStrips(PolygonData pData, boolean firstPrimitive,
@@ -230,12 +228,9 @@ public class Primitive extends ImdNode {
     }
 
     private boolean canUseDiff(float[] arr1, float[] arr2) {
-        for (int i = 0; i < arr1.length; i++) {
-            if (Math.abs(arr1[i] - arr2[i]) >= 0.124f) {//TODO: 0.125
-                return false;
-            }
-        }
-        return true;
+        return IntStream.range(0, arr1.length)
+                .noneMatch(i -> Math.abs(arr1[i] - arr2[i]) >= 0.124f);
+        //TODO: 0.125
     }
 
     private boolean sameCoordinate(float[] arr1, float[] arr2, int coordInd) {
@@ -244,21 +239,13 @@ public class Primitive extends ImdNode {
     }
 
     private boolean sameArraysNormals(float[] arr1, float[] arr2) {
-        for (int i = 0; i < arr1.length; i++) {
-            if (Math.abs(arr1[i] - arr2[i]) > 0.001f) {
-                return false;
-            }
-        }
-        return true;
+        return IntStream.range(0, arr1.length)
+                .noneMatch(i -> Math.abs(arr1[i] - arr2[i]) > 0.001f);
     }
 
     private boolean sameArraysColors(float[] arr1, float[] arr2) {
-        for (int i = 0; i < arr1.length; i++) {
-            if (colorToDsColor(arr1[i]) != colorToDsColor(arr2[i])) {
-                return false;
-            }
-        }
-        return true;
+        return IntStream.range(0, arr1.length)
+                .noneMatch(i -> colorToDsColor(arr1[i]) != colorToDsColor(arr2[i]));
     }
 
     private void addNormal(float[] normalCoords) {
@@ -329,30 +316,22 @@ public class Primitive extends ImdNode {
     }
 
     private static int getIndexSameCoord(float[] array1, float[] array2) {
-        for (int i = 0; i < array1.length; i++) {
-            if (array1[i] == array2[i]) {
-                return i;
-            }
-        }
-        return -1;
+        return IntStream.range(0, array1.length)
+                .filter(i -> array1[i] == array2[i])
+                .findFirst()
+                .orElse(-1);
     }
 
     public static boolean lowerBitsFixedPointAreZero(float f, int numZeroBits, int numBitsDecPart) {
         int fix = (int) (f * (1 << numBitsDecPart));
 
-        for (int i = 0; i < numZeroBits; i++) {
-            if ((fix & (1 << i)) == 1 << i) {
-                return false;
-            }
-        }
-        return true;
+        return IntStream.range(0, numZeroBits)
+                .noneMatch(i -> (fix & (1 << i)) == 1 << i);
     }
 
     private static float[] getSubArrayCell(float[] array, int cellIndex, int cellSize) {
         float[] subArray = new float[cellSize];
-        for (int i = 0; i < cellSize; i++) {
-            subArray[i] = array[cellIndex * cellSize + i];
-        }
+        System.arraycopy(array, cellIndex * cellSize + 0, subArray, 0, cellSize);
         return subArray;
     }
 
@@ -367,5 +346,4 @@ public class Primitive extends ImdNode {
     public static void init() {
         lastNormalUsed = new float[]{0.0f, 0.0f, 0.0f};
     }
-
 }

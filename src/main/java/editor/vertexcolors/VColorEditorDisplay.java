@@ -49,7 +49,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -59,6 +58,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.SwingUtilities;
 
 import tileset.Tile;
@@ -104,7 +104,7 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
     private boolean drawTextures = true;
 
     //Points
-    private ArrayList<Point3D> points;
+    private List<Point3D> points;
 
     //Brush
     private int brushRadius = 20;
@@ -130,7 +130,7 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
     private float[] fCoordsQuad;
 
     //Color grab
-    private Cursor colorGrabCursor;
+    private final Cursor colorGrabCursor;
 
     public VColorEditorDisplay() {
         //Add listeners
@@ -196,13 +196,9 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
             handler.getTileset().loadTexturesGL();
 
             updateRequested = false;
-
         }
 
-        //Draw grid
         drawGrid();
-
-        //Draw axis
         drawAxis();
 
         //Draw tiles
@@ -247,8 +243,8 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
             if (handler != null) {
                 if (handler.getTileset().size() > 0) {
                     if (selectionMode == POLYGON_SELECTION_MODE) {
-                        ArrayList<Point3D> fPointsQuads = getVerticesOnScreen(fCoordsQuad);
-                        ArrayList<Point3D> fPointsTris = getVerticesOnScreen(fCoordsTri);
+                        List<Point3D> fPointsQuads = getVerticesOnScreen(fCoordsQuad);
+                        List<Point3D> fPointsTris = getVerticesOnScreen(fCoordsTri);
                         int closerQuadIndex = getCloserVertexIndex(e.getX(), e.getY(), faceSelectionRadius, fPointsQuads);
                         int closerTriIndex = getCloserVertexIndex(e.getX(), e.getY(), faceSelectionRadius, fPointsTris);
                         if (closerQuadIndex != -1 && closerTriIndex != -1) {
@@ -367,11 +363,7 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            if (orthoEnabled) {
-                orthoEnabled = false;
-            } else {
-                orthoEnabled = true;
-            }
+            orthoEnabled = !orthoEnabled;
             repaint();
         }
 
@@ -409,9 +401,7 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
             }
         }*/
         Graphics2D g2 = (Graphics2D) g;
-        RenderingHints rh = new RenderingHints(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHints(rh);
 
         g2.setStroke(new BasicStroke(2));
@@ -427,7 +417,6 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
         } else if (selectionMode == COLOR_GRAB_MODE) {
             //g.drawOval(mouseX - colorGrabRadius, mouseY - colorGrabRadius, colorGrabRadius * 2, colorGrabRadius * 2);
         }
-
     }
 
     public void requestUpdate() {
@@ -439,11 +428,9 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
         if (handler.getTileset().size() > 0) {
             generateTileVBOs(gl);
         }
-
     }
 
     private void generateTileVBOs(GL2 gl) {
-
         for (int i = 0; i < handler.getTileset().size(); i++) {
             Tile tile = handler.getTileset().get(i);
 
@@ -558,7 +545,6 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
             drawQuadsPoints(gl, tile, vboID);
             drawTrisPoints(gl, tile, vboID + 2);
         }
-
     }
 
     private void drawQuads(GL2 gl, Tile tile, int vboID) {
@@ -599,7 +585,6 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
                 }
             }
             gl.glEnd();
-
         }
     }
 
@@ -625,7 +610,7 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
             final int vPerPolygon = 3;
             start = tile.getTexOffsetsTri().get(k);
             if (k + 1 < tile.getTextureIDs().size()) {
-                end = (tile.getTexOffsetsTri().get(k + 1));
+                end = tile.getTexOffsetsTri().get(k + 1);
             } else {
                 end = tile.getVCoordsTri().length / (3 * vPerPolygon);
             }
@@ -651,7 +636,6 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
             }
             gl.glEnd();
         }
-
     }
 
     private void drawQuadsWireframe(GL2 gl, Tile tile, int vboID) {
@@ -665,7 +649,7 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
             final int vPerPolygon = 4;
             start = tile.getTexOffsetsQuad().get(k);
             if (k + 1 < tile.getTextureIDs().size()) {
-                end = (tile.getTexOffsetsQuad().get(k + 1));
+                end = tile.getTexOffsetsQuad().get(k + 1);
             } else {
                 end = tile.getVCoordsQuad().length / (3 * vPerPolygon);
             }
@@ -692,7 +676,7 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
             final int vPerPolygon = 3;
             start = tile.getTexOffsetsTri().get(k);
             if (k + 1 < tile.getTextureIDs().size()) {
-                end = (tile.getTexOffsetsTri().get(k + 1));
+                end = tile.getTexOffsetsTri().get(k + 1);
             } else {
                 end = tile.getVCoordsTri().length / (3 * vPerPolygon);
             }
@@ -719,7 +703,7 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
             final int vPerPolygon = 4;
             start = tile.getTexOffsetsQuad().get(k);
             if (k + 1 < tile.getTextureIDs().size()) {
-                end = (tile.getTexOffsetsQuad().get(k + 1));
+                end = tile.getTexOffsetsQuad().get(k + 1);
             } else {
                 end = tile.getVCoordsQuad().length / (3 * vPerPolygon);
             }
@@ -750,7 +734,7 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
             final int vPerPolygon = 3;
             start = tile.getTexOffsetsTri().get(k);
             if (k + 1 < tile.getTextureIDs().size()) {
-                end = (tile.getTexOffsetsTri().get(k + 1));
+                end = tile.getTexOffsetsTri().get(k + 1);
             } else {
                 end = tile.getVCoordsTri().length / (3 * vPerPolygon);
             }
@@ -825,7 +809,6 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
         if (backfaceCullingEnabled) {
             gl.glDisable(GL_CULL_FACE);
         }
-
     }
 
     public void drawTransparent() {
@@ -852,7 +835,6 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
         if (backfaceCullingEnabled) {
             gl.glDisable(GL_CULL_FACE);
         }
-
     }
 
     public void drawWireframe() {
@@ -866,17 +848,13 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
         gl.glDepthFunc(GL_LEQUAL);
 
         gl.glColor3f(0.0f, 0.0f, 0.0f);
-
         gl.glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
         gl.glDisable(GL_TEXTURE_2D);
-
         gl.glLineWidth(1.5f);
 
         drawTile(wireframeMode);
 
         gl.glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
     }
 
     public void drawVertexPoints() {
@@ -896,7 +874,6 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
 
         //gl.glColor3f(1.0f, 1.0f, 1.0f);
         drawTile(pointMode);
-
     }
 
     public void drawFaceCenterPoints() {
@@ -923,61 +900,60 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
     }
 
     public void drawFaceSelected() {
-        if (faceSelected != null) {
-            GL2 gl = (GL2) GLContext.getCurrentGL();
-
-            gl.glEnable(GL_BLEND);
-            gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
-
-            gl.glEnable(GL_DEPTH_TEST);
-            gl.glDepthFunc(GL_ALWAYS);
-
-            gl.glColor3f(1.0f, 0.0f, 0.0f);
-
-            gl.glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-            gl.glDisable(GL_TEXTURE_2D);
-
-            gl.glLineWidth(3.0f);
-
-            gl.glLoadIdentity();
-            if (orthoEnabled) {
-                float v = 6.0f;
-                gl.glOrtho(-v, v, -v, v, -100.0f, 100.0f);
-            } else {
-                float aspect = (float) this.getWidth() / (float) this.getHeight();
-                glu.gluPerspective(60.0f, aspect, 1.0f, 1000.0f);
-            }
-
-            gl.glTranslatef(-cameraX, -cameraY, -cameraZ); // translate into the screen
-
-            gl.glRotatef(modelRotX, 1.0f, 0.0f, 0.0f); // rotate about the x-axis
-            gl.glRotatef(modelRotY, 0.0f, 1.0f, 0.0f); // rotate about the y-axis
-            gl.glRotatef(modelRotZ, 0.0f, 0.0f, 1.0f); // rotate about the z-axis
-
-            Tile tile = handler.getTileset().get(handler.getTileIndexSelected());
-
-            int numVertices;
-            float[] vArray;
-            int mode;
-            if (faceSelected.isQuad) {
-                numVertices = 4;
-                vArray = tile.getVCoordsQuad();
-                mode = GL_QUADS;
-            } else {
-                numVertices = 3;
-                vArray = tile.getVCoordsTri();
-                mode = GL_TRIANGLES;
-            }
-
-            gl.glBegin(mode);
-            for (int i = 0; i < numVertices; i++) {
-                gl.glVertex3fv(vArray, faceSelected.faceIndex * numVertices * 3 + i * 3);
-            }
-            gl.glEnd();
-
-            gl.glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        if (faceSelected == null) {
+            return;
         }
+
+        GL2 gl = (GL2) GLContext.getCurrentGL();
+
+        gl.glEnable(GL_BLEND);
+        gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+
+        gl.glEnable(GL_DEPTH_TEST);
+        gl.glDepthFunc(GL_ALWAYS);
+
+        gl.glColor3f(1.0f, 0.0f, 0.0f);
+        gl.glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        gl.glDisable(GL_TEXTURE_2D);
+        gl.glLineWidth(3.0f);
+
+        gl.glLoadIdentity();
+        if (orthoEnabled) {
+            float v = 6.0f;
+            gl.glOrtho(-v, v, -v, v, -100.0f, 100.0f);
+        } else {
+            float aspect = (float) this.getWidth() / (float) this.getHeight();
+            glu.gluPerspective(60.0f, aspect, 1.0f, 1000.0f);
+        }
+
+        gl.glTranslatef(-cameraX, -cameraY, -cameraZ); // translate into the screen
+
+        gl.glRotatef(modelRotX, 1.0f, 0.0f, 0.0f); // rotate about the x-axis
+        gl.glRotatef(modelRotY, 0.0f, 1.0f, 0.0f); // rotate about the y-axis
+        gl.glRotatef(modelRotZ, 0.0f, 0.0f, 1.0f); // rotate about the z-axis
+
+        Tile tile = handler.getTileset().get(handler.getTileIndexSelected());
+
+        int numVertices;
+        float[] vArray;
+        int mode;
+        if (faceSelected.isQuad) {
+            numVertices = 4;
+            vArray = tile.getVCoordsQuad();
+            mode = GL_QUADS;
+        } else {
+            numVertices = 3;
+            vArray = tile.getVCoordsTri();
+            mode = GL_TRIANGLES;
+        }
+
+        gl.glBegin(mode);
+        for (int i = 0; i < numVertices; i++) {
+            gl.glVertex3fv(vArray, faceSelected.faceIndex * numVertices * 3 + i * 3);
+        }
+        gl.glEnd();
+
+        gl.glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 
     public void swapVBOs(int i1, int i2) {
@@ -1012,19 +988,17 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
         this.backfaceCullingEnabled = enabled;
     }
 
-    public ArrayList<Point3D> getVerticesOnScreen(float[] vertexArray) {
-        ArrayList<Point3D> points = new ArrayList<>();
+    public List<Point3D> getVerticesOnScreen(float[] vertexArray) {
+        List<Point3D> points = new ArrayList<>();
 
-        if (handler != null) {
-            if (handler.getTileset().size() > 0) {
-                Matrix3D transformationMatrix = getTransformationMatrix();
-                float[] vCoords = applyTransformation(vertexArray, transformationMatrix, getWidth(), getHeight());
+        if (handler != null && handler.getTileset().size() > 0) {
+            Matrix3D transformationMatrix = getTransformationMatrix();
+            float[] vCoords = applyTransformation(vertexArray, transformationMatrix, getWidth(), getHeight());
 
-                final int numPoints = vertexArray.length / 3;
-                points = new ArrayList<>(numPoints);
-                for (int i = 0; i < vCoords.length / 3; i++) {
-                    points.add(new Point3D(vCoords[i * 3], vCoords[i * 3 + 1], vCoords[i * 3 + 2]));
-                }
+            final int numPoints = vertexArray.length / 3;
+            points = new ArrayList<>(numPoints);
+            for (int i = 0; i < vCoords.length / 3; i++) {
+                points.add(new Point3D(vCoords[i * 3], vCoords[i * 3 + 1], vCoords[i * 3 + 2]));
             }
         }
         return points;
@@ -1061,45 +1035,43 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
     }
 
     private void paintVertexColors(int mouseX, int mouseY, float[] vertexArray, float[] colorArray) {
-        if (colorArray != null && vertexArray != null) {
-            if (colorArray.length == vertexArray.length) {
-                Color c = dialog.getSelectedColor();
-                ArrayList<Point3D> points = getVerticesOnScreen(vertexArray);
+        if (colorArray == null || vertexArray == null || colorArray.length != vertexArray.length) {
+            return;
+        }
+        Color c = dialog.getSelectedColor();
+        List<Point3D> points = getVerticesOnScreen(vertexArray);
 
-                for (int i = 0; i < points.size(); i++) {
-                    int x = (int) points.get(i).getX();
-                    int y = (int) points.get(i).getY();
+        for (int i = 0; i < points.size(); i++) {
+            int x = (int) points.get(i).getX();
+            int y = (int) points.get(i).getY();
 
-                    int dist = (int) Math.sqrt((x - mouseX) * (x - mouseX) + (y - mouseY) * (y - mouseY));
-                    if (dist < brushRadius) {
-                        colorArray[i * 3] = c.getRed() / 255f;
-                        colorArray[i * 3 + 1] = c.getGreen() / 255f;
-                        colorArray[i * 3 + 2] = c.getBlue() / 255f;
-                    }
-                }
+            int dist = (int) Math.sqrt((x - mouseX) * (x - mouseX) + (y - mouseY) * (y - mouseY));
+            if (dist < brushRadius) {
+                colorArray[i * 3] = c.getRed() / 255f;
+                colorArray[i * 3 + 1] = c.getGreen() / 255f;
+                colorArray[i * 3 + 2] = c.getBlue() / 255f;
             }
         }
     }
 
     private void paintVertexColorsInFace(int mouseX, int mouseY, float[] vertexArray, float[] colorArray, int faceIndex, int vertexPerFace) {
-        if (colorArray != null && vertexArray != null) {
-            if (colorArray.length == vertexArray.length) {
-                Color c = dialog.getSelectedColor();
-                ArrayList<Point3D> points = getVerticesOnScreen(vertexArray);
+        if (colorArray == null || vertexArray == null || colorArray.length != vertexArray.length) {
+            return;
+        }
+        Color c = dialog.getSelectedColor();
+        List<Point3D> points = getVerticesOnScreen(vertexArray);
 
-                for (int i = 0; i < points.size(); i++) {
-                    int x = (int) points.get(i).getX();
-                    int y = (int) points.get(i).getY();
+        for (int i = 0; i < points.size(); i++) {
+            int x = (int) points.get(i).getX();
+            int y = (int) points.get(i).getY();
 
-                    int fIndex = i / vertexPerFace;
-                    if (fIndex == faceIndex) {
-                        int dist = (int) Math.sqrt((x - mouseX) * (x - mouseX) + (y - mouseY) * (y - mouseY));
-                        if (dist < brushRadius) {
-                            colorArray[i * 3] = c.getRed() / 255f;
-                            colorArray[i * 3 + 1] = c.getGreen() / 255f;
-                            colorArray[i * 3 + 2] = c.getBlue() / 255f;
-                        }
-                    }
+            int fIndex = i / vertexPerFace;
+            if (fIndex == faceIndex) {
+                int dist = (int) Math.sqrt((x - mouseX) * (x - mouseX) + (y - mouseY) * (y - mouseY));
+                if (dist < brushRadius) {
+                    colorArray[i * 3] = c.getRed() / 255f;
+                    colorArray[i * 3 + 1] = c.getGreen() / 255f;
+                    colorArray[i * 3 + 2] = c.getBlue() / 255f;
                 }
             }
         }
@@ -1109,8 +1081,8 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
         Color c = null;
 
         Tile tile = handler.getTileSelected();
-        ArrayList<Point3D> fPointsQuads = getVerticesOnScreen(tile.getVCoordsQuad());
-        ArrayList<Point3D> fPointsTris = getVerticesOnScreen(tile.getVCoordsTri());
+        List<Point3D> fPointsQuads = getVerticesOnScreen(tile.getVCoordsQuad());
+        List<Point3D> fPointsTris = getVerticesOnScreen(tile.getVCoordsTri());
         int closerQuadIndex = getCloserVertexIndex(mouseX, mouseY, colorGrabRadius, fPointsQuads);
         int closerTriIndex = getCloserVertexIndex(mouseX, mouseY, colorGrabRadius, fPointsTris);
         if (closerQuadIndex != -1 && closerTriIndex != -1) {
@@ -1130,12 +1102,10 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
     }
 
     private Color getColorFromArray(float[] array, int vertexIndex) {
-        return new Color(array[vertexIndex * 3],
-                array[vertexIndex * 3 + 1],
-                array[vertexIndex * 3 + 2]);
+        return new Color(array[vertexIndex * 3], array[vertexIndex * 3 + 1], array[vertexIndex * 3 + 2]);
     }
 
-    private int getCloserVertexIndex(int mouseX, int mouseY, int radius, ArrayList<Point3D> pointsOnScreen) {
+    private int getCloserVertexIndex(int mouseX, int mouseY, int radius, List<Point3D> pointsOnScreen) {
         float minZ = 2.0f;
         int index = -1;
 
@@ -1166,9 +1136,7 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
                     coordsMean[k] += vCoords[c] / vPerFace;
                 }
             }
-            for (int j = 0; j < coordsPerVertex; j++) {
-                fCoords[i * coordsPerVertex + j] = coordsMean[j];
-            }
+            System.arraycopy(coordsMean, 0, fCoords, i * 3, coordsPerVertex);
         }
         return fCoords;
     }
@@ -1208,5 +1176,4 @@ public class VColorEditorDisplay extends GLJPanel implements GLEventListener, Mo
     public void setBrushSize(int size) {
         this.brushRadius = size;
     }
-
 }

@@ -1,7 +1,6 @@
 package editor.buildingeditor2.tileset;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -57,11 +56,7 @@ public class TextureDisplay extends JPanel {
     }
 
     public void updateImage(BufferedImage updatedImage) {
-        if (updatedImage != null) {
-            this.img = updatedImage;
-        } else {
-            this.img = null;
-        }
+        this.img = updatedImage;
     }
 
     public BufferedImage createBackImg() {

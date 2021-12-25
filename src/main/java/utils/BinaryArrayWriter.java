@@ -17,12 +17,12 @@ public class BinaryArrayWriter {
         this.mark = offset;
     }
 
-    public void writeUInt8(int value) throws Exception {
+    public void writeUInt8(int value) {
         buf[pos] = (byte) value;
         pos++;
     }
 
-    public void writeUInt16(int value) throws Exception {
+    public void writeUInt16(int value) {
         ByteBuffer byteBuffer = ByteBuffer.allocate(2);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         byteBuffer.putShort((short) (value & 0xffffL));
@@ -31,7 +31,7 @@ public class BinaryArrayWriter {
         pos += 2;
     }
 
-    public void writeUInt32(long value) throws Exception {
+    public void writeUInt32(long value) {
         ByteBuffer byteBuffer = ByteBuffer.allocate(4);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         byteBuffer.putInt((int) (value & 0xffffffffL));
@@ -51,5 +51,4 @@ public class BinaryArrayWriter {
     public void jumpRel(int relOffset){
         pos = offset + relOffset;
     }
-
 }

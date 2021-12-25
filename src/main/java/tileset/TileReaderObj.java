@@ -4,11 +4,11 @@ package tileset;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import utils.Utils;
 
@@ -18,27 +18,27 @@ import utils.Utils;
 public class TileReaderObj {
 
     public static Tile2 loadTileObj(String folderPath, String objName, Tileset tileset)
-            throws FileNotFoundException, IOException, IndexOutOfBoundsException, TextureNotFoundException {
+            throws IOException, IndexOutOfBoundsException, TextureNotFoundException {
 
         //Load OBJ file data
         InputStream inputObj = new FileInputStream(new File(folderPath + "/" + objName));
         BufferedReader brObj = new BufferedReader(new InputStreamReader(inputObj));
 
-        ArrayList<ArrayList<Float>> vCoordsObj = new ArrayList<>();
-        ArrayList<ArrayList<Float>> tCoordsObj = new ArrayList<>();
-        ArrayList<ArrayList<Float>> nCoordsObj = new ArrayList<>();
+        List<List<Float>> vCoordsObj = new ArrayList<>();
+        List<List<Float>> tCoordsObj = new ArrayList<>();
+        List<List<Float>> nCoordsObj = new ArrayList<>();
 
-        ArrayList<String> materialNames = new ArrayList();
+        List<String> materialNames = new ArrayList<>();
 
-        ArrayList<ArrayList<Face>> fIndsQuadArray = new ArrayList<>();
-        ArrayList<ArrayList<Face>> fIndsTriArray = new ArrayList<>();
+        List<List<Face>> fIndsQuadArray = new ArrayList<>();
+        List<List<Face>> fIndsTriArray = new ArrayList<>();
 
         String mtlName = "";
         int materialIndex = 0;
         String lineObj;
         while ((lineObj = brObj.readLine()) != null) {
             if (lineObj.startsWith("mtllib")) {
-                mtlName = lineObj.substring(lineObj.indexOf(" ") + 1, lineObj.length());
+                mtlName = lineObj.substring(lineObj.indexOf(" ") + 1);
             } else if (lineObj.startsWith("o")) {
 
             } else if (lineObj.startsWith("v ")) {
@@ -57,24 +57,24 @@ public class TileReaderObj {
                     materialNames.add(name);
                 }
             } else if (lineObj.startsWith("f")) {
-                String[] splittedLine = (lineObj.substring(2)).split(" ");
+                String[] splitLine = (lineObj.substring(2)).split(" ");
                 int numVertex = 0;
-                for (int i = 0; i < splittedLine.length; i++) {
-                    if (splittedLine[i].contains("/")) {
+                for (String s : splitLine) {
+                    if (s.contains("/")) {
                         numVertex++;
                     }
                 }
                 if (numVertex > 3) {
-                    fIndsQuadArray.get(materialIndex).add(loadFaceIndicesObj(splittedLine, 4));
+                    fIndsQuadArray.get(materialIndex).add(loadFaceIndicesObj(splitLine, 4));
                 } else {
-                    fIndsTriArray.get(materialIndex).add(loadFaceIndicesObj(splittedLine, 3));
+                    fIndsTriArray.get(materialIndex).add(loadFaceIndicesObj(splitLine, 3));
                 }
             }
         }
         inputObj.close();
 
         //Load Mtl file
-        ArrayList<Integer> textureIDs = new ArrayList<>();
+        List<Integer> textureIDs = new ArrayList<>();
         int numMaterials = countNumberOfStarts(new File(folderPath + "/" + mtlName), "newmtl");
         for (int i = 0; i < numMaterials; i++) {
             textureIDs.add(0);
@@ -119,7 +119,6 @@ public class TileReaderObj {
         }
         inputMtl.close();
 
-
         //Fix material names for avoiding sub folder issues
         for (int i = 0; i < textureIDs.size(); i++) {
             TilesetMaterial material = tileset.getMaterial(textureIDs.get(i));
@@ -140,40 +139,29 @@ public class TileReaderObj {
         }
 
         //Fix duplicated Texture IDs
-        ArrayList<ArrayList<Face>> fIndsQuadArrayFixed = new ArrayList<>();
-        ArrayList<ArrayList<Face>> fIndsTriArrayFixed = new ArrayList<>();
-        ArrayList<Integer> textureIDsFixed = new ArrayList<>();
+        List<List<Face>> fIndsQuadArrayFixed = new ArrayList<>();
+        List<List<Face>> fIndsTriArrayFixed = new ArrayList<>();
+        List<Integer> textureIDsFixed = new ArrayList<>();
         for (int i = 0; i < textureIDs.size(); i++) {
             int id = textureIDs.get(i);
             int index = textureIDsFixed.indexOf(id);
             if (index == -1) {
-                ArrayList<Face> fIndsQuad = new ArrayList<>();
-                ArrayList<Face> fIndsTri = new ArrayList<>();
-                for (int j = 0; j < fIndsQuadArray.get(i).size(); j++) {
-                    fIndsQuad.add(fIndsQuadArray.get(i).get(j));
-                }
-                for (int j = 0; j < fIndsTriArray.get(i).size(); j++) {
-                    fIndsTri.add(fIndsTriArray.get(i).get(j));
-                }
+                List<Face> fIndsQuad = new ArrayList<>(fIndsQuadArray.get(i));
+                List<Face> fIndsTri = new ArrayList<>(fIndsTriArray.get(i));
                 fIndsQuadArrayFixed.add(fIndsQuad);
                 fIndsTriArrayFixed.add(fIndsTri);
                 textureIDsFixed.add(id);
             } else {
-                ArrayList<Face> fIndsQuad = fIndsQuadArrayFixed.get(index);
-                ArrayList<Face> fIndsTri = fIndsTriArrayFixed.get(index);
-                for (int j = 0; j < fIndsQuadArray.get(i).size(); j++) {
-                    fIndsQuad.add(fIndsQuadArray.get(i).get(j));
-                }
-                for (int j = 0; j < fIndsTriArray.get(i).size(); j++) {
-                    fIndsTri.add(fIndsTriArray.get(i).get(j));
-                }
+                List<Face> fIndsQuad = fIndsQuadArrayFixed.get(index);
+                List<Face> fIndsTri = fIndsTriArrayFixed.get(index);
+                fIndsQuad.addAll(fIndsQuadArray.get(i));
+                fIndsTri.addAll(fIndsTriArray.get(i));
             }
         }
         textureIDs = textureIDsFixed;
         fIndsQuadArray = fIndsQuadArrayFixed;
         fIndsTriArray = fIndsTriArrayFixed;
-        
-        
+
         /*
         //Group all indices by material into a single array
         ArrayList<Face> fIndsQuad = new ArrayList<>();
@@ -194,15 +182,14 @@ public class TileReaderObj {
         return null;//Change this
     }
 
-    private static ArrayList<Float> loadFloatLineObj(String line, int minNumElemn,
-                                                     int maxNumElem, float defaultValue) {
-        String[] splittedLine = line.split(" ");
-        int numElements = Math.max(Math.min(maxNumElem, splittedLine.length - 1), minNumElemn);
-        ArrayList<Float> floats = new ArrayList<>(numElements);
+    private static List<Float> loadFloatLineObj(String line, int minNumElemn, int maxNumElem, float defaultValue) {
+        String[] splitLine = line.split(" ");
+        int numElements = Math.max(Math.min(maxNumElem, splitLine.length - 1), minNumElemn);
+        List<Float> floats = new ArrayList<>(numElements);
         for (int i = 0; i < numElements; i++) {
             float value;
             try {
-                value = Float.valueOf(splittedLine[i + 1]);
+                value = Float.parseFloat(splitLine[i + 1]);
             } catch (NumberFormatException | IndexOutOfBoundsException ex) {
                 value = defaultValue;
             }
@@ -211,14 +198,14 @@ public class TileReaderObj {
         return floats;
     }
 
-    private static Face loadFaceIndicesObj(String[] splittedLine, int numVertex) {
+    private static Face loadFaceIndicesObj(String[] splitLine, int numVertex) {
         Face f = new Face(numVertex);
         for (int i = 0; i < numVertex; i++) {
-            String[] sArray = splittedLine[i].split("/");
-            f.vInd[i] = Integer.valueOf(sArray[0]);
-            f.tInd[i] = Integer.valueOf(sArray[1]);
+            String[] sArray = splitLine[i].split("/");
+            f.vInd[i] = Integer.parseInt(sArray[0]);
+            f.tInd[i] = Integer.parseInt(sArray[1]);
             if (sArray.length > 2) {
-                f.nInd[i] = Integer.valueOf(sArray[2]);
+                f.nInd[i] = Integer.parseInt(sArray[2]);
             } else {
                 f.nInd[i] = -1;
             }
@@ -229,18 +216,12 @@ public class TileReaderObj {
     private static int countNumberOfStarts(File file, String content) throws IOException {
         InputStream input = new FileInputStream(file);
         BufferedReader br = new BufferedReader(new InputStreamReader(input));
-        int count = 0;
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.startsWith(content)) {
-                count++;
-            }
-        }
-        return count;
+        return (int) br.lines()
+                .filter(line -> line.startsWith(content))
+                .count();
     }
 
     private static class Face {
-
         public int[] vInd;
         public int[] tInd;
         public int[] nInd;
@@ -251,5 +232,4 @@ public class TileReaderObj {
             nInd = new int[nVertex];
         }
     }
-
 }

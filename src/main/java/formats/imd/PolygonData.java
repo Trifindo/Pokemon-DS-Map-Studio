@@ -2,8 +2,10 @@
 package formats.imd;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.math.RoundingMode;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author Trifindo
@@ -35,17 +37,16 @@ public class PolygonData {
             nCoords = nCoordsTri;
         }
         int numPolys = nCoords.length / (3 * nPerPoly);
-        ArrayList<Poly> polys = new ArrayList<>(numPolys);
-        for (int i = 0; i < numPolys; i++) {
-            polys.add(new Poly(i, isQuad));
-        }
+        List<Poly> polys = IntStream.range(0, numPolys)
+                .mapToObj(i -> new Poly(i, isQuad))
+                .sorted()
+                .collect(Collectors.toList());
 
         /*
         System.out.println("Polygon");
         for (int i = 0; i < polys.size(); i++) {
             polys.get(i).printData();
         }*/
-        Collections.sort(polys);
 
         /*
         System.out.println("Sorted Polygon");
@@ -63,10 +64,9 @@ public class PolygonData {
             nCoordsTri = sortByIndices(nCoordsTri, 9, polys);
             colorsTri = sortByIndices(colorsTri, 9, polys);
         }
-
     }
 
-    private float[] sortByIndices(float[] array, int unitSize, ArrayList<Poly> polys) {
+    private float[] sortByIndices(float[] array, int unitSize, List<Poly> polys) {
         float[] copy = new float[array.length];
         for (int i = 0; i < polys.size(); i++) {
             System.arraycopy(array, i * unitSize, copy, polys.get(i).index * unitSize, unitSize);
@@ -175,7 +175,6 @@ public class PolygonData {
         }
     }
 
-
     private void scaleArray(float[] array, float scale) {
         for (int i = 0; i < array.length; i++) {
             array[i] *= scale;
@@ -220,11 +219,10 @@ public class PolygonData {
                 nCoords = nCoordsTri;
             }
             this.nPerPoly = nPerVertex * vertexPerPoly;
-
         }
 
         public void printData() {
-            System.out.println(index + ": " + hashCode() + " / " + nCoords[index * nPerPoly + 0] + " " + nCoords[index * nPerPoly + 1] + " " + nCoords[index * nPerPoly + 2]);
+            System.out.println(index + ": " + hashCode() + " / " + nCoords[index * nPerPoly] + " " + nCoords[index * nPerPoly + 1] + " " + nCoords[index * nPerPoly + 2]);
         }
 
         @Override
@@ -274,20 +272,17 @@ public class PolygonData {
         public int compareTo(Poly o) {
             return (this.hashCode() / 100) - (o.hashCode() / 100);
         }
-
     }
 
     public static float round(float d, int decimalPlace) {
         //System.out.println(d);
         try {
             BigDecimal bd = new BigDecimal(Float.toString(d));
-            bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+            bd = bd.setScale(decimalPlace, RoundingMode.HALF_UP);
             return bd.floatValue();
         } catch (NumberFormatException ex) {
             //System.out.println("ERROR: " + d);
             return 0.0f;
         }
-
     }
-
 }

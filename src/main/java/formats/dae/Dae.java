@@ -10,5 +10,4 @@ public class Dae {
 
     Map<String, DaeImage> libraryImages;
     Map<String, DaeMaterial> libraryMaterials;
-
 }

@@ -6,17 +6,17 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.awt.ImageUtil;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
-import editor.MainFrame;
 import editor.smartdrawing.SmartGrid;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
-import javax.swing.*;
 
 import utils.Utils;
 
@@ -32,19 +32,19 @@ public class Tileset {
     public String tilesetFolderPath = "";
 
     //Tiles
-    private ArrayList<Tile> tiles = new ArrayList();
+    private List<Tile> tiles;
 
     //Textures
-    private ArrayList<Texture> textures = new ArrayList<>();
-    private ArrayList<TilesetMaterial> materials = new ArrayList();
+    private List<Texture> textures;
+    private List<TilesetMaterial> materials;
 
     public static final BufferedImage defaultTexture = Utils.loadTexImageAsResource("/imgs/defaultTexture.png");
 
     //Smart grid
-    private ArrayList<SmartGrid> sgridArray = new ArrayList<>();
+    private List<SmartGrid> sgridArray;
 
     public Tileset() {
-        tiles = new ArrayList();
+        tiles = new ArrayList<>();
         textures = new ArrayList<>();
         materials = new ArrayList<>();
 
@@ -57,14 +57,10 @@ public class Tileset {
         Tileset tileset = new Tileset();
 
         tileset.tiles = new ArrayList<>();
-        for (int i = 0; i < tiles.size(); i++) {
-            tileset.tiles.add(tiles.get(i));
-        }
+        tileset.tiles.addAll(tiles);
 
         tileset.textures = new ArrayList<>();
-        for (int i = 0; i < textures.size(); i++) {
-            tileset.textures.add(textures.get(i));
-        }
+        tileset.textures.addAll(textures);
 
         tileset.materials = new ArrayList<>();
         for (TilesetMaterial material : materials) {
@@ -72,45 +68,38 @@ public class Tileset {
         }
 
         tileset.sgridArray = new ArrayList<>();
-        for (int i = 0; i < sgridArray.size(); i++) {
-            tileset.sgridArray.add(sgridArray.get(i));
-        }
+        tileset.sgridArray.addAll(sgridArray);
 
         return tileset;
     }
 
     public void saveImagesToFile(String path) {
-        for (int i = 0; i < materials.size(); i++) {
-            TilesetMaterial material = materials.get(i);
+        for (TilesetMaterial material : materials) {
             String outPath = path + File.separator + material.getImageName();
             try {
-                File outputfile = new File(outPath);
-                ImageIO.write(material.getTextureImg(), "png", outputfile);
+                ImageIO.write(material.getTextureImg(), "png", new File(outPath));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     }
 
-    public ArrayList<Integer> replaceMaterial(int oldIndex, int newIndex) {
-        ArrayList<Integer> indicesTilesReplaced;
+    public List<Integer> replaceMaterial(int oldIndex, int newIndex) {
+        List<Integer> indicesTilesReplaced;
         indicesTilesReplaced = replaceTextureIDs(oldIndex, newIndex);
         removeUnusedTextures();
         return indicesTilesReplaced;
     }
 
-    public ArrayList<Integer> replaceTextureIDs(int oldIndex, int newIndex) {
-        ArrayList<Integer> indicesTilesReplaced = new ArrayList<>();
-        for (int i = 0; i < tiles.size(); i++) {
-            if (Collections.replaceAll(tiles.get(i).getTextureIDs(), oldIndex, newIndex)) {
-                indicesTilesReplaced.add(i);
-            }
-        }
-        return indicesTilesReplaced;
+    public List<Integer> replaceTextureIDs(int oldIndex, int newIndex) {
+        return IntStream.range(0, tiles.size())
+                .filter(i -> Collections.replaceAll(tiles.get(i).getTextureIDs(), oldIndex, newIndex))
+                .boxed()
+                .collect(Collectors.toList());
     }
 
     public void removeUnusedTextures() {
-        ArrayList<Integer> textureUsage = countTextureUsage();
+        List<Integer> textureUsage = countTextureUsage();
 
         // TODO: could this be improved by using pointers instead of IDs?
         for (int i = 0; i < textureUsage.size(); i++) {
@@ -129,7 +118,6 @@ public class Tileset {
         for (Tile tile : tiles) {
             tile.swapMaterials(indexMat1, indexMat2);
         }
-
     }
 
     public void removeTile(int index) {
@@ -138,14 +126,14 @@ public class Tileset {
         removeUnusedTextures();
     }
 
-    public void removeTiles(ArrayList<Integer> indices) {
+    public void removeTiles(List<Integer> indices) {
         for (int i = 0; i < indices.size(); i++) {
 
         }
     }
 
-    private ArrayList<Integer> countTextureUsage() {
-        ArrayList<Integer> count = new ArrayList<>();
+    private List<Integer> countTextureUsage() {
+        List<Integer> count = new ArrayList<>();
         /*
         for (Texture texture : textures) {
             count.add(0);
@@ -162,7 +150,7 @@ public class Tileset {
         return count;
     }
 
-    public boolean addTexture(String path) throws IOException {
+    public boolean addTexture(String path) {
         String filename = new File(path).getName();
 
         int textIndex = getIndexOfMaterialByImgName(filename);
@@ -213,8 +201,8 @@ public class Tileset {
     }
 
     public void updateTextures(GL2 gl) {
-        for (int i = 0; i < textures.size(); i++) {
-            textures.get(i).destroy(gl);
+        for (Texture texture : textures) {
+            texture.destroy(gl);
         }
         loadTexturesGL();
     }
@@ -223,12 +211,10 @@ public class Tileset {
         Collections.swap(tiles, e1, e2);
     }
 
-    public void moveTiles(ArrayList<Integer> indices) {
-        ArrayList<Tile> newTiles = new ArrayList<>();
-        for (int i = 0; i < indices.size(); i++) {
-            newTiles.add(tiles.get(indices.get(i)));
-        }
-        tiles = newTiles;
+    public void moveTiles(List<Integer> indices) {
+        tiles = indices.stream()
+                .map(index -> tiles.get(index))
+                .collect(Collectors.toList());
     }
 
     public void loadTexturesGL() {
@@ -251,8 +237,8 @@ public class Tileset {
         return tex;
     }
 
-    public void loadTextureImgs() throws IOException {
-        ArrayList<Integer> textureUsage = countTextureUsage();
+    public void loadTextureImgs() {
+        List<Integer> textureUsage = countTextureUsage();
         for (int i = 0; i < textureUsage.size(); i++) {
             if (textureUsage.get(i) == 0) {
                 materials.remove(i);
@@ -261,14 +247,14 @@ public class Tileset {
                 i--;
             }
         }
-        for (int i = 0; i < materials.size(); i++) {
-            String textureName = materials.get(i).getImageName();
-            materials.get(i).setTextureImg(Tile.loadTextureImgWithDefault(tilesetFolderPath + "/" + textureName));
+        for (TilesetMaterial material : materials) {
+            String textureName = material.getImageName();
+            material.setTextureImg(Tile.loadTextureImgWithDefault(tilesetFolderPath + "/" + textureName));
         }
     }
 
-    public void loadTextureImgsAsResource() throws IOException {
-        ArrayList<Integer> textureUsage = countTextureUsage();
+    public void loadTextureImgsAsResource() {
+        List<Integer> textureUsage = countTextureUsage();
         for (int i = 0; i < textureUsage.size(); i++) {
             if (textureUsage.get(i) == 0) {
                 materials.remove(i);
@@ -277,11 +263,11 @@ public class Tileset {
                 i--;
             }
         }
-        for (int i = 0; i < materials.size(); i++) {
-            String textureName = materials.get(i).getImageName();
+        for (TilesetMaterial material : materials) {
+            String textureName = material.getImageName();
             //System.out.println(tilesetFolderPath);
             BufferedImage img = Utils.loadTexImageAsResource(tilesetFolderPath + "/" + textureName);
-            materials.get(i).setTextureImg(img);
+            material.setTextureImg(img);
         }
     }
 
@@ -290,11 +276,11 @@ public class Tileset {
         materials.get(index).setTextureImg(img);
     }
 
-    public ArrayList<Texture> getTextures() {
+    public List<Texture> getTextures() {
         return textures;
     }
 
-    public void setTiles(ArrayList<Tile> tiles) {
+    public void setTiles(List<Tile> tiles) {
         this.tiles = tiles;
     }
 
@@ -304,7 +290,7 @@ public class Tileset {
     }
 
     public void importTile(Tile tile) {
-        ArrayList<Integer> texIDs = tile.getTextureIDs();
+        List<Integer> texIDs = tile.getTextureIDs();
         for (int i = 0; i < texIDs.size(); i++) {
             TilesetMaterial material = tile.getTileset().getMaterial(texIDs.get(i));
             int index = materials.indexOf(material);
@@ -319,14 +305,13 @@ public class Tileset {
         tiles.add(tile);
     }
 
-    public void importTiles(ArrayList<Tile> tiles) {
+    public void importTiles(List<Tile> tiles) {
         for (Tile tile : tiles) {
             importTile(tile);
         }
 
         System.out.println("Tiles imported");
     }
-
 
     public Tile get(int index) {
         return tiles.get(index);
@@ -336,7 +321,7 @@ public class Tileset {
         return tiles.size();
     }
 
-    public ArrayList<Tile> getTiles() {
+    public List<Tile> getTiles() {
         return tiles;
     }
 
@@ -356,7 +341,7 @@ public class Tileset {
         tiles.add(index, tiles.get(index).clone());
     }
 
-    public void duplicateTiles(ArrayList<Integer> indices) {
+    public void duplicateTiles(List<Integer> indices) {
         int startIndex = indices.get(indices.size() - 1) + 1;
         for (int i = 0; i < indices.size(); i++) {
             tiles.add(startIndex + i, tiles.get(indices.get(i)).clone());
@@ -364,21 +349,17 @@ public class Tileset {
     }
 
     public int getIndexOfTileByObjFilename(String filename) {
-        for (int i = 0; i < tiles.size(); i++) {
-            if (tiles.get(i).getObjFilename().equals(filename)) {
-                return i;
-            }
-        }
-        return -1;
+        return IntStream.range(0, tiles.size())
+                .filter(i -> tiles.get(i).getObjFilename().equals(filename))
+                .findFirst()
+                .orElse(-1);
     }
 
     public int getIndexOfMaterialByImgName(String textureName) {
-        for (int i = 0; i < materials.size(); i++) {
-            if (materials.get(i).getImageName().equals(textureName)) {
-                return i;
-            }
-        }
-        return -1;
+        return IntStream.range(0, materials.size())
+                .filter(i -> materials.get(i).getImageName().equals(textureName))
+                .findFirst()
+                .orElse(-1);
     }
 
     public String getMaterialName(int index) {
@@ -409,16 +390,15 @@ public class Tileset {
         materials.get(index).setTextureNameImd(name);
     }
 
-    public ArrayList<SmartGrid> getSmartGridArray() {
+    public List<SmartGrid> getSmartGridArray() {
         return sgridArray;
     }
 
-    public void setSgridArray(ArrayList<SmartGrid> sgridArray) {
+    public void setSgridArray(List<SmartGrid> sgridArray) {
         this.sgridArray = sgridArray;
     }
 
-
-    public ArrayList<TilesetMaterial> getMaterials() {
+    public List<TilesetMaterial> getMaterials() {
         return materials;
     }
 
@@ -428,15 +408,13 @@ public class Tileset {
 
     public int indexOfTileVisualData(Tile tile) {
         if (tile == null) {
-            for (int i = 0; i < tiles.size(); i++)
-                if (tiles.get(i) == null)
-                    return i;
+            return IntStream.range(0, tiles.size())
+                    .filter(i -> tiles.get(i) == null)
+                    .findFirst().orElse(-1);
         } else {
-            for (int i = 0; i < tiles.size(); i++)
-                if (tile.equalsVisualData(tiles.get(i)))
-                    return i;
+            return IntStream.range(0, tiles.size())
+                    .filter(i -> tile.equalsVisualData(tiles.get(i)))
+                    .findFirst().orElse(-1);
         }
-        return -1;
     }
-
 }

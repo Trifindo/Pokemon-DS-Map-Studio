@@ -52,7 +52,6 @@ public class CollisionTypes {
         fillColors = loadColorsAsResource(path);//"colors/CollisionsColors.txt"
         fontColors = loadFontColors(fillColors);
         collisionImgs = drawImages(fillColors, fontColors);
-
     }
 
     public String getCollisionName(int layer, int index) {
@@ -70,9 +69,9 @@ public class CollisionTypes {
                     CollisionTypes.class.getClassLoader().getResourceAsStream(path)));
 
             String line;
-            while ((line = br.readLine()) != null && collIndex < numCollisions && layerIndex < numLayers) {
+            while ((line = br.readLine()) != null && layerIndex < numLayers) {
                 String[] words = line.split(" ");
-                if (words != null && words.length > 2) {
+                if (words.length > 2) {
                     colors[layerIndex][collIndex] = parseColor(words[1]);
                     String name = words[2];
                     for (int i = 3; i < words.length; i++) {
@@ -94,7 +93,6 @@ public class CollisionTypes {
         }
 
         return colors;
-
     }
 
     private BufferedImage[][] drawImages(Color[][] fillColors, Color[][] fontColors) {
@@ -107,8 +105,7 @@ public class CollisionTypes {
                 Graphics g = img.getGraphics();
 
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                        RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
                 g.setColor(fillColors[i][j]);
                 g.fillRect(0, 0, tileSize, tileSize);
@@ -126,16 +123,14 @@ public class CollisionTypes {
     private static Color parseColor(String colorString) {
         try {
             if (colorString.startsWith("#")) {
-                colorString = colorString.substring(1, colorString.length());
+                colorString = colorString.substring(1);
             }
             byte[] rgb = hexStringToByteArray(colorString);
 
-            Color color = new Color(rgb[0] & 0xFF, rgb[1] & 0xFF, rgb[2] & 0xFF, 255);
-            return color;
+            return new Color(rgb[0] & 0xFF, rgb[1] & 0xFF, rgb[2] & 0xFF, 255);
         } catch (IndexOutOfBoundsException ex) {
             return new Color(255, 255, 255, 100);
         }
-
     }
 
     public static byte[] hexStringToByteArray(String s) {

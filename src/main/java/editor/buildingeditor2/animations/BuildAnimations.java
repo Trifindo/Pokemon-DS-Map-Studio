@@ -7,13 +7,14 @@ import formats.narc2.NarcFolder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
  */
 public class BuildAnimations {
 
-    private ArrayList<ModelAnimation> animations;
+    private final List<ModelAnimation> animations;
 
     public BuildAnimations(Narc narc) {
         final int numAnimations = narc.getRoot().getFiles().size();
@@ -25,7 +26,7 @@ public class BuildAnimations {
 
     public Narc toNarc() {
         NarcFolder root = new NarcFolder();
-        ArrayList<NarcFile> files = new ArrayList<>(animations.size());
+        List<NarcFile> files = new ArrayList<>(animations.size());
         for (ModelAnimation animation : animations) {
             files.add(new NarcFile("", root, animation.getData()));
         }
@@ -42,12 +43,13 @@ public class BuildAnimations {
     }
 
     public void replaceAnimation(int index, String path) throws IOException {
-        if (index >= 0 && index < animations.size()) {
-            try {
-                animations.set(index, new ModelAnimation(path, animations.size()));
-            } catch (Exception ex) {
-                throw new IOException();
-            }
+        if (index < 0 || index >= animations.size()) {
+            return;
+        }
+        try {
+            animations.set(index, new ModelAnimation(path, animations.size()));
+        } catch (Exception ex) {
+            throw new IOException();
         }
     }
 
@@ -57,7 +59,7 @@ public class BuildAnimations {
         }
     }
 
-    public ArrayList<ModelAnimation> getAnimations() {
+    public List<ModelAnimation> getAnimations() {
         return animations;
     }
 
@@ -68,5 +70,4 @@ public class BuildAnimations {
     public int getAnimationType(int index) {
         return animations.get(index).getAnimationType();
     }
-
 }

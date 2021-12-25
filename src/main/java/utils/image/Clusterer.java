@@ -4,9 +4,11 @@ package utils.image;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * @author Trifindo
@@ -18,20 +20,19 @@ public class Clusterer {
         return floydSteinbergDithering(img, clusterColors(getPalette(img), numColors, maxIte, tol));
     }
 
-    public static ArrayList<Color> getPalette(BufferedImage img) {
-        Set<FastColor> set = new TreeSet<FastColor>();
+    public static List<Color> getPalette(BufferedImage img) {
+        Set<FastColor> set = new TreeSet<>();
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
                 set.add(new FastColor(img.getRGB(i, j), true));
             }
         }
-        ArrayList<Color> colors = new ArrayList<>();
-        colors.addAll(set);
+        List<Color> colors = new ArrayList<>(set);
         System.out.println("Number of colors original image: " + colors.size());
         return colors;
     }
 
-    public static BufferedImage floydSteinbergDithering(BufferedImage oldImg, ArrayList<Color> palette) {
+    public static BufferedImage floydSteinbergDithering(BufferedImage oldImg, List<Color> palette) {
         BufferedImage img = new BufferedImage(oldImg.getWidth(), oldImg.getHeight(), BufferedImage.TYPE_INT_ARGB);
         img.getGraphics().drawImage(oldImg, 0, 0, null);
         img.getGraphics().dispose();
@@ -87,15 +88,15 @@ public class Clusterer {
         d[y][x] = new FastColor(r, g, b, a);
     }
 
-    public static ArrayList<Color> clusterColors(ArrayList<Color> colors, int numColors, int maxIte, float tol) {
-        ArrayList<Color> centroids = new ArrayList<>(numColors);
-        ArrayList<Color> lastCentroids = new ArrayList<>(numColors);
+    public static List<Color> clusterColors(List<Color> colors, int numColors, int maxIte, float tol) {
+        List<Color> centroids = new ArrayList<>(numColors);
+        List<Color> lastCentroids = new ArrayList<>(numColors);
         for (int i = 0; i < numColors; i++) {
             centroids.add(colors.get(new Random().nextInt(colors.size())));
             lastCentroids.add(colors.get(new Random().nextInt(colors.size())));
         }
 
-        ArrayList<ArrayList<Integer>> colorsIndicesInClusters = new ArrayList<>(centroids.size());
+        List<List<Integer>> colorsIndicesInClusters = new ArrayList<>(centroids.size());
         for (int i = 0; i < centroids.size(); i++) {
             colorsIndicesInClusters.add(new ArrayList<>());
         }
@@ -132,19 +133,17 @@ public class Clusterer {
         }
 
         System.out.println("Number of centroids: " + centroids.size());
-        for (int i = 0; i < centroids.size(); i++) {
-            System.out.println(centroids.get(i).getRGB());
+        for (Color centroid : centroids) {
+            System.out.println(centroid.getRGB());
         }
 
         return centroids;
     }
 
-    private static ArrayList<Color> copyColors(ArrayList<Color> colors) {
-        ArrayList<Color> copys = new ArrayList<>(colors.size());
-        for (int i = 0; i < colors.size(); i++) {
-            copys.add(new Color(colors.get(i).getRGB(), true));
-        }
-        return copys;
+    private static List<Color> copyColors(List<Color> colors) {
+        return colors.stream()
+                .map(color -> new Color(color.getRGB(), true))
+                .collect(Collectors.toList());
     }
 
     private static int getDifference(Color c1, Color c2) {
@@ -155,24 +154,23 @@ public class Clusterer {
         return rDiff + gDiff + bDiff + aDiff;
     }
 
-    private static FastColor getMeanColor(ArrayList<Color> colors, ArrayList<Integer> indices) {
+    private static FastColor getMeanColor(List<Color> colors, List<Integer> indices) {
         int rSum = 0;
         int gSum = 0;
         int bSum = 0;
         int aSum = 0;
 
-        for (int i = 0; i < indices.size(); i++) {
-            Color c = colors.get(indices.get(i));
+        for (Integer index : indices) {
+            Color c = colors.get(index);
             rSum += c.getRed();
             gSum += c.getGreen();
             bSum += c.getBlue();
             aSum += c.getAlpha();
         }
         return new FastColor(rSum / indices.size(), gSum / indices.size(), bSum / indices.size(), aSum / indices.size());
-
     }
 
-    private static int getCloserColorIndex(Color c, ArrayList<Color> colors) {
+    private static int getCloserColorIndex(Color c, List<Color> colors) {
         int index = 0;
         int minDist = Integer.MAX_VALUE;
         for (int i = 0; i < colors.size(); i++) {
@@ -193,5 +191,4 @@ public class Clusterer {
 
         return rd * rd + gd * gd + bd * bd + ad * ad;
     }
-
 }

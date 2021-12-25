@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import utils.BinaryReader;
 import utils.Utils;
@@ -19,8 +20,8 @@ import utils.Utils;
  */
 public class BuildModelList {
 
-    private ArrayList<byte[]> buildModelsData;
-    private ArrayList<String> buildModelsName;
+    private final List<byte[]> buildModelsData;
+    private List<String> buildModelsName;
 
     public BuildModelList(Narc narc) {
         final int numModels = narc.getRoot().getFiles().size();
@@ -33,21 +34,19 @@ public class BuildModelList {
 
     public Narc toNarc() {
         NarcFolder root = new NarcFolder();
-        for (int i = 0; i < buildModelsData.size(); i++) {
-            root.getFiles().add(new NarcFile("", root, buildModelsData.get(i)));
+        for (byte[] buildModelsDatum : buildModelsData) {
+            root.getFiles().add(new NarcFile("", root, buildModelsDatum));
         }
         return new Narc(root);
     }
 
-    public void addBuildingModel(String path) throws IOException, Exception {
-        byte[] data = readBuildingModel(path);
-        buildModelsData.add(data);
+    public void addBuildingModel(String path) throws Exception {
+        buildModelsData.add(readBuildingModel(path));
         calculateModelsName();
     }
 
-    public void replaceBuildingModel(int index, String path) throws IOException, Exception {
-        byte[] data = readBuildingModel(path);
-        buildModelsData.set(index, data);
+    public void replaceBuildingModel(int index, String path) throws Exception {
+        buildModelsData.set(index, readBuildingModel(path));
         calculateModelsName();
     }
 
@@ -66,7 +65,7 @@ public class BuildModelList {
         }
     }
 
-    private static byte[] readBuildingModel(String path) throws IOException, Exception {
+    private static byte[] readBuildingModel(String path) throws Exception {
         byte[] data = Files.readAllBytes(Paths.get(path));
         if (BinaryReader.readString(data, 0, 4).equals("BMD0")) {
             return data;
@@ -90,11 +89,11 @@ public class BuildModelList {
         calculateModelsName();
     }
 
-    public ArrayList<byte[]> getModelsData() {
+    public List<byte[]> getModelsData() {
         return buildModelsData;
     }
 
-    public ArrayList<String> getModelsName() {
+    public List<String> getModelsName() {
         return buildModelsName;
     }
 
@@ -104,7 +103,7 @@ public class BuildModelList {
             try {
                 buildModelsName.add(getModelName(buildModelsData.get(i)));
             } catch (Exception ex) {
-                buildModelsName.add("Unknown model " + String.valueOf(i));
+                buildModelsName.add("Unknown model " + i);
             }
         }
     }
@@ -113,9 +112,8 @@ public class BuildModelList {
         return buildModelsData.size();
     }
 
-    private static String getModelName(byte[] data) throws Exception {
+    private static String getModelName(byte[] data) {
         long nameOffset = BinaryReader.readUInt32(data, 16);
-        return Utils.removeLastOcurrences(BinaryReader.readString(data, (int) (32 + nameOffset), 16), '\u0000');
+        return Utils.removeLastOccurrences(BinaryReader.readString(data, (int) (32 + nameOffset), 16), '\u0000');
     }
-
 }

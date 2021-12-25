@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.*;
-import javax.swing.GroupLayout;
+
 import net.miginfocom.swing.*;
 
 /**

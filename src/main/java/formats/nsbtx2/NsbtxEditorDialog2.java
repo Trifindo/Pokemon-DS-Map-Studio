@@ -3,16 +3,13 @@ package formats.nsbtx2;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
 import editor.converter.ConverterErrorDialog;
 import editor.handler.MapEditorHandler;
-import formats.nsbtx.*;
 import formats.nsbtx2.exceptions.NsbtxTextureSizeException;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,9 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -280,7 +274,7 @@ public class NsbtxEditorDialog2 extends JDialog {
 
     private void updateViewTextureNameList(int indexSelected) {
         textureListEnabled = false;
-        DefaultListModel demoList = new DefaultListModel();
+        DefaultListModel<String> demoList = new DefaultListModel<>();
         for (int i = 0; i < nsbtxHandler.getNsbtx().getTextures().size(); i++) {
             String name = nsbtxHandler.getNsbtx().getTexture(i).getName();
             demoList.addElement(name);
@@ -297,7 +291,7 @@ public class NsbtxEditorDialog2 extends JDialog {
 
     private void updateViewPaletteNameList(int indexSelected) {
         paletteListEnabled = false;
-        DefaultListModel demoList = new DefaultListModel();
+        DefaultListModel<String> demoList = new DefaultListModel<>();
         for (int i = 0; i < nsbtxHandler.getNsbtx().getPalettes().size(); i++) {
             String name = nsbtxHandler.getNsbtx().getPalette(i).getName();
             demoList.addElement(name);
@@ -581,8 +575,7 @@ public class NsbtxEditorDialog2 extends JDialog {
                 }
 
                 if (errorTexturesSize) {
-                    JOptionPane.showMessageDialog(this,
-                            String.valueOf(numWrongSizeTextures)
+                    JOptionPane.showMessageDialog(this, numWrongSizeTextures
                                     + " images do not have the same size as the source texture: \n"
                                     + wrongSizeTextureNames,
                             "Can't add some palettes", JOptionPane.ERROR_MESSAGE);
@@ -749,7 +742,6 @@ public class NsbtxEditorDialog2 extends JDialog {
                 dialog.setVisible(true);
 
                 if (dialog.getReturnValue() == NsbtxImportDialog.APPROVE_OPTION) {
-
                     nsbtxHandler.getNsbtx().addNsbtx(dialog.getNsbtx());
 
                     updateViewTextureNameList(nsbtxHandler.getNsbtx().getTextures().size() - 1);
@@ -898,10 +890,10 @@ public class NsbtxEditorDialog2 extends JDialog {
 
                 BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
-                String outputString = "";
+                StringBuilder outputString = new StringBuilder();
                 String line = null;
                 while ((line = stdError.readLine()) != null) {
-                    outputString += line + "\n";
+                    outputString.append(line).append("\n");
                 }
 
                 p.waitFor();
@@ -945,8 +937,7 @@ public class NsbtxEditorDialog2 extends JDialog {
                 } else {
                     ConverterErrorDialog dialog = new ConverterErrorDialog(handler.getMainFrame());
                     dialog.init("There was a problem saving the NSBTX file. \n"
-                                    + "The output from the converter is:",
-                            outputString);
+                                    + "The output from the converter is:", outputString.toString());
                     dialog.setTitle("Problem generating file");
                     dialog.setLocationRelativeTo(this);
                     dialog.setVisible(true);

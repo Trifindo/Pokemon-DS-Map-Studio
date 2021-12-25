@@ -133,7 +133,7 @@ public class BuildHandlerDPPt {
 
             try {
                 byte[] data = buildModelList.getModelsData().get(buildModelList.getSize() - 1);
-                ArrayList<Integer> materials = BuildHandlerDPPt.getMaterialOrder(data);
+                List<Integer> materials = BuildHandlerDPPt.getMaterialOrder(data);
                 buildModelMatshp.addBuildingMaterials(materials);
             } catch (Exception ex) {
                 buildModelMatshp.addBuildingMaterials(new ArrayList<>());
@@ -284,7 +284,7 @@ public class BuildHandlerDPPt {
         return areaBuildList;
     }
 
-    public static ArrayList<Integer> getMaterialOrder(byte[] nsbmdData) {
+    public static List<Integer> getMaterialOrder(byte[] nsbmdData) {
         NSBMD nsbmd = new NSBMD(nsbmdData);
 
         List<SBCCommand> sbc = nsbmd.getMLD0().getModels().get(0).getSBC();
@@ -306,9 +306,9 @@ public class BuildHandlerDPPt {
             polyLookup[materialIDs.get(i)] = shapeIDs.get(i);
         }
 
-        ArrayList<Integer> materials = new ArrayList<>(polyLookup.length);
-        for (int i = 0; i < polyLookup.length; i++) {
-            materials.add(polyLookup[i]);
+        List<Integer> materials = new ArrayList<>(polyLookup.length);
+        for (int j : polyLookup) {
+            materials.add(j);
         }
 
         if (Utils.hasDuplicates(materials)) {
@@ -317,5 +317,4 @@ public class BuildHandlerDPPt {
 
         return materials;
     }
-
 }

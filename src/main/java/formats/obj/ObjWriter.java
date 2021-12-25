@@ -14,7 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.imageio.ImageIO;
 
 import tileset.Face;
@@ -30,7 +31,7 @@ public class ObjWriter {
 
     private Tileset tset;
     //private MapGrid grid;
-    private HashMap<Point, MapGrid> maps;
+    private Map<Point, MapGrid> maps;
     private String folderPath;
     private String savePathObj;
     private String matFilename;
@@ -38,14 +39,14 @@ public class ObjWriter {
     private boolean saveVertexColors = true;
     private float tileUpscale;
 
-    private ArrayList<Tile> outTiles = new ArrayList<>();
-    private ArrayList<Integer> textureUsage;
+    private List<Tile> outTiles = new ArrayList<>();
+    private List<Integer> textureUsage;
 
     private static final int maxTileableSizeBW = 16;
     private static final int maxTileableSizeDPHGSS = 8;
     private int maxTileableSize = 8; //TODO: Use 16 instead??
 
-    public ObjWriter(Tileset tset, HashMap<Point, MapGrid> maps, String savePath, int game,
+    public ObjWriter(Tileset tset, Map<Point, MapGrid> maps, String savePath, int game,
                      boolean saveTextures, boolean saveVertexColors, float tileUpscale) {
         this.tset = tset;
         this.maps = maps;
@@ -64,11 +65,7 @@ public class ObjWriter {
     public ObjWriter(Tileset tset, MapGrid grid, String savePath, int game,
                      boolean saveTextures, boolean saveVertexColors, float tileUpscale) {
         this.tset = tset;
-        this.maps = new HashMap<Point, MapGrid>(1) {
-            {
-                put(new Point(0, 0), grid);
-            }
-        };
+        this.maps = Map.of(new Point(0, 0), grid);
         this.savePathObj = savePath;
         this.saveTextures = saveTextures;
         this.saveVertexColors = saveVertexColors;
@@ -97,8 +94,8 @@ public class ObjWriter {
 
         long time = System.currentTimeMillis();
 
-        for (HashMap.Entry<Point, MapGrid> mapEntry : maps.entrySet()) {
-            for (int k = 0; k < mapEntry.getValue().numLayers; k++) {
+        for (Map.Entry<Point, MapGrid> mapEntry : maps.entrySet()) {
+            for (int k = 0; k < MapGrid.numLayers; k++) {
                 boolean[][] writtenGrid = new boolean[cols][rows];
                 for (int i = 0; i < cols; i++) {
                     for (int j = 0; j < rows; j++) {
@@ -143,7 +140,7 @@ public class ObjWriter {
             tile.flipObjModelInvertedYZ();
         }
 
-        outTiles = new ArrayList();
+        outTiles = new ArrayList<>();
         outTiles.add(tile);
 
         writeTiles(outObj, outMtl);
@@ -164,14 +161,14 @@ public class ObjWriter {
         }
         folderPath = file.getPath();
 
-        ArrayList<String> tileObjNames = new ArrayList();
+        List<String> tileObjNames = new ArrayList<>();
         for (int i = 0; i < tset.size(); i++) {
             String objFilename = tset.get(i).getObjFilename();
             objFilename = Utils.addExtensionToPath(objFilename, "obj");
             int counter = 1;
             String nameNoExtension = Utils.removeExtensionFromPath(objFilename);
             while (tileObjNames.contains(objFilename)) {
-                objFilename = nameNoExtension + "_" + String.valueOf(counter) + ".obj";
+                objFilename = nameNoExtension + "_" + counter + ".obj";
                 counter++;
             }
             tileObjNames.add(objFilename);
@@ -192,7 +189,7 @@ public class ObjWriter {
                 tile.flipObjModelInvertedYZ();
             }
 
-            outTiles = new ArrayList();
+            outTiles = new ArrayList<>();
             outTiles.add(tile);
             writeTiles(outObj, outMtl);
 
@@ -207,53 +204,44 @@ public class ObjWriter {
 
     private void evaluateTile(MapGrid grid, Point mapCoords, int layer, int c, int r, boolean[][] writtenGrid, float scale) {
         try {
-            if ((!writtenGrid[c][r]) && (grid.tileLayers[layer][c][r] != -1)) {
-                Tile tile = tset.get(grid.tileLayers[layer][c][r]).cloneObjData();
-                if ((!tile.isXtileable()) && (!tile.isYtileable())) {
-                    stretchTile(tile, 1, 1, c, r);
-                    writeTile(grid, mapCoords, tile, layer, c, r, scale);
-                    updateWGridNoTileable(writtenGrid, tile, c, r);
-                } else if (tile.isXtileable() && tile.isYtileable()) {
-                    int xSize = getNumEqualTilesX(grid, layer, c, r, writtenGrid, tile.getWidth());
-                    int ySize = getNumEqualTilesY(grid, layer, c, r, writtenGrid, tile.getHeight());
-                    if (xSize == 1 && ySize == 1) {
-                        stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
-                        writeTile(grid, mapCoords, tile, layer, c, r, scale);
-                        updateGridTileable(writtenGrid, c, r, tile.getWidth(), tile.getHeight());
-                    } else if (xSize > ySize) {
-                        int yExp = getExpansionY(grid, layer, c, r, writtenGrid, tile.getWidth(), tile.getHeight(), xSize);
-                        stretchTile(tile, xSize, yExp, c, r);
-                        writeTile(grid, mapCoords, tile, layer, c, r, scale);
-                        updateGridTileable(writtenGrid, c, r, xSize * tile.getWidth(), yExp * tile.getHeight());
-                    } else {
-                        int xExp = getExpansionX(grid, layer, c, r, writtenGrid, tile.getWidth(), tile.getHeight(), ySize);
-                        stretchTile(tile, xExp, ySize, c, r);
-                        writeTile(grid, mapCoords, tile, layer, c, r, scale);
-                        updateGridTileable(writtenGrid, c, r, xExp * tile.getWidth(), ySize * tile.getHeight());
-                    }
-                } else if (tile.isXtileable()) {
-                    int xSize = getNumEqualTilesX(grid, layer, c, r, writtenGrid, tile.getWidth());
-                    if (xSize == 1) {
-                        stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
-                        writeTile(grid, mapCoords, tile, layer, c, r, scale);
-                    } else {
-                        stretchTile(tile, xSize, 1, c, r);
-                        writeTile(grid, mapCoords, tile, layer, c, r, scale);
-                    }
-                    updateGridTileable(writtenGrid, c, r, xSize * tile.getWidth(), tile.getHeight());
-                } else {
-                    int ySize = getNumEqualTilesY(grid, layer, c, r, writtenGrid, tile.getHeight());
-                    if (ySize == 1) {
-                        stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
-                        writeTile(grid, mapCoords, tile, layer, c, r, scale);
-                    } else {
-                        stretchTile(tile, 1, ySize, c, r);
-                        writeTile(grid, mapCoords, tile, layer, c, r, scale);
-                    }
-                    updateGridTileable(writtenGrid, c, r, tile.getWidth(), ySize * tile.getHeight());
-                }
-                moveTile(tile);
+            if ((writtenGrid[c][r]) || (grid.tileLayers[layer][c][r] == -1)) {
+                return;
             }
+            Tile tile = tset.get(grid.tileLayers[layer][c][r]).cloneObjData();
+            if ((!tile.isXtileable()) && (!tile.isYtileable())) {
+                stretchTile(tile, 1, 1, c, r);
+                writeTile(grid, mapCoords, tile, layer, c, r, scale);
+                updateWGridNoTileable(writtenGrid, tile, c, r);
+            } else if (tile.isXtileable() && tile.isYtileable()) {
+                int xSize = getNumEqualTilesX(grid, layer, c, r, writtenGrid, tile.getWidth());
+                int ySize = getNumEqualTilesY(grid, layer, c, r, writtenGrid, tile.getHeight());
+                if (xSize == 1 && ySize == 1) {
+                    stretchTile(tile, 1, 1, c, r); // TODO: Make specific function?
+                    writeTile(grid, mapCoords, tile, layer, c, r, scale);
+                    updateGridTileable(writtenGrid, c, r, tile.getWidth(), tile.getHeight());
+                } else if (xSize > ySize) {
+                    int yExp = getExpansionY(grid, layer, c, r, writtenGrid, tile.getWidth(), tile.getHeight(), xSize);
+                    stretchTile(tile, xSize, yExp, c, r);
+                    writeTile(grid, mapCoords, tile, layer, c, r, scale);
+                    updateGridTileable(writtenGrid, c, r, xSize * tile.getWidth(), yExp * tile.getHeight());
+                } else {
+                    int xExp = getExpansionX(grid, layer, c, r, writtenGrid, tile.getWidth(), tile.getHeight(), ySize);
+                    stretchTile(tile, xExp, ySize, c, r);
+                    writeTile(grid, mapCoords, tile, layer, c, r, scale);
+                    updateGridTileable(writtenGrid, c, r, xExp * tile.getWidth(), ySize * tile.getHeight());
+                }
+            } else if (tile.isXtileable()) {
+                int xSize = getNumEqualTilesX(grid, layer, c, r, writtenGrid, tile.getWidth());
+                stretchTile(tile, xSize, 1, c, r); // TODO: Make specific function?
+                writeTile(grid, mapCoords, tile, layer, c, r, scale);
+                updateGridTileable(writtenGrid, c, r, xSize * tile.getWidth(), tile.getHeight());
+            } else {
+                int ySize = getNumEqualTilesY(grid, layer, c, r, writtenGrid, tile.getHeight());
+                stretchTile(tile, 1, ySize, c, r); // TODO: Make specific function?
+                writeTile(grid, mapCoords, tile, layer, c, r, scale);
+                updateGridTileable(writtenGrid, c, r, tile.getWidth(), ySize * tile.getHeight());
+            }
+            moveTile(tile);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -280,7 +268,7 @@ public class ObjWriter {
     }
 
     private void stretchTile(Tile tile, int xMult, int yMult, int c, int r) {
-        ArrayList<Float> vertexCoords = tile.getVertexCoordsObj();
+        List<Float> vertexCoords = tile.getVertexCoordsObj();
         int numVertex = vertexCoords.size() / 3;
         if (!(xMult == 1 && yMult == 1)) {
             for (int i = 0; i < numVertex; i++) {
@@ -320,7 +308,7 @@ public class ObjWriter {
                     yMult = 1;
                 }
              */
-            ArrayList<Float> textureCoords = tile.getTextureCoordsObj();
+            List<Float> textureCoords = tile.getTextureCoordsObj();
             int numTextCoords = textureCoords.size() / 2;
             for (int i = 0; i < numTextCoords; i++) {
                 float xValue = textureCoords.get(i * 2) * xMult;
@@ -332,7 +320,7 @@ public class ObjWriter {
             GlobalTextureMapper.applyGlobalTextureMapping(tile, c, r);
 
             /*
-            ArrayList<Float> textureCoords = tile.getTextureCoordsObj();
+            List<Float> textureCoords = tile.getTextureCoordsObj();
             int numTextCoords = textureCoords.size() / 2;
             BufferedImage texture = tset.getTextureImg(tile.getTextureIDs().get(0));
             float minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE;
@@ -367,7 +355,7 @@ public class ObjWriter {
     }
 
     private void moveTile(Tile tile) {
-        ArrayList<Float> vertexCoords = tile.getVertexCoordsObj();
+        List<Float> vertexCoords = tile.getVertexCoordsObj();
         int numVertex = vertexCoords.size() / 3;
         if (tile.getXOffset() != 0.0f || tile.getYOffset() != 0.0f) {
             for (int i = 0; i < numVertex; i++) {
@@ -380,7 +368,7 @@ public class ObjWriter {
     }
 
     private void displaceTile(Tile tile, int c, int r, int height) {
-        ArrayList<Float> vertexCoords = tile.getVertexCoordsObj();
+        List<Float> vertexCoords = tile.getVertexCoordsObj();
         int numVertex = vertexCoords.size() / 3;
         for (int i = 0; i < numVertex; i++) {
             float xValue = vertexCoords.get(i * 3) + c * gridTileSize;
@@ -393,7 +381,7 @@ public class ObjWriter {
     }
 
     private float[] getTileCenter(Tile tile){
-        ArrayList<Float> vertexCoords = tile.getVertexCoordsObj();
+        List<Float> vertexCoords = tile.getVertexCoordsObj();
         float[] mean = new float[3];
         final int coordsPerVertex = 3;
         final int numVertex = vertexCoords.size() / coordsPerVertex;
@@ -410,7 +398,7 @@ public class ObjWriter {
 
     private void scaleTile(Tile tile, float scale){
         float[] center = getTileCenter(tile);
-        ArrayList<Float> vertexCoords = tile.getVertexCoordsObj();
+        List<Float> vertexCoords = tile.getVertexCoordsObj();
         final int coordsPerVertex = 3;
         final int numVertex = vertexCoords.size() / coordsPerVertex;
         for (int i = 0; i < numVertex; i++) {
@@ -458,8 +446,7 @@ public class ObjWriter {
         int n = 1;
         for (int i = width, limit = cols - c; i < limit && n < maxTileableSize; i += width) {
             int nextC = c + i;
-            int nextR = r;
-            if (sameHeightAndType(grid, layer, c, r, nextC, nextR) && !writtenGrid[nextC][nextR]) {
+            if (sameHeightAndType(grid, layer, c, r, nextC, r) && !writtenGrid[nextC][r]) {
                 n++;
             } else {
                 return n;
@@ -471,9 +458,8 @@ public class ObjWriter {
     private int getNumEqualTilesY(MapGrid grid, int layer, int c, int r, boolean[][] writtenGrid, int height) {
         int n = 1;
         for (int i = height, limit = rows - r; i < limit && n < maxTileableSize; i += height) {
-            int nextC = c;
             int nextR = r + i;
-            if (sameHeightAndType(grid, layer, c, r, nextC, nextR) && !writtenGrid[nextC][nextR]) {
+            if (sameHeightAndType(grid, layer, c, r, c, nextR) && !writtenGrid[c][nextR]) {
                 n++;
             } else {
                 return n;
@@ -483,8 +469,8 @@ public class ObjWriter {
     }
 
     private boolean sameHeightAndType(MapGrid grid, int layer, int c1, int r1, int c2, int r2) {
-        return (grid.tileLayers[layer][c1][r1] == grid.tileLayers[layer][c2][r2]
-                && grid.heightLayers[layer][c1][r1] == grid.heightLayers[layer][c2][r2]);
+        return grid.tileLayers[layer][c1][r1] == grid.tileLayers[layer][c2][r2]
+                && grid.heightLayers[layer][c1][r1] == grid.heightLayers[layer][c2][r2];
     }
 
     private void writeTile(MapGrid grid, Point mapCoords, Tile tile, int layer, int c, int r, float scale) {
@@ -500,21 +486,19 @@ public class ObjWriter {
     }
 
     public void writeTiles(PrintWriter outObj, PrintWriter outMtl) {
-        ArrayList<Float> vertexCoords = new ArrayList<>();
-        ArrayList<Float> textureCoords = new ArrayList<>();
-        ArrayList<Float> normalCoords = new ArrayList<>();
-        ArrayList<Float> colors = new ArrayList<>();
+        List<Float> vertexCoords = new ArrayList<>();
+        List<Float> textureCoords = new ArrayList<>();
+        List<Float> normalCoords = new ArrayList<>();
+        List<Float> colors = new ArrayList<>();
 
-        ArrayList<Integer> vertexCoordsOffsets = new ArrayList<>();
-        ArrayList<Integer> textureCoordsOffsets = new ArrayList<>();
-        ArrayList<Integer> normalCoordsOffsets = new ArrayList<>();
-        ArrayList<Integer> colorsOffsets = new ArrayList<>();
+        List<Integer> vertexCoordsOffsets = new ArrayList<>();
+        List<Integer> textureCoordsOffsets = new ArrayList<>();
+        List<Integer> normalCoordsOffsets = new ArrayList<>();
+        List<Integer> colorsOffsets = new ArrayList<>();
 
         // Create and fill an array with all the v, t and n coordinates
         // Create and fill an array storing the offsets for the indices
-        for (int i = 0; i < outTiles.size(); i++) {
-            Tile tile = outTiles.get(i);
-
+        for (Tile tile : outTiles) {
             vertexCoordsOffsets.add(vertexCoords.size() / 3);
             textureCoordsOffsets.add(textureCoords.size() / 2);
             normalCoordsOffsets.add(normalCoords.size() / 3);
@@ -545,16 +529,15 @@ public class ObjWriter {
 
         // Initialize array of arrays with quads and tris indices for each tex
         int numTextures = tset.getMaterials().size();
-        ArrayList<ArrayList<Face>> fIndsQuad = new ArrayList<>(numTextures);
-        ArrayList<ArrayList<Face>> fIndsTri = new ArrayList<>(numTextures);
+        List<List<Face>> fIndsQuad = new ArrayList<>(numTextures);
+        List<List<Face>> fIndsTri = new ArrayList<>(numTextures);
         for (int i = 0; i < numTextures; i++) {
             fIndsQuad.add(new ArrayList<>());
             fIndsTri.add(new ArrayList<>());
         }
 
         for (int tex = 0; tex < numTextures; tex++) {
-            for (int t = 0; t < outTiles.size(); t++) {
-                Tile tile = outTiles.get(t);
+            for (Tile tile : outTiles) {
                 int index = tile.getTextureIDs().indexOf(tex);
                 if (index != -1) {
                     fIndsQuad.get(tex).addAll(tile.getFaceIndQuadOfTex(index));
@@ -612,8 +595,7 @@ public class ObjWriter {
         }
     }
 
-    private void writeVertexLine(PrintWriter out,
-                                 ArrayList<Float> vertexCoords, int vertexIndex) {
+    private void writeVertexLine(PrintWriter out, List<Float> vertexCoords, int vertexIndex) {
         out.print("v ");
         out.print(vertexCoords.get(vertexIndex * 3) + " ");
         out.print(vertexCoords.get(vertexIndex * 3 + 1) + " ");
@@ -621,16 +603,14 @@ public class ObjWriter {
         out.println();
     }
 
-    private void writeTextureCoordLine(PrintWriter out,
-                                       ArrayList<Float> textureCoords, int textureCoordIndex) {
+    private void writeTextureCoordLine(PrintWriter out, List<Float> textureCoords, int textureCoordIndex) {
         out.print("vt ");
         out.print(textureCoords.get(textureCoordIndex * 2) + " ");
         out.print(textureCoords.get(textureCoordIndex * 2 + 1));
         out.println();
     }
 
-    private void writeNormalCoordLine(PrintWriter out,
-                                      ArrayList<Float> normalCoords, int normalCoordIndex) {
+    private void writeNormalCoordLine(PrintWriter out, List<Float> normalCoords, int normalCoordIndex) {
         out.print("vn ");
         out.print(normalCoords.get(normalCoordIndex * 3) + " ");
         out.print(normalCoords.get(normalCoordIndex * 3 + 1) + " ");
@@ -638,8 +618,7 @@ public class ObjWriter {
         out.println();
     }
 
-    private void writeColorLine(PrintWriter out,
-                                ArrayList<Float> colors, int colorIndex) {
+    private void writeColorLine(PrintWriter out, List<Float> colors, int colorIndex) {
         out.print("c ");
         out.print(colors.get(colorIndex * 3) + " ");
         out.print(colors.get(colorIndex * 3 + 1) + " ");
@@ -661,8 +640,7 @@ public class ObjWriter {
         out.println();
     }
 
-    private void writeFaceLine(PrintWriter out, ArrayList<Integer> vInd,
-                               ArrayList<Integer> tInd, ArrayList<Integer> nInd, int index) {
+    private void writeFaceLine(PrintWriter out, List<Integer> vInd, List<Integer> tInd, List<Integer> nInd, int index) {
         out.print("f ");
         out.print(vInd.get(index * 3) + "/" + tInd.get(index * 3) + "/" + nInd.get(index * 3) + " ");
         out.print(vInd.get(index * 3 + 1) + "/" + tInd.get(index * 3 + 1) + "/" + nInd.get(index * 3 + 1) + " ");
@@ -670,8 +648,8 @@ public class ObjWriter {
         out.println();
     }
 
-    private ArrayList<Integer> countTextureUsage() {
-        ArrayList<Integer> count = new ArrayList<>();
+    private List<Integer> countTextureUsage() {
+        List<Integer> count = new ArrayList<>();
         for (TilesetMaterial material : tset.getMaterials()) {
             count.add(0);
         }
@@ -703,13 +681,12 @@ public class ObjWriter {
         for (int i = 0; i < tset.getMaterials().size(); i++) {
             String path = folderPath + File.separator + tset.getImageName(i);
             //System.out.println(path);
-            File outputfile = new File(path);
+            File outputFile = new File(path);
             try {
-                ImageIO.write(tset.getTextureImg(i), "png", outputfile);
+                ImageIO.write(tset.getTextureImg(i), "png", outputFile);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
     }
-
 }

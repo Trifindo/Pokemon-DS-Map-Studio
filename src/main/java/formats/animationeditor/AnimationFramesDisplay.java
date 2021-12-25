@@ -32,15 +32,11 @@ public class AnimationFramesDisplay extends JPanel {
     }
 
     private void formMousePressed(MouseEvent evt) {
-        if (animHandler != null) {
-            if (animHandler.getAnimationFile() != null) {
-                if (!animHandler.isAnimationRunning()) {
-                    int index = evt.getX() / cellSize;
-                    if (index >= 0 && index < animHandler.getAnimationSelected().size()) {
-                        animHandler.setCurrentFrameIndex(index);
-                        animHandler.repaintDialog();
-                    }
-                }
+        if (animHandler != null && animHandler.getAnimationFile() != null && !animHandler.isAnimationRunning()) {
+            int index = evt.getX() / cellSize;
+            if (index >= 0 && index < animHandler.getAnimationSelected().size()) {
+                animHandler.setCurrentFrameIndex(index);
+                animHandler.repaintDialog();
             }
         }
     }
@@ -49,23 +45,21 @@ public class AnimationFramesDisplay extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (animHandler != null) {
-            if (animHandler.getAnimationSelected() != null) {
-                Animation anim = animHandler.getAnimationSelected();
+        if (animHandler == null || animHandler.getAnimationSelected() == null) {
+            return;
+        }
+        Animation anim = animHandler.getAnimationSelected();
 
-                for (int i = 0, size = anim.size(); i < size; i++) {
-                    drawCell(g, animHandler.getFrameImage(i), anim.getDelay(i), animHandler.getTextureName(i), i);
-                }
-
-                int index = animHandler.getCurrentFrameIndex();
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setStroke(new BasicStroke(2));
-                g.setColor(highlihgtColor);
-                g.drawRect(index * cellSize + 1, 1, cellSize - 1, cellSize + labelSize * 2 - 2);
-                g2.setStroke(new BasicStroke(1));
-            }
+        for (int i = 0, size = anim.size(); i < size; i++) {
+            drawCell(g, animHandler.getFrameImage(i), anim.getDelay(i), animHandler.getTextureName(i), i);
         }
 
+        int index = animHandler.getCurrentFrameIndex();
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(2));
+        g.setColor(highlihgtColor);
+        g.drawRect(index * cellSize + 1, 1, cellSize - 1, cellSize + labelSize * 2 - 2);
+        g2.setStroke(new BasicStroke(1));
     }
 
     public void init(AnimationHandler animHandler) {
@@ -73,12 +67,9 @@ public class AnimationFramesDisplay extends JPanel {
     }
 
     public void updateSize() {
-        if (animHandler != null) {
-            if (animHandler.getAnimationSelected() != null) {
-                this.setPreferredSize(
-                        new Dimension(cellSize * animHandler.getAnimationSelected().size(), cellSize + labelSize * 2));
-                this.revalidate();
-            }
+        if (animHandler != null && animHandler.getAnimationSelected() != null) {
+            this.setPreferredSize(new Dimension(cellSize * animHandler.getAnimationSelected().size(), cellSize + labelSize * 2));
+            this.revalidate();
         }
     }
 
@@ -98,8 +89,7 @@ public class AnimationFramesDisplay extends JPanel {
 
         drawTextBox(g, cellIndex * cellSize, 0, String.valueOf(cellIndex));
 
-        drawLabel(g, cellIndex * cellSize, cellSize, "Delay: " + String.valueOf(delay));
-
+        drawLabel(g, cellIndex * cellSize, cellSize, "Delay: " + delay);
         drawLabel(g, cellIndex * cellSize, cellSize + labelSize, frameName);
     }
 
@@ -107,8 +97,7 @@ public class AnimationFramesDisplay extends JPanel {
         int margin = 6;
 
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         g.setColor(Color.white);
         g.fillRect(x, y, cellSize, labelSize - 1);
@@ -118,7 +107,6 @@ public class AnimationFramesDisplay extends JPanel {
 
         g.setColor(cellBorderColor);
         g.drawRect(x, y, cellSize, labelSize - 1);
-
     }
 
     public void drawTextBox(Graphics g, int x, int y, String text) {
@@ -127,8 +115,7 @@ public class AnimationFramesDisplay extends JPanel {
         int margin = 6;
 
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         g.setColor(Color.white);
         g.fillRect(x, y, width + margin, height + margin / 2);
@@ -139,7 +126,6 @@ public class AnimationFramesDisplay extends JPanel {
         g.setColor(cellBorderColor);
         g.drawRect(x, y, width + margin, height + margin / 2);
     }
-
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents

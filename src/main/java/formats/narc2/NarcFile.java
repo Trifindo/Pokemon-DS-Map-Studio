@@ -1,7 +1,6 @@
 
 package formats.narc2;
 
-
 public class NarcFile {
 
     private String name = "";
@@ -26,5 +25,4 @@ public class NarcFile {
     public byte[] getData() {
         return data;
     }
-
 }

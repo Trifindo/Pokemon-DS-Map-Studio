@@ -1,7 +1,6 @@
 package editor.gameselector;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -23,19 +22,16 @@ public class TilesetThumbnailDisplay extends JPanel {
         if (img != null) {
             g.drawImage(img, 0, 0, null);
         }
-
     }
 
     public void setImage(BufferedImage img) {
         this.img = img;
         if (img != null) {
             setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
-            revalidate();
         } else {
             setPreferredSize(new Dimension(128, 10));
-            revalidate();
         }
-
+        revalidate();
     }
 
     private void initComponents() {

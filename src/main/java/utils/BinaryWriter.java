@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class BinaryWriter {
 
-    private FileOutputStream fos;
+    private final FileOutputStream fos;
 
     public BinaryWriter(String path) throws FileNotFoundException {
         fos = new FileOutputStream(new File(path));
@@ -72,11 +72,11 @@ public class BinaryWriter {
         fos.write(bytes);
     }
 
-    public static void writeUInt8(byte[] allData, int offset, int value) throws Exception {
+    public static void writeUInt8(byte[] allData, int offset, int value) {
         allData[offset] = (byte) value;
     }
 
-    public static void writeUInt16(byte[] allData, int offset, int value) throws Exception {
+    public static void writeUInt16(byte[] allData, int offset, int value) {
         ByteBuffer byteBuffer = ByteBuffer.allocate(2);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         byteBuffer.putShort((short) (value & 0xffffL));
@@ -84,7 +84,7 @@ public class BinaryWriter {
         System.arraycopy(array, 0, allData, offset, 2);
     }
 
-    public static void writeUInt32(byte[] allData, int offset, long value) throws Exception {
+    public static void writeUInt32(byte[] allData, int offset, long value) {
         ByteBuffer byteBuffer = ByteBuffer.allocate(4);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         byteBuffer.putInt((int) (value & 0xffffffffL));
@@ -92,14 +92,14 @@ public class BinaryWriter {
         System.arraycopy(array, 0, allData, offset, 4);
     }
 
-    public static void writeFI32(byte[] fullData, int offset, float value) throws Exception {
+    public static void writeFI32(byte[] fullData, int offset, float value) {
         float intValue = (float) Math.floor(value);
         float decValue = value - intValue;
         writeUInt16(fullData, offset, (int) (decValue * 65535f));
         writeUInt16(fullData, offset + 2, (int) intValue);
     }
 
-    public static void writeString(byte[] fullData, int offset, String string) throws Exception{
+    public static void writeString(byte[] fullData, int offset, String string) {
         byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
         System.arraycopy(bytes, 0, fullData, offset, bytes.length);
     }
@@ -107,5 +107,4 @@ public class BinaryWriter {
     public static void writeBytes(byte[] fullData, int offset, byte[] bytes){
         System.arraycopy(bytes, 0, fullData, offset, bytes.length);
     }
-
 }

@@ -32,7 +32,7 @@ public class AnimationEditorDialog extends JDialog {
     private static final Color editingColor = new Color(255, 185, 185);
     private static final Color rightColor = new Color(200, 255, 200);
 
-    private Utils.MutableBoolean jtfAnimNameEnabled = new Utils.MutableBoolean(true);
+    private final Utils.MutableBoolean jtfAnimNameEnabled = new Utils.MutableBoolean(true);
     private boolean animationListEnabled = true;
     private boolean textureListEnabled = true;
 
@@ -57,11 +57,9 @@ public class AnimationEditorDialog extends JDialog {
     }
 
     private void jlTextureNamesValueChanged(ListSelectionEvent e) {
-        if (animHandler != null) {
-            if (animationListEnabled && !animHandler.isAnimationRunning()) {
-                animHandler.setCurrentDelay((Integer) jsDelay.getValue());
-                repaintFrames();
-            }
+        if (animHandler != null && animationListEnabled && !animHandler.isAnimationRunning()) {
+            animHandler.setCurrentDelay((Integer) jsDelay.getValue());
+            repaintFrames();
         }
     }
 
@@ -74,11 +72,9 @@ public class AnimationEditorDialog extends JDialog {
     }
 
     private void jsDelayStateChanged(ChangeEvent e) {
-        if (animHandler != null) {
-            if (animationListEnabled && !animHandler.isAnimationRunning()) {
-                animHandler.setCurrentDelay((Integer) jsDelay.getValue());
-                repaintFrames();
-            }
+        if (animHandler != null && animationListEnabled && !animHandler.isAnimationRunning()) {
+            animHandler.setCurrentDelay((Integer) jsDelay.getValue());
+            repaintFrames();
         }
     }
 
@@ -99,27 +95,19 @@ public class AnimationEditorDialog extends JDialog {
     }
 
     private void jbAddAnimationActionPerformed(ActionEvent e) {
-        if (animHandler != null) {
-            if (animationListEnabled && !animHandler.isAnimationRunning()) {
-                if (animHandler.getAnimationFile() != null) {
-                    animHandler.addAnimation("New animation");
-                    updateViewAnimationListNames(jlAnimationNames.getModel().getSize());
-                    repaintFrames();
-                }
-            }
+        if (animHandler != null && animationListEnabled && !animHandler.isAnimationRunning() && animHandler.getAnimationFile() != null) {
+            animHandler.addAnimation("New animation");
+            updateViewAnimationListNames(jlAnimationNames.getModel().getSize());
+            repaintFrames();
         }
     }
 
     private void jbRemoveAnimationActionPerformed(ActionEvent e) {
-        if (animHandler != null) {
-            if (animationListEnabled && !animHandler.isAnimationRunning()) {
-                if (animHandler.getAnimationSelected() != null) {
-                    int index = getAnimationSelectedIndex();
-                    animHandler.getAnimationFile().removeAnimation(getAnimationSelectedIndex());
-                    updateViewAnimationListNames(index);
-                    repaintFrames();
-                }
-            }
+        if (animHandler != null && animationListEnabled && !animHandler.isAnimationRunning() && animHandler.getAnimationSelected() != null) {
+            int index = getAnimationSelectedIndex();
+            animHandler.getAnimationFile().removeAnimation(getAnimationSelectedIndex());
+            updateViewAnimationListNames(index);
+            repaintFrames();
         }
     }
 
@@ -136,32 +124,30 @@ public class AnimationEditorDialog extends JDialog {
     }
 
     public void updateView() {
-        if (animHandler.getAnimationFile() != null) {
-            if (animHandler.getAnimationSelected() != null) {
-                jtfAnimNameEnabled.value = false;
-                jtfAnimationName.setText(animHandler.getAnimationSelected().getName());
-                jtfAnimationName.setBackground(UIManager.getColor("TextPane.background"));
-                jtfAnimationName.setForeground(UIManager.getColor("TextPane.foreground"));
-                jtfAnimNameEnabled.value = true;
-            }
-
-            animationDisplay.repaint();
-
-            animationFramesDisplay.updateSize();
-            animationFramesDisplay.repaint();
-
-            updateViewDelayDisplay();
+        if (animHandler.getAnimationFile() == null) {
+            return;
+        }
+        if (animHandler.getAnimationSelected() != null) {
+            jtfAnimNameEnabled.value = false;
+            jtfAnimationName.setText(animHandler.getAnimationSelected().getName());
+            jtfAnimationName.setBackground(UIManager.getColor("TextPane.background"));
+            jtfAnimationName.setForeground(UIManager.getColor("TextPane.foreground"));
+            jtfAnimNameEnabled.value = true;
         }
 
+        animationDisplay.repaint();
+
+        animationFramesDisplay.updateSize();
+        animationFramesDisplay.repaint();
+
+        updateViewDelayDisplay();
     }
 
     public void repaintFrames() {
         animationDisplay.repaint();
-
         animationFramesDisplay.repaint();
 
         updateViewTexturesNsbxt();
-
         updateViewDelayDisplay();
     }
 
@@ -174,57 +160,60 @@ public class AnimationEditorDialog extends JDialog {
     }
 
     public void updateViewAnimationListNames(int indexSelected) {
-        if (animHandler.getAnimationFile() != null) {
-            animationListEnabled = false;
-            DefaultListModel demoList = new DefaultListModel();
-            for (int i = 0; i < animHandler.getAnimationFile().size(); i++) {
-                String name = animHandler.getAnimationFile().getAnimation(i).getName();
-                demoList.addElement(name);
-            }
-            jlAnimationNames.setModel(demoList);
-            if (indexSelected > demoList.size() - 1) {
-                indexSelected = demoList.size() - 1;
-            } else if (indexSelected < 0) {
-                indexSelected = 0;
-            }
-            jlAnimationNames.setSelectedIndex(indexSelected);
-            jlAnimationNames.ensureIndexIsVisible(indexSelected);
-            animationListEnabled = true;
+        if (animHandler.getAnimationFile() == null) {
+            return;
         }
+        animationListEnabled = false;
+        DefaultListModel<String> demoList = new DefaultListModel<>();
+        for (int i = 0; i < animHandler.getAnimationFile().size(); i++) {
+            String name = animHandler.getAnimationFile().getAnimation(i).getName();
+            demoList.addElement(name);
+        }
+        jlAnimationNames.setModel(demoList);
+        if (indexSelected > demoList.size() - 1) {
+            indexSelected = demoList.size() - 1;
+        } else if (indexSelected < 0) {
+            indexSelected = 0;
+        }
+        jlAnimationNames.setSelectedIndex(indexSelected);
+        jlAnimationNames.ensureIndexIsVisible(indexSelected);
+        animationListEnabled = true;
     }
 
     public void updateViewTextureNames(int indexSelected) {
-        if (animHandler.getNsbtx() != null) {
-            textureListEnabled = false;
-            DefaultListModel demoList = new DefaultListModel();
-            for (int i = 0; i < animHandler.getNsbtx().getTextures().size(); i++) {
-                String name = animHandler.getNsbtx().getTexture(i).getName();
-                demoList.addElement(name);
-            }
-            jlTextureNames.setModel(demoList);
-            if (indexSelected > demoList.size() - 1) {
-                indexSelected = demoList.size() - 1;
-            } else if (indexSelected < 0) {
-                indexSelected = 0;
-            }
-            jlTextureNames.setSelectedIndex(indexSelected);
-            textureListEnabled = true;
+        if (animHandler.getNsbtx() == null) {
+            return;
         }
+        textureListEnabled = false;
+        DefaultListModel<String> demoList = new DefaultListModel<>();
+        for (int i = 0; i < animHandler.getNsbtx().getTextures().size(); i++) {
+            String name = animHandler.getNsbtx().getTexture(i).getName();
+            demoList.addElement(name);
+        }
+        jlTextureNames.setModel(demoList);
+        if (indexSelected > demoList.size() - 1) {
+            indexSelected = demoList.size() - 1;
+        } else if (indexSelected < 0) {
+            indexSelected = 0;
+        }
+        jlTextureNames.setSelectedIndex(indexSelected);
+        textureListEnabled = true;
     }
 
     private void togglePlay() {
-        if (animHandler.getAnimationFile() != null) {
-            if (animHandler.isAnimationRunning()) {
-                animHandler.pauseAnimation();
-                jbPlay.setText(playButtonIcon);
-                jbPlay.setForeground(playButtonColor);
-                setComponentsEnabled(true);
-            } else {
-                animHandler.playAnimation();
-                jbPlay.setText(stopButtonIcon);
-                jbPlay.setForeground(stopButtonColor);
-                setComponentsEnabled(false);
-            }
+        if (animHandler.getAnimationFile() == null) {
+            return;
+        }
+        if (animHandler.isAnimationRunning()) {
+            animHandler.pauseAnimation();
+            jbPlay.setText(playButtonIcon);
+            jbPlay.setForeground(playButtonColor);
+            setComponentsEnabled(true);
+        } else {
+            animHandler.playAnimation();
+            jbPlay.setText(stopButtonIcon);
+            jbPlay.setForeground(stopButtonColor);
+            setComponentsEnabled(false);
         }
     }
 
@@ -258,7 +247,6 @@ public class AnimationEditorDialog extends JDialog {
                     "The name is too long",
                     JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
     public void openAnimationFileWithDialog() {
@@ -310,52 +298,46 @@ public class AnimationEditorDialog extends JDialog {
     }
 
     private void saveAnimationFileWithDialog() {
-        if (animHandler.getAnimationFile() != null) {
-            final JFileChooser fc = new JFileChooser();
-            if (handler.getLastNsbtxDirectoryUsed() != null) {
-                fc.setCurrentDirectory(new File(handler.getLastNsbtxDirectoryUsed()));
-            }
-            fc.setApproveButtonText("Save");
-            fc.setDialogTitle("Save Animation File");
-            int returnVal = fc.showOpenDialog(this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
-                try {
-                    String path = fc.getSelectedFile().getPath();
-
-                    animHandler.saveAnimationFile(path);
-
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "There was an error saving the IMD",
-                            "Error saving IMD", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+        if (animHandler.getAnimationFile() == null) {
+            return;
+        }
+        final JFileChooser fc = new JFileChooser();
+        if (handler.getLastNsbtxDirectoryUsed() != null) {
+            fc.setCurrentDirectory(new File(handler.getLastNsbtxDirectoryUsed()));
+        }
+        fc.setApproveButtonText("Save");
+        fc.setDialogTitle("Save Animation File");
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
+        try {
+            String path = fc.getSelectedFile().getPath();
+            animHandler.saveAnimationFile(path);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "There was an error saving the IMD",
+                    "Error saving IMD", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public void addFrame() {
-        if (animHandler != null) {
-            if (animHandler.getAnimationSelected() != null) {
-                animHandler.getAnimationSelected().addFrame(
-                        jlTextureNames.getSelectedIndex(),
-                        (Integer) jsDelay.getValue());
-                repaintFrames();
-            }
+        if (animHandler != null && animHandler.getAnimationSelected() != null) {
+            animHandler.getAnimationSelected().addFrame(jlTextureNames.getSelectedIndex(), (Integer) jsDelay.getValue());
+            repaintFrames();
         }
     }
 
     public void removeFrame() {
-        if (animHandler != null) {
-            if (animHandler.getAnimationSelected() != null) {
-                if (animHandler.getAnimationSelected().removeFrame(animHandler.getCurrentFrameIndex())) {
-                    int index = animHandler.getCurrentFrameIndex() - 1;
-                    if (index < 0) {
-                        index = 0;
-                    }
-                    animHandler.setCurrentFrameIndex(index);
+        if (animHandler != null && animHandler.getAnimationSelected() != null) {
+            if (animHandler.getAnimationSelected().removeFrame(animHandler.getCurrentFrameIndex())) {
+                int index = animHandler.getCurrentFrameIndex() - 1;
+                if (index < 0) {
+                    index = 0;
                 }
-                repaintFrames();
+                animHandler.setCurrentFrameIndex(index);
             }
+            repaintFrames();
         }
     }
 

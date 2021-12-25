@@ -6,15 +6,16 @@ import formats.narc2.NarcFile;
 import formats.narc2.NarcFolder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
  */
 public class AreaDataListDPPt {
 
-    private ArrayList<AreaDataDPPt> areaDatas;
+    private final List<AreaDataDPPt> areaDatas;
 
-    public AreaDataListDPPt(Narc narc) throws Exception {
+    public AreaDataListDPPt(Narc narc) {
         final int numFiles = narc.getRoot().getFiles().size();
         areaDatas = new ArrayList<>(numFiles);
         for (int i = 0; i < numFiles; i++) {
@@ -22,9 +23,9 @@ public class AreaDataListDPPt {
         }
     }
 
-    public Narc toNarc() throws Exception {
+    public Narc toNarc() {
         NarcFolder root = new NarcFolder();
-        ArrayList<NarcFile> files = new ArrayList<>(areaDatas.size());
+        List<NarcFile> files = new ArrayList<>(areaDatas.size());
         for (AreaDataDPPt areaData : areaDatas) {
             files.add(new NarcFile("", root, areaData.toByteArray()));
         }
@@ -32,8 +33,7 @@ public class AreaDataListDPPt {
         return new Narc(root);
     }
 
-    public ArrayList<AreaDataDPPt> getAreaDatas() {
+    public List<AreaDataDPPt> getAreaDatas() {
         return areaDatas;
     }
-
 }

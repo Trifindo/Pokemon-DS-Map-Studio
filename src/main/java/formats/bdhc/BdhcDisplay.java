@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 /**
  * @author Trifindo, JackHack96
@@ -50,7 +49,7 @@ public class BdhcDisplay extends JPanel {
     private void formMouseDragged(MouseEvent evt) {
         int x = getFixedMouseX(evt);
         int y = getFixedMouseY(evt);
-        if (dragging && isCursorInsiePanel(evt)) {
+        if (dragging && isCursorInsidePanel(evt)) {
             Plate p = bdhcHandler.getSelectedPlate();
             int deltaX = (x - lastX) / tileSize;
             int deltaY = (y - lastY) / tileSize;
@@ -99,9 +98,8 @@ public class BdhcDisplay extends JPanel {
             for (int i = 0; i < bdhcHandler.getBdhc().getPlates().size(); i++) {
                 Plate p = bdhcHandler.getBdhc().getPlate(i);
                 if (isHoveringPlate(p, x, y)) {
-                    partHovering = getPartSelected(p, x, y);
                     indexPlateHovering = i;
-                    setCursor(new Cursor(partHovering));
+                    setCursor(new Cursor(getPartSelected(p, x, y)));
                     return;
                 }
             }
@@ -170,11 +168,11 @@ public class BdhcDisplay extends JPanel {
             drawGrid(g);
 
             g2d.setStroke(new BasicStroke(4));
-            g.setColor(Color.red);
+            g.setColor(Color.RED);
             g.drawLine(width / 2, height / 2, width, height / 2);
-            g.setColor(Color.green);
+            g.setColor(Color.GREEN);
             g.drawLine(width / 2, height / 2, width / 2, height);
-            g.setColor(Color.blue);
+            g.setColor(Color.BLUE);
             g.drawLine(width / 2, height / 2, width / 2, width / 2);
 
             g.translate(width / 2, height / 2);
@@ -289,36 +287,28 @@ public class BdhcDisplay extends JPanel {
         return CENTER;
     }
 
-    public boolean isCursorInsiePanel(MouseEvent evt) {
+    public boolean isCursorInsidePanel(MouseEvent evt) {
         int x = getFixedMouseX(evt);
         int y = getFixedMouseY(evt);
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
     public boolean isHoveringPlate(Plate p, int x, int y) {
-        return new Rectangle(
-                p.x * tileSize + width / 2,
-                p.y * tileSize + height / 2,
-                p.width * tileSize,
-                p.height * tileSize
-        ).contains(x, y);
+        return new Rectangle(p.x * tileSize + width / 2, p.y * tileSize + height / 2, p.width * tileSize, p.height * tileSize).contains(x, y);
     }
 
     private void drawPlateBorder(Graphics g, Plate p) {
-        g.drawRect(p.x * tileSize, p.y * tileSize,
-                p.width * tileSize - 1, p.height * tileSize - 1);
+        g.drawRect(p.x * tileSize, p.y * tileSize, p.width * tileSize - 1, p.height * tileSize - 1);
     }
 
     private void fillPlate(Graphics g, Plate p) {
-        g.fillRect(p.x * tileSize, p.y * tileSize,
-                p.width * tileSize, p.height * tileSize);
+        g.fillRect(p.x * tileSize, p.y * tileSize, p.width * tileSize, p.height * tileSize);
 
     }
 
     private void drawPlateIndex(Graphics g, Plate p, int index) {
         g.setColor(Color.white);
-        g.drawString(
-                String.valueOf(index), p.x * tileSize + 4, p.y * tileSize + 12);
+        g.drawString(String.valueOf(index), p.x * tileSize + 4, p.y * tileSize + 12);
     }
 
     private void drawGrid(Graphics g) {

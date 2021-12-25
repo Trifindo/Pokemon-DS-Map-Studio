@@ -2,8 +2,8 @@
 package geometry;
 
 import java.util.ArrayList;
-
-import tileset.Tile;
+import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Trifindo
@@ -26,12 +26,11 @@ public class TrisToQuads {
     private int numFaces;
     private int numEdges;
 
-    private ArrayList<Edge> edges;
-    private ArrayList<ArrayList<Integer>> edgesConnected;
+    private List<Edge> edges;
+    private List<List<Integer>> edgesConnected;
     private boolean[] usedFaces;
 
     public TrisToQuads(PolygonData pData) {
-
         this.vCoordsTri = pData.vCoordsTri;
         this.tCoordsTri = pData.tCoordsTri;
         this.nCoordsTri = pData.nCoordsTri;
@@ -55,11 +54,10 @@ public class TrisToQuads {
 
             }
         }
-
     }
 
-    private ArrayList<Edge> calculateEdges() {
-        ArrayList<Edge> edges = new ArrayList<>(numEdges);
+    private List<Edge> calculateEdges() {
+        List<Edge> edges = new ArrayList<>(numEdges);
         for (int i = 0; i < numFaces; i++) {
             int offset = edgesPerFace * i;
             for (int j = 0; j < edgesPerFace; j++) {
@@ -69,8 +67,8 @@ public class TrisToQuads {
         return edges;
     }
 
-    private ArrayList<ArrayList<Integer>> generateConnectedEdges(ArrayList<Edge> edges) {
-        ArrayList<ArrayList<Integer>> conectedEdges = new ArrayList<>(numEdges);
+    private List<List<Integer>> generateConnectedEdges(List<Edge> edges) {
+        List<List<Integer>> conectedEdges = new ArrayList<>(numEdges);
         for (int i = 0; i < numEdges; i++) {
             conectedEdges.add(new ArrayList<>());
         }
@@ -86,7 +84,6 @@ public class TrisToQuads {
     }
 
     private class PolygonData {
-
         public float[] vCoordsTri;
         public float[] nCoordsTri;
         public float[] tCoordsTri;
@@ -101,7 +98,6 @@ public class TrisToQuads {
     }
 
     private class Edge {
-
         public int vertexIndex1;
         public int vertexIndex2;
 
@@ -121,16 +117,11 @@ public class TrisToQuads {
             vertexIndex2 = temp;
         }
 
-        private boolean sameVertexCoords(float[] coordData, int coordsPerVertex,
-                                         int vertexIndex1, int vertexIndex2) {
+        private boolean sameVertexCoords(float[] coordData, int coordsPerVertex, int vertexIndex1, int vertexIndex2) {
             int offset1 = vertexIndex1 * coordsPerVertex;
             int offset2 = vertexIndex2 * coordsPerVertex;
-            for (int i = 0; i < coordsPerVertex; i++) {
-                if (Math.abs(coordData[offset1 + i] - coordData[offset2 + i]) > 0.0001f) {
-                    return false;
-                }
-            }
-            return true;
+            return IntStream.range(0, coordsPerVertex)
+                    .noneMatch(i -> Math.abs(coordData[offset1 + i] - coordData[offset2 + i]) > 0.0001f);
         }
 
         private boolean sameEdgeCoords(float[] coords, int coordsPerVertex,
@@ -141,9 +132,7 @@ public class TrisToQuads {
                 }
             } else */
             if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex1, other.vertexIndex2)) {
-                if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex2, other.vertexIndex1)) {
-                    return true;
-                }
+                return sameVertexCoords(coords, coordsPerVertex, this.vertexIndex2, other.vertexIndex1);
             }
             return false;
         }
@@ -151,14 +140,7 @@ public class TrisToQuads {
         @Override
         public boolean equals(Object obj) {
             final Edge other = (Edge) obj;
-            if (sameEdgeCoords(vCoordsTri, vPerVertex, other)
-                    && sameEdgeCoords(tCoordsTri, tPerVertex, other)
-                    && sameEdgeCoords(nCoordsTri, nPerVertex, other)) {
-                return true;
-            }
-            return false;
+            return sameEdgeCoords(vCoordsTri, vPerVertex, other) && sameEdgeCoords(tCoordsTri, tPerVertex, other) && sameEdgeCoords(nCoordsTri, nPerVertex, other);
         }
-
     }
-
 }

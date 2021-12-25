@@ -3,6 +3,8 @@ package formats.imd;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Trifindo
@@ -25,15 +27,14 @@ public class StripeCalculator {
     private int numEdges;
     private static final int[] oppositeIndex = new int[]{2, 2, -2, -2};
 
-    private ArrayList<Edge> edges;
-    private ArrayList<ArrayList<Integer>> edgesConnected;
+    private List<Edge> edges;
+    private List<List<Integer>> edgesConnected;
     private boolean[] usedFaces;
 
     private boolean useUniformNormalOrientation;
     private boolean useVertexColors;
 
-    public StripeCalculator(PolygonData pData, boolean isQuad,
-                            boolean useUniformNormalOrientation, boolean useVertexColors) {
+    public StripeCalculator(PolygonData pData, boolean isQuad, boolean useUniformNormalOrientation, boolean useVertexColors) {
         this.pData = pData;
         this.isQuad = isQuad;
         this.useVertexColors = useVertexColors;
@@ -57,7 +58,7 @@ public class StripeCalculator {
         this.numEdges = numFaces * edgesPerFace;
     }
 
-    public ArrayList<PolygonData> calculateTriStrip() {
+    public List<PolygonData> calculateTriStrip() {
         //Calculate edges
         edges = calculateEdges();
 
@@ -65,13 +66,13 @@ public class StripeCalculator {
         edgesConnected = generateConnectedEdges(edges);
 
         //Calculate connected faces
-        ArrayList<ArrayList<Edge>> connectedEdgesLocal = new ArrayList<>();
-        ArrayList<ArrayList<Integer>> connectedFaces = calculateAllConnectedQuadFaces(connectedEdgesLocal);
+        List<List<Edge>> connectedEdgesLocal = new ArrayList<>();
+        List<List<Integer>> connectedFaces = calculateAllConnectedQuadFaces(connectedEdgesLocal);
 
         return null;//TODO change this
     }
 
-    public ArrayList<PolygonData> calculateQuadStrip() {
+    public List<PolygonData> calculateQuadStrip() {
         //Calculate edges
         edges = calculateEdges();
 
@@ -79,12 +80,12 @@ public class StripeCalculator {
         edgesConnected = generateConnectedEdges(edges);
 
         //Calculate connected faces
-        ArrayList<ArrayList<Edge>> connectedEdgesLocal = new ArrayList<>();
-        ArrayList<ArrayList<Integer>> connectedFaces = calculateAllConnectedQuadFaces(connectedEdgesLocal);
+        List<List<Edge>> connectedEdgesLocal = new ArrayList<>();
+        List<List<Integer>> connectedFaces = calculateAllConnectedQuadFaces(connectedEdgesLocal);
 
-        ArrayList<ArrayList<Integer>> stripFaces = new ArrayList<>();
-        ArrayList<ArrayList<Edge>> stripEdges = new ArrayList<>();
-        ArrayList<Integer> looseFaces = new ArrayList<>();
+        List<List<Integer>> stripFaces = new ArrayList<>();
+        List<List<Edge>> stripEdges = new ArrayList<>();
+        List<Integer> looseFaces = new ArrayList<>();
         for (int i = 0; i < connectedFaces.size(); i++) {
             if (connectedFaces.get(i).size() > 1) {
                 stripFaces.add(connectedFaces.get(i));
@@ -94,7 +95,7 @@ public class StripeCalculator {
             }
         }
 
-        ArrayList<PolygonData> pDataStrips = new ArrayList<>(stripFaces.size() + looseFaces.size());
+        List<PolygonData> pDataStrips = new ArrayList<>(stripFaces.size() + looseFaces.size());
         if (isQuad) {
             if (looseFaces.size() > 0) {
                 PolygonData pDataLoose = new PolygonData();
@@ -123,19 +124,19 @@ public class StripeCalculator {
         //pDataStrips = new ArrayList<>(stripFaces.size());
         //PolygonData pDataLoose;
         if (isQuad) {
-            for (int i = 0; i < stripEdges.size(); i++) {
+            for (List<Edge> stripEdge : stripEdges) {
                 PolygonData newPdata = new PolygonData();
-                newPdata.initQuadStrip(stripEdges.get(i).size());
-                for (int j = 0; j < stripEdges.get(i).size(); j++) {
-                    copyEdgeData(newPdata, stripEdges.get(i).get(j), j);
+                newPdata.initQuadStrip(stripEdge.size());
+                for (int j = 0; j < stripEdge.size(); j++) {
+                    copyEdgeData(newPdata, stripEdge.get(j), j);
                 }
                 pDataStrips.add(newPdata);
             }
         } else {
-            for (int i = 0; i < stripFaces.size(); i++) {
+            for (List<Integer> stripFace : stripFaces) {
                 PolygonData newPdata = new PolygonData();
-                newPdata.initTris(stripFaces.get(i).size());
-                for (int j = 0; j < stripFaces.get(i).size(); j++) {
+                newPdata.initTris(stripFace.size());
+                for (int j = 0; j < stripFace.size(); j++) {
                     for (int k = 0; k < 3; k++) {
 
                     }
@@ -155,8 +156,7 @@ public class StripeCalculator {
         }
     }
 
-    private void copyEdgeCoords(float[] coordsData, float[] newCoordsData,
-                                Edge edge, int coordsPerVertex, int dstEdgeIndex) {
+    private void copyEdgeCoords(float[] coordsData, float[] newCoordsData, Edge edge, int coordsPerVertex, int dstEdgeIndex) {
         System.arraycopy(
                 coordsData, edge.vertexIndex1 * coordsPerVertex,
                 newCoordsData, dstEdgeIndex * coordsPerVertex * 2, coordsPerVertex);
@@ -180,22 +180,19 @@ public class StripeCalculator {
     private boolean isEdgeConectedToNewFace(int edgeIndex, boolean[] localUsedFaces) {
         if (edgesConnected.get(edgeIndex).size() > 0) {
             int faceIndex = getFaceIndex(edgesConnected.get(edgeIndex).get(0));
-            if (!localUsedFaces[faceIndex] && !usedFaces[faceIndex]) {
-                return true;
-            }
+            return !localUsedFaces[faceIndex] && !usedFaces[faceIndex];
         }
         return false;
     }
 
-    private ArrayList<ArrayList<Integer>> calculateAllConnectedTriFaces(
-            ArrayList<ArrayList<Edge>> edgesLocalConnected) {
-        ArrayList<ArrayList<Integer>> connectedFaces = new ArrayList<>();
+    private List<List<Integer>> calculateAllConnectedTriFaces(List<List<Edge>> edgesLocalConnected) {
+        List<List<Integer>> connectedFaces = new ArrayList<>();
         usedFaces = new boolean[numFaces];
         for (int i = 0, c = 0; i < numFaces; i++) {
             if (!usedFaces[i]) {
-                ArrayList<Edge> edgesLocal1 = new ArrayList<>();
-                ArrayList<Edge> edgesLocal2 = new ArrayList<>();
-                ArrayList<Edge> edgesLocal3 = new ArrayList<>();
+                List<Edge> edgesLocal1 = new ArrayList<>();
+                List<Edge> edgesLocal2 = new ArrayList<>();
+                List<Edge> edgesLocal3 = new ArrayList<>();
 
                 //ArrayList<Integer> connected1 = connectedTriFaces(i, 0, 2, edgesLocalX);
                 c++;
@@ -204,16 +201,15 @@ public class StripeCalculator {
         return connectedFaces;
     }
 
-    private ArrayList<ArrayList<Integer>> calculateAllConnectedQuadFaces(
-            ArrayList<ArrayList<Edge>> edgesLocalConnected) {
-        ArrayList<ArrayList<Integer>> connectedFaces = new ArrayList<>();
+    private List<List<Integer>> calculateAllConnectedQuadFaces(List<List<Edge>> edgesLocalConnected) {
+        List<List<Integer>> connectedFaces = new ArrayList<>();
         usedFaces = new boolean[numFaces];
         for (int i = 0, c = 0; i < numFaces; i++) {
             if (!usedFaces[i]) {
-                ArrayList<Edge> edgesLocalX = new ArrayList<>();
-                ArrayList<Edge> edgesLocalY = new ArrayList<>();
-                ArrayList<Integer> connectedX = connectedQuadFaces(i, 0, 2, edgesLocalX);
-                ArrayList<Integer> connectedY = connectedQuadFaces(i, 1, 3, edgesLocalY);
+                List<Edge> edgesLocalX = new ArrayList<>();
+                List<Edge> edgesLocalY = new ArrayList<>();
+                List<Integer> connectedX = connectedQuadFaces(i, 0, 2, edgesLocalX);
+                List<Integer> connectedY = connectedQuadFaces(i, 1, 3, edgesLocalY);
                 if (connectedX.size() > connectedY.size()) {
                     connectedFaces.add(connectedX);
                     edgesLocalConnected.add(edgesLocalX);
@@ -230,8 +226,8 @@ public class StripeCalculator {
         return connectedFaces;
     }
 
-    private ArrayList<Integer> connectedTriFaces(int startFaceIndex) {
-        ArrayList<Integer> connectedFaces = new ArrayList<>();
+    private List<Integer> connectedTriFaces(int startFaceIndex) {
+        List<Integer> connectedFaces = new ArrayList<>();
         boolean[] localUsedFaces = new boolean[usedFaces.length];
         localUsedFaces[startFaceIndex] = true;
 
@@ -239,34 +235,32 @@ public class StripeCalculator {
         return null;
     }
 
-    private ArrayList<Integer> connectedQuadFaces(int startFaceIndex, int forwardEdgeLocalIndex,
-                                                  int backwardEdgeLocalIndex, ArrayList<Edge> edgesLocalConnected) {
-        ArrayList<Integer> connectedFaces = new ArrayList<>();
+    private List<Integer> connectedQuadFaces(int startFaceIndex, int forwardEdgeLocalIndex,
+                                                  int backwardEdgeLocalIndex, List<Edge> edgesLocalConnected) {
         boolean[] localUsedFaces = new boolean[usedFaces.length];
         localUsedFaces[startFaceIndex] = true;
-        ArrayList<Edge> edgesForward = new ArrayList<>();
-        ArrayList<Edge> edgesBackward = new ArrayList<>();
-        ArrayList<Integer> forward = connectedFacesOneDirection(startFaceIndex, forwardEdgeLocalIndex, localUsedFaces, edgesForward);
-        ArrayList<Integer> backward = connectedFacesOneDirection(startFaceIndex, backwardEdgeLocalIndex, localUsedFaces, edgesBackward);
+        List<Edge> edgesForward = new ArrayList<>();
+        List<Edge> edgesBackward = new ArrayList<>();
+        List<Integer> forward = connectedFacesOneDirection(startFaceIndex, forwardEdgeLocalIndex, localUsedFaces, edgesForward);
+        List<Integer> backward = connectedFacesOneDirection(startFaceIndex, backwardEdgeLocalIndex, localUsedFaces, edgesBackward);
 
         Collections.reverse(forward);
-        connectedFaces.addAll(forward);
+        List<Integer> connectedFaces = new ArrayList<>(forward);
         connectedFaces.add(startFaceIndex);
         connectedFaces.addAll(backward);
 
         Collections.reverse(edgesForward);
         edgesLocalConnected.addAll(edgesForward);
-        for (int i = 0; i < edgesBackward.size(); i++) {
-            edgesBackward.get(i).flip();
+        for (Edge edge : edgesBackward) {
+            edge.flip();
         }
         edgesLocalConnected.addAll(edgesBackward);
 
         return connectedFaces;
     }
 
-    private ArrayList<Integer> connectedFacesOneDirection(int startFaceIndex,
-                                                          int startEdgeIndex, boolean[] localUsedFaces, ArrayList<Edge> edgesLocalConnected) {
-        ArrayList<Integer> connectedFaces = new ArrayList<>();
+    private List<Integer> connectedFacesOneDirection(int startFaceIndex, int startEdgeIndex, boolean[] localUsedFaces, List<Edge> edgesLocalConnected) {
+        List<Integer> connectedFaces = new ArrayList<>();
         int secondEdgeIndex;
         int firstEdgeIndex;
         secondEdgeIndex = getEdgeIndex(startFaceIndex, startEdgeIndex);
@@ -282,8 +276,8 @@ public class StripeCalculator {
         return connectedFaces;
     }
 
-    private ArrayList<ArrayList<Integer>> generateConnectedEdges(ArrayList<Edge> edges) {
-        ArrayList<ArrayList<Integer>> conectedEdges = new ArrayList<>(numEdges);
+    private List<List<Integer>> generateConnectedEdges(List<Edge> edges) {
+        List<List<Integer>> conectedEdges = new ArrayList<>(numEdges);
         for (int i = 0; i < numEdges; i++) {
             conectedEdges.add(new ArrayList<>());
         }
@@ -298,8 +292,8 @@ public class StripeCalculator {
         return conectedEdges;
     }
 
-    private ArrayList<Edge> calculateEdges() {
-        ArrayList<Edge> edges = new ArrayList<>(numEdges);
+    private List<Edge> calculateEdges() {
+        List<Edge> edges = new ArrayList<>(numEdges);
         for (int i = 0; i < numFaces; i++) {
             int offset = edgesPerFace * i;
             for (int j = 0; j < edgesPerFace; j++) {
@@ -316,11 +310,10 @@ public class StripeCalculator {
         System.out.println();
     }
 
-    private void printConectedEdgesCoords(ArrayList<Edge> edges,
-                                          ArrayList<ArrayList<Integer>> edgesConnected) {
-        for (int i = 0; i < edgesConnected.size(); i++) {
-            if (edgesConnected.get(i).size() > 0) {
-                Edge edge = edges.get(edgesConnected.get(i).get(0));
+    private void printConectedEdgesCoords(List<Edge> edges, List<List<Integer>> edgesConnected) {
+        for (List<Integer> integers : edgesConnected) {
+            if (integers.size() > 0) {
+                Edge edge = edges.get(integers.get(0));
                 edge.printEdgeCoords();
             }
         }
@@ -357,29 +350,21 @@ public class StripeCalculator {
             vertexIndex2 = temp;
         }
 
-        private boolean sameVertexCoords(float[] coordData, int coordsPerVertex,
-                                         int vertexIndex1, int vertexIndex2) {
+        private boolean sameVertexCoords(float[] coordData, int coordsPerVertex, int vertexIndex1, int vertexIndex2) {
             int offset1 = vertexIndex1 * coordsPerVertex;
             int offset2 = vertexIndex2 * coordsPerVertex;
-            for (int i = 0; i < coordsPerVertex; i++) {
-                if (Math.abs(coordData[offset1 + i] - coordData[offset2 + i]) > 0.0001f) {
-                    return false;
-                }
-            }
-            return true;
+            return IntStream.range(0, coordsPerVertex)
+                    .noneMatch(i -> Math.abs(coordData[offset1 + i] - coordData[offset2 + i]) > 0.0001f);
         }
 
-        private boolean sameEdgeCoords(float[] coords, int coordsPerVertex,
-                                       Edge other) {
+        private boolean sameEdgeCoords(float[] coords, int coordsPerVertex, Edge other) {
             /*if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex1, other.vertexIndex1)) {
                 if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex2, other.vertexIndex2)) {
                     return true;
                 }
             } else */
             if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex1, other.vertexIndex2)) {
-                if (sameVertexCoords(coords, coordsPerVertex, this.vertexIndex2, other.vertexIndex1)) {
-                    return true;
-                }
+                return sameVertexCoords(coords, coordsPerVertex, this.vertexIndex2, other.vertexIndex1);
             }
             return false;
         }
@@ -389,37 +374,17 @@ public class StripeCalculator {
             final Edge other = (Edge) obj;
             if (useUniformNormalOrientation) {
                 if (useVertexColors) {
-                    if (sameEdgeCoords(vCoords, vPerVertex, other)
-                            && sameEdgeCoords(tCoords, tPerVertex, other)
-                            && sameEdgeCoords(colors, cPerVertex, other)) {
-                        return true;
-                    }
+                    return sameEdgeCoords(vCoords, vPerVertex, other) && sameEdgeCoords(tCoords, tPerVertex, other) && sameEdgeCoords(colors, cPerVertex, other);
                 } else {
-                    if (sameEdgeCoords(vCoords, vPerVertex, other)
-                            && sameEdgeCoords(tCoords, tPerVertex, other)) {
-                        return true;
-                    }
+                    return sameEdgeCoords(vCoords, vPerVertex, other) && sameEdgeCoords(tCoords, tPerVertex, other);
                 }
             } else {
                 if (useVertexColors) {
-                    if (sameEdgeCoords(vCoords, vPerVertex, other)
-                            && sameEdgeCoords(tCoords, tPerVertex, other)
-                            && sameEdgeCoords(nCoords, nPerVertex, other)
-                            && sameEdgeCoords(colors, cPerVertex, other)) {
-                        return true;
-                    }
+                    return sameEdgeCoords(vCoords, vPerVertex, other) && sameEdgeCoords(tCoords, tPerVertex, other) && sameEdgeCoords(nCoords, nPerVertex, other) && sameEdgeCoords(colors, cPerVertex, other);
                 } else {
-                    if (sameEdgeCoords(vCoords, vPerVertex, other)
-                            && sameEdgeCoords(tCoords, tPerVertex, other)
-                            && sameEdgeCoords(nCoords, nPerVertex, other)) {
-                        return true;
-                    }
+                    return sameEdgeCoords(vCoords, vPerVertex, other) && sameEdgeCoords(tCoords, tPerVertex, other) && sameEdgeCoords(nCoords, nPerVertex, other);
                 }
             }
-
-            return false;
         }
-
     }
-
 }

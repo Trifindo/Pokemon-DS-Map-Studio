@@ -3,8 +3,6 @@ package editor.gameselector;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 
 import tileset.TilesetRenderer;
@@ -14,9 +12,7 @@ import editor.smartdrawing.SmartGrid;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.swing.ImageIcon;
 
-import tileset.TextureNotFoundException;
 import tileset.Tileset;
 import tileset.TilesetIO;
 import utils.Utils;
@@ -28,7 +24,7 @@ import utils.Utils;
 public class GameSelectorDialog extends JDialog {
 
     private MapEditorHandler handler;
-    public static final int ACEPTED = 0, CANCELED = 1;
+    public static final int ACCEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int newGame = Game.DIAMOND;
 
@@ -82,7 +78,7 @@ public class GameSelectorDialog extends JDialog {
                     ex.printStackTrace();
                 }
                 tr.destroy();
-            } catch (NullPointerException | TextureNotFoundException | IOException ex) {
+            } catch (NullPointerException | IOException ex) {
                 System.out.println("Tileset not found");
                 tileset = new Tileset();
                 tileset.getSmartGridArray().add(new SmartGrid());
@@ -93,7 +89,7 @@ public class GameSelectorDialog extends JDialog {
         }
         handler.setTileset(tileset);
 
-        returnValue = ACEPTED;
+        returnValue = ACCEPTED;
         dispose();
     }
 
@@ -126,7 +122,6 @@ public class GameSelectorDialog extends JDialog {
             tilesetThumbnailDisplay1.setImage(null);
             tilesetThumbnailDisplay1.repaint();
         }
-
     }
 
     private void initComponents() {

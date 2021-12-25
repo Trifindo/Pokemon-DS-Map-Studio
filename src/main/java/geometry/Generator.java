@@ -11,7 +11,7 @@ public class Generator {
     public static float[] generateCenteredGrid(int cols, int rows, float size, float z) {
         float[] grid = new float[(cols + rows + 2) * 2 * 3];
         for (int i = 0; i < rows + 1; i++) {
-            grid[i * 6 + 0] = -(size * cols) / 2;
+            grid[i * 6] = -(size * cols) / 2;
             grid[i * 6 + 1] = size * i - (size * rows) / 2;
             grid[i * 6 + 2] = z;
 
@@ -21,7 +21,7 @@ public class Generator {
         }
 
         for (int i = 0; i < cols + 1; i++) {
-            grid[(i + rows + 1) * 6 + 0] = size * i - (size * cols) / 2;
+            grid[(i + rows + 1) * 6] = size * i - (size * cols) / 2;
             grid[(i + rows + 1) * 6 + 1] = -(size * rows) / 2;
             grid[(i + rows + 1) * 6 + 2] = z;
 
@@ -34,8 +34,7 @@ public class Generator {
     }
 
 
-    public static float[] generateGridColors(int cols, int rows,
-                                             float[] rgbaTop, float[] rgbaBot, float[] rgbaLeft, float[] rgbaRight) {
+    public static float[] generateGridColors(int cols, int rows, float[] rgbaTop, float[] rgbaBot, float[] rgbaLeft, float[] rgbaRight) {
         final int colorsPerVertex = 4;
         final int vertexPerLine = 2;
         final int numVertices = (cols + rows + 2) * colorsPerVertex * vertexPerLine;
@@ -64,7 +63,7 @@ public class Generator {
     public static float[] generateGrid(int cols, int rows, float size, float z) {
         float[] grid = new float[(cols + rows + 2) * 2 * 3];
         for (int i = 0; i < rows + 1; i++) {
-            grid[i * 6 + 0] = 0;
+            grid[i * 6] = 0;
             grid[i * 6 + 1] = size * i;
             grid[i * 6 + 2] = z;
 
@@ -74,7 +73,7 @@ public class Generator {
         }
 
         for (int i = 0; i < cols + 1; i++) {
-            grid[(i + rows + 1) * 6 + 0] = size * i;
+            grid[(i + rows + 1) * 6] = size * i;
             grid[(i + rows + 1) * 6 + 1] = 0;
             grid[(i + rows + 1) * 6 + 2] = z;
 
@@ -114,8 +113,6 @@ public class Generator {
         r.setElementAt(3, 3, 0.0f);
 
         //Matrix3D r = new Matrix3D();
-
-
         return r;
     }
 
@@ -141,5 +138,4 @@ public class Generator {
         array[index + 1] = e2;
         array[index + 2] = e3;
     }
-
 }

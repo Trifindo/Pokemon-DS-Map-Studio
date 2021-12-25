@@ -26,7 +26,6 @@ public class ImdOutputInfo {
     }
 
     public ImdOutputInfo(String objName, Exception ex) {
-        this.objName = this.objName;
         this.ex = ex;
     }
 }

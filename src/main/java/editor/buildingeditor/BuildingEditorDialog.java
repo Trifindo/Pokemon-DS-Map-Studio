@@ -9,9 +9,8 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
@@ -104,7 +103,6 @@ public class BuildingEditorDialog extends JDialog {
     public void init(MapEditorHandler handler) {
         this.handler = handler;
         this.buildHandler = new BuildHandler();
-
     }
 
     public void openMatshpWithDialog() {
@@ -199,13 +197,11 @@ public class BuildingEditorDialog extends JDialog {
     }
 
     public void updateViewBmm(int indexSelected) {
-
         System.out.println("Index selected: " + indexSelected);
         jlBuildingIDsEnabled = false;
-        DefaultListModel demoList = new DefaultListModel();
+        DefaultListModel<String> demoList = new DefaultListModel<>();
         for (int i = 0; i < buildHandler.getBuildModelMatshp().getAllMaterials().size(); i++) {
-            String name = "Building " + String.format("%03d", i);
-            demoList.addElement(name);
+            demoList.addElement("Building " + String.format("%03d", i));
         }
         jlBuildingIDs.setModel(demoList);
         jlBuildingIDs.setSelectedIndex(indexSelected);
@@ -215,13 +211,12 @@ public class BuildingEditorDialog extends JDialog {
     }
 
     public void updateViewMaterialOrder() {
-        DefaultListModel demoList = new DefaultListModel();
+        DefaultListModel<String> demoList = new DefaultListModel<>();
         int buildingSelected = jlBuildingIDs.getSelectedIndex();
-        ArrayList<Integer> materials = buildHandler.getBuildModelMatshp().getMaterials(buildingSelected);
+        List<Integer> materials = buildHandler.getBuildModelMatshp().getMaterials(buildingSelected);
         if (materials != null) {
-            for (int i = 0; i < materials.size(); i++) {
-                String name = "Material " + materials.get(i);
-                demoList.addElement(name);
+            for (Integer material : materials) {
+                demoList.addElement("Material " + material);
             }
         } else {
             demoList.addElement("Undefined");
@@ -238,11 +233,10 @@ public class BuildingEditorDialog extends JDialog {
     }
 
     public void updateViewBtl(int indexSelected) {
-        DefaultListModel demoList = new DefaultListModel();
-        ArrayList<Integer> buildingIDs = buildHandler.getBuildTilesetList().getBuildingIDs();
+        DefaultListModel<String> demoList = new DefaultListModel<>();
+        List<Integer> buildingIDs = buildHandler.getBuildTilesetList().getBuildingIDs();
         for (int i = 0; i < buildHandler.getBuildTilesetList().getBuildingIDs().size(); i++) {
-            String name = "Building " + String.format("%03d", buildingIDs.get(i));
-            demoList.addElement(name);
+            demoList.addElement("Building " + String.format("%03d", buildingIDs.get(i)));
         }
         jlBuildTilesetList.setModel(demoList);
         jlBuildTilesetList.setSelectedIndex(indexSelected);
@@ -255,8 +249,8 @@ public class BuildingEditorDialog extends JDialog {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        if (dialog.getReturnValue() == IntegerRequestDialog.ACEPTED) {
-            ArrayList<Integer> newMaterials;
+        if (dialog.getReturnValue() == IntegerRequestDialog.ACCEPTED) {
+            List<Integer> newMaterials;
             if (dialog.useUndefined()) {
                 newMaterials = null;
             } else {
@@ -269,7 +263,6 @@ public class BuildingEditorDialog extends JDialog {
             buildHandler.getBuildModelMatshp().getAllMaterials().add(newMaterials);
             updateViewBmm(buildHandler.getBuildModelMatshp().getAllMaterials().size() - 1);
             updateViewMaterialOrder();
-
         }
     }
 
@@ -279,7 +272,7 @@ public class BuildingEditorDialog extends JDialog {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        if (dialog.getReturnValue() == IntegerRequestDialog.ACEPTED) {
+        if (dialog.getReturnValue() == IntegerRequestDialog.ACCEPTED) {
             int buildingID = dialog.getIntegerRequested();
 
             if (!buildHandler.getBuildTilesetList().getBuildingIDs().contains(buildingID)) {
@@ -298,7 +291,7 @@ public class BuildingEditorDialog extends JDialog {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        if (dialog.getReturnValue() == IntegerRequestDialog.ACEPTED) {
+        if (dialog.getReturnValue() == IntegerRequestDialog.ACCEPTED) {
             ArrayList<Integer> newMaterials;
             if (dialog.useUndefined()) {
                 newMaterials = null;
@@ -312,7 +305,6 @@ public class BuildingEditorDialog extends JDialog {
             buildHandler.getBuildModelMatshp().getAllMaterials().set(jlBuildingIDs.getSelectedIndex(), newMaterials);
             updateViewBmm(buildHandler.getBuildModelMatshp().getAllMaterials().size() - 1);
             updateViewMaterialOrder();
-
         }
     }
 
@@ -322,7 +314,7 @@ public class BuildingEditorDialog extends JDialog {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        if (dialog.getReturnValue() == IntegerRequestDialog.ACEPTED) {
+        if (dialog.getReturnValue() == IntegerRequestDialog.ACCEPTED) {
             int buildingID = dialog.getIntegerRequested();
 
             if (!buildHandler.getBuildTilesetList().getBuildingIDs().contains(buildingID)) {

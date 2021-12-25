@@ -35,7 +35,6 @@ import com.jogamp.opengl.GLException;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.awt.AWTGLReadBufferUtil;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import tileset.Tile;
@@ -128,8 +127,7 @@ public class TilesetRenderer {
 
             //tile.setThumbnail(Utils.addBackgroundColor(new Color(0.0f, 0.5f, 0.5f, 1.0f), img));//Use this for transparent background
             tile.setThumbnail(img);
-            tile.setSmallThumbnail(Utils.resize(
-                    img, smallTileSize * tile.getWidth(), smallTileSize * tile.getHeight()));
+            tile.setSmallThumbnail(Utils.resize(img, smallTileSize * tile.getWidth(), smallTileSize * tile.getHeight()));
         } catch (GLException ex) {
             ex.printStackTrace();
         }
@@ -288,5 +286,4 @@ ex.printStackTrace();
 }*/
 
     }
-
 }

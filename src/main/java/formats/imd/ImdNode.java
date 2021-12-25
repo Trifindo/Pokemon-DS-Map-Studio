@@ -2,15 +2,16 @@
 package formats.imd;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
  */
 public class ImdNode {
     public String nodeName;
-    public ArrayList<ImdAttribute> attributes;
+    public List<ImdAttribute> attributes;
     public String content;
-    public ArrayList<ImdNode> subnodes;
+    public List<ImdNode> subnodes;
 
     public ImdNode(String nodeName) {
         this.nodeName = nodeName;
@@ -20,11 +21,8 @@ public class ImdNode {
     }
 
     public ImdAttribute getAttribute(String tag) {
-        for (ImdAttribute p : attributes) {
-            if (p.tag.equals(tag)) {
-                return p;
-            }
-        }
-        return null;
+        return attributes.stream()
+                .filter(p -> p.tag.equals(tag))
+                .findFirst().orElse(null);
     }
 }

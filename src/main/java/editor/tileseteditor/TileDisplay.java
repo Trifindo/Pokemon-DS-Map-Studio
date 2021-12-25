@@ -1,31 +1,13 @@
 
 package editor.tileseteditor;
 
-import static com.jogamp.opengl.GL.GL_BACK;
 import static com.jogamp.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static com.jogamp.opengl.GL.GL_CULL_FACE;
-import static com.jogamp.opengl.GL.GL_CW;
-import static com.jogamp.opengl.GL.GL_DEPTH_BUFFER_BIT;
-import static com.jogamp.opengl.GL.GL_DEPTH_TEST;
-import static com.jogamp.opengl.GL.GL_FRONT;
 import static com.jogamp.opengl.GL.GL_GREATER;
-import static com.jogamp.opengl.GL.GL_LEQUAL;
-import static com.jogamp.opengl.GL.GL_LINES;
-import static com.jogamp.opengl.GL.GL_NEAREST;
 import static com.jogamp.opengl.GL.GL_NOTEQUAL;
-import static com.jogamp.opengl.GL.GL_REPEAT;
-import static com.jogamp.opengl.GL.GL_TEXTURE_2D;
-import static com.jogamp.opengl.GL.GL_TEXTURE_MAG_FILTER;
-import static com.jogamp.opengl.GL.GL_TEXTURE_MIN_FILTER;
-import static com.jogamp.opengl.GL.GL_TEXTURE_WRAP_S;
-import static com.jogamp.opengl.GL.GL_TEXTURE_WRAP_T;
-import static com.jogamp.opengl.GL.GL_TRIANGLES;
-import static com.jogamp.opengl.GL.GL_TRUE;
-import static com.jogamp.opengl.GL2.GL_ARRAY_BUFFER;
 import static com.jogamp.opengl.GL2.GL_BLEND;
 import static com.jogamp.opengl.GL2.GL_DEPTH_BUFFER_BIT;
 import static com.jogamp.opengl.GL2.GL_DEPTH_TEST;
-import static com.jogamp.opengl.GL2.GL_FLOAT;
 import static com.jogamp.opengl.GL2.GL_FRONT_AND_BACK;
 import static com.jogamp.opengl.GL2.GL_LEQUAL;
 import static com.jogamp.opengl.GL2.GL_LESS;
@@ -35,8 +17,6 @@ import static com.jogamp.opengl.GL2.GL_ONE_MINUS_DST_ALPHA;
 import static com.jogamp.opengl.GL2.GL_ONE_MINUS_SRC_ALPHA;
 import static com.jogamp.opengl.GL2.GL_REPEAT;
 import static com.jogamp.opengl.GL2.GL_SRC_ALPHA;
-import static com.jogamp.opengl.GL2.GL_STATIC_DRAW;
-import static com.jogamp.opengl.GL2.GL_TEXTURE0;
 import static com.jogamp.opengl.GL2.GL_TEXTURE_2D;
 import static com.jogamp.opengl.GL2.GL_TEXTURE_MAG_FILTER;
 import static com.jogamp.opengl.GL2.GL_TEXTURE_MIN_FILTER;
@@ -47,9 +27,6 @@ import static com.jogamp.opengl.GL2.GL_TRIANGLES;
 import com.jogamp.opengl.GL2;
 
 import static com.jogamp.opengl.GL2ES1.GL_ALPHA_TEST;
-import static com.jogamp.opengl.GL2ES1.GL_LIGHT_MODEL_AMBIENT;
-import static com.jogamp.opengl.GL2ES1.GL_LIGHT_MODEL_TWO_SIDE;
-import static com.jogamp.opengl.GL2ES3.GL_COLOR;
 import static com.jogamp.opengl.GL2ES3.GL_QUADS;
 import static com.jogamp.opengl.GL2GL3.GL_FILL;
 import static com.jogamp.opengl.GL2GL3.GL_LINE;
@@ -60,14 +37,8 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLJPanel;
 
-import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_AMBIENT;
-import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_DIFFUSE;
 import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_LIGHT0;
-import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_LIGHT1;
-import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_LIGHT2;
 import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_LIGHTING;
-import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_NORMALIZE;
-import static com.jogamp.opengl.fixedfunc.GLLightingFunc.GL_POSITION;
 
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.awt.ImageUtil;
@@ -75,7 +46,6 @@ import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 import editor.handler.MapEditorHandler;
 import geometry.Generator;
-import graphicslib3D.Matrix3D;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -85,14 +55,13 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import javax.swing.SwingUtilities;
 
 import tileset.Tile;
 import tileset.Tileset;
-import utils.GlUtils;
 import utils.Utils;
 
 /**
@@ -111,7 +80,7 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
             1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
             0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
             0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f};
-    private ArrayList<Texture> textures = new ArrayList<>();
+    private List<Texture> textures = new ArrayList<>();
 
     //Scene
     private float cameraX, cameraY, cameraZ;
@@ -197,13 +166,9 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
             //Load Textures into OpenGL
             //handler.getTileset().loadTextures("res/tileset");
             updateRequested = false;
-
         }
 
-        //Draw grid
         drawGrid();
-
-        //Draw axis
         drawAxis();
 
         //Draw tiles
@@ -308,11 +273,7 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            if (orthoEnabled) {
-                orthoEnabled = false;
-            } else {
-                orthoEnabled = true;
-            }
+            orthoEnabled = !orthoEnabled;
             repaint();
         }
 
@@ -437,7 +398,6 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
 
         drawQuads(gl, tile, useWireframe);
         drawTris(gl, tile, useWireframe);
-
     }
 
     private void drawQuads(GL2 gl, Tile tile, boolean useWireframe) {
@@ -481,7 +441,6 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
                         gl.glVertex3fv(tile.getVCoordsQuad(), (i * vPerPolygon + j) * 3);
                     }
                 }
-                gl.glEnd();
             } else {
                 gl.glBegin(GL_QUADS);
                 for (int i = start; i < end; i++) {
@@ -490,8 +449,8 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
                         gl.glVertex3fv(tile.getVCoordsQuad(), (i * vPerPolygon + j) * 3);
                     }
                 }
-                gl.glEnd();
             }
+            gl.glEnd();
         }
     }
 
@@ -514,7 +473,6 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
 
                 gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
                 gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
             }
 
             //Draw polygons
@@ -537,7 +495,6 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
                         gl.glVertex3fv(tile.getVCoordsTri(), (i * vPerPolygon + j) * 3);
                     }
                 }
-                gl.glEnd();
             } else {
                 gl.glBegin(GL_TRIANGLES);
                 for (int i = start; i < end; i++) {
@@ -546,11 +503,9 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
                         gl.glVertex3fv(tile.getVCoordsTri(), (i * vPerPolygon + j) * 3);
                     }
                 }
-                gl.glEnd();
             }
-
+            gl.glEnd();
         }
-
     }
 
     public void drawOpaque() {
@@ -577,7 +532,6 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
         if (backfaceCullingEnabled) {
             gl.glDisable(GL_CULL_FACE);
         }
-
     }
 
     public void drawTransparent() {
@@ -604,7 +558,6 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
         if (backfaceCullingEnabled) {
             gl.glDisable(GL_CULL_FACE);
         }
-
     }
 
     public void drawWireframe() {
@@ -628,7 +581,6 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
         drawTile(true);
 
         gl.glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
     }
 
     public void drawNormals(GL2 gl){
@@ -672,11 +624,10 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
             final int vPerPolygon = 3;
             start = tile.getTexOffsetsTri().get(k);
             if (k + 1 < tile.getTextureIDs().size()) {
-                end = (tile.getTexOffsetsTri().get(k + 1));
+                end = tile.getTexOffsetsTri().get(k + 1);
             } else {
                 end = tile.getVCoordsTri().length / (3 * vPerPolygon);
             }
-
 
             gl.glBegin(GL_LINES);
             for (int i = start; i < end; i++) {
@@ -700,7 +651,7 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
             final int vPerPolygon = 4;
             start = tile.getTexOffsetsQuad().get(k);
             if (k + 1 < tile.getTextureIDs().size()) {
-                end = (tile.getTexOffsetsQuad().get(k + 1));
+                end = tile.getTexOffsetsQuad().get(k + 1);
             } else {
                 end = tile.getVCoordsQuad().length / (3 * vPerPolygon);
             }
@@ -719,9 +670,7 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
                 }
             }
             gl.glEnd();
-
         }
-
     }
 
     private void loadTexturesGL() {
@@ -778,5 +727,4 @@ public class TileDisplay extends GLJPanel implements GLEventListener, MouseListe
     public void setNormalsEnabled(boolean normalsEnabled){
         this.normalsEnabled = normalsEnabled;
     }
-
 }

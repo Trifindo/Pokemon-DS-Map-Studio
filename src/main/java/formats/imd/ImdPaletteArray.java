@@ -7,7 +7,10 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import tileset.TilesetMaterial;
 import utils.image.Clusterer;
@@ -19,16 +22,15 @@ public class ImdPaletteArray {
 
     private static final int[] numColorsTable = new int[]{4, 16, 256, 32, 8};
 
-    public ArrayList<ArrayList<Color>> palettes = new ArrayList<>();
-    public ArrayList<String> paletteNames = new ArrayList<>();
-    public ArrayList<Integer> paletteSizes = new ArrayList<>();
+    public List<List<Color>> palettes = new ArrayList<>();
+    public List<String> paletteNames = new ArrayList<>();
+    public List<Integer> paletteSizes = new ArrayList<>();
 
-    public ArrayList<Integer> textureIndices = new ArrayList<>();
+    public List<Integer> textureIndices = new ArrayList<>();
 
-    public ImdPaletteArray(ArrayList<TilesetMaterial> materials) {
-        ArrayList<TreeSet<FastColor>> paletteSets = new ArrayList<>();
-        for (int i = 0; i < materials.size(); i++) {
-            TilesetMaterial m = materials.get(i);
+    public ImdPaletteArray(List<TilesetMaterial> materials) {
+        List<TreeSet<FastColor>> paletteSets = new ArrayList<>();
+        for (TilesetMaterial m : materials) {
             int index = paletteNames.indexOf(m.getPaletteNameImd());
             if (index != -1) {
                 paletteSets.set(index, addColorsFromTexture(paletteSets.get(index), m.getTextureImg()));
@@ -45,8 +47,7 @@ public class ImdPaletteArray {
 
         //Reduce colors
         for (int i = 0; i < paletteSets.size(); i++) {
-            ArrayList<Color> palette = new ArrayList<>();
-            palette.addAll(paletteSets.get(i));
+            List<Color> palette = new ArrayList<>(paletteSets.get(i));
             if (paletteSets.get(i).size() > paletteSizes.get(i)) {
                 palette = Clusterer.clusterColors(palette, paletteSizes.get(i), 100, 0.00001f);
             } else if (paletteSets.get(i).size() < paletteSizes.get(i)) {
@@ -64,48 +65,47 @@ public class ImdPaletteArray {
             }
         }
 
-
         //Fix palettes that use the same texture
-        ArrayList<String> textureNames = getTextureNames(materials);
-        for (int i = 0; i < textureNames.size(); i++) {
-            ArrayList<Integer> indices = getMaterialIndicesUsingTexture(materials, textureNames.get(i));
-            if (indices.size() > 1) {
-                String refPalName = materials.get(indices.get(0)).getPaletteNameImd();
-                System.out.println("Reference palette: " + refPalName);
-                int refPalIndex = paletteNames.indexOf(refPalName);
-                if (refPalIndex != -1) {
-                    ArrayList<Color> refPal = palettes.get(refPalIndex);
-                    for (int j = 1; j < indices.size(); j++) {
-                        String fixPalName = materials.get(indices.get(j)).getPaletteNameImd();
-                        int fixPalIndex = paletteNames.indexOf(fixPalName);
-                        if (fixPalIndex != -1) {
-                            ArrayList<Color> fixPal = palettes.get(fixPalIndex);
-                            TilesetMaterial refMat = materials.get(indices.get(0));
-                            TilesetMaterial fixMat = materials.get(indices.get(j));
-                            ArrayList<Color> newPalette = fixColorOrder(refMat, fixMat, refPal, fixPal);
-                            palettes.set(fixPalIndex, newPalette);
-                        }
-                    }
+        List<String> textureNames = getTextureNames(materials);
+        for (String textureName : textureNames) {
+            List<Integer> indices = getMaterialIndicesUsingTexture(materials, textureName);
+            if (indices.size() <= 1) {
+                continue;
+            }
+
+            String refPalName = materials.get(indices.get(0)).getPaletteNameImd();
+            System.out.println("Reference palette: " + refPalName);
+            int refPalIndex = paletteNames.indexOf(refPalName);
+            if (refPalIndex == -1) {
+                continue;
+            }
+
+            List<Color> refPal = palettes.get(refPalIndex);
+            for (int j = 1; j < indices.size(); j++) {
+                String fixPalName = materials.get(indices.get(j)).getPaletteNameImd();
+                int fixPalIndex = paletteNames.indexOf(fixPalName);
+                if (fixPalIndex != -1) {
+                    List<Color> fixPal = palettes.get(fixPalIndex);
+                    TilesetMaterial refMat = materials.get(indices.get(0));
+                    TilesetMaterial fixMat = materials.get(indices.get(j));
+                    List<Color> newPalette = fixColorOrder(refMat, fixMat, refPal, fixPal);
+                    palettes.set(fixPalIndex, newPalette);
                 }
             }
         }
-
     }
 
-    private int getBestTextureIndex(ArrayList<Integer> matIndices){
-        for(int i = 0; i < matIndices.size(); i++){
-            int matIndex = matIndices.get(i);
-
+    private int getBestTextureIndex(List<Integer> matIndices){
+        for (int matIndex : matIndices) {
             //materials.
         }
         //materials.
         return 0;
     }
 
-    private ArrayList<Color> fixColorOrder(TilesetMaterial refMat,
-                                           TilesetMaterial fixMat, ArrayList<Color> refPal, ArrayList<Color> fixPal) {
+    private List<Color> fixColorOrder(TilesetMaterial refMat, TilesetMaterial fixMat, List<Color> refPal, List<Color> fixPal) {
         int numColors = Math.max(refPal.size(), fixPal.size());
-        ArrayList<Integer> colorLookup = new ArrayList<>(numColors);
+        List<Integer> colorLookup = new ArrayList<>(numColors);
         for (int i = 0; i < numColors; i++) {
             colorLookup.add(i);
         }
@@ -123,37 +123,26 @@ public class ImdPaletteArray {
             }
         }
 
-        ArrayList<Color> newPalette = new ArrayList<>(fixPal.size());
-        for (int i = 0; i < fixPal.size(); i++) {
-            System.out.print(colorLookup.get(i) + " ");
-            newPalette.add(fixPal.get(colorLookup.get(i)));
-        }
-        System.out.println();
-        return newPalette;
+        return IntStream.range(0, fixPal.size())
+                .mapToObj(i -> fixPal.get(colorLookup.get(i)))
+                .collect(Collectors.toList());
     }
 
-    private ArrayList<String> getTextureNames(ArrayList<TilesetMaterial> materials) {
-        ArrayList<String> textureNames = new ArrayList<>();
-        for (int i = 0; i < materials.size(); i++) {
-            if (!textureNames.contains(materials.get(i).getTextureNameImd())) {
-                textureNames.add(materials.get(i).getTextureNameImd());
-            }
-        }
-        return textureNames;
+    private List<String> getTextureNames(List<TilesetMaterial> materials) {
+        return materials.stream()
+                .map(TilesetMaterial::getTextureNameImd)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
-    private ArrayList<Integer> getMaterialIndicesUsingTexture(
-            ArrayList<TilesetMaterial> materials, String textureName) {
-        ArrayList<Integer> indices = new ArrayList<>();
-        for (int i = 0; i < materials.size(); i++) {
-            if (materials.get(i).getTextureNameImd().equals(textureName)) {
-                indices.add(i);
-            }
-        }
-        return indices;
+    private List<Integer> getMaterialIndicesUsingTexture(List<TilesetMaterial> materials, String textureName) {
+        return IntStream.range(0, materials.size())
+                .filter(i -> materials.get(i).getTextureNameImd().equals(textureName))
+                .boxed()
+                .collect(Collectors.toList());
     }
 
-    public ArrayList<Color> getPalette(String palName) {
+    public List<Color> getPalette(String palName) {
         int index = paletteNames.indexOf(palName);
         if (index == -1) {
             index = 0;
@@ -161,7 +150,7 @@ public class ImdPaletteArray {
         return palettes.get(index);
     }
 
-    private int getLessAlphaColorIndex(ArrayList<Color> colors) {
+    private int getLessAlphaColorIndex(List<Color> colors) {
         int minAlpha = 255;
         int minIndex = 0;
         for (int i = 0; i < colors.size(); i++) {
@@ -185,8 +174,7 @@ public class ImdPaletteArray {
     private TreeSet<FastColor> addColorsFromTexture(TreeSet<FastColor> colors, BufferedImage img) {
         for (int j = 0; j < img.getHeight(); j++) {
             for (int i = 0; i < img.getWidth(); i++) {
-                FastColor color = getDsColor(new Color(img.getRGB(i, j), true));
-                colors.add(color);
+                colors.add(getDsColor(new Color(img.getRGB(i, j), true)));
             }
         }
         return colors;
@@ -205,7 +193,7 @@ public class ImdPaletteArray {
         return new FastColor(r, g, b, a);
     }
 
-    private int getCloserColorIndex(Color c, ArrayList<Color> colors) {
+    private int getCloserColorIndex(Color c, List<Color> colors) {
         int index = 0;
         int minDist = Integer.MAX_VALUE;
         for (int i = 0; i < colors.size(); i++) {
@@ -226,5 +214,4 @@ public class ImdPaletteArray {
 
         return rd * rd + gd * gd + bd * bd + ad * ad;
     }
-
 }

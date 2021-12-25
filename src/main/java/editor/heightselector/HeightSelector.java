@@ -5,7 +5,6 @@ import editor.handler.MapEditorHandler;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 /**
  * @author Trifindo, JackHack96
@@ -14,7 +13,7 @@ public class HeightSelector extends JPanel {
 
     private MapEditorHandler handler;
 
-    private int tileSize = 16;
+    private final int tileSize = 16;
 
     public HeightSelector() {
         initComponents();

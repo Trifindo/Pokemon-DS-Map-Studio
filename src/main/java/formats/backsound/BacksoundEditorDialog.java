@@ -174,7 +174,7 @@ public class BacksoundEditorDialog extends JDialog {
 
     private void updateViewPlateNames() {
         plateListEnabled = false;
-        DefaultListModel demoList = new DefaultListModel();
+        DefaultListModel<String> demoList = new DefaultListModel<>();
         for (int i = 0; i < backsoundHandler.getSoundplates().size(); i++) {
             String name = "Soundplate " + i;
             demoList.addElement(name);
@@ -207,7 +207,6 @@ public class BacksoundEditorDialog extends JDialog {
             } catch (IOException | WrongFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Can't open file", "Error opening Backsound file", JOptionPane.ERROR_MESSAGE);
             }
-
         }
     }
 
@@ -230,7 +229,6 @@ public class BacksoundEditorDialog extends JDialog {
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Can't save file", "Error saving Backsound file", JOptionPane.ERROR_MESSAGE);
             }
-
         }
     }
 

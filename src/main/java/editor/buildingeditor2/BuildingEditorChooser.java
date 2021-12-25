@@ -69,5 +69,4 @@ public class BuildingEditorChooser {
         File folder = new File(folderPath + File.separator + "data" + File.separator + "dl_rom");
         return folder.exists();
     }
-
 }

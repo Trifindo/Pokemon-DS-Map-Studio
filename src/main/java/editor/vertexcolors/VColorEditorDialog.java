@@ -3,23 +3,14 @@ package editor.vertexcolors;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
 import editor.handler.MapEditorHandler;
 import editor.tileseteditor.TilesetEditorHandler;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -27,8 +18,6 @@ import javax.swing.text.DocumentFilter;
 import javax.swing.text.DocumentFilter.FilterBypass;
 import net.miginfocom.swing.*;
 
-import tileset.TileGeometryCompresser;
-import utils.Utils;
 import utils.Utils.MutableBoolean;
 
 /**
@@ -185,7 +174,6 @@ public class VColorEditorDialog extends JDialog {
         colorWheelPanel1.repaint();
         colorBrightnessPanel1.repaint();
         jPanel1.repaint();
-
     }
 
     private Color getColorFromJTextFields() {
@@ -261,11 +249,7 @@ public class VColorEditorDialog extends JDialog {
             }
         });
 
-        jtf.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                fixJTextFieldValue(jtf, enabled);
-            }
-        });
+        jtf.addActionListener(event -> fixJTextFieldValue(jtf, enabled));
 
         jtf.addFocusListener(new java.awt.event.FocusListener() {
             @Override

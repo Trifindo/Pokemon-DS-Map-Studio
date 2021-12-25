@@ -14,9 +14,7 @@ public class Slope {
     }
 
     public Slope(int[] slopes) {
-        this.x = slopes[0];
-        this.y = slopes[1];
-        this.z = slopes[2];
+        this(slopes[0], slopes[1], slopes[2]);
     }
 
     @Override
@@ -46,11 +44,6 @@ public class Slope {
         if (this.y != other.y) {
             return false;
         }
-        if (this.z != other.z) {
-            return false;
-        }
-        return true;
+        return this.z == other.z;
     }
-
-
 }

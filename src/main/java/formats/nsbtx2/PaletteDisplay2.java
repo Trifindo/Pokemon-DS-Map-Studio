@@ -1,7 +1,6 @@
 package formats.nsbtx2;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,7 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo, JackHack96
@@ -26,7 +25,7 @@ public class PaletteDisplay2 extends JPanel {
     private static final Color selectionFillColor = new Color(255, 0, 0, 120);
     private static final Color selectionBorderColor = Color.red;
     private BufferedImage backImg;
-    public ArrayList<Color> palette;
+    public List<Color> palette;
 
     public PaletteDisplay2() {
         initComponents();
@@ -68,7 +67,6 @@ public class PaletteDisplay2 extends JPanel {
             g.drawRect(index * tileSize + 1, 1, tileSize - 2, tileSize - 2);
              */
         }
-
     }
 
     public void init(NsbtxHandler2 nsbtxHandler) {
@@ -76,20 +74,18 @@ public class PaletteDisplay2 extends JPanel {
     }
 
     public void updatePalette() {
-        if (nsbtxHandler != null) {
-            if (nsbtxHandler.getNsbtx() != null) {
-                NsbtxPalette nsbtxPal = nsbtxHandler.getSelectedPalette();
-                if (nsbtxPal != null) {
-                    if (!nsbtxHandler.getNsbtx().hasTextures()) {
-                        this.palette = nsbtxPal.getColors(nsbtxPal.getDataSize() / 2);
-                    } else {
-                        this.palette = nsbtxPal.getColors(
-                                nsbtxHandler.getSelectedTexture().getNumColors());
-                    }
-                } else {
-                    this.palette = null;
-                }
+        if (nsbtxHandler == null || nsbtxHandler.getNsbtx() == null) {
+            return;
+        }
+        NsbtxPalette nsbtxPal = nsbtxHandler.getSelectedPalette();
+        if (nsbtxPal != null) {
+            if (!nsbtxHandler.getNsbtx().hasTextures()) {
+                this.palette = nsbtxPal.getColors(nsbtxPal.getDataSize() / 2);
+            } else {
+                this.palette = nsbtxPal.getColors(nsbtxHandler.getSelectedTexture().getNumColors());
             }
+        } else {
+            this.palette = null;
         }
     }
 
@@ -117,8 +113,7 @@ public class PaletteDisplay2 extends JPanel {
         BufferedImage img = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = (Graphics2D) img.getGraphics();
 
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2d.setColor(Color.white);
         g2d.fillRect(0, 0, img.getWidth(), img.getHeight());
@@ -134,8 +129,7 @@ public class PaletteDisplay2 extends JPanel {
     }
 
     private BufferedImage createBackImg(BufferedImage noPalImg) {
-        BufferedImage img = new BufferedImage(tileSize * cols, tileSize * rows,
-                BufferedImage.TYPE_INT_RGB);
+        BufferedImage img = new BufferedImage(tileSize * cols, tileSize * rows, BufferedImage.TYPE_INT_RGB);
 
         Graphics g = img.getGraphics();
         for (int i = 0; i < cols; i++) {

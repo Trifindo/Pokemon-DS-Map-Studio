@@ -1,6 +1,8 @@
 
 package editor.bordermap;
 
+import java.util.Arrays;
+
 /**
  * @author Trifindo
  */
@@ -24,11 +26,9 @@ public class BorderMapsGrid {
     }
 
     public boolean isTileInGrid(int tileIndex) {
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                if (grid[i][j] == tileIndex) {
-                    return true;
-                }
+        for (int[] ints : grid) {
+            if (Arrays.stream(ints).anyMatch(i -> i == tileIndex)) {
+                return true;
             }
         }
         return false;
@@ -43,5 +43,4 @@ public class BorderMapsGrid {
             }
         }
     }
-
 }

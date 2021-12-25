@@ -10,7 +10,6 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -116,7 +115,7 @@ public class BorderMapsDisplay extends JPanel {
         }
 
         g.setColor(Color.white);
-        g.fillRect(1 * mapSize, 1 * mapSize, mapSize, mapSize);
+        g.fillRect(mapSize, mapSize, mapSize, mapSize);
 
         if (handler != null) {
             for (int i = 0; i < BorderMapsGrid.cols; i++) {

@@ -1,6 +1,5 @@
 package formats.mapbin;
 
-import utils.BinaryArrayReader;
 import utils.BinaryReader;
 import utils.BinaryWriter;
 
@@ -47,6 +46,4 @@ public class NsbmdUtils {
             return nsbmdTex.clone();
         }
     }
-
-
 }

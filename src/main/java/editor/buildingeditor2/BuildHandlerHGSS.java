@@ -18,7 +18,9 @@ import formats.narc2.NarcIO;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import nitroreader.nsbmd.NSBMD;
 import nitroreader.nsbmd.sbccommands.MAT;
@@ -38,15 +40,14 @@ public class BuildHandlerHGSS {
     private int buildBlockIndexSelected = 0;
     private final int numBuildBlocks = 2;
 
-    private BuildModelList[] buildModelList = new BuildModelList[numBuildBlocks]; //2
-    private BuildModelMatshp[] buildModelMatshp = new BuildModelMatshp[numBuildBlocks]; //2
-    private BuildAnimeListHGSS[] buildModelAnimeList = new BuildAnimeListHGSS[numBuildBlocks]; //2
+    private final BuildModelList[] buildModelList = new BuildModelList[numBuildBlocks]; //2
+    private final BuildModelMatshp[] buildModelMatshp = new BuildModelMatshp[numBuildBlocks]; //2
+    private final BuildAnimeListHGSS[] buildModelAnimeList = new BuildAnimeListHGSS[numBuildBlocks]; //2
     private BuildAnimations buildModelAnims;
     private AreaDataListHGSS areaDataList;
     private BuildTilesetList buildTilesetList;
     private AreaBuildList areaBuildList;
     private MapAnimations mapAnimations;
-
 
     public BuildHandlerHGSS(String gameFolderPath) {
         this.gameFolderPath = gameFolderPath;
@@ -111,8 +112,6 @@ public class BuildHandlerHGSS {
 
             Narc mapAnimsNarc = NarcIO.loadNarc(getGameFilePath(gameFileSystem.getMapAnimationsPath()));
             mapAnimations = new MapAnimations(mapAnimsNarc);
-
-
         } catch (Exception ex) {
             buildModelList[0] = null;
             buildModelList[1] = null;
@@ -161,7 +160,7 @@ public class BuildHandlerHGSS {
 
             try {
                 byte[] data = getBuildModelList().getModelsData().get(getBuildModelList().getSize() - 1);
-                ArrayList<Integer> materials = BuildHandlerHGSS.getMaterialOrder(data);
+                List<Integer> materials = BuildHandlerHGSS.getMaterialOrder(data);
                 getBuildModelMatshp().addBuildingMaterials(materials);
             } catch (Exception ex) {
                 getBuildModelMatshp().addBuildingMaterials(new ArrayList<>());
@@ -324,7 +323,7 @@ public class BuildHandlerHGSS {
         return areaBuildList;
     }
 
-    public static ArrayList<Integer> getMaterialOrder(byte[] nsbmdData) {
+    public static List<Integer> getMaterialOrder(byte[] nsbmdData) {
         NSBMD nsbmd = new NSBMD(nsbmdData);
 
         List<SBCCommand> sbc = nsbmd.getMLD0().getModels().get(0).getSBC();
@@ -346,10 +345,8 @@ public class BuildHandlerHGSS {
             polyLookup[materialIDs.get(i)] = shapeIDs.get(i);
         }
 
-        ArrayList<Integer> materials = new ArrayList<>(polyLookup.length);
-        for (int i = 0; i < polyLookup.length; i++) {
-            materials.add(polyLookup[i]);
-        }
+        List<Integer> materials = Arrays.stream(polyLookup).boxed()
+                .collect(Collectors.toCollection(() -> new ArrayList<>(polyLookup.length)));
 
         if (Utils.hasDuplicates(materials)) {
             return new ArrayList<>();
@@ -365,6 +362,4 @@ public class BuildHandlerHGSS {
     public MapAnimations getMapAnimations() {
         return mapAnimations;
     }
-
-
 }

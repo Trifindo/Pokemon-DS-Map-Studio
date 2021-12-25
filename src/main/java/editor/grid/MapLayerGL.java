@@ -3,8 +3,9 @@ package editor.grid;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import tileset.Tile;
 import tileset.Tileset;
@@ -14,7 +15,7 @@ import tileset.Tileset;
  */
 public class MapLayerGL {
 
-    private HashMap<Integer, GeometryGL> geometryGL;
+    private final Map<Integer, GeometryGL> geometryGL;
 
     public MapLayerGL(int[][] tileGrid, int[][] heightGrid, Tileset tset, boolean realTimePostProcessing, int maxTileableSize) {
         if (realTimePostProcessing) {
@@ -24,25 +25,21 @@ public class MapLayerGL {
         }
     }
 
-    private static HashMap<Integer, GeometryGL> generateGeometryMap(
-            int[][] tileGrid, int[][] heightGrid, Tileset tset) {
-
+    private static Map<Integer, GeometryGL> generateGeometryMap(int[][] tileGrid, int[][] heightGrid, Tileset tset) {
         //Calculate geometry sizes
-        HashMap<Integer, GeometrySize> infoMap = calculateGeometrySizes(tileGrid, tset);
+        Map<Integer, GeometrySize> infoMap = calculateGeometrySizes(tileGrid, tset);
 
         //Calculate texture IDs and info array
-        ArrayList<GeometrySize> sizeArray = new ArrayList<>(infoMap.values());
+        List<GeometrySize> sizeArray = new ArrayList<>(infoMap.values());
 
         //Generate geometry
-        HashMap<Integer, GeometryGL> geometryMap = new HashMap<>(sizeArray.size());
-        for (GeometrySize sizes : sizeArray) {
-            GeometryGL geometry = new GeometryGL(sizes.getID(), sizes.getNumTris(), sizes.getNumQuads());
-            geometryMap.put(sizes.getID(), geometry);
-        }
+        Map<Integer, GeometryGL> geometryMap = sizeArray.stream()
+                .collect(Collectors.toMap(GeometrySize::getID, sizes -> new GeometryGL(sizes.getID(), sizes.getNumTris(), sizes.getNumQuads()),
+                        (a, b) -> b, () -> new HashMap<>(sizeArray.size())));
 
         //Generate map model
-        HashMap<Integer, Integer> trisAdded = new HashMap<>(geometryMap.size());
-        HashMap<Integer, Integer> quadsAdded = new HashMap<>(geometryMap.size());
+        Map<Integer, Integer> trisAdded = new HashMap<>(geometryMap.size());
+        Map<Integer, Integer> quadsAdded = new HashMap<>(geometryMap.size());
         for (Integer ID : geometryMap.keySet()) {
             trisAdded.put(ID, 0);
             quadsAdded.put(ID, 0);
@@ -74,15 +71,14 @@ public class MapLayerGL {
         return geometryMap;
     }
 
-    private static HashMap<Integer, GeometryGL> generateGeometryMapPostProcessed(
-            int[][] tileGrid, int[][] heightGrid, Tileset tset, int maxTileableSize) {
+    private static Map<Integer, GeometryGL> generateGeometryMapPostProcessed(int[][] tileGrid, int[][] heightGrid, Tileset tset, int maxTileableSize) {
 
         int[][] scaleMatrixX = new int[MapGrid.cols][MapGrid.rows];
         int[][] scaleMatrixY = new int[MapGrid.cols][MapGrid.rows];
 
         boolean[][] writtenGrid = new boolean[MapGrid.cols][MapGrid.rows];
 
-        HashMap<Integer, GeometrySize> infoMap = new HashMap<>(tset.getMaterials().size());
+        Map<Integer, GeometrySize> infoMap = new HashMap<>(tset.getMaterials().size());
         for (int i = 0; i < MapGrid.cols; i++) {
             for (int j = 0; j < MapGrid.rows; j++) {
                 if (!writtenGrid[i][j] && tileGrid[i][j] != -1) {
@@ -112,18 +108,18 @@ public class MapLayerGL {
         }
 
         //Calculate texture IDs and info array
-        ArrayList<GeometrySize> sizeArray = new ArrayList<>(infoMap.values());
+        List<GeometrySize> sizeArray = new ArrayList<>(infoMap.values());
 
         //Generate geometry
-        HashMap<Integer, GeometryGL> geometryMap = new HashMap<>(sizeArray.size());
+        Map<Integer, GeometryGL> geometryMap = new HashMap<>(sizeArray.size());
         for (GeometrySize sizes : sizeArray) {
             GeometryGL geometry = new GeometryGL(sizes.getID(), sizes.getNumTris(), sizes.getNumQuads());
             geometryMap.put(sizes.getID(), geometry);
         }
 
         //Generate map model
-        HashMap<Integer, Integer> trisAdded = new HashMap<>(geometryMap.size());
-        HashMap<Integer, Integer> quadsAdded = new HashMap<>(geometryMap.size());
+        Map<Integer, Integer> trisAdded = new HashMap<>(geometryMap.size());
+        Map<Integer, Integer> quadsAdded = new HashMap<>(geometryMap.size());
         for (Integer ID : geometryMap.keySet()) {
             trisAdded.put(ID, 0);
             quadsAdded.put(ID, 0);
@@ -211,8 +207,7 @@ public class MapLayerGL {
         int n = 1;
         for (int i = width, limit = cols - c; i < limit && n < maxTileableSize; i += width) {
             int nextC = c + i;
-            int nextR = r;
-            if (sameHeightAndType(tileGrid, heightGrid, c, r, nextC, nextR) && !writtenGrid[nextC][nextR]) {
+            if (sameHeightAndType(tileGrid, heightGrid, c, r, nextC, r) && !writtenGrid[nextC][r]) {
                 n++;
             } else {
                 return n;
@@ -225,9 +220,8 @@ public class MapLayerGL {
                                          int c, int r, boolean[][] writtenGrid, int height, int rows, int maxTileableSize) {
         int n = 1;
         for (int i = height, limit = rows - r; i < limit && n < maxTileableSize; i += height) {
-            int nextC = c;
             int nextR = r + i;
-            if (sameHeightAndType(tileGrid, heightGrid, c, r, nextC, nextR) && !writtenGrid[nextC][nextR]) {
+            if (sameHeightAndType(tileGrid, heightGrid, c, r, c, nextR) && !writtenGrid[c][nextR]) {
                 n++;
             } else {
                 return n;
@@ -271,7 +265,7 @@ public class MapLayerGL {
         return n;
     }
 
-    private static boolean sameHeightAndType(int[][] tileGrid, int heightGrid[][], int c1, int r1, int c2, int r2) {
+    private static boolean sameHeightAndType(int[][] tileGrid, int[][] heightGrid, int c1, int r1, int c2, int r2) {
         return (tileGrid[c1][r1] == tileGrid[c2][r2] && heightGrid[c1][r1] == heightGrid[c2][r2]);
     }
 
@@ -312,9 +306,9 @@ public class MapLayerGL {
         }
     }
 
-    private static void addTileToMap(Tile tile, HashMap<Integer, GeometryGL> geometryMap, float[] offsets,
-                                     HashMap<Integer, Integer> trisAdded,
-                                     HashMap<Integer, Integer> quadsAdded) {
+    private static void addTileToMap(Tile tile, Map<Integer, GeometryGL> geometryMap, float[] offsets,
+                                     Map<Integer, Integer> trisAdded,
+                                     Map<Integer, Integer> quadsAdded) {
 
         for (int i = 0; i < tile.getTextureIDs().size(); i++) {
             int ID = tile.getTextureIDs().get(i);
@@ -342,10 +336,10 @@ public class MapLayerGL {
         }
     }
 
-    private static void addTileToMap(Tile tile, HashMap<Integer, GeometryGL> geometryMap,
+    private static void addTileToMap(Tile tile, Map<Integer, GeometryGL> geometryMap,
                                      float[] offsets, float[] scales, float[] scalesTex,
-                                     HashMap<Integer, Integer> trisAdded,
-                                     HashMap<Integer, Integer> quadsAdded) {
+                                     Map<Integer, Integer> trisAdded,
+                                     Map<Integer, Integer> quadsAdded) {
 
         for (int i = 0; i < tile.getTextureIDs().size(); i++) {
             int ID = tile.getTextureIDs().get(i);
@@ -381,7 +375,6 @@ public class MapLayerGL {
                 applyScalesToArray(geometry.tCoordsQuad, scalesTex, numQuadsAdded * GeometryGL.tPerQuad, numQuads * GeometryGL.tPerQuad);
             }
 
-
             trisAdded.put(ID, numTrisAdded + numTris);
             quadsAdded.put(ID, numQuadsAdded + numQuads);
         }
@@ -406,13 +399,13 @@ public class MapLayerGL {
         }
     }
 
-    private static HashMap<Integer, GeometrySize> calculateGeometrySizes(int[][] tileGrid, Tileset tset) {
-        HashMap<Integer, GeometrySize> infoMap = new HashMap<>(tset.getMaterials().size());
-        for (int i = 0; i < tileGrid.length; i++) {
-            for (int j = 0; j < tileGrid[i].length; j++) {
-                if (tileGrid[i][j] != -1) {
+    private static Map<Integer, GeometrySize> calculateGeometrySizes(int[][] tileGrid, Tileset tset) {
+        Map<Integer, GeometrySize> infoMap = new HashMap<>(tset.getMaterials().size());
+        for (int[] ints : tileGrid) {
+            for (int anInt : ints) {
+                if (anInt != -1) {
                     try {
-                        Tile tile = tset.get(tileGrid[i][j]);
+                        Tile tile = tset.get(anInt);
                         for (int k = 0; k < tile.getTextureIDs().size(); k++) {
                             int ID = tile.getTextureIDs().get(k);
                             int numTris = getNumPolygons(k, tile.getTexOffsetsTri(), tile.getVCoordsTri(), 3, tile.getTextureIDs().size());
@@ -436,7 +429,7 @@ public class MapLayerGL {
         return infoMap;
     }
 
-    private static int getNumPolygons(int index, ArrayList<Integer> offsets, float[] vCoords,
+    private static int getNumPolygons(int index, List<Integer> offsets, float[] vCoords,
                                       int vPerPolygon, int numTexIDs) {
         int start, end;
         start = offsets.get(index);
@@ -482,7 +475,7 @@ public class MapLayerGL {
         }
     }
 
-    public HashMap<Integer, GeometryGL> getGeometryGL() {
+    public Map<Integer, GeometryGL> getGeometryGL() {
         return geometryGL;
     }
 
@@ -491,23 +484,16 @@ public class MapLayerGL {
     }
 
     public int getNumTriangles() {
-        int numVCoords = 0;
-        for (GeometryGL geom : geometryGL.values()) {
-            numVCoords += geom.vCoordsTri.length;
-        }
+        int numVCoords = geometryGL.values().stream().mapToInt(geom -> geom.vCoordsTri.length).sum();
         return numVCoords / GeometryGL.vPerTri;
     }
 
     public int getNumQuads() {
-        int numVCoords = 0;
-        for (GeometryGL geom : geometryGL.values()) {
-            numVCoords += geom.vCoordsQuad.length;
-        }
+        int numVCoords = geometryGL.values().stream().mapToInt(geom -> geom.vCoordsQuad.length).sum();
         return numVCoords / GeometryGL.vPerQuad;
     }
 
     public int getNumPolygons() {
         return getNumTriangles() + getNumQuads();
     }
-
 }

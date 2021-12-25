@@ -44,21 +44,18 @@ public class JCheckboxList extends JList<JCheckBox> {
 
     protected class CellRenderer implements ListCellRenderer<JCheckBox> {
 
-        public Component getListCellRendererComponent(
-                JList<? extends JCheckBox> list, JCheckBox value, int index,
+        public Component getListCellRendererComponent(JList<? extends JCheckBox> list, JCheckBox value, int index,
                 boolean isSelected, boolean cellHasFocus) {
-            JCheckBox checkbox = value;
 
             //Drawing checkbox, change the appearance here
-            checkbox.setBackground(isSelected ? getSelectionBackground() : getBackground());
+            value.setBackground(isSelected ? getSelectionBackground() : getBackground());
             //checkbox.setForeground(isSelected ? getSelectionForeground() : getForeground());
-            checkbox.setEnabled(isEnabled());
-            checkbox.setFont(getFont());
-            checkbox.setFocusPainted(false);
-            checkbox.setBorderPainted(true);
-            checkbox.setBorder(isSelected ? UIManager
-                    .getBorder("List.focusCellHighlightBorder") : noFocusBorder);
-            return checkbox;
+            value.setEnabled(isEnabled());
+            value.setFont(getFont());
+            value.setFocusPainted(false);
+            value.setBorderPainted(true);
+            value.setBorder(isSelected ? UIManager.getBorder("List.focusCellHighlightBorder") : noFocusBorder);
+            return value;
         }
     }
 }

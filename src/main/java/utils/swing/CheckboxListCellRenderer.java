@@ -11,9 +11,7 @@ import javax.swing.ListCellRenderer;
  */
 public class CheckboxListCellRenderer extends JCheckBox implements ListCellRenderer {
 
-    public Component getListCellRendererComponent(JList list, Object value, int index,
-                                                  boolean isSelected, boolean cellHasFocus) {
-
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         setComponentOrientation(list.getComponentOrientation());
         setFont(list.getFont());
         setBackground(list.getBackground());

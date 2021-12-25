@@ -3,7 +3,7 @@ package formats.bdhc;
 
 import editor.handler.MapEditorHandler;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
@@ -17,7 +17,6 @@ public class BdhcHandler {
 
     public BdhcHandler(BdhcEditorDialog dialog) {
         this.dialog = dialog;
-
         indexSelected = 0;
     }
 
@@ -57,10 +56,9 @@ public class BdhcHandler {
         } else {
             indexSelected = 0;
         }
-
     }
 
-    public ArrayList<Plate> getPlates() {
+    public List<Plate> getPlates() {
         return handler.getBdhc().getPlates();
     }
 

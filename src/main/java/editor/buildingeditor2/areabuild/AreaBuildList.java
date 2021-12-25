@@ -6,26 +6,26 @@ import formats.narc2.NarcFile;
 import formats.narc2.NarcFolder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
  */
 public class AreaBuildList {
 
-    private ArrayList<AreaBuild> areaBuilds;
+    private final List<AreaBuild> areaBuilds;
 
     public AreaBuildList(Narc narc) {
-        final int numFiles = narc.getRoot().getFiles().size();
-        areaBuilds = new ArrayList<>(numFiles);
+        areaBuilds = new ArrayList<>(narc.getRoot().getFiles().size());
         for (NarcFile file : narc.getRoot().getFiles()) {
             areaBuilds.add(new AreaBuild(file.getData()));
         }
         System.out.println("Donete");
     }
 
-    public Narc toNarc() throws Exception {
+    public Narc toNarc() {
         NarcFolder root = new NarcFolder();
-        ArrayList<NarcFile> files = new ArrayList<>(areaBuilds.size());
+        List<NarcFile> files = new ArrayList<>(areaBuilds.size());
         for (AreaBuild areaBuild : areaBuilds) {
             files.add(new NarcFile("", root, areaBuild.toByteArray()));
         }
@@ -33,8 +33,8 @@ public class AreaBuildList {
         return new Narc(root);
     }
 
-    public ArrayList<Integer> getBuildingOccurrences(int buildingIndex) {
-        ArrayList<Integer> ocurrences = new ArrayList<>();
+    public List<Integer> getBuildingOccurrences(int buildingIndex) {
+        List<Integer> ocurrences = new ArrayList<>();
         for (int i = 0; i < areaBuilds.size(); i++) {
             AreaBuild areaBuild = areaBuilds.get(i);
             for (Integer buildID : areaBuild.getBuildingIDs()) {
@@ -47,9 +47,8 @@ public class AreaBuildList {
         return ocurrences;
     }
 
-    public void removeBuildingOccurences(int buildingIndex) {
-        for (int i = 0; i < areaBuilds.size(); i++) {
-            AreaBuild areaBuild = areaBuilds.get(i);
+    public void removeBuildingOccurrences(int buildingIndex) {
+        for (AreaBuild areaBuild : areaBuilds) {
             for (int j = 0; j < areaBuild.getBuildingIDs().size(); j++) {
                 if (areaBuild.getBuildingIDs().get(j) == buildingIndex) {
                     areaBuild.getBuildingIDs().remove(j);
@@ -60,8 +59,7 @@ public class AreaBuildList {
     }
 
     public void shiftBuildingIDsFrom(int buildingIndex) {
-        for (int i = 0; i < areaBuilds.size(); i++) {
-            AreaBuild areaBuild = areaBuilds.get(i);
+        for (AreaBuild areaBuild : areaBuilds) {
             for (int j = 0; j < areaBuild.getBuildingIDs().size(); j++) {
                 if (areaBuild.getBuildingIDs().get(j) > buildingIndex) {
                     areaBuild.getBuildingIDs().set(j, areaBuild.getBuildingIDs().get(j) - 1);
@@ -70,13 +68,13 @@ public class AreaBuildList {
         }
     }
 
-    public ArrayList<AreaBuild> getAreaBuilds() {
+    public List<AreaBuild> getAreaBuilds() {
         return areaBuilds;
     }
 
     public void addBuilding(int areaBuildIndex, int buildingIndex) {
         if (areaBuildIndex >= 0 && areaBuildIndex < areaBuilds.size()) {
-            ArrayList<Integer> indices = areaBuilds.get(areaBuildIndex).getBuildingIDs();
+            List<Integer> indices = areaBuilds.get(areaBuildIndex).getBuildingIDs();
             if (!indices.contains(buildingIndex)) {
                 indices.add(buildingIndex);
             }
@@ -85,7 +83,7 @@ public class AreaBuildList {
 
     public void replaceBuilding(int areaBuildIndex, int buildingIndex, int oldBuildingIndex) {
         if (areaBuildIndex >= 0 && areaBuildIndex < areaBuilds.size()) {
-            ArrayList<Integer> indices = areaBuilds.get(areaBuildIndex).getBuildingIDs();
+            List<Integer> indices = areaBuilds.get(areaBuildIndex).getBuildingIDs();
             if (!indices.contains(buildingIndex)) {
                 if (oldBuildingIndex >= 0 && oldBuildingIndex < indices.size()) {
                     indices.set(oldBuildingIndex, buildingIndex);
@@ -96,11 +94,10 @@ public class AreaBuildList {
 
     public void removeBuilding(int areaBuildIndex, int buildingIndex) {
         if (areaBuildIndex >= 0 && areaBuildIndex < areaBuilds.size()) {
-            ArrayList<Integer> indices = areaBuilds.get(areaBuildIndex).getBuildingIDs();
+            List<Integer> indices = areaBuilds.get(areaBuildIndex).getBuildingIDs();
             if (buildingIndex >= 0 && buildingIndex < indices.size()) {
                 indices.remove(buildingIndex);
             }
         }
     }
-
 }

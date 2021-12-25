@@ -22,16 +22,14 @@ public class View3dMode extends ViewMode {
     public void mousePressed(MapDisplay d, MouseEvent e) {
         d.lastMouseX = e.getX();
         d.lastMouseY = e.getY();
-        switch (d.editMode) {
-            case MODE_ZOOM:
-                if (SwingUtilities.isLeftMouseButton(e)) {
-                    d.cameraZ /= 1.5;
-                    d.repaint();
-                } else if (SwingUtilities.isRightMouseButton(e)) {
-                    d.cameraZ *= 1.5;
-                    d.repaint();
-                }
-                break;
+        if (d.editMode == MapDisplay.EditMode.MODE_ZOOM) {
+            if (SwingUtilities.isLeftMouseButton(e)) {
+                d.cameraZ /= 1.5;
+                d.repaint();
+            } else if (SwingUtilities.isRightMouseButton(e)) {
+                d.cameraZ *= 1.5;
+                d.repaint();
+            }
         }
     }
 
@@ -133,9 +131,9 @@ public class View3dMode extends ViewMode {
 
     @Override
     public void setCameraAtMap(MapDisplay d) {
-        d.cameraRotX = d.defaultCamRotX;
-        d.cameraRotY = d.defaultCamRotY;
-        d.cameraRotZ = d.defaultCamRotZ;
+        d.cameraRotX = MapDisplay.defaultCamRotX;
+        d.cameraRotY = MapDisplay.defaultCamRotY;
+        d.cameraRotZ = MapDisplay.defaultCamRotZ;
 
         d.cameraZ = 40.0f;
     }
@@ -167,8 +165,8 @@ public class View3dMode extends ViewMode {
     public Vec3f[][] getFrustumPlanes(MapDisplay d) {
         Vec3f camAngles = new Vec3f(d.cameraRotX, d.cameraRotY, d.cameraRotZ);
         Vec3f tarPos = new Vec3f(d.cameraX, d.cameraY, 0.0f);
-        Vec3f camDir = d.rotToDir_(camAngles);
-        Vec3f camUp = d.rotToUp_(camAngles);
+        Vec3f camDir = MapDisplay.rotToDir_(camAngles);
+        Vec3f camUp = MapDisplay.rotToUp_(camAngles);
         Vec3f camRight = camDir.cross_(camUp);
         Vec3f camPos = tarPos.add_(camDir.negate_().scale_(d.cameraZ));
 

@@ -9,17 +9,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.ListSelectionEvent;
 
-import tileset.TextureNotFoundException;
 import tileset.Tileset;
 import tileset.TilesetIO;
 import utils.Utils;
@@ -31,7 +29,7 @@ import utils.Utils;
 public class GameTsetSelectorDialog extends JDialog {
 
     private MapEditorHandler handler;
-    public static final int ACEPTED = 0, CANCELED = 1;
+    public static final int ACCEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int newGame = Game.DIAMOND;
 
@@ -40,9 +38,9 @@ public class GameTsetSelectorDialog extends JDialog {
 
     private static final String rootFolderPath = "/" + "tilesets";
     private static final String none = "None";
-    private ArrayList<String> folderPaths;
-    private ArrayList<ArrayList<String>> subfolderPaths;
-    private ArrayList<ArrayList<String>> tsetNames;
+    private List<String> folderPaths;
+    private List<List<String>> subfolderPaths;
+    private List<List<String>> tsetNames;
 
     public GameTsetSelectorDialog(Window owner) {
         super(owner);
@@ -54,19 +52,16 @@ public class GameTsetSelectorDialog extends JDialog {
         //Load subfolder paths
         subfolderPaths = new ArrayList<>(folderPaths.size());
         for (int i = 0; i < folderPaths.size() - 1; i++) {
-            ArrayList<String> subfolders = new ArrayList<>();
-            subfolders = getSubfolderNamesAsResource(rootFolderPath + s + folderPaths.get(i));
-            subfolderPaths.add(subfolders);
+            subfolderPaths.add(getSubfolderNamesAsResource(rootFolderPath + s + folderPaths.get(i)));
         }
 
         //Load tileset filenames
         tsetNames = new ArrayList<>(subfolderPaths.size());
         for (int i = 0; i < subfolderPaths.size(); i++) {
-            ArrayList<String> subfiles = new ArrayList<>();
+            List<String> subfiles = new ArrayList<>();
             for (int j = 0; j < subfolderPaths.get(i).size(); j++) {
-                ArrayList<String> names;
-                names = getSubfileNamesAsResource(rootFolderPath + s
-                        + folderPaths.get(i) + s + subfolderPaths.get(i).get(j));
+                List<String> names;
+                names = getSubfileNamesAsResource(rootFolderPath + s + folderPaths.get(i) + s + subfolderPaths.get(i).get(j));
                 if (names != null) {
                     subfiles.add(names.get(0));
                 }
@@ -100,7 +95,6 @@ public class GameTsetSelectorDialog extends JDialog {
             }
         }
 
-
         addItemsToJList(jlTsetFolder, folderPaths);
         jlTsetFolder.setSelectedIndex(0);
         addItemsToJList(jlTsetName, subfolderPaths.get(0));
@@ -129,7 +123,7 @@ public class GameTsetSelectorDialog extends JDialog {
                     ex.printStackTrace();
                 }
                 tr.destroy();
-            } catch (NullPointerException | TextureNotFoundException | IOException | IndexOutOfBoundsException ex) {
+            } catch (NullPointerException | IOException | IndexOutOfBoundsException ex) {
                 System.out.println("Tileset not found");
                 tileset = new Tileset();
                 tileset.getSmartGridArray().add(new SmartGrid());
@@ -140,7 +134,7 @@ public class GameTsetSelectorDialog extends JDialog {
         }
         handler.setTileset(tileset);
 
-        returnValue = ACEPTED;
+        returnValue = ACCEPTED;
         dispose();
     }
 
@@ -158,11 +152,10 @@ public class GameTsetSelectorDialog extends JDialog {
         if (subfolderPaths != null) {
             if (jlTsetFolder.getSelectedIndex() < jlTsetFolder.getModel().getSize() - 1) {
                 addItemsToJList(jlTsetName, subfolderPaths.get(jlTsetFolder.getSelectedIndex()));
-                jlTsetName.setSelectedIndex(0);
             } else {
                 addItemsToJList(jlTsetName, new ArrayList<>());
-                jlTsetName.setSelectedIndex(0);
             }
+            jlTsetName.setSelectedIndex(0);
         }
     }
 
@@ -176,7 +169,6 @@ public class GameTsetSelectorDialog extends JDialog {
         this.handler = handler;
         updateViewGameIcon();
         loadTilesetThumbnail(0, 0);
-
     }
 
     public void updateViewGameIcon() {
@@ -200,10 +192,9 @@ public class GameTsetSelectorDialog extends JDialog {
             tilesetThumbnailDisplay.setImage(null);
             tilesetThumbnailDisplay.repaint();
         }
-
     }
 
-    private void addItemsToJList(JList list, ArrayList<String> items) {
+    private void addItemsToJList(JList<String> list, List<String> items) {
         DefaultListModel<String> model = new DefaultListModel<>();
         for (String item : items) {
             model.addElement(item.replace("_", " "));
@@ -211,7 +202,7 @@ public class GameTsetSelectorDialog extends JDialog {
         list.setModel(model);
     }
 
-    private ArrayList<String> getSubfolderNamesAsResource(String root) {
+    private List<String> getSubfolderNamesAsResource(String root) {
         System.out.println("Folder root: " + root);
         File mainFolder;
         /*
@@ -226,18 +217,14 @@ public class GameTsetSelectorDialog extends JDialog {
             return new ArrayList<>();
         }
         //}
-        File[] subdirs = mainFolder.listFiles(new FileFilter() {
-            public boolean accept(File f) {
-                return f.isDirectory();
-            }
-        });
+        File[] subdirs = mainFolder.listFiles(File::isDirectory);
 
         if (subdirs != null) {
             if (subdirs.length > 0) {
-                ArrayList<String> paths = new ArrayList<>(subdirs.length);
-                for (int i = 0; i < subdirs.length; i++) {
-                    System.out.println("    " + subdirs[i].getName());
-                    paths.add(subdirs[i].getName());
+                List<String> paths = new ArrayList<>(subdirs.length);
+                for (File subdir : subdirs) {
+                    System.out.println("    " + subdir.getName());
+                    paths.add(subdir.getName());
                 }
                 return paths;
             }
@@ -246,7 +233,7 @@ public class GameTsetSelectorDialog extends JDialog {
         return new ArrayList<>();
     }
 
-    private ArrayList<String> getSubfileNamesAsResource(String root) {
+    private List<String> getSubfileNamesAsResource(String root) {
         System.out.println("File root folder: " + root);
         File mainFolder;
         /*try {
@@ -260,19 +247,15 @@ public class GameTsetSelectorDialog extends JDialog {
             return null;
         }
         //}
-        File[] subdirs = mainFolder.listFiles(new FilenameFilter() {
-            public boolean accept(File mainFloder, String filename) {
-                return filename.endsWith(".pdsts");
-            }
-        });
+        File[] subdirs = mainFolder.listFiles((mainFloder, filename) -> filename.endsWith(".pdsts"));
 
         if (subdirs != null) {
             if (subdirs.length > 0) {
                 System.out.println("    " + subdirs[0].getName());
-                ArrayList<String> paths = new ArrayList<>(subdirs.length);
-                for (int i = 0; i < subdirs.length; i++) {
+                List<String> paths = new ArrayList<>(subdirs.length);
+                for (File subdir : subdirs) {
                     //System.out.println(subdirs[i].getName());
-                    paths.add(subdirs[i].getName());
+                    paths.add(subdir.getName());
                 }
                 return paths;
             }
@@ -288,9 +271,8 @@ public class GameTsetSelectorDialog extends JDialog {
             file = new File(url.toURI());
         } catch (URISyntaxException e) {
             file = new File(url.getPath());
-        } finally {
-            return file;
         }
+        return file;
     }
 
     private void initComponents() {

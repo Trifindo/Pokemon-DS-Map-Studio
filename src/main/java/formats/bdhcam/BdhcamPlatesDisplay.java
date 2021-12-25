@@ -73,139 +73,142 @@ public class BdhcamPlatesDisplay extends JPanel {
     private void thisMouseDragged(MouseEvent evt) {
         int x = getFixedMouseX(evt);
         int y = getFixedMouseY(evt);
-        if (bdhcamHandler.getBdhcam().getPlates().size() > 0) {
-            if (dragging && isCursorInsiePanel(evt)) {
-                int deltaX = (x - lastX) / TILE_SIZE;
-                int deltaY = (y - lastY) / TILE_SIZE;
-                Camplate p = bdhcamHandler.getSelectedPlate();
-                switch (partSelected) {
-                    case CENTER:
-                        updatePlate(p, lastPlateX + deltaX, lastPlateY + deltaY, p.width, p.height);
-                        break;
-                    case CORNER_SE:
-                        updatePlate(p, p.x, p.y, lastPlateWidth + deltaX, lastPlateHeight + deltaY);
-                        break;
-                    case CORNER_NW:
-                        updatePlate(p, lastPlateX + deltaX, lastPlateY + deltaY, lastPlateWidth - deltaX, lastPlateHeight - deltaY);
-                        break;
-                    case CORNER_NE:
-                        updatePlate(p, p.x, lastPlateY + deltaY, lastPlateWidth + deltaX, lastPlateHeight - deltaY);
-                        break;
-                    case CORNER_SW:
-                        updatePlate(p, lastPlateX + deltaX, p.y, lastPlateWidth - deltaX, lastPlateHeight + deltaY);
-                        break;
-                    case BORDER_N:
-                        updatePlate(p, p.x, lastPlateY + deltaY, p.width, lastPlateHeight - deltaY);
-                        break;
-                    case BORDER_S:
-                        updatePlate(p, p.x, p.y, p.width, lastPlateHeight + deltaY);
-                        break;
-                    case BORDER_W:
-                        updatePlate(p, lastPlateX + deltaX, p.y, lastPlateWidth - deltaX, p.height);
-                        break;
-                    case BORDER_E:
-                        updatePlate(p, p.x, p.y, lastPlateWidth + deltaX, p.height);
-                        break;
-                }
-            }
-            bdhcamHandler.setPlayerInPlate(bdhcamHandler.getSelectedPlate());
-            repaint();
-
+        if (bdhcamHandler.getBdhcam().getPlates().size() <= 0) {
+            return;
         }
+        if (dragging && isCursorInsiePanel(evt)) {
+            int deltaX = (x - lastX) / TILE_SIZE;
+            int deltaY = (y - lastY) / TILE_SIZE;
+            Camplate p = bdhcamHandler.getSelectedPlate();
+            switch (partSelected) {
+                case CENTER:
+                    updatePlate(p, lastPlateX + deltaX, lastPlateY + deltaY, p.width, p.height);
+                    break;
+                case CORNER_SE:
+                    updatePlate(p, p.x, p.y, lastPlateWidth + deltaX, lastPlateHeight + deltaY);
+                    break;
+                case CORNER_NW:
+                    updatePlate(p, lastPlateX + deltaX, lastPlateY + deltaY, lastPlateWidth - deltaX, lastPlateHeight - deltaY);
+                    break;
+                case CORNER_NE:
+                    updatePlate(p, p.x, lastPlateY + deltaY, lastPlateWidth + deltaX, lastPlateHeight - deltaY);
+                    break;
+                case CORNER_SW:
+                    updatePlate(p, lastPlateX + deltaX, p.y, lastPlateWidth - deltaX, lastPlateHeight + deltaY);
+                    break;
+                case BORDER_N:
+                    updatePlate(p, p.x, lastPlateY + deltaY, p.width, lastPlateHeight - deltaY);
+                    break;
+                case BORDER_S:
+                    updatePlate(p, p.x, p.y, p.width, lastPlateHeight + deltaY);
+                    break;
+                case BORDER_W:
+                    updatePlate(p, lastPlateX + deltaX, p.y, lastPlateWidth - deltaX, p.height);
+                    break;
+                case BORDER_E:
+                    updatePlate(p, p.x, p.y, lastPlateWidth + deltaX, p.height);
+                    break;
+            }
+        }
+        bdhcamHandler.setPlayerInPlate(bdhcamHandler.getSelectedPlate());
+        repaint();
     }
 
     private void thisMousePressed(MouseEvent evt) {
         int x = getFixedMouseX(evt);
         int y = getFixedMouseY(evt);
-        if (indexPlateHovering != -1) {
-            if (SwingUtilities.isLeftMouseButton(evt)) {
-                if(bdhcamHandler.getSelectedPlate() != null) {
-                    if (isHoveringPlate(bdhcamHandler.getSelectedPlate(), x, y)) {
-                        partSelected = getPartSelected(bdhcamHandler.getSelectedPlate(), x, y);
-                    } else {
-                        bdhcamHandler.setSelectedPlate(indexPlateHovering);
-                        bdhcamHandler.stopAnimation();
-                        //bdhcamHandler.setPlayerInPlate(bdhcamHandler.getSelectedPlate());
-                        partSelected = partHovering;
-                    }
-                }
-                dragging = true;
-                lastX = getFixedMouseX(evt);
-                lastY = getFixedMouseY(evt);
-
-                Camplate p = bdhcamHandler.getSelectedPlate();
-                lastPlateX = p.x;
-                lastPlateY = p.y;
-                lastPlateWidth = p.width;
-                lastPlateHeight = p.height;
-
-                bdhcamHandler.getDialog().updateView();
-            }
-            repaint();
+        if (indexPlateHovering == -1) {
+            return;
         }
+        if (SwingUtilities.isLeftMouseButton(evt)) {
+            if(bdhcamHandler.getSelectedPlate() != null) {
+                if (isHoveringPlate(bdhcamHandler.getSelectedPlate(), x, y)) {
+                    partSelected = getPartSelected(bdhcamHandler.getSelectedPlate(), x, y);
+                } else {
+                    bdhcamHandler.setSelectedPlate(indexPlateHovering);
+                    bdhcamHandler.stopAnimation();
+                    //bdhcamHandler.setPlayerInPlate(bdhcamHandler.getSelectedPlate());
+                    partSelected = partHovering;
+                }
+            }
+            dragging = true;
+            lastX = getFixedMouseX(evt);
+            lastY = getFixedMouseY(evt);
+
+            Camplate p = bdhcamHandler.getSelectedPlate();
+            lastPlateX = p.x;
+            lastPlateY = p.y;
+            lastPlateWidth = p.width;
+            lastPlateHeight = p.height;
+
+            bdhcamHandler.getDialog().updateView();
+        }
+        repaint();
     }
 
     private void thisMouseMoved(MouseEvent evt) {
         int x = getFixedMouseX(evt);
         int y = getFixedMouseY(evt);
-        if (bdhcamHandler.getSelectedPlate() != null) {
-            if (isHoveringPlate(bdhcamHandler.getSelectedPlate(), x, y)) {
-                partHovering = getPartSelected(bdhcamHandler.getSelectedPlate(), x, y);
-                indexPlateHovering = bdhcamHandler.getIndexSelected();
-                setCursor(new Cursor(partHovering));
-            } else {
-                for (int i = 0; i < bdhcamHandler.getBdhcam().getPlates().size(); i++) {
-                    Camplate p = bdhcamHandler.getBdhcam().getPlate(i);
-                    if (isHoveringPlate(p, x, y)) {
-                        partHovering = getPartSelected(p, x, y);
-                        indexPlateHovering = i;
-                        setCursor(new Cursor(partHovering));
-                        return;
-                    }
+        if (bdhcamHandler.getSelectedPlate() == null) {
+            return;
+        }
+        if (isHoveringPlate(bdhcamHandler.getSelectedPlate(), x, y)) {
+            partHovering = getPartSelected(bdhcamHandler.getSelectedPlate(), x, y);
+            indexPlateHovering = bdhcamHandler.getIndexSelected();
+            setCursor(new Cursor(partHovering));
+        } else {
+            for (int i = 0; i < bdhcamHandler.getBdhcam().getPlates().size(); i++) {
+                Camplate p = bdhcamHandler.getBdhcam().getPlate(i);
+                if (isHoveringPlate(p, x, y)) {
+                    partHovering = getPartSelected(p, x, y);
+                    indexPlateHovering = i;
+                    setCursor(new Cursor(partHovering));
+                    return;
                 }
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                partHovering = -1;
-                indexPlateHovering = -1;
             }
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            partHovering = -1;
+            indexPlateHovering = -1;
         }
     }
 
     private void thisKeyPressed(KeyEvent e) {
-        if (!movingPlayer) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_UP:
-                    movingPlayer = true;
-                    movingX = false;
-                    nextX = (int) (bdhcamHandler.getPlayerX());
-                    nextY = (int) (bdhcamHandler.getPlayerY() + 1);
-                    deltaX = 0.0f;
-                    deltaY = delta;
-                    break;
-                case KeyEvent.VK_DOWN:
-                    movingPlayer = true;
-                    movingX = false;
-                    nextX = (int) (bdhcamHandler.getPlayerX());
-                    nextY = (int) (bdhcamHandler.getPlayerY() - 1);
-                    deltaX = 0.0f;
-                    deltaY = -delta;
-                    break;
-                case KeyEvent.VK_LEFT:
-                    movingPlayer = true;
-                    movingX = true;
-                    nextX = (int) bdhcamHandler.getPlayerX() - 1;
-                    nextY = (int) (bdhcamHandler.getPlayerY());
-                    deltaX = -delta;
-                    deltaY = 0.0f;
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    movingPlayer = true;
-                    movingX = true;
-                    nextX = (int) bdhcamHandler.getPlayerX() + 1;
-                    nextY = (int) (bdhcamHandler.getPlayerY());
-                    deltaX = delta;
-                    deltaY = 0.0f;
-                    break;
-            }
+        if (movingPlayer) {
+            return;
+        }
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                movingPlayer = true;
+                movingX = false;
+                nextX = (int) (bdhcamHandler.getPlayerX());
+                nextY = (int) (bdhcamHandler.getPlayerY() + 1);
+                deltaX = 0.0f;
+                deltaY = delta;
+                break;
+            case KeyEvent.VK_DOWN:
+                movingPlayer = true;
+                movingX = false;
+                nextX = (int) (bdhcamHandler.getPlayerX());
+                nextY = (int) (bdhcamHandler.getPlayerY() - 1);
+                deltaX = 0.0f;
+                deltaY = -delta;
+                break;
+            case KeyEvent.VK_LEFT:
+                movingPlayer = true;
+                movingX = true;
+                nextX = (int) bdhcamHandler.getPlayerX() - 1;
+                nextY = (int) (bdhcamHandler.getPlayerY());
+                deltaX = -delta;
+                deltaY = 0.0f;
+                break;
+            case KeyEvent.VK_RIGHT:
+                movingPlayer = true;
+                movingX = true;
+                nextX = (int) bdhcamHandler.getPlayerX() + 1;
+                nextY = (int) (bdhcamHandler.getPlayerY());
+                deltaX = delta;
+                deltaY = 0.0f;
+                break;
         }
     }
 
@@ -213,7 +216,6 @@ public class BdhcamPlatesDisplay extends JPanel {
         this.handler = handler;
         this.bdhcamHandler = bdhcamHandler;
         this.mapImage = mapImage;
-
     }
 
     @Override
@@ -264,14 +266,11 @@ public class BdhcamPlatesDisplay extends JPanel {
             drawPlateBorder(g, bdhcam.getPlates().get(i));
         }
 
-
         if (bdhcamHandler.getSelectedPlate() != null) {
             g.setColor(Color.red);
             drawPlateBorder(g, bdhcamHandler.getSelectedPlate());
             g.setColor(Color.white);
             drawPlateBorder(g, bdhcamHandler.getSelectedPlate(), 2);
-
-
         }
     }
 
@@ -286,8 +285,7 @@ public class BdhcamPlatesDisplay extends JPanel {
     }
 
     private void drawPlateBorder(Graphics g, Camplate p) {
-        g.drawRect(p.x * TILE_SIZE, p.y * TILE_SIZE,
-                p.width * TILE_SIZE - 1, p.height * TILE_SIZE - 1);
+        g.drawRect(p.x * TILE_SIZE, p.y * TILE_SIZE, p.width * TILE_SIZE - 1, p.height * TILE_SIZE - 1);
     }
 
     private void drawPlateBorder(Graphics g, Camplate p, int margin) {
@@ -296,15 +294,12 @@ public class BdhcamPlatesDisplay extends JPanel {
     }
 
     private void fillPlate(Graphics g, Camplate p) {
-        g.fillRect(p.x * TILE_SIZE, p.y * TILE_SIZE,
-                p.width * TILE_SIZE, p.height * TILE_SIZE);
-
+        g.fillRect(p.x * TILE_SIZE, p.y * TILE_SIZE, p.width * TILE_SIZE, p.height * TILE_SIZE);
     }
 
     private void drawPlateIndex(Graphics g, Camplate p, int index) {
         g.setColor(Color.white);
-        g.drawString(
-                String.valueOf(index), p.x * TILE_SIZE + 4, p.y * TILE_SIZE + 12);
+        g.drawString(String.valueOf(index), p.x * TILE_SIZE + 4, p.y * TILE_SIZE + 12);
     }
 
     private void drawBArrowX(Graphics g, int x1, int y1, int x2, int y2, int scale) {
@@ -350,7 +345,6 @@ public class BdhcamPlatesDisplay extends JPanel {
                 (p.y + p.height) * TILE_SIZE + yOffset,
                 scale);
     }
-
 
     public int getPartSelected(Camplate p, int x, int y) {
         if (new Rectangle(
@@ -466,7 +460,6 @@ public class BdhcamPlatesDisplay extends JPanel {
         int y = getFixedMouseY(evt);
         return x >= 0 && x < width && y >= 0 && y < height;
     }
-
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents

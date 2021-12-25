@@ -6,15 +6,16 @@ import formats.narc2.NarcFile;
 import formats.narc2.NarcFolder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
  */
 public class AreaDataListHGSS {
 
-    private ArrayList<AreaDataHGSS> areaDatas;
+    private final List<AreaDataHGSS> areaDatas;
 
-    public AreaDataListHGSS(Narc narc) throws Exception {
+    public AreaDataListHGSS(Narc narc) {
         final int numFiles = narc.getRoot().getFiles().size();
         areaDatas = new ArrayList<>(numFiles);
         for (int i = 0; i < numFiles; i++) {
@@ -22,9 +23,9 @@ public class AreaDataListHGSS {
         }
     }
 
-    public Narc toNarc() throws Exception {
+    public Narc toNarc() {
         NarcFolder root = new NarcFolder();
-        ArrayList<NarcFile> files = new ArrayList<>(areaDatas.size());
+        List<NarcFile> files = new ArrayList<>(areaDatas.size());
         for (AreaDataHGSS areaData : areaDatas) {
             files.add(new NarcFile("", root, areaData.toByteArray()));
         }
@@ -32,8 +33,7 @@ public class AreaDataListHGSS {
         return new Narc(root);
     }
 
-    public ArrayList<AreaDataHGSS> getAreaDatas() {
+    public List<AreaDataHGSS> getAreaDatas() {
         return areaDatas;
     }
-
 }

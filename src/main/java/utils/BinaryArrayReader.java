@@ -1,13 +1,10 @@
 package utils;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.Files;
-
-
 
 public class BinaryArrayReader {
 
@@ -29,7 +26,7 @@ public class BinaryArrayReader {
 
     private int read() { return (pos < buf.length) ? (buf[pos++] & 0xff) : -1;}
 
-    private int read(byte b[], int off, int len) {
+    private int read(byte[] b, int off, int len) {
         if (b == null) {
             throw new NullPointerException();
         } else if (off < 0 || len < 0 || len > b.length - off) {
@@ -69,28 +66,27 @@ public class BinaryArrayReader {
         pos += n;
     }
 
-    public String readString(int size) throws Exception {
+    public String readString(int size) {
         byte[] data = new byte[size];
         read(data);
         return new String(data);
     }
 
-    public int readUInt8() throws Exception {
+    public int readUInt8() {
         return read() & 0xFF;
     }
 
-    public int readUInt16() throws IOException {
+    public int readUInt16() {
         byte[] data = new byte[2];
         read(data);
         return ((data[1] & 0xff) << 8) | (data[0] & 0xff);
     }
 
-    public long readUInt32() throws IOException {
+    public long readUInt32() {
         byte[] data = new byte[4];
         read(data);
-        return ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xFFFFFFFF;
+        return ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }
-
 
     public long readInt32() {
         byte[] data = new byte[4];
@@ -110,5 +106,4 @@ public class BinaryArrayReader {
         }
         return data;
     }
-
 }

@@ -23,7 +23,6 @@ public class CollisionHandler {
     private int indexCollisionFileSelected = 0;
     private boolean lockTerrainLayers = true;
 
-
     private boolean isLayerChanged = false;
     private StateHandler collisionStateHandler = new StateHandler();
     //private int numLayers = 2;
@@ -33,8 +32,7 @@ public class CollisionHandler {
         this.dialog = dialog;
         collisionTypes = new CollisionTypes(handler.getGameIndex());
         /*
-        collisionTypes = new CollisionTypes("colors/CollisionsColors.txt",
-                handler.getCollisions().getNumLayers());*/
+        collisionTypes = new CollisionTypes("colors/CollisionsColors.txt", handler.getCollisions().getNumLayers());*/
     }
 
     public String getCollisionNameSelected() {
@@ -43,7 +41,7 @@ public class CollisionHandler {
 
     public void incrementCollisionSelected(int delta) {
         int newCollIndex = indexCollisionSelected + delta;
-        if ((newCollIndex >= 0) && (newCollIndex < Collisions.cols * Collisions.rows)) {
+        if (newCollIndex >= 0 && newCollIndex < Collisions.cols * Collisions.rows) {
             indexCollisionSelected = newCollIndex;
         }
     }
@@ -175,18 +173,6 @@ public class CollisionHandler {
     }
 
     public boolean canEditLayer(int index){
-        if(Game.isGenV(getGame())) {
-            if(lockTerrainLayers){
-                if(indexLayerSelected > 3){
-                    return true;
-                }else{
-                    return false;
-                }
-            }else{
-                return true;
-            }
-        }else{
-            return true;
-        }
+        return !Game.isGenV(getGame()) || !lockTerrainLayers || indexLayerSelected > 3;
     }
 }

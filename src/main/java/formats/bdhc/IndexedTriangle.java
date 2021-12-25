@@ -22,7 +22,6 @@ public class IndexedTriangle {
         this.type = type;
     }
 
-
     public int getMinX(ArrayList<BdhcPoint> points) {
         return Math.min(Math.min(points.get(pointInd1).x, points.get(pointInd2).x), points.get(pointInd3).x);
     }
@@ -38,5 +37,4 @@ public class IndexedTriangle {
     public int getMaxY(ArrayList<BdhcPoint> points) {
         return Math.max(Math.max(points.get(pointInd1).y, points.get(pointInd2).y), points.get(pointInd3).y);
     }
-
 }

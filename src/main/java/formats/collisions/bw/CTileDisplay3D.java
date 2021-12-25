@@ -12,12 +12,10 @@ import java.awt.event.*;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.stream.IntStream;
 
-import static com.jogamp.opengl.GL.*;
 import static com.jogamp.opengl.GL2ES1.GL_ALPHA_TEST;
-import static com.jogamp.opengl.GL2ES3.GL_QUADS;
 import static com.jogamp.opengl.GL2GL3.*;
-import static com.jogamp.opengl.GL2GL3.GL_FILL;
 
 public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 
@@ -48,7 +46,7 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
             0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
     };
 
-    private static final float cubeCoords[] = new float[]{
+    private static final float[] cubeCoords = new float[]{
             1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
             1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
             1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
@@ -93,7 +91,6 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
         cameraRotX = defaultCamRotX;
         cameraRotY = defaultCamRotY;
         cameraRotZ = defaultCamRotZ;
-
     }
 
     @Override
@@ -103,7 +100,6 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
         drawable.getGL().getGL2().glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
 
         //axis = Generator.generateAxis(2.0f);
-
     }
 
     @Override
@@ -123,8 +119,6 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
         gl.glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 
         if (updateRequested) {
-
-
             updateRequested = false;
         }
 
@@ -135,7 +129,6 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
         }
 
         drawAxis(gl);
-
     }
 
     @Override
@@ -165,10 +158,8 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
 
     @Override
     public void mousePressed(MouseEvent e) {
-
         lastMouseX = e.getX();
         lastMouseY = e.getY();
-
     }
 
     @Override
@@ -206,8 +197,7 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
 
             repaint();
             */
-        } else if (SwingUtilities.isRightMouseButton(e)
-                | SwingUtilities.isMiddleMouseButton(e)) {
+        } else if (SwingUtilities.isRightMouseButton(e) | SwingUtilities.isMiddleMouseButton(e)) {
             float delta = 100.0f;
             cameraRotZ -= (((float) ((e.getX() - lastMouseX))) / getWidth()) * delta;
             lastMouseX = e.getX();
@@ -215,7 +205,6 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
             lastMouseY = e.getY();
             repaint();
         }
-
     }
 
     @Override
@@ -225,15 +214,12 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-
         if (e.getWheelRotation() > 0) {
             cameraZ *= 1.1;
         } else {
             cameraZ /= 1.1;
         }
         repaint();
-
-
     }
 
     protected void applyCameraTransform(GL2 gl) {
@@ -298,11 +284,8 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
         // adjust OpenGL settings and draw model
         gl.glEnable(GL_DEPTH_TEST);
         gl.glDepthFunc(GL_LEQUAL);
-
         gl.glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
         gl.glDisable(GL_TEXTURE_2D);
-
         gl.glLineWidth(1.5f);
 
         applyCameraTransform(gl);
@@ -311,14 +294,12 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
         final int vertexPerTile = 4;
         final int coordsPerPlate = coordsPerVertex * vertexPerTile;
 
-
         gl.glBegin(GL_QUADS);
         for (int j = 0; j < vertexPerTile; j++) {
             gl.glColor3f(0, 0, 0);
             gl.glVertex3f(xDelta[j], yDelta[j], zCoords[j]);
         }
         gl.glEnd();
-
 
         gl.glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
@@ -327,13 +308,10 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
         applyCameraTransform(gl);
 
         gl.glDisable(GL_TEXTURE_2D);
-
         gl.glEnable(GL_DEPTH_TEST);
         gl.glDepthFunc(GL_LEQUAL);
-
         gl.glEnable(GL_ALPHA_TEST);
         gl.glAlphaFunc(GL_NOTEQUAL, 0.0f);
-
         gl.glLineWidth(3f);
 
         gl.glBegin(GL_LINES);
@@ -353,11 +331,8 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
         // adjust OpenGL settings and draw model
         gl.glEnable(GL_DEPTH_TEST);
         gl.glDepthFunc(GL_LEQUAL);
-
         gl.glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
         gl.glDisable(GL_TEXTURE_2D);
-
         gl.glLineWidth(1);
 
         final int vertexPerTile = 4;
@@ -384,9 +359,7 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
             gl.glTranslatef(0.0f, 0.0f, 1.0f);
         }
 
-
         gl.glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
     }
 
     public void init(CollisionHandlerBW cHandler) {
@@ -394,11 +367,8 @@ public class CTileDisplay3D extends GLJPanel implements GLEventListener, MouseLi
     }
 
     private static Float[] toObjectArray(float[] array) {
-        Float[] newArray = new Float[array.length];
-        for (int i = 0; i < array.length; i++) {
-            newArray[i] = array[i];
-        }
-        return newArray;
+        return IntStream.range(0, array.length)
+                .mapToObj(i -> array[i])
+                .toArray(Float[]::new);
     }
-
 }

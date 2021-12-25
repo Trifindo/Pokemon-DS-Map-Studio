@@ -2,7 +2,6 @@ package editor.tileselector;
 
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 import editor.handler.MapEditorHandler;
 import editor.mapdisplay.MapDisplay;
@@ -15,7 +14,9 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import javax.swing.SwingUtilities;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import tileset.Tile;
 
@@ -101,50 +102,49 @@ public class TileSelector extends JPanel {
     }
 
     private void formMouseReleased(MouseEvent evt) {
-        if (multiSelectionEnabled) {
-            canDrag = false;
-            if (dragging) {
-                dragging = false;
+        if (!multiSelectionEnabled) {
+            return;
+        }
+        canDrag = false;
+        if (!dragging) {
+            return;
+        }
+        dragging = false;
 
-                int index = getIndexSelected(evt);
-                if (index != -1) {
-                    /*if (indexSecondTileSelected == handler.getTileIndexSelected()) {
-                        handler.getTileset().swapTiles(index, handler.getTileIndexSelected());
-                        dialog.getTileDisplay().swapVBOs(index, handler.getTileIndexSelected());
+        int index = getIndexSelected(evt);
+        if (index != -1) {
+            /*if (indexSecondTileSelected == handler.getTileIndexSelected()) {
+                handler.getTileset().swapTiles(index, handler.getTileIndexSelected());
+                dialog.getTileDisplay().swapVBOs(index, handler.getTileIndexSelected());
 
-                        handler.setIndexTileSelected(index);
-                        updateLayout();
-                        dialog.updateViewTileIndex();
-                    } else */
-                    if (index < handler.getTileIndexSelected() || index > indexSecondTileSelected) {
-                        ArrayList<Integer> indices = new ArrayList<>(handler.getTileset().size());
-                        for (int i = 0; i < handler.getTileset().size(); i++) {
-                            indices.add(i);
-                        }
-                        ArrayList<Integer> selectionIndices = new ArrayList(
-                                indices.subList(handler.getTileIndexSelected(),
-                                        indexSecondTileSelected + 1));
-                        for (int i = 0; i < selectionIndices.size(); i++) {
-                            indices.remove(handler.getTileIndexSelected());
-                        }
-
-                        if (index > handler.getTileIndexSelected()) {
-                            index -= selectionIndices.size();
-                        }
-
-                        indices.addAll(index, selectionIndices);
-                        //indices.addAll(Math.min(index, indices.size()), selectionIndices);
-
-                        handler.getTileset().moveTiles(indices);
-
-                        handler.setIndexTileSelected(index);
-                        updateLayout();
-                        dialog.updateViewTileIndex();
-                    }
+                handler.setIndexTileSelected(index);
+                updateLayout();
+                dialog.updateViewTileIndex();
+            } else */
+            if (index < handler.getTileIndexSelected() || index > indexSecondTileSelected) {
+                List<Integer> indices = IntStream.range(0, handler.getTileset().size())
+                        .boxed()
+                        .collect(Collectors.toList());
+                List<Integer> selectionIndices = new ArrayList<>(indices.subList(handler.getTileIndexSelected(), indexSecondTileSelected + 1));
+                for (int i = 0; i < selectionIndices.size(); i++) {
+                    indices.remove(handler.getTileIndexSelected());
                 }
-                repaint();
+
+                if (index > handler.getTileIndexSelected()) {
+                    index -= selectionIndices.size();
+                }
+
+                indices.addAll(index, selectionIndices);
+                //indices.addAll(Math.min(index, indices.size()), selectionIndices);
+
+                handler.getTileset().moveTiles(indices);
+
+                handler.setIndexTileSelected(index);
+                updateLayout();
+                dialog.updateViewTileIndex();
             }
         }
+        repaint();
     }
 
     @Override
@@ -164,7 +164,7 @@ public class TileSelector extends JPanel {
                 if (multiSelectionEnabled && (multiselecting || dragging || canDrag) && boundingBoxes.size() > 0) {
                     int limit = Math.min(indexSecondTileSelected, handler.getTileset().size() - 1);
                     for (int i = handler.getTileIndexSelected() + 1; i <= limit; i++) {
-                        g.setColor(Color.red);
+                        g.setColor(Color.RED);
                         drawTileBounds(g, i);
                     }
                 }
@@ -174,8 +174,7 @@ public class TileSelector extends JPanel {
                         drawTileBounds(g, indexTileHovering);
                     }
 
-                    g.drawImage(multiSelectImg,
-                            mouseX, mouseY, null);
+                    g.drawImage(multiSelectImg, mouseX, mouseY, null);
                     /*
                     g.drawImage(handler.getTileSelected().getThumbnail(),
                             mouseX, mouseY, null);*/
@@ -196,7 +195,6 @@ public class TileSelector extends JPanel {
 
             paintTiles();
         }
-
     }
 
     public void init(MapEditorHandler handler) {
@@ -210,7 +208,6 @@ public class TileSelector extends JPanel {
 
             paintTiles();
         }
-
     }
 
     public void updateLayout() {
@@ -221,21 +218,15 @@ public class TileSelector extends JPanel {
             System.out.println("Num rows: " + rows);
             display = new BufferedImage(maxCols * tilePixelSize, rows * tilePixelSize, BufferedImage.TYPE_4BYTE_ABGR);
         } else {
-            display = new BufferedImage(maxCols * tilePixelSize, 1 * tilePixelSize, BufferedImage.TYPE_4BYTE_ABGR);
+            display = new BufferedImage(maxCols * tilePixelSize, tilePixelSize, BufferedImage.TYPE_4BYTE_ABGR);
         }
         paintTiles();
-
         updateSize();
-
     }
 
     private void updateSize() {
-        this.setPreferredSize(new Dimension(
-                display.getWidth(),
-                display.getHeight()));
-        this.setSize(new Dimension(
-                display.getWidth(),
-                display.getHeight()));
+        this.setPreferredSize(new Dimension(display.getWidth(), display.getHeight()));
+        this.setSize(new Dimension(display.getWidth(), display.getHeight()));
     }
 
     public void updateTile(int index) {
@@ -252,14 +243,9 @@ public class TileSelector extends JPanel {
     public void updateTiles(ArrayList<Integer> indices) {
         Graphics g = display.getGraphics();
 
-        for (int i = 0; i < indices.size(); i++) {
-            int index = indices.get(i);
+        for (int index : indices) {
             Tile tile = handler.getTileset().get(index);
-            g.drawImage(
-                    tile.getThumbnail(),
-                    boundingBoxes.get(index).x,
-                    boundingBoxes.get(index).y,
-                    null);
+            g.drawImage(tile.getThumbnail(), boundingBoxes.get(index).x, boundingBoxes.get(index).y, null);
         }
     }
 
@@ -305,7 +291,6 @@ public class TileSelector extends JPanel {
                 }
             }
         }
-
     }
 
     private int countRows() {
@@ -335,20 +320,15 @@ public class TileSelector extends JPanel {
         return rowIndex + maxHeight;
     }
 
-    private int getIndexSelected(java.awt.event.MouseEvent evt) {
-        int index = -1;
-        for (int i = 0; i < boundingBoxes.size(); i++) {
-            Rectangle bounds = boundingBoxes.get(i);
-            if (bounds.contains(evt.getX(), evt.getY())) {
-                index = i;
-                break;
-            }
-        }
-        return index;
+    private int getIndexSelected(MouseEvent evt) {
+        return IntStream.range(0, boundingBoxes.size())
+                .filter(i -> boundingBoxes.get(i).contains(evt.getX(), evt.getY()))
+                .findFirst()
+                .orElse(-1);
     }
 
-    public ArrayList<Integer> getIndicesSelected() {
-        ArrayList<Integer> indices;
+    public List<Integer> getIndicesSelected() {
+        List<Integer> indices;
         if (multiselecting) {
             int indexStart = handler.getTileIndexSelected();
             int indexEnd = indexSecondTileSelected;

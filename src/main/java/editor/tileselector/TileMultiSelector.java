@@ -2,18 +2,16 @@ package editor.tileselector;
 
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-
-import editor.handler.MapEditorHandler;
-import editor.tileseteditor.TilesetEditorDialog;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import tileset.Tile;
 import tileset.Tileset;
@@ -42,11 +40,10 @@ public class TileMultiSelector extends JPanel {
         if (index != -1) {
             if (multiselecting) {
                 setSelected(true, Math.min(index, lastIndex), Math.max(index, lastIndex));
-                repaint();
             } else {
                 selection[index] = !selection[index];
-                repaint();
             }
+            repaint();
             lastIndex = index;
         }
     }
@@ -97,7 +94,6 @@ public class TileMultiSelector extends JPanel {
             display = new BufferedImage(maxCols * tilePixelSize, rows * tilePixelSize, BufferedImage.TYPE_4BYTE_ABGR);
 
             paintTiles();
-
             updateSize();
         }
     }
@@ -113,17 +109,12 @@ public class TileMultiSelector extends JPanel {
             display = new BufferedImage(maxCols * tilePixelSize, 1 * tilePixelSize, BufferedImage.TYPE_4BYTE_ABGR);
         }
         paintTiles();
-
         updateSize();
     }
 
     private void updateSize() {
-        this.setPreferredSize(new Dimension(
-                display.getWidth(),
-                display.getHeight()));
-        this.setSize(new Dimension(
-                display.getWidth(),
-                display.getHeight()));
+        this.setPreferredSize(new Dimension(display.getWidth(), display.getHeight()));
+        this.setSize(new Dimension(display.getWidth(), display.getHeight()));
     }
 
     public void updateTile(int index) {
@@ -179,7 +170,6 @@ public class TileMultiSelector extends JPanel {
                 }
             }
         }
-
     }
 
     private int countRows() {
@@ -210,15 +200,10 @@ public class TileMultiSelector extends JPanel {
     }
 
     private int getIndexSelected(java.awt.event.MouseEvent evt) {
-        int index = -1;
-        for (int i = 0; i < boundingBoxes.size(); i++) {
-            Rectangle bounds = boundingBoxes.get(i);
-            if (bounds.contains(evt.getX(), evt.getY())) {
-                index = i;
-                break;
-            }
-        }
-        return index;
+        return IntStream.range(0, boundingBoxes.size())
+                .filter(i -> boundingBoxes.get(i).contains(evt.getX(), evt.getY()))
+                .findFirst()
+                .orElse(-1);
     }
 
     private void drawTileBounds(Graphics g, int tileIndex) {
@@ -246,20 +231,16 @@ public class TileMultiSelector extends JPanel {
         }
     }
 
-    public ArrayList<Tile> getTilesSelected() {
-        ArrayList<Tile> tiles = new ArrayList();
-        for (int i = 0; i < selection.length; i++) {
-            if (selection[i]) {
-                tiles.add(tileset.get(i));
-            }
-        }
-        return tiles;
+    public List<Tile> getTilesSelected() {
+        return IntStream.range(0, selection.length)
+                .filter(i -> selection[i]).mapToObj(i -> tileset.get(i))
+                .collect(Collectors.toList());
     }
 
     public int getNumTilesSelected() {
         int count = 0;
-        for (int i = 0; i < selection.length; i++) {
-            if (selection[i]) {
+        for (boolean b : selection) {
+            if (b) {
                 count++;
             }
         }

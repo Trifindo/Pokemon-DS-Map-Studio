@@ -2,6 +2,7 @@
 package formats.bdhc;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
@@ -15,19 +16,18 @@ public class Bdhc {
     public static final int sizePlateDP = 12;
     public static final int sizeStripeDP = 10;
 
-    private ArrayList<Plate> plates = new ArrayList<>();
+    private List<Plate> plates = new ArrayList<>();
 
-    public Bdhc(ArrayList<Plate> plates) {
+    public Bdhc(List<Plate> plates) {
         this.plates = plates;
     }
 
     public Bdhc() {
         plates.add(new Plate());
         plates.add(new Plate());
-
     }
 
-    public ArrayList<Plate> getPlates() {
+    public List<Plate> getPlates() {
         return plates;
     }
 
@@ -38,6 +38,4 @@ public class Bdhc {
     public void addPlate() {
         plates.add(new Plate());
     }
-
-
 }

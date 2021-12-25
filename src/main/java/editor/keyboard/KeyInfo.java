@@ -1,7 +1,6 @@
 package editor.keyboard;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 /**
  * @author Trifindo, JackHack96

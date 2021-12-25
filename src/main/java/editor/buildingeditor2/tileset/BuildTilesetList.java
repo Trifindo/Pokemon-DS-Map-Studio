@@ -7,13 +7,15 @@ import formats.narc2.NarcFolder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Trifindo
  */
 public class BuildTilesetList {
 
-    private ArrayList<BuildTileset> tilesets;
+    private final List<BuildTileset> tilesets;
 
     public BuildTilesetList(Narc narc) {
         final int numTilesets = narc.getRoot().getFiles().size();
@@ -23,23 +25,20 @@ public class BuildTilesetList {
         }
     }
 
-    public Narc toNarc() throws Exception {
+    public Narc toNarc() {
         NarcFolder root = new NarcFolder();
-        ArrayList<NarcFile> files = new ArrayList<>(tilesets.size());
-        for (BuildTileset tileset : tilesets) {
-            files.add(new NarcFile("", root, tileset.getData()));
-        }
+        List<NarcFile> files = tilesets.stream()
+                .map(tileset -> new NarcFile("", root, tileset.getData()))
+                .collect(Collectors.toCollection(() -> new ArrayList<>(tilesets.size())));
         root.setFiles(files);
         return new Narc(root);
     }
 
-    public ArrayList<BuildTileset> getTilesets() {
+    public List<BuildTileset> getTilesets() {
         return tilesets;
     }
 
     public void saveTileset(int index, String path) throws IOException {
         tilesets.get(index).save(path);
     }
-
-
 }

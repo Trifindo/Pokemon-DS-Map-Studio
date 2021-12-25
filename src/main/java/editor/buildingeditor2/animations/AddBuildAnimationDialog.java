@@ -3,9 +3,9 @@ package editor.buildingeditor2.animations;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
@@ -17,26 +17,26 @@ import renderer.*;
  */
 public class AddBuildAnimationDialog extends JDialog {
 
-    public static final int ACEPTED = 0, CANCELED = 1;
+    public static final int ACCEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int indexSelected = 0;
 
     private byte[] buildModelData;
-    private ArrayList<Integer> buildingAnimationIDs;
+    private List<Integer> buildingAnimationIDs;
     private BuildAnimations buildAnimations;
 
-    private ArrayList<Integer> animIconIndices;
-    private ArrayList<ImageIcon> animIcons;
+    private List<Integer> animIconIndices;
+    private List<ImageIcon> animIcons;
 
     public AddBuildAnimationDialog(Window owner) {
         super(owner);
         initComponents();
 
         animIcons = new ArrayList<>(4);
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbcaIcon.png")));
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbtaIcon.png")));
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbtpIcon.png")));
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbmaIcon.png")));
+        animIcons.add(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/NsbcaIcon.png"))));
+        animIcons.add(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/NsbtaIcon.png"))));
+        animIcons.add(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/NsbtpIcon.png"))));
+        animIcons.add(new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/NsbmaIcon.png"))));
 
         animIconIndices = new ArrayList<>();
 
@@ -95,7 +95,7 @@ public class AddBuildAnimationDialog extends JDialog {
 
     private void jbAcceptActionPerformed(ActionEvent e) {
         if (!buildingAnimationIDs.contains(indexSelected)) {
-            returnValue = ACEPTED;
+            returnValue = ACCEPTED;
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "The animation selected is already used by the building.",
@@ -108,7 +108,7 @@ public class AddBuildAnimationDialog extends JDialog {
         dispose();
     }
 
-    public void init(byte[] buildModelData, BuildAnimations animations, ArrayList<Integer> buildingAnimationIDs) {
+    public void init(byte[] buildModelData, BuildAnimations animations, List<Integer> buildingAnimationIDs) {
         this.buildModelData = buildModelData;
         this.buildAnimations = animations;
         this.buildingAnimationIDs = buildingAnimationIDs;
@@ -118,11 +118,11 @@ public class AddBuildAnimationDialog extends JDialog {
 
     private void updateViewAnimationsList(int indexSelected) {
         if (buildAnimations != null) {
-            ArrayList<String> names = new ArrayList<>();
-            ArrayList<ModelAnimation> animations = buildAnimations.getAnimations();
+            List<String> names = new ArrayList<>();
+            List<ModelAnimation> animations = buildAnimations.getAnimations();
             animIconIndices = new ArrayList<>(animations.size());
             for (int i = 0; i < animations.size(); i++) {
-                names.add(String.valueOf(i) + ": "
+                names.add(i + ": "
                         + animations.get(i).getName() + " ["
                         + animations.get(i).getAnimationTypeName() + "]");
                 animIconIndices.add(animations.get(i).getAnimationType());
@@ -131,10 +131,10 @@ public class AddBuildAnimationDialog extends JDialog {
         }
     }
 
-    private static void addElementsToList(JList list, ArrayList<String> elements, int indexSelected) {
-        DefaultListModel listModel = new DefaultListModel();
-        for (int i = 0; i < elements.size(); i++) {
-            listModel.addElement(elements.get(i));
+    private static void addElementsToList(JList<String> list, List<String> elements, int indexSelected) {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String element : elements) {
+            listModel.addElement(element);
         }
         list.setModel(listModel);
 

@@ -1,4 +1,3 @@
-
 package editor.buildingeditor2.animations;
 
 import formats.narc2.Narc;
@@ -6,17 +5,17 @@ import formats.narc2.NarcFile;
 import formats.narc2.NarcFolder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
  */
 public class BuildAnimeListHGSS {
 
-
     //private ArrayList<ArrayList<Integer>> animations;
     //private ArrayList<Byte> secondBytes;
 
-    private ArrayList<BuildAnimInfoHGSS> animations;
+    private final List<BuildAnimInfoHGSS> animations;
 
     public BuildAnimeListHGSS(Narc narc) {
         NarcFolder root = narc.getRoot();
@@ -30,10 +29,10 @@ public class BuildAnimeListHGSS {
         }
     }
 
-    public Narc toNarc() throws Exception {
+    public Narc toNarc() {
         NarcFolder root = new NarcFolder();
 
-        ArrayList<NarcFile> files = new ArrayList<>(animations.size());
+        List<NarcFile> files = new ArrayList<>(animations.size());
         for (BuildAnimInfoHGSS anim : animations) {
             files.add(new NarcFile("", root, anim.toByteArray()));
         }
@@ -86,7 +85,7 @@ public class BuildAnimeListHGSS {
         }
     }*/
 
-    public void addBuildingAnimation(ArrayList<Integer> newAnimations, byte secondByte) {
+    public void addBuildingAnimation(List<Integer> newAnimations, byte secondByte) {
         BuildAnimInfoHGSS anim = new BuildAnimInfoHGSS();
         anim.setAnimIDs(newAnimations);
         animations.add(anim);
@@ -94,7 +93,7 @@ public class BuildAnimeListHGSS {
 
     public void addBuildingAnimation(int buildIndex, int animationIndex) {
         if (buildIndex >= 0 && buildIndex < animations.size()) {
-            ArrayList<Integer> buildAnimations = animations.get(buildIndex).getAnimIDs();
+            List<Integer> buildAnimations = animations.get(buildIndex).getAnimIDs();
             if (buildAnimations.size() < BuildAnimInfoHGSS.MAX_ANIMS_PER_BUILDING) {
                 buildAnimations.add(animationIndex);
             }
@@ -103,7 +102,7 @@ public class BuildAnimeListHGSS {
 
     public void removeBuildingAnimation(int buildIndex, int animationIndex) {
         if (buildIndex >= 0 && buildIndex < animations.size()) {
-            ArrayList<Integer> buildAnimations = animations.get(buildIndex).getAnimIDs();
+            List<Integer> buildAnimations = animations.get(buildIndex).getAnimIDs();
             if (!buildAnimations.isEmpty()) {
                 buildAnimations.remove(animationIndex);
                 if (buildAnimations.isEmpty()) {
@@ -115,14 +114,14 @@ public class BuildAnimeListHGSS {
 
     public void replaceBuildingAnimation(int buildIndex, int animationIndex, int oldAnimationIndex) {
         if (buildIndex >= 0 && buildIndex < animations.size()) {
-            ArrayList<Integer> buildAnimations = animations.get(buildIndex).getAnimIDs();
+            List<Integer> buildAnimations = animations.get(buildIndex).getAnimIDs();
             if (oldAnimationIndex >= 0 && oldAnimationIndex < buildAnimations.size()) {
                 buildAnimations.set(oldAnimationIndex, animationIndex);
             }
         }
     }
 
-    public void replaceBuildingAnimationIDs(int index, ArrayList<Integer> newAnimations) {
+    public void replaceBuildingAnimationIDs(int index, List<Integer> newAnimations) {
         if (index >= 0 && index < animations.size()) {
             animations.get(index).setAnimIDs(newAnimations);
         }
@@ -134,8 +133,7 @@ public class BuildAnimeListHGSS {
         }
     }
 
-    public ArrayList<BuildAnimInfoHGSS> getAnimations() {
+    public List<BuildAnimInfoHGSS> getAnimations() {
         return animations;
     }
-
 }

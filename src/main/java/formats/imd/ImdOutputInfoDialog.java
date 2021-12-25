@@ -3,22 +3,15 @@ package formats.imd;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 
 import editor.handler.MapEditorHandler;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import javax.swing.JLabel;
-import javax.swing.JTable;
+import java.util.List;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.ParserConfigurationException;
@@ -35,7 +28,7 @@ public class ImdOutputInfoDialog extends JDialog {
 
     private MapEditorHandler handler;
 
-    private ArrayList<String> fileNames;
+    private List<String> fileNames;
     private String objFolderPath;
     private String imdFolderPath;
 
@@ -43,7 +36,7 @@ public class ImdOutputInfoDialog extends JDialog {
 
     private static final Color GREEN = new Color(6, 176, 37);
     private static final Color ORANGE = new Color(255, 106, 0);
-    private static final Color RED = Color.red;
+    private static final Color RED = Color.RED;
 
     private enum ConvertStatus {
         SUCCESS_STATUS("SUCCESSFULLY CONVERTED", GREEN),
@@ -51,20 +44,18 @@ public class ImdOutputInfoDialog extends JDialog {
         TOO_MANY_TRIANGLES_STATUS("SUCCESSFULLY CONVERTED (TOO MANY TRIANGLES)", ORANGE),
         XML_ERROR_STATUS("NOT CONVERTED (XML ERROR)", RED),
         IO_ERROR_STATUS("NOT CONVERTED (IO ERROR)", RED),
-        TEXURE_ERROR_STATUS("NOT CONVERTED (TEXTURES NOT FOUND)", RED),
+        TEXTURE_ERROR_STATUS("NOT CONVERTED (TEXTURES NOT FOUND)", RED),
         NORMALS_ERROR_STATUS("NOT CONVERTED (NORMALS NOT FOUND)", RED),
         UNKNOWN_ERROR_STATUS("NOT CONVERTED (UNKNOWN ERROR)", RED);
 
         public final String msg;
         public final Color color;
 
-        private ConvertStatus(String msg, Color color) {
+        ConvertStatus(String msg, Color color) {
             this.msg = msg;
             this.color = color;
         }
     }
-
-    ;
 
     public ImdOutputInfoDialog(Window owner) {
         super(owner);
@@ -86,12 +77,7 @@ public class ImdOutputInfoDialog extends JDialog {
 
     private void formWindowActivated(WindowEvent e) {
         if (convertingThread == null) {
-            convertingThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    saveAllImds();
-                }
-            });
+            convertingThread = new Thread(this::saveAllImds);
             convertingThread.start();
         }
     }
@@ -104,8 +90,7 @@ public class ImdOutputInfoDialog extends JDialog {
         dispose();
     }
 
-    public void init(MapEditorHandler handler, ArrayList<String> fileNames,
-                     String objFolderPath, String imdFolderPath) {
+    public void init(MapEditorHandler handler, List<String> fileNames, String objFolderPath, String imdFolderPath) {
         this.handler = handler;
         this.fileNames = fileNames;
         this.objFolderPath = objFolderPath;
@@ -147,7 +132,7 @@ public class ImdOutputInfoDialog extends JDialog {
                 } catch (IOException ex) {
                     exportStatus = ConvertStatus.IO_ERROR_STATUS;
                 } catch (TextureNotFoundException ex) {
-                    exportStatus = ConvertStatus.TEXURE_ERROR_STATUS;
+                    exportStatus = ConvertStatus.TEXTURE_ERROR_STATUS;
                 } catch (NormalsNotFoundException ex) {
                     exportStatus = ConvertStatus.NORMALS_ERROR_STATUS;
                 } catch (Exception ex) {
@@ -196,7 +181,7 @@ public class ImdOutputInfoDialog extends JDialog {
 
                 nFilesProcessed++;
 
-                jlFilesProcessed.setText(String.valueOf(nFilesProcessed) + "/" + String.valueOf(fileNames.size()));
+                jlFilesProcessed.setText(nFilesProcessed + "/" + fileNames.size());
                 jlFilesConverted.setText(String.valueOf(nFilesConverted));
                 jlFilesWithWarnings.setText(String.valueOf(nFilesConvertedWithWarnings));
                 jlFilesNotConverted.setText(String.valueOf(nFilesNotConverted));
@@ -222,13 +207,13 @@ public class ImdOutputInfoDialog extends JDialog {
             jlStatus.setText("Finished with errors");
 
             jlResult.setForeground(RED);
-            jlResult.setText(String.valueOf(nFilesNotConverted) + " OBJ file(s) could not be converted into IMD");
+            jlResult.setText(nFilesNotConverted + " OBJ file(s) could not be converted into IMD");
         } else if (nFilesConvertedWithWarnings > 0) {
             jlStatus.setForeground(ORANGE);
             jlStatus.setText("Finished with warnings");
 
             jlResult.setForeground(ORANGE);
-            jlResult.setText("All the OBJ files have been converted into IMD (" + String.valueOf(nFilesConvertedWithWarnings) + " file(s) might have too many polygons)");
+            jlResult.setText("All the OBJ files have been converted into IMD (" + nFilesConvertedWithWarnings + " file(s) might have too many polygons)");
         } else {
             jlStatus.setForeground(GREEN);
             jlStatus.setText("Finished");
@@ -256,16 +241,13 @@ public class ImdOutputInfoDialog extends JDialog {
             l.setText(status.msg);
 
             Font font = l.getFont();
-            font = font.deriveFont(
-                    Collections.singletonMap(
-                            TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD));
+            font = font.deriveFont(Collections.singletonMap(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD));
             l.setFont(font);
 
             setHorizontalAlignment(JLabel.CENTER);
 
             //Return the JLabel which renders the cell.
             return l;
-
         }
     }
 

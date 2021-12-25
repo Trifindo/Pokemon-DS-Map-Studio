@@ -3,10 +3,10 @@ package formats.narc2;
 
 import utils.exceptions.WrongFormatException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import utils.BinaryReader;
 import utils.BinaryWriter;
@@ -15,7 +15,7 @@ import utils.Utils.MutableLong;
 
 public class NarcIO {
 
-    public static Narc loadNarc(String path) throws FileNotFoundException, IOException, WrongFormatException {
+    public static Narc loadNarc(String path) throws IOException, WrongFormatException {
         BinaryReader reader = new BinaryReader(path);
 
         try {
@@ -25,9 +25,9 @@ public class NarcIO {
             FileImageBlock fileImage = new FileImageBlock(reader, fatb);
             reader.close();
 
-            final long nameTableOffset = filenameTable.directoryTable.entries.size() * 8;
+            final long nameTableOffset = filenameTable.directoryTable.entries.size() * 8L;
             int filesAdded = 0;
-            ArrayList<NarcFolder> folders = new ArrayList<>(filenameTable.directoryTable.entries.size());
+            List<NarcFolder> folders = new ArrayList<>(filenameTable.directoryTable.entries.size());
             for (int i = 0; i < filenameTable.directoryTable.entries.size(); i++) {
                 folders.add(new NarcFolder());
             }
@@ -68,12 +68,12 @@ public class NarcIO {
         }
     }
 
-    public static void writeNarc(Narc narc, String path) throws FileNotFoundException, IOException {
+    public static void writeNarc(Narc narc, String path) throws IOException {
         BinaryWriter writer = new BinaryWriter(path);
 
         narc.calculateIndices();
-        ArrayList<NarcFile> files = narc.getAllFiles();
-        ArrayList<NarcFolder> folders = narc.getAllFolders();
+        List<NarcFile> files = narc.getAllFiles();
+        List<NarcFolder> folders = narc.getAllFolders();
 
         FileAllocationTable fatb = new FileAllocationTable(files);
         FilenameTable filenameTable = new FilenameTable(folders, narc.hasNamedFiles());
@@ -187,7 +187,7 @@ public class NarcIO {
             }
         }
 
-        public FileAllocationTable(ArrayList<NarcFile> files) {
+        public FileAllocationTable(List<NarcFile> files) {
             allocationTable = new ArrayList<>(files.size());
             numFiles = files.size();
             long bytesAdded = 0;
@@ -260,16 +260,16 @@ public class NarcIO {
             size = reader.readUInt32();
             directoryTable = new DirectoryTable(reader);
 
-            if (directoryTable.entries.size() * 8 + 8 < size) {//Files have name
-                entryNameTable = new EntryNameTable(reader, size - (directoryTable.entries.size() * 8 + 8));
+            if (directoryTable.entries.size() * 8L + 8 < size) {//Files have name
+                entryNameTable = new EntryNameTable(reader, size - (directoryTable.entries.size() * 8L + 8));
             } else {//Files don't have name
                 entryNameTable = null;
             }
         }
 
-        public FilenameTable(ArrayList<NarcFolder> folders, boolean hasNamedFiles) {
+        public FilenameTable(List<NarcFolder> folders, boolean hasNamedFiles) {
+            final int numDirectories = folders.size();
             if (hasNamedFiles) {
-                final int numDirectories = folders.size();
 
                 long[] offsets = new long[numDirectories];
                 int[] startFileIDs = new int[numDirectories];
@@ -281,21 +281,20 @@ public class NarcIO {
                         folders.get(0), numDirectories,
                         new MutableInt(0), new MutableLong(0));
 
-                List<DirectoryEntry> dirEntries = new ArrayList(numDirectories);
-                dirEntries.add(new DirectoryEntry(numDirectories * 8, numDirectories));
+                List<DirectoryEntry> dirEntries = new ArrayList<>(numDirectories);
+                dirEntries.add(new DirectoryEntry(numDirectories * 8L, numDirectories));
                 for (int i = 1; i < numDirectories; i++) {
                     NarcFolder folder = folders.get(i);
-                    dirEntries.add(new DirectoryEntry(numDirectories * 8 + offsets[i], startFileIDs[i], folder.getParent().getID()));
+                    dirEntries.add(new DirectoryEntry(numDirectories * 8L + offsets[i], startFileIDs[i], folder.getParent().getID()));
                 }
 
                 directoryTable = new DirectoryTable(dirEntries);
                 entryNameTable = new EntryNameTable(nameEntries);
             } else {
-                final int numDirectories = folders.size();
 
-                List<DirectoryEntry> dirEntries = new ArrayList(numDirectories);
+                List<DirectoryEntry> dirEntries = new ArrayList<>(numDirectories);
                 //dirEntries.add(new DirectoryEntry(numDirectories * 8, numDirectories));
-                dirEntries.add(new DirectoryEntry(numDirectories * 4, numDirectories));//TODO: Should be 8 instead of 4??
+                dirEntries.add(new DirectoryEntry(numDirectories * 4L, numDirectories));//TODO: Should be 8 instead of 4??
 
                 directoryTable = new DirectoryTable(dirEntries);
                 entryNameTable = null;
@@ -352,7 +351,6 @@ public class NarcIO {
                 return directoryTable.getDataSize() + 8;
             }
         }
-
     }
 
     private static class DirectoryTable {
@@ -380,11 +378,7 @@ public class NarcIO {
         }
 
         public long getDataSize() {
-            long sum = 0;
-            for (DirectoryEntry entry : entries) {
-                sum += entry.getDataSize();
-            }
-            return sum;
+            return entries.stream().mapToLong(DirectoryEntry::getDataSize).sum();
         }
     }
 
@@ -481,11 +475,7 @@ public class NarcIO {
         }
 
         public long getDataSize() {
-            long sum = 0;
-            for (EntryName entry : entries) {
-                sum += entry.getDataSize();
-            }
-            return sum;
+            return entries.stream().mapToLong(EntryName::getDataSize).sum();
         }
     }
 
@@ -570,7 +560,6 @@ public class NarcIO {
         public int getDiretoryID() {
             return directoryID - 61440;
         }
-
     }
 
     private static class FileImageBlock {
@@ -585,7 +574,7 @@ public class NarcIO {
             }
             size = reader.readUInt32();
 
-            fileImages = new ArrayList<byte[]>(fatb.allocationTable.size());
+            fileImages = new ArrayList<>(fatb.allocationTable.size());
             byte[] allImageData = reader.readBytes((int) size);
             try {
                 for (FileAllocationEntry entry : fatb.allocationTable) {
@@ -602,7 +591,7 @@ public class NarcIO {
             }*/
         }
 
-        public FileImageBlock(ArrayList<NarcFile> files) {
+        public FileImageBlock(List<NarcFile> files) {
             fileImages = new ArrayList<>(files.size());
             for (NarcFile file : files) {
                 fileImages.add(file.getData());
@@ -622,9 +611,9 @@ public class NarcIO {
 
         public long getDataSize() {
             long sum = 8;
-            for (int i = 0; i < fileImages.size() - 1; i++) {
-                sum += fileImages.get(i).length + getBytesPadding(fileImages.get(i).length, 4);
-            }
+            sum += IntStream.range(0, fileImages.size() - 1)
+                    .mapToLong(i -> fileImages.get(i).length + getBytesPadding(fileImages.get(i).length, 4))
+                    .sum();
             sum += fileImages.get(fileImages.size() - 1).length;
             return sum;
         }

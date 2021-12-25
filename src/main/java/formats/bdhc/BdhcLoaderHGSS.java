@@ -4,10 +4,12 @@ package formats.bdhc;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
@@ -47,13 +49,10 @@ public class BdhcLoaderHGSS {
     private int[][] plateIndices;
 
     public Bdhc loadBdhcFromFile(String path) throws IOException {
-
         return new Bdhc(loadPlatesFromBdhcDP(path));
     }
 
-    private ArrayList<Plate> loadPlatesFromBdhcDP(String path) throws IOException {
-        ArrayList plates = new ArrayList<>();
-
+    private List<Plate> loadPlatesFromBdhcDP(String path) throws IOException {
         File file = new File(path);
         byte[] data = Files.readAllBytes(file.toPath());
 
@@ -101,6 +100,7 @@ public class BdhcLoaderHGSS {
             }
         }
 
+        List<Plate> plates = new ArrayList<>();
         for (int i = 0; i < numPlates; i++) {
             int x = xCoords[plateIndices[i][0]];
             int y = yCoords[plateIndices[i][0]];
@@ -119,7 +119,6 @@ public class BdhcLoaderHGSS {
             } else {
                 plates.add(new Plate(x, y, z, width, height, type));
             }
-
         }
 
         return plates;
@@ -192,14 +191,13 @@ public class BdhcLoaderHGSS {
     public static float dataToCoordZ(byte[] data, int offset) {
         short fractionalPart = (short) dataToUnsignedShort(data, offset);
         short decimalPart = dataToSignedShort(data, offset + 2);
-        float value = (float) (-decimalPart - (fractionalPart & 0xFFFF) / 65536f); //TODO: Do not use minus sign?
         //System.out.println("dec: " + decimalPart + " frac: " + (fractionalPart & 0xFFFF) + " value: " + value);
-        return value;
+        return (float) (-decimalPart - (fractionalPart & 0xFFFF) / 65536f);
     }
 
     public static float round(float d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Float.toString(d));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        bd = bd.setScale(decimalPlace, RoundingMode.HALF_UP);
         return bd.floatValue();
     }
 }

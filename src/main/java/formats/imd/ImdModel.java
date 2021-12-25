@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 
 import tileset.Face;
@@ -43,14 +45,14 @@ import tileset.TilesetMaterial;
 public class ImdModel extends ImdNode {
 
     //Model OpenGL
-    private ArrayList<PolygonData> polygons = new ArrayList<>();
+    private List<PolygonData> polygons = new ArrayList<>();
 
-    private ArrayList<Integer> textureIDs = new ArrayList<>();
+    private List<Integer> textureIDs = new ArrayList<>();
     //private ArrayList<Integer> materialIDs = new ArrayList<>();
-    private ArrayList<Integer> texOffsetsTri = new ArrayList<>();
-    private ArrayList<Integer> texOffsetsQuad = new ArrayList<>();
+    private List<Integer> texOffsetsTri = new ArrayList<>();
+    private List<Integer> texOffsetsQuad = new ArrayList<>();
 
-    private ArrayList<TilesetMaterial> materials = new ArrayList<>();
+    private List<TilesetMaterial> materials = new ArrayList<>();
 
     private float[] minCoords;
     private float[] maxCoords;
@@ -63,24 +65,16 @@ public class ImdModel extends ImdNode {
 
     private int numVertexTotal;
 
-    public ImdModel(String objPath) throws ParserConfigurationException,
-            IOException, TransformerException, TextureNotFoundException,
+    public ImdModel(String objPath) throws ParserConfigurationException, IOException, TransformerException, TextureNotFoundException,
             NormalsNotFoundException {
         this(objPath, objPath, null);
     }
 
-    public ImdModel(String objPath, String savePath,
-                    ArrayList<TilesetMaterial> tsetMaterials) throws
-            ParserConfigurationException, ParserConfigurationException,
-            IOException, TransformerException, TextureNotFoundException,
-            NormalsNotFoundException {
+    public ImdModel(String objPath, String savePath, List<TilesetMaterial> tsetMaterials) throws ParserConfigurationException,
+            IOException, TransformerException, TextureNotFoundException, NormalsNotFoundException {
         super("imd");
 
-        attributes = new ArrayList<ImdAttribute>() {
-            {
-                add(new ImdAttribute("version", "1.6.0"));
-            }
-        };
+        attributes = new ArrayList<>(List.of(new ImdAttribute("version", "1.6.0")));
 
         subnodes.add(new Head());
 
@@ -95,13 +89,10 @@ public class ImdModel extends ImdNode {
 
         // Use tileset materials if tileset is loaded
         if (tsetMaterials != null) {
-            ArrayList<TilesetMaterial> newMaterials = new ArrayList<>();
-            for (int i = 0; i < tsetMaterials.size(); i++) {
-                TilesetMaterial material = tsetMaterials.get(i);
-                if (material.alwaysIncludeInImd()) {
-                    newMaterials.add(material.clone());
-                }
-            }
+            List<TilesetMaterial> newMaterials = tsetMaterials.stream()
+                    .filter(TilesetMaterial::alwaysIncludeInImd)
+                    .map(TilesetMaterial::clone)
+                    .collect(Collectors.toList());
             for (int i = 0; i < materials.size(); i++) {
                 int index = getIndexOfMaterialByImgName(newMaterials, materials.get(i).getImageName());
                 if (index == -1) {
@@ -117,12 +108,11 @@ public class ImdModel extends ImdNode {
                 }
             }
             materials = newMaterials;
-
         }
 
         //Rotate model
-        for (int i = 0; i < polygons.size(); i++) {
-            polygons.get(i).rotateData();
+        for (PolygonData data : polygons) {
+            data.rotateData();
         }
 
         //Calculate bounds
@@ -137,8 +127,8 @@ public class ImdModel extends ImdNode {
 
         //Scale Model
         float scaleFactor = (float) (0.25f * Math.pow(2, defaultPosScale - posScale)); //0.25 is Blender factor
-        for (int i = 0; i < polygons.size(); i++) {
-            polygons.get(i).scale(scaleFactor);
+        for (PolygonData polygonData : polygons) {
+            polygonData.scale(scaleFactor);
         }
         //System.out.println("Scale factor: " + scaleFactor);
 
@@ -157,8 +147,8 @@ public class ImdModel extends ImdNode {
         }
 
         //Fix normals
-        for (int i = 0; i < polygons.size(); i++) {
-            polygons.get(i).fixNormals(0.99804f);
+        for (PolygonData polygon : polygons) {
+            polygon.fixNormals(0.99804f);
         }
 
         //Box test
@@ -170,10 +160,10 @@ public class ImdModel extends ImdNode {
         ImdPaletteArray imdPaletteArray = new ImdPaletteArray(materials);
 
         //Create imd texture array
-        ArrayList<ImdTextureIndexed> imdTextureArray = new ArrayList<>();
-        for (int i = 0; i < materials.size(); i++) {
-            ArrayList<Color> palette = imdPaletteArray.getPalette(materials.get(i).getPaletteNameImd());
-            imdTextureArray.add(new ImdTextureIndexed(materials.get(i), palette));
+        List<ImdTextureIndexed> imdTextureArray = new ArrayList<>();
+        for (TilesetMaterial tilesetMaterial : materials) {
+            List<Color> palette = imdPaletteArray.getPalette(tilesetMaterial.getPaletteNameImd());
+            imdTextureArray.add(new ImdTextureIndexed(tilesetMaterial, palette));
         }
 
         //Texture and Palette Indices
@@ -181,8 +171,8 @@ public class ImdModel extends ImdNode {
         int[] paletteIndices = new int[materials.size()];
 
         //Texture and Palette Names 
-        ArrayList<String> textureNames = new ArrayList<>();
-        ArrayList<String> paletteNames = new ArrayList<>();
+        List<String> textureNames = new ArrayList<>();
+        List<String> paletteNames = new ArrayList<>();
         //TexImage array and Tex palette array
         ImdNode texImageArray = new ImdNode("tex_image_array");
         ImdNode texPaletteArray = new ImdNode("tex_palette_array");
@@ -230,7 +220,7 @@ public class ImdModel extends ImdNode {
         //Material array
         ImdNode materialArray = new ImdNode("material_array");
         materialArray.attributes.add(new ImdAttribute("size", materials.size()));
-        for (int i = 0; i < materials.size(); i++) { //
+        for (int i = 0; i < materials.size(); i++) {
             boolean[] lights;
             if (materials.get(i).vertexColorsEnabled()) {
                 lights = new boolean[]{false, false, false, false};
@@ -292,13 +282,13 @@ public class ImdModel extends ImdNode {
                 StripeCalculator quadCalculator = new StripeCalculator(pData, true,
                         materials.get(textureIDs.get(i)).uniformNormalOrientation(),
                         materials.get(textureIDs.get(i)).vertexColorsEnabled());
-                ArrayList<PolygonData> pDataStripQuad = quadCalculator.calculateQuadStrip();
+                List<PolygonData> pDataStripQuad = quadCalculator.calculateQuadStrip();
 
                 //Calculate Triangle Strips
                 TriangleStripCalculator triCalculator = new TriangleStripCalculator(pData,
                         materials.get(textureIDs.get(i)).uniformNormalOrientation(),
                         materials.get(textureIDs.get(i)).vertexColorsEnabled());
-                ArrayList<PolygonData> pDataStripTri = triCalculator.calculateTriStrip();
+                List<PolygonData> pDataStripTri = triCalculator.calculateTriStrip();
 
                 //Primitive array
                 ImdNode primitiveArray = new ImdNode("primitive_array");
@@ -428,18 +418,17 @@ public class ImdModel extends ImdNode {
         saveToXML(savePath);
     }
 
-    private void loadFromObj(String path)
-            throws IOException, TextureNotFoundException, NormalsNotFoundException {
+    private void loadFromObj(String path) throws IOException, TextureNotFoundException, NormalsNotFoundException {
 
-        ArrayList<Float> vCoordsObj = new ArrayList<>();
-        ArrayList<Float> tCoordsObj = new ArrayList<>();
-        ArrayList<Float> nCoordsObj = new ArrayList<>();
-        ArrayList<Float> colorsObj = new ArrayList<>();
+        List<Float> vCoordsObj = new ArrayList<>();
+        List<Float> tCoordsObj = new ArrayList<>();
+        List<Float> nCoordsObj = new ArrayList<>();
+        List<Float> colorsObj = new ArrayList<>();
 
-        ArrayList<Face> fIndsQuad = new ArrayList<>();
-        ArrayList<Face> fIndsTri = new ArrayList<>();
+        List<Face> fIndsQuad = new ArrayList<>();
+        List<Face> fIndsTri = new ArrayList<>();
 
-        ArrayList<String> materialNames = new ArrayList();
+        List<String> materialNames = new ArrayList<>();
 
         String folderPath = new File(path).getParent();
         String objName = new File(path).getName();
@@ -468,8 +457,8 @@ public class ImdModel extends ImdNode {
                 }
             } else if (lineObj.startsWith("vn")) {
                 for (String s : (lineObj.substring(3)).split(" ")) {
-                    Float nCoord = Float.valueOf(s);
-                    if (nCoord.isNaN()) {
+                    float nCoord = Float.parseFloat(s);
+                    if (Float.isNaN(nCoord)) {
                         nCoord = 1.0f;
                     }
                     nCoordsObj.add(nCoord);
@@ -484,20 +473,19 @@ public class ImdModel extends ImdNode {
                 //materialNames.add(lineObj.split(" ")[1]);
                 materialNames.add(lineObj.substring(lineObj.indexOf(" ") + 1));
             } else if (lineObj.startsWith("f")) {
-                String[] splittedLine = (lineObj.substring(2)).split(" ");
-                Face f = new Face(splittedLine.length > 3);
-                for (int i = 0; i < splittedLine.length; i++) {
-                    String[] sArray = splittedLine[i].split("/");
-                    f.vInd[i] = Integer.valueOf(sArray[0]);
-                    f.tInd[i] = Integer.valueOf(sArray[1]);
+                String[] splitLine = (lineObj.substring(2)).split(" ");
+                Face f = new Face(splitLine.length > 3);
+                for (int i = 0; i < splitLine.length; i++) {
+                    String[] sArray = splitLine[i].split("/");
+                    f.vInd[i] = Integer.parseInt(sArray[0]);
+                    f.tInd[i] = Integer.parseInt(sArray[1]);
                     if (sArray.length > 2) {
-                        f.nInd[i] = Integer.valueOf(sArray[2]);
+                        f.nInd[i] = Integer.parseInt(sArray[2]);
                     } else {
-                        throw new NormalsNotFoundException("The OBJ file \""
-                                + objName + "\" does not contain calculated normals.");
+                        throw new NormalsNotFoundException("The OBJ file \"" + objName + "\" does not contain calculated normals.");
                     }
                     if (sArray.length > 3) {
-                        f.cInd[i] = Integer.valueOf(sArray[3]);
+                        f.cInd[i] = Integer.parseInt(sArray[3]);
                     } else {
                         f.cInd[i] = colorsObj.size() / 3 + 1;//TODO REVISE THIS!!!
                         colorsObj.add(1.0f);
@@ -555,13 +543,10 @@ public class ImdModel extends ImdNode {
                             material.setPaletteNameImd(name + "_pl");
                             materials.add(material);
                         } catch (IOException ex) {
-                            throw new TextureNotFoundException(
-                                    "Can't open texture named: \"" + textName + "\"");
+                            throw new TextureNotFoundException("Can't open texture named: \"" + textName + "\"");
                         }
                     } else {
-                        throw new TextureNotFoundException(
-                                "Texture named: \"" + textName
-                                        + "\" does not exist in the folder of the OBJ file");
+                        throw new TextureNotFoundException("Texture named: \"" + textName + "\" does not exist in the folder of the OBJ file");
                     }
                     //textures.add(loadTexture(folderPath + "/" + textName));
                 } else {
@@ -580,20 +565,13 @@ public class ImdModel extends ImdNode {
     private static int countNumberOfStarts(File file, String content) throws IOException {
         InputStream input = new FileInputStream(file);
         BufferedReader br = new BufferedReader(new InputStreamReader(input));
-        int count = 0;
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.startsWith(content)) {
-                count++;
-            }
-        }
-        return count;
+        return (int) br.lines().filter(line -> line.startsWith(content)).count();
     }
 
-    public void objDataToPolygonData(ArrayList<Face> fIndsQuad,
-                                     ArrayList<Face> fIndsTri, ArrayList<Float> vCoordsObj,
-                                     ArrayList<Float> tCoordsObj, ArrayList<Float> nCoordsObj,
-                                     ArrayList<Float> colorsObj) {
+    public void objDataToPolygonData(List<Face> fIndsQuad,
+                                     List<Face> fIndsTri, List<Float> vCoordsObj,
+                                     List<Float> tCoordsObj, List<Float> nCoordsObj,
+                                     List<Float> colorsObj) {
 
         for (int i = 0; i < textureIDs.size(); i++) {
             int start, end;
@@ -658,8 +636,7 @@ public class ImdModel extends ImdNode {
 
     }
 
-    public void saveToXML(String xmlPath) throws ParserConfigurationException,
-            TransformerConfigurationException, TransformerException, IOException {
+    public void saveToXML(String xmlPath) throws ParserConfigurationException, TransformerException, IOException {
         Document dom;
 
         // instance of a DocumentBuilderFactory
@@ -672,13 +649,11 @@ public class ImdModel extends ImdNode {
 
         // create the root element
         Element rootEle = dom.createElement(nodeName);
-        for (int i = 0; i < attributes.size(); i++) {
-            ImdAttribute attrib = attributes.get(i);
+        for (ImdAttribute attrib : attributes) {
             rootEle.setAttribute(attrib.tag, attrib.value);
         }
 
-        for (int i = 0; i < subnodes.size(); i++) {
-            ImdNode subnode = subnodes.get(i);
+        for (ImdNode subnode : subnodes) {
             printImdNode(subnode, dom, rootEle);
         }
 
@@ -699,13 +674,10 @@ public class ImdModel extends ImdNode {
         streamResult.getOutputStream().close();
 
         //System.out.println("IMD saved!");
-
     }
 
     private void printImdNode(ImdNode node, Document dom, Element parent) {
-        Element e;
-
-        e = dom.createElement(node.nodeName);
+        Element e = dom.createElement(node.nodeName);
 
         for (int i = 0; i < node.attributes.size(); i++) {
             ImdAttribute attrib = node.attributes.get(i);
@@ -725,8 +697,7 @@ public class ImdModel extends ImdNode {
     private float[] getMinCoords() {
         float[] minCoords = new float[]{Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE};
 
-        for (int i = 0; i < polygons.size(); i++) {
-            PolygonData p = polygons.get(i);
+        for (PolygonData p : polygons) {
             for (int j = 0; j < p.vCoordsQuad.length / 3; j++) {
                 for (int k = 0; k < 3; k++) {
                     minCoords[k] = Math.min(minCoords[k], p.vCoordsQuad[j * 3 + k]);
@@ -743,8 +714,7 @@ public class ImdModel extends ImdNode {
 
     private float[] getMaxCoords() {
         float[] maxCoords = new float[]{-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE};
-        for (int i = 0; i < polygons.size(); i++) {
-            PolygonData p = polygons.get(i);
+        for (PolygonData p : polygons) {
             for (int j = 0; j < p.vCoordsQuad.length / 3; j++) {
                 for (int k = 0; k < 3; k++) {
                     maxCoords[k] = Math.max(maxCoords[k], p.vCoordsQuad[j * 3 + k]);
@@ -760,9 +730,9 @@ public class ImdModel extends ImdNode {
     }
 
     private static float maxAbs(float[] array) {
-        float max = -Float.MAX_VALUE;
-        for (int i = 0; i < array.length; i++) {
-            float abs = Math.abs(array[i]);
+        float max = Float.MIN_VALUE;
+        for (float v : array) {
+            float abs = Math.abs(v);
             if (abs > max) {
                 max = abs;
             }
@@ -811,8 +781,7 @@ public class ImdModel extends ImdNode {
         }
     }
 
-    private int getIndexOfMaterialByImgName(ArrayList<TilesetMaterial> materials,
-                                            String imgName) {
+    private int getIndexOfMaterialByImgName(List<TilesetMaterial> materials, String imgName) {
         for (int i = 0; i < materials.size(); i++) {
             if (materials.get(i).getImageName().equals(imgName)) {
                 return i;
@@ -823,15 +792,14 @@ public class ImdModel extends ImdNode {
 
     private int numVertex() {
         int numVertex = 0;
-        for (int i = 0; i < polygons.size(); i++) {
-            PolygonData pData = polygons.get(i);
+        for (PolygonData pData : polygons) {
             numVertex += pData.nCoordsQuad.length / 3;
             numVertex += pData.nCoordsTri.length / 3;
         }
         return numVertex;
     }
 
-    private void incrementAll(ArrayList<Integer> array, int amount) {
+    private void incrementAll(List<Integer> array, int amount) {
         for (int i = 0; i < array.size(); i++) {
             array.set(i, array.get(i) + amount);
         }
@@ -850,19 +818,15 @@ public class ImdModel extends ImdNode {
     }
 
     public int getNumQuads() {
-        int count = 0;
-        for (int i = 0; i < polygons.size(); i++) {
-            count += polygons.get(i).vCoordsQuad.length / (3 * 4);
-        }
-        return count;
+        return polygons.stream()
+                .mapToInt(polygon -> polygon.vCoordsQuad.length / (3 * 4))
+                .sum();
     }
 
     public int getNumTris() {
-        int count = 0;
-        for (int i = 0; i < polygons.size(); i++) {
-            count += polygons.get(i).vCoordsTri.length / (3 * 3);
-        }
-        return count;
+        return polygons.stream()
+                .mapToInt(polygon -> polygon.vCoordsTri.length / (3 * 3))
+                .sum();
     }
 
     public int getNumPolygons() {
@@ -873,5 +837,4 @@ public class ImdModel extends ImdNode {
         return numVertexTotal;
         //return getNumQuads() * 4 + getNumTris() * 3;
     }
-
 }

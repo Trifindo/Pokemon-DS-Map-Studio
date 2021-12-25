@@ -1,10 +1,11 @@
 package formats.bdhcam.camplate;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public abstract class CamParameter{
 
-    public static enum Type{
+    public enum Type{
         UNKNOWN_1(0x00,"Unknown 1", Color.black, 0, -1),
         UNKNOWN_2(0x04,"Unknown 2", Color.black, 1,-1),
         UNKNOWN_3(0x08,"Unknown 3", Color.black, 2,-1),
@@ -42,12 +43,10 @@ public abstract class CamParameter{
         }
 
         public static Type get(int ID){
-            for(Type type : Type.values()){
-                if(type.ID == ID){
-                    return type;
-                }
-            }
-            return UNKNOWN_1;
+            return Arrays.stream(Type.values())
+                    .filter(type -> type.ID == ID)
+                    .findFirst()
+                    .orElse(UNKNOWN_1);
         }
     }
 
@@ -58,5 +57,4 @@ public abstract class CamParameter{
     }
 
     public abstract float getWeightedValue(float weight);
-
 }

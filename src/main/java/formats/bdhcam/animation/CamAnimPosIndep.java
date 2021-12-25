@@ -6,7 +6,7 @@ import editor.handler.MapEditorHandler;
 
 public class CamAnimPosIndep extends CamAnimator{
 
-    private CamplatePosIndep plate;
+    private final CamplatePosIndep plate;
     private int frame = 0;
     private int finalFrame = 0;
 

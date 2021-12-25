@@ -1,7 +1,6 @@
 package formats.nsbtx2;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -40,17 +39,11 @@ public class NsbtxDisplay2 extends JPanel {
             int y = getHeight() / 2 - img.getHeight() / 2;
             g.drawImage(img, x, y, null);
         }
-
     }
 
     public void updateImage() {
         if (nsbtxHandler != null) {
-            BufferedImage updatedImage = nsbtxHandler.getSelectedImage();
-            if (updatedImage != null) {
-                this.img = updatedImage;
-            } else {
-                this.img = null;
-            }
+            this.img = nsbtxHandler.getSelectedImage();
         }
     }
 

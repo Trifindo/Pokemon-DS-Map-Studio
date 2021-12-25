@@ -8,9 +8,9 @@ import formats.collisions.CollisionHandler;
  */
 public class CollisionLayerState extends State {
 
-    private CollisionHandler collisionHandler;
-    private int layerIndex;
-    private byte[][] layer;
+    private final CollisionHandler collisionHandler;
+    private final int layerIndex;
+    private final byte[][] layer;
 
     public CollisionLayerState(String name, CollisionHandler collisionHandler) {
         super(name);
@@ -28,6 +28,4 @@ public class CollisionLayerState extends State {
     public int getLayerIndex() {
         return layerIndex;
     }
-
-
 }

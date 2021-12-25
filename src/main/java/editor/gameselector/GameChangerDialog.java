@@ -1,14 +1,11 @@
 package editor.gameselector;
 
-import formats.collisions.Collisions;
 import editor.game.Game;
 import editor.handler.MapEditorHandler;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 
 /**
@@ -17,7 +14,7 @@ import javax.swing.border.*;
 public class GameChangerDialog extends JDialog {
 
     private MapEditorHandler handler;
-    public static final int ACEPTED = 0, CANCELED = 1;
+    public static final int ACCEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int newGame = Game.DIAMOND;
     private int oldGame;
@@ -44,12 +41,12 @@ public class GameChangerDialog extends JDialog {
                 if(Game.isGenV(newGame)){
                     handler.setCollisions2(null);
                 }*/
-                returnValue = ACEPTED;
+                returnValue = ACCEPTED;
                 dispose();
             }
         } else {
             handler.setGameIndex(newGame);
-            returnValue = ACEPTED;
+            returnValue = ACCEPTED;
             dispose();
         }
     }

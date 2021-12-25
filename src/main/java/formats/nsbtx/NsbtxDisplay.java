@@ -1,7 +1,6 @@
 package formats.nsbtx;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -40,7 +39,6 @@ public class NsbtxDisplay extends JPanel {
             int y = getHeight() / 2 - img.getHeight() / 2;
             g.drawImage(img, x, y, null);
         }
-
     }
 
     public void updateImage() {

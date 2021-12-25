@@ -2,7 +2,6 @@ package editor.vertexcolors;
 
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -76,9 +75,7 @@ public class ColorWheelPanel extends JPanel {
         }
 
         Graphics2D g2 = (Graphics2D) g;
-        RenderingHints rh = new RenderingHints(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHints(rh);
 
         g.setColor(Color.white);
@@ -111,9 +108,7 @@ public class ColorWheelPanel extends JPanel {
         Graphics g = img.getGraphics();
 
         Graphics2D g2 = (Graphics2D) g;
-        RenderingHints rh = new RenderingHints(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHints(rh);
 
         g.setColor(Color.black);
@@ -156,7 +151,6 @@ public class ColorWheelPanel extends JPanel {
         currentX = (int) (distToCenter * Math.sin(angle)) + size / 2;
         currentY = (int) (distToCenter * Math.cos(angle)) + size / 2;
         brightness = hsb[2];
-
     }
 
     private void initComponents() {

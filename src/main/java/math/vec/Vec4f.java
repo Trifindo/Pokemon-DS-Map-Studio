@@ -115,13 +115,8 @@ public class Vec4f {
         if (Float.floatToIntBits(this.z) != Float.floatToIntBits(other.z)) {
             return false;
         }
-        if (Float.floatToIntBits(this.w) != Float.floatToIntBits(other.w)) {
-            return false;
-        }
-        return true;
+        return Float.floatToIntBits(this.w) == Float.floatToIntBits(other.w);
     }
-
-
 
     @Override
     public String toString() {
@@ -132,7 +127,7 @@ public class Vec4f {
      * Prints the coordinates of the Vec4f
      */
     public void print() {
-        System.out.println(toString());
+        System.out.println(this);
     }
 
     /**
@@ -141,7 +136,7 @@ public class Vec4f {
      * @param name the name of the vector
      */
     public void print(String name) {
-        System.out.println(name + ": " + toString());
+        System.out.println(name + ": " + this);
     }
 
     /**
@@ -580,5 +575,4 @@ public class Vec4f {
     public Vec4f negate_() {
         return negate_(this);
     }
-
 }

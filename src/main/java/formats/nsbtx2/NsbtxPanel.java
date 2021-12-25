@@ -2,15 +2,12 @@ package formats.nsbtx2;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
 import editor.buildingeditor2.tileset.*;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
-import javax.swing.DefaultListModel;
 
 import utils.Utils;
 
@@ -47,28 +44,27 @@ public class NsbtxPanel extends JPanel {
     }
 
     public void updateView() {
-        if (nsbtx != null) {
-            int texIndex = jlTextureNames.getSelectedIndex();
-            int palIndex = jlPaletteNames.getSelectedIndex();
-
-            try {
-                BufferedImage img = nsbtx.getImage(texIndex, palIndex);
-                textureDisplay.updateImage(img);
-                textureDisplay.repaint();
-
-                paletteDisplay.updatePalette(nsbtx.getTexture(texIndex), nsbtx.getPalette(palIndex));
-                paletteDisplay.repaint();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
+        if (nsbtx == null) {
+            return;
         }
+        int texIndex = jlTextureNames.getSelectedIndex();
+        int palIndex = jlPaletteNames.getSelectedIndex();
 
+        try {
+            BufferedImage img = nsbtx.getImage(texIndex, palIndex);
+            textureDisplay.updateImage(img);
+            textureDisplay.repaint();
+
+            paletteDisplay.updatePalette(nsbtx.getTexture(texIndex), nsbtx.getPalette(palIndex));
+            paletteDisplay.repaint();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void updateViewTextureNameList(int indexSelected) {
         textureListEnabled = false;
-        DefaultListModel demoList = new DefaultListModel();
+        DefaultListModel<String> demoList = new DefaultListModel<>();
         for (int i = 0; i < nsbtx.getTextures().size(); i++) {
             String name = nsbtx.getTexture(i).getName();
             demoList.addElement(name);
@@ -86,7 +82,7 @@ public class NsbtxPanel extends JPanel {
 
     public void updateViewPaletteNameList(int indexSelected) {
         paletteListEnabled = false;
-        DefaultListModel demoList = new DefaultListModel();
+        DefaultListModel<String> demoList = new DefaultListModel<>();
         for (int i = 0; i < nsbtx.getPalettes().size(); i++) {
             String name = nsbtx.getPalette(i).getName();
             demoList.addElement(name);

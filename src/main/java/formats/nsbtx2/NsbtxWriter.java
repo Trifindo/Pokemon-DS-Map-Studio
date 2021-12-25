@@ -20,7 +20,6 @@ public class NsbtxWriter {
     //TODO: improve all of this by not using the converter
 
     public static byte[] writeNsbtx(Nsbtx2 nsbtx, String fileName) throws IOException {
-
         System.out.println("EXPORTING NSBTX IMD!");
 
         String path = System.getProperty("user.dir") + File.separator + fileName;
@@ -44,65 +43,65 @@ public class NsbtxWriter {
     private static byte[] imdToNsbmd(String imdPath) throws IOException {
         File file = new File(imdPath);
         System.out.println("EXPORTING NSBMD");
-        byte[] data = null;
-        if (file.exists()) {
-            System.out.println("File exists!");
-            String filename = new File(imdPath).getName();
-            filename = Utils.removeExtensionFromPath(filename);
-            String converterPath = "converter/g3dcvtr.exe";
-            String[] cmd;
-            if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-                cmd = new String[]{converterPath, imdPath, "-etex", "-o", filename};
-            } else {
-                cmd = new String[]{"wine", converterPath, imdPath, "-etex", "-o", filename};
-                // NOTE: wine call works only with relative path
-            }
-
-            if (!Files.exists(Paths.get(converterPath))) {
-                System.out.println("Converter not found!");
-                throw new IOException();
-            }
-
-            Process p = new ProcessBuilder(cmd).start();
-
-            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-
-            String outputString = "";
-            String line = null;
-            while ((line = stdError.readLine()) != null) {
-                outputString += line + "\n";
-            }
-
-            try {
-                p.waitFor();
-            } catch (InterruptedException ex) {
-                throw new IOException();
-            }
-
-            p.destroy();
-
-            String nsbPath = Utils.removeExtensionFromPath(imdPath);
-            nsbPath = Utils.addExtensionToPath(nsbPath, "nsbtx");
-
-            filename = Utils.removeExtensionFromPath(filename);
-            filename = Utils.addExtensionToPath(filename, "nsbtx");
-
-            File srcFile = new File(System.getProperty("user.dir") + File.separator + filename);
-            if (srcFile.exists()) {
-                data = Files.readAllBytes(srcFile.toPath());
-
-                if (file.exists()) {
-                    Files.delete(file.toPath());
-                }
-                if (srcFile.exists()) {
-                    Files.delete(srcFile.toPath());
-                }
-            } else {
-                throw new IOException();
-            }
+        if (!file.exists()) {
+            return null;
         }
 
+        System.out.println("File exists!");
+        String filename = new File(imdPath).getName();
+        filename = Utils.removeExtensionFromPath(filename);
+        String converterPath = "converter/g3dcvtr.exe";
+        String[] cmd;
+        if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+            cmd = new String[]{converterPath, imdPath, "-etex", "-o", filename};
+        } else {
+            cmd = new String[]{"wine", converterPath, imdPath, "-etex", "-o", filename};
+            // NOTE: wine call works only with relative path
+        }
+
+        if (!Files.exists(Paths.get(converterPath))) {
+            System.out.println("Converter not found!");
+            throw new IOException();
+        }
+
+        Process p = new ProcessBuilder(cmd).start();
+
+        BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+
+        StringBuilder outputString = new StringBuilder();
+        String line;
+        while ((line = stdError.readLine()) != null) {
+            outputString.append(line).append("\n");
+        }
+
+        try {
+            p.waitFor();
+        } catch (InterruptedException ex) {
+            throw new IOException();
+        }
+
+        p.destroy();
+
+        String nsbPath = Utils.removeExtensionFromPath(imdPath);
+        nsbPath = Utils.addExtensionToPath(nsbPath, "nsbtx");
+
+        filename = Utils.removeExtensionFromPath(filename);
+        filename = Utils.addExtensionToPath(filename, "nsbtx");
+
+        File srcFile = new File(System.getProperty("user.dir") + File.separator + filename);
+        byte[] data;
+        if (srcFile.exists()) {
+            data = Files.readAllBytes(srcFile.toPath());
+
+            if (file.exists()) {
+                Files.delete(file.toPath());
+            }
+            if (srcFile.exists()) {
+                Files.delete(srcFile.toPath());
+            }
+        } else {
+            throw new IOException();
+        }
         return data;
     }
-
 }

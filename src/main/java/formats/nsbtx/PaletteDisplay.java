@@ -2,7 +2,6 @@ package formats.nsbtx;
 
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,7 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo, JackHack96
@@ -25,7 +24,7 @@ public class PaletteDisplay extends JPanel {
     private static final Color selectionFillColor = new Color(255, 0, 0, 120);
     private static final Color selectionBorderColor = Color.red;
     private BufferedImage noPaletteImg;
-    public ArrayList<Color> palette;
+    public List<Color> palette;
 
     public PaletteDisplay() {
         initComponents();
@@ -80,9 +79,7 @@ public class PaletteDisplay extends JPanel {
             g.drawRect(index * tileSize + 1, 1, tileSize - 2, tileSize - 3);
             g.setColor(selectionBorderColor);
             g.drawRect(index * tileSize, 0, tileSize, tileSize - 1);*/
-
         }
-
     }
 
     public void init(NsbtxHandler nsbtxHandler) {
@@ -90,29 +87,21 @@ public class PaletteDisplay extends JPanel {
     }
 
     public void updatePalette() {
-        if (nsbtxHandler != null) {
-            if (nsbtxHandler.getNsbtx() != null) {
-                this.palette = nsbtxHandler.getNsbtx().getPaletteColors(nsbtxHandler.getPaletteIndexSelected());
-            }
+        if (nsbtxHandler != null && nsbtxHandler.getNsbtx() != null) {
+            this.palette = nsbtxHandler.getNsbtx().getPaletteColors(nsbtxHandler.getPaletteIndexSelected());
         }
     }
 
     public void updatePaletteColor(int index) {
-        if (nsbtxHandler != null) {
-            if (nsbtxHandler.getNsbtx() != null) {
-                palette.set(index, nsbtxHandler.getNsbtx().getPaletteColor(
-                        nsbtxHandler.getPaletteIndexSelected(), index));
-            }
+        if (nsbtxHandler != null && nsbtxHandler.getNsbtx() != null) {
+            palette.set(index, nsbtxHandler.getNsbtx().getPaletteColor(nsbtxHandler.getPaletteIndexSelected(), index));
         }
     }
 
     public void updateSelectedPaletteColor() {
-        if (nsbtxHandler != null) {
-            if (nsbtxHandler.getNsbtx() != null) {
-                int index = nsbtxHandler.getColorIndexSelected();
-                palette.set(index, nsbtxHandler.getNsbtx().getPaletteColor(
-                        nsbtxHandler.getPaletteIndexSelected(), index));
-            }
+        if (nsbtxHandler != null && nsbtxHandler.getNsbtx() != null) {
+            int index = nsbtxHandler.getColorIndexSelected();
+            palette.set(index, nsbtxHandler.getNsbtx().getPaletteColor(nsbtxHandler.getPaletteIndexSelected(), index));
         }
     }
 
@@ -120,8 +109,7 @@ public class PaletteDisplay extends JPanel {
         BufferedImage img = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = (Graphics2D) img.getGraphics();
 
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         g2d.setColor(Color.white);
         g2d.fillRect(0, 0, img.getWidth(), img.getHeight());
