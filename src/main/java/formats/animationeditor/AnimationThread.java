@@ -34,5 +34,4 @@ public class AnimationThread extends Thread {
     public boolean isRunnning() {
         return running;
     }
-
 }

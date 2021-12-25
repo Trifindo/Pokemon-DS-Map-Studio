@@ -13,6 +13,4 @@ public class MissingMapBinFileException extends Exception{
     public MissingMapBinFileException(int missingFileCode){
         this.missingFileCode = missingFileCode;
     }
-
-
 }

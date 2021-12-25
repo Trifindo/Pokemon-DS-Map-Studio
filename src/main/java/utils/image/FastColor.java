@@ -29,7 +29,6 @@ public class FastColor extends Color implements Comparable<FastColor> {
         return new Color(getRGB(), true);
     }
 
-
     @Override
     public int hashCode() {
         return hashCode;
@@ -38,15 +37,11 @@ public class FastColor extends Color implements Comparable<FastColor> {
     @Override
     public boolean equals(Object obj) {
         final FastColor other = (FastColor) obj;
-        if (this.hashCode != other.hashCode) {
-            return false;
-        }
-        return true;
+        return this.hashCode == other.hashCode;
     }
 
     @Override
     public int compareTo(FastColor o) {
         return this.hashCode - o.hashCode;
     }
-
 }

@@ -49,7 +49,7 @@ public class Mat3f {
     }
 
     public void print() {
-        System.out.println(toString());
+        System.out.println(this);
     }
 
     public final void set(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22) {
@@ -264,5 +264,4 @@ public class Mat3f {
     public Mat3f transp_() {
         return transp_(this);
     }
-
 }

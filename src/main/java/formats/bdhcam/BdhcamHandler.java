@@ -24,7 +24,6 @@ public class BdhcamHandler {
     public BdhcamHandler(MapEditorHandler handler, BdhcamEditorDialog dialog){
         this.handler = handler;
         this.dialog = dialog;
-
     }
 
     public Bdhcam getBdhcam() {
@@ -41,10 +40,8 @@ public class BdhcamHandler {
 
     public CamParameter getSelectedParameter(){
         Camplate plate = getSelectedPlate();
-        if(plate != null){
-            if(indexParamSelected < plate.parameters.size()){
-                return plate.parameters.get(indexParamSelected);
-            }
+        if (plate != null && indexParamSelected < plate.parameters.size()) {
+            return plate.parameters.get(indexParamSelected);
         }
         return null;
     }
@@ -82,12 +79,7 @@ public class BdhcamHandler {
 
     public float getSelectedPlateZ(){
         Camplate plate = getSelectedPlate();
-        if(plate != null){
-            if(plate.useZ){
-                return plate.z;
-            }
-        }
-        return 0.0f;
+        return plate != null && plate.useZ ? plate.z : 0.0f;
     }
 
     public void setPlayerX(float playerX) {
@@ -117,11 +109,10 @@ public class BdhcamHandler {
 
             if (getSelectedPlate().type.ID == Camplate.Type.POS_INDEPENDENT.ID) {
                 animator = new CamAnimPosIndep(handler, this, (CamplatePosIndep) getSelectedPlate());
-                animator.start();
             }else{
                 animator = new CamAnimPosDep(handler, this, (CamplatePosDep) getSelectedPlate());
-                animator.start();
             }
+            animator.start();
         }
     }
 

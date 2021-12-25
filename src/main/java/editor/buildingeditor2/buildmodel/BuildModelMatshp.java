@@ -1,10 +1,12 @@
 
 package editor.buildingeditor2.buildmodel;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import utils.BinaryReader;
 import utils.BinaryWriter;
@@ -14,10 +16,9 @@ import utils.BinaryWriter;
  */
 public class BuildModelMatshp {
 
-    private ArrayList<ArrayList<Integer>> materials;
+    private final List<List<Integer>> materials;
 
-    public BuildModelMatshp(String path) throws FileNotFoundException,
-            IOException {
+    public BuildModelMatshp(String path) throws IOException {
         BinaryReader br = new BinaryReader(path);
 
         //Read header
@@ -25,9 +26,9 @@ public class BuildModelMatshp {
         int numMaterials = br.readUInt16();
 
         //Read block 1
-        ArrayList<ArrayList<Integer>> newMaterials = new ArrayList<>(numBuildings);
-        ArrayList<Integer> offsets = new ArrayList<>(numBuildings);
-        ArrayList<Integer> matsPerBuild = new ArrayList<>(numBuildings);
+        List<List<Integer>> newMaterials = new ArrayList<>(numBuildings);
+        List<Integer> offsets = new ArrayList<>(numBuildings);
+        List<Integer> matsPerBuild = new ArrayList<>(numBuildings);
         for (int i = 0; i < numBuildings; i++) {
             int nMatsPerBuild = br.readUInt16();
             int offset = br.readUInt16();
@@ -44,10 +45,9 @@ public class BuildModelMatshp {
         for (int i = 0; i < numBuildings; i++) {
             if (offsets.get(i) != null) {
                 int nMats = matsPerBuild.get(i);
-                ArrayList<Integer> matInBuild = new ArrayList<>(nMats);
-                for (int j = 0; j < nMats; j++) {
-                    matInBuild.add(0);
-                }
+                List<Integer> matInBuild = IntStream.range(0, nMats)
+                        .mapToObj(j -> 0)
+                        .collect(Collectors.toCollection(() -> new ArrayList<>(nMats)));
 
                 for (int j = 0; j < nMats; j++) {
                     matInBuild.set(br.readUInt16(), br.readUInt16());
@@ -61,32 +61,31 @@ public class BuildModelMatshp {
         br.close();
 
         materials = newMaterials;
-
     }
 
-    public void saveToFile(String path) throws FileNotFoundException, IOException {
+    public void saveToFile(String path) throws IOException {
         BinaryWriter bw = new BinaryWriter(path);
 
         bw.writeUInt16(materials.size());
         bw.writeUInt16(countNumberOfMaterials());
 
         int offset = 0;
-        for (int i = 0; i < materials.size(); i++) {
-            if (!materials.get(i).isEmpty()) {
-                bw.writeUInt16(materials.get(i).size());
+        for (List<Integer> integers : materials) {
+            if (!integers.isEmpty()) {
+                bw.writeUInt16(integers.size());
                 bw.writeUInt16(offset);
-                offset += materials.get(i).size();
+                offset += integers.size();
             } else {
                 bw.writeUInt16(0);
                 bw.writeUInt16(65535);
             }
         }
 
-        for (int i = 0; i < materials.size(); i++) {
-            if (!materials.get(i).isEmpty()) {
-                for (int j = 0; j < materials.get(i).size(); j++) {
+        for (List<Integer> material : materials) {
+            if (!material.isEmpty()) {
+                for (int j = 0; j < material.size(); j++) {
                     bw.writeUInt16(j);
-                    bw.writeUInt16(materials.get(i).get(j));
+                    bw.writeUInt16(material.get(j));
                 }
             }
         }
@@ -94,11 +93,11 @@ public class BuildModelMatshp {
         bw.close();
     }
 
-    public void addBuildingMaterials(ArrayList<Integer> newMaterials) {
+    public void addBuildingMaterials(List<Integer> newMaterials) {
         materials.add(newMaterials);
     }
 
-    public void replaceBuildingMaterials(int index, ArrayList<Integer> newMaterials) {
+    public void replaceBuildingMaterials(int index, List<Integer> newMaterials) {
         if (index >= 0 && index < materials.size()) {
             materials.set(index, newMaterials);
         }
@@ -121,7 +120,7 @@ public class BuildModelMatshp {
 
     public void removeBuildingMaterial(int buildIndex, int materialIndex) {
         if (buildIndex >= 0 && buildIndex < materials.size()) {
-            ArrayList<Integer> buildMaterials = materials.get(buildIndex);
+            List<Integer> buildMaterials = materials.get(buildIndex);
             if (!buildMaterials.isEmpty()) {
                 if (materialIndex >= 0 && materialIndex < buildMaterials.size()) {
                     int materialValue = buildMaterials.get(materialIndex);
@@ -142,7 +141,7 @@ public class BuildModelMatshp {
 
     public void moveMaterialUp(int buildIndex, int materialIndex) {
         if (buildIndex >= 0 && buildIndex < materials.size()) {
-            ArrayList<Integer> buildMaterials = materials.get(buildIndex);
+            List<Integer> buildMaterials = materials.get(buildIndex);
             if (!buildMaterials.isEmpty()) {
                 if (materialIndex >= 1 && materialIndex < buildMaterials.size()) {
                     Collections.swap(buildMaterials, materialIndex, materialIndex - 1);
@@ -153,7 +152,7 @@ public class BuildModelMatshp {
 
     public void moveMaterialDown(int buildIndex, int materialIndex) {
         if (buildIndex >= 0 && buildIndex < materials.size()) {
-            ArrayList<Integer> buildMaterials = materials.get(buildIndex);
+            List<Integer> buildMaterials = materials.get(buildIndex);
             if (!buildMaterials.isEmpty()) {
                 if (materialIndex >= 0 && materialIndex < buildMaterials.size() - 1) {
                     Collections.swap(buildMaterials, materialIndex, materialIndex + 1);
@@ -163,29 +162,25 @@ public class BuildModelMatshp {
     }
 
     public int countNumberOfMaterials() {
-        int count = 0;
-        for (int i = 0; i < materials.size(); i++) {
-            if (!materials.get(i).isEmpty()) {
-                count += materials.get(i).size();
-            }
-        }
-        return count;
+        return materials.stream()
+                .filter(material -> !material.isEmpty())
+                .mapToInt(List::size)
+                .sum();
     }
 
-    public ArrayList<ArrayList<Integer>> getAllMaterials() {
+    public List<List<Integer>> getAllMaterials() {
         return materials;
     }
 
-    public ArrayList<Integer> getMaterials(int buildingID) {
+    public List<Integer> getMaterials(int buildingID) {
         return materials.get(buildingID);
     }
 
-    public void setMaterials(int buildingID, ArrayList<Integer> materials) {
+    public void setMaterials(int buildingID, List<Integer> materials) {
         this.materials.set(buildingID, materials);
     }
 
     public int getMaterial(int buildingID, int materialIndex) {
         return materials.get(buildingID).get(materialIndex);
     }
-
 }

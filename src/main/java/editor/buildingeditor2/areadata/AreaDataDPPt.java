@@ -14,7 +14,7 @@ public class AreaDataDPPt {
     private int unknown1;
     private int areaType;
 
-    public AreaDataDPPt(byte[] data) throws Exception {
+    public AreaDataDPPt(byte[] data) {
         buildingTilesetID = (int) BinaryReader.readUInt16(data, 0);
         mapTilesetID = (int) BinaryReader.readUInt16(data, 2);
         unknown1 = (int) BinaryReader.readUInt16(data, 4);
@@ -28,7 +28,7 @@ public class AreaDataDPPt {
         areaType = 0;
     }
 
-    public byte[] toByteArray() throws Exception {
+    public byte[] toByteArray() {
         byte[] data = new byte[8];
         BinaryWriter.writeUInt16(data, 0, buildingTilesetID);
         BinaryWriter.writeUInt16(data, 2, mapTilesetID);
@@ -68,6 +68,4 @@ public class AreaDataDPPt {
     public void setAreaType(int unknown2) {
         this.areaType = unknown2;
     }
-
-
 }

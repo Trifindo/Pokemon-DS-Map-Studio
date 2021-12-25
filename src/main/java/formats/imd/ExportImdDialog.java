@@ -3,8 +3,6 @@ package formats.imd;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import net.miginfocom.swing.*;
 
@@ -12,12 +10,8 @@ import utils.swing.*;
 import editor.handler.MapEditorHandler;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
-import javax.swing.DefaultListModel;
-import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import java.util.List;
 import javax.swing.filechooser.FileFilter;
 
 import utils.Utils;
@@ -32,7 +26,7 @@ public class ExportImdDialog extends JDialog {
 
     private String objFolderPath = "";
     private String imdFolderPath = "";
-    private ArrayList<String> selectedObjNames = new ArrayList<>();
+    private List<String> selectedObjNames = new ArrayList<>();
 
     private MapEditorHandler handler;
 
@@ -72,12 +66,7 @@ public class ExportImdDialog extends JDialog {
         if (returnValOpen == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             if (file.exists()) {
-                String folderPath;
-                if (file.isDirectory()) {
-                    folderPath = file.getPath();
-                } else {
-                    folderPath = file.getParent();
-                }
+                String folderPath = file.isDirectory() ? file.getPath() : file.getParent();
                 loadObjFilesFromFolder(folderPath);
             }
         }
@@ -164,7 +153,6 @@ public class ExportImdDialog extends JDialog {
             this.imdFolderPath = imdFolderPath;
             jtfImdFolderPath.setText(imdFolderPath);
         }
-
     }
 
     private boolean isFolderPathValid(String folderPath) {
@@ -179,14 +167,9 @@ public class ExportImdDialog extends JDialog {
     private void loadObjFilesFromFolder(String folderPath) {
         try {
             File folder = new File(folderPath);
-            File[] files = folder.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.endsWith(".obj");
-                }
-            });
+            File[] files = folder.listFiles((dir, name) -> name.endsWith(".obj"));
 
-            DefaultListModel<JCheckBox> model = new DefaultListModel();
+            DefaultListModel<JCheckBox> model = new DefaultListModel<>();
             this.jScrollCheckboxList.getCheckboxList().setModel(model);
             for (File file : files) {
                 model.addElement(new JCheckBox(file.getName()));
@@ -208,8 +191,7 @@ public class ExportImdDialog extends JDialog {
         String name = Utils.removeExtensionFromPath(imdName);
         try {
             String[] splitName = name.split("_");
-            return (hasCoordInName(splitName[splitName.length - 2])
-                    && hasCoordInName(splitName[splitName.length - 1]));
+            return (hasCoordInName(splitName[splitName.length - 2]) && hasCoordInName(splitName[splitName.length - 1]));
         } catch (Exception ex) {
             return false;
         }
@@ -257,7 +239,7 @@ public class ExportImdDialog extends JDialog {
         return imdFolderPath;
     }
 
-    public ArrayList<String> getSelectedObjNames() {
+    public List<String> getSelectedObjNames() {
         return selectedObjNames;
     }
 

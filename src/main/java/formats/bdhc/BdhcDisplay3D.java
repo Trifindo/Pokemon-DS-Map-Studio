@@ -17,11 +17,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.jogamp.opengl.GL.*;
-import static com.jogamp.opengl.GL.GL_GREATER;
 import static com.jogamp.opengl.GL2ES1.GL_ALPHA_TEST;
 import static com.jogamp.opengl.GL2ES3.GL_QUADS;
 import static com.jogamp.opengl.GL2GL3.GL_FILL;
@@ -85,7 +84,6 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
         setFocusable(true);
     }
 
-
     @Override
     public void init(GLAutoDrawable drawable) {
         glu = new GLU();
@@ -98,7 +96,6 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
         cameraRotX = defaultCamRotX;
         cameraRotY = defaultCamRotY;
         cameraRotZ = defaultCamRotZ;
-
 
         drawable.getGL().getGL2().glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
 
@@ -118,7 +115,6 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
         gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         if (updateRequested) {
-
             //Load Textures into OpenGL
             handler.getTileset().loadTexturesGL();
             handler.getBorderMapsTileset().loadTexturesGL();
@@ -138,7 +134,6 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
                 drawTransparentMaps(gl);
             }
         }
-
 
         if(bdhcHandler != null) {
             if(transparentEnabled){
@@ -201,7 +196,6 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
         if (SwingUtilities.isLeftMouseButton(e)) {
             float dist = cameraZ;
             float deltaX = (((float) ((e.getX() - lastMouseX))) / getWidth()) * dist;
@@ -218,12 +212,11 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
             lastMouseY = e.getY();
 
             repaint();
-        } else if (SwingUtilities.isRightMouseButton(e)
-                | SwingUtilities.isMiddleMouseButton(e)) {
+        } else if (SwingUtilities.isRightMouseButton(e) | SwingUtilities.isMiddleMouseButton(e)) {
             float delta = 100.0f;
-            cameraRotZ -= (((float) ((e.getX() - lastMouseX))) / getWidth()) * delta;
+            cameraRotZ -= ((e.getX() - lastMouseX) / getWidth()) * delta;
             lastMouseX = e.getX();
-            cameraRotX -= (((float) ((e.getY() - lastMouseY))) / getHeight()) * delta;
+            cameraRotX -= ((e.getY() - lastMouseY) / getHeight()) * delta;
             lastMouseY = e.getY();
             repaint();
         }
@@ -254,19 +247,13 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
             glu.gluPerspective(60.0f, aspect, 1.0f + (cameraZ - 40.0f) / 4, 1000.0f + (cameraZ - 40.0f));
         }
 
-        glu.gluLookAt(
-                0.0f, 0.0f, cameraZ,
-                0.0f, 0.0f, 0.0f,
-                0.0f, 1.0f, 0.0f);
+        glu.gluLookAt(0.0f, 0.0f, cameraZ, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
         gl.glRotatef(-cameraRotX, 1.0f, 0.0f, 0.0f);
         gl.glRotatef(-cameraRotY, 0.0f, 1.0f, 0.0f);
         gl.glRotatef(-cameraRotZ, 0.0f, 0.0f, 1.0f);
 
         gl.glTranslatef(-cameraX, -cameraY, 0.0f);
-
-
-
     }
 
     public void setHandler(MapEditorHandler handler, BdhcHandler bdhcHandler) {
@@ -334,10 +321,8 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
         gl.glEnable(GL_DEPTH_TEST);
         if(xRayEnabled){
             gl.glClear(GL_DEPTH_BUFFER_BIT);
-            gl.glDepthFunc(GL_LEQUAL);
-        }else{
-            gl.glDepthFunc(GL_LEQUAL);
         }
+        gl.glDepthFunc(GL_LEQUAL);
 
         gl.glEnable(GL_ALPHA_TEST);
         gl.glAlphaFunc(GL_NOTEQUAL, 0.0f);
@@ -408,7 +393,6 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
         this.plateCoords = plateCoords;
     }
 
-
     public void updateMapLayersGL() {
         for (int i = 0; i < handler.getGrid().mapLayersGL.length; i++) {
             updateMapLayerGL(i);
@@ -439,9 +423,7 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
         drawAllMaps(gl, (gl2, geometryGL, textures) -> {
             drawGeometryGL(gl2, geometryGL, textures);
         });*/
-        drawCurrentMap(gl, (gl2, geometryGL, textures) -> {
-            drawGeometryGL(gl2, geometryGL, textures);
-        });
+        drawCurrentMap(gl, this::drawGeometryGL);
     }
 
     protected void drawTransparentMaps(GL2 gl) {
@@ -456,9 +438,7 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
         gl.glEnable(GL_ALPHA_TEST);
         gl.glAlphaFunc(GL_NOTEQUAL, 0.0f);
 
-        drawCurrentMap(gl, (gl2, geometryGL, textures) -> {
-            drawGeometryGL(gl2, geometryGL, textures);
-        });
+        drawCurrentMap(gl, this::drawGeometryGL);
 
         /*
         drawAllMaps(gl, (gl2, geometryGL, textures) -> {
@@ -468,15 +448,13 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
 
     protected void drawAllMaps(GL2 gl, BdhcDisplay3D.DrawGeometryGLFunction drawFunction) {
         for (HashMap.Entry<Point, MapData> map : handler.getMapMatrix().getMatrix().entrySet()) {
-            drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL,
-                    map.getKey().x * cols, -map.getKey().y * rows, 0);
+            drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL, map.getKey().x * cols, -map.getKey().y * rows, 0);
         }
     }
 
     protected void drawCurrentMap(GL2 gl, BdhcDisplay3D.DrawGeometryGLFunction drawFunction) {
         MapData map = handler.getCurrentMap();
-        drawAllMapLayersGL(gl, drawFunction, map.getGrid().mapLayersGL,
-                0, 0, 0);
+        drawAllMapLayersGL(gl, drawFunction, map.getGrid().mapLayersGL, 0, 0, 0);
     }
 
     protected void drawAllMapLayersGL(GL2 gl, BdhcDisplay3D.DrawGeometryGLFunction drawFunction, MapLayerGL[] mapLayersGL, float x, float y, float z) {
@@ -499,7 +477,7 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
         }
     }
 
-    protected void drawGeometryGL(GL2 gl, GeometryGL geometryGL, ArrayList<Texture> textures) {
+    protected void drawGeometryGL(GL2 gl, GeometryGL geometryGL, List<Texture> textures) {
         try {
             gl.glBindTexture(GL_TEXTURE_2D, textures.get(geometryGL.textureID).getTextureObject());
             gl.glEnable(GL_TEXTURE_2D);
@@ -591,7 +569,7 @@ public class BdhcDisplay3D extends GLJPanel implements GLEventListener, MouseLis
         this.wireframeEnabled = wireframeEnabled;
     }
 
-    protected static interface DrawGeometryGLFunction {
-        public void draw(GL2 gl, GeometryGL geometryGL, ArrayList<Texture> textures);
+    protected interface DrawGeometryGLFunction {
+        void draw(GL2 gl, GeometryGL geometryGL, List<Texture> textures);
     }
 }

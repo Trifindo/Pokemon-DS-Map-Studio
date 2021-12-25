@@ -11,5 +11,4 @@ public class DaeMaterial extends DaeNode {
     public DaeMaterial(String id, String name) {
         super(id, name);
     }
-
 }

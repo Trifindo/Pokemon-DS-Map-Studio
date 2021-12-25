@@ -1,4 +1,3 @@
-
 package editor.buildingeditor2.buildfile;
 
 /**
@@ -13,13 +12,7 @@ public class Build {
     private float scaleX, scaleY, scaleZ;
 
     public Build() {
-        this.modelID = 0;
-        this.x = 0.0f;
-        this.y = 0.0f;
-        this.z = 0.0f;
-        this.scaleX = 1.0f;
-        this.scaleY = 1.0f;
-        this.scaleZ = 1.0f;
+        this(0, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
     }
 
     public Build(int modelID, float x, float y, float z, float scaleX, float scaleY, float scaleZ) {
@@ -87,6 +80,4 @@ public class Build {
     public void setScaleZ(float scaleZ) {
         this.scaleZ = scaleZ;
     }
-
-
 }

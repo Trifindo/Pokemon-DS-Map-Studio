@@ -3,11 +3,7 @@ package formats.nsbtx2;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
 
 /**
  * @author Trifindo, JackHack96
@@ -94,7 +90,6 @@ public class NsbtxImportDialog extends JDialog {
 
         updateViewTextures(0);
         updateViewPalettes(0);
-
     }
 
     private void updateViewTextures(int indexSelected) {
@@ -107,8 +102,8 @@ public class NsbtxImportDialog extends JDialog {
         updateViewPaletteNames(nsbtx, jlPalettesInNsbtx, indexSelected);
     }
 
-    private void updateViewTextureNames(Nsbtx2 nsbtx, JList list, int indexSelected) {
-        DefaultListModel demoList = new DefaultListModel();
+    private void updateViewTextureNames(Nsbtx2 nsbtx, JList<String>  list, int indexSelected) {
+        DefaultListModel<String>  demoList = new DefaultListModel<>();
         for (int i = 0; i < nsbtx.getTextures().size(); i++) {
             String name = nsbtx.getTexture(i).getName();
             demoList.addElement(name);
@@ -122,8 +117,8 @@ public class NsbtxImportDialog extends JDialog {
         list.setSelectedIndex(indexSelected);
     }
 
-    private void updateViewPaletteNames(Nsbtx2 nsbtx, JList list, int indexSelected) {
-        DefaultListModel demoList = new DefaultListModel();
+    private void updateViewPaletteNames(Nsbtx2 nsbtx, JList<String>  list, int indexSelected) {
+        DefaultListModel<String>  demoList = new DefaultListModel<>();
         for (int i = 0; i < nsbtx.getPalettes().size(); i++) {
             String name = nsbtx.getPalette(i).getName();
             demoList.addElement(name);

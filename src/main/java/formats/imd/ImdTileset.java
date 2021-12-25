@@ -15,9 +15,5 @@ public class ImdTileset extends ImdNode {
         subnodes.add(new Head());
 
         Body body = new Body();
-
-
     }
-
-
 }

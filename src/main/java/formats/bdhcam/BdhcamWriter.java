@@ -8,14 +8,12 @@ import formats.bdhcam.camplate.CamParameter;
 import formats.bdhcam.camplate.CamParameterPosDep;
 import formats.bdhcam.camplate.CamParameterPosIndep;
 import formats.bdhcam.camplate.Camplate;
-import utils.BinaryArrayWriter;
 import utils.BinaryBufferWriter;
 import utils.BinaryWriter;
 import utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Parameter;
 import java.nio.file.Files;
 
 
@@ -30,7 +28,6 @@ public class BdhcamWriter {
             bdhcData = BdhcWriterHGSS.bdhcToByteArray(bdhc);
         }
         writeBdhcamToFile(path, bdhcam, bdhcData);
-
     }
 
     public static void writeBdhcamToFile(String path, Bdhcam bdhcam, byte[] bdhcData) throws IOException {
@@ -43,7 +40,7 @@ public class BdhcamWriter {
         }
     }
 
-    public static byte[] bdhcamToByteArray(Bdhcam bdhcam, byte[] bdhcData) throws Exception {
+    public static byte[] bdhcamToByteArray(Bdhcam bdhcam, byte[] bdhcData) {
         byte[] bdhcamData = bdhcamToByteArray(bdhcam);
         int padding = (-bdhcData.length) & 3;
         byte[] mergedData = new byte[bdhcData.length + padding + bdhcamData.length];
@@ -66,7 +63,7 @@ public class BdhcamWriter {
         Files.write(new File(path).toPath(), bdhcamData);
     }
 
-    public static byte[] bdhcamToByteArray(Bdhcam bdhcam) throws Exception {
+    public static byte[] bdhcamToByteArray(Bdhcam bdhcam) {
         BinaryBufferWriter writer = new BinaryBufferWriter();
 
         writer.writeString("DCAM");
@@ -84,12 +81,7 @@ public class BdhcamWriter {
                 writer.writeUInt8(plate.x + plate.width);
                 writer.writeUInt8(plate.y + plate.height);
 
-                if (plate.useZ) {
-                    writer.writeUInt8(plate.z);
-                } else {
-                    writer.writeUInt8(0x80);
-                }
-
+                writer.writeUInt8(plate.useZ ? plate.z : 0x80);
                 writer.writeUInt8(plate.type.ID);
 
                 int paramOffset = 8 + numPlates * 8 + paramBytesWritten - offset;
@@ -109,20 +101,17 @@ public class BdhcamWriter {
                         CamParameterPosIndep paramPI = (CamParameterPosIndep) param;
                         writer.writeUInt32(paramPI.duration);
                         writer.writeUInt32((int) (paramPI.finalValue * 0x10000));
-                        paramBytesWritten += 8;
                     } else {
                         CamParameterPosDep paramPD = (CamParameterPosDep) param;
                         writer.writeUInt32((int) (paramPD.firstValue * 0x10000));
                         writer.writeUInt32((int) (paramPD.secondValue * 0x10000));
-                        paramBytesWritten += 8;
                     }
+                    paramBytesWritten += 8;
                 }
                 writer.reset();
             }
         }
 
         return writer.toByteArray();
-
     }
-
 }

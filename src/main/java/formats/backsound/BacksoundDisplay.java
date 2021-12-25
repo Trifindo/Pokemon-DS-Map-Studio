@@ -70,7 +70,7 @@ public class BacksoundDisplay extends JPanel {
 
     private void formMouseDragged(MouseEvent e) {
         if (backsoundHandler.getSoundplates().size() > 0) {
-            if (dragging && isCursorInsiePanel(e)) {
+            if (dragging && isCursorInsidePanel(e)) {
                 Soundplate p = backsoundHandler.getSelectedSoundplate();
                 int deltaX = (e.getX() - lastX) / TILE_SIZE;
                 int deltaY = (e.getY() - lastY) / TILE_SIZE;
@@ -120,9 +120,8 @@ public class BacksoundDisplay extends JPanel {
                 for (int i = 0; i < backsoundHandler.getBacksound().getSoundplates().size(); i++) {
                     Soundplate p = backsoundHandler.getBacksound().getSoundplate(i);
                     if (isHoveringPlate(p, x, y)) {
-                        partHovering = getPartSelected(p, x, y);
                         indexPlateHovering = i;
-                        setCursor(new Cursor(partHovering));
+                        setCursor(new Cursor(getPartSelected(p, x, y)));
                         return;
                     }
                 }
@@ -292,39 +291,29 @@ public class BacksoundDisplay extends JPanel {
         return CENTER;
     }
 
-    public boolean isCursorInsiePanel(MouseEvent evt) {
+    public boolean isCursorInsidePanel(MouseEvent evt) {
         int x = evt.getX();
         int y = evt.getY();
-        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) {
-            return false;
-        }
-        return true;
+        return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT;
     }
 
     public boolean isHoveringPlate(Soundplate p, int x, int y) {
-        return new Rectangle(
-                p.x * TILE_SIZE + xOffset,
-                p.y * TILE_SIZE + yOffset,
-                p.width * TILE_SIZE,
-                p.height * TILE_SIZE
+        return new Rectangle(p.x * TILE_SIZE + xOffset, p.y * TILE_SIZE + yOffset, p.width * TILE_SIZE, p.height * TILE_SIZE
         ).contains(x, y);
     }
 
     private void drawPlateBorder(Graphics g, Soundplate p) {
-        g.drawRect(p.x * TILE_SIZE, p.y * TILE_SIZE,
-                p.width * TILE_SIZE - 1, p.height * TILE_SIZE - 1);
+        g.drawRect(p.x * TILE_SIZE, p.y * TILE_SIZE, p.width * TILE_SIZE - 1, p.height * TILE_SIZE - 1);
     }
 
     private void fillPlate(Graphics g, Soundplate p) {
-        g.fillRect(p.x * TILE_SIZE, p.y * TILE_SIZE,
-                p.width * TILE_SIZE, p.height * TILE_SIZE);
+        g.fillRect(p.x * TILE_SIZE, p.y * TILE_SIZE, p.width * TILE_SIZE, p.height * TILE_SIZE);
 
     }
 
     private void drawPlateIndex(Graphics g, Soundplate p, int index) {
         g.setColor(Color.white);
-        g.drawString(
-                String.valueOf(index), p.x * TILE_SIZE + 4, p.y * TILE_SIZE + 12);
+        g.drawString(String.valueOf(index), p.x * TILE_SIZE + 4, p.y * TILE_SIZE + 12);
     }
 
     private void drawGrid(Graphics g) {

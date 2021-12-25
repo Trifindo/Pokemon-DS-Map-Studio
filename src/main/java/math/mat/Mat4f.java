@@ -62,7 +62,7 @@ public class Mat4f {
     }
 
     public void print() {
-        System.out.println(toString());
+        System.out.println(this);
     }
 
     public final void set(Mat4f other) {
@@ -409,5 +409,4 @@ public class Mat4f {
     public Mat4f transp_() {
         return transp_(this);
     }
-
 }

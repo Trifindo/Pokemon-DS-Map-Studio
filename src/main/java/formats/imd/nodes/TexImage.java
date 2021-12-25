@@ -4,7 +4,7 @@ package formats.imd.nodes;
 import formats.imd.ImdAttribute;
 import formats.imd.ImdNode;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import formats.imd.ImdTextureIndexed;
 import formats.nsbtx2.Nsbtx2;
@@ -23,31 +23,22 @@ public class TexImage extends ImdNode {
             "a5i3"
     };
 
-    public TexImage(int index, String name, String paletteName,
-                    ImdTextureIndexed imdTexture, int colorFormat, String path) {
+    public TexImage(int index, String name, String paletteName, ImdTextureIndexed imdTexture, int colorFormat, String path) {
         super("tex_image");
 
-        String color0mode;
-        if (imdTexture.isTransparent()) {
-            color0mode = "transparency";
-        } else {
-            color0mode = "color";
-        }
+        String color0mode = imdTexture.isTransparent() ? "transparency" : "color";
 
-        attributes = new ArrayList<ImdAttribute>() {
-            {
-                add(new ImdAttribute("index", index));
-                add(new ImdAttribute("name", name));
-                add(new ImdAttribute("width", imdTexture.width));
-                add(new ImdAttribute("height", imdTexture.height));
-                add(new ImdAttribute("original_width", imdTexture.width));
-                add(new ImdAttribute("original_height", imdTexture.height));
-                add(new ImdAttribute("format", colorFormatTable[colorFormat]));
-                add(new ImdAttribute("color0_mode", color0mode));
-                add(new ImdAttribute("palette_name", paletteName));
-                add(new ImdAttribute("path", path));
-            }
-        };
+        attributes = List.of(
+                new ImdAttribute("index", index), 
+                new ImdAttribute("name", name), 
+                new ImdAttribute("width", imdTexture.width), 
+                new ImdAttribute("height", imdTexture.height), 
+                new ImdAttribute("original_width", imdTexture.width), 
+                new ImdAttribute("original_height", imdTexture.height), 
+                new ImdAttribute("format", colorFormatTable[colorFormat]), 
+                new ImdAttribute("color0_mode", color0mode), 
+                new ImdAttribute("palette_name", paletteName), 
+                new ImdAttribute("path", path));
 
         subnodes.add(new ImdBitmap(imdTexture));
         //subnodes.add(new ImdBitmap((width * height) / 4));
@@ -56,27 +47,19 @@ public class TexImage extends ImdNode {
     public TexImage(int index, NsbtxTexture texture, String path) {
         super("tex_image");
 
-        String color0mode;
-        if (texture.isTransparent()) {
-            color0mode = "transparency";
-        } else {
-            color0mode = "color";
-        }
+        String color0mode = texture.isTransparent() ? "transparency" : "color";
 
-        attributes = new ArrayList<ImdAttribute>() {
-            {
-                add(new ImdAttribute("index", index));
-                add(new ImdAttribute("name", texture.getName()));
-                add(new ImdAttribute("width", texture.getWidth()));
-                add(new ImdAttribute("height", texture.getHeight()));
-                add(new ImdAttribute("original_width", texture.getWidth()));
-                add(new ImdAttribute("original_height", texture.getHeight()));
-                add(new ImdAttribute("format", Nsbtx2.formatNames[texture.getColorFormat()]));
-                add(new ImdAttribute("color0_mode", color0mode));
-                add(new ImdAttribute("palette_name", ""));
-                add(new ImdAttribute("path", path));
-            }
-        };
+        attributes = List.of(
+                new ImdAttribute("index", index), 
+                new ImdAttribute("name", texture.getName()), 
+                new ImdAttribute("width", texture.getWidth()), 
+                new ImdAttribute("height", texture.getHeight()), 
+                new ImdAttribute("original_width", texture.getWidth()), 
+                new ImdAttribute("original_height", texture.getHeight()), 
+                new ImdAttribute("format", Nsbtx2.formatNames[texture.getColorFormat()]), 
+                new ImdAttribute("color0_mode", color0mode), 
+                new ImdAttribute("palette_name", ""), 
+                new ImdAttribute("path", path));
 
         subnodes.add(new ImdBitmap(texture));
         //subnodes.add(new ImdBitmap((width * height) / 4));

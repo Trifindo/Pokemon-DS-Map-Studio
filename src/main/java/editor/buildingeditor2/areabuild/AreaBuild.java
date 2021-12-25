@@ -2,6 +2,7 @@
 package editor.buildingeditor2.areabuild;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import utils.BinaryReader;
 import utils.BinaryWriter;
@@ -11,9 +12,9 @@ import utils.BinaryWriter;
  */
 public class AreaBuild {
 
-    private ArrayList<Integer> buildingIDs;
+    private List<Integer> buildingIDs;
 
-    public AreaBuild(ArrayList<Integer> buildingIDs) {
+    public AreaBuild(List<Integer> buildingIDs) {
         this.buildingIDs = buildingIDs;
     }
 
@@ -29,7 +30,7 @@ public class AreaBuild {
         }
     }
 
-    public byte[] toByteArray() throws Exception {
+    public byte[] toByteArray() {
         byte[] data = new byte[2 + buildingIDs.size() * 2];
         BinaryWriter.writeUInt16(data, 0, buildingIDs.size());
         for (int i = 0; i < buildingIDs.size(); i++) {
@@ -38,9 +39,7 @@ public class AreaBuild {
         return data;
     }
 
-    public ArrayList<Integer> getBuildingIDs() {
+    public List<Integer> getBuildingIDs() {
         return buildingIDs;
     }
-
-
 }

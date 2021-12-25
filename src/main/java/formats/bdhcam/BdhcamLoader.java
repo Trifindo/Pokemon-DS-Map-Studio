@@ -6,7 +6,7 @@ import utils.BinaryReader;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.ArrayList;
+import java.util.List;
 
 public class BdhcamLoader {
 
@@ -14,7 +14,7 @@ public class BdhcamLoader {
         return loadBdhcam(Files.readAllBytes(new File(path).toPath()));
     }
 
-    public static Bdhcam loadBdhcam(byte[] data) throws Exception {
+    public static Bdhcam loadBdhcam(byte[] data) {
         int bdhcamOffset = (int)BinaryReader.readUInt16(data, 2) + 0x10;
         return loadBdhcam(data, bdhcamOffset);
     }
@@ -23,15 +23,14 @@ public class BdhcamLoader {
         return loadBdhcam(Files.readAllBytes(new File(path).toPath()), offset);
     }
 
-    public static Bdhcam loadBdhcam(byte[] data, int offset) throws Exception {
-
+    public static Bdhcam loadBdhcam(byte[] data, int offset) {
         BinaryArrayReader reader = new BinaryArrayReader(data, offset);
 
         String signature = reader.readString(4);
 
         int numPlates = (int) reader.readUInt32();
         Bdhcam bdhcam = new Bdhcam(numPlates);
-        ArrayList<Camplate> plates = bdhcam.getPlates();
+        List<Camplate> plates = bdhcam.getPlates();
         for (int i = 0; i < numPlates; i++) {
             Camplate plate;
 

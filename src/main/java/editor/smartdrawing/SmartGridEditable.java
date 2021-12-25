@@ -7,6 +7,8 @@ import static editor.smartdrawing.SmartGrid.width;
 import tileset.Tile;
 import tileset.Tileset;
 
+import java.util.Arrays;
+
 /**
  * @author Trifindo
  */
@@ -28,9 +30,7 @@ public class SmartGridEditable {
 
     public SmartGridEditable() {
         for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                sgrid[i][j] = null;
-            }
+            Arrays.fill(sgrid[i], null);
         }
     }
 

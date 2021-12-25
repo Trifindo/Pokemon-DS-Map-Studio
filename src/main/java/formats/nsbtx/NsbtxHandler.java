@@ -96,5 +96,4 @@ public class NsbtxHandler {
     public void setNsbtxPath(String path) {
         this.nsbtxPath = path;
     }
-
 }

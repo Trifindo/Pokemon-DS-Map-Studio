@@ -26,7 +26,5 @@ public class NsbtxWriter {
         FileOutputStream out = new FileOutputStream(path);
         out.write(nsbtx.rawData);
         out.close();
-
     }
-
 }

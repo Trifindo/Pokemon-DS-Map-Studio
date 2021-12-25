@@ -3,15 +3,12 @@ package editor.tileseteditor;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 
 import editor.tileselector.*;
 import tileset.TilesetRenderer;
 
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
+import java.util.List;
 
 import tileset.Tile;
 import tileset.Tileset;
@@ -78,7 +75,7 @@ public class ImportTilesDialog extends JDialog {
         return returnValue;
     }
 
-    public ArrayList<Tile> getTilesSelected() {
+    public List<Tile> getTilesSelected() {
         return tileMultiSelector.getTilesSelected();
     }
 

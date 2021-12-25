@@ -4,7 +4,9 @@ package editor.smartdrawing;
 import editor.handler.MapEditorHandler;
 import editor.grid.MapGrid;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
 
 import tileset.Tile;
 
@@ -17,46 +19,41 @@ public class SmartGrid {
     public static final int height = 3;
     public int[][] sgrid = new int[width][height];
 
-    private static ArrayList<SmartUnit> smartUnits = new ArrayList<SmartUnit>() {
-        {
-            add(new SmartUnit(true, false, false, true, false, false, false, false));
-            add(new SmartUnit(true, false, true, true, false, false, false, false));
-            add(new SmartUnit(true, false, true, false, false, false, false, false));
-            add(new SmartUnit(true, true, true, true, true, false, true, true));
-            add(new SmartUnit(true, true, true, true, false, true, true, true));
+    private static List<SmartUnit> smartUnits = List.of(
+            new SmartUnit(true, false, false, true, false, false, false, false),
+            new SmartUnit(true, false, true, true, false, false, false, false),
+            new SmartUnit(true, false, true, false, false, false, false, false),
+            new SmartUnit(true, true, true, true, true, false, true, true),
+            new SmartUnit(true, true, true, true, false, true, true, true),
 
-            add(new SmartUnit(true, true, false, true, false, false, false, false));
-            add(new SmartUnit(true, true, true, true, true, true, true, true));
-            add(new SmartUnit(true, true, true, false, false, false, false, false));
-            add(new SmartUnit(true, true, true, true, true, true, true, false));
-            add(new SmartUnit(true, true, true, true, true, true, false, true));
+            new SmartUnit(true, true, false, true, false, false, false, false),
+            new SmartUnit(true, true, true, true, true, true, true, true),
+            new SmartUnit(true, true, true, false, false, false, false, false),
+            new SmartUnit(true, true, true, true, true, true, true, false),
+            new SmartUnit(true, true, true, true, true, true, false, true),
 
-            add(new SmartUnit(false, true, false, true, false, false, false, false));
-            add(new SmartUnit(false, true, true, true, false, false, false, false));
-            add(new SmartUnit(false, true, true, false, false, false, false, false));
-        }
-    };
+            new SmartUnit(false, true, false, true, false, false, false, false),
+            new SmartUnit(false, true, true, true, false, false, false, false),
+            new SmartUnit(false, true, true, false, false, false, false, false)
+        );
 
-    private static ArrayList<SmartUnit> invertedSmartUnits = new ArrayList<SmartUnit>() {
-        {
-            add(new SmartUnit(true, true, true, true, true, false, true, true));//3
-            add(new SmartUnit(false, true, true, true, false, false, false, false));//12
-            add(new SmartUnit(true, true, true, true, false, true, true, true));//4
-            add(new SmartUnit(true, false, false, true, false, false, false, false));//0
-            add(new SmartUnit(true, false, true, false, false, false, false, false));//2
+    private static List<SmartUnit> invertedSmartUnits = List.of(
+            new SmartUnit(true, true, true, true, true, false, true, true), //3
+            new SmartUnit(false, true, true, true, false, false, false, false), //12
+            new SmartUnit(true, true, true, true, false, true, true, true), //4
+            new SmartUnit(true, false, false, true, false, false, false, false), //0
+            new SmartUnit(true, false, true, false, false, false, false, false), //2
 
-            add(new SmartUnit(true, true, true, false, false, false, false, false));//7
-            add(new SmartUnit(true, true, true, true, true, true, true, true));//6
-            add(new SmartUnit(true, true, false, true, false, false, false, false));//5
-            add(new SmartUnit(false, true, false, true, false, false, false, false));//11
-            add(new SmartUnit(false, true, true, false, false, false, false, false));//13
+            new SmartUnit(true, true, true, false, false, false, false, false), //7
+            new SmartUnit(true, true, true, true, true, true, true, true), //6
+            new SmartUnit(true, true, false, true, false, false, false, false), //5
+            new SmartUnit(false, true, false, true, false, false, false, false), //11
+            new SmartUnit(false, true, true, false, false, false, false, false), //13
 
-            add(new SmartUnit(true, true, true, true, true, true, true, false));//8
-            add(new SmartUnit(true, false, true, true, false, false, false, false));//1
-            add(new SmartUnit(true, true, true, true, true, true, false, true));//9
-
-        }
-    };
+            new SmartUnit(true, true, true, true, true, true, true, false), //8
+            new SmartUnit(true, false, true, true, false, false, false, false), //1
+            new SmartUnit(true, true, true, true, true, true, false, true) //9
+        );
 
     public SmartGrid(int[][] data) {
         this.sgrid = data;
@@ -64,9 +61,7 @@ public class SmartGrid {
 
     public SmartGrid() {
         for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                sgrid[i][j] = -1;
-            }
+            Arrays.fill(sgrid[i], -1);
         }
 
         /*
@@ -93,11 +88,7 @@ public class SmartGrid {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 int index = oldGrid[i][j];
-                if (index == -1) {
-                    sgrid[i][j] = -1;
-                } else {
-                    sgrid[i][j] = indices[index];
-                }
+                sgrid[i][j] = index == -1 ? -1 : indices[index];
             }
         }
     }
@@ -150,38 +141,28 @@ public class SmartGrid {
         } else {
             floodFillUtil(handler.getActiveTileLayer(), gridToEdit, remainingGrid, x, y, prevC, W, H, smartUnits);
         }
-
     }
 
-    private void floodFillUtil(
-            int screen[][], boolean[][] gridToEdit, boolean[][] remainingGrid,
-            int x, int y, int prevC, int W, int H, ArrayList<SmartUnit> units) {
+    private void floodFillUtil(int[][] screen, boolean[][] gridToEdit, boolean[][] remainingGrid,
+            int x, int y, int prevC, int W, int H, List<SmartUnit> units) {
         // Base cases 
         if (x < 0 || x >= W || y < 0 || y >= H) {
             return;
         }
 
-        if (!gridToEdit[x][y]) {
-            return;
-        }
-
-        if (!remainingGrid[x][y]) {
+        if (!gridToEdit[x][y] || !remainingGrid[x][y]) {
             return;
         }
 
         SmartUnit unit = generateSmartUnit(gridToEdit, x, y, W, H);
         int index;
         if (unit.fullCrossNeighbours()) {
-
             index = indexOfSameCorner(units, unit);
-            if (index == -1) {
-                index = 6;
-            }
         } else {
             index = indexOfSameCross(units, unit);
-            if (index == -1) {
-                index = 6;
-            }
+        }
+        if (index == -1) {
+            index = 6;
         }
 
         screen[x][y] = sgrid[index % width][index / width];
@@ -197,54 +178,44 @@ public class SmartGrid {
     private SmartUnit generateSmartUnit(boolean[][] screen, int x, int y, int M, int N) {
         boolean[] corners = new boolean[4];
         boolean[] cross = new boolean[4];
-        cross[0] = hasSameNeigbour(screen, x, y - 1, M, N);
-        cross[1] = hasSameNeigbour(screen, x, y + 1, M, N);
-        cross[2] = hasSameNeigbour(screen, x - 1, y, M, N);
-        cross[3] = hasSameNeigbour(screen, x + 1, y, M, N);
+        cross[0] = hasSameNeighbor(screen, x, y - 1, M, N);
+        cross[1] = hasSameNeighbor(screen, x, y + 1, M, N);
+        cross[2] = hasSameNeighbor(screen, x - 1, y, M, N);
+        cross[3] = hasSameNeighbor(screen, x + 1, y, M, N);
 
-        corners[0] = hasSameNeigbour(screen, x - 1, y - 1, M, N);
-        corners[1] = hasSameNeigbour(screen, x + 1, y - 1, M, N);
-        corners[2] = hasSameNeigbour(screen, x - 1, y + 1, M, N);
-        corners[3] = hasSameNeigbour(screen, x + 1, y + 1, M, N);
+        corners[0] = hasSameNeighbor(screen, x - 1, y - 1, M, N);
+        corners[1] = hasSameNeighbor(screen, x + 1, y - 1, M, N);
+        corners[2] = hasSameNeighbor(screen, x - 1, y + 1, M, N);
+        corners[3] = hasSameNeighbor(screen, x + 1, y + 1, M, N);
 
         return new SmartUnit(cross, corners);
     }
 
-    private boolean hasSameNeigbour(boolean[][] screen, int x, int y, int M, int N) {
+    private boolean hasSameNeighbor(boolean[][] screen, int x, int y, int M, int N) {
         if (x < 0 || x >= M || y < 0 || y >= N) {
-            return true; //flase
+            return true; //false
         } else {
             return screen[x][y];
         }
     }
 
-    private int indexOfSameCross(ArrayList<SmartUnit> units, SmartUnit unit) {
-        for (int i = 0; i < units.size(); i++) {
-            if (units.get(i).sameCross(unit)) {
-                return i;
-            }
-        }
-        return -1;
+    private int indexOfSameCross(List<SmartUnit> units, SmartUnit unit) {
+        return IntStream.range(0, units.size())
+                .filter(i -> units.get(i).sameCross(unit))
+                .findFirst().orElse(-1);
     }
 
-    private int indexOfSameCorner(ArrayList<SmartUnit> units, SmartUnit unit) {
-        for (int i = 0; i < units.size(); i++) {
-            if (units.get(i).sameCorners(unit)) {
-                return i;
-            }
-        }
-        return -1;
+    private int indexOfSameCorner(List<SmartUnit> units, SmartUnit unit) {
+        return IntStream.range(0, units.size())
+                .filter(i -> units.get(i).sameCorners(unit))
+                .findFirst().orElse(-1);
     }
 
     private static class SmartUnit {
-
         public boolean[] cross;
         public boolean[] corners;
 
-        public SmartUnit(
-                boolean t, boolean b, boolean l, boolean r,
-                boolean tl, boolean tr, boolean bl, boolean br) {
-
+        public SmartUnit(boolean t, boolean b, boolean l, boolean r, boolean tl, boolean tr, boolean bl, boolean br) {
             cross = new boolean[4];
             corners = new boolean[4];
             cross[0] = t;
@@ -255,7 +226,6 @@ public class SmartGrid {
             corners[1] = tr;
             corners[2] = bl;
             corners[3] = br;
-
         }
 
         public SmartUnit(boolean[] cross, boolean[] corners) {
@@ -268,21 +238,11 @@ public class SmartGrid {
         }
 
         public boolean sameCross(SmartUnit unit) {
-            for (int i = 0; i < cross.length; i++) {
-                if (this.cross[i] != unit.cross[i]) {
-                    return false;
-                }
-            }
-            return true;
+            return IntStream.range(0, cross.length).noneMatch(i -> this.cross[i] != unit.cross[i]);
         }
 
         public boolean sameCorners(SmartUnit unit) {
-            for (int i = 0; i < corners.length; i++) {
-                if (this.corners[i] != unit.corners[i]) {
-                    return false;
-                }
-            }
-            return true;
+            return IntStream.range(0, corners.length).noneMatch(i -> this.corners[i] != unit.corners[i]);
         }
 
         public void printUnit() {
@@ -290,7 +250,5 @@ public class SmartGrid {
             System.out.println(cross[2] + " " + "    " + " " + cross[3]);
             System.out.println(corners[2] + " " + cross[1] + " " + corners[3]);
         }
-
     }
-
 }

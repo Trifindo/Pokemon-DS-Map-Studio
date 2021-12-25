@@ -33,5 +33,4 @@ public class TextureInfo {
         int[] bitDepth = new int[]{0, 8, 2, 4, 8, 2, 8, 16};
         return (width * height * bitDepth[format]) / 8;
     }
-
 }

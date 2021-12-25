@@ -1,7 +1,6 @@
 
 package editor.buildingeditor2.tileset;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -32,6 +31,4 @@ public class BuildTileset {
         fos.write(data);
         fos.close();
     }
-
-
 }

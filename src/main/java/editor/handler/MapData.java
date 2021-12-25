@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
 public class MapData {
 
     //Map Editor Handler
-    private MapEditorHandler handler;
+    private final MapEditorHandler handler;
 
     //Map grid
     private MapGrid grid;
@@ -54,7 +54,7 @@ public class MapData {
         bdhc = new Bdhc();
         backsound = new Backsound();
         collisions = new Collisions(handler.getGameIndex());
-        collisions2 = new Collisions(handler.getGameIndex());;
+        collisions2 = new Collisions(handler.getGameIndex());
         buildings = new BuildFile();
         bdhcam = new Bdhcam();
 

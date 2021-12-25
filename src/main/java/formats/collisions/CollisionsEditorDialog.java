@@ -3,7 +3,6 @@ package formats.collisions;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
@@ -15,9 +14,6 @@ import editor.state.StateHandler;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.*;
@@ -37,8 +33,7 @@ public class CollisionsEditorDialog extends JDialog {
     }
 
     private void jSlider1StateChanged(ChangeEvent e) {
-        float value = jSlider1.getValue() / 100f;
-        collisionsDisplay.transparency = value;
+        collisionsDisplay.transparency = jSlider1.getValue() / 100f;
         collisionsDisplay.repaint();
     }
 
@@ -85,11 +80,7 @@ public class CollisionsEditorDialog extends JDialog {
         collisionLayerSelector.init(collisionHandler);
 
         CardLayout cl = (CardLayout) (cardPanel.getLayout());
-        if(Game.isGenV(handler.getGameIndex())){
-            cl.show(cardPanel, "fileSelectorPanel");
-        }else{
-            cl.show(cardPanel, "emptyPanel");
-        }
+        cl.show(cardPanel, Game.isGenV(handler.getGameIndex()) ? "fileSelectorPanel" : "emptyPanel");
 
         updateView();
     }
@@ -110,24 +101,24 @@ public class CollisionsEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Collision File (*.per)", Collisions.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open");
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            try {
-                String path = fc.getSelectedFile().getPath();
-                handler.setLastCollisionsDirectoryUsed(fc.getSelectedFile().getParent());
 
-                collisionHandler.setCollisions(new Collisions(path));
+        if (fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        try {
+            String path = fc.getSelectedFile().getPath();
+            handler.setLastCollisionsDirectoryUsed(fc.getSelectedFile().getParent());
 
-                collisionHandler.resetMapStateHandler();
-                updateView();
-                collisionsDisplay.repaint();
-                collisionLayerSelector.drawAllLayers();
-                collisionLayerSelector.repaint();
-                collisionsTypesDisplay.repaint();
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Can't open file", "Error collision file", JOptionPane.INFORMATION_MESSAGE);
-            }
+            collisionHandler.setCollisions(new Collisions(path));
 
+            collisionHandler.resetMapStateHandler();
+            updateView();
+            collisionsDisplay.repaint();
+            collisionLayerSelector.drawAllLayers();
+            collisionLayerSelector.repaint();
+            collisionsTypesDisplay.repaint();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Can't open file", "Error collision file", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -241,10 +232,6 @@ public class CollisionsEditorDialog extends JDialog {
     public JButton getRedoButton() {
         return jbRedo;
     }
-
-
-
-
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents

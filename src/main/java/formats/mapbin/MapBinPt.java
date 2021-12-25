@@ -60,7 +60,7 @@ public class MapBinPt extends MapBin {
         }
     }
 
-    public static byte[] toByteArray(MapBinPt map) throws Exception {
+    public static byte[] toByteArray(MapBinPt map) {
         byte[] header = new byte[16];
         BinaryWriter.writeUInt32(header, 0, map.per.length);
         BinaryWriter.writeUInt32(header, 4, map.bld.length);

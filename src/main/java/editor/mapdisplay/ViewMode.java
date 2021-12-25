@@ -2,17 +2,12 @@
 package editor.mapdisplay;
 
 import com.jogamp.opengl.GL2;
-import editor.state.MapLayerState;
-import graphicslib3D.Matrix3D;
-import graphicslib3D.Vector3D;
 import math.vec.Vec3f;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.util.HashSet;
-import javax.swing.SwingUtilities;
 
 /**
  * @author Trifindo

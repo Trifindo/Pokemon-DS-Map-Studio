@@ -25,7 +25,6 @@ public class CameraSettings {
         values[6] = upX;
         values[7] = upY;
         values[8] = upZ;
-
     }
 
     public CameraSettings(CamplatePosIndep plate, int frame){
@@ -50,7 +49,6 @@ public class CameraSettings {
                 values[param.type.camParamIndex] += param.getWeightedValue(weight);
             }
         }
-
     }
 
     public CameraSettings(Camplate plate, float weight) {
@@ -62,7 +60,6 @@ public class CameraSettings {
                 values[param.type.camParamIndex] += param.getWeightedValue(weight);
             }
         }
-
     }
 
     private void moveCameraToPlayer(Camplate plate, float[] playerPos){
@@ -95,7 +92,6 @@ public class CameraSettings {
             values[5] += plate.z;
         }
     }
-
 }
 
 

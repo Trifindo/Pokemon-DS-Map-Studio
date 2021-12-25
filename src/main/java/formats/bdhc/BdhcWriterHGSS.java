@@ -11,53 +11,44 @@ import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Trifindo
  */
 public class BdhcWriterHGSS {
 
-    public static void writeBdhc(Bdhc bdhc, String path) throws IOException{
+    public static void writeBdhc(Bdhc bdhc, String path) throws IOException {
         byte[] byteData = bdhcToByteArray(bdhc);
         Files.write(new File(path).toPath(), byteData);
     }
 
-    public static byte[] bdhcToByteArray(Bdhc bdhc) throws IOException {
-
+    public static byte[] bdhcToByteArray(Bdhc bdhc) {
         BinaryBufferWriter writer = new BinaryBufferWriter();
 
         int[][] pointIndices = new int[bdhc.getPlates().size()][2];
-        ArrayList<Point> points = getPoints(bdhc, pointIndices);
+        List<Point> points = getPoints(bdhc, pointIndices);
         int[] slopeIndices = new int[bdhc.getPlates().size()];
-        ArrayList<Slope> slopes = getSlopes(bdhc, slopeIndices);
+        List<Slope> slopes = getSlopes(bdhc, slopeIndices);
         int[] zIndices = new int[bdhc.getPlates().size()];
-        ArrayList<Integer> zCoords = getCoordsZ(bdhc, zIndices);
-        ArrayList<Stripe> stripes = calculateStripes(bdhc);
+        List<Integer> zCoords = getCoordsZ(bdhc, zIndices);
+        List<Stripe> stripes = calculateStripes(bdhc);
 
         //FileOutputStream out = new FileOutputStream(path);
 
         writeHeader(writer, bdhc, points, slopes, zCoords, stripes);
-
         writePoints(writer, points);
-
         writeSlopes(writer, slopes);
-
         writeCoordsZ(writer, zCoords);
-
         writePlates(writer, pointIndices, slopeIndices, zIndices);
-
         writeStripes(writer, stripes);
-
         writeIndices(writer, stripes);
 
         //out.close();
         return writer.toByteArray();
     }
 
-    private static void writeHeader(BinaryBufferWriter writer, Bdhc bdhc,
-                                    ArrayList<Point> points, ArrayList<Slope> slopes, ArrayList<Integer> zCoords,
-                                    ArrayList<Stripe> stripes) throws IOException {
-
+    private static void writeHeader(BinaryBufferWriter writer, Bdhc bdhc, List<Point> points, List<Slope> slopes, List<Integer> zCoords, List<Stripe> stripes) {
         writeString(writer, "BDHC");
 
         writeShortValue(writer, points.size());
@@ -68,20 +59,17 @@ public class BdhcWriterHGSS {
         writeShortValue(writer, getNumPlateIndices(stripes));
     }
 
-    private static void writeIndices(BinaryBufferWriter writer,
-                                     ArrayList<Stripe> stripes) throws IOException {
-        for (int i = 0; i < stripes.size(); i++) {
-            Stripe stripe = stripes.get(i);
+    private static void writeIndices(BinaryBufferWriter writer, List<Stripe> stripes) {
+        for (Stripe stripe : stripes) {
             for (int j = 0; j < stripe.plateIndices.size(); j++) {
                 writeShortValue(writer, stripe.plateIndices.get(j));
             }
         }
     }
 
-    private static void writeStripes(BinaryBufferWriter writer, ArrayList<Stripe> stripes) throws IOException {
+    private static void writeStripes(BinaryBufferWriter writer, List<Stripe> stripes) {
         int offset = 0;
-        for (int i = 0; i < stripes.size(); i++) {
-            Stripe stripe = stripes.get(i);
+        for (Stripe stripe : stripes) {
             writeShortValue(writer, 0);
             writeShortValue(writer, stripe.y);
             writeShortValue(writer, stripe.plateIndices.size());
@@ -90,9 +78,7 @@ public class BdhcWriterHGSS {
         }
     }
 
-    private static void writePlates(BinaryBufferWriter writer,
-                                    int[][] pointIndices, int[] slopeIndices, int[] zIndices) throws IOException {
-
+    private static void writePlates(BinaryBufferWriter writer, int[][] pointIndices, int[] slopeIndices, int[] zIndices) {
         for (int i = 0; i < pointIndices.length; i++) {
             writeShortValue(writer, pointIndices[i][0]);
             writeShortValue(writer, pointIndices[i][1]);
@@ -101,28 +87,22 @@ public class BdhcWriterHGSS {
         }
     }
 
-    private static void writeCoordsZ(BinaryBufferWriter writer, ArrayList<Integer> coordsZ)
-            throws IOException {
-        for (int i = 0; i < coordsZ.size(); i++) {
-            writeIntValue(writer, coordsZ.get(i));
+    private static void writeCoordsZ(BinaryBufferWriter writer, List<Integer> coordsZ) {
+        for (Integer integer : coordsZ) {
+            writeIntValue(writer, integer);
         }
     }
 
-    private static void writeSlopes(BinaryBufferWriter writer, ArrayList<Slope> slopes)
-            throws IOException {
-        for (int i = 0; i < slopes.size(); i++) {
-            Slope slope = slopes.get(i);
+    private static void writeSlopes(BinaryBufferWriter writer, List<Slope> slopes) {
+        for (Slope slope : slopes) {
             writeIntValue(writer, slope.x);
             writeIntValue(writer, slope.y);
             writeIntValue(writer, slope.z);
         }
-
     }
 
-    private static void writePoints(BinaryBufferWriter writer, ArrayList<Point> points)
-            throws IOException {
-        for (int i = 0; i < points.size(); i++) {
-            Point point = points.get(i);
+    private static void writePoints(BinaryBufferWriter writer, List<Point> points) {
+        for (Point point : points) {
             writeShortValue(writer, 0);
             writeShortValue(writer, point.x);
             writeShortValue(writer, 0);
@@ -130,8 +110,8 @@ public class BdhcWriterHGSS {
         }
     }
 
-    private static ArrayList<Stripe> calculateStripes(Bdhc bdhc) {
-        ArrayList<PlateInfo> platesInfo = new ArrayList<>();
+    private static List<Stripe> calculateStripes(Bdhc bdhc) {
+        List<PlateInfo> platesInfo = new ArrayList<>();
 
         //Get plate info of plates inside group
         for (int i = 0; i < bdhc.getPlates().size(); i++) {
@@ -143,19 +123,18 @@ public class BdhcWriterHGSS {
         Collections.sort(platesInfo);
 
         //Group by height and form stripes
-        ArrayList<Stripe> stripes = new ArrayList<>();
+        List<Stripe> stripes = new ArrayList<>();
         int previousY = -16;
         for (int i = 0; i < platesInfo.size(); i++) {
             int y = platesInfo.get(i).y;
             if (y != previousY) {
                 int yMinBounds = previousY;
-                int yMaxBounds = y;
 
                 Stripe stripe = new Stripe(y);
-                for (int j = 0; j < platesInfo.size(); j++) {
-                    Plate p = bdhc.getPlate(platesInfo.get(j).plateIndex);
-                    if (yMinBounds < p.y + p.height && yMaxBounds > p.y) {
-                        stripe.plateIndices.add(platesInfo.get(j).plateIndex);
+                for (PlateInfo plateInfo : platesInfo) {
+                    Plate p = bdhc.getPlate(plateInfo.plateIndex);
+                    if (yMinBounds < p.y + p.height && y > p.y) {
+                        stripe.plateIndices.add(plateInfo.plateIndex);
                     }
                 }
                 stripes.add(stripe);
@@ -176,15 +155,15 @@ public class BdhcWriterHGSS {
         }
 
         //Sort stripes elements on X axis
-        for (int i = 0; i < stripes.size(); i++) {
-            stripes.get(i).sortPlateIndices(bdhc.getPlates());
+        for (Stripe stripe : stripes) {
+            stripe.sortPlateIndices(bdhc.getPlates());
         }
 
         return stripes;
     }
 
-    private static ArrayList<Integer> getCoordsZ(Bdhc bdhc, int[] zIndices) {
-        ArrayList<Integer> zCoords = new ArrayList<>();
+    private static List<Integer> getCoordsZ(Bdhc bdhc, int[] zIndices) {
+        List<Integer> zCoords = new ArrayList<>();
 
         for (int i = 0; i < bdhc.getPlates().size(); i++) {
             Plate p = bdhc.getPlate(i);
@@ -202,21 +181,11 @@ public class BdhcWriterHGSS {
 
             final float zero = 0.001f;
             if (Math.abs(xd) > zero) {
-                float x;
-                if (xd > zero) {
-                    x = p.x + p.width;
-                } else {
-                    x = p.x;
-                }
+                float x = xd > zero ? p.x + p.width : p.x;
                 float n = z - mx * x;
                 d = (float) -(n / Math.sqrt(mx * mx + 1.0f));
             } else if (Math.abs(yd) > zero) {
-                float y;
-                if (yd > zero) {
-                    y = p.y + p.height;
-                } else {
-                    y = p.y;
-                }
+                float y = yd > zero ? p.y + p.height : p.y;
                 float n = z - my * y;
                 d = (float) -(n / Math.sqrt(my * my + 1.0f));
             } else {
@@ -237,8 +206,8 @@ public class BdhcWriterHGSS {
         return zCoords;
     }
 
-    private static ArrayList<Slope> getSlopes(Bdhc bdhc, int[] indices) {
-        ArrayList<Slope> slopes = new ArrayList<>();
+    private static List<Slope> getSlopes(Bdhc bdhc, int[] indices) {
+        List<Slope> slopes = new ArrayList<>();
 
         for (int i = 0; i < bdhc.getPlates().size(); i++) {
             Plate p = bdhc.getPlate(i);
@@ -254,8 +223,8 @@ public class BdhcWriterHGSS {
         return slopes;
     }
 
-    private static ArrayList<Point> getPoints(Bdhc bdhc, int[][] coordIndices) {
-        ArrayList<Point> coords = new ArrayList<>();
+    private static List<Point> getPoints(Bdhc bdhc, int[][] coordIndices) {
+        List<Point> coords = new ArrayList<>();
         for (int i = 0; i < bdhc.getPlates().size(); i++) {
             Plate p = bdhc.getPlate(i);
 
@@ -277,36 +246,25 @@ public class BdhcWriterHGSS {
         return coords;
     }
 
-    public static int getNumStripes(ArrayList<ArrayList<Stripe>> stripes) {
-        int numStripes = 0;
-        for (int i = 0; i < stripes.size(); i++) {
-            numStripes += stripes.get(i).size();
-        }
-        return numStripes;
+    public static int getNumStripes(List<List<Stripe>> stripes) {
+        return stripes.stream().mapToInt(List::size).sum();
     }
 
-    public static int getNumPlateIndices(ArrayList<Stripe> stripes) {
-        int numIndices = 0;
-        for (int i = 0; i < stripes.size(); i++) {
-            numIndices += stripes.get(i).plateIndices.size();
-        }
-        return numIndices;
+    public static int getNumPlateIndices(List<Stripe> stripes) {
+        return stripes.stream().mapToInt(stripe -> stripe.plateIndices.size()).sum();
     }
 
-    private static void writeString(BinaryBufferWriter writer, String s)
-            throws IOException {
+    private static void writeString(BinaryBufferWriter writer, String s) {
         writer.writeString(s);
     }
 
-    private static void writeShortValue(BinaryBufferWriter writer, int value)
-            throws IOException {
+    private static void writeShortValue(BinaryBufferWriter writer, int value) {
         ByteBuffer buffer = ByteBuffer.allocate(Short.BYTES);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         writer.write(buffer.putShort((short) value).array());
     }
 
-    private static void writeIntValue(BinaryBufferWriter writer, int value)
-            throws IOException {
+    private static void writeIntValue(BinaryBufferWriter writer, int value) {
         ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         writer.write(buffer.putInt(value).array());
@@ -329,5 +287,4 @@ public class BdhcWriterHGSS {
         short fractionalPart = (short) ((value - decimalPart) * (65536));
         return (decimalPart << 16) + fractionalPart;
     }*/
-
 }

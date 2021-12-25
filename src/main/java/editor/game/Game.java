@@ -53,5 +53,4 @@ public class Game {
     public int getMaxTileableSize() {
         return maxTileableSize[gameSelected];
     }
-
 }

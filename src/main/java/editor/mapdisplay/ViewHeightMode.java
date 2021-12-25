@@ -69,10 +69,8 @@ public class ViewHeightMode extends ViewMode {
 
     @Override
     public void mouseReleased(MapDisplay d, MouseEvent e) {
-        switch (d.editMode) {
-            case MODE_CLEAR:
-                d.handler.getMapMatrix().removeUnusedMaps();
-                break;
+        if (d.editMode == MapDisplay.EditMode.MODE_CLEAR) {
+            d.handler.getMapMatrix().removeUnusedMaps();
         }
         d.handler.updateLayerThumbnail(d.handler.getActiveLayerIndex());
         d.handler.repaintThumbnailLayerSelector();
@@ -173,9 +171,6 @@ public class ViewHeightMode extends ViewMode {
                     d.repaint();
                     break;
                 case MODE_MOVE:
-                    d.zoomCameraOrtho(e);
-                    d.repaint();
-                    break;
                 case MODE_ZOOM:
                     d.zoomCameraOrtho(e);
                     d.repaint();
@@ -247,8 +242,8 @@ public class ViewHeightMode extends ViewMode {
     public Vec3f[][] getFrustumPlanes(MapDisplay d) {
         Vec3f camAngles = new Vec3f(d.cameraRotX, d.cameraRotY, d.cameraRotZ);
         Vec3f tarPos = new Vec3f(d.cameraX, d.cameraY, 0.0f);
-        Vec3f camDir = d.rotToDir_(camAngles);
-        Vec3f camUp = d.rotToUp_(camAngles);
+        Vec3f camDir = MapDisplay.rotToDir_(camAngles);
+        Vec3f camUp = MapDisplay.rotToUp_(camAngles);
         Vec3f camRight = camDir.cross_(camUp);
         //Vec3f camPos = tarPos.add_(camDir.negate_().scale_(d.cameraZ));
         Vec3f camPos = tarPos.add_(camDir.negate_().scale_(40.0f));

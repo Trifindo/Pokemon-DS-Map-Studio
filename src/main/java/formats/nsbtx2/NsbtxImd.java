@@ -9,13 +9,12 @@ import formats.imd.nodes.TexPalette;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -32,11 +31,7 @@ public class NsbtxImd extends ImdNode {
     public NsbtxImd(Nsbtx2 nsbtx) {
         super("imd");
 
-        attributes = new ArrayList<ImdAttribute>() {
-            {
-                add(new ImdAttribute("version", "1.6.0"));
-            }
-        };
+        attributes = List.of(new ImdAttribute("version", "1.6.0"));
 
         Body body = new Body();
 
@@ -61,14 +56,11 @@ public class NsbtxImd extends ImdNode {
         subnodes.add(body);
     }
 
-    public void saveToFile(String path) throws
-            ParserConfigurationException, TransformerException, IOException {
-
+    public void saveToFile(String path) throws ParserConfigurationException, TransformerException, IOException {
         saveToXML(path);
     }
 
-    private void saveToXML(String xmlPath) throws ParserConfigurationException,
-            TransformerConfigurationException, TransformerException, IOException {
+    private void saveToXML(String xmlPath) throws ParserConfigurationException, TransformerException, IOException {
         Document dom;
 
         // instance of a DocumentBuilderFactory
@@ -81,13 +73,11 @@ public class NsbtxImd extends ImdNode {
 
         // create the root element
         Element rootEle = dom.createElement(nodeName);
-        for (int i = 0; i < attributes.size(); i++) {
-            ImdAttribute attrib = attributes.get(i);
+        for (ImdAttribute attrib : attributes) {
             rootEle.setAttribute(attrib.tag, attrib.value);
         }
 
-        for (int i = 0; i < subnodes.size(); i++) {
-            ImdNode subnode = subnodes.get(i);
+        for (ImdNode subnode : subnodes) {
             printImdNode(subnode, dom, rootEle);
         }
 
@@ -108,13 +98,10 @@ public class NsbtxImd extends ImdNode {
         streamResult.getOutputStream().close();
 
         System.out.println("IMD saved!");
-
     }
 
     private void printImdNode(ImdNode node, Document dom, Element parent) {
-        Element e;
-
-        e = dom.createElement(node.nodeName);
+        Element e = dom.createElement(node.nodeName);
 
         for (int i = 0; i < node.attributes.size(); i++) {
             ImdAttribute attrib = node.attributes.get(i);
@@ -128,7 +115,5 @@ public class NsbtxImd extends ImdNode {
             printImdNode(subnode, dom, e);
         }
         parent.appendChild(e);
-
     }
-
 }

@@ -1,7 +1,6 @@
 package formats.bdhc;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import java.awt.*;
 
 /**
@@ -18,7 +17,6 @@ public class AngleDisplay3D extends JPanel {
             -1.0f, 1.0f, 0.0f,
             -1.0f, -1.0f, 0.0f,
             1.0f, -1.0f, 0.0f
-
     };
 
     private final float[] cameraPos = {0.0f, -1.0f, 0.0f};
@@ -40,8 +38,7 @@ public class AngleDisplay3D extends JPanel {
             float angle2 = (float) Math.atan2(slopes[2], slopes[1]);
 
             Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             float[] plane = new float[planeCoords.length];
             System.arraycopy(planeCoords, 0, plane, 0, planeCoords.length);
@@ -73,7 +70,7 @@ public class AngleDisplay3D extends JPanel {
             }
 
             int lineOffset = size / 2;
-            g.setColor(Color.blue);
+            g.setColor(Color.BLUE);
             for (int i = 0; i < points.length; i++) {
                 int x1 = points[i].x;
                 int y1 = points[i].y;
@@ -81,7 +78,6 @@ public class AngleDisplay3D extends JPanel {
                 int y2 = points[(i + 1) % points.length].y;
                 g.drawLine(lineOffset + x1, lineOffset + y1, lineOffset + x2, lineOffset + y2);
             }
-
 
             /*
             int x = (int) (Math.cos(angle) * radius);
@@ -91,11 +87,9 @@ public class AngleDisplay3D extends JPanel {
             g.drawLine(lineOffset - x, lineOffset - y, lineOffset + x, lineOffset + y);*/
 
             int circleOffset = size / 2 - radius;
-            g.setColor(Color.black);
+            g.setColor(Color.BLACK);
             g.drawOval(circleOffset, circleOffset, radius * 2, radius * 2);
-
         }
-
     }
 
     public void init(BdhcHandler bdhcHandler) {

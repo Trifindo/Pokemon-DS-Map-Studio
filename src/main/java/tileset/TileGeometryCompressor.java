@@ -5,22 +5,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.TreeSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Trifindo
  */
-public class TileGeometryCompresser {
+public class TileGeometryCompressor {
 
     private static class VertexData {
-
         float[] data;
 
         public VertexData(float[] array, int offset, int dataSize) {
             data = new float[dataSize];
-            for (int i = 0; i < dataSize; i++) {
-                data[i] = array[offset + i];
-            }
+            System.arraycopy(array, offset, data, 0, dataSize);
         }
 
         @Override
@@ -42,31 +40,27 @@ public class TileGeometryCompresser {
                 return false;
             }
             final VertexData other = (VertexData) obj;
-            if (!Arrays.equals(this.data, other.data)) {
-                return false;
-            }
-            return true;
+            return Arrays.equals(this.data, other.data);
         }
     }
 
     public static class CompressedObjData {
-        public ArrayList<Float> data;
+        public List<Float> data;
         public int[][] triIndices;
         public int[][] quadIndices;
 
-        public CompressedObjData(ArrayList<VertexData> dataArray, int[][] triIndices, int[][] quadIndices, int coordsPerVertex) {
+        public CompressedObjData(List<VertexData> dataArray, int[][] triIndices, int[][] quadIndices, int coordsPerVertex) {
             data = new ArrayList<>(dataArray.size() * coordsPerVertex);
-            for (int i = 0; i < dataArray.size(); i++) {
-                float[] dataPatch = dataArray.get(i).data;
-                for (int j = 0; j < dataPatch.length; j++) {
-                    data.add(dataPatch[j]);
+            for (VertexData vertexData : dataArray) {
+                float[] dataPatch = vertexData.data;
+                for (float patch : dataPatch) {
+                    data.add(patch);
                 }
             }
             this.triIndices = triIndices;
             this.quadIndices = quadIndices;
         }
     }
-
 
     public static void compressTile(Tile tile) {
         System.out.println("Starting compression...");
@@ -76,7 +70,7 @@ public class TileGeometryCompresser {
         CompressedObjData cData = compressObjData(tile.getColorsTri(), tile.getColorsQuad(), 3);
 
         final int numTris = tile.getVCoordsTri().length / (3 * 3);
-        ArrayList<Face> faceIndsTri = new ArrayList<>(numTris);
+        List<Face> faceIndsTri = new ArrayList<>(numTris);
         for (int i = 0; i < numTris; i++) {
             Face face = new Face(false);
             face.vInd = vData.triIndices[i];
@@ -87,7 +81,7 @@ public class TileGeometryCompresser {
         }
 
         final int numQuads = tile.getVCoordsQuad().length / (3 * 4);
-        ArrayList<Face> faceIndsQuad = new ArrayList<>(numQuads);
+        List<Face> faceIndsQuad = new ArrayList<>(numQuads);
         for (int i = 0; i < numQuads; i++) {
             Face face = new Face(true);
             face.vInd = vData.quadIndices[i];
@@ -107,7 +101,7 @@ public class TileGeometryCompresser {
         System.out.println("Tile compressing finished!");
     }
 
-    private static void addElementsToDataSet(HashSet<VertexData> dataSet, float[] data, int coordsPerVertex) {
+    private static void addElementsToDataSet(Set<VertexData> dataSet, float[] data, int coordsPerVertex) {
         final int numVertices = data.length / coordsPerVertex;
         for (int i = 0; i < numVertices; i++) {
             VertexData vData = new VertexData(data, i * coordsPerVertex, coordsPerVertex);
@@ -115,8 +109,7 @@ public class TileGeometryCompresser {
         }
     }
 
-    private static int[][] generateIndices(ArrayList<VertexData> dataArray,
-                                           float[] data, int numFaces, int vertexPerFace, int coordsPerVertex) {
+    private static int[][] generateIndices(List<VertexData> dataArray, float[] data, int numFaces, int vertexPerFace, int coordsPerVertex) {
         int[][] faceIndices = new int[numFaces][vertexPerFace];
         for (int i = 0; i < numFaces; i++) {
             for (int j = 0; j < vertexPerFace; j++) {
@@ -128,10 +121,10 @@ public class TileGeometryCompresser {
     }
 
     public static CompressedObjData compressObjData(float[] triData, float[] quadData, int coordsPerVertex) {
-        HashSet<VertexData> dataSet = new HashSet();
+        Set<VertexData> dataSet = new HashSet<>();
         addElementsToDataSet(dataSet, triData, coordsPerVertex);
         addElementsToDataSet(dataSet, quadData, coordsPerVertex);
-        ArrayList<VertexData> dataArray = new ArrayList<>(dataSet);
+        List<VertexData> dataArray = new ArrayList<>(dataSet);
 
         final int numTris = triData.length / (coordsPerVertex * 3);
         final int numQuads = quadData.length / (coordsPerVertex * 4);
@@ -141,20 +134,17 @@ public class TileGeometryCompresser {
         return new CompressedObjData(dataArray, triIndices, quadIndices, coordsPerVertex);
     }
 
-    private static ArrayList<Float> arrayToArrayList(float[] array) {
-        ArrayList<Float> arrayList = new ArrayList<>(array.length);
-        for (int i = 0; i < array.length; i++) {
-            arrayList.add(array[i]);
+    private static List<Float> arrayToArrayList(float[] array) {
+        List<Float> arrayList = new ArrayList<>(array.length);
+        for (float v : array) {
+            arrayList.add(v);
         }
         return arrayList;
     }
 
-    private static ArrayList<Integer> arrayToArrayList(int[] array) {
-        ArrayList<Integer> arrayList = new ArrayList<>(array.length);
-        for (int i = 0; i < array.length; i++) {
-            arrayList.add(array[i]);
-        }
-        return arrayList;
+    private static List<Integer> arrayToArrayList(int[] array) {
+        return Arrays.stream(array)
+                .boxed()
+                .collect(Collectors.toList());
     }
-
 }

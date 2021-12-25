@@ -19,11 +19,10 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.jogamp.opengl.GL.*;
-import static com.jogamp.opengl.GL.GL_NOTEQUAL;
 import static com.jogamp.opengl.GL2ES1.GL_ALPHA_TEST;
 import static com.jogamp.opengl.GL2ES3.GL_QUADS;
 
@@ -138,7 +137,6 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
         gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         if (updateRequested) {
-
             //Load Textures into OpenGL
             handler.getTileset().loadTexturesGL();
             handler.getBorderMapsTileset().loadTexturesGL();
@@ -175,7 +173,6 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
         } catch (GLException ex) {
             ex.printStackTrace();
         }
-
     }
 
     @Override
@@ -269,8 +266,6 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
 
         //Point mapCoords = handler.getMapSelected();
         //gl.glTranslatef(-mapCoords.x * MapGrid.cols, mapCoords.y * MapGrid.rows, -0.0f);
-
-
     }
 
     public void updateMapLayersGL() {
@@ -299,9 +294,7 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
         gl.glEnable(GL_ALPHA_TEST);
         gl.glAlphaFunc(GL_GREATER, 0.9f);
 
-        drawAllMaps(gl, (gl2, geometryGL, textures) -> {
-            drawGeometryGL(gl2, geometryGL, textures);
-        });
+        drawAllMaps(gl, this::drawGeometryGL);
     }
 
     protected void drawTransparentMaps(GL2 gl) {
@@ -316,24 +309,19 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
         gl.glEnable(GL_ALPHA_TEST);
         gl.glAlphaFunc(GL_NOTEQUAL, 0.0f);
 
-        drawAllMaps(gl, (gl2, geometryGL, textures) -> {
-            drawGeometryGL(gl2, geometryGL, textures);
-        });
+        drawAllMaps(gl, this::drawGeometryGL);
     }
 
     protected void drawAllMaps(GL2 gl, DrawGeometryGLFunction drawFunction) {
         for (HashMap.Entry<Point, MapData> map : handler.getMapMatrix().getMatrix().entrySet()) {
-            drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL,
-                    map.getKey().x * cols, -map.getKey().y * rows, 0);
+            drawAllMapLayersGL(gl, drawFunction, map.getValue().getGrid().mapLayersGL, map.getKey().x * cols, -map.getKey().y * rows, 0);
         }
     }
 
     protected void drawAllMapLayersGL(GL2 gl, DrawGeometryGLFunction drawFunction, MapLayerGL[] mapLayersGL, float x, float y, float z) {
         for (int i = 0; i < mapLayersGL.length; i++) {
-            if (handler.renderLayers[i]) {
-                if (mapLayersGL[i] != null) {
-                    drawMapLayerGL(gl, drawFunction, mapLayersGL[i], x, y, z);
-                }
+            if (handler.renderLayers[i] && mapLayersGL[i] != null) {
+                drawMapLayerGL(gl, drawFunction, mapLayersGL[i], x, y, z);
             }
         }
     }
@@ -343,7 +331,6 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
 
         Point mapCoords = handler.getMapSelected();
         gl.glTranslatef(-mapCoords.x * MapGrid.cols, mapCoords.y * MapGrid.rows, -0.0f);
-
         gl.glTranslatef(x, y, z);
 
         for (GeometryGL geometryGL : mapLayerGL.getGeometryGL().values()) {
@@ -351,7 +338,7 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
         }
     }
 
-    protected void drawGeometryGL(GL2 gl, GeometryGL geometryGL, ArrayList<Texture> textures) {
+    protected void drawGeometryGL(GL2 gl, GeometryGL geometryGL, List<Texture> textures) {
         try {
             gl.glBindTexture(GL_TEXTURE_2D, textures.get(geometryGL.textureID).getTextureObject());
             gl.glEnable(GL_TEXTURE_2D);
@@ -428,54 +415,56 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
     }
 
     public void drawPlayer(GL2 gl){
-        if(playerTexture != null) {
-
-            gl.glEnable(GL_BLEND);
-            gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
-
-            gl.glEnable(GL_DEPTH_TEST);
-            gl.glDepthFunc(GL_LESS);
-
-            gl.glEnable(GL_ALPHA_TEST);
-            gl.glAlphaFunc(GL_GREATER, 0.9f);
-
-            gl.glLoadIdentity();
-            applyCameraTransform(gl);
-            gl.glTranslatef(
-                    bdhcamHandler.getPlayerX() - 16.0f + 0.5f,
-                    -(bdhcamHandler.getPlayerY() + 1 - 16.0f),
-                    bdhcamHandler.getSelectedPlateZ()
-                    );
-
-            gl.glBindTexture(GL_TEXTURE_2D, playerTexture.getTextureObject());
-            gl.glEnable(GL_TEXTURE_2D);
-
-            gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-            gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-            gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-            gl.glBegin(GL_QUADS);
-            for (int i = 0; i < 4; i++) {
-                gl.glTexCoord2fv(playerTCoords, i * 2);
-                gl.glVertex3fv(playerVCoords, i * 3);
-            }
-            gl.glEnd();
+        if (playerTexture == null) {
+            return;
         }
+
+        gl.glEnable(GL_BLEND);
+        gl.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+
+        gl.glEnable(GL_DEPTH_TEST);
+        gl.glDepthFunc(GL_LESS);
+
+        gl.glEnable(GL_ALPHA_TEST);
+        gl.glAlphaFunc(GL_GREATER, 0.9f);
+
+        gl.glLoadIdentity();
+        applyCameraTransform(gl);
+        gl.glTranslatef(
+                bdhcamHandler.getPlayerX() - 16.0f + 0.5f,
+                -(bdhcamHandler.getPlayerY() + 1 - 16.0f),
+                bdhcamHandler.getSelectedPlateZ()
+                );
+
+        gl.glBindTexture(GL_TEXTURE_2D, playerTexture.getTextureObject());
+        gl.glEnable(GL_TEXTURE_2D);
+
+        gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+        gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+        gl.glBegin(GL_QUADS);
+        for (int i = 0; i < 4; i++) {
+            gl.glTexCoord2fv(playerTCoords, i * 2);
+            gl.glVertex3fv(playerVCoords, i * 3);
+        }
+        gl.glEnd();
     }
 
     public void loadPlayerTextureGL(){
-        if(playerImg != null){
-            Texture tex = null;
-            try {
-                BufferedImage img = playerImg;
-                ImageUtil.flipImageVertically(img);
-                tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, false);
-                playerTexture = tex;
-            }catch(Exception ex){
+        if (playerImg == null) {
+            return;
+        }
+        Texture tex = null;
+        try {
+            BufferedImage img = playerImg;
+            ImageUtil.flipImageVertically(img);
+            tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, false);
+            playerTexture = tex;
+        } catch (Exception ex){
 
-            }
         }
     }
 
@@ -492,11 +481,8 @@ public class BdhcamCameraDisplay extends GLJPanel implements GLEventListener, Mo
         this.camera = camera;
     }
 
-    protected static interface DrawGeometryGLFunction {
-        public void draw(GL2 gl, GeometryGL geometryGL, ArrayList<Texture> textures);
+    protected interface DrawGeometryGLFunction {
+        void draw(GL2 gl, GeometryGL geometryGL, List<Texture> textures);
     }
-
-
-
 }
 

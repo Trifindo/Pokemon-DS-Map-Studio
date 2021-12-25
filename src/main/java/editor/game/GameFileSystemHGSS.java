@@ -1,8 +1,6 @@
 
 package editor.game;
 
-import java.io.File;
-
 /**
  * @author Trifindo
  */
@@ -81,6 +79,4 @@ public class GameFileSystemHGSS extends GameFileSystem {
     public String getMapAnimationsPath() {
         return mapAnimationsPath;
     }
-
-
 }

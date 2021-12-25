@@ -1,4 +1,3 @@
-
 package editor.buildingeditor2.buildfile;
 
 import java.io.File;
@@ -18,7 +17,7 @@ import utils.Utils;
 public class BuildFile {
 
     public static final String fileExtension = "bld";
-    private List<Build> builds;
+    private final List<Build> builds;
 
     public BuildFile() {
         builds = new ArrayList<>();
@@ -29,7 +28,7 @@ public class BuildFile {
             byte[] data = Files.readAllBytes(new File(path).toPath());
 
             int numBuilds = data.length / Build.dataSize;
-            builds = new ArrayList<Build>(numBuilds);
+            builds = new ArrayList<>(numBuilds);
 
             for (int i = 0, offset = 0; i < numBuilds; i++) {
                 offset = Build.dataSize * i;
@@ -49,13 +48,12 @@ public class BuildFile {
 
                 builds.add(new Build(buildID, x, y, z, xScale, yScale, zScale));
             }
-
         } catch (Exception ex) {
             throw new IOException();
         }
     }
 
-    public byte[] toByteArray() throws Exception {
+    public byte[] toByteArray() {
         byte[] data = new byte[builds.size() * Build.dataSize];
 
         for (int i = 0, offset = 0; i < builds.size(); i++) {
@@ -96,5 +94,4 @@ public class BuildFile {
     public List<Build> getBuilds() {
         return builds;
     }
-
 }

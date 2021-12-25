@@ -110,10 +110,7 @@ public class Vec3f {
         if (Float.floatToIntBits(this.y) != Float.floatToIntBits(other.y)) {
             return false;
         }
-        if (Float.floatToIntBits(this.z) != Float.floatToIntBits(other.z)) {
-            return false;
-        }
-        return true;
+        return Float.floatToIntBits(this.z) == Float.floatToIntBits(other.z);
     }
 
     @Override
@@ -125,7 +122,7 @@ public class Vec3f {
      * Prints the coordinates of the Vec3f
      */
     public void print() {
-        System.out.println(toString());
+        System.out.println(this);
     }
 
     /**
@@ -134,7 +131,7 @@ public class Vec3f {
      * @param name the name of the vector
      */
     public void print(String name) {
-        System.out.println(name + ": " + toString());
+        System.out.println(name + ": " + this);
     }
 
     /**
@@ -1120,16 +1117,7 @@ public class Vec3f {
      * @return
      */
     public static boolean isFinite(Vec3f src){
-        if(!Float.isFinite(src.x)){
-            return false;
-        }
-        if(!Float.isFinite(src.y)){
-            return false;
-        }
-        if(!Float.isFinite(src.z)){
-            return false;
-        }
-        return true;
+        return Float.isFinite(src.x) && Float.isFinite(src.y) && Float.isFinite(src.z);
     }
 
     /**

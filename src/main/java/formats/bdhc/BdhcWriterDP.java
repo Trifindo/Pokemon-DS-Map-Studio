@@ -5,13 +5,14 @@ import utils.BinaryBufferWriter;
 
 import java.awt.Rectangle;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Trifindo
@@ -23,17 +24,16 @@ public class BdhcWriterDP {
         Files.write(new File(path).toPath(), byteData);
     }
 
-    public static byte[] bdhcToByteArray(Bdhc bdhc) throws IOException {
-
+    public static byte[] bdhcToByteArray(Bdhc bdhc) {
         BinaryBufferWriter writer = new BinaryBufferWriter();
 
         int[][] pointIndices = new int[bdhc.getPlates().size()][4];
-        ArrayList<BdhcPoint> points = getPoints(bdhc, pointIndices);
+        List<BdhcPoint> points = getPoints(bdhc, pointIndices);
         int[] slopeIndices = new int[bdhc.getPlates().size()];
-        ArrayList<Slope> slopes = getSlopes(bdhc, slopeIndices);
-        ArrayList<Integer> distances = getDistances(bdhc);
-        ArrayList<IndexedTriangle> tris = getIndexedTris(bdhc, pointIndices, slopeIndices);
-        ArrayList<ArrayList<Stripe>> stripes = new ArrayList<>();
+        List<Slope> slopes = getSlopes(bdhc, slopeIndices);
+        List<Integer> distances = getDistances(bdhc);
+        List<IndexedTriangle> tris = getIndexedTris(bdhc, pointIndices, slopeIndices);
+        List<List<Stripe>> stripes = new ArrayList<>();
         stripes.add(calculateStripeGroup(bdhc, new Rectangle(-16, -16, 16, 16)));
         stripes.add(calculateStripeGroup(bdhc, new Rectangle(0, -16, 16, 16)));
         stripes.add(calculateStripeGroup(bdhc, new Rectangle(-16, 0, 16, 16)));
@@ -42,28 +42,19 @@ public class BdhcWriterDP {
         //FileOutputStream out = new FileOutputStream(path);
 
         writeHeader(writer, points, slopes, tris, stripes);
-
         writePoints(writer, points);
-
         writeSlopes(writer, slopes);
-
         writeTriangles(writer, tris, points, distances);
-
         writeStripeGroups(writer, stripes);
-
         writeStripes(writer, stripes);
-
         writeTriIndices(writer, stripes);
 
         //out.close();
         return writer.toByteArray();
     }
 
-    private static void writeHeader(BinaryBufferWriter writer,
-                                    ArrayList<BdhcPoint> points, ArrayList<Slope> slopes,
-                                    ArrayList<IndexedTriangle> tris,
-                                    ArrayList<ArrayList<Stripe>> stripes) throws IOException {
-
+    private static void writeHeader(BinaryBufferWriter writer, List<BdhcPoint> points, List<Slope> slopes,
+                                    List<IndexedTriangle> tris, List<List<Stripe>> stripes) {
         writeString(writer, "BDHC");
         writeShortValue(writer, 32);
         writeShortValue(writer, 0);
@@ -103,27 +94,21 @@ public class BdhcWriterDP {
         writeShortValue(writer, 16);
     }
 
-    private static void writeTriIndices(BinaryBufferWriter writer,
-                                        ArrayList<ArrayList<Stripe>> stripes) throws IOException {
-
-        for (int i = 0; i < stripes.size(); i++) {
-            for (int j = 0; j < stripes.get(i).size(); j++) {
-                Stripe stripe = stripes.get(i).get(j);
+    private static void writeTriIndices(BinaryBufferWriter writer, List<List<Stripe>> stripes) {
+        for (List<Stripe> stripeArrayList : stripes) {
+            for (Stripe stripe : stripeArrayList) {
                 for (int k = 0; k < stripe.plateIndices.size(); k++) {
                     writeShortValue(writer, stripe.plateIndices.get(k) * 2);
                     writeShortValue(writer, stripe.plateIndices.get(k) * 2 + 1);
                 }
             }
         }
-
     }
 
-    private static void writeStripes(BinaryBufferWriter writer,
-                                     ArrayList<ArrayList<Stripe>> stripes) throws IOException {
+    private static void writeStripes(BinaryBufferWriter writer, List<List<Stripe>> stripes) {
         int offset = 0;
-        for (int i = 0; i < stripes.size(); i++) {
-            for (int j = 0; j < stripes.get(i).size(); j++) {
-                Stripe stripe = stripes.get(i).get(j);
+        for (List<Stripe> stripeArrayList : stripes) {
+            for (Stripe stripe : stripeArrayList) {
                 writeShortValue(writer, stripe.plateIndices.size() * 2);
                 writeShortValue(writer, 0);
                 writeShortValue(writer, stripe.y);
@@ -134,20 +119,16 @@ public class BdhcWriterDP {
         }
     }
 
-    private static void writeStripeGroups(BinaryBufferWriter writer,
-                                          ArrayList<ArrayList<Stripe>> stripes) throws IOException {
+    private static void writeStripeGroups(BinaryBufferWriter writer, List<List<Stripe>> stripes) {
         int offset = 0;
-        for (int i = 0; i < stripes.size(); i++) {
-            writeShortValue(writer, stripes.get(i).size());
+        for (List<Stripe> stripe : stripes) {
+            writeShortValue(writer, stripe.size());
             writeShortValue(writer, offset);
-            offset += stripes.get(i).size();
+            offset += stripe.size();
         }
     }
 
-    private static void writeTriangles(BinaryBufferWriter writer,
-                                       ArrayList<IndexedTriangle> tris, ArrayList<BdhcPoint> points,
-                                       ArrayList<Integer> distances) throws IOException {
-
+    private static void writeTriangles(BinaryBufferWriter writer, List<IndexedTriangle> tris, List<BdhcPoint> points, List<Integer> distances) {
         for (int i = 0; i < tris.size(); i++) {
             IndexedTriangle tri = tris.get(i);
 
@@ -183,11 +164,10 @@ public class BdhcWriterDP {
                 }
             }*/
         }
-
     }
 
-    private static ArrayList<Integer> getDistances(Bdhc bdhc) {
-        ArrayList<Integer> distances = new ArrayList<>();
+    private static List<Integer> getDistances(Bdhc bdhc) {
+        List<Integer> distances = new ArrayList<>();
 
         for (int i = 0; i < bdhc.getPlates().size(); i++) {
             Plate p = bdhc.getPlate(i);
@@ -205,21 +185,11 @@ public class BdhcWriterDP {
 
             final float zero = 0.001f;
             if (Math.abs(xd) > zero) {
-                float x;
-                if (xd > zero) {
-                    x = p.x + p.width;
-                } else {
-                    x = p.x;
-                }
+                float x = xd > zero ? p.x + p.width : p.x;
                 float n = z - mx * x;
                 d = (float) -(n / Math.sqrt(mx * mx + 1.0f));
             } else if (Math.abs(yd) > zero) {
-                float y;
-                if (yd > zero) {
-                    y = p.y + p.height;
-                } else {
-                    y = p.y;
-                }
+                float y = yd > zero ? p.y + p.height : p.y;
                 float n = z - my * y;
                 d = (float) -(n / Math.sqrt(my * my + 1.0f));
             } else {
@@ -246,35 +216,26 @@ public class BdhcWriterDP {
         return ((decimalPart & 0xFFFF) << 16) | (fractionalPart & 0xFFFF);
     }
 
-
-    private static void writeSlopes(BinaryBufferWriter writer, ArrayList<Slope> slopes)
-            throws IOException {
-        for (int i = 0; i < slopes.size(); i++) {
-            Slope slope = slopes.get(i);
+    private static void writeSlopes(BinaryBufferWriter writer, List<Slope> slopes) {
+        for (Slope slope : slopes) {
             writeIntValue(writer, slope.x);
             writeIntValue(writer, slope.y);
             writeIntValue(writer, slope.z);
         }
-
     }
 
-    private static void writePoints(BinaryBufferWriter writer, ArrayList<BdhcPoint> points)
-            throws IOException {
-        for (int i = 0; i < points.size(); i++) {
-            BdhcPoint point = points.get(i);
+    private static void writePoints(BinaryBufferWriter writer, List<BdhcPoint> points) {
+        for (BdhcPoint point : points) {
             writeShortValue(writer, 0);
             writeShortValue(writer, point.x);
             writeZValue(writer, point.z);
             writeShortValue(writer, 0);
             writeShortValue(writer, point.y);
         }
-
     }
 
-    private static ArrayList<Stripe> calculateStripeGroup(Bdhc bdhc,
-                                                          Rectangle groupBounds) {
-
-        ArrayList<PlateInfo> platesInfo = new ArrayList<>();
+    private static List<Stripe> calculateStripeGroup(Bdhc bdhc, Rectangle groupBounds) {
+        List<PlateInfo> platesInfo = new ArrayList<>();
         //Get plate info of plates inside group
         for (int i = 0; i < bdhc.getPlates().size(); i++) {
             Plate p = bdhc.getPlate(i);
@@ -287,38 +248,35 @@ public class BdhcWriterDP {
         Collections.sort(platesInfo);
 
         //Group by height and form stripes
-        ArrayList<Stripe> stripes = new ArrayList<>();
+        List<Stripe> stripes = new ArrayList<>();
         int previousY = -16;
         for (int i = 0; i < platesInfo.size(); i++) {
             int y = platesInfo.get(i).y;
             if (y != previousY) {
                 int yMinBounds = previousY;
-                int yMaxBounds = y;
 
                 Stripe stripe = new Stripe(y);
-                for (int j = 0; j < platesInfo.size(); j++) {
-                    Plate p = bdhc.getPlate(platesInfo.get(j).plateIndex);
-                    if (yMinBounds < p.y + p.height && yMaxBounds > p.y) {
-                        stripe.plateIndices.add(platesInfo.get(j).plateIndex);
+                for (PlateInfo plateInfo : platesInfo) {
+                    Plate p = bdhc.getPlate(plateInfo.plateIndex);
+                    if (yMinBounds < p.y + p.height && y > p.y) {
+                        stripe.plateIndices.add(plateInfo.plateIndex);
                     }
                 }
                 stripes.add(stripe);
                 previousY = y;
             }
-
         }
 
         //Sort stripes elements on X axis
-        for (int i = 0; i < stripes.size(); i++) {
-            stripes.get(i).sortPlateIndices(bdhc.getPlates());
+        for (Stripe stripe : stripes) {
+            stripe.sortPlateIndices(bdhc.getPlates());
         }
 
         return stripes;
     }
 
-    private static ArrayList<IndexedTriangle> getIndexedTris(Bdhc bdhc,
-                                                             int[][] pointIndices, int[] slopeIndices) {
-        ArrayList<IndexedTriangle> plates = new ArrayList<>();
+    private static List<IndexedTriangle> getIndexedTris(Bdhc bdhc, int[][] pointIndices, int[] slopeIndices) {
+        List<IndexedTriangle> plates = new ArrayList<>();
         for (int i = 0; i < bdhc.getPlates().size(); i++) {
             Plate p = bdhc.getPlate(i);
 
@@ -340,8 +298,8 @@ public class BdhcWriterDP {
         return plates;
     }
 
-    private static ArrayList<Slope> getSlopes(Bdhc bdhc, int[] indices) {
-        ArrayList<Slope> slopes = new ArrayList<>();
+    private static List<Slope> getSlopes(Bdhc bdhc, int[] indices) {
+        List<Slope> slopes = new ArrayList<>();
 
         for (int i = 0; i < bdhc.getPlates().size(); i++) {
             Plate p = bdhc.getPlate(i);
@@ -357,8 +315,8 @@ public class BdhcWriterDP {
         return slopes;
     }
 
-    private static ArrayList<BdhcPoint> getPoints(Bdhc bdhc, int[][] coordIndices) {
-        ArrayList<BdhcPoint> coords = new ArrayList<>();
+    private static List<BdhcPoint> getPoints(Bdhc bdhc, int[][] coordIndices) {
+        List<BdhcPoint> coords = new ArrayList<>();
         for (int i = 0; i < bdhc.getPlates().size(); i++) {
             Plate p = bdhc.getPlate(i);
             int[] zOffsets = new int[4];
@@ -387,21 +345,15 @@ public class BdhcWriterDP {
                         break;
                 }
             }
-            addCoordinate(coords, new BdhcPoint(p.x, p.y + p.height, p.z + zOffsets[0]),
-                    i, coordIndices, 0);
-            addCoordinate(coords, new BdhcPoint(p.x + p.width, p.y + p.height, p.z + zOffsets[1]),
-                    i, coordIndices, 1);
-            addCoordinate(coords, new BdhcPoint(p.x + p.width, p.y, p.z + zOffsets[2]),
-                    i, coordIndices, 2);
-            addCoordinate(coords, new BdhcPoint(p.x, p.y, p.z + zOffsets[3]),
-                    i, coordIndices, 3);
-
+            addCoordinate(coords, new BdhcPoint(p.x, p.y + p.height, p.z + zOffsets[0]), i, coordIndices, 0);
+            addCoordinate(coords, new BdhcPoint(p.x + p.width, p.y + p.height, p.z + zOffsets[1]), i, coordIndices, 1);
+            addCoordinate(coords, new BdhcPoint(p.x + p.width, p.y, p.z + zOffsets[2]), i, coordIndices, 2);
+            addCoordinate(coords, new BdhcPoint(p.x, p.y, p.z + zOffsets[3]), i, coordIndices, 3);
         }
         return coords;
     }
 
-    private static void addCoordinate(ArrayList<BdhcPoint> coords,
-                                      BdhcPoint coord, int pointIndex, int[][] indices, int indOffset) {
+    private static void addCoordinate(List<BdhcPoint> coords, BdhcPoint coord, int pointIndex, int[][] indices, int indOffset) {
         /*
         coords.add(coord);
         indices[pointIndex][indOffset] = coords.size() - 1;
@@ -415,29 +367,19 @@ public class BdhcWriterDP {
         indices[pointIndex][indOffset] = index;
     }
 
-    public static int getNumStripes(ArrayList<ArrayList<Stripe>> stripes) {
-        int numStripes = 0;
-        for (int i = 0; i < stripes.size(); i++) {
-            numStripes += stripes.get(i).size();
-        }
-        return numStripes;
+    public static int getNumStripes(List<List<Stripe>> stripes) {
+        return stripes.stream().mapToInt(List::size).sum();
     }
 
-    public static int getMaxNumStripes(ArrayList<ArrayList<Stripe>> stripes) {
-        int maxNumStripesInGroup = 0;
-        for (int i = 0; i < stripes.size(); i++) {
-            if (stripes.get(i).size() > maxNumStripesInGroup) {
-                maxNumStripesInGroup = stripes.get(i).size();
-            }
-        }
-        return maxNumStripesInGroup;
+    public static int getMaxNumStripes(List<List<Stripe>> stripes) {
+        return stripes.stream().mapToInt(List::size).filter(stripe -> stripe >= 0).max().orElse(0);
     }
 
-    public static int getMaxNumTris(ArrayList<ArrayList<Stripe>> stripes) {
+    public static int getMaxNumTris(List<List<Stripe>> stripes) {
         int maxNumPlates = 0;
-        for (int i = 0; i < stripes.size(); i++) {
-            for (int j = 0; j < stripes.get(i).size(); j++) {
-                int numPlates = stripes.get(i).get(j).plateIndices.size();
+        for (List<Stripe> stripe : stripes) {
+            for (Stripe value : stripe) {
+                int numPlates = value.plateIndices.size();
                 if (numPlates > maxNumPlates) {
                     maxNumPlates = numPlates;
                 }
@@ -446,13 +388,8 @@ public class BdhcWriterDP {
         return maxNumPlates * 2;
     }
 
-    public static int getNumTriIndices(ArrayList<ArrayList<Stripe>> stripes) {
-        int numIndices = 0;
-        for (int i = 0; i < stripes.size(); i++) {
-            for (int j = 0; j < stripes.get(i).size(); j++) {
-                numIndices += stripes.get(i).get(j).plateIndices.size();
-            }
-        }
+    public static int getNumTriIndices(List<List<Stripe>> stripes) {
+        int numIndices = stripes.stream().flatMap(Collection::stream).mapToInt(value -> value.plateIndices.size()).sum();
         return numIndices * 2;
     }
 
@@ -460,45 +397,38 @@ public class BdhcWriterDP {
         return r2.x < r1.x + r1.width && r2.x + r2.width > r1.x && r2.y < r1.y + r1.height && r2.y + r2.height > r1.y;
     }
 
-    private static void writeString(BinaryBufferWriter writer, String s)
-            throws IOException {
+    private static void writeString(BinaryBufferWriter writer, String s) {
         writer.writeString(s);
     }
 
-    private static void writeIntArray(BinaryBufferWriter writer, int[] data)
-            throws IOException {
+    private static void writeIntArray(BinaryBufferWriter writer, int[] data) {
         for (int i : data) {
             writeShortValue(writer, i);
         }
     }
 
-    private static void writeShortValue(BinaryBufferWriter writer, int value)
-            throws IOException {
+    private static void writeShortValue(BinaryBufferWriter writer, int value) {
         ByteBuffer buffer = ByteBuffer.allocate(Short.BYTES);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         writer.write(buffer.putShort((short) value).array());
     }
 
-    private static void writeIntValue(BinaryBufferWriter writer, int value)
-            throws IOException {
+    private static void writeIntValue(BinaryBufferWriter writer, int value) {
         ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         writer.write(buffer.putInt(value).array());
     }
 
-    private static void writeZValue(BinaryBufferWriter writer, float value)
-            throws IOException {
+    private static void writeZValue(BinaryBufferWriter writer, float value) {
         short decimalPart = (short) value;
         short fractionalPart = (short) ((value - decimalPart) * (65536));
         writeShortValue(writer, fractionalPart);
         writeShortValue(writer, decimalPart);
     }
 
-    private static void writeSlopeZValue(BinaryBufferWriter writer, int value)
-            throws IOException {
+    private static void writeSlopeZValue(BinaryBufferWriter writer, int value) {
         ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         writer.write(buffer.putInt(value).array());
     }
-
 }

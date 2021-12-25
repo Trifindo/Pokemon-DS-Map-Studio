@@ -58,24 +58,12 @@ public class Plate {
     }
 
     public Plate(int x, int y, float z, int width, int height, int type, int[] slopes) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.width = width;
-        this.height = height;
-        this.type = type;
+        this(x, y, z, width, height, type);
         this.customSlope = slopes;
     }
 
     public Plate() {
-        this.x = 0;
-        this.y = 0;
-        this.width = 2;
-        this.height = 2;
-        this.z = 0.0f;
-
-        this.type = PLANE;
-
+        this(0, 0, 0.0f, 2, 2, PLANE);
         //this.slopeX = 0;
         //this.slopeY = 0;
         //this.slopeZ = 4096;
@@ -118,7 +106,7 @@ public class Plate {
             //System.out.println("x: " + (Math.sin(-angle) * SLOPE_UNIT) + " z: " + (Math.cos(-angle) * SLOPE_UNIT) + " y: " + (0.0f));
             customSlope[0] = (int) (Math.round(Math.sin(-angle) * SLOPE_UNIT));
             customSlope[1] = (int) (Math.round(Math.cos(-angle) * SLOPE_UNIT));
-            customSlope[2] = (int) (0.0f);
+            customSlope[2] = 0;
             //System.out.println("x: " + customSlope[0] + " z: " + customSlope[1] + " y: " + customSlope[2]);
         }
     }
@@ -126,7 +114,7 @@ public class Plate {
     public void setAngleY(float angle) {
         type = angleYToType(angle);
         if (type == OTHER) {
-            customSlope[0] = (int) (0.0f);
+            customSlope[0] = 0;
             customSlope[1] = (int) (Math.round(Math.cos(-angle) * SLOPE_UNIT));
             customSlope[2] = (int) (Math.round(Math.sin(-angle) * SLOPE_UNIT));
         }
@@ -234,5 +222,4 @@ public class Plate {
             }
         }
     }
-
 }

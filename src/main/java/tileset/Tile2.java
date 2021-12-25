@@ -2,14 +2,7 @@
 package tileset;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
@@ -41,18 +34,12 @@ public class Tile2 {
     private BufferedImage smallThumbnail;
 
     //Geometry
-    private ArrayList<TileGeometry> tris;
-    private ArrayList<TileGeometry> quads;
-
+    private List<TileGeometry> tris;
+    private List<TileGeometry> quads;
 
     public Tile2(Tileset tileset, String folderPath, String objFilename,
-                 int width, int height, boolean xTileable, boolean yTileable,
-                 boolean uTileable, boolean vTileable,
-                 boolean globalTexMapping, float globalTexScale,
-                 float xOffset, float yOffset)
-            throws IOException, TextureNotFoundException,
-            NormalsNotFoundException {
-
+                 int width, int height, boolean xTileable, boolean yTileable, boolean uTileable, boolean vTileable,
+                 boolean globalTexMapping, float globalTexScale, float xOffset, float yOffset) {
         this.tileset = tileset;
 
         this.folderPath = folderPath;
@@ -73,6 +60,4 @@ public class Tile2 {
 
         //loadFromObj(folderPath, objFilename);
     }
-
-
 }

@@ -3,8 +3,6 @@ package editor.keyboard;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 
 /**
  * @author Trifindo, JackHack96

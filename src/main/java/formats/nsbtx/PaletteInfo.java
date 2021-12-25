@@ -24,5 +24,4 @@ public class PaletteInfo {
     public int getSize() {
         return getNumColors() * 2;
     }
-
 }

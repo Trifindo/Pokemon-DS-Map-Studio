@@ -13,12 +13,10 @@ import static com.jogamp.opengl.GL.GL_FRONT_AND_BACK;
 import static com.jogamp.opengl.GL.GL_GREATER;
 import static com.jogamp.opengl.GL.GL_LEQUAL;
 import static com.jogamp.opengl.GL.GL_LESS;
-import static com.jogamp.opengl.GL.GL_LINEAR_MIPMAP_LINEAR;
 import static com.jogamp.opengl.GL.GL_LINES;
 import static com.jogamp.opengl.GL.GL_NEAREST;
 import static com.jogamp.opengl.GL.GL_NOTEQUAL;
 import static com.jogamp.opengl.GL.GL_NO_ERROR;
-import static com.jogamp.opengl.GL.GL_ONE;
 import static com.jogamp.opengl.GL.GL_ONE_MINUS_DST_ALPHA;
 import static com.jogamp.opengl.GL.GL_ONE_MINUS_SRC_ALPHA;
 import static com.jogamp.opengl.GL.GL_REPEAT;
@@ -47,15 +45,12 @@ import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.GLBuffers;
 import com.jogamp.opengl.util.texture.Texture;
-import editor.bordermap.BorderMapsGrid;
 import editor.grid.GeometryGL;
 import editor.grid.MapGrid;
 import editor.grid.MapLayerGL;
 import editor.handler.MapData;
 import editor.state.MapLayerState;
 import geometry.Generator;
-import graphicslib3D.Matrix3D;
-import graphicslib3D.Vector3D;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -79,13 +74,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.swing.SwingUtilities;
 
 import math.mat.Mat4f;
 import math.transf.TransfMat;
@@ -178,7 +171,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     protected ViewMode viewMode = ViewMode.VIEW_ORTHO_MODE;
 
     //Edit Modes
-    public static enum EditMode {
+    public enum EditMode {
 
         MODE_EDIT(new Cursor(Cursor.DEFAULT_CURSOR)),
         MODE_MOVE(new Cursor(Cursor.MOVE_CURSOR)),
@@ -189,13 +182,11 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
         public final Cursor cursor;
 
-        private EditMode(Cursor cursor) {
+        EditMode(Cursor cursor) {
             this.cursor = cursor;
         }
-
     }
 
-    ;
     protected EditMode editMode = EditMode.MODE_EDIT;
 
     public MapDisplay() {
@@ -242,7 +233,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         cameraRotX = 0.0f;
         cameraRotY = 0.0f;
         cameraRotZ = 0.0f;
-
     }
 
     @Override
@@ -324,17 +314,14 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         } catch (GLException ex) {
             ex.printStackTrace();
         }
-
     }
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
@@ -349,12 +336,10 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
     }
 
     @Override
@@ -373,7 +358,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -426,12 +410,12 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                 }
                 break;
             case KeyEvent.VK_Z:
-                if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0) {
+                if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) {
                     handler.getMainFrame().undoMapState();
                 }
                 break;
             case KeyEvent.VK_Y:
-                if ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0) {
+                if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) {
                     handler.getMainFrame().redoMapState();
                 }
                 break;
@@ -472,7 +456,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                 repaint();
                 break;
         }
-
     }
 
     @Override
@@ -482,7 +465,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
             //disableCameraMove();
             repaint();
         }
-
     }
 
     @Override
@@ -501,7 +483,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
                 drawBackImage(g);
             }
         }
-
     }
 
     protected void applyGraphicsTransform(Graphics2D g2d) {
@@ -522,7 +503,6 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         //g2d.scale(yScaleWindows, yScaleWindows);
         //float aspect = getAspectRatio();
         //g2d.translate((aspect - 1.0f) * width / 2, 1.0f);
-
 
         float xScaleFactor = orthoScale;
         float yScaleFactor = orthoScale;
@@ -614,7 +594,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     }
 
     protected void drawAllMapContours(Graphics g) {
-        HashMap<Integer, ArrayList<Point>> allContourPoints = handler.getMapMatrix().getContourPoints();
+        Map<Integer, List<Point>> allContourPoints = handler.getMapMatrix().getContourPoints();
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(4));
 
@@ -622,8 +602,8 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
         g2d.translate(tileSize, tileSize);
 
-        for (HashMap.Entry<Integer, ArrayList<Point>> entry : allContourPoints.entrySet()) {
-            ArrayList<Point> contourPoints = entry.getValue();
+        for (Map.Entry<Integer, List<Point>> entry : allContourPoints.entrySet()) {
+            List<Point> contourPoints = entry.getValue();
             for (int i = 0; i < contourPoints.size(); i += 2) {
                 try {
                     g.setColor(handler.getMapMatrix().getAreaColors().get(entry.getKey()));
@@ -721,9 +701,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glAlphaFunc(GL_GREATER, 0.9f);
 
         //long before = System.nanoTime();
-        drawAllMaps(gl, maps, (gl2, geometryGL, textures) -> {
-            drawGeometryGL(gl2, geometryGL, textures);
-        });
+        drawAllMaps(gl, maps, this::drawGeometryGL);
         //System.out.println("Elapsed: " + (System.nanoTime() - before));
     }
 
@@ -739,9 +717,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glEnable(GL_ALPHA_TEST);
         gl.glAlphaFunc(GL_NOTEQUAL, 0.0f);
 
-        drawAllMaps(gl, maps, (gl2, geometryGL, textures) -> {
-            drawGeometryGL(gl2, geometryGL, textures);
-        });
+        drawAllMaps(gl, maps, this::drawGeometryGL);
     }
 
     protected void drawWireframeMaps(GL2 gl, HashMap<Point, MapData> maps) {
@@ -758,9 +734,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glDisable(GL_TEXTURE_2D);
         gl.glLineWidth(1.5f);
 
-        drawAllMaps(gl, maps, (gl2, geometryGL, textures) -> {
-            drawWireframeGeometryGL(gl2, geometryGL, textures);
-        });
+        drawAllMaps(gl, maps, this::drawWireframeGeometryGL);
 
         gl.glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
@@ -861,7 +835,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         gl.glPopMatrix();
     }
 
-    protected void drawGeometryGL(GL2 gl, GeometryGL geometryGL, ArrayList<Texture> textures) {
+    protected void drawGeometryGL(GL2 gl, GeometryGL geometryGL, List<Texture> textures) {
         try {
             gl.glBindTexture(GL_TEXTURE_2D, textures.get(geometryGL.textureID).getTextureObject());
             gl.glEnable(GL_TEXTURE_2D);
@@ -943,7 +917,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         }
     }
 
-    protected void drawWireframeGeometryGL(GL2 gl, GeometryGL geometryGL, ArrayList<Texture> textures) {
+    protected void drawWireframeGeometryGL(GL2 gl, GeometryGL geometryGL, List<Texture> textures) {
         try {
             //Draw Tris
             if (geometryGL.hasTriBufferData()) {
@@ -1534,7 +1508,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
 
     public HashMap<Point, MapData> getMapsInsideFrustum(Vec3f[][] frustum){
         float radius = (float) Math.sqrt((MapGrid.cols * MapGrid.cols) / 2.0f);
-        HashMap<Point, MapData> maps = new HashMap<Point, MapData>();
+        HashMap<Point, MapData> maps = new HashMap<>();
         for (HashMap.Entry<Point, MapData> map : handler.getMapMatrix().getMatrix().entrySet()) {
             Point p = map.getKey();
             Vec3f center = new Vec3f(p.x * MapGrid.cols, -p.y * MapGrid.rows, 0.0f);
@@ -1624,7 +1598,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
     }
 
     protected void changeLayerWithNumKey(KeyEvent e, int layerIndex) {
-        if ((e.getModifiers() & KeyEvent.SHIFT_MASK) != 0) {
+        if ((e.getModifiersEx() & KeyEvent.SHIFT_DOWN_MASK) != 0) {
             handler.renderLayers[layerIndex] = !handler.renderLayers[layerIndex];
         } else {
             handler.setActiveTileLayer(layerIndex);
@@ -1707,9 +1681,7 @@ public class MapDisplay extends GLJPanel implements GLEventListener, MouseListen
         this.drawGridBorderMaps = drawGridBorderMaps;
     }
 
-    protected static interface DrawGeometryGLFunction {
-
-        public void draw(GL2 gl, GeometryGL geometryGL, ArrayList<Texture> textures);
+    protected interface DrawGeometryGLFunction {
+        void draw(GL2 gl, GeometryGL geometryGL, List<Texture> textures);
     }
-
 }

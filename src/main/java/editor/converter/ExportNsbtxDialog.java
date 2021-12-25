@@ -3,21 +3,14 @@ package editor.converter;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 
 import editor.handler.MapEditorHandler;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.HashSet;
-import javax.swing.DefaultListModel;
-import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
+import java.util.List;
+import java.util.Set;
 
 import utils.Utils;
 import utils.swing.*;
@@ -31,8 +24,8 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
     private int returnValue = CANCEL_OPTION;
 
     private String nsbtxFolderPath = "";
-    private ArrayList<Integer> selectedAreaIndices = new ArrayList<>();
-    private ArrayList<Integer> areaIndices;
+    private List<Integer> selectedAreaIndices = new ArrayList<>();
+    private List<Integer> areaIndices;
 
     private MapEditorHandler handler;
 
@@ -308,17 +301,16 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
     }
 
     private void loadAreaIndices() {
+        Set<Integer> areaIndicesSet = handler.getMapMatrix().getAreaIndices();
 
-        HashSet<Integer> areaIndicesSet = handler.getMapMatrix().getAreaIndices();
-
-        areaIndices = new ArrayList();
+        areaIndices = new ArrayList<>();
         areaIndices.addAll(areaIndicesSet);
 
         try {
-            DefaultListModel<JCheckBox> model = new DefaultListModel();
+            DefaultListModel<JCheckBox> model = new DefaultListModel<>();
             this.jScrollCheckboxList.getCheckboxList().setModel(model);
             for (Integer areaIndex : areaIndicesSet) {
-                model.addElement(new JCheckBox("Area " + String.valueOf(areaIndex)));
+                model.addElement(new JCheckBox("Area " + areaIndex));
             }
 
             for (int i = 0; i < model.getSize(); i++) {
@@ -334,8 +326,8 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
         String name = Utils.removeExtensionFromPath(imdName);
         try {
             String[] splitName = name.split("_");
-            return (hasCoordInName(splitName[splitName.length - 2])
-                    && hasCoordInName(splitName[splitName.length - 1]));
+            return hasCoordInName(splitName[splitName.length - 2])
+                    && hasCoordInName(splitName[splitName.length - 1]);
         } catch (Exception ex) {
             return false;
         }
@@ -358,9 +350,7 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
         return nsbtxFolderPath;
     }
 
-    public ArrayList<Integer> getSelectedAreaIndices() {
+    public List<Integer> getSelectedAreaIndices() {
         return selectedAreaIndices;
     }
-
-
 }

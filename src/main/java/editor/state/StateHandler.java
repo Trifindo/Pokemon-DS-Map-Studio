@@ -2,6 +2,7 @@
 package editor.state;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Trifindo
@@ -12,7 +13,7 @@ public class StateHandler {
     private int stateIndex;
     private boolean stateAdded = false;
 
-    private ArrayList<State> states;
+    private final List<State> states;
 
     public StateHandler() {
         states = new ArrayList<>(maxNumStates + 1);
@@ -65,5 +66,4 @@ public class StateHandler {
             return null;
         }
     }
-
 }

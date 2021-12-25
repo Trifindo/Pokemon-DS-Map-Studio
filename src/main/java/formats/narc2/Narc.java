@@ -3,12 +3,13 @@ package formats.narc2;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import utils.Utils.MutableInt;
 
 public class Narc {
 
-    private NarcFolder root;
+    private final NarcFolder root;
 
     public Narc(NarcFolder root) {
         this.root = root;
@@ -19,19 +20,8 @@ public class Narc {
     }
 
     private boolean hasNamedFiles(NarcFolder folder) {
-        for (NarcFile file : folder.getFiles()) {
-            if (file.getName() != null) {
-                if (!file.getName().equals("")) {
-                    return true;
-                }
-            }
-        }
-        for (NarcFolder subfolder : folder.getSubfolders()) {
-            if (hasNamedFiles(subfolder)) {
-                return true;
-            }
-        }
-        return false;
+        return folder.getFiles().stream().anyMatch(file -> file.getName() != null && !file.getName().equals(""))
+                || folder.getSubfolders().stream().anyMatch(this::hasNamedFiles);
     }
 
     public NarcFolder getRoot() {
@@ -56,36 +46,34 @@ public class Narc {
         return sum.value;
     }
 
-    private static void getNumDirectories(ArrayList<NarcFolder> subfolders, MutableInt sum) {
+    private static void getNumDirectories(List<NarcFolder> subfolders, MutableInt sum) {
         sum.value += subfolders.size();
         for (NarcFolder subfolder : subfolders) {
             getNumDirectories(subfolder.getSubfolders(), sum);
         }
     }
 
-    public ArrayList<NarcFile> getAllFiles() {
-        ArrayList<NarcFile> files = new ArrayList<>();
+    public List<NarcFile> getAllFiles() {
+        List<NarcFile> files = new ArrayList<>();
         addFolderFiles(files, root);
         return files;
     }
 
-    private static void addFolderFiles(ArrayList<NarcFile> files, NarcFolder folder) {
-        for (NarcFile file : folder.getFiles()) {
-            files.add(file);
-        }
+    private static void addFolderFiles(List<NarcFile> files, NarcFolder folder) {
+        files.addAll(folder.getFiles());
         for (NarcFolder subfolder : folder.getSubfolders()) {
             addFolderFiles(files, subfolder);
         }
     }
 
-    public ArrayList<NarcFolder> getAllFolders() {
+    public List<NarcFolder> getAllFolders() {
         ArrayList<NarcFolder> folders = new ArrayList<>();
         folders.add(root);
         addFolderSubfolders(folders, root);
         return folders;
     }
 
-    private static void addFolderSubfolders(ArrayList<NarcFolder> folders, NarcFolder folder) {
+    private static void addFolderSubfolders(List<NarcFolder> folders, NarcFolder folder) {
         for (NarcFolder subfolder : folder.getSubfolders()) {
             folders.add(subfolder);
             addFolderSubfolders(folders, subfolder);
@@ -106,5 +94,4 @@ public class Narc {
         }
         return nextFolder.getFileByName(splitPath[splitPath.length - 1]);
     }
-
 }

@@ -3,20 +3,12 @@ package editor.tileseteditor;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 
 import editor.handler.MapEditorHandler;
 
-import java.awt.Component;
-import java.awt.Image;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JList;
+import java.util.Arrays;
 
 /**
  * @author Trifindo, JackHack96
@@ -69,15 +61,12 @@ public class ReplaceMaterialDialog extends JDialog {
         jtfMaterialName.setText(tileHandler.getMaterialSelected().getImageName());
         textureDisplayToDelete.setImageIndex(tileHandler.getMaterialIndexSelected());
         textureDisplayNew.setImageIndex(0);
-
     }
 
     private void initJComboBox() {
-        Object[] names = new String[handler.getTileset().getMaterials().size()];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = handler.getTileset().getMaterials().get(i).getImageName();
-        }
-        DefaultComboBoxModel model = new DefaultComboBoxModel(names);
+        String[] names = new String[handler.getTileset().getMaterials().size()];
+        Arrays.setAll(names, i -> handler.getTileset().getMaterials().get(i).getImageName());
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(names);
         jcbNewMaterialEnabled = false;
         jcbNewMaterial.setModel(model);
         jcbNewMaterialEnabled = true;
@@ -97,7 +86,6 @@ public class ReplaceMaterialDialog extends JDialog {
                 return label;
             }
         });
-
     }
 
     public int getReturnValue() {

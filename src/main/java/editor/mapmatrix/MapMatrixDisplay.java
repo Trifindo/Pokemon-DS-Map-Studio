@@ -3,26 +3,12 @@ package editor.mapmatrix;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
-import editor.grid.MapGrid;
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -37,7 +23,7 @@ public class MapMatrixDisplay extends JPanel {
     private Dimension matrixSize;
     private Point matrixMin = new Point();
 
-    private float scale = 0.5f;
+    private final float scale = 0.5f;
 
     public MapMatrixDisplay() {
         initComponents();
@@ -53,23 +39,20 @@ public class MapMatrixDisplay extends JPanel {
         Point mapCoords = new Point(mapX + matrixMin.x, mapY + matrixMin.y);
         //System.out.println("Point pressed: " + mapCoords.x + " " + mapCoords.y);
 
-        if (handler != null) {
-            Set<Point> maps = handler.getMapMatrix().getMatrix().keySet();
-            if (maps.contains(mapCoords)) {
-                //System.out.println("Map selected: " + mapCoords.x + " " + mapCoords.y);
+        if (handler == null) {
+            return;
+        }
+        Set<Point> maps = handler.getMapMatrix().getMatrix().keySet();
+        if (maps.contains(mapCoords)) {
+            //System.out.println("Map selected: " + mapCoords.x + " " + mapCoords.y);
 
-                if (!mapCoords.equals(handler.getMapSelected())) {
-                    handler.setMapSelected(mapCoords, false);
-                    handler.getMainFrame().getMapDisplay().setCameraAtMap(mapCoords);
-
-                    handler.getMainFrame().getMapDisplay().repaint();
-                } else {
-                    handler.getMainFrame().getMapDisplay().setCameraAtMap(mapCoords);
-                    handler.getMainFrame().getMapDisplay().repaint();
-                }
-
-                repaint();
+            if (!mapCoords.equals(handler.getMapSelected())) {
+                handler.setMapSelected(mapCoords, false);
             }
+            handler.getMainFrame().getMapDisplay().setCameraAtMap(mapCoords);
+            handler.getMainFrame().getMapDisplay().repaint();
+
+            repaint();
         }
     }
 
@@ -118,7 +101,6 @@ public class MapMatrixDisplay extends JPanel {
                     (selectedMap.y - matrixMin.y) * MapData.mapThumbnailSize - 3,
                     MapData.mapThumbnailSize + 6, MapData.mapThumbnailSize + 6);
             g2d.setStroke(new BasicStroke(1));
-
         }
 
         g2d.setTransform(transform);

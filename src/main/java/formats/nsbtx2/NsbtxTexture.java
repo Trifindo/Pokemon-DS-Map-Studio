@@ -16,8 +16,7 @@ public class NsbtxTexture {
     private int height;
     private byte[] data;
 
-    public NsbtxTexture(byte[] nsbtxData, int offsetTextureInfo,
-                        int textureDataOffset, int offsetTextureName) throws
+    public NsbtxTexture(byte[] nsbtxData, int offsetTextureInfo, int textureDataOffset, int offsetTextureName) throws
             NsbtxTextureFormatException, IndexOutOfBoundsException {
         byte b1 = nsbtxData[offsetTextureInfo + 0x03];
         byte b2 = nsbtxData[offsetTextureInfo + 0x02];
@@ -32,7 +31,7 @@ public class NsbtxTexture {
             throw new NsbtxTextureFormatException(colorFormat);
         }
 
-        //Read image properites
+        //Read image properties
         isTransparent = ((b1 & 0x20) >> 5) == 1;
         height = 8 << (((b1 & 0x03) << 1) | ((b2 & 0x80) >> 7));
         width = 8 << ((b2 & 0x70) >> 4);
@@ -43,11 +42,10 @@ public class NsbtxTexture {
         System.arraycopy(nsbtxData, textureDataOffset + offsetTextureData, data, 0, dataSize);
 
         //Read texture name
-        name = Utils.removeLastOcurrences(new String(nsbtxData, offsetTextureName, 16), '\u0000');
+        name = Utils.removeLastOccurrences(new String(nsbtxData, offsetTextureName, 16), '\u0000');
     }
 
-    public NsbtxTexture(String name, int colorFormat, boolean isTransparent,
-                        int width, int height) {
+    public NsbtxTexture(String name, int colorFormat, boolean isTransparent, int width, int height) {
         this.name = name;
         this.colorFormat = colorFormat;
         this.isTransparent = isTransparent;
@@ -62,8 +60,7 @@ public class NsbtxTexture {
         int mask = 0xFF >> (8 - bitDepth);
         int pixelIndex = 0;
         byte[] colorIndices = new byte[width * height];
-        for (int i = 0; i < data.length; i++) {
-            byte dataByte = data[i];
+        for (byte dataByte : data) {
             for (int j = 0; j < pixelsPerByte; j++) {
                 byte colorIndex = (byte) ((dataByte >> bitDepth * j) & mask);
                 colorIndices[pixelIndex] = colorIndex;
@@ -75,13 +72,11 @@ public class NsbtxTexture {
 
 
     public String getDataAsHexStringImd() {
-        String hexString = "";
+        StringBuilder hexString = new StringBuilder();
         for (int i = 0; i < data.length; i += 2) {
-            hexString += " ";
-            hexString += String.format("%02x", data[i + 1]);
-            hexString += String.format("%02x", data[i]);
+            hexString.append(" ").append(String.format("%02x", data[i + 1])).append(String.format("%02x", data[i]));
         }
-        return hexString;
+        return hexString.toString();
     }
 
     public int getBitDepth() {
@@ -135,5 +130,4 @@ public class NsbtxTexture {
     public int getDataSizeImd() {
         return data.length / 2;
     }
-
 }

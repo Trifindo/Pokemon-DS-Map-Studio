@@ -7,6 +7,7 @@ import formats.nsbtx2.NsbtxLoader2;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +20,7 @@ public class AnimationHandler {
     private AnimationFile animationFile;
     private AnimationEditorDialog dialog;
 
-    private ArrayList<BufferedImage> nsbtxImages;
+    private List<BufferedImage> nsbtxImages;
     private int currentFrameIndex = 0;
     private AnimationThread animationThread;
 
@@ -41,12 +42,10 @@ public class AnimationHandler {
     }
 
     public void readNsbtxImages() {
-        if (nsbtx != null) {
-            if (nsbtx.hasTextures() && nsbtx.hasPalettes()) {
-                nsbtxImages = new ArrayList<>(nsbtx.getTextures().size());
-                for (int i = 0; i < nsbtx.getTextures().size(); i++) {
-                    nsbtxImages.add(nsbtx.getImage(i, 0));
-                }
+        if (nsbtx != null && nsbtx.hasTextures() && nsbtx.hasPalettes()) {
+            nsbtxImages = new ArrayList<>(nsbtx.getTextures().size());
+            for (int i = 0; i < nsbtx.getTextures().size(); i++) {
+                nsbtxImages.add(nsbtx.getImage(i, 0));
             }
         }
     }
@@ -62,12 +61,10 @@ public class AnimationHandler {
     public String getTextureName(int index) {
         if (nsbtx != null && animationFile != null) {
             Animation anim = getAnimationSelected();
-            if (anim != null) {
-                if (index >= 0 && index < anim.size()) {
-                    int frameIndex = anim.getFrame(index);
-                    if (frameIndex >= 0 && frameIndex < nsbtx.getTextures().size()) {
-                        return nsbtx.getTexture(frameIndex).getName();
-                    }
+            if (anim != null && index >= 0 && index < anim.size()) {
+                int frameIndex = anim.getFrame(index);
+                if (frameIndex >= 0 && frameIndex < nsbtx.getTextures().size()) {
+                    return nsbtx.getTexture(frameIndex).getName();
                 }
             }
         }
@@ -76,12 +73,10 @@ public class AnimationHandler {
 
     public void incrementFrameIndex() {
         currentFrameIndex++;
-        if (animationFile != null) {
-            if (getAnimationSelected() != null) {
-                Animation anim = getAnimationSelected();
-                if (currentFrameIndex >= anim.size()) {
-                    currentFrameIndex = 0;
-                }
+        if (animationFile != null && getAnimationSelected() != null) {
+            Animation anim = getAnimationSelected();
+            if (currentFrameIndex >= anim.size()) {
+                currentFrameIndex = 0;
             }
         }
     }
@@ -204,5 +199,4 @@ public class AnimationHandler {
             return false;
         }
     }
-
 }

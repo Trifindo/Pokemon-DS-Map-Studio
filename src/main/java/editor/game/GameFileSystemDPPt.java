@@ -1,8 +1,6 @@
 
 package editor.game;
 
-import java.io.File;
-
 /**
  * @author Trifindo
  */

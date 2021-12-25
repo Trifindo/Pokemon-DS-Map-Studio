@@ -2,24 +2,13 @@ package editor.mapmatrix;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * @author Trifindo, JackHack96
@@ -36,22 +25,21 @@ public class MapImportDisplay extends JPanel {
     private Point newMapMin = new Point();
     private Point newMapPos = new Point();
     private Dimension newMapSize = new Dimension();
-    private HashMap<Point, MapData> maps;
+    private Map<Point, MapData> maps;
 
     private Point globalMin = new Point();
 
-    private float scale = 0.5f;
+    private final float scale = 0.5f;
 
-    private Point lastMouse = new Point();
+    private final Point lastMouse = new Point();
 
     public MapImportDisplay() {
         initComponents();
     }
 
-    public void init(MapEditorHandler handler, HashMap<Point, MapData> maps) {
+    public void init(MapEditorHandler handler, Map<Point, MapData> maps) {
         this.handler = handler;
         this.maps = maps;
-
 
         mapMin = handler.getMapMatrix().getMinCoords();
         mapMax = handler.getMapMatrix().getMaxCoords();
@@ -135,8 +123,7 @@ public class MapImportDisplay extends JPanel {
     }
 
     public void moveMap(Point dp) {
-        Point newPos = new Point(newMapPos.x + dp.x, newMapPos.y + dp.y);
-        this.newMapPos = newPos;
+        this.newMapPos = new Point(newMapPos.x + dp.x, newMapPos.y + dp.y);
 
         updateSize();
     }

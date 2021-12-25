@@ -38,7 +38,7 @@ public class CollisionHandlerBW {
         }*/
     }
 
-    public void saveToCollision() throws Exception {
+    public void saveToCollision() {
         handler.setCollisions(new Collisions(collisionFiles[0].toByteArray()));
         handler.setCollisions2(new Collisions(collisionFiles[1].toByteArray()));
     }
@@ -63,9 +63,7 @@ public class CollisionHandlerBW {
 
     public void rotateCurrentTile(){
         float temp = currentTile[0];
-        for(int i = 0; i < currentTile.length - 1; i++){
-            currentTile[i] = currentTile[i + 1];
-        }
+        System.arraycopy(currentTile, 1, currentTile, 0, currentTile.length - 1);
         currentTile[currentTile.length - 1] = temp;
     }
 

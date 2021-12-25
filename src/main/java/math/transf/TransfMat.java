@@ -216,7 +216,6 @@ public class TransfMat {
         trans.m23 = -pos.z;
 
         dst.mul(trans);
-
     }
 
     public static Mat4f lookAt_(Vec3f pos, Vec3f tar, Vec3f up) {

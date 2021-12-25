@@ -181,8 +181,7 @@ public class TilesetMaterial {
     }
 
     public void loadTextureImgFromPath(String path) throws IOException {
-        BufferedImage img = ImageIO.read(new File(path));
-        this.textureImg = img;
+        this.textureImg = ImageIO.read(new File(path));
     }
 
     public String getMaterialName() {
@@ -272,5 +271,4 @@ public class TilesetMaterial {
     public void setVertexColorsEnabled(boolean enabled) {
         this.vertexColorsEnabled = enabled;
     }
-
 }

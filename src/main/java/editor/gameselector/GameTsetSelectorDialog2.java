@@ -3,8 +3,6 @@ package editor.gameselector;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
@@ -15,11 +13,7 @@ import editor.smartdrawing.SmartGrid;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JList;
 
-import tileset.TextureNotFoundException;
 import tileset.Tileset;
 import tileset.TilesetIO;
 import utils.Utils;
@@ -40,7 +34,7 @@ public class GameTsetSelectorDialog2 extends JDialog {
     private static final String rootFolderPath = "/" + "tilesets";
     private static final String none = "None";
 
-    private String[] folderPaths = {
+    private final String[] folderPaths = {
             "Diamond_-_Pearl",
             "Platinum",
             "Heart_Gold_-_Soul_Silver",
@@ -49,7 +43,7 @@ public class GameTsetSelectorDialog2 extends JDialog {
             "Various",
             "None"
     };
-    private String[][] subfolderPaths = {
+    private final String[][] subfolderPaths = {
             {"Overworld"},
             {
                     "Tileset_6_-_Overworld_(by_Jiboule)",
@@ -92,7 +86,7 @@ public class GameTsetSelectorDialog2 extends JDialog {
             }
     };
 
-    private String[][] tsetNames = {
+    private final String[][] tsetNames = {
             {"DiamondPearlTileset.pdsts"},
             {
                     "Tileset_6_PT_Jiboule.pdsts",
@@ -167,7 +161,7 @@ public class GameTsetSelectorDialog2 extends JDialog {
                     ex.printStackTrace();
                 }
                 tr.destroy();//NEW CODE
-            } catch (NullPointerException | TextureNotFoundException | IOException | IndexOutOfBoundsException ex) {
+            } catch (NullPointerException | IOException | IndexOutOfBoundsException ex) {
                 System.out.println("Tileset not found");
                 tileset = new Tileset();
                 tileset.getSmartGridArray().add(new SmartGrid());
@@ -196,11 +190,10 @@ public class GameTsetSelectorDialog2 extends JDialog {
         if (subfolderPaths != null) {
             if (jlTsetFolder.getSelectedIndex() < jlTsetFolder.getModel().getSize() - 1) {
                 addItemsToJList(jlTsetName, subfolderPaths[jlTsetFolder.getSelectedIndex()]);
-                jlTsetName.setSelectedIndex(0);
             } else {
                 addItemsToJList(jlTsetName, null);
-                jlTsetName.setSelectedIndex(0);
             }
+            jlTsetName.setSelectedIndex(0);
         }
     }
 
@@ -214,7 +207,6 @@ public class GameTsetSelectorDialog2 extends JDialog {
         this.handler = handler;
         updateViewGameIcon();
         loadTilesetThumbnail(0, 0);
-
     }
 
     public void updateViewGameIcon() {
@@ -238,10 +230,9 @@ public class GameTsetSelectorDialog2 extends JDialog {
             tilesetThumbnailDisplay.setImage(null);
             tilesetThumbnailDisplay.repaint();
         }
-
     }
 
-    private void addItemsToJList(JList list, String[] items) {
+    private void addItemsToJList(JList<String> list, String[] items) {
         DefaultListModel<String> model = new DefaultListModel<>();
         if (items != null) {
             for (String item : items) {

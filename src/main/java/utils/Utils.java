@@ -10,13 +10,13 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -30,18 +30,17 @@ import tileset.Face;
 public class Utils {
 
     public static String[] readShaderAsResource(String filename) {
-        Vector lines = new Vector();
-        Scanner sc;
-        sc = new Scanner(Utils.class.getClassLoader().getResourceAsStream(filename));
+        Scanner sc = new Scanner(Objects.requireNonNull(Utils.class.getClassLoader().getResourceAsStream(filename)));
 
+        List<String> lines = new ArrayList<>();
         while (sc.hasNext()) {
-            lines.addElement(sc.nextLine());
+            lines.add(sc.nextLine());
         }
 
         String[] program = new String[lines.size()];
 
         for (int i = 0; i < lines.size(); ++i) {
-            program[i] = (String) lines.elementAt(i) + "\n";
+            program[i] = lines.get(i) + "\n";
         }
 
         sc.close();
@@ -51,7 +50,7 @@ public class Utils {
     public static BufferedImage loadTexImageAsResource(String path) {
         BufferedImage img = null;
         try {
-            img = ImageIO.read(Utils.class.getResource(path));
+            img = ImageIO.read(Objects.requireNonNull(Utils.class.getResource(path)));
         } catch (IOException | IllegalArgumentException ex) {
             int size = 64;
             img = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
@@ -70,12 +69,10 @@ public class Utils {
     }
 
     public static BufferedImage loadImageAsResource(String path) throws IOException, IllegalArgumentException {
-        BufferedImage img = ImageIO.read(Utils.class.getResource(path));
-        return img;
+        return ImageIO.read(Objects.requireNonNull(Utils.class.getResource(path)));
     }
 
-    public static BufferedImage[] loadHorizontalImageArrayAsResource(String path,
-                                                                     int numTiles) {
+    public static BufferedImage[] loadHorizontalImageArrayAsResource(String path, int numTiles) {
         BufferedImage img = loadTexImageAsResource(path);
 
         BufferedImage[] array = new BufferedImage[numTiles];
@@ -88,8 +85,7 @@ public class Utils {
         return array;
     }
 
-    public static BufferedImage[] loadVerticalImageArrayAsResource(String path,
-                                                                   int numTiles) {
+    public static BufferedImage[] loadVerticalImageArrayAsResource(String path, int numTiles) {
         BufferedImage img = loadTexImageAsResource(path);
 
         BufferedImage[] array = new BufferedImage[numTiles];
@@ -172,45 +168,25 @@ public class Utils {
         return bimage;
     }
 
-    public static float[] floatListToArray(ArrayList<Float> list) {
+    public static float[] floatListToArray(List<Float> list) {
         float[] array = new float[list.size()];
         for (int i = 0; i < array.length; i++) {
-            array[i] = list.get(i).floatValue();
+            array[i] = list.get(i);
         }
         return array;
     }
 
-    public static int[] intListToArray(ArrayList<Integer> list) {
-        int[] array = new int[list.size()];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = list.get(i).intValue();
-        }
-        return array;
+    public static int[] intListToArray(List<Integer> list) {
+        return list.stream()
+                .filter(Objects::nonNull)
+                .mapToInt(Integer::intValue)
+                .toArray();
     }
 
-    public static Face[] faceListToArray(ArrayList<Face> list) {
+    public static Face[] faceListToArray(List<Face> list) {
         Face[] array = new Face[list.size()];
-        for (int i = 0; i < array.length; i++) {
-            Face f = list.get(i);
-            array[i] = f;
-        }
+        Arrays.setAll(array, list::get);
         return array;
-    }
-
-    public static ArrayList<Integer> cloneArrayListInt(ArrayList<Integer> list) {
-        ArrayList<Integer> newList = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            newList.add(new Integer(list.get(i).intValue()));
-        }
-        return newList;
-    }
-
-    public static ArrayList<Float> cloneArrayListFloat(ArrayList<Float> list) {
-        ArrayList<Float> newList = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            newList.add(new Float(list.get(i).floatValue()));
-        }
-        return newList;
     }
 
     public static float[] cloneArray(float[] src) {
@@ -219,7 +195,7 @@ public class Utils {
         return dst;
     }
 
-    public static void incrementAllElements(ArrayList<Integer> list, int increment) {
+    public static void incrementAllElements(List<Integer> list, int increment) {
         for (int i = 0; i < list.size(); i++) {
             list.set(i, list.get(i) + increment);
         }
@@ -240,12 +216,12 @@ public class Utils {
         try {
             if (nameHasMapCoords(name)) {
                 String[] splitString = name.split("_");
-                String newName = "";
+                StringBuilder newName = new StringBuilder();
                 for (int i = 0; i < splitString.length - 3; i++) {
-                    newName += splitString[i] + "_";
+                    newName.append(splitString[i]).append("_");
                 }
-                newName += splitString[splitString.length - 3];
-                return newName;
+                newName.append(splitString[splitString.length - 3]);
+                return newName.toString();
             } else {
                 return name;
             }
@@ -274,7 +250,7 @@ public class Utils {
         }
     }
 
-    public static String removeLastOcurrences(String string, char c) {
+    public static String removeLastOccurrences(String string, char c) {
         int nCharsToRemove = 0;
         for (int i = string.length() - 1; i >= 0; i--) {
             if (string.charAt(i) == c) {
@@ -313,12 +289,8 @@ public class Utils {
     }
 
     public static boolean containsArray(byte[] bigArray, byte[] smallArray, int offset) {
-        for (int i = 0; i < smallArray.length; i++) {
-            if (bigArray[offset + i] != smallArray[i]) {
-                return false;
-            }
-        }
-        return true;
+        return IntStream.range(0, smallArray.length)
+                .noneMatch(i -> bigArray[offset + i] != smallArray[i]);
     }
 
     public static void printArrayInFile(PrintWriter writer, float[] array, int cols) {
@@ -343,7 +315,6 @@ public class Utils {
 
     public static BufferedImage resize(BufferedImage img, int newW, int newH) {
         return resize(img, newW, newH, Image.SCALE_SMOOTH);
-
     }
 
     public static BufferedImage resize(BufferedImage img, int newW, int newH, int scalingType) {
@@ -372,7 +343,7 @@ public class Utils {
 
     }
 
-    public static void floodFillMatrix(int screen[][], int x, int y, int newC) {
+    public static void floodFillMatrix(int[][] screen, int x, int y, int newC) {
         int prevC = screen[x][y];
         if (newC == prevC) {
             return;
@@ -382,7 +353,7 @@ public class Utils {
         Utils.floodFillUtil(screen, x, y, prevC, newC, M, N);
     }
 
-    private static void floodFillUtil(int screen[][], int x, int y, int prevC, int newC, int M, int N) {
+    private static void floodFillUtil(int[][] screen, int x, int y, int prevC, int newC, int M, int N) {
         // Base cases 
         if (x < 0 || x >= M || y < 0 || y >= N) {
             return;
@@ -401,7 +372,7 @@ public class Utils {
         floodFillUtil(screen, x, y - 1, prevC, newC, M, N);
     }
 
-    public static void floodFillMatrix(int screen[][], boolean[][] mask, int x, int y, int newC) {
+    public static void floodFillMatrix(int[][] screen, boolean[][] mask, int x, int y, int newC) {
         int prevC = screen[x][y];
         if (newC == prevC) {
             return;
@@ -411,20 +382,16 @@ public class Utils {
         Utils.floodFillUtil(screen, mask, x, y, prevC, newC, M, N);
     }
 
-    private static void floodFillUtil(int screen[][], boolean[][] mask, int x, int y, int prevC, int newC, int M, int N) {
+    private static void floodFillUtil(int[][] screen, boolean[][] mask, int x, int y, int prevC, int newC, int M, int N) {
         // Base cases 
         if (x < 0 || x >= M || y < 0 || y >= N) {
             return;
         }
-        if (screen[x][y] != prevC) {
+        if (screen[x][y] != prevC || !mask[x][y]) {
             return;
         }
 
-        if (!mask[x][y]) {
-            return;
-        }
-
-        // Replace the tile at (x, y) 
+        // Replace the tile at (x, y)
         screen[x][y] = newC;
 
         // Recur for north, east, south and west 
@@ -434,7 +401,7 @@ public class Utils {
         floodFillUtil(screen, mask, x, y - 1, prevC, newC, M, N);
     }
 
-    public static void floodFillMatrix(int screen[][], boolean[][] mask, int x, int y, int newC, int tileWidth, int tileHeight) {
+    public static void floodFillMatrix(int[][] screen, boolean[][] mask, int x, int y, int newC, int tileWidth, int tileHeight) {
         int prevC = screen[x][y];
         if (newC == prevC) {
             return;
@@ -444,7 +411,7 @@ public class Utils {
         Utils.floodFillUtil(screen, mask, x, y, prevC, newC, M, N, tileWidth, tileHeight);
     }
 
-    private static void floodFillUtil(int screen[][], boolean[][] mask, int x, int y, int prevC, int newC, int M, int N, int tileWidth, int tileHeight) {
+    private static void floodFillUtil(int[][] screen, boolean[][] mask, int x, int y, int prevC, int newC, int M, int N, int tileWidth, int tileHeight) {
         if (!isTileAreaAvailable(screen, mask, x, y, prevC, newC, M, N, tileWidth, tileHeight)) {
             return;
         }
@@ -452,11 +419,7 @@ public class Utils {
         if (x < 0 || x >= M || y < 0 || y >= N) {
             return;
         }
-        if (screen[x][y] != prevC) {
-            return;
-        }
-
-        if (!mask[x][y]) {
+        if (screen[x][y] != prevC || !mask[x][y]) {
             return;
         }
 
@@ -477,7 +440,7 @@ public class Utils {
         floodFillUtil(screen, mask, x, y - tileHeight, prevC, newC, M, N, tileWidth, tileHeight);
     }
 
-    private static boolean isTileAreaAvailable(int screen[][], boolean[][] mask, int x, int y, int prevC, int newC, int M, int N, int tileWidth, int tileHeight) {
+    private static boolean isTileAreaAvailable(int[][] screen, boolean[][] mask, int x, int y, int prevC, int newC, int M, int N, int tileWidth, int tileHeight) {
         try {
             for (int i = 0; i < tileWidth; i++) {
                 for (int j = 0; j < tileHeight; j++) {
@@ -492,7 +455,7 @@ public class Utils {
         return true;
     }
 
-    public static void floodFillMatrix(byte screen[][], int x, int y, byte newC) {
+    public static void floodFillMatrix(byte[][] screen, int x, int y, byte newC) {
         byte prevC = screen[x][y];
         if (newC == prevC) {
             return;
@@ -502,7 +465,7 @@ public class Utils {
         Utils.floodFillUtil(screen, x, y, prevC, newC, M, N);
     }
 
-    private static void floodFillUtil(byte screen[][], int x, int y, byte prevC, byte newC, int M, int N) {
+    private static void floodFillUtil(byte[][] screen, int x, int y, byte prevC, byte newC, int M, int N) {
         // Base cases 
         if (x < 0 || x >= M || y < 0 || y >= N) {
             return;
@@ -536,27 +499,18 @@ public class Utils {
     public static Cursor loadCursor(String path, Point hotSpot) {
         Image img = Utils.loadTexImageAsResource(path);
         if (img != null) {
-            return Toolkit.getDefaultToolkit().createCustomCursor(
-                    img,
-                    new Point(0, 0), "custom cursor");
+            return Toolkit.getDefaultToolkit().createCustomCursor(img, new Point(0, 0), "custom cursor");
         } else {
             return Cursor.getDefaultCursor();
         }
     }
 
-    public static boolean hasDuplicates(ArrayList<Integer> array) {
-        Set<Integer> set = new HashSet<Integer>();
-        for (int i : array) {
-            if (set.contains(i)) {
-                return true;
-            }
-            set.add(i);
-        }
-        return false;
+    public static boolean hasDuplicates(List<Integer> array) {
+        Set<Integer> set = new HashSet<>();
+        return array.stream().anyMatch(i -> !set.add(i));
     }
 
     public static class IntTuple {
-
         public int e1, e2;
 
         public IntTuple(int e1, int e2) {
@@ -592,7 +546,6 @@ public class Utils {
     }
 
     public static class MutableBoolean {
-
         public boolean value;
 
         public MutableBoolean(boolean value) {
@@ -600,10 +553,7 @@ public class Utils {
         }
     }
 
-    ;
-
     public static class MutableInt {
-
         public int value;
 
         public MutableInt(int value) {
@@ -611,17 +561,11 @@ public class Utils {
         }
     }
 
-    ;
-
     public static class MutableLong {
-
         public long value;
 
         public MutableLong(long value) {
             this.value = value;
         }
     }
-
-    ;
-
 }

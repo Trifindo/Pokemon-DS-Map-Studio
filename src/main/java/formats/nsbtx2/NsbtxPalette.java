@@ -2,7 +2,9 @@
 package formats.nsbtx2;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import utils.Utils;
 
@@ -14,9 +16,7 @@ public class NsbtxPalette {
     private String name;
     private byte[] data;
 
-    public NsbtxPalette(byte[] nsbtxData, int offsetPaletteInfo,
-                        ArrayList<Integer> paletteOffsets, int paletteDataOffset, int offsetPaletteName) {
-
+    public NsbtxPalette(byte[] nsbtxData, int offsetPaletteInfo, List<Integer> paletteOffsets, int paletteDataOffset, int offsetPaletteName) {
         //Load palette data
         int paletteOffset = ((nsbtxData[offsetPaletteInfo + 0x01] & 0xFF) << 8 | nsbtxData[offsetPaletteInfo] & 0xFF) << 3;
         int offsetIndex = paletteOffsets.indexOf(paletteOffset);
@@ -29,7 +29,7 @@ public class NsbtxPalette {
         System.arraycopy(nsbtxData, paletteDataOffset + paletteOffset, data, 0, Math.min(data.length, nsbtxData.length - paletteOffset));
 
         //Load palette name
-        name = Utils.removeLastOcurrences(new String(nsbtxData, offsetPaletteName, 16), '\u0000');
+        name = Utils.removeLastOccurrences(new String(nsbtxData, offsetPaletteName, 16), '\u0000');
     }
 
     public NsbtxPalette(String name, int numColors) {
@@ -37,12 +37,10 @@ public class NsbtxPalette {
         this.data = new byte[numColors * 2];
     }
 
-    public ArrayList<Color> getColors(int numColorsRequested) {
-        ArrayList<Color> colors = new ArrayList<>(numColorsRequested);
-
-        for (int i = 0; i < numColorsRequested; i++) {
-            colors.add(new Color(0, 0, 0));
-        }
+    public List<Color> getColors(int numColorsRequested) {
+        List<Color> colors = IntStream.range(0, numColorsRequested)
+                .mapToObj(i -> new Color(0, 0, 0))
+                .collect(Collectors.toList());
 
         int numColorsData = Math.min(data.length / 2, numColorsRequested);
         for (int i = 0; i < numColorsData; i++) {
@@ -55,9 +53,7 @@ public class NsbtxPalette {
             colors.set(i, new Color(r, g, b));
         }
         return colors;
-
     }
-
 
     public String getName() {
         return name;
@@ -68,11 +64,7 @@ public class NsbtxPalette {
     }
 
     public int getDataSize() {
-        if (data != null) {
-            return this.data.length;
-        } else {
-            return 0;
-        }
+        return data != null ? this.data.length : 0;
     }
 
     public void setData(byte[] data) {
@@ -84,13 +76,10 @@ public class NsbtxPalette {
     }
 
     public String getDataAsHexStringImd() {
-        String hexString = "";
+        StringBuilder hexString = new StringBuilder();
         for (int i = 0; i < data.length; i += 2) {
-            hexString += " ";
-            hexString += String.format("%02x", data[i + 1]);
-            hexString += String.format("%02x", data[i]);
+            hexString.append(" ").append(String.format("%02x", data[i + 1])).append(String.format("%02x", data[i]));
         }
-        return hexString;
+        return hexString.toString();
     }
-
 }

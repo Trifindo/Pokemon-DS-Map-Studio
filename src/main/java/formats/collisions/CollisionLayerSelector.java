@@ -2,7 +2,6 @@ package formats.collisions;
 
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
 import editor.game.Game;
 import editor.state.CollisionLayerState;
@@ -13,7 +12,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -58,9 +56,7 @@ public class CollisionLayerSelector extends JPanel {
 
         }
 
-        this.setPreferredSize(new Dimension(
-                thumbnailWidth * maxNumLayers,
-                thumbnailHeight + textGapHeight));
+        this.setPreferredSize(new Dimension(thumbnailWidth * maxNumLayers, thumbnailHeight + textGapHeight));
     }
 
     private void formMousePressed(MouseEvent evt) {
@@ -87,76 +83,59 @@ public class CollisionLayerSelector extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (collHandler != null && layerImgs != null) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        if (collHandler == null || layerImgs == null) {
+            return;
+        }
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 
+        for (int i = 0; i < collHandler.getNumLayers(); i++) {
+            g.drawImage(layerImgs[i], textWidth, i * thumbnailHeight, null);
 
-            for (int i = 0; i < collHandler.getNumLayers(); i++) {
-                g.drawImage(layerImgs[i],
-                        textWidth, i * thumbnailHeight, null);
+            //AffineTransform orig = g2d.getTransform();
+            //g2d.rotate(-Math.PI/2);
+            String string = layerNames[collHandler.getGame()][i];
+            int width = g.getFontMetrics().stringWidth(string);
+            int height = g.getFontMetrics().getFont().getSize();
+            g.drawString(string, (textWidth - width) / 2, i * thumbnailHeight + (thumbnailHeight + height) / 2);
+            //g.drawString(string, (-1 - i) * thumbnailHeight, (textGapHeight * 2) / 3);
+            /*
+            g.drawString(string,
+                    i * thumbnailHeight + (thumbnailHeight - width) / 2,
+                    (textGapHeight * 2) / 3
+            );*/
+            //g2d.setTransform(orig);
+        }
 
-                //AffineTransform orig = g2d.getTransform();
-                //g2d.rotate(-Math.PI/2);
-                String string = layerNames[collHandler.getGame()][i];
-                int width = g.getFontMetrics().stringWidth(string);
-                int height = g.getFontMetrics().getFont().getSize();
-                g.drawString(string,
-                        (textWidth - width) / 2
-                        , i * thumbnailHeight + (thumbnailHeight + height) / 2);
-                //g.drawString(string, (-1 - i) * thumbnailHeight, (textGapHeight * 2) / 3);
-                /*
-                g.drawString(string,
-                        i * thumbnailHeight + (thumbnailHeight - width) / 2,
-                        (textGapHeight * 2) / 3
-                );*/
-                //g2d.setTransform(orig);
-            }
+        g.setColor(Color.red);
+        g.drawRect(textWidth, collHandler.getIndexLayerSelected() * thumbnailHeight, thumbnailWidth - 1, thumbnailHeight - 1);
+        g.setColor(new Color(255, 100, 100, 100));
+        g.fillRect(textWidth, collHandler.getIndexLayerSelected() * thumbnailHeight, thumbnailWidth - 1, thumbnailHeight - 1);
 
-            g.setColor(Color.red);
-            g.drawRect(textWidth,
-                    collHandler.getIndexLayerSelected() * thumbnailHeight,
-                    thumbnailWidth - 1, thumbnailHeight - 1);
-            g.setColor(new Color(255, 100, 100, 100));
-            g.fillRect(textWidth,
-                    collHandler.getIndexLayerSelected() * thumbnailHeight,
-                    thumbnailWidth - 1, thumbnailHeight - 1);
-
-            if(Game.isGenV(collHandler.getGame())) {
-                if (collHandler.lockTerrainLayers()) {
+        if(Game.isGenV(collHandler.getGame())) {
+            if (collHandler.lockTerrainLayers()) {
+                for (int i = 0; i < 4; i++) {
+                    g.setColor(new Color(0.5f, 0.5f, 0.5f, 0.5f));
+                    g.fillRect(textWidth, i * thumbnailHeight, thumbnailWidth - 1, thumbnailHeight - 1);
+                }
+                if(lockImg != null){
                     for (int i = 0; i < 4; i++) {
-                        g.setColor(new Color(0.5f, 0.5f, 0.5f, 0.5f));
-                        g.fillRect(textWidth,
-                                i * thumbnailHeight,
-                                thumbnailWidth - 1, thumbnailHeight - 1);
-
-                    }
-                    if(lockImg != null){
-                        for (int i = 0; i < 4; i++) {
-                            g.drawImage(lockImg, textWidth,
-                                    i * thumbnailHeight,
-                                    null);
-                        }
+                        g.drawImage(lockImg, textWidth, i * thumbnailHeight, null);
                     }
                 }
             }
         }
-
     }
 
     public void init(CollisionHandler collHandler) {
         this.collHandler = collHandler;
 
-        this.setPreferredSize(new Dimension(
-                thumbnailHeight + textWidth,
-                thumbnailWidth * collHandler.getNumLayers()));
+        this.setPreferredSize(new Dimension(thumbnailHeight + textWidth, thumbnailWidth * collHandler.getNumLayers()));
 
         layerImgs = new BufferedImage[collHandler.getNumLayers()];
 
         for (int i = 0; i < layerImgs.length; i++) {
-            BufferedImage img = new BufferedImage(thumbnailWidth,
-                    thumbnailHeight, BufferedImage.TYPE_INT_RGB);
+            BufferedImage img = new BufferedImage(thumbnailWidth, thumbnailHeight, BufferedImage.TYPE_INT_RGB);
             layerImgs[i] = img;
             Graphics g = img.getGraphics();
             g.setColor(backColor);
@@ -187,7 +166,6 @@ public class CollisionLayerSelector extends JPanel {
 
         g.setColor(borderColor);
         g.drawRect(0, 0, thumbnailWidth - 1, thumbnailHeight - 1);
-
     }
 
     private void initComponents() {

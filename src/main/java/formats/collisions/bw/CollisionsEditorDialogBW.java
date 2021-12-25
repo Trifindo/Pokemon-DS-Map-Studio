@@ -35,7 +35,6 @@ public class CollisionsEditorDialogBW extends JDialog {
         setJSpinnerPrecission(jsZ1, minFractionDigits, maxFractionDigits);
         setJSpinnerPrecission(jsZ2, minFractionDigits, maxFractionDigits);
         setJSpinnerPrecission(jsZ3, minFractionDigits, maxFractionDigits);
-
     }
 
     private void jpContainerComponentResized(ComponentEvent e) {
@@ -167,7 +166,7 @@ public class CollisionsEditorDialogBW extends JDialog {
         try {
             cHandler.saveToCollision();
         } catch (Exception exception) {
-            JOptionPane.showMessageDialog(this, "There was a problem gerating the PER files",
+            JOptionPane.showMessageDialog(this, "There was a problem generating the PER files",
                     "Collisions not changed", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -191,7 +190,6 @@ public class CollisionsEditorDialogBW extends JDialog {
                 JOptionPane.showMessageDialog(this, "There was a problem saving the PER file",
                         "Error saving PER", JOptionPane.ERROR_MESSAGE);
             }
-
         }
     }
 
@@ -216,17 +214,12 @@ public class CollisionsEditorDialogBW extends JDialog {
                 JOptionPane.showMessageDialog(this, "There was a problem opening the file",
                         "Error opening PER file", JOptionPane.ERROR_MESSAGE);
             }
-
         }
     }
 
     public JLabel getJlInfo() {
         return jlInfo;
     }
-
-
-
-
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents

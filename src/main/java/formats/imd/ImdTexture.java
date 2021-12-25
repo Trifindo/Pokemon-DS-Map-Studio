@@ -50,7 +50,6 @@ public class ImdTexture {
                 setTextureAndPalette(img, material);
             }
         }
-
     }
 
     public void setTextureAndPaletteWithTransparency(BufferedImage img, TilesetMaterial material) {
@@ -79,7 +78,7 @@ public class ImdTexture {
             }
         }
         for (int i = colors.size(); i < numColors; i++) {
-            colors.add(Color.black);
+            colors.add(Color.BLACK);
         }
         textureData = colorIndicesToTexData(colorIndices, bitDepthTable[material.getColorFormat()]);
         paletteData = paletteColorsToPalData(colors);
@@ -105,7 +104,7 @@ public class ImdTexture {
             }
         }
         for (int i = colors.size(); i < numColors; i++) {
-            colors.add(Color.black);
+            colors.add(Color.BLACK);
         }
         textureData = colorIndicesToTexData(colorIndices, bitDepthTable[material.getColorFormat()]);
         paletteData = paletteColorsToPalData(colors);
@@ -131,7 +130,7 @@ public class ImdTexture {
             }
         }
         for (int i = colors.size(); i < numColors; i++) {
-            colors.add(Color.black);
+            colors.add(Color.BLACK);
         }
         textureData = colorIndicesToTexDataSemitransp(colorIndices, colors, nBitsColor);
         paletteData = paletteColorsToPalData(colors);
@@ -221,14 +220,14 @@ public class ImdTexture {
     }
 
     private static String byteArrayToHexString(byte[] data) {
-        String hexString = "";
+        StringBuilder hexString = new StringBuilder();
         for (int i = 0; i < data.length; i++) {
             if (i % 2 == 0) {
-                hexString += " ";
+                hexString.append(" ");
             }
-            hexString += String.format("%02x", data[i]);
+            hexString.append(String.format("%02x", data[i]));
         }
-        return hexString;
+        return hexString.toString();
     }
 
     public int getTextureDataSize() {

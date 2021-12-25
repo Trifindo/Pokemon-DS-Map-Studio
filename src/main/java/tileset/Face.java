@@ -2,6 +2,7 @@
 package tileset;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import utils.Utils;
 
@@ -17,12 +18,7 @@ public class Face {
     public boolean isQuad;
 
     public Face(boolean isQuad) {
-        int nElements;
-        if (isQuad) {
-            nElements = 4;
-        } else {
-            nElements = 3;
-        }
+        int nElements = isQuad ? 4 : 3;
 
         vInd = new int[nElements];
         tInd = new int[nElements];
@@ -30,7 +26,6 @@ public class Face {
         cInd = new int[nElements];
 
         this.isQuad = isQuad;
-
     }
 
     public Face deepClone() {
@@ -42,17 +37,13 @@ public class Face {
         return f;
     }
 
-
-    public static ArrayList<Face> cloneArrayList(ArrayList<Face> array) {
-        ArrayList<Face> newArray = new ArrayList<>(array.size());
-        array.forEach((f) -> {
-            newArray.add(f.deepClone());
-        });
+    public static List<Face> cloneArrayList(List<Face> array) {
+        List<Face> newArray = new ArrayList<>(array.size());
+        array.forEach((f) -> newArray.add(f.deepClone()));
         return newArray;
     }
 
-    public static void incrementAllIndices(ArrayList<Face> faces, int vIncrement,
-                                           int tIncrement, int nIncrement, int cIncrement) {
+    public static void incrementAllIndices(List<Face> faces, int vIncrement, int tIncrement, int nIncrement, int cIncrement) {
         for (Face f : faces) {
             for (int i = 0; i < f.vInd.length; i++) {
                 f.vInd[i] = f.vInd[i] + vIncrement;
@@ -68,5 +59,4 @@ public class Face {
             }
         }
     }
-
 }

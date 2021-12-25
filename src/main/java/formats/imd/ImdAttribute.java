@@ -53,7 +53,7 @@ public class ImdAttribute {
     public void setValue(int[] values) {
         this.value = "";
         for (int i = 0; i < values.length - 1; i++) {
-            this.value += String.valueOf(values[i]) + " ";
+            this.value += values[i] + " ";
         }
         this.value += String.valueOf(values[values.length - 1]);
     }
@@ -81,5 +81,4 @@ public class ImdAttribute {
     public void setValue(String value) {
         this.value = value;
     }
-
 }

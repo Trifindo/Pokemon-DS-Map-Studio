@@ -19,11 +19,13 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.IntStream;
 
 import tileset.Tile;
 import tileset.Tileset;
@@ -38,10 +40,10 @@ public class MapEditorHandler {
     public static final String versionName = "Pokemon DS Map Studio 2.2";
 
     //Main frame
-    private MainFrame mainFrame;
+    private final MainFrame mainFrame;
 
     //Game
-    private Game game;
+    private final Game game;
 
     //Working directory
     private String lastTilesetDirectoryUsed = null;
@@ -84,7 +86,7 @@ public class MapEditorHandler {
     private int[][] tileLayerCopy = null;
     private int[][] heightLayerCopy = null;
 
-    //Map State Hanlder
+    //Map State Handler
     private StateHandler mapStateHandler = new StateHandler();
     private boolean layerChanged = false;
 
@@ -101,10 +103,7 @@ public class MapEditorHandler {
         mapMatrix = new MapMatrix(this);
 
         //Active layer
-        for (int i = 0; i < renderLayers.length; i++) {
-            renderLayers[i] = true;
-        }
-
+        Arrays.fill(renderLayers, true);
     }
 
     private void initHeights() {
@@ -112,7 +111,6 @@ public class MapEditorHandler {
         for (int i = 0; i < numHeights; i++) {
             heights[i] = minHeight + i;
         }
-
     }
 
     public MapData getCurrentMap() {
@@ -219,10 +217,9 @@ public class MapEditorHandler {
         getCurrentMap().setGrid(grid);
     }
 
-    public ArrayList<SmartGrid> getSmartGridArray() {
+    public List<SmartGrid> getSmartGridArray() {
         return tset.getSmartGridArray();
     }
-
 
     public SmartGrid getSmartGrid(int index) {
         return tset.getSmartGridArray().get(index);
@@ -294,15 +291,15 @@ public class MapEditorHandler {
 
     public void setActiveTileLayer(int index) {
         MapGrid grid = getCurrentMap().getGrid();
-        if (index >= 0 && index < grid.numLayers) {
+        if (index >= 0 && index < MapGrid.numLayers) {
             activeLayer = index;
         }
     }
 
     public void setOnlyActiveTileLayer(int index) {
         MapGrid grid = getCurrentMap().getGrid();
-        if (index >= 0 && index < grid.numLayers) {
-            for (int i = 0; i < grid.numLayers; i++) {
+        if (index >= 0 && index < MapGrid.numLayers) {
+            for (int i = 0; i < MapGrid.numLayers; i++) {
                 renderLayers[i] = false;
             }
             renderLayers[index] = true;
@@ -312,18 +309,12 @@ public class MapEditorHandler {
     }
 
     public boolean isLayerTheOnlyActive(int index) {
-        MapGrid grid = getCurrentMap().getGrid();
-        for(int i = 0; i < grid.numLayers; i++){
-            if(renderLayers[i] && i != index){
-                return false;
-            }
-        }
-        return true;
+        return IntStream.range(0, MapGrid.numLayers)
+                .noneMatch(i -> renderLayers[i] && i != index);
     }
 
     public void setLayersEnabled(boolean enabled) {
-        MapGrid grid = getCurrentMap().getGrid();
-        for(int i = 0; i< grid.numLayers; i++){
+        for(int i = 0; i < MapGrid.numLayers; i++){
             renderLayers[i] = enabled;
         }
     }
@@ -464,7 +455,7 @@ public class MapEditorHandler {
     public boolean mapHasVertexColors() {
         //Get indices of tiles used in map
         MapGrid grid = getGrid();
-        TreeSet<Integer> tileIndicesInGrid = new TreeSet();
+        TreeSet<Integer> tileIndicesInGrid = new TreeSet<>();
         for (int i = 0; i < grid.tileLayers.length; i++) {
             for (int j = 0; j < grid.tileLayers[i].length; j++) {
                 for (int k = 0; k < grid.tileLayers[i][j].length; k++) {
@@ -477,21 +468,15 @@ public class MapEditorHandler {
         }
 
         //Get indices of materials used in tiles
-        TreeSet<Integer> materialIndicesInGrid = new TreeSet();
+        TreeSet<Integer> materialIndicesInGrid = new TreeSet<>();
         for (Integer tileIndex : tileIndicesInGrid) {
             Tile tile = tset.get(tileIndex);
-            for (Integer materialIndex : tile.getTextureIDs()) {
-                materialIndicesInGrid.add(materialIndex);
-            }
+            materialIndicesInGrid.addAll(tile.getTextureIDs());
         }
 
         //Check if materials in map use vertex colors
-        for (Integer materialIndex : materialIndicesInGrid) {
-            if (tset.getMaterial(materialIndex).vertexColorsEnabled()) {
-                return true;
-            }
-        }
-        return false;
+        return materialIndicesInGrid.stream()
+                .anyMatch(materialIndex -> tset.getMaterial(materialIndex).vertexColorsEnabled());
     }
 
     public void updateAllMapThumbnails() {
@@ -563,7 +548,6 @@ public class MapEditorHandler {
         setMapSelected(mapCoords, true);
     }
 
-
     public void setDefaultMapSelected() {
         if (mapMatrix.getMatrix().isEmpty()) { //|| mapMatrix.getMatrix().get(new Point(0, 0)) == null) {
             mapSelected = new Point(0, 0);
@@ -573,7 +557,7 @@ public class MapEditorHandler {
     }
 
     public boolean mapExists(Point mapCoords) {
-        return mapMatrix.getMatrix().keySet().contains(mapCoords);
+        return mapMatrix.getMatrix().containsKey(mapCoords);
     }
 
     public boolean mapSelectedExists() {
@@ -649,7 +633,6 @@ public class MapEditorHandler {
             }
         }
     }
-
 
     public void copySelectedLayer() {
         copyLayer(getActiveLayerIndex());

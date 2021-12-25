@@ -13,5 +13,4 @@ public class DaeGeometry extends DaeNode {
     public DaeGeometry(String id, String name) {
         super(id, name);
     }
-
 }

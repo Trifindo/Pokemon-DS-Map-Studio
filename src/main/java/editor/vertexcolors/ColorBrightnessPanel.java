@@ -2,7 +2,6 @@ package editor.vertexcolors;
 
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,7 +19,7 @@ public class ColorBrightnessPanel extends JPanel {
     private static final int height = 101;
     private static final int circleSize = 6;
     private static final int margin = 6;
-    private BufferedImage colorGradientImg;
+    private final BufferedImage colorGradientImg;
 
     private final int currentX = width / 2;
     private int currentY = 0;
@@ -68,9 +67,7 @@ public class ColorBrightnessPanel extends JPanel {
         }
 
         Graphics2D g2 = (Graphics2D) g;
-        RenderingHints rh = new RenderingHints(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHints(rh);
 
         g.setColor(Color.white);
@@ -78,7 +75,6 @@ public class ColorBrightnessPanel extends JPanel {
 
         g.setColor(Color.black);
         g.drawOval(currentX - circleSize / 2 + margin, currentY - circleSize / 2 + margin, circleSize, circleSize);
-
     }
 
     private BufferedImage generateColorGradient(int width, int height) {
@@ -102,9 +98,7 @@ public class ColorBrightnessPanel extends JPanel {
         AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_IN);
         g2d.setComposite(ac);
 
-        RenderingHints rh = new RenderingHints(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHints(rh);
 
         g2d.drawImage(img, 0, 0, null);
@@ -117,7 +111,6 @@ public class ColorBrightnessPanel extends JPanel {
 
         return imgComp;
     }
-
 
     public float getBrightness() {
         return 1.0f - (float) currentY / height;

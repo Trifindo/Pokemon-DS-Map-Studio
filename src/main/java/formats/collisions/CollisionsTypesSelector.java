@@ -1,10 +1,7 @@
 package formats.collisions;
 
-import utils.Utils;
-
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -23,7 +20,6 @@ public class CollisionsTypesSelector extends JPanel {
     private BufferedImage[] collTypesImgs;
 
     private CollisionHandler collHandler;
-
 
     public CollisionsTypesSelector() {
         initComponents();
@@ -55,7 +51,6 @@ public class CollisionsTypesSelector extends JPanel {
             g.setColor(new Color(255, 100, 100, 100));
             g.fillRect(x, y, tileSize - 1, tileSize - 1);
         }
-
     }
 
     public void init(CollisionHandler collisionHandler) {
@@ -68,12 +63,10 @@ public class CollisionsTypesSelector extends JPanel {
         int c = evt.getX() / tileSize;
         int r = evt.getY() / tileSize;
         int value = r * cols + c;
-        if (new Rectangle(0, 0, cols, rows).contains(c, r)
-                && value < CollisionTypes.numCollisions) {
+        if (new Rectangle(0, 0, cols, rows).contains(c, r) && value < CollisionTypes.numCollisions) {
             collHandler.setIndexCollisionSelected(value);
             collHandler.getDialog().updateView();
             repaint();
-
         }
     }
 

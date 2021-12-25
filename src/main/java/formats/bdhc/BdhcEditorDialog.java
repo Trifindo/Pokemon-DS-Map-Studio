@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -105,72 +104,73 @@ public class BdhcEditorDialog extends JDialog {
         dialog.setLocationRelativeTo(handler.getMainFrame());
         dialog.setVisible(true);
 
-        if (dialog.getReturnValue() == AngleCalculatorDialog.ACCEPTED) {
-            float angle = dialog.getAngle();
-            float max = 80.0f;
-            float min = -80.0f;
-            if (angle > max) {
-                angle = max;
-            } else if (angle < min) {
-                angle = min;
-            }
-
-            jtfAngleXEnabled.value = false;
-            jtfAngleX.setText(String.valueOf(angle));
-            jtfAngleXEnabled.value = true;
-
-            if (angle != 0.0f) {
-                jtfAngleYEnabled.value = false;
-                jtfAngleY.setText(String.valueOf(0.0f));
-                jtfAngleYEnabled.value = true;
-            }
-
-            bdhcHandler.getSelectedPlate().setAngleX((float) ((angle / 180.0f) * Math.PI));
-
-            updateViewAngles();
-            updateViewSlopes();
-            updateViewType();
-            bdhcDisplay.repaint();
-            updateViewBdhcDisplay3D();
+        if (dialog.getReturnValue() != AngleCalculatorDialog.ACCEPTED) {
+            return;
         }
+        float angle = dialog.getAngle();
+        float max = 80.0f;
+        float min = -80.0f;
+        if (angle > max) {
+            angle = max;
+        } else if (angle < min) {
+            angle = min;
+        }
+
+        jtfAngleXEnabled.value = false;
+        jtfAngleX.setText(String.valueOf(angle));
+        jtfAngleXEnabled.value = true;
+
+        if (angle != 0.0f) {
+            jtfAngleYEnabled.value = false;
+            jtfAngleY.setText(String.valueOf(0.0f));
+            jtfAngleYEnabled.value = true;
+        }
+
+        bdhcHandler.getSelectedPlate().setAngleX((float) ((angle / 180.0f) * Math.PI));
+
+        updateViewAngles();
+        updateViewSlopes();
+        updateViewType();
+        bdhcDisplay.repaint();
+        updateViewBdhcDisplay3D();
     }
 
     private void angleDisplay2MousePressed(MouseEvent e) {
         Plate plate = bdhcHandler.getSelectedPlate();
 
-        final AngleCalculatorDialog dialog = new AngleCalculatorDialog(handler.getMainFrame(),
-                plate.getAngleDegreesY(), plate.height);
+        final AngleCalculatorDialog dialog = new AngleCalculatorDialog(handler.getMainFrame(), plate.getAngleDegreesY(), plate.height);
         dialog.setLocationRelativeTo(handler.getMainFrame());
         dialog.setVisible(true);
 
-        if (dialog.getReturnValue() == AngleCalculatorDialog.ACCEPTED) {
-            float angle = dialog.getAngle();
-            float max = 80.0f;
-            float min = -80.0f;
-            if (angle > max) {
-                angle = max;
-            } else if (angle < min) {
-                angle = min;
-            }
-
-            jtfAngleYEnabled.value = false;
-            jtfAngleY.setText(String.valueOf(angle));
-            jtfAngleYEnabled.value = true;
-
-            if (angle != 0.0f) {
-                jtfAngleXEnabled.value = false;
-                jtfAngleX.setText(String.valueOf(0.0f));
-                jtfAngleXEnabled.value = true;
-            }
-
-            bdhcHandler.getSelectedPlate().setAngleY((float) ((angle / 180.0f) * Math.PI));
-
-            updateViewAngles();
-            updateViewSlopes();
-            updateViewType();
-            bdhcDisplay.repaint();
-            updateViewBdhcDisplay3D();
+        if (dialog.getReturnValue() != AngleCalculatorDialog.ACCEPTED) {
+            return;
         }
+        float angle = dialog.getAngle();
+        float max = 80.0f;
+        float min = -80.0f;
+        if (angle > max) {
+            angle = max;
+        } else if (angle < min) {
+            angle = min;
+        }
+
+        jtfAngleYEnabled.value = false;
+        jtfAngleY.setText(String.valueOf(angle));
+        jtfAngleYEnabled.value = true;
+
+        if (angle != 0.0f) {
+            jtfAngleXEnabled.value = false;
+            jtfAngleX.setText(String.valueOf(0.0f));
+            jtfAngleXEnabled.value = true;
+        }
+
+        bdhcHandler.getSelectedPlate().setAngleY((float) ((angle / 180.0f) * Math.PI));
+
+        updateViewAngles();
+        updateViewSlopes();
+        updateViewType();
+        bdhcDisplay.repaint();
+        updateViewBdhcDisplay3D();
     }
 
     private void jtfAngleXFocusGained(FocusEvent e) {
@@ -335,27 +335,27 @@ public class BdhcEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Terrain File (*.bdhc)", Bdhc.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open");
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            try {
-                String path = fc.getSelectedFile().getPath();
-                handler.setLastBdhcDirectoryUsed(fc.getSelectedFile().getParent());
 
-                int game = handler.getGameIndex();
-                if (game == Game.DIAMOND || game == Game.PEARL) {
-                    handler.setBdhc(new BdhcLoaderDP().loadBdhcFromFile(path));
-                } else {
-                    handler.setBdhc(new BdhcLoaderHGSS().loadBdhcFromFile(path));
-                }
+        if (fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        try {
+            String path = fc.getSelectedFile().getPath();
+            handler.setLastBdhcDirectoryUsed(fc.getSelectedFile().getParent());
 
-                bdhcHandler.setSelectedPlate(0);
-                updateView();
-                bdhcDisplay.repaint();
-
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Can't open file", "Error opening BDHC file", JOptionPane.ERROR_MESSAGE);
+            int game = handler.getGameIndex();
+            if (game == Game.DIAMOND || game == Game.PEARL) {
+                handler.setBdhc(new BdhcLoaderDP().loadBdhcFromFile(path));
+            } else {
+                handler.setBdhc(new BdhcLoaderHGSS().loadBdhcFromFile(path));
             }
 
+            bdhcHandler.setSelectedPlate(0);
+            updateView();
+            bdhcDisplay.repaint();
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Can't open file", "Error opening BDHC file", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -367,23 +367,23 @@ public class BdhcEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Terrain File (*.bdhc)", Bdhc.fileExtension));
         fc.setApproveButtonText("Save");
         fc.setDialogTitle("Save");
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            try {
-                String path = fc.getSelectedFile().getPath();
-                handler.setLastBdhcDirectoryUsed(fc.getSelectedFile().getParent());
-                path = Utils.addExtensionToPath(path, Bdhc.fileExtension);
 
-                int game = handler.getGameIndex();
-                if (game == Game.DIAMOND || game == Game.PEARL) {
-                    BdhcWriterDP.writeBdhc(bdhcHandler.getBdhc(), path);
-                } else {
-                    BdhcWriterHGSS.writeBdhc(bdhcHandler.getBdhc(), path);
-                }
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Can't save file", "Error saving BDHC", JOptionPane.ERROR_MESSAGE);
+        if (fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        try {
+            String path = fc.getSelectedFile().getPath();
+            handler.setLastBdhcDirectoryUsed(fc.getSelectedFile().getParent());
+            path = Utils.addExtensionToPath(path, Bdhc.fileExtension);
+
+            int game = handler.getGameIndex();
+            if (game == Game.DIAMOND || game == Game.PEARL) {
+                BdhcWriterDP.writeBdhc(bdhcHandler.getBdhc(), path);
+            } else {
+                BdhcWriterHGSS.writeBdhc(bdhcHandler.getBdhc(), path);
             }
-
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Can't save file", "Error saving BDHC", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -422,17 +422,11 @@ public class BdhcEditorDialog extends JDialog {
     }
 
     public String removeCharAtEnd(String s, String c) {
-        if (s.endsWith(c)) {
-            return s.substring(0, s.length() - 1);
-        }
-        return s;
+        return s.endsWith(c) ? s.substring(0, s.length() - 1) : s;
     }
 
     public String addCharAtEnd(String s, String c) {
-        if (!s.endsWith(c)) {
-            return s + c;
-        }
-        return s;
+        return !s.endsWith(c) ? s + c : s;
     }
 
     public void updateViewSlopes() {
@@ -460,10 +454,9 @@ public class BdhcEditorDialog extends JDialog {
 
     private void updateViewPlateNames() {
         plateListEnabled = false;
-        DefaultListModel demoList = new DefaultListModel();
+        DefaultListModel<String> demoList = new DefaultListModel<>();
         for (int i = 0; i < bdhcHandler.getPlates().size(); i++) {
-            String name = "Plate " + i;
-            demoList.addElement(name);
+            demoList.addElement("Plate " + i);
         }
         plateList.setModel(demoList);
         plateList.setSelectedIndex(bdhcHandler.getSelectedPlateIndex());
@@ -479,7 +472,7 @@ public class BdhcEditorDialog extends JDialog {
     public int getValueFromJTextField(JTextField jtf, int defaultValue, MutableBoolean enabled) {
         int value;
         try {
-            value = Integer.valueOf(jtf.getText());
+            value = Integer.parseInt(jtf.getText());
             int max = 4096;
             int min = -4096;
             if (value > max) {
@@ -502,7 +495,7 @@ public class BdhcEditorDialog extends JDialog {
     public float getValueFromJTextField(JTextField jtf, float defaultValue, MutableBoolean enabled) {
         float value;
         try {
-            value = Float.valueOf(jtf.getText());
+            value = Float.parseFloat(jtf.getText());
         } catch (NumberFormatException e) {
             value = defaultValue;
         }
@@ -541,16 +534,12 @@ public class BdhcEditorDialog extends JDialog {
         });
     }
 
-
-
     private class MutableBoolean {
-
         public boolean value;
 
         public MutableBoolean(boolean value) {
             this.value = value;
         }
-
     }
 
     private void initComponents() {

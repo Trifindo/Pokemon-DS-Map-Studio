@@ -3,40 +3,23 @@ package editor.tileseteditor;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
 import editor.smartdrawing.*;
 import editor.tileselector.*;
 import com.jogamp.opengl.GLContext;
-import tileset.TilesetRenderer;
 import editor.handler.MapEditorHandler;
 import formats.obj.ObjWriter;
-import editor.smartdrawing.SmartGrid;
-import editor.smartdrawing.SmartGridEditable;
 import editor.vertexcolors.VColorEditorDialog;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import java.util.List;
+import java.util.Objects;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.miginfocom.swing.*;
@@ -58,13 +41,13 @@ public class TilesetEditorDialog extends JDialog {
     private boolean jcbTexTilingUListenerActive = true;
     private boolean jcbTexTilingVListenerActive = true;
     private boolean jcbColorFormatListenerActive = true;
-    private MutableBoolean jtfMaterialNameActive = new MutableBoolean(true);
-    private MutableBoolean jtfTextureNameActive = new MutableBoolean(true);
-    private MutableBoolean jtfPaletteNameActive = new MutableBoolean(true);
+    private boolean jtfMaterialNameActive = true;
+    private boolean jtfTextureNameActive = true;
+    private boolean jtfPaletteNameActive = true;
     private boolean jsAlphaActive = true;
-    private MutableBoolean jtfGlobalTexScaleActive = new MutableBoolean(true);
-    private MutableBoolean jtfXOffsetActive = new MutableBoolean(true);
-    private MutableBoolean jtfYOffsetActive = new MutableBoolean(true);
+    private boolean jtfGlobalTexScaleActive = true;
+    private boolean jtfXOffsetActive = true;
+    private boolean jtfYOffsetActive = true;
     private boolean jlTileMaterialsEnabled = true;
 
     private static final Color redColor = new Color(255, 200, 200);
@@ -80,13 +63,11 @@ public class TilesetEditorDialog extends JDialog {
         super(owner);
         initComponents();
 
-        jTabbedPane1.setIconAt(0, new ImageIcon(getClass().getResource("/icons/TileIcon.png")));
-        jTabbedPane1.setIconAt(1, new ImageIcon(getClass().getResource("/icons/MaterialIcon2.png")));
+        jTabbedPane1.setIconAt(0, new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/TileIcon.png"))));
+        jTabbedPane1.setIconAt(1, new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/MaterialIcon2.png"))));
 
         jScrollPane2.getVerticalScrollBar().setUnitIncrement(16);
         jScrollPaneSmartGrid.getVerticalScrollBar().setUnitIncrement(16);
-
-        Color redColor = new Color(255, 200, 200);
 
         addListenerToJTextField(jtfMaterialName, jtfMaterialNameActive);
         addListenerToJTextField(jtfTextureName, jtfTextureNameActive);
@@ -201,7 +182,7 @@ public class TilesetEditorDialog extends JDialog {
     private void jbRemoveTileActionPerformed(ActionEvent evt) {
         if (handler.getTileset().size() > 1) {
 
-            ArrayList<Integer> indices = tileSelector.getIndicesSelected();
+            List<Integer> indices = tileSelector.getIndicesSelected();
             for (int i = 0; i < indices.size(); i++) {
                 handler.getTileset().removeTile(indices.get(0));
             }
@@ -231,8 +212,7 @@ public class TilesetEditorDialog extends JDialog {
     }
 
     private void jbAddTileActionPerformed(ActionEvent evt) {
-        final AddTileDialog addTileDialog = new AddTileDialog(handler.getMainFrame(),
-                "Import Tile Settings");
+        final AddTileDialog addTileDialog = new AddTileDialog(handler.getMainFrame(), "Import Tile Settings");
         addTileDialog.setLocationRelativeTo(this);
         addTileDialog.setVisible(true);
         if (addTileDialog.getReturnValue() == AddTileDialog.APPROVE_OPTION) {
@@ -252,10 +232,9 @@ public class TilesetEditorDialog extends JDialog {
                 try {
                     handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
                     File[] files = fc.getSelectedFiles();
-                    ArrayList<Tile> newTiles = new ArrayList<>();
+                    List<Tile> newTiles = new ArrayList<>();
                     boolean exceptionFound = false;
-                    for (int i = 0; i < files.length; i++) {
-                        File file = files[i];
+                    for (File file : files) {
                         try {
                             Tile tile = new Tile(handler.getTileset(), file.getAbsolutePath());
 
@@ -270,14 +249,10 @@ public class TilesetEditorDialog extends JDialog {
                             newTiles.add(tile);
                         } catch (TextureNotFoundException ex) {
                             exceptionFound = true;
-                            JOptionPane.showMessageDialog(this, ex.getMessage(),
-                                    "Error reading texture",
-                                    JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error reading texture", JOptionPane.ERROR_MESSAGE);
                         } catch (NormalsNotFoundException ex) {
                             exceptionFound = true;
-                            JOptionPane.showMessageDialog(this, ex.getMessage(),
-                                    "Error reading normals",
-                                    JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error reading normals", JOptionPane.ERROR_MESSAGE);
                         }
                     }
 
@@ -352,49 +327,47 @@ public class TilesetEditorDialog extends JDialog {
     }
 
     private void jbAddTextureActionPerformed(ActionEvent evt) {
-        if (handler.getTileset().size() > 0) {
-            final ThumbnailFileChooser fc = new ThumbnailFileChooser(); //Check for a better alternative
-            if (handler.getLastTilesetDirectoryUsed() != null) {
-                fc.setCurrentDirectory(new File(handler.getLastTilesetDirectoryUsed()));
-            }
-            fc.setFileFilter(new FileNameExtensionFilter("Portable Network Graphics (*.PNG)", "png"));
-            fc.setApproveButtonText("Open");
-            fc.setDialogTitle("Open");
-            int returnVal = fc.showOpenDialog(this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                try {
-                    File file = fc.getSelectedFile();
-                    handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
+        if (handler.getTileset().size() <= 0) {
+            return;
+        }
+        final ThumbnailFileChooser fc = new ThumbnailFileChooser(); //Check for a better alternative
+        if (handler.getLastTilesetDirectoryUsed() != null) {
+            fc.setCurrentDirectory(new File(handler.getLastTilesetDirectoryUsed()));
+        }
+        fc.setFileFilter(new FileNameExtensionFilter("Portable Network Graphics (*.PNG)", "png"));
+        fc.setApproveButtonText("Open");
+        fc.setDialogTitle("Open");
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
 
-                    String path = file.getAbsolutePath();
-                    boolean textureAdded = handler.getTileset().addTexture(path);
-                    if (textureAdded) {
-                        handler.getTileSelected().getTextureIDs().set(
-                                tileHandler.getTextureIdIndexSelected(),
-                                handler.getTileset().getMaterials().size() - 1);
-                        updateJComboBox();
-                        updateViewTextNames();
-                        jComboBoxListenerActive = false;
-                        jcbMaterial.setSelectedItem(tileHandler.getTextureSelectedName());
-                        jComboBoxListenerActive = true;
-                        updateViewJLTileMaterials(jlTileMaterials.getSelectedIndex());
-                        tileDisplay.requestUpdate();
-                        tileDisplay.repaint();
-                        updateSelectedTileThumbnail();
-                        //tileHandler.updateTileThumbnail(handler.getTileIndexSelected());
-                        tileSelector.updateTile(handler.getTileIndexSelected());
-                        tileSelector.repaint();
-                        textureDisplay.repaint();
-                    } else {
-                        JOptionPane.showMessageDialog(this,
-                                "A texture with the same name is already in the tileset",
-                                "Texture already loaded", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "Can't open file", "Error opening the file", JOptionPane.INFORMATION_MESSAGE);
-                }
-            }
+        File file = fc.getSelectedFile();
+        handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
 
+        String path = file.getAbsolutePath();
+        boolean textureAdded = handler.getTileset().addTexture(path);
+        if (textureAdded) {
+            handler.getTileSelected().getTextureIDs().set(
+                    tileHandler.getTextureIdIndexSelected(),
+                    handler.getTileset().getMaterials().size() - 1);
+            updateJComboBox();
+            updateViewTextNames();
+            jComboBoxListenerActive = false;
+            jcbMaterial.setSelectedItem(tileHandler.getTextureSelectedName());
+            jComboBoxListenerActive = true;
+            updateViewJLTileMaterials(jlTileMaterials.getSelectedIndex());
+            tileDisplay.requestUpdate();
+            tileDisplay.repaint();
+            updateSelectedTileThumbnail();
+            //tileHandler.updateTileThumbnail(handler.getTileIndexSelected());
+            tileSelector.updateTile(handler.getTileIndexSelected());
+            tileSelector.repaint();
+            textureDisplay.repaint();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "A texture with the same name is already in the tileset",
+                    "Texture already loaded", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -466,12 +439,10 @@ public class TilesetEditorDialog extends JDialog {
     }
 
     private void jSpinner2StateChanged(ChangeEvent evt) {
-        if (handler.getTileset().size() > 0) {
-            if (jsAlphaActive) {
-                int alpha = (Integer) jSpinner2.getValue();
-                if (alpha >= 0 && alpha < 32) {
-                    tileHandler.getMaterialSelected().setAlpha(alpha);
-                }
+        if (handler.getTileset().size() > 0 && jsAlphaActive) {
+            int alpha = (Integer) jSpinner2.getValue();
+            if (alpha >= 0 && alpha < 32) {
+                tileHandler.getMaterialSelected().setAlpha(alpha);
             }
         }
     }
@@ -491,20 +462,20 @@ public class TilesetEditorDialog extends JDialog {
     }
 
     private void jbDuplicateTileActionPerformed(ActionEvent evt) {
-        if (handler.getTileset().size() > 0) {
-            ArrayList<Integer> indices = tileSelector.getIndicesSelected();
-
-            handler.getTileset().duplicateTiles(indices);
-            //int index = handler.getTileIndexSelected();
-            //handler.getTileset().duplicateTile(index);
-            tileDisplay.requestUpdate();
-            //tileDisplay.swapVBOs(handler.getTileIndexSelected(), newIndex);
-            //handler.setIndexTileSelected(indices.get(indices.get(0)));
-            tileSelector.updateLayout();
-            tileSelector.repaint();
-            updateViewTileIndex();
+        if (handler.getTileset().size() <= 0) {
+            return;
         }
+        List<Integer> indices = tileSelector.getIndicesSelected();
 
+        handler.getTileset().duplicateTiles(indices);
+        //int index = handler.getTileIndexSelected();
+        //handler.getTileset().duplicateTile(index);
+        tileDisplay.requestUpdate();
+        //tileDisplay.swapVBOs(handler.getTileIndexSelected(), newIndex);
+        //handler.setIndexTileSelected(indices.get(indices.get(0)));
+        tileSelector.updateLayout();
+        tileSelector.repaint();
+        updateViewTileIndex();
     }
 
     private void jbFlipModelActionPerformed(ActionEvent evt) {
@@ -638,26 +609,20 @@ public class TilesetEditorDialog extends JDialog {
     }
 
     private void jcbTexTilingUActionPerformed(ActionEvent evt) {
-        if (handler.getTileset().size() > 0) {
-            if (jcbTexTilingUListenerActive) {
-                tileHandler.getMaterialSelected().setTexTilingU(jcbTexTilingU.getSelectedIndex());
-            }
+        if (handler.getTileset().size() > 0 && jcbTexTilingUListenerActive) {
+            tileHandler.getMaterialSelected().setTexTilingU(jcbTexTilingU.getSelectedIndex());
         }
     }
 
     private void jcbTexTilingVActionPerformed(ActionEvent evt) {
-        if (handler.getTileset().size() > 0) {
-            if (jcbTexTilingVListenerActive) {
-                tileHandler.getMaterialSelected().setTexTilingV(jcbTexTilingV.getSelectedIndex());
-            }
+        if (handler.getTileset().size() > 0 && jcbTexTilingVListenerActive) {
+            tileHandler.getMaterialSelected().setTexTilingV(jcbTexTilingV.getSelectedIndex());
         }
     }
 
     private void jcbColorFormatActionPerformed(ActionEvent evt) {
-        if (handler.getTileset().size() > 0) {
-            if (jcbColorFormatListenerActive) {
-                tileHandler.getMaterialSelected().setColorFormat(jcbColorFormat.getSelectedIndex());
-            }
+        if (handler.getTileset().size() > 0 && jcbColorFormatListenerActive) {
+            tileHandler.getMaterialSelected().setColorFormat(jcbColorFormat.getSelectedIndex());
         }
     }
 
@@ -686,40 +651,44 @@ public class TilesetEditorDialog extends JDialog {
     }
 
     private void jbExportTileAsObjActionPerformed(ActionEvent evt) {
-        if (handler.getTileset().size() > 0) {
-            final ExportTileDialog exportTileDialog = new ExportTileDialog(handler.getMainFrame(), "Export Tile Settings");
-            exportTileDialog.setLocationRelativeTo(this);
-            exportTileDialog.setVisible(true);
-            if (exportTileDialog.getReturnValue() == AddTileDialog.APPROVE_OPTION) {
-                float scale = exportTileDialog.getScale();
-                boolean flip = exportTileDialog.flip();
-                boolean includeVertexColors = exportTileDialog.includeVertexColors();
+        if (handler.getTileset().size() <= 0) {
+            return;
+        }
+        final ExportTileDialog exportTileDialog = new ExportTileDialog(handler.getMainFrame(), "Export Tile Settings");
+        exportTileDialog.setLocationRelativeTo(this);
+        exportTileDialog.setVisible(true);
+        if (exportTileDialog.getReturnValue() != AddTileDialog.APPROVE_OPTION) {
+            return;
+        }
 
-                final JFileChooser fc = new JFileChooser();
-                if (handler.getLastTileObjDirectoryUsed() != null) {
-                    fc.setCurrentDirectory(new File(handler.getLastTileObjDirectoryUsed()));
-                }
-                fc.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
-                fc.setApproveButtonText("Save");
-                fc.setDialogTitle("Save tile as OBJ");
-                fc.setSelectedFile(new File(handler.getTileSelected().getObjFilename()));
-                int returnVal = fc.showOpenDialog(this);
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    String path = fc.getSelectedFile().getPath();
-                    handler.setLastTileObjDirectoryUsed(fc.getSelectedFile().getParent());
+        float scale = exportTileDialog.getScale();
+        boolean flip = exportTileDialog.flip();
+        boolean includeVertexColors = exportTileDialog.includeVertexColors();
 
-                    ObjWriter objWriter = new ObjWriter(handler.getTileset(),
-                            handler.getGrid(), path, handler.getGameIndex(), true, includeVertexColors, 1.0f);
-                    try {
-                        objWriter.writeTileObj(handler.getTileIndexSelected(), scale, flip);
-                        JOptionPane.showMessageDialog(this, "Tile succesfully exported as OBJ",
-                                "Tile saved", JOptionPane.INFORMATION_MESSAGE);
-                    } catch (FileNotFoundException ex) {
-                        JOptionPane.showMessageDialog(this, "There was a problem saving the tile as OBJ",
-                                "Can't save tile", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
+        final JFileChooser fc = new JFileChooser();
+        if (handler.getLastTileObjDirectoryUsed() != null) {
+            fc.setCurrentDirectory(new File(handler.getLastTileObjDirectoryUsed()));
+        }
+        fc.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
+        fc.setApproveButtonText("Save");
+        fc.setDialogTitle("Save tile as OBJ");
+        fc.setSelectedFile(new File(handler.getTileSelected().getObjFilename()));
+        if (fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        String path = fc.getSelectedFile().getPath();
+        handler.setLastTileObjDirectoryUsed(fc.getSelectedFile().getParent());
+
+        ObjWriter objWriter = new ObjWriter(handler.getTileset(),
+                handler.getGrid(), path, handler.getGameIndex(), true, includeVertexColors, 1.0f);
+        try {
+            objWriter.writeTileObj(handler.getTileIndexSelected(), scale, flip);
+            JOptionPane.showMessageDialog(this, "Tile succesfully exported as OBJ",
+                    "Tile saved", JOptionPane.INFORMATION_MESSAGE);
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, "There was a problem saving the tile as OBJ",
+                    "Can't save tile", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -730,79 +699,76 @@ public class TilesetEditorDialog extends JDialog {
     }
 
     private void jbImportTileAsObjActionPerformed(ActionEvent evt) {
-        if (handler.getTileset().size() > 0) {
-            final AddTileDialog addTileDialog = new AddTileDialog(handler.getMainFrame(), "Import Tile Settings");
-            addTileDialog.setLocationRelativeTo(this);
-            addTileDialog.setVisible(true);
-            if (addTileDialog.getReturnValue() == AddTileDialog.APPROVE_OPTION) {
-                float scale = addTileDialog.getScale();
-                boolean flip = addTileDialog.flip();
+        if (handler.getTileset().size() <= 0) {
+            return;
+        }
+        final AddTileDialog addTileDialog = new AddTileDialog(handler.getMainFrame(), "Import Tile Settings");
+        addTileDialog.setLocationRelativeTo(this);
+        addTileDialog.setVisible(true);
+        if (addTileDialog.getReturnValue() != AddTileDialog.APPROVE_OPTION) {
+            return;
+        }
+        float scale = addTileDialog.getScale();
+        boolean flip = addTileDialog.flip();
 
-                final JFileChooser fc = new JFileChooser();
-                if (handler.getLastTilesetDirectoryUsed() != null) {
-                    fc.setCurrentDirectory(new File(handler.getLastTilesetDirectoryUsed()));
+        final JFileChooser fc = new JFileChooser();
+        if (handler.getLastTilesetDirectoryUsed() != null) {
+            fc.setCurrentDirectory(new File(handler.getLastTilesetDirectoryUsed()));
+        }
+        fc.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
+        fc.setApproveButtonText("Open");
+        fc.setDialogTitle("Open OBJ");
+        if (fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        try {
+            handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
+            File file = fc.getSelectedFile();
+            boolean exceptionFound = false;
+            try {
+                Tile tile = new Tile(handler.getTileset(), file.getAbsolutePath(),  handler.getTileSelected());
+
+                if (scale != 1.0f) {
+                    tile.scaleModel(scale);
                 }
-                fc.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
-                fc.setApproveButtonText("Open");
-                fc.setDialogTitle("Open OBJ");
-                int returnVal = fc.showOpenDialog(this);
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
-                        File file = fc.getSelectedFile();
-                        boolean exceptionFound = false;
-                        try {
-                            Tile tile = new Tile(handler.getTileset(),
-                                    file.getAbsolutePath(),
-                                    handler.getTileSelected());
 
-                            if (scale != 1.0f) {
-                                tile.scaleModel(scale);
-                            }
-
-                            if (flip) {
-                                tile.flipModelYZ();
-                            }
-
-                            handler.getTileset().getTiles().set(handler.getTileIndexSelected(), tile);
-
-                            //Remove unused textures
-                            handler.getTileset().removeUnusedTextures();
-
-                            updateSelectedTileThumbnail();
-
-                            tileSelector.updateLayout();
-                            tileDisplay.requestUpdate();
-
-                            tileDisplay.repaint();
-
-                            updateJComboBox();
-                            updateView();
-                            repaint();
-
-                        } catch (TextureNotFoundException ex) {
-                            exceptionFound = true;
-                            JOptionPane.showMessageDialog(this, ex.getMessage(),
-                                    "Error reading texture",
-                                    JOptionPane.ERROR_MESSAGE);
-                        } catch (NormalsNotFoundException ex) {
-                            exceptionFound = true;
-                            JOptionPane.showMessageDialog(this, ex.getMessage(),
-                                    "Error reading normals",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                        if (exceptionFound) {
-                            BufferedImage image = Utils.loadTexImageAsResource("/imgs/BlenderExportObjSettings.png");
-                            JLabel picLabel = new JLabel(new ImageIcon(image));
-                            JOptionPane.showMessageDialog(null, picLabel,
-                                    "Use the following Blender export settings",
-                                    JOptionPane.PLAIN_MESSAGE, null);
-                        }
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(this, "Can't open file", "Error opening some files", JOptionPane.INFORMATION_MESSAGE);
-                    }
+                if (flip) {
+                    tile.flipModelYZ();
                 }
+
+                handler.getTileset().getTiles().set(handler.getTileIndexSelected(), tile);
+
+                //Remove unused textures
+                handler.getTileset().removeUnusedTextures();
+
+                updateSelectedTileThumbnail();
+
+                tileSelector.updateLayout();
+                tileDisplay.requestUpdate();
+
+                tileDisplay.repaint();
+
+                updateJComboBox();
+                updateView();
+                repaint();
+
+            } catch (TextureNotFoundException ex) {
+                exceptionFound = true;
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error reading texture", JOptionPane.ERROR_MESSAGE);
+            } catch (NormalsNotFoundException ex) {
+                exceptionFound = true;
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error reading normals", JOptionPane.ERROR_MESSAGE);
             }
+            if (exceptionFound) {
+                BufferedImage image = Utils.loadTexImageAsResource("/imgs/BlenderExportObjSettings.png");
+                JLabel picLabel = new JLabel(new ImageIcon(image));
+                JOptionPane.showMessageDialog(null, picLabel,
+                        "Use the following Blender export settings",
+                        JOptionPane.PLAIN_MESSAGE, null);
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Can't open file", "Error opening some files", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -820,41 +786,42 @@ public class TilesetEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS Tileset (*.pdsts)", Tileset.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Select a Pokemon DS Map Studio Tileset");
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            try {
-                handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
-                String path = fc.getSelectedFile().getPath();
-                Tileset tileset = TilesetIO.readTilesetFromFile(path);
-                int start = handler.getTileset().size();
 
-                final ImportTilesDialog dialog = new ImportTilesDialog(handler.getMainFrame());
-                dialog.init(tileset);
-                dialog.setLocationRelativeTo(this);
-                dialog.setVisible(true);
-
-                if (dialog.getReturnValue() == ImportTilesDialog.APPROVE_OPTION) {
-                    ArrayList<Tile> tiles = dialog.getTilesSelected();
-
-                    handler.getTileset().importTiles(tiles);
-
-                    handler.getTileset().removeUnusedTextures();
-
-                    updateTileThumbnails(start, handler.getTileset().size());
-
-                    tileSelector.updateLayout();
-                    tileDisplay.requestUpdate();
-                    tileDisplay.repaint();
-                    updateJComboBox();
-                    updateView();
-                    repaint();
-                }
-            } catch (NullPointerException | TextureNotFoundException | IOException ex) {
-                JOptionPane.showMessageDialog(this, "There was a problem opening the tileset",
-                        "Error opening tileset", JOptionPane.ERROR_MESSAGE);
-            }
+        if (fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
         }
 
+        try {
+            handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
+            String path = fc.getSelectedFile().getPath();
+            Tileset tileset = TilesetIO.readTilesetFromFile(path);
+            int start = handler.getTileset().size();
+
+            final ImportTilesDialog dialog = new ImportTilesDialog(handler.getMainFrame());
+            dialog.init(tileset);
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+
+            if (dialog.getReturnValue() == ImportTilesDialog.APPROVE_OPTION) {
+                List<Tile> tiles = dialog.getTilesSelected();
+
+                handler.getTileset().importTiles(tiles);
+
+                handler.getTileset().removeUnusedTextures();
+
+                updateTileThumbnails(start, handler.getTileset().size());
+
+                tileSelector.updateLayout();
+                tileDisplay.requestUpdate();
+                tileDisplay.repaint();
+                updateJComboBox();
+                updateView();
+                repaint();
+            }
+        } catch (NullPointerException | IOException ex) {
+            JOptionPane.showMessageDialog(this, "There was a problem opening the tileset",
+                    "Error opening tileset", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void jcbBackfaceCullingActionPerformed(ActionEvent evt) {
@@ -883,7 +850,6 @@ public class TilesetEditorDialog extends JDialog {
 
             updateView3DModel();
         }
-
     }
 
     private void jcbUseVertexColorsActionPerformed(ActionEvent evt) {
@@ -956,7 +922,6 @@ public class TilesetEditorDialog extends JDialog {
                 }
             }
         }
-
     }
 
     public void init(MapEditorHandler handler) {
@@ -974,16 +939,15 @@ public class TilesetEditorDialog extends JDialog {
         textureDisplayMaterial.init(tileHandler, this);
 
         updateJComboBox();
-
         updateView();
     }
 
     private void updateJComboBox() {
-        Object[] names = new String[handler.getTileset().getMaterials().size()];
+        String[] names = new String[handler.getTileset().getMaterials().size()];
         for (int i = 0; i < names.length; i++) {
             names[i] = handler.getTileset().getMaterials().get(i).getImageName();
         }
-        DefaultComboBoxModel model = new DefaultComboBoxModel(names);
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(names);
         jComboBoxListenerActive = false;
         jcbMaterial.setModel(model);
 
@@ -1011,54 +975,54 @@ public class TilesetEditorDialog extends JDialog {
     }
 
     private void updateView() {
-        if (handler.getTileset().size() > 0) {
-            Tile tile = handler.getTileSelected();
-
-            jtfSizeX.setText(String.valueOf(tile.getWidth()));
-            jtfSizeY.setText(String.valueOf(tile.getHeight()));
-
-            //jtfNumTextures.setText(String.valueOf(tile.getTextureIDs().size()));
-
-            updateViewJLTileMaterials(0);
-
-            updateViewXOffset(tile);
-            updateViewYOffset(tile);
-            updateViewGlobalTexScale(tile);
-
-            jtfObjName.setText(tile.getObjFilename());
-
-            updateViewTileIndex();
-
-            //SpinnerNumberModel model = new SpinnerNumberModel(0, 0, tile.getTextureIDs().size() - 1, 1);
-            //jSpinner1.setModel(model);
-
-            tileHandler.setTextureIdIndexSelected(0);
-            textureDisplay.repaint();
-
-            jComboBoxListenerActive = false;
-            jcbMaterial.setSelectedItem(tileHandler.getTextureSelectedName());
-            jComboBoxListenerActive = true;
-
-            jcbTileableX.setSelected(tile.isXtileable());
-            jcbTileableY.setSelected(tile.isYtileable());
-            jcbUtileable.setSelected(tile.isUtileable());
-            jcbVtileable.setSelected(tile.isVtileable());
-            jcbGlobalTexMapping.setSelected(tile.useGlobalTextureMapping());
-
-            updateViewTextNames();
-
-            updateViewMaterialProperties();
-
-            textureDisplayMaterial.repaint();
-
-            //updateViewTextNames();
+        if (handler.getTileset().size() <= 0) {
+            return;
         }
+        Tile tile = handler.getTileSelected();
 
+        jtfSizeX.setText(String.valueOf(tile.getWidth()));
+        jtfSizeY.setText(String.valueOf(tile.getHeight()));
+
+        //jtfNumTextures.setText(String.valueOf(tile.getTextureIDs().size()));
+
+        updateViewJLTileMaterials(0);
+
+        updateViewXOffset(tile);
+        updateViewYOffset(tile);
+        updateViewGlobalTexScale(tile);
+
+        jtfObjName.setText(tile.getObjFilename());
+
+        updateViewTileIndex();
+
+        //SpinnerNumberModel model = new SpinnerNumberModel(0, 0, tile.getTextureIDs().size() - 1, 1);
+        //jSpinner1.setModel(model);
+
+        tileHandler.setTextureIdIndexSelected(0);
+        textureDisplay.repaint();
+
+        jComboBoxListenerActive = false;
+        jcbMaterial.setSelectedItem(tileHandler.getTextureSelectedName());
+        jComboBoxListenerActive = true;
+
+        jcbTileableX.setSelected(tile.isXtileable());
+        jcbTileableY.setSelected(tile.isYtileable());
+        jcbUtileable.setSelected(tile.isUtileable());
+        jcbVtileable.setSelected(tile.isVtileable());
+        jcbGlobalTexMapping.setSelected(tile.useGlobalTextureMapping());
+
+        updateViewTextNames();
+
+        updateViewMaterialProperties();
+
+        textureDisplayMaterial.repaint();
+
+        //updateViewTextNames();
     }
 
     private void updateViewJLTileMaterials(int indexSelected){
         jlTileMaterialsEnabled = false;
-        DefaultListModel model = new DefaultListModel();
+        DefaultListModel<String> model = new DefaultListModel<>();
         for(int texID : handler.getTileSelected().getTextureIDs()){
             TilesetMaterial mat = handler.getTileset().getMaterial(texID);
 
@@ -1101,19 +1065,19 @@ public class TilesetEditorDialog extends JDialog {
     }
 
     private void updateViewXOffset(Tile tile) {
-        jtfXOffsetActive.value = false;
+        jtfXOffsetActive = false;
         jtfXOffset.setText(String.valueOf(tile.getXOffset()));
         jtfXOffset.setBackground(defaultTextPaneBackground);
         jtfXOffset.setForeground(defaultTextPaneForeground);
-        jtfXOffsetActive.value = true;
+        jtfXOffsetActive = true;
     }
 
     private void updateViewYOffset(Tile tile) {
-        jtfYOffsetActive.value = false;
+        jtfYOffsetActive = false;
         jtfYOffset.setText(String.valueOf(tile.getYOffset()));
         jtfYOffset.setBackground(defaultTextPaneBackground);
         jtfYOffset.setForeground(defaultTextPaneForeground);
-        jtfYOffsetActive.value = true;
+        jtfYOffsetActive = true;
     }
 
     private void updateViewGlobalTexScale(Tile tile) {
@@ -1175,10 +1139,9 @@ public class TilesetEditorDialog extends JDialog {
     }
 
     private void updateViewTextNames() {
-        DefaultListModel demoList = new DefaultListModel();
+        DefaultListModel<String> demoList = new DefaultListModel<>();
         for (int i = 0; i < handler.getTileset().getMaterials().size(); i++) {
-            String textureName = handler.getTileset().getImageName(i);
-            demoList.addElement(textureName);
+            demoList.addElement(handler.getTileset().getImageName(i));
         }
         jlistINames.setSelectedIndex(0);
         jlistINames.setModel(demoList);
@@ -1199,39 +1162,38 @@ public class TilesetEditorDialog extends JDialog {
                 return label;
             }
         });
-
     }
 
     public void updateViewMaterialName() {
         if (jlistINames.getSelectedIndex() != -1) {
             String mName = handler.getTileset().getMaterialName(jlistINames.getSelectedIndex());
-            jtfMaterialNameActive.value = false;
+            jtfMaterialNameActive = false;
             jtfMaterialName.setText(mName);
             jtfMaterialName.setBackground(defaultTextPaneBackground);
             jtfMaterialName.setForeground(defaultTextPaneForeground);
-            jtfMaterialNameActive.value = true;
+            jtfMaterialNameActive = true;
         }
     }
 
     private void updateViewPaletteNameImd() {
         if (jlistINames.getSelectedIndex() != -1) {
             String pName = handler.getTileset().getPaletteNameImd(jlistINames.getSelectedIndex());
-            jtfPaletteNameActive.value = false;
+            jtfPaletteNameActive = false;
             jtfPaletteName.setText(pName);
             jtfPaletteName.setBackground(defaultTextPaneBackground);
             jtfPaletteName.setForeground(defaultTextPaneForeground);
-            jtfPaletteNameActive.value = true;
+            jtfPaletteNameActive = true;
         }
     }
 
     private void updateViewTextureNameImd() {
         if (jlistINames.getSelectedIndex() != -1) {
             String tName = handler.getTileset().getTextureNameImd(jlistINames.getSelectedIndex());
-            jtfTextureNameActive.value = false;
+            jtfTextureNameActive = false;
             jtfTextureName.setText(tName);
             jtfTextureName.setBackground(defaultTextPaneBackground);
             jtfTextureName.setForeground(defaultTextPaneForeground);
-            jtfTextureNameActive.value = true;
+            jtfTextureNameActive = true;
         }
     }
 
@@ -1256,12 +1218,12 @@ public class TilesetEditorDialog extends JDialog {
         tileDisplay.requestUpdate();
     }
 
-    private void updateTileThumbnails(ArrayList<Integer> indicesTiles) {
+    private void updateTileThumbnails(List<Integer> indicesTiles) {
         GLContext context = tileDisplay.getContext();
 
         TilesetRenderer tr = new TilesetRenderer(handler.getTileset());
-        for (int i = 0; i < indicesTiles.size(); i++) {
-            tr.renderTileThumbnail(indicesTiles.get(i));
+        for (Integer indicesTile : indicesTiles) {
+            tr.renderTileThumbnail(indicesTile);
         }
         tr.destroy();
         tileDisplay.setContext(context, false);
@@ -1276,7 +1238,7 @@ public class TilesetEditorDialog extends JDialog {
 
         if (dialog.getReturnValue() == ReplaceMaterialDialog.APPROVE_OPTION) {
             int newIndex = dialog.getIndexSelected();
-            ArrayList<Integer> indicesTilesReplaced = handler.getTileset().replaceMaterial(tileHandler.getMaterialIndexSelected(), newIndex);
+            List<Integer> indicesTilesReplaced = handler.getTileset().replaceMaterial(tileHandler.getMaterialIndexSelected(), newIndex);
 
             updateTileThumbnails(indicesTilesReplaced);
             tileSelector.updateLayout();
@@ -1288,7 +1250,6 @@ public class TilesetEditorDialog extends JDialog {
 
             //tileHandler.setMaterialIndexSelected(newIndex);
         }
-
     }
 
     private void replaceTextureWithDialog() {
@@ -1299,13 +1260,16 @@ public class TilesetEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Portable Network Graphics (*.PNG)", "png"));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open New Texture Image");
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
 
-            String path = file.getAbsolutePath();
-            replaceTexture(tileHandler.getMaterialIndexSelected(), path);
+        if (fc.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        File file = fc.getSelectedFile();
+        handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
+
+        String path = file.getAbsolutePath();
+        replaceTexture(tileHandler.getMaterialIndexSelected(), path);
             /*
             try {
                 boolean textureAdded = handler.getTileset().replaceTexture(tileHandler.getMaterialIndexSelected(), path);
@@ -1341,7 +1305,6 @@ public class TilesetEditorDialog extends JDialog {
                         "Error opening image", JOptionPane.ERROR_MESSAGE);
             }
              */
-        }
     }
 
     public void replaceTexture(int textureIndex, String path) {
@@ -1353,8 +1316,7 @@ public class TilesetEditorDialog extends JDialog {
                 for (int i = 0; i < handler.getTileset().size(); i++) {
                     Tile t = handler.getTileset().get(i);
                     for (int j = 0; j < t.getTextureIDs().size(); j++) {
-                        int id = t.getTextureIDs().get(j);
-                        if (id == textureIndex) {
+                        if (t.getTextureIDs().get(j) == textureIndex) {
                             tileIndsToUpdate.add(i);
                         }
                     }
@@ -1384,46 +1346,46 @@ public class TilesetEditorDialog extends JDialog {
     private void changeGlobalTexScale() {
         float value;
         try {
-            value = Float.valueOf(jtfGlobalTexScale.getText());
+            value = Float.parseFloat(jtfGlobalTexScale.getText());
         } catch (NumberFormatException e) {
             value = handler.getTileSelected().getGlobalTextureScale();
         }
         handler.getTileSelected().setGlobalTextureScale(value);
         jtfGlobalTexScale.setText(String.valueOf(value));
-        jtfGlobalTexScaleActive.value = false;
+        jtfGlobalTexScaleActive = false;
         jtfGlobalTexScale.setBackground(greenColor);
         jtfGlobalTexScale.setForeground(Color.black);
-        jtfGlobalTexScaleActive.value = true;
+        jtfGlobalTexScaleActive = true;
     }
 
     private void changeXOffset() {
         float value;
         try {
-            value = Float.valueOf(jtfXOffset.getText());
+            value = Float.parseFloat(jtfXOffset.getText());
         } catch (NumberFormatException e) {
             value = handler.getTileSelected().getXOffset();
         }
         handler.getTileSelected().setXOffset(value);
         jtfXOffset.setText(String.valueOf(value));
-        jtfXOffsetActive.value = false;
+        jtfXOffsetActive = false;
         jtfXOffset.setBackground(greenColor);
         jtfXOffset.setForeground(Color.black);
-        jtfXOffsetActive.value = true;
+        jtfXOffsetActive = true;
     }
 
     private void changeYOffset() {
         float value;
         try {
-            value = Float.valueOf(jtfYOffset.getText());
+            value = Float.parseFloat(jtfYOffset.getText());
         } catch (NumberFormatException e) {
             value = handler.getTileSelected().getYOffset();
         }
         handler.getTileSelected().setYOffset(value);
         jtfYOffset.setText(String.valueOf(value));
-        jtfYOffsetActive.value = false;
+        jtfYOffsetActive = false;
         jtfYOffset.setBackground(greenColor);
         jtfYOffset.setForeground(Color.black);
-        jtfYOffsetActive.value = true;
+        jtfYOffsetActive = true;
     }
 
     private void changeMaterialName() {
@@ -1431,10 +1393,10 @@ public class TilesetEditorDialog extends JDialog {
         int index = jlistINames.getSelectedIndex();
         handler.getTileset().setMaterialName(index, mName);
 
-        jtfMaterialNameActive.value = false;
+        jtfMaterialNameActive = false;
         jtfMaterialName.setBackground(greenColor);
         jtfMaterialName.setForeground(Color.black);
-        jtfMaterialNameActive.value = true;
+        jtfMaterialNameActive = true;
     }
 
     private void changePaletteNameImd() {
@@ -1442,10 +1404,10 @@ public class TilesetEditorDialog extends JDialog {
         int index = jlistINames.getSelectedIndex();
         handler.getTileset().setPaletteNameImd(index, pName);
 
-        jtfPaletteNameActive.value = false;
+        jtfPaletteNameActive = false;
         jtfPaletteName.setBackground(greenColor);
         jtfPaletteName.setForeground(Color.black);
-        jtfPaletteNameActive.value = true;
+        jtfPaletteNameActive = true;
     }
 
     private void changeTextureNameImd() {
@@ -1453,10 +1415,10 @@ public class TilesetEditorDialog extends JDialog {
         int index = jlistINames.getSelectedIndex();
         handler.getTileset().setTextureNameImd(index, tName);
 
-        jtfTextureNameActive.value = false;
+        jtfTextureNameActive = false;
         jtfTextureName.setBackground(greenColor);
         jtfTextureName.setForeground(Color.black);
-        jtfTextureNameActive.value = true;
+        jtfTextureNameActive = true;
     }
 
     public void fixIndices() {
@@ -1468,8 +1430,8 @@ public class TilesetEditorDialog extends JDialog {
     }
 
     private void fixSmartGridIndices() {
-        ArrayList<SmartGridEditable> smartGridEditableArray = smartGridEditableDisplay.getSmartGridArray();
-        ArrayList<SmartGrid> smartGridArray = new ArrayList<>(smartGridEditableArray.size());
+        List<SmartGridEditable> smartGridEditableArray = smartGridEditableDisplay.getSmartGridArray();
+        List<SmartGrid> smartGridArray = new ArrayList<>(smartGridEditableArray.size());
         for (SmartGridEditable smartGrid : smartGridEditableArray) {
             smartGridArray.add(new SmartGrid(smartGrid.toTileIndices(handler.getTileset())));
         }
@@ -1498,7 +1460,7 @@ public class TilesetEditorDialog extends JDialog {
         tileDisplay.setContext(context, false);
     }
 
-    private void addListenerToJTextField(JTextField jtf, MutableBoolean enabled) {
+    private void addListenerToJTextField(JTextField jtf, boolean enabled) {
         jtf.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -1516,24 +1478,12 @@ public class TilesetEditorDialog extends JDialog {
             }
 
             public void changeBackground() {
-                if (enabled.value) {
+                if (enabled) {
                     jtf.setBackground(redColor);
                     jtf.setForeground(Color.black);
                 }
             }
         });
-    }
-
-
-
-
-    private class MutableBoolean {
-
-        public boolean value;
-
-        public MutableBoolean(boolean value) {
-            this.value = value;
-        }
     }
 
     private void initComponents() {
@@ -3141,7 +3091,7 @@ public class TilesetEditorDialog extends JDialog {
     private JButton jbAddTexture;
     private JComboBox<String> jcbMaterial;
     private JScrollPane scrollPane1;
-    private JList jlTileMaterials;
+    private JList<String> jlTileMaterials;
     private TextureDisplay textureDisplay;
     private JPanel jPanel3;
     private JPanel panel13;

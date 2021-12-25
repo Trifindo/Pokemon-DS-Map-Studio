@@ -17,7 +17,6 @@ import editor.game.Game;
 import editor.grid.MapGrid;
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
-import formats.mapbin.MapBinHGSS;
 import formats.obj.ObjWriter;
 
 import java.awt.BasicStroke;
@@ -31,7 +30,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,9 +39,11 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import tileset.TextureNotFoundException;
 import tileset.Tile;
 import tileset.Tileset;
 import tileset.TilesetIO;
@@ -65,16 +65,16 @@ public class MapMatrix {
     private static final String tilesetTag = "tileset";
     private static final String bdhcTag = "bdhc";
 
-    private MapEditorHandler handler;
-    private HashMap<Point, MapData> matrix; //Key is map coords
+    private final MapEditorHandler handler;
+    private Map<Point, MapData> matrix; //Key is map coords
 
     //Border maps
-    private HashSet<Point> borderMaps;
+    private Set<Point> borderMaps;
 
     //Contours
-    private HashMap<Integer, ArrayList<Point>> contourPoints;
-    private HashMap<Integer, FloatBuffer> contourPointsBuffer;
-    private HashMap<Integer, Color> areaColors;
+    private Map<Integer, List<Point>> contourPoints;
+    private Map<Integer, FloatBuffer> contourPointsBuffer;
+    private Map<Integer, Color> areaColors;
 
     public String filePath = "";
     public String tilesetFilePath = "";
@@ -102,7 +102,7 @@ public class MapMatrix {
     public void updateBordersData() {
         updateBorderMaps();
 
-        final HashSet<Integer> areaIndices = getAreaIndices();
+        final Set<Integer> areaIndices = getAreaIndices();
         updateContourPoints(areaIndices);
 
         updateAreaColors(areaIndices);
@@ -112,7 +112,6 @@ public class MapMatrix {
         if (!path.endsWith("." + fileExtension)) {
             path = path.concat("." + fileExtension);
         }
-
 
         removeUnusedMaps();
         removeAllUnusedMapFiles();
@@ -127,7 +126,7 @@ public class MapMatrix {
         out.println(filename + "." + Tileset.fileExtension);
 
         Point minCoords = getMinCoords();
-        for (HashMap.Entry<Point, MapData> map : matrix.entrySet()) {
+        for (Map.Entry<Point, MapData> map : matrix.entrySet()) {
             out.println(mapTag);
             out.println((map.getKey().x - minCoords.x) + " " + (map.getKey().y - minCoords.y));
 
@@ -149,7 +148,7 @@ public class MapMatrix {
         out.close();
     }
 
-    public void loadGridsFromFile(String path) throws FileNotFoundException, IOException, Exception {
+    public void loadGridsFromFile(String path) throws Exception {
         filePath = "";
         tilesetFilePath = "";
 
@@ -158,7 +157,7 @@ public class MapMatrix {
         borderMaps = new HashSet<>();
         updateBordersData();
 
-        InputStream input = new FileInputStream(new File(path));
+        InputStream input = new FileInputStream(path);
         BufferedReader br = new BufferedReader(new InputStreamReader(input));
 
         int numMapsRead = 0;
@@ -171,15 +170,15 @@ public class MapMatrix {
         String line;
         while ((line = br.readLine()) != null) {
             if (line.startsWith(gameIndexTag)) {
-                handler.setGameIndex(Integer.valueOf(br.readLine()));
+                handler.setGameIndex(Integer.parseInt(br.readLine()));
             } else if (line.startsWith(tilesetTag)) {
                 String folderPath = new File(path).getParent();
                 tilesetFilePath = folderPath + File.separator + br.readLine();
                 System.out.println("Tileset path: " + tilesetFilePath);
             } else if (line.startsWith(mapTag)) {
-                String[] splittedLine = br.readLine().split(" ");
-                int x = Integer.parseInt(splittedLine[0]);
-                int y = Integer.parseInt(splittedLine[1]);
+                String[] splitLine = br.readLine().split(" ");
+                int x = Integer.parseInt(splitLine[0]);
+                int y = Integer.parseInt(splitLine[1]);
                 currentMapCoords = new Point(x, y);
                 currentGrid = new MapGrid(handler);
             } else if (line.startsWith(areaIndexTag)) {
@@ -210,8 +209,8 @@ public class MapMatrix {
         input.close();
     }
 
-    public static HashMap<Point, MapData> getGridsFromFile(String path, MapEditorHandler handler) throws FileNotFoundException, IOException, Exception {
-        HashMap<Point, MapData> matrix = new HashMap<>(expectedMaxNumMaps);
+    public static Map<Point, MapData> getGridsFromFile(String path, MapEditorHandler handler) throws Exception {
+        Map<Point, MapData> matrix = new HashMap<>(expectedMaxNumMaps);
 
         InputStream input = new FileInputStream(new File(path));
         BufferedReader br = new BufferedReader(new InputStreamReader(input));
@@ -234,9 +233,9 @@ public class MapMatrix {
                 tilesetFilePath = folderPath + File.separator + br.readLine();
 
             } else if (line.startsWith(mapTag)) {
-                String[] splittedLine = br.readLine().split(" ");
-                int x = Integer.parseInt(splittedLine[0]);
-                int y = Integer.parseInt(splittedLine[1]);
+                String[] splitLine = br.readLine().split(" ");
+                int x = Integer.parseInt(splitLine[0]);
+                int y = Integer.parseInt(splitLine[1]);
                 currentMapCoords = new Point(x, y);
                 currentGrid = new MapGrid(handler);
             } else if (line.startsWith(areaIndexTag)) {
@@ -269,11 +268,11 @@ public class MapMatrix {
         return matrix;
     }
 
-    public void addMapsFromFile(HashMap<Point, MapData> newMaps, Point offset, String folderPath, String fileName) throws IOException, NullPointerException, TextureNotFoundException {
+    public void addMapsFromFile(Map<Point, MapData> newMaps, Point offset, String folderPath, String fileName) throws IOException, NullPointerException {
         fileName = Utils.removeExtensionFromPath(fileName);
         Tileset tileset = TilesetIO.readTilesetFromFile(folderPath + File.separator + fileName + "." + Tileset.fileExtension);
 
-        ArrayList<Tile> newTiles = new ArrayList<>();
+        List<Tile> newTiles = new ArrayList<>();
 
         int[] tileLookupTable = new int[tileset.size()];
         for (int i = 0; i < tileset.size(); i++) {
@@ -296,19 +295,16 @@ public class MapMatrix {
         handler.getTileset().importTiles(newTiles);
         //handler.getTileset().removeUnusedTextures();
 
-
         loadBDHCsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBdhcamsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadCollisionsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBacksoundsFromFile(newMaps, folderPath, fileName, handler.getGameIndex());
         loadBuildingsFromFile(newMaps, folderPath, fileName);
 
-
-        for (HashMap.Entry<Point, MapData> entry : newMaps.entrySet()) {
+        for (Map.Entry<Point, MapData> entry : newMaps.entrySet()) {
             Point coords = new Point(entry.getKey().x + offset.x, entry.getKey().y + offset.y);
             matrix.put(coords, entry.getValue());
         }
-
     }
 
     public void saveMapsAsObj(String path, boolean saveTextures, boolean includeVertexColors, float tileUpscale) throws FileNotFoundException {
@@ -317,7 +313,7 @@ public class MapMatrix {
         String folderPath = new File(path).getParent();
         String fileName = Utils.removeExtensionFromPath(new File(path).getName());
 
-        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+        for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             String objFilePath = getFilePathWithCoords(matrix, folderPath, fileName, mapEntry.getKey(), "obj");
             mapEntry.getValue().getGrid().saveMapToOBJ(handler.getTileset(), objFilePath, saveTextures, includeVertexColors, tileUpscale);
         }
@@ -335,12 +331,11 @@ public class MapMatrix {
         ObjWriter writer = new ObjWriter(handler.getTileset(), generateGridHashMap(), objFilePath, handler.getGameIndex(),
                 saveTextures, includeVertexColors, tileUpscale);
         writer.writeMapObj();
-
     }
 
     public void saveBDHCs() throws IOException {
         int game = handler.getGameIndex();
-        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+        for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             String path = getFilePathWithCoords(matrix, new File(filePath).getParent(),
                     new File(filePath).getName(), mapEntry.getKey(), Bdhc.fileExtension);
             if (game == Game.DIAMOND || game == Game.PEARL) {
@@ -353,7 +348,7 @@ public class MapMatrix {
 
     public void saveBacksounds() throws IOException {
         int game = handler.getGameIndex();
-        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+        for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             String path = getFilePathWithCoords(matrix, new File(filePath).getParent(),
                     new File(filePath).getName(), mapEntry.getKey(), Backsound.fileExtension);
             if (game == Game.HEART_GOLD || game == Game.SOUL_SILVER) {
@@ -364,7 +359,7 @@ public class MapMatrix {
 
     public void saveBdhcams() throws IOException {
         int game = handler.getGameIndex();
-        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+        for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             String path = getFilePathWithCoords(matrix, new File(filePath).getParent(),
                     new File(filePath).getName(), mapEntry.getKey(), Bdhcam.fileExtension);
             if (game == Game.PLATINUM || game == Game.HEART_GOLD || game == Game.SOUL_SILVER) {
@@ -374,7 +369,7 @@ public class MapMatrix {
     }
 
     public void saveCollisions() throws IOException {
-        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+        for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             String path = getFilePathWithCoords(matrix, new File(filePath).getParent(),
                     new File(filePath).getName(), mapEntry.getKey(), Collisions.fileExtension);
             mapEntry.getValue().getCollisions().saveToFile(path);
@@ -390,7 +385,7 @@ public class MapMatrix {
     }
 
     public void saveBuildings() throws IOException {
-        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+        for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             String path = getFilePathWithCoords(matrix, new File(filePath).getParent(),
                     new File(filePath).getName(), mapEntry.getKey(), BuildFile.fileExtension);
             mapEntry.getValue().getBuildings().saveToFile(path);
@@ -401,7 +396,7 @@ public class MapMatrix {
     public void saveBinaryMaps() {
         System.out.println("Saving Binary maps...");
         int game = handler.getGameIndex();
-        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+        for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             Point p = mapEntry.getKey();
             try {
                 if (game == Game.HEART_GOLD || game == Game.SOUL_SILVER) {
@@ -423,9 +418,9 @@ public class MapMatrix {
     }*/
 
 
-    public void loadBDHCsFromFile(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, int game) {
+    public void loadBDHCsFromFile(Map<Point, MapData> matrix, String folderPath, String mapFileName, int game) {
         if (matrix.size() == 1) {//OLD MAP TYPE
-            HashMap.Entry<Point, MapData> mapEntry = matrix.entrySet().iterator().next();
+            Map.Entry<Point, MapData> mapEntry = matrix.entrySet().iterator().next();
             try {
                 String bdhcPath = getFilePathWithCoords(matrix, folderPath, mapFileName, mapEntry.getKey(), Bdhc.fileExtension);
                 loadBDHC(bdhcPath, mapEntry.getValue(), game);
@@ -438,7 +433,7 @@ public class MapMatrix {
                 }
             }
         } else {
-            for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+            for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
                 try {
                     String bdhcPath = getFilePathWithCoords(matrix, folderPath, mapFileName, mapEntry.getKey(), Bdhc.fileExtension);
                     loadBDHC(bdhcPath, mapEntry.getValue(), game);
@@ -461,14 +456,13 @@ public class MapMatrix {
         }
     }
 
-    public static void loadBdhcamsFromFile(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, int game) {
-        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+    public static void loadBdhcamsFromFile(Map<Point, MapData> matrix, String folderPath, String mapFileName, int game) {
+        for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             try {
                 String bdhcamPath = getFilePathWithCoords(matrix, folderPath, mapFileName, mapEntry.getKey(), Bdhcam.fileExtension);
                 loadBdhcam(bdhcamPath, mapEntry.getValue(), game);
             } catch (Exception ex) {
                 mapEntry.getValue().setBdhcam(new Bdhcam());
-
             }
         }
     }
@@ -485,9 +479,9 @@ public class MapMatrix {
         loadBdhcamsFromFile(matrix, folderPath, mapFileName, handler.getGameIndex());
     }
 
-    public static void loadBacksoundsFromFile(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, int game) {
+    public static void loadBacksoundsFromFile(Map<Point, MapData> matrix, String folderPath, String mapFileName, int game) {
         if (matrix.size() == 1) {//OLD MAP TYPE
-            HashMap.Entry<Point, MapData> mapEntry = matrix.entrySet().iterator().next();
+            Map.Entry<Point, MapData> mapEntry = matrix.entrySet().iterator().next();
             try {
                 String backsoundPath = getFilePathWithCoords(matrix, folderPath, mapFileName, mapEntry.getKey(), Backsound.fileExtension);
                 loadBacksound(backsoundPath, mapEntry.getValue(), game);
@@ -500,13 +494,12 @@ public class MapMatrix {
                 }
             }
         } else {
-            for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+            for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
                 try {
                     String backsoundPath = getFilePathWithCoords(matrix, folderPath, mapFileName, mapEntry.getKey(), Backsound.fileExtension);
                     loadBacksound(backsoundPath, mapEntry.getValue(), game);
                 } catch (Exception ex) {
                     mapEntry.getValue().setBacksound(new Backsound());
-
                 }
             }
         }
@@ -524,9 +517,9 @@ public class MapMatrix {
         }
     }
 
-    public static void loadCollisionsFromFile(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, int gameIndex) {
+    public static void loadCollisionsFromFile(Map<Point, MapData> matrix, String folderPath, String mapFileName, int gameIndex) {
         if (matrix.size() == 1) {//OLD MAP TYPE
-            HashMap.Entry<Point, MapData> mapEntry = matrix.entrySet().iterator().next();
+            Map.Entry<Point, MapData> mapEntry = matrix.entrySet().iterator().next();
             try {
                 String collisionsPath = getFilePathWithCoords(matrix, folderPath, mapFileName, mapEntry.getKey(), Collisions.fileExtension);
                 mapEntry.getValue().setCollisions(new Collisions(collisionsPath));
@@ -548,7 +541,7 @@ public class MapMatrix {
                 }
             }
         } else {
-            for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+            for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
                 try {
                     String collisionsPath = getFilePathWithCoords(matrix, folderPath, mapFileName, mapEntry.getKey(), Collisions.fileExtension);
                     mapEntry.getValue().setCollisions(new Collisions(collisionsPath));
@@ -572,9 +565,9 @@ public class MapMatrix {
         loadCollisionsFromFile(matrix, folderPath, mapFileName, handler.getGameIndex());
     }
 
-    public static void loadBuildingsFromFile(HashMap<Point, MapData> matrix, String folderPath, String mapFileName) {
+    public static void loadBuildingsFromFile(Map<Point, MapData> matrix, String folderPath, String mapFileName) {
         if (matrix.size() == 1) {//OLD MAP TYPE
-            HashMap.Entry<Point, MapData> mapEntry = matrix.entrySet().iterator().next();
+            Map.Entry<Point, MapData> mapEntry = matrix.entrySet().iterator().next();
             try {
                 String buildingsPath = getFilePathWithCoords(matrix, folderPath, mapFileName, mapEntry.getKey(), BuildFile.fileExtension);
                 mapEntry.getValue().setBuildings(new BuildFile(buildingsPath));
@@ -590,7 +583,7 @@ public class MapMatrix {
                 }
             }
         } else {
-            for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+            for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
                 try {
                     String buildingsPath = getFilePathWithCoords(matrix, folderPath, mapFileName, mapEntry.getKey(), BuildFile.fileExtension);
                     mapEntry.getValue().setBuildings(new BuildFile(buildingsPath));
@@ -607,11 +600,11 @@ public class MapMatrix {
         loadBuildingsFromFile(matrix, folderPath, mapFileName);
     }
 
-    public static String getFilePathWithCoords(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, Point mapCoords, String extensionName) {
+    public static String getFilePathWithCoords(Map<Point, MapData> matrix, String folderPath, String mapFileName, Point mapCoords, String extensionName) {
         return getFilePathWithCoords(matrix, folderPath, mapFileName, "", mapCoords, extensionName);
     }
 
-    public static String getFilePathWithCoords(HashMap<Point, MapData> matrix, String folderPath, String mapFileName, String nameEnd, Point mapCoords, String extensionName) {
+    public static String getFilePathWithCoords(Map<Point, MapData> matrix, String folderPath, String mapFileName, String nameEnd, Point mapCoords, String extensionName) {
         //String filename = Utils.removeExtensionFromPath(mapFileName) + nameEnd;
         //Point minCoords = getMinCoords(matrix);
         //filename += "_" + String.format("%02d", mapCoords.x - minCoords.x) + "_" + String.format("%02d", mapCoords.y - minCoords.y);
@@ -619,7 +612,7 @@ public class MapMatrix {
         return folderPath + File.separator + filename + "." + extensionName;
     }
 
-    public static String getMapName(HashMap<Point, MapData> matrix, String mapFileName, String nameEnd, Point mapCoords){
+    public static String getMapName(Map<Point, MapData> matrix, String mapFileName, String nameEnd, Point mapCoords){
         String mapName = Utils.removeExtensionFromPath(mapFileName) + nameEnd;
         Point minCoords = getMinCoords(matrix);
         mapName += "_" + String.format("%02d", mapCoords.x - minCoords.x) + "_" + String.format("%02d", mapCoords.y - minCoords.y);
@@ -672,20 +665,20 @@ public class MapMatrix {
         //System.out.println("Border maps updated! " + borderMaps.size());
     }
 
-    public void updateContourPoints(HashSet<Integer> areaIndices) {
+    public void updateContourPoints(Set<Integer> areaIndices) {
         contourPoints = generateAllContourPoints(new Point(0, 0), areaIndices);
         contourPointsBuffer = generateAllContourPointsGL(contourPoints);
     }
 
-    public HashMap<Integer, Color> generateAreaColors(HashSet<Integer> areaIndices) {
-        HashMap<Integer, Color> colors = new HashMap<>(areaIndices.size());
+    public Map<Integer, Color> generateAreaColors(Set<Integer> areaIndices) {
+        Map<Integer, Color> colors = new HashMap<>(areaIndices.size());
         for (Integer areaIndex : areaIndices) {
             colors.put(areaIndex, new Color(Color.HSBtoRGB((areaIndex * 45.0f + 155f) / 255f, 0.8f, 1.0f)));
         }
         return colors;
     }
 
-    public void updateAreaColors(HashSet<Integer> areaIndices) {
+    public void updateAreaColors(Set<Integer> areaIndices) {
         areaColors = generateAreaColors(areaIndices);
     }
 
@@ -693,11 +686,11 @@ public class MapMatrix {
         return getMapAndCreate(new Point(x, y));
     }
 
-    public HashMap<Point, MapData> getMatrix() {
+    public Map<Point, MapData> getMatrix() {
         return matrix;
     }
 
-    public HashSet<Point> getBorderMaps() {
+    public Set<Point> getBorderMaps() {
         return borderMaps;
     }
 
@@ -705,7 +698,7 @@ public class MapMatrix {
         return getMinCoords(matrix);
     }
 
-    public static Point getMinCoords(HashMap<Point, MapData> matrix) {
+    public static Point getMinCoords(Map<Point, MapData> matrix) {
         if (matrix.size() > 0) {
             Point min = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
             Set<Point> coords = matrix.keySet();
@@ -727,7 +720,7 @@ public class MapMatrix {
         return getMaxCoords(matrix);
     }
 
-    public static Point getMaxCoords(HashMap<Point, MapData> matrix) {
+    public static Point getMaxCoords(Map<Point, MapData> matrix) {
         if (matrix.size() > 0) {
             Point max = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
             Set<Point> coords = matrix.keySet();
@@ -749,7 +742,7 @@ public class MapMatrix {
         return getMatrixSize(matrix);
     }
 
-    public static Dimension getMatrixSize(HashMap<Point, MapData> matrix) {
+    public static Dimension getMatrixSize(Map<Point, MapData> matrix) {
         Point min = getMinCoords(matrix);
         Point max = getMaxCoords(matrix);
         return new Dimension(max.x - min.x + 1, max.y - min.y + 1);
@@ -788,12 +781,7 @@ public class MapMatrix {
 
         if (folderPath != null) {
             File folder = new File(folderPath);
-            File[] filesToRemove = folder.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return canRemoveMapFile(name, fileExtension, minCoords);
-                }
-            });
+            File[] filesToRemove = folder.listFiles((dir, name) -> canRemoveMapFile(name, fileExtension, minCoords));
 
             for (File file : filesToRemove) {
                 try {
@@ -812,8 +800,8 @@ public class MapMatrix {
         }
     }
 
-    public ArrayList<Point> generateContourPoints(Point min) {
-        ArrayList<Point> contourPoints = new ArrayList(matrix.size() * 3);//Approximation
+    public List<Point> generateContourPoints(Point min) {
+        List<Point> contourPoints = new ArrayList<>(matrix.size() * 3);//Approximation
         for (Point p : matrix.keySet()) {
             if (!matrix.containsKey(new Point(p.x - 1, p.y))) {
                 contourPoints.add(new Point(p.x - min.x, p.y - min.y));
@@ -835,30 +823,28 @@ public class MapMatrix {
         return contourPoints;
     }
 
-    public HashSet<Integer> getAreaIndices() {
-        HashSet<Integer> areaIndices = new HashSet<>();
-        for (MapData map : matrix.values()) {
-            areaIndices.add(map.getAreaIndex());
-        }
-        return areaIndices;
+    public Set<Integer> getAreaIndices() {
+        return matrix.values().stream()
+                .map(MapData::getAreaIndex)
+                .collect(Collectors.toSet());
     }
 
     public int getNumAreas() {
         return getAreaIndices().size();
     }
 
-    public HashMap<Integer, ArrayList<Point>> generateAllContourPoints(Point min, HashSet<Integer> areaIndices) {
+    public Map<Integer, List<Point>> generateAllContourPoints(Point min, Set<Integer> areaIndices) {
 
-        HashMap<Integer, ArrayList<Point>> allContours = new HashMap<>(areaIndices.size());
+        Map<Integer, List<Point>> allContours = new HashMap<>(areaIndices.size());
         for (Integer areaIndex : areaIndices) {
             allContours.put(areaIndex, new ArrayList<>());
         }
 
-        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
+        for (Map.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
             Point p = mapEntry.getKey();
             MapData map = mapEntry.getValue();
 
-            ArrayList<Point> contourPoints = allContours.get(map.getAreaIndex());
+            List<Point> contourPoints = allContours.get(map.getAreaIndex());
             if (canAddContour(p, new Point(p.x - 1, p.y))) {
                 contourPoints.add(new Point(p.x - min.x, p.y - min.y));
                 contourPoints.add(new Point(p.x - min.x, p.y + 1 - min.y));
@@ -875,21 +861,15 @@ public class MapMatrix {
                 contourPoints.add(new Point(p.x - min.x, p.y + 1 - min.y));
                 contourPoints.add(new Point(p.x + 1 - min.x, p.y + 1 - min.y));
             }
-
         }
         return allContours;
     }
 
     private boolean canAddContour(Point p, Point nearP) {
-        if (!matrix.containsKey(nearP)) {
-            return true;
-        } else if (matrix.get(p).getAreaIndex() != matrix.get(nearP).getAreaIndex()) {
-            return true;
-        }
-        return false;
+        return !matrix.containsKey(nearP) || matrix.get(p).getAreaIndex() != matrix.get(nearP).getAreaIndex();
     }
 
-    public float[] generateContourPointsGL(ArrayList<Point> points) {
+    public float[] generateContourPointsGL(List<Point> points) {
         float[] contourPointsGL = new float[points.size() * 3];
         int i = 0;
         for (Point p : points) {
@@ -901,10 +881,10 @@ public class MapMatrix {
         return contourPointsGL;
     }
 
-    public HashMap<Integer, FloatBuffer> generateAllContourPointsGL(HashMap<Integer, ArrayList<Point>> contourPoints) {
-        HashMap<Integer, FloatBuffer> allContourPoints = new HashMap<>(contourPoints.size());
-        for (HashMap.Entry<Integer, ArrayList<Point>> entry : contourPoints.entrySet()) {
-            ArrayList<Point> points = entry.getValue();
+    public Map<Integer, FloatBuffer> generateAllContourPointsGL(Map<Integer, List<Point>> contourPoints) {
+        Map<Integer, FloatBuffer> allContourPoints = new HashMap<>(contourPoints.size());
+        for (Map.Entry<Integer, List<Point>> entry : contourPoints.entrySet()) {
+            List<Point> points = entry.getValue();
             float[] contourPointsGL = new float[points.size() * 3];
             int i = 0;
             for (Point p : points) {
@@ -937,23 +917,21 @@ public class MapMatrix {
         mapCoords.y += minCoords.y;
 
         //System.out.println(mapCoords.x + " " + mapCoords.y + " " + fileName + " USED: " + matrix.keySet().contains(mapCoords));
-        return matrix.keySet().contains(mapCoords);
+        return matrix.containsKey(mapCoords);
     }
 
     private Point geMapCoordsFromName(String fileName) {
         String name = Utils.removeExtensionFromPath(fileName);
-        String[] splittedName = name.split("_");
-        return new Point(Integer.parseInt(splittedName[splittedName.length - 2]),
-                Integer.parseInt(splittedName[splittedName.length - 1]));
+        String[] splitName = name.split("_");
+        return new Point(Integer.parseInt(splitName[splitName.length - 2]), Integer.parseInt(splitName[splitName.length - 1]));
     }
 
     private boolean nameHasMapCoords(String fileName) {
         //System.out.println(fileName);
         String name = Utils.removeExtensionFromPath(fileName);
         try {
-            String[] splittedName = name.split("_");
-            return canParseInteger(splittedName[splittedName.length - 1])
-                    && canParseInteger(splittedName[splittedName.length - 2]);
+            String[] splitName = name.split("_");
+            return canParseInteger(splitName[splitName.length - 1]) && canParseInteger(splitName[splitName.length - 2]);
         } catch (Exception ex) {
             return false;
         }
@@ -968,15 +946,15 @@ public class MapMatrix {
         }
     }
 
-    public HashMap<Integer, FloatBuffer> getContourPointsGL() {
+    public Map<Integer, FloatBuffer> getContourPointsGL() {
         return contourPointsBuffer;
     }
 
-    public HashMap<Integer, ArrayList<Point>> getContourPoints() {
+    public Map<Integer, List<Point>> getContourPoints() {
         return contourPoints;
     }
 
-    public HashMap<Integer, Color> getAreaColors() {
+    public Map<Integer, Color> getAreaColors() {
         return areaColors;
     }
 
@@ -991,16 +969,13 @@ public class MapMatrix {
         }
     }
 
-    public HashMap<Point, MapGrid> generateGridHashMap() {
-        HashMap<Point, MapGrid> map = new HashMap<>(matrix.size());
-        for (HashMap.Entry<Point, MapData> mapEntry : matrix.entrySet()) {
-            map.put(mapEntry.getKey(), mapEntry.getValue().getGrid());
-        }
-        return map;
+    public Map<Point, MapGrid> generateGridHashMap() {
+        return matrix.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, mapEntry -> mapEntry.getValue().getGrid(),
+                        (a, b) -> b, () -> new HashMap<>(matrix.size())));
     }
 
     public BufferedImage getMapMatrixImage() {
-
         try {
             Point min = handler.getMapMatrix().getMinCoords();
             Dimension size = handler.getMapMatrix().getMatrixSize();
@@ -1012,7 +987,7 @@ public class MapMatrix {
 
             Graphics g = mapsImg.getGraphics();
 
-            for (HashMap.Entry<Point, MapData> map : handler.getMapMatrix().getMatrix().entrySet()) {
+            for (Map.Entry<Point, MapData> map : handler.getMapMatrix().getMatrix().entrySet()) {
                 Point p = map.getKey();
                 int x = (p.x - min.x) * MapData.mapThumbnailSize;
                 int y = (p.y - min.y) * MapData.mapThumbnailSize;
@@ -1030,12 +1005,12 @@ public class MapMatrix {
                 g.drawRect(x, y, MapData.mapThumbnailSize - 1, MapData.mapThumbnailSize - 1);
             }
 
-            //ArrayList<Point> contourPoints = handler.getMapMatrix().generateContourPoints(handler.getMapMatrix().getMinCoords());
-            HashMap<Integer, ArrayList<Point>> allContourPoints = handler.getMapMatrix().getContourPoints();
+            //List<Point> contourPoints = handler.getMapMatrix().generateContourPoints(handler.getMapMatrix().getMinCoords());
+            Map<Integer, List<Point>> allContourPoints = handler.getMapMatrix().getContourPoints();
             Graphics2D g2d = (Graphics2D) g;
             g2d.setStroke(new BasicStroke(8));
-            for (HashMap.Entry<Integer, ArrayList<Point>> entry : allContourPoints.entrySet()) {
-                ArrayList<Point> contourPoints = entry.getValue();
+            for (Map.Entry<Integer, List<Point>> entry : allContourPoints.entrySet()) {
+                List<Point> contourPoints = entry.getValue();
                 for (int i = 0; i < contourPoints.size(); i += 2) {
                     try {
                         g.setColor(handler.getMapMatrix().getAreaColors().get(entry.getKey()));
@@ -1055,7 +1030,5 @@ public class MapMatrix {
         } catch (Exception ex) {
             return null;
         }
-
     }
-
 }

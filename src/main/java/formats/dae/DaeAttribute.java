@@ -13,5 +13,4 @@ public class DaeAttribute {
         this.name = name;
         this.value = value;
     }
-
 }

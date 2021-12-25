@@ -3,18 +3,11 @@ package editor.converter;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import editor.handler.MapEditorHandler;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
-import javax.swing.DefaultListModel;
-import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import net.miginfocom.swing.*;
 
@@ -399,14 +392,9 @@ public class ExportNsbmdDialog extends javax.swing.JDialog {
     private void loadImdFilesFromFolder(String folderPath) {
         try {
             File folder = new File(folderPath);
-            File[] files = folder.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.endsWith(".imd");
-                }
-            });
+            File[] files = folder.listFiles((dir, name) -> name.endsWith(".imd"));
 
-            DefaultListModel<JCheckBox> model = new DefaultListModel();
+            DefaultListModel<JCheckBox> model = new DefaultListModel<>();
             this.jScrollCheckboxList.getCheckboxList().setModel(model);
             for (File file : files) {
                 model.addElement(new JCheckBox(file.getName()));
@@ -428,8 +416,7 @@ public class ExportNsbmdDialog extends javax.swing.JDialog {
         String name = Utils.removeExtensionFromPath(imdName);
         try {
             String[] splitName = name.split("_");
-            return (hasCoordInName(splitName[splitName.length - 2])
-                    && hasCoordInName(splitName[splitName.length - 1]));
+            return hasCoordInName(splitName[splitName.length - 2]) && hasCoordInName(splitName[splitName.length - 1]);
         } catch (Exception ex) {
             return false;
         }

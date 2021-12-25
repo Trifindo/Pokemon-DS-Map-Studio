@@ -3,14 +3,11 @@ package formats.collisions;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
 
-import editor.game.Game;
 import editor.handler.MapEditorHandler;
 import editor.state.CollisionLayerState;
 
 import java.awt.image.BufferedImage;
-import javax.swing.SwingUtilities;
 
 import utils.Utils;
 
@@ -37,11 +34,9 @@ public class CollisionsDisplay extends JPanel {
     }
 
     private void formMouseDragged(MouseEvent evt) {
-        if(collHandler.canEditLayer(collHandler.getIndexLayerSelected())) {
-            if (SwingUtilities.isLeftMouseButton(evt)) {
-                //collHandler.addMapState(new CollisionLayerState("Draw collision", collHandler));
-                setCollision(evt);
-            }
+        if (collHandler.canEditLayer(collHandler.getIndexLayerSelected()) && SwingUtilities.isLeftMouseButton(evt)) {
+            //collHandler.addMapState(new CollisionLayerState("Draw collision", collHandler));
+            setCollision(evt);
         }
     }
 
@@ -95,15 +90,14 @@ public class CollisionsDisplay extends JPanel {
         //drawGrid(g);
     }
 
-    public void init(MapEditorHandler handler, BufferedImage mapImage,
-                     CollisionHandler collisionHandler) {
+    public void init(MapEditorHandler handler, BufferedImage mapImage, CollisionHandler collisionHandler) {
         this.handler = handler;
         this.mapImage = mapImage;
         this.collHandler = collisionHandler;
     }
 
 
-    private void setIndexSelected(java.awt.event.MouseEvent evt) {
+    private void setIndexSelected(MouseEvent evt) {
         int c = evt.getX() / tileSize;
         int r = evt.getY() / tileSize;
 
@@ -115,8 +109,7 @@ public class CollisionsDisplay extends JPanel {
         }
     }
 
-
-    private void setCollision(java.awt.event.MouseEvent evt) {
+    private void setCollision(MouseEvent evt) {
         int c = evt.getX() / tileSize;
         int r = evt.getY() / tileSize;
 
@@ -126,12 +119,11 @@ public class CollisionsDisplay extends JPanel {
         }
     }
 
-    private void floodFillCollision(java.awt.event.MouseEvent evt) {
+    private void floodFillCollision(MouseEvent evt) {
         int c = evt.getX() / tileSize;
         int r = evt.getY() / tileSize;
         if (new Rectangle(0, 0, cols, rows).contains(c, r)) {
-            Utils.floodFillMatrix(collHandler.getLayerSelected(), c, r,
-                    (byte) collHandler.getIndexCollisionSelected());
+            Utils.floodFillMatrix(collHandler.getLayerSelected(), c, r, (byte) collHandler.getIndexCollisionSelected());
             collHandler.setValue(collHandler.getIndexCollisionSelected(), c, r);
             repaint();
         }
@@ -143,8 +135,7 @@ public class CollisionsDisplay extends JPanel {
         for (int i = 0; i < Collisions.cols; i++) {
             for (int j = 0; j < Collisions.rows; j++) {
                 int value = collisions.getValue(collHandler.getIndexLayerSelected(), i, j);
-                g.drawImage(collHandler.getImage(value),
-                        i * tileSize, j * tileSize, null);
+                g.drawImage(collHandler.getImage(value), i * tileSize, j * tileSize, null);
             }
         }
     }

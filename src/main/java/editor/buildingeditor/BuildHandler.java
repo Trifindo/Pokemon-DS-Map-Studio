@@ -12,7 +12,6 @@ public class BuildHandler {
     private BuildTilesetList bTilesetList;
 
     public void BuildEditorHandler() {
-
     }
 
     public void loadBuildModelMashup(String path) throws IOException {

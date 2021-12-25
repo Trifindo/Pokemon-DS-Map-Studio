@@ -2,7 +2,6 @@
 
 package utils;
 
-import com.jogamp.opengl.GL2ES1;
 //import static com.jogamp.opengl.GL2ES2.GL_FRAGMENT_SHADER;
 //import static com.jogamp.opengl.GL2ES2.GL_VERTEX_SHADER;
 import static com.jogamp.opengl.GL2.GL_FRAGMENT_SHADER;
@@ -18,8 +17,8 @@ import com.jogamp.opengl.GLContext;
 public class GlUtils {
     public static int createShaderProgram(String vertPath, String fragPath) {
         GL2ES2 gl = GLContext.getCurrentGL().getGL2ES2();
-        String vshaderSource[];
-        String fshaderSource[];
+        String[] vshaderSource;
+        String[] fshaderSource;
 
         int vShader = gl.glCreateShader(GL_VERTEX_SHADER);
         int fShader = gl.glCreateShader(GL_FRAGMENT_SHADER);

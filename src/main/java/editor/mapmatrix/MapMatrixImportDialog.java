@@ -3,17 +3,13 @@ package editor.mapmatrix;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 
 import editor.handler.MapData;
 import editor.handler.MapEditorHandler;
 
-import java.awt.Point;
 import java.io.File;
-import java.util.HashMap;
-import javax.swing.JOptionPane;
+import java.util.Map;
 
 /**
  * @author Trifindo, JackHack96
@@ -22,7 +18,7 @@ public class MapMatrixImportDialog extends JDialog {
 
     private MapEditorHandler handler;
     private String mapPath;
-    private HashMap<Point, MapData> maps;
+    private Map<Point, MapData> maps;
 
     public MapMatrixImportDialog(Window owner) {
         super(owner);
@@ -74,7 +70,7 @@ public class MapMatrixImportDialog extends JDialog {
         dispose();
     }
 
-    public void init(MapEditorHandler handler, String mapPath, HashMap<Point, MapData> maps) {
+    public void init(MapEditorHandler handler, String mapPath, Map<Point, MapData> maps) {
         this.handler = handler;
         this.mapPath = mapPath;
         this.maps = maps;
@@ -86,13 +82,8 @@ public class MapMatrixImportDialog extends JDialog {
 
     private boolean isNewMapOverlapingWithMap() {
         Point pos = mapImportDisplay1.getNewMapPos();
-        for (Point p : maps.keySet()) {
-            Point mapCoords = new Point(p.x + pos.x, p.y + pos.y);
-            if (handler.getMapMatrix().getMatrix().containsKey(mapCoords)) {
-                return true;
-            }
-        }
-        return false;
+        return maps.keySet().stream()
+                .anyMatch(p -> handler.getMapMatrix().getMatrix().containsKey(new Point(p.x + pos.x, p.y + pos.y)));
     }
 
     public void importMaps() {

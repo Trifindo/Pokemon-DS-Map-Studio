@@ -8,7 +8,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import tileset.Tile;
 import tileset.Tileset;
@@ -19,7 +22,7 @@ import utils.Utils;
  */
 public class MapGrid {
 
-    private MapEditorHandler handler;
+    private final MapEditorHandler handler;
 
     //public String filePath = "";
     //public String tilesetFilePath = "";
@@ -53,9 +56,7 @@ public class MapGrid {
         for (int k = 0; k < numLayers; k++) {
             //int[][] tileGrid = new int[cols][rows];
             for (int i = 0; i < cols; i++) {
-                for (int j = 0; j < rows; j++) {
-                    tileLayers[k][i][j] = -1;
-                }
+                Arrays.fill(tileLayers[k][i], -1);
             }
         }
 
@@ -121,17 +122,16 @@ public class MapGrid {
     }*/
     public void saveMapToOBJ(Tileset tset, String path, boolean saveTextures,
                              boolean saveVertexColors, float tileUpscale) throws FileNotFoundException {
-        ObjWriter writer = new ObjWriter(tset, this, path, handler.getGameIndex(),
-                saveTextures, saveVertexColors, tileUpscale);
+        ObjWriter writer = new ObjWriter(tset, this, path, handler.getGameIndex(), saveTextures, saveVertexColors, tileUpscale);
         writer.writeMapObj();
     }
 
     public static void loadMatrixFromFile(BufferedReader br, int[][] matrix) throws IOException {
         for (int i = 0; i < rows; i++) {
             String line = br.readLine();
-            String[] lineSplitted = line.split(" ");
+            String[] lineSplit = line.split(" ");
             for (int j = 0; j < cols; j++) {
-                matrix[j][i] = Integer.parseInt(lineSplitted[j]);
+                matrix[j][i] = Integer.parseInt(lineSplit[j]);
             }
         }
     }
@@ -140,9 +140,9 @@ public class MapGrid {
         Integer[][] layer = new Integer[cols][rows];
         for (int i = 0; i < rows; i++) {
             String line = br.readLine();
-            String[] lineSplitted = line.split(" ");
+            String[] lineSplit = line.split(" ");
             for (int j = 0; j < cols; j++) {
-                layer[j][i] = Integer.parseInt(lineSplitted[j]);
+                layer[j][i] = Integer.parseInt(lineSplit[j]);
             }
         }
         return layer;
@@ -222,7 +222,7 @@ public class MapGrid {
     }
 
     public void moveTilesUp(int layerIndex) {
-        for (int i = 0; i < (cols - 0); i++) {
+        for (int i = 0; i < cols; i++) {
             for (int j = (rows - 1); j > 0; j--) {
                 tileLayers[layerIndex][i][j] = tileLayers[layerIndex][i][j - 1];
                 heightLayers[layerIndex][i][j] = heightLayers[layerIndex][i][j - 1];
@@ -233,7 +233,7 @@ public class MapGrid {
     }
 
     public void moveTilesDown(int layerIndex) {
-        for (int i = 0; i < (cols - 0); i++) {
+        for (int i = 0; i < cols; i++) {
             for (int j = 0; j < (rows - 1); j++) {
                 tileLayers[layerIndex][i][j] = tileLayers[layerIndex][i][j + 1];
                 heightLayers[layerIndex][i][j] = heightLayers[layerIndex][i][j + 1];
@@ -244,7 +244,7 @@ public class MapGrid {
     }
 
     public void moveTilesRight(int layerIndex) {
-        for (int i = 0; i < (rows - 0); i++) {
+        for (int i = 0; i < rows; i++) {
             for (int j = (cols - 1); j > 0; j--) {
                 tileLayers[layerIndex][j][i] = tileLayers[layerIndex][j - 1][i];
                 heightLayers[layerIndex][j][i] = heightLayers[layerIndex][j - 1][i];
@@ -255,7 +255,7 @@ public class MapGrid {
     }
 
     public void moveTilesLeft(int layerIndex) {
-        for (int i = 0; i < (rows - 0); i++) {
+        for (int i = 0; i < rows; i++) {
             for (int j = 0; j < (cols - 1); j++) {
                 tileLayers[layerIndex][j][i] = tileLayers[layerIndex][j + 1][i];
                 heightLayers[layerIndex][j][i] = heightLayers[layerIndex][j + 1][i];
@@ -300,9 +300,7 @@ public class MapGrid {
         //Generate mask
         boolean[][] mask = new boolean[MapGrid.cols][MapGrid.rows];
         for (int i = 0; i < MapGrid.cols; i++) {
-            for (int j = 0; j < MapGrid.rows; j++) {
-                mask[i][j] = true;
-            }
+            Arrays.fill(mask[i], true);
         }
 
         for (int i = 0; i < MapGrid.cols; i++) {
@@ -399,16 +397,10 @@ public class MapGrid {
     }
 
     public boolean isEmpty() {
-        for (int i = 0; i < tileLayers.length; i++) {
-            for (int j = 0; j < tileLayers[i].length; j++) {
-                for (int k = 0; k < tileLayers[i][j].length; k++) {
-                    if (tileLayers[i][j][k] != -1) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
+        return Arrays.stream(tileLayers)
+                .flatMap(Arrays::stream)
+                .flatMapToInt(Arrays::stream)
+                .noneMatch(anInt -> anInt != -1);
     }
 
     public void updateAllMapLayers(boolean realTimePostProcessing) {
@@ -424,42 +416,36 @@ public class MapGrid {
                 realTimePostProcessing, handler.getGame().getMaxTileableSize());
     }
 
-    public void addTileIndicesUsed(HashSet<Integer> indices) {
-        for (int i = 0; i < tileLayers.length; i++) {
-            for (int j = 0; j < tileLayers[i].length; j++) {
-                for (int k = 0; k < tileLayers[i][j].length; k++) {
-                    if (tileLayers[i][j][k] != -1) {
-                        indices.add(tileLayers[i][j][k]);
+    public void addTileIndicesUsed(Set<Integer> indices) {
+        for (int[][] tileLayer : tileLayers) {
+            for (int[] ints : tileLayer) {
+                for (int anInt : ints) {
+                    if (anInt != -1) {
+                        indices.add(anInt);
                     }
                 }
             }
         }
     }
 
-    public HashSet<Integer> getTileIndicesUsed() {
-        HashSet<Integer> indices = new HashSet<>();
+    public Set<Integer> getTileIndicesUsed() {
+        Set<Integer> indices = new HashSet<>();
         addTileIndicesUsed(indices);
         return indices;
     }
 
     public int getNumTriangles() {
-        int numTriangles = 0;
-        for (MapLayerGL mapLayerGL : mapLayersGL) {
-            if (mapLayerGL != null) {
-                numTriangles += mapLayerGL.getNumTriangles();
-            }
-        }
-        return numTriangles;
+        return Arrays.stream(mapLayersGL)
+                .filter(Objects::nonNull)
+                .mapToInt(MapLayerGL::getNumTriangles)
+                .sum();
     }
 
     public int getNumQuads() {
-        int numQuads = 0;
-        for (MapLayerGL mapLayerGL : mapLayersGL) {
-            if (mapLayerGL != null) {
-                numQuads += mapLayerGL.getNumQuads();
-            }
-        }
-        return numQuads;
+        return Arrays.stream(mapLayersGL)
+                .filter(Objects::nonNull)
+                .mapToInt(MapLayerGL::getNumQuads)
+                .sum();
     }
 
     public int getNumPolygons() {
@@ -467,13 +453,10 @@ public class MapGrid {
     }
 
     public int getNumMaterials() {
-        int numMaterials = 0;
-        for (MapLayerGL mapLayerGL : mapLayersGL) {
-            if (mapLayerGL != null) {
-                numMaterials += mapLayerGL.getNumGeometryGL();
-            }
-        }
-        return numMaterials;
+        return Arrays.stream(mapLayersGL)
+                .filter(Objects::nonNull)
+                .mapToInt(MapLayerGL::getNumGeometryGL)
+                .sum();
     }
 
     public void applyLookupTable(int[] tileIndices) {
@@ -489,5 +472,4 @@ public class MapGrid {
             }
         }
     }
-
 }

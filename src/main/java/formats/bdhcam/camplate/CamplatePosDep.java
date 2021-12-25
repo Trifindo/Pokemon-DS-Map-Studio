@@ -17,6 +17,5 @@ public class CamplatePosDep extends Camplate{
     @Override
     public void addParameter() {
         parameters.add(new CamParameterPosDep(CamParameter.Type.CAMERA_X,0,0));//TODO: Improve this
-
     }
 }

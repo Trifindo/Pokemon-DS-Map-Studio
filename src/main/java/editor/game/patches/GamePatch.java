@@ -13,8 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GamePatch {
 
@@ -60,8 +61,7 @@ public class GamePatch {
         int len = s.length();
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4) + Character.digit(s.charAt(i+1), 16));
         }
         return data;
     }
@@ -72,8 +72,7 @@ public class GamePatch {
         for(String s : splitString){
             try {
                 bytes.add(Byte.parseByte(s));
-            }catch(NumberFormatException ex){
-
+            } catch (NumberFormatException ex){
             }
         }
         return Utils.toArray(bytes);
@@ -81,40 +80,26 @@ public class GamePatch {
 
     private static Node getSubnode(Node node, String name){
         NodeList nodeList = node.getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node subnode = nodeList.item(i);
-            if (subnode.getNodeType() == Node.ELEMENT_NODE) {
-                if(subnode.getNodeName().equals(name)){
-                    return subnode;
-                }
-            }
-        }
-        return null;
+        return IntStream.range(0, nodeList.getLength())
+                .mapToObj(nodeList::item)
+                .filter(subnode -> subnode.getNodeType() == Node.ELEMENT_NODE && subnode.getNodeName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 
     private static List<Node> getSubnodes(Node node, String name){
-        List<Node> nodes = new ArrayList<>();
         NodeList nodeList = node.getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node subnode = nodeList.item(i);
-            if (subnode.getNodeType() == Node.ELEMENT_NODE) {
-                if(subnode.getNodeName().equals(name)){
-                    nodes.add(subnode);
-                }
-            }
-        }
-        return nodes;
+        return IntStream.range(0, nodeList.getLength())
+                .mapToObj(nodeList::item)
+                .filter(subnode -> subnode.getNodeType() == Node.ELEMENT_NODE && subnode.getNodeName().equals(name))
+                .collect(Collectors.toList());
     }
 
     private static List<Node> getSubnodes(Node node){
-        List<Node> nodes = new ArrayList<>();
         NodeList nodeList = node.getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node subnode = nodeList.item(i);
-            if (subnode.getNodeType() == Node.ELEMENT_NODE) {
-                nodes.add(subnode);
-            }
-        }
-        return nodes;
+        return IntStream.range(0, nodeList.getLength())
+                .mapToObj(nodeList::item)
+                .filter(subnode -> subnode.getNodeType() == Node.ELEMENT_NODE)
+                .collect(Collectors.toList());
     }
 }

@@ -15,9 +15,9 @@ import tileset.TilesetMaterial;
  */
 public class TilesetEditorHandler {
 
-    private MapEditorHandler handler;
+    private final MapEditorHandler handler;
 
-    private Tileset oldTset;
+    private final Tileset oldTset;
 
     private int textureIdIndexSelected = 0;
     private int materialIndexSelected = 0;
@@ -117,5 +117,4 @@ public class TilesetEditorHandler {
     public void setLastColorUsed(Color color) {
         this.lastColorUsed = color;
     }
-
 }

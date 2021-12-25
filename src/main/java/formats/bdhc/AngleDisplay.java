@@ -1,7 +1,6 @@
 package formats.bdhc;
 
 import javax.swing.*;
-import javax.swing.GroupLayout;
 import java.awt.*;
 
 /**
@@ -41,40 +40,31 @@ public class AngleDisplay extends JPanel {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
 
-            g.setColor(Color.magenta);
+            g.setColor(Color.MAGENTA);
             final int angleRadius = (radius * 2) / 3;
             final int angleOffset = size / 2 - angleRadius;
             g2.setStroke(new BasicStroke(2));
             g.drawArc(angleOffset, angleOffset, 2 * angleRadius, 2 * angleRadius, 0, (int) (-(angle * 180) / Math.PI));
 
             g2.setStroke(new BasicStroke(2));
-            if (frontView) {
-                g.setColor(Color.red);
-                g.drawLine(size / 2, size / 2, size, size / 2);
-                g.setColor(Color.blue);
-                g.drawLine(size / 2, size / 2, size / 2, 0);
-            } else {
-                g.setColor(Color.green);
-                //g.drawLine(size / 2, size / 2, size, size / 2);
-                g.drawLine(size / 2, size / 2, size, size / 2);
-                g.setColor(Color.blue);
-                g.drawLine(size / 2, size / 2, size / 2, 0);
-            }
+            //g.drawLine(size / 2, size / 2, size, size / 2);
+            g.setColor(frontView ? Color.RED : Color.GREEN);
+            g.drawLine(size / 2, size / 2, size, size / 2);
+            g.setColor(Color.BLUE);
+            g.drawLine(size / 2, size / 2, size / 2, 0);
 
             int circleOffset = size / 2 - radius;
-            g.setColor(Color.black);
+            g.setColor(Color.BLACK);
             g2.setStroke(new BasicStroke(1));
             g.drawOval(circleOffset, circleOffset, radius * 2, radius * 2);
 
             int x = (int) (Math.cos(angle) * radius);
             int y = (int) (Math.sin(angle) * radius);
             int lineOffset = size / 2;
-            g.setColor(Color.orange);
+            g.setColor(Color.ORANGE);
             g2.setStroke(new BasicStroke(3));
             g.drawLine(lineOffset - x, lineOffset - y, lineOffset + x, lineOffset + y);
-
         }
-
     }
 
     private void initComponents() {

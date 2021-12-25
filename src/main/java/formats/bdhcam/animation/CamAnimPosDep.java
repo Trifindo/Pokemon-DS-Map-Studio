@@ -8,7 +8,7 @@ import editor.handler.MapEditorHandler;
 
 public class CamAnimPosDep extends CamAnimator{
 
-    private CamplatePosDep plate;
+    private final CamplatePosDep plate;
     private int distanceGoal = 1;
     private float distMoved = 0.0f;
     private final float increment = 0.05f;
@@ -43,7 +43,6 @@ public class CamAnimPosDep extends CamAnimator{
         if(distMoved >= distanceGoal){
             running = false;
         }
-
     }
 
     @Override

@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 
@@ -48,13 +49,13 @@ public class Tile {
     private String objFilename;
 
     //Model OBJ
-    private ArrayList<Float> vCoordsObj = new ArrayList<>();
-    private ArrayList<Float> tCoordsObj = new ArrayList<>();
-    private ArrayList<Float> nCoordsObj = new ArrayList<>();
-    private ArrayList<Float> colorsObj = new ArrayList<>();
+    private List<Float> vCoordsObj = new ArrayList<>();
+    private List<Float> tCoordsObj = new ArrayList<>();
+    private List<Float> nCoordsObj = new ArrayList<>();
+    private List<Float> colorsObj = new ArrayList<>();
 
-    private ArrayList<Face> fIndsQuad = new ArrayList<>();
-    private ArrayList<Face> fIndsTri = new ArrayList<>();
+    private List<Face> fIndsQuad = new ArrayList<>();
+    private List<Face> fIndsTri = new ArrayList<>();
 
     //Model OpenGL
     private float[] vCoordsTri;
@@ -67,9 +68,9 @@ public class Tile {
     private float[] nCoordsQuad;
     private float[] colorsQuad;
 
-    private ArrayList<Integer> textureIDs = new ArrayList<>();
-    private ArrayList<Integer> texOffsetsTri = new ArrayList<>();
-    private ArrayList<Integer> texOffsetsQuad = new ArrayList<>();
+    private List<Integer> textureIDs = new ArrayList<>();
+    private List<Integer> texOffsetsTri = new ArrayList<>();
+    private List<Integer> texOffsetsQuad = new ArrayList<>();
 
     private BufferedImage thumbnail;
     private BufferedImage smallThumbnail;
@@ -79,12 +80,9 @@ public class Tile {
     private float[] boundsSca;
 
     public Tile(Tileset tileset, String folderPath, String objFilename,
-                int width, int height, boolean xTileable, boolean yTileable,
-                boolean uTileable, boolean vTileable,
-                boolean globalTexMapping, float globalTexScale,
-                float xOffset, float yOffset)
-            throws IOException, TextureNotFoundException,
-            NormalsNotFoundException {
+                int width, int height, boolean xTileable, boolean yTileable, boolean uTileable, boolean vTileable,
+                boolean globalTexMapping, float globalTexScale, float xOffset, float yOffset)
+            throws IOException, TextureNotFoundException, NormalsNotFoundException {
 
         this.tileset = tileset;
 
@@ -105,18 +103,15 @@ public class Tile {
         this.yOffset = yOffset;
 
         loadFromObj(folderPath, objFilename);
-
     }
 
-    public Tile(Tileset tileset, String filePath) throws IOException,
-            TextureNotFoundException, NormalsNotFoundException {
+    public Tile(Tileset tileset, String filePath) throws IOException, TextureNotFoundException, NormalsNotFoundException {
         this(tileset, new File(filePath).getParent(),
                 new File(filePath).getName(), 1, 1, false,
                 false, false, false, false, 1.0f, 0.0f, 0.0f);
     }
 
-    public Tile(Tileset tileset, String filePath, Tile tile) throws IOException,
-            TextureNotFoundException, NormalsNotFoundException {
+    public Tile(Tileset tileset, String filePath, Tile tile) throws IOException, TextureNotFoundException, NormalsNotFoundException {
         this(tileset, new File(filePath).getParent(),
                 new File(filePath).getName(), tile.getWidth(), tile.getHeight(),
                 tile.isXtileable(), tile.isYtileable(),
@@ -161,17 +156,17 @@ public class Tile {
         tile.folderPath = folderPath;
         tile.objFilename = objFilename;
 
-        tile.vCoordsObj = Utils.cloneArrayListFloat(vCoordsObj);
-        tile.tCoordsObj = Utils.cloneArrayListFloat(tCoordsObj);
-        tile.nCoordsObj = Utils.cloneArrayListFloat(nCoordsObj);
-        tile.colorsObj = Utils.cloneArrayListFloat(colorsObj);
+        tile.vCoordsObj = new ArrayList<>(vCoordsObj);
+        tile.tCoordsObj = new ArrayList<>(tCoordsObj);
+        tile.nCoordsObj = new ArrayList<>(nCoordsObj);
+        tile.colorsObj = new ArrayList<>(colorsObj);
 
         tile.fIndsQuad = Face.cloneArrayList(fIndsQuad);
         tile.fIndsTri = Face.cloneArrayList(fIndsTri);
 
-        tile.textureIDs = Utils.cloneArrayListInt(textureIDs);
-        tile.texOffsetsTri = Utils.cloneArrayListInt(texOffsetsTri);
-        tile.texOffsetsQuad = Utils.cloneArrayListInt(texOffsetsQuad);
+        tile.textureIDs = new ArrayList<>(textureIDs);
+        tile.texOffsetsTri = new ArrayList<>(texOffsetsTri);
+        tile.texOffsetsQuad = new ArrayList<>(texOffsetsQuad);
 
         tile.vCoordsTri = Utils.cloneArray(vCoordsTri);
         tile.tCoordsTri = Utils.cloneArray(tCoordsTri);
@@ -207,10 +202,10 @@ public class Tile {
         tile.folderPath = folderPath;
         tile.objFilename = objFilename;
 
-        tile.vCoordsObj = Utils.cloneArrayListFloat(vCoordsObj);
-        tile.tCoordsObj = Utils.cloneArrayListFloat(tCoordsObj);
-        tile.nCoordsObj = Utils.cloneArrayListFloat(nCoordsObj);
-        tile.colorsObj = Utils.cloneArrayListFloat(colorsObj);
+        tile.vCoordsObj = new ArrayList<>(vCoordsObj);
+        tile.tCoordsObj = new ArrayList<>(tCoordsObj);
+        tile.nCoordsObj = new ArrayList<>(nCoordsObj);
+        tile.colorsObj = new ArrayList<>(colorsObj);
 
         tile.fIndsQuad = Face.cloneArrayList(fIndsQuad);
         tile.fIndsTri = Face.cloneArrayList(fIndsTri);
@@ -309,10 +304,7 @@ public class Tile {
         if (!Arrays.equals(this.colorsQuad, other.colorsQuad)) {
             return false;
         }
-        if (!Objects.equals(this.textureIDs, other.textureIDs)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.textureIDs, other.textureIDs);
     }
 
     public boolean equalsVisualData(Object obj) {
@@ -379,23 +371,21 @@ public class Tile {
             } catch (Exception ex) {
                 return false;
             }
-
         }
 
         return true;
     }
 
-    private void loadFromObj(String folderPath, String objName) throws IOException,
-            TextureNotFoundException, NormalsNotFoundException {
+    private void loadFromObj(String folderPath, String objName) throws IOException, TextureNotFoundException, NormalsNotFoundException {
         vCoordsObj = new ArrayList<>();
         tCoordsObj = new ArrayList<>();
         nCoordsObj = new ArrayList<>();
         colorsObj = new ArrayList<>();
 
-        ArrayList<ArrayList<Face>> fIndsQuadArray = new ArrayList<>();
-        ArrayList<ArrayList<Face>> fIndsTriArray = new ArrayList<>();
+        List<List<Face>> fIndsQuadArray = new ArrayList<>();
+        List<List<Face>> fIndsTriArray = new ArrayList<>();
 
-        ArrayList<String> materialNames = new ArrayList();
+        List<String> materialNames = new ArrayList();
 
         InputStream inputObj = new FileInputStream(new File(folderPath + "/" + objName));
         BufferedReader brObj = new BufferedReader(new InputStreamReader(inputObj));
@@ -407,7 +397,7 @@ public class Tile {
         String lineObj;
         while ((lineObj = brObj.readLine()) != null) {
             if (lineObj.startsWith("mtllib")) {
-                mtlName = lineObj.substring(lineObj.indexOf(" ") + 1, lineObj.length());
+                mtlName = lineObj.substring(lineObj.indexOf(" ") + 1);
             } else if (lineObj.startsWith("o")) {
 
             } else if (lineObj.startsWith("v ")) {
@@ -445,7 +435,7 @@ public class Tile {
                 }
             } else if (lineObj.startsWith("usemtl")) {
                 //String name = lineObj.split(" ")[1];
-                String name = lineObj.substring(lineObj.indexOf(" ") + 1, lineObj.length());
+                String name = lineObj.substring(lineObj.indexOf(" ") + 1);
                 materialIndex = materialNames.indexOf(name);
                 if (materialIndex == -1) {
                     fIndsQuadArray.add(new ArrayList<>());
@@ -454,10 +444,10 @@ public class Tile {
                     materialNames.add(name);
                 }
             } else if (lineObj.startsWith("f")) {
-                String[] splittedLine = (lineObj.substring(2)).split(" ");
+                String[] splitLine = (lineObj.substring(2)).split(" ");
                 int numVertex = 0;
-                for (int i = 0; i < splittedLine.length; i++) {
-                    if (splittedLine[i].contains("/")) {
+                for (String s : splitLine) {
+                    if (s.contains("/")) {
                         numVertex++;
                     }
                 }
@@ -468,17 +458,17 @@ public class Tile {
                 }
                 Face f = new Face(numVertex > 3);
                 for (int i = 0; i < numVertex; i++) {
-                    String[] sArray = splittedLine[i].split("/");
-                    f.vInd[i] = Integer.valueOf(sArray[0]);
-                    f.tInd[i] = Integer.valueOf(sArray[1]);
+                    String[] sArray = splitLine[i].split("/");
+                    f.vInd[i] = Integer.parseInt(sArray[0]);
+                    f.tInd[i] = Integer.parseInt(sArray[1]);
                     if (sArray.length > 2) {
-                        f.nInd[i] = Integer.valueOf(sArray[2]);
+                        f.nInd[i] = Integer.parseInt(sArray[2]);
                     } else {
                         throw new NormalsNotFoundException("The OBJ file \""
                                 + objName + "\" does not contain calculated normals.");
                     }
                     if (sArray.length > 3) {
-                        f.cInd[i] = Integer.valueOf(sArray[3]);
+                        f.cInd[i] = Integer.parseInt(sArray[3]);
                     } else {
                         if (!firstColorAdded) {
                             firstColorIndex = colorsObj.size() / 3 + 1;
@@ -513,11 +503,11 @@ public class Tile {
         while ((lineMtl = brMtl.readLine()) != null) {
             if (lineMtl.startsWith("newmtl")) {
                 //String matName = lineMtl.split(" ")[1];
-                String matName = lineMtl.substring(lineMtl.indexOf(" ") + 1, lineMtl.length());
+                String matName = lineMtl.substring(lineMtl.indexOf(" ") + 1);
                 matIndex = materialNames.indexOf(matName);
             } else if (lineMtl.startsWith("map_Kd")) {
                 //String textName = lineMtl.split(" ")[1];
-                String textName = lineMtl.substring(lineMtl.indexOf(" ") + 1, lineMtl.length());
+                String textName = lineMtl.substring(lineMtl.indexOf(" ") + 1);
                 int textIndex = tileset.getIndexOfMaterialByImgName(textName);
                 if (textIndex == -1) { //Not found
                     if (new File(folderPath + "/" + textName).exists() || new File(textName).exists()) {
@@ -578,33 +568,23 @@ public class Tile {
         }
 
         //Fix duplicated Texture IDs
-        ArrayList<ArrayList<Face>> fIndsQuadArrayFixed = new ArrayList<>();
-        ArrayList<ArrayList<Face>> fIndsTriArrayFixed = new ArrayList<>();
-        ArrayList<Integer> textureIDsFixed = new ArrayList<>();
+        List<List<Face>> fIndsQuadArrayFixed = new ArrayList<>();
+        List<List<Face>> fIndsTriArrayFixed = new ArrayList<>();
+        List<Integer> textureIDsFixed = new ArrayList<>();
         for (int i = 0; i < textureIDs.size(); i++) {
             int id = textureIDs.get(i);
             int index = textureIDsFixed.indexOf(id);
             if (index == -1) {
-                ArrayList<Face> fIndsQuad = new ArrayList<>();
-                ArrayList<Face> fIndsTri = new ArrayList<>();
-                for (int j = 0; j < fIndsQuadArray.get(i).size(); j++) {
-                    fIndsQuad.add(fIndsQuadArray.get(i).get(j));
-                }
-                for (int j = 0; j < fIndsTriArray.get(i).size(); j++) {
-                    fIndsTri.add(fIndsTriArray.get(i).get(j));
-                }
+                List<Face> fIndsQuad = new ArrayList<>(fIndsQuadArray.get(i));
+                List<Face> fIndsTri = new ArrayList<>(fIndsTriArray.get(i));
                 fIndsQuadArrayFixed.add(fIndsQuad);
                 fIndsTriArrayFixed.add(fIndsTri);
                 textureIDsFixed.add(id);
             } else {
-                ArrayList<Face> fIndsQuad = fIndsQuadArrayFixed.get(index);
-                ArrayList<Face> fIndsTri = fIndsTriArrayFixed.get(index);
-                for (int j = 0; j < fIndsQuadArray.get(i).size(); j++) {
-                    fIndsQuad.add(fIndsQuadArray.get(i).get(j));
-                }
-                for (int j = 0; j < fIndsTriArray.get(i).size(); j++) {
-                    fIndsTri.add(fIndsTriArray.get(i).get(j));
-                }
+                List<Face> fIndsQuad = fIndsQuadArrayFixed.get(index);
+                List<Face> fIndsTri = fIndsTriArrayFixed.get(index);
+                fIndsQuad.addAll(fIndsQuadArray.get(i));
+                fIndsTri.addAll(fIndsTriArray.get(i));
             }
         }
         textureIDs = textureIDsFixed;
@@ -639,7 +619,7 @@ public class Tile {
     private static int countNumberOfStarts(File file, String content) throws IOException {
         InputStream input = new FileInputStream(file);
         BufferedReader br = new BufferedReader(new InputStreamReader(input));
-        ArrayList<String> matLines = new ArrayList<>();
+        List<String> matLines = new ArrayList<>();
         //int count = 0;
         String line;
         while ((line = br.readLine()) != null) {
@@ -655,18 +635,17 @@ public class Tile {
     }
 
     public void objDataToGlData() {
-        ArrayList<Float> vCoordsTri = new ArrayList<>();
-        ArrayList<Float> tCoordsTri = new ArrayList<>();
-        ArrayList<Float> nCoordsTri = new ArrayList<>();
-        ArrayList<Float> colorsTri = new ArrayList<>();
+        List<Float> vCoordsTri = new ArrayList<>();
+        List<Float> tCoordsTri = new ArrayList<>();
+        List<Float> nCoordsTri = new ArrayList<>();
+        List<Float> colorsTri = new ArrayList<>();
 
-        ArrayList<Float> vCoordsQuad = new ArrayList<>();
-        ArrayList<Float> tCoordsQuad = new ArrayList<>();
-        ArrayList<Float> nCoordsQuad = new ArrayList<>();
-        ArrayList<Float> colorsQuad = new ArrayList<>();
+        List<Float> vCoordsQuad = new ArrayList<>();
+        List<Float> tCoordsQuad = new ArrayList<>();
+        List<Float> nCoordsQuad = new ArrayList<>();
+        List<Float> colorsQuad = new ArrayList<>();
 
-        for (int i = 0; i < fIndsQuad.size(); i++) {//face
-            Face f = fIndsQuad.get(i);
+        for (Face f : fIndsQuad) {//face
             for (int j = 0; j < 4; j++) {//vertex
                 for (int k = 0; k < 3; k++) {//coord
                     vCoordsQuad.add(vCoordsObj.get((f.vInd[j] - 1) * 3 + k));
@@ -683,8 +662,7 @@ public class Tile {
             }
         }
 
-        for (int i = 0; i < fIndsTri.size(); i++) {//face
-            Face f = fIndsTri.get(i);
+        for (Face f : fIndsTri) {//face
             for (int j = 0; j < 3; j++) {//vertex
                 for (int k = 0; k < 3; k++) {//coord
                     vCoordsTri.add(vCoordsObj.get((f.vInd[j] - 1) * 3 + k));
@@ -710,10 +688,9 @@ public class Tile {
         this.tCoordsTri = floatListToArray(tCoordsTri);
         this.nCoordsTri = floatListToArray(nCoordsTri);
         this.colorsTri = floatListToArray(colorsTri);
-
     }
 
-    public static BufferedImage loadTextureImgWithDefault(String path) throws IOException {
+    public static BufferedImage loadTextureImgWithDefault(String path) {
         BufferedImage img = null;
         try {
             img = ImageIO.read(new File(path));
@@ -753,15 +730,10 @@ public class Tile {
         return tex;
     }*/
     public boolean isTextureUsed(int index) {
-        for (int i = 0; i < textureIDs.size(); i++) {
-            if (textureIDs.get(i) == index) {
-                return true;
-            }
-        }
-        return false;
+        return textureIDs.stream().anyMatch(textureID -> textureID == index);
     }
 
-    public ArrayList<Face> getFaceIndQuadOfTex(int index) {
+    public List<Face> getFaceIndQuadOfTex(int index) {
         int start = texOffsetsQuad.get(index);
         int end;
         if (index < textureIDs.size() - 1) {
@@ -770,10 +742,10 @@ public class Tile {
             end = fIndsQuad.size();
         }
 
-        return new ArrayList(this.fIndsQuad.subList(start, end));
+        return new ArrayList<>(this.fIndsQuad.subList(start, end));
     }
 
-    public ArrayList<Face> getFaceIndTriOfTex(int index) {
+    public List<Face> getFaceIndTriOfTex(int index) {
         int start = texOffsetsTri.get(index);
         int end;
         if (index < textureIDs.size() - 1) {
@@ -782,7 +754,7 @@ public class Tile {
             end = fIndsTri.size();
         }
 
-        return new ArrayList(fIndsTri.subList(start, end));
+        return new ArrayList<>(fIndsTri.subList(start, end));
     }
 
     public void swapMaterials(int indexMat1, int indexMat2) {
@@ -821,7 +793,7 @@ public class Tile {
         }
     }
 
-    private void scaleCoords(ArrayList<Float> array, float[] scale) {
+    private void scaleCoords(List<Float> array, float[] scale) {
         for (int i = 0; i < array.size(); i += 3) {
             for (int j = 0; j < 3; j++) {
                 int index = i + j;
@@ -862,7 +834,7 @@ public class Tile {
         }
     }
 
-    private void flipCoordsYZ(ArrayList<Float> array) {
+    private void flipCoordsYZ(List<Float> array) {
         for (int i = 0; i < array.size(); i += 3) {
             float temp = array.get(i + 1);
             array.set(i + 1, -array.get(i + 2));
@@ -870,7 +842,7 @@ public class Tile {
         }
     }
 
-    private void flipCoordsInvertedYZ(ArrayList<Float> array) {
+    private void flipCoordsInvertedYZ(List<Float> array) {
         for (int i = 0; i < array.size(); i += 3) {
             float temp = -array.get(i + 1);
             array.set(i + 1, array.get(i + 2));
@@ -919,7 +891,7 @@ public class Tile {
         }
     }
 
-    public void flipCoordsX(ArrayList<Float> array) {
+    public void flipCoordsX(List<Float> array) {
         for (int i = 0; i < array.size(); i += 3) {
             array.set(i, -array.get(i));
         }
@@ -952,7 +924,6 @@ public class Tile {
         moveCoords(vCoordsObj, dpos);
         moveCoords(vCoordsQuad, dpos);
         moveCoords(vCoordsTri, dpos);
-
     }
 
     private void applyTransform(ArrayList<Float> array, float[][] trMatrix) {
@@ -989,7 +960,7 @@ public class Tile {
         }
     }
 
-    private void moveCoords(ArrayList<Float> array, float[] dpos) {
+    private void moveCoords(List<Float> array, float[] dpos) {
         for (int i = 0; i < array.size(); i += 3) {
             for (int j = 0; j < 3; j++) {
                 int index = i + j;
@@ -1006,7 +977,7 @@ public class Tile {
         }
     }
 
-    private void rotateCoordsZ(ArrayList<Float> array) {
+    private void rotateCoordsZ(List<Float> array) {
         for (int i = 0; i < array.size(); i += 3) {
             float temp = array.get(i);
             array.set(i, -array.get(i + 1));
@@ -1015,11 +986,9 @@ public class Tile {
     }
 
     private void groupTrianglesIntoQuads() {
-
         for (int i = 0; i < fIndsTri.size(); i++) {
 
         }
-
     }
 
     private Point3D getNormal(Face f) {
@@ -1070,7 +1039,7 @@ public class Tile {
     }
 
     public void updateObjData() {
-        TileGeometryCompresser.compressTile(this);
+        TileGeometryCompressor.compressTile(this);
     }
 
     public float[] getVCoordsQuad() {
@@ -1141,15 +1110,15 @@ public class Tile {
         return folderPath;
     }
 
-    public ArrayList<Integer> getTextureIDs() {
+    public List<Integer> getTextureIDs() {
         return textureIDs;
     }
 
-    public ArrayList<Integer> getTexOffsetsQuad() {
+    public List<Integer> getTexOffsetsQuad() {
         return texOffsetsQuad;
     }
 
-    public ArrayList<Integer> getTexOffsetsTri() {
+    public List<Integer> getTexOffsetsTri() {
         return texOffsetsTri;
     }
 
@@ -1201,43 +1170,43 @@ public class Tile {
         this.globalTexMapping = useGlobalTexMapping;
     }
 
-    public ArrayList<Float> getVertexCoordsObj() {
+    public List<Float> getVertexCoordsObj() {
         return vCoordsObj;
     }
 
-    public ArrayList<Float> getTextureCoordsObj() {
+    public List<Float> getTextureCoordsObj() {
         return tCoordsObj;
     }
 
-    public ArrayList<Float> getNormalCoordsObj() {
+    public List<Float> getNormalCoordsObj() {
         return nCoordsObj;
     }
 
-    public ArrayList<Float> getColorsObj() {
+    public List<Float> getColorsObj() {
         return colorsObj;
     }
 
-    public ArrayList<Face> getFIndQuadObj() {
+    public List<Face> getFIndQuadObj() {
         return fIndsQuad;
     }
 
-    public ArrayList<Face> getFIndTriObj() {
+    public List<Face> getFIndTriObj() {
         return fIndsTri;
     }
 
-    public void setVertexCoordsObj(ArrayList<Float> vertexCoordsObj) {
+    public void setVertexCoordsObj(List<Float> vertexCoordsObj) {
         this.vCoordsObj = vertexCoordsObj;
     }
 
-    public void setTextureCoordsObj(ArrayList<Float> textureCoordsObj) {
+    public void setTextureCoordsObj(List<Float> textureCoordsObj) {
         this.tCoordsObj = textureCoordsObj;
     }
 
-    public void setNormalCoordsObj(ArrayList<Float> normalCoordsObj) {
+    public void setNormalCoordsObj(List<Float> normalCoordsObj) {
         this.nCoordsObj = normalCoordsObj;
     }
 
-    public void setColorsObj(ArrayList<Float> colorsObj) {
+    public void setColorsObj(List<Float> colorsObj) {
         this.colorsObj = colorsObj;
     }
 
@@ -1253,15 +1222,15 @@ public class Tile {
         this.objFilename = objFilename;
     }
 
-    public void setTexOffsetsQuad(ArrayList<Integer> textureOffsets) {
+    public void setTexOffsetsQuad(List<Integer> textureOffsets) {
         this.texOffsetsQuad = textureOffsets;
     }
 
-    public void setTexOffsetsTri(ArrayList<Integer> textureOffsets) {
+    public void setTexOffsetsTri(List<Integer> textureOffsets) {
         this.texOffsetsTri = textureOffsets;
     }
 
-    public void setTextureIDs(ArrayList<Integer> textureIDs) {
+    public void setTextureIDs(List<Integer> textureIDs) {
         this.textureIDs = textureIDs;
     }
 
@@ -1273,11 +1242,11 @@ public class Tile {
         return (width == 1) && (height == 1);
     }
 
-    public void setFaceIndsQuads(ArrayList<Face> fInds) {
+    public void setFaceIndsQuads(List<Face> fInds) {
         this.fIndsQuad = fInds;
     }
 
-    public void setFaceIndsTris(ArrayList<Face> fInds) {
+    public void setFaceIndsTris(List<Face> fInds) {
         this.fIndsTri = fInds;
     }
 
@@ -1327,7 +1296,5 @@ public class Tile {
 
         writer.println("nCoordsTri");
         Utils.printArrayInFile(writer, nCoordsTri, 9);
-
     }
-
 }

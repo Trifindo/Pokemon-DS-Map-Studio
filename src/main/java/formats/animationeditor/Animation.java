@@ -1,6 +1,8 @@
 
 package formats.animationeditor;
 
+import java.util.Arrays;
+
 /**
  * @author Trifindo
  */
@@ -33,12 +35,9 @@ public class Animation {
     }
 
     public int size() {
-        for (int i = 0; i < frames.length; i++) {
-            if (frames[i] == 255) {
-                return i;
-            }
-        }
-        return frames.length;
+        return Arrays.stream(frames)
+                .filter(f -> f == 255)
+                .findFirst().orElse(frames.length);
     }
 
     public int getFrame(int index) {
@@ -78,19 +77,15 @@ public class Animation {
 
     public boolean removeFrame(int frameIndex) {
         int size = size();
-        if (size() > 1) {
-            if (frameIndex >= 0 && frameIndex < size) {
-                for (int i = frameIndex; i < size - 1; i++) {
-                    frames[i] = frames[i + 1];
-                    delays[i] = delays[i + 1];
-                }
-                frames[size - 1] = 255;
-                delays[size - 1] = 255;
-                return true;
+        if (size() > 1 && frameIndex >= 0 && frameIndex < size) {
+            for (int i = frameIndex; i < size - 1; i++) {
+                frames[i] = frames[i + 1];
+                delays[i] = delays[i + 1];
             }
+            frames[size - 1] = 255;
+            delays[size - 1] = 255;
+            return true;
         }
         return false;
-
     }
-
 }
