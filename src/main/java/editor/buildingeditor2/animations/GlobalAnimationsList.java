@@ -16,19 +16,23 @@ public class GlobalAnimationsList {
     private ArrayList<ModelAnimation> animations;
 
     public GlobalAnimationsList(Narc narc) {
-        final int numAnimations = narc.getRoot().getFiles().size();
+        ArrayList<NarcFile> files = narc.getRoot().getFiles();
+        final int numAnimations = files.size();
         animations = new ArrayList<>(numAnimations);
-        for (int i = 0; i < narc.getRoot().getFiles().size(); i++) {
-            animations.add(new ModelAnimation(narc.getRoot().getFiles().get(i).getData(), numAnimations));
+
+        for (int i = 0; i < files.size(); i++) {
+            animations.add(new ModelAnimation(files.get(i).getData(), numAnimations));
         }
     }
 
     public Narc toNarc() {
         NarcFolder root = new NarcFolder();
         ArrayList<NarcFile> files = new ArrayList<>(animations.size());
+
         for (ModelAnimation animation : animations) {
             files.add(new NarcFile("", root, animation.getData()));
         }
+
         root.setFiles(files);
         return new Narc(root);
     }
