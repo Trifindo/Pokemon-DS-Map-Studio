@@ -21,6 +21,9 @@ public class BuildAnimeListHGSS {
     public BuildAnimeListHGSS(Narc narc) {
         NarcFolder root = narc.getRoot();
         animations = new ArrayList<>(root.getFiles().size());
+
+        System.out.println("File " + root.getName() + " has been read.");
+
         for (NarcFile file : root.getFiles()) {
             try {
                 animations.add(new BuildAnimInfoHGSS(file.getData()));

@@ -3,7 +3,7 @@ package editor.buildingeditor2;
 
 import editor.buildingeditor2.buildmodel.BuildModelMatshp;
 import editor.buildingeditor2.buildmodel.BuildModelList;
-import editor.buildingeditor2.animations.BuildAnimations;
+import editor.buildingeditor2.animations.GlobalAnimationsList;
 import editor.buildingeditor2.animations.BuildAnimeListDPPt;
 import editor.buildingeditor2.areabuild.AreaBuild;
 import editor.buildingeditor2.areabuild.AreaBuildList;
@@ -37,7 +37,7 @@ public class BuildHandlerDPPt {
     private BuildModelList buildModelList;
     private BuildModelMatshp buildModelMatshp;
     private BuildAnimeListDPPt buildModelAnimeList;
-    private BuildAnimations buildModelAnims;
+    private GlobalAnimationsList buildModelAnims;
     private AreaDataListDPPt areaDataList;
     private BuildTilesetList buildTilesetList;
     private AreaBuildList areaBuildList;
@@ -81,7 +81,7 @@ public class BuildHandlerDPPt {
             System.out.println("buildModelAnimeList LOADED!");
 
             Narc buildModelAnimsNarc = NarcIO.loadNarc(getGameFilePath(gameFileSystem.getBuildModelAnimePath()));
-            buildModelAnims = new BuildAnimations(buildModelAnimsNarc);
+            buildModelAnims = new GlobalAnimationsList(buildModelAnimsNarc);
             System.out.println("buildModelAnims LOADED!");
 
             Narc areaDataListNarc = NarcIO.loadNarc(getGameFilePath(gameFileSystem.getAreaDataPath()));
@@ -268,7 +268,7 @@ public class BuildHandlerDPPt {
         return buildModelAnimeList;
     }
 
-    public BuildAnimations getBuildModelAnims() {
+    public GlobalAnimationsList getBuildModelAnims() {
         return buildModelAnims;
     }
 

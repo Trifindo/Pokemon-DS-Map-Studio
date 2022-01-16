@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 import javax.swing.border.*;
 import javax.swing.event.*;
 
@@ -23,7 +22,7 @@ public class AddBuildAnimationDialog extends JDialog {
 
     private byte[] buildModelData;
     private ArrayList<Integer> buildingAnimationIDs;
-    private BuildAnimations buildAnimations;
+    private GlobalAnimationsList globalAnimationsList;
 
     private ArrayList<Integer> animIconIndices;
     private ArrayList<ImageIcon> animIcons;
@@ -62,14 +61,14 @@ public class AddBuildAnimationDialog extends JDialog {
         indexSelected = jlAnimationsList.getSelectedIndex();
 
         try {
-            byte[] animData = buildAnimations.getAnimations().get(indexSelected).getData();
+            byte[] animData = globalAnimationsList.getAnimations().get(indexSelected).getData();
             ObjectGL object = nitroDisplayGL.getObjectGL(0);
             object.setNsbmdData(buildModelData);
             object.setNsbca(null);
             object.setNsbta(null);
             object.setNsbtp(null);
             object.setNsbva(null);
-            switch (buildAnimations.getAnimationType(indexSelected)) {
+            switch (globalAnimationsList.getAnimationType(indexSelected)) {
                 case ModelAnimation.TYPE_NSBCA:
                     object.setNsbcaData(animData);
                     break;
@@ -108,18 +107,18 @@ public class AddBuildAnimationDialog extends JDialog {
         dispose();
     }
 
-    public void init(byte[] buildModelData, BuildAnimations animations, ArrayList<Integer> buildingAnimationIDs) {
+    public void init(byte[] buildModelData, GlobalAnimationsList animations, ArrayList<Integer> buildingAnimationIDs) {
         this.buildModelData = buildModelData;
-        this.buildAnimations = animations;
+        this.globalAnimationsList = animations;
         this.buildingAnimationIDs = buildingAnimationIDs;
 
         updateViewAnimationsList(0);
     }
 
     private void updateViewAnimationsList(int indexSelected) {
-        if (buildAnimations != null) {
+        if (globalAnimationsList != null) {
             ArrayList<String> names = new ArrayList<>();
-            ArrayList<ModelAnimation> animations = buildAnimations.getAnimations();
+            ArrayList<ModelAnimation> animations = globalAnimationsList.getAnimations();
             animIconIndices = new ArrayList<>(animations.size());
             for (int i = 0; i < animations.size(); i++) {
                 names.add(String.valueOf(i) + ": "
