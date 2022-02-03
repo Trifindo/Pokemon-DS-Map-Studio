@@ -23,6 +23,7 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.jogamp.opengl.GLContext;
 import editor.about.AboutDialog;
+import editor.grid.MapGrid;
 import editor.mapgroups.SavePDSMAPAreasDialog;
 import editor.mapgroups.VisualizeExportGroupsDialog;
 import formats.animationeditor.AnimationEditorDialog;
@@ -565,6 +566,45 @@ public class MainFrame extends JFrame {
     private void jbFitCameraToMapActionPerformed(ActionEvent e) {
         mapDisplay.setCameraAtSelectedMap();
         mapDisplay.repaint();
+    }
+
+    private void jbMoveLayerUpActionPerformed(ActionEvent e) {
+        //Preliminary Check
+        int curIndex = handler.getActiveLayerIndex();
+        int indexUp = curIndex - 1;
+
+        if (indexUp < 0) {
+            indexUp += MapGrid.numLayers;
+        }
+
+        //Operation start
+        MapGrid mg = handler.getMapData().getGrid();
+
+        handler.copyLayer(indexUp); //backup top layer
+        mg.tileLayers[indexUp] = mg.tileLayers[curIndex]; //replace top layer tiles
+        mg.heightLayers[indexUp] = mg.heightLayers[curIndex]; //replace top layer heights
+        handler.pasteLayer(curIndex); //replace bottom layer with top's backup
+        handler.refreshLayer(indexUp); //also update top layer's graphics
+
+        handler.setActiveTileLayer(indexUp);
+    }
+    private void jbMoveLayerDownActionPerformed(ActionEvent e) {
+        //Preliminary Check
+        int curIndex = handler.getActiveLayerIndex();
+        int indexDown = curIndex + 1;
+
+        indexDown %= MapGrid.numLayers;
+
+        //Operation start
+        MapGrid mg = handler.getMapData().getGrid();
+
+        handler.copyLayer(indexDown); //backup bottom layer
+        mg.tileLayers[indexDown] = mg.tileLayers[curIndex]; //replace top layer tiles
+        mg.heightLayers[indexDown] = mg.heightLayers[curIndex]; //replace top layer heights
+        handler.pasteLayer(curIndex); //replace top layer with bottom's backup'
+        handler.refreshLayer(indexDown); //also update bottom layer's graphics
+
+        handler.setActiveTileLayer(indexDown);
     }
 
     private void jsSelectedAreaStateChanged(ChangeEvent e) {
@@ -2483,6 +2523,8 @@ public class MainFrame extends JFrame {
         jtbModeMove = new JToggleButton();
         jtbModeZoom = new JToggleButton();
         jbFitCameraToMap = new JButton();
+        jbMoveLayerUp = new JButton();
+        jbMoveLayerDown = new JButton();
         jpRightPanel = new JPanel();
         jtRightPanel = new JTabbedPane();
         jPanelMatrixInfo = new JPanel();
@@ -3629,6 +3671,26 @@ public class MainFrame extends JFrame {
                             jbFitCameraToMap.setVerticalTextPosition(SwingConstants.BOTTOM);
                             jbFitCameraToMap.addActionListener(e -> jbFitCameraToMapActionPerformed(e));
                             jtTools.add(jbFitCameraToMap);
+                            jtTools.addSeparator();
+
+                            //---- jbMoveLayerUp ----
+                            jbMoveLayerUp.setIcon(new ImageIcon(getClass().getResource("/icons/upIcon.png")));
+                            jbMoveLayerUp.setMinimumSize(new Dimension(30, 30));
+                            jbMoveLayerUp.setToolTipText("Move layer up");
+                            jbMoveLayerUp.setFocusable(false);
+                            jbMoveLayerUp.setHorizontalTextPosition(SwingConstants.CENTER);
+                            jbMoveLayerUp.setVerticalTextPosition(SwingConstants.BOTTOM);
+                            jbMoveLayerUp.addActionListener(e -> jbMoveLayerUpActionPerformed(e));
+                            jtTools.add(jbMoveLayerUp);
+
+                            //---- jbMoveLayerDown ----
+                            jbMoveLayerDown.setIcon(new ImageIcon(getClass().getResource("/icons/downIcon.png")));
+                            jbMoveLayerDown.setToolTipText("Move layer down");
+                            jbMoveLayerDown.setFocusable(false);
+                            jbMoveLayerDown.setHorizontalTextPosition(SwingConstants.CENTER);
+                            jbMoveLayerDown.setVerticalTextPosition(SwingConstants.BOTTOM);
+                            jbMoveLayerDown.addActionListener(e -> jbMoveLayerDownActionPerformed(e));
+                            jtTools.add(jbMoveLayerDown);
                         }
 
                         GroupLayout jpToolsLayout = new GroupLayout(jpTools);
@@ -4085,6 +4147,7 @@ public class MainFrame extends JFrame {
         buttonGroupDrawMode.add(jtbModeInvSmartPaint);
         buttonGroupDrawMode.add(jtbModeMove);
         buttonGroupDrawMode.add(jtbModeZoom);
+        buttonGroupDrawMode.add(jbMoveLayerUp);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
@@ -4199,6 +4262,8 @@ public class MainFrame extends JFrame {
     private JToggleButton jtbModeMove;
     private JToggleButton jtbModeZoom;
     private JButton jbFitCameraToMap;
+    private JButton jbMoveLayerUp;
+    private JButton jbMoveLayerDown;
     private JPanel jpRightPanel;
     private JTabbedPane jtRightPanel;
     private JPanel jPanelMatrixInfo;
