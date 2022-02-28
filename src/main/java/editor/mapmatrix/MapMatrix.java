@@ -415,11 +415,13 @@ public class MapMatrix {
 
                     if (groupCenterCoords == null) { //User didn't specify a center map for this group
                         TreeSet<Point> pointTS = new TreeSet<>(new PointComparator());
-                        for (Point p : currentExportGroup.keySet())
+                        for (Point p : currentExportGroup.keySet()) {
                             pointTS.add(p);
+						}
 
                         lowestXcoord = (int) pointTS.first().getX();
                         lowestYcoord = (int) pointTS.first().getY();
+						groupCenterCoords = new Point(lowestXcoord, lowestYcoord);
                     } else {
                         lowestXcoord = (int)groupCenterCoords.getX();
                         lowestYcoord = (int)groupCenterCoords.getY();
@@ -433,10 +435,8 @@ public class MapMatrix {
                         newExportGroup.put(currentPoint, mapEntry.getValue());
                     }
 
-                    objFilePath = folderPath + File.separator + fileName + "Group" + index + ".obj";
-                    ObjWriter writer = new ObjWriter(handler.getTileset(), newExportGroup, objFilePath, handler.getGameIndex(),
-                            saveTextures, includeVertexColors, tileUpscale);
-                    writer.writeMapObj();
+                    objFilePath = getFilePathWithCoords(matrix, folderPath, fileName + "_Group" + index + "_", groupCenterCoords, ".obj");
+                    new ObjWriter(handler.getTileset(), newExportGroup, objFilePath, handler.getGameIndex(), saveTextures includeVertexColors, tileUpscale).writeMapObj();
                 } 
             }
         }
