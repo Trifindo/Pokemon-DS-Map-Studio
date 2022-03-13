@@ -435,7 +435,7 @@ public class MapMatrix {
                         newExportGroup.put(currentPoint, mapEntry.getValue());
                     }
 
-                    objFilePath = getFilePathWithCoords(matrix, folderPath, fileName + "_Group" + index + "_", groupCenterCoords, ".obj");
+                    objFilePath = getFilePathWithCoords(matrix, folderPath, fileName + "_Group" + index + "_", groupCenterCoords, "obj");
                     new ObjWriter(handler.getTileset(), newExportGroup, objFilePath, handler.getGameIndex(), saveTextures includeVertexColors, tileUpscale).writeMapObj();
                 } 
             }
