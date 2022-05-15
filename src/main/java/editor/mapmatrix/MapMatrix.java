@@ -435,7 +435,18 @@ public class MapMatrix {
                         newExportGroup.put(currentPoint, mapEntry.getValue());
                     }
 
-                    objFilePath = getFilePathWithCoords(matrix, folderPath, fileName + "_Group" + index + "_", groupCenterCoords, "obj");
+                    final String groupSuffix = "Group";
+                    final String groupIndexSuffix = groupSuffix + index;
+                    final String underscoreGroupIndexSuffix = '_' + groupIndexSuffix;
+
+                    if (fileName.toUpperCase().indexOf(underscoreGroupIndexSuffix.toUpperCase()) >= 0) { //"toUpperCase" comparison is good enough for most scenarios
+                        objFilePath = folderPath + File.separator + fileName + "." + "obj"; //from getFilePathWithCoords
+                    } else if (fileName.toUpperCase().indexOf(groupIndexSuffix.toUpperCase()) == 0) { //"toUpperCase" comparison is good enough for most scenarios
+                        objFilePath = getFilePathWithCoords(matrix, folderPath, fileName.substring(0, groupIndexSuffix.length()) + '_', groupCenterCoords, "obj");
+                    } else {
+                        objFilePath = getFilePathWithCoords(matrix, folderPath, fileName + groupSuffix + '_', groupCenterCoords, "obj");
+                    }
+					
                     new ObjWriter(handler.getTileset(), newExportGroup, objFilePath, handler.getGameIndex(), saveTextures includeVertexColors, tileUpscale).writeMapObj();
                 } 
             }
