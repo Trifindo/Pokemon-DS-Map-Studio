@@ -1839,10 +1839,9 @@ public class BuildingEditorDialogHGSS extends JDialog {
         }
 
         try {
-            int index = jlBuildFile.getSelectedIndex() + 1;
-            if (index > 0) {
-                nitroDisplayMap.getObjectsGL().get(jlBuildFile.getSelectedIndex() + 1).setDrawBounds(true);
-            }
+            final int downLimitZero = Math.max(0, jlBuildFile.getSelectedIndex() + 1);
+            final int index = Math.min(downLimitZero, jlBuildFile.getModel().getSize());
+            nitroDisplayMap.getObjectsGL().get(index).setDrawBounds(true);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
