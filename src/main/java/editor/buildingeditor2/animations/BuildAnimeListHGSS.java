@@ -16,19 +16,19 @@ public class BuildAnimeListHGSS {
     //private ArrayList<ArrayList<Integer>> animations;
     //private ArrayList<Byte> secondBytes;
 
-    private ArrayList<BuildAnimInfoHGSS> animations;
+    private ArrayList<BuildAnimInfoHGSS> animationConfigFiles;
 
     public BuildAnimeListHGSS(Narc narc) {
         NarcFolder root = narc.getRoot();
-        animations = new ArrayList<>(root.getFiles().size());
+        animationConfigFiles = new ArrayList<>(root.getFiles().size());
 
         System.out.println("File " + root.getName() + " has been read.");
 
         for (NarcFile file : root.getFiles()) {
             try {
-                animations.add(new BuildAnimInfoHGSS(file.getData()));
+                animationConfigFiles.add(new BuildAnimInfoHGSS(file.getData()));
             } catch (Exception ex) {
-                animations.add(new BuildAnimInfoHGSS());
+                animationConfigFiles.add(new BuildAnimInfoHGSS());
             }
         }
     }
@@ -36,8 +36,8 @@ public class BuildAnimeListHGSS {
     public Narc toNarc() throws Exception {
         NarcFolder root = new NarcFolder();
 
-        ArrayList<NarcFile> files = new ArrayList<>(animations.size());
-        for (BuildAnimInfoHGSS anim : animations) {
+        ArrayList<NarcFile> files = new ArrayList<>(animationConfigFiles.size());
+        for (BuildAnimInfoHGSS anim : animationConfigFiles) {
             files.add(new NarcFile("", root, anim.toByteArray()));
         }
         root.setFiles(files);
@@ -92,12 +92,12 @@ public class BuildAnimeListHGSS {
     public void addBuildingAnimation(ArrayList<Integer> newAnimations, byte secondByte) {
         BuildAnimInfoHGSS anim = new BuildAnimInfoHGSS();
         anim.setAnimIDs(newAnimations);
-        animations.add(anim);
+        animationConfigFiles.add(anim);
     }
 
     public void addBuildingAnimation(int buildIndex, int animationIndex) {
-        if (buildIndex >= 0 && buildIndex < animations.size()) {
-            ArrayList<Integer> buildAnimations = animations.get(buildIndex).getAnimIDs();
+        if (buildIndex >= 0 && buildIndex < animationConfigFiles.size()) {
+            ArrayList<Integer> buildAnimations = animationConfigFiles.get(buildIndex).getAnimIDs();
             if (buildAnimations.size() < BuildAnimInfoHGSS.MAX_ANIMS_PER_BUILDING) {
                 buildAnimations.add(animationIndex);
             }
@@ -105,20 +105,20 @@ public class BuildAnimeListHGSS {
     }
 
     public void removeBuildingAnimation(int buildIndex, int animationIndex) {
-        if (buildIndex >= 0 && buildIndex < animations.size()) {
-            ArrayList<Integer> buildAnimations = animations.get(buildIndex).getAnimIDs();
+        if (buildIndex >= 0 && buildIndex < animationConfigFiles.size()) {
+            ArrayList<Integer> buildAnimations = animationConfigFiles.get(buildIndex).getAnimIDs();
             if (!buildAnimations.isEmpty()) {
                 buildAnimations.remove(animationIndex);
                 if (buildAnimations.isEmpty()) {
-                    animations.get(buildIndex).setAnimIDs(new ArrayList<>());
+                    animationConfigFiles.get(buildIndex).setAnimIDs(new ArrayList<>());
                 }
             }
         }
     }
 
     public void replaceBuildingAnimation(int buildIndex, int animationIndex, int oldAnimationIndex) {
-        if (buildIndex >= 0 && buildIndex < animations.size()) {
-            ArrayList<Integer> buildAnimations = animations.get(buildIndex).getAnimIDs();
+        if (buildIndex >= 0 && buildIndex < animationConfigFiles.size()) {
+            ArrayList<Integer> buildAnimations = animationConfigFiles.get(buildIndex).getAnimIDs();
             if (oldAnimationIndex >= 0 && oldAnimationIndex < buildAnimations.size()) {
                 buildAnimations.set(oldAnimationIndex, animationIndex);
             }
@@ -126,19 +126,19 @@ public class BuildAnimeListHGSS {
     }
 
     public void replaceBuildingAnimationIDs(int index, ArrayList<Integer> newAnimations) {
-        if (index >= 0 && index < animations.size()) {
-            animations.get(index).setAnimIDs(newAnimations);
+        if (index >= 0 && index < animationConfigFiles.size()) {
+            animationConfigFiles.get(index).setAnimIDs(newAnimations);
         }
     }
 
     public void removeBuildingAnimation(int index) {
-        if (index >= 0 && index < animations.size()) {
-            animations.remove(index);
+        if (index >= 0 && index < animationConfigFiles.size()) {
+            animationConfigFiles.remove(index);
         }
     }
 
-    public ArrayList<BuildAnimInfoHGSS> getAnimations() {
-        return animations;
+    public ArrayList<BuildAnimInfoHGSS> getAnimationConfigFiles() {
+        return animationConfigFiles;
     }
 
 }

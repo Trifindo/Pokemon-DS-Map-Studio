@@ -33,7 +33,6 @@ import utils.Utils.MutableBoolean;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -364,12 +363,12 @@ public class BuildingEditorDialogDPPt extends JDialog {
     private void jbAddAnimToBuildActionPerformed(ActionEvent evt) {
         if (buildHandler.getBuildModelList() != null
                 && buildHandler.getBuildModelAnimeList() != null
-                && buildHandler.getBuildModelAnims() != null) {
+                && buildHandler.getGlobalAnimationsList() != null) {
             ArrayList<Integer> animations = buildHandler.getBuildModelAnimeList().getAnimations().get(jlBuildModel.getSelectedIndex());
             if (animations.isEmpty() || animations.size() < BuildAnimeListDPPt.MAX_ANIMS_PER_BUILDING) {
                 final AddBuildAnimationDialog dialog = new AddBuildAnimationDialog(handler.getMainFrame());
                 dialog.init(buildHandler.getBuildModelList().getModelsData().get(jlBuildModel.getSelectedIndex()),
-                        buildHandler.getBuildModelAnims(),
+                        buildHandler.getGlobalAnimationsList(),
                         buildHandler.getBuildModelAnimeList().getAnimations().get(jlBuildModel.getSelectedIndex()));
                 dialog.setLocationRelativeTo(this);
                 dialog.setVisible(true);
@@ -388,11 +387,11 @@ public class BuildingEditorDialogDPPt extends JDialog {
     private void jbReplaceAnimToBuildActionPerformed(ActionEvent evt) {
         if (buildHandler.getBuildModelList() != null
                 && buildHandler.getBuildModelAnimeList() != null
-                && buildHandler.getBuildModelAnims() != null) {
+                && buildHandler.getGlobalAnimationsList() != null) {
             if (buildHandler.getBuildModelAnimeList().getAnimations().get(jlBuildModel.getSelectedIndex()).size() > 0) {
                 final AddBuildAnimationDialog dialog = new AddBuildAnimationDialog(handler.getMainFrame());
                 dialog.init(buildHandler.getBuildModelList().getModelsData().get(jlBuildModel.getSelectedIndex()),
-                        buildHandler.getBuildModelAnims(),
+                        buildHandler.getGlobalAnimationsList(),
                         buildHandler.getBuildModelAnimeList().getAnimations().get(jlBuildModel.getSelectedIndex()));
                 dialog.setLocationRelativeTo(this);
                 dialog.setVisible(true);
@@ -407,7 +406,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
     private void jbRemoveAnimToBuildActionPerformed(ActionEvent evt) {
         if (buildHandler.getBuildModelList() != null
                 && buildHandler.getBuildModelAnimeList() != null
-                && buildHandler.getBuildModelAnims() != null) {
+                && buildHandler.getGlobalAnimationsList() != null) {
             buildHandler.removeBuildingAnimation(jlBuildModel.getSelectedIndex(), jlSelectedAnimationsList.getSelectedIndex());
             updateViewSelectedBuildAnimationsList(jlSelectedAnimationsList.getSelectedIndex() - 1);
         }
@@ -447,7 +446,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
     }
 
     private void jbAddAnimActionPerformed(ActionEvent evt) {
-        if (buildHandler.getBuildModelAnims() != null) {
+        if (buildHandler.getGlobalAnimationsList() != null) {
             final JFileChooser fc = new JFileChooser();
             if (handler.getLastBuildDirectoryUsed() != null) {
                 fc.setCurrentDirectory(new File(handler.getLastBuildDirectoryUsed()));
@@ -472,7 +471,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
     }
 
     private void jbReplaceAnimActionPerformed(ActionEvent evt) {
-        if (buildHandler.getBuildModelAnims() != null) {
+        if (buildHandler.getGlobalAnimationsList() != null) {
             final JFileChooser fc = new JFileChooser();
             if (handler.getLastBuildDirectoryUsed() != null) {
                 fc.setCurrentDirectory(new File(handler.getLastBuildDirectoryUsed()));
@@ -497,18 +496,18 @@ public class BuildingEditorDialogDPPt extends JDialog {
     }
 
     private void jbExportAnimationActionPerformed(ActionEvent evt) {
-        if (buildHandler.getBuildModelAnims() != null) {
+        if (buildHandler.getGlobalAnimationsList() != null) {
             final JFileChooser fc = new JFileChooser();
             if (handler.getLastBuildDirectoryUsed() != null) {
                 fc.setCurrentDirectory(new File(handler.getLastBuildDirectoryUsed()));
             }
-            String type = buildHandler.getBuildModelAnims().getAnimations().get(jlAnimationsList.getSelectedIndex()).getExtensionName();
+            String type = buildHandler.getGlobalAnimationsList().getAnimations().get(jlAnimationsList.getSelectedIndex()).getExtensionName();
 
             fc.setFileFilter(new FileNameExtensionFilter(type.toUpperCase() + " (*." + type + ")", type));
             fc.setApproveButtonText("Save");
             fc.setDialogTitle("Save the Animation");
             try {//TODO: Replace this with some index bounds cheking?
-                String fileName = buildHandler.getBuildModelAnims().getAnimations().get(jlAnimationsList.getSelectedIndex()).getName();
+                String fileName = buildHandler.getGlobalAnimationsList().getAnimations().get(jlAnimationsList.getSelectedIndex()).getName();
                 fc.setSelectedFile(new File(fileName + "." + type));
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -668,34 +667,9 @@ public class BuildingEditorDialogDPPt extends JDialog {
         if (buildHandler.getBuildModelAnimeList() != null) {
             try {
                 ArrayList<Integer> animIDs = buildHandler.getBuildModelAnimeList().getAnimations().get(jlBuildModel.getSelectedIndex());
-                ModelAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIDs.get(jlSelectedAnimationsList.getSelectedIndex()));
+                ModelAnimation anim = buildHandler.getGlobalAnimationsList().getAnimations().get(animIDs.get(jlSelectedAnimationsList.getSelectedIndex()));
 
                 loadAnimationInNitroDisplay(nitroDisplayGL, 0, anim);
-
-
-                /*
-                if (anim.getAnimationType() == BuildAnimation.TYPE_NSBCA) {
-                    NSBCAreader reader = new NSBCAreader(new ByteReader(anim.getData()));
-                    nitroDisplayGL.getObjectGL(0).setNsbca((NSBCA) reader.readFile());
-                    nitroDisplayGL.requestUpdate();
-                } else if (anim.getAnimationType() == BuildAnimation.TYPE_NSBTA) {
-                    NSBTAreader reader = new NSBTAreader(new ByteReader(anim.getData()));
-                    nitroDisplayGL.getObjectGL(0).setNsbta((NSBTA) reader.readFile());
-                    nitroDisplayGL.requestUpdate();
-                } else if (anim.getAnimationType() == BuildAnimation.TYPE_NSBTP) {
-                    NSBTPreader reader = new NSBTPreader(new ByteReader(anim.getData()));
-                    nitroDisplayGL.getObjectGL(0).setNsbtp((NSBTP) reader.readFile());
-                    nitroDisplayGL.requestUpdate();
-                //} else if (anim.getAnimationType() == BuildAnimation.TYPE_NSBMA) {
-                //    NSBMAreader reader = new NSBMAreader(new ByteReader(anim.getData()));
-                //    nitroDisplayGL1.getHandler().setNsbma((NSBMA) reader.readFile());
-                //    nitroDisplayGL1.requestUpdate();
-                } else if (anim.getAnimationType() == BuildAnimation.TYPE_NSBVA) {
-                    NSBVAreader reader = new NSBVAreader(new ByteReader(anim.getData()));
-                    nitroDisplayGL1.getHandler().setNsbva((NSBVA) reader.readFile());
-                    nitroDisplayGL1.requestUpdate();
-                }
-                */
             } catch (Exception ex) {
                 //ex.printStackTrace();
             }
@@ -1128,6 +1102,20 @@ public class BuildingEditorDialogDPPt extends JDialog {
         }
     }
 
+    private void jlSelectedAnimationsListValueChanged(ListSelectionEvent e) {
+        if (buildHandler.getBuildModelAnimeList() != null) {
+            try {
+                ArrayList<Integer> animIDs = buildHandler.getBuildModelAnimeList().getAnimations().get(jlBuildModel.getSelectedIndex());
+                ModelAnimation anim = buildHandler.getGlobalAnimationsList().getAnimations().get(animIDs.get(jlSelectedAnimationsList.getSelectedIndex()));
+
+                int animType = anim.getAnimationType();
+                jbPlay.setEnabled(animType != ModelAnimation.TYPE_NSBVA && animType != ModelAnimation.TYPE_NSBMA);
+            } catch (Exception ex) {
+                //ex.printStackTrace();
+            }
+        }
+    }
+
     private void jsBuildIDStateChanged(ChangeEvent evt) {
         if (buildPropertiesEnabled.value) {
             try {
@@ -1454,7 +1442,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
     }
 
     private void updateViewSelectedBuildAnimationsList(int indexSelected) {
-        if (buildHandler.getBuildModelAnimeList() != null && buildHandler.getBuildModelAnims() != null) {
+        if (buildHandler.getBuildModelAnimeList() != null && buildHandler.getGlobalAnimationsList() != null) {
             jcbAnimationTypeEnabled.value = false;
             ArrayList<String> names = new ArrayList<>();
             //System.out.println("Build model index: " + jlBuildModel.getSelectedIndex());
@@ -1463,9 +1451,9 @@ public class BuildingEditorDialogDPPt extends JDialog {
                 selectedAnimIconIndices = new ArrayList<>(animations.size());
                 for (Integer animID : animations) {
                     names.add(String.valueOf(animID) + ": "
-                            + buildHandler.getBuildModelAnims().getAnimations().get(animID).getName() + " ["
-                            + buildHandler.getBuildModelAnims().getAnimationTypeName(animID) + "]");
-                    selectedAnimIconIndices.add(buildHandler.getBuildModelAnims().getAnimationType(animID));
+                            + buildHandler.getGlobalAnimationsList().getAnimations().get(animID).getName() + " ["
+                            + buildHandler.getGlobalAnimationsList().getAnimationTypeName(animID) + "]");
+                    selectedAnimIconIndices.add(buildHandler.getGlobalAnimationsList().getAnimationType(animID));
                 }
             }
             addElementsToList(jlSelectedAnimationsList, names, indexSelected);
@@ -1540,9 +1528,9 @@ public class BuildingEditorDialogDPPt extends JDialog {
     }
 
     private void updateViewAnimationsList(int indexSelected) {
-        if (buildHandler.getBuildModelAnims() != null) {
+        if (buildHandler.getGlobalAnimationsList() != null) {
             ArrayList<String> names = new ArrayList<>();
-            ArrayList<ModelAnimation> animations = buildHandler.getBuildModelAnims().getAnimations();
+            ArrayList<ModelAnimation> animations = buildHandler.getGlobalAnimationsList().getAnimations();
             animIconIndices = new ArrayList<>(animations.size());
             for (int i = 0; i < animations.size(); i++) {
                 names.add(String.valueOf(i) + ": "
@@ -1625,7 +1613,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
 
             try {
                 for (Integer animIndex : buildHandler.getBuildModelAnimeList().getAnimations().get(build.getModeID())) {
-                    ModelAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIndex);
+                    ModelAnimation anim = buildHandler.getGlobalAnimationsList().getAnimations().get(animIndex);
                     loadAnimationInNitroDisplay(nitroDisplayMap, 1 + i, anim);
                 }
             } catch (Exception ex) {
@@ -1666,8 +1654,8 @@ public class BuildingEditorDialogDPPt extends JDialog {
             }
             object.setNsbmdData(data);
 
-            for (Integer animIndex : buildHandler.getBuildModelAnimeList().getAnimations().get(build.getModeID())) {
-                BuildAnimation anim = buildHandler.getBuildModelAnims().getAnimations().get(animIndex);
+            for (Integer animIndex : buildHandler.getBuildModelAnimeList().getAnimationConfigFiles().get(build.getModeID())) {
+                BuildAnimation anim = buildHandler.getGlobalAnimationsList().getAnimationConfigFiles().get(animIndex);
                 loadAnimationInNitroDisplay(nitroDisplayMap, 1 + i, anim);
             }
 
@@ -2254,6 +2242,7 @@ ex.printStackTrace();
                             public String getElementAt(int i) { return values[i]; }
                         });
                         jlSelectedAnimationsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                        jlSelectedAnimationsList.addListSelectionListener(e -> jlSelectedAnimationsListValueChanged(e));
                         jScrollPane3.setViewportView(jlSelectedAnimationsList);
                     }
                     jPanel8.add(jScrollPane3, "cell 0 1");
