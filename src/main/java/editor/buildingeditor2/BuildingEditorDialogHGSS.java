@@ -1958,7 +1958,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
                 nitroDisplayMap.requestUpdate();
             } else {
                 File[] files = findFilesWithExtension(new File(handler.getMapMatrix().filePath).getParent(), "nsbmd");
-                if (files.length > 0) {
+                if (files != null && files.length > 0) {
                     byte[] mapData = Files.readAllBytes(files[0].toPath());
                     nitroDisplayMap.getObjectGL(0).setNsbmdData(mapData);
                     nitroDisplayMap.requestUpdate();
@@ -1973,7 +1973,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
     public void tryLoadBuildFile() {
         try {
             File[] files = findFilesWithExtension(new File(handler.getMapMatrix().filePath).getParent(), "nsbmd");
-            if (files.length > 0) {
+            if (files != null && files.length > 0) {
 
                 byte[] mapData = Files.readAllBytes(files[0].toPath());
                 nitroDisplayMap.getObjectGL(0).setNsbmdData(mapData);
@@ -1999,7 +1999,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
                 nitroDisplayMapAnims.requestUpdate();
             } else {
                 File[] files = findFilesWithExtension(new File(handler.getMapMatrix().filePath).getParent(), "nsbmd");
-                if (files.length > 0) {
+                if (files != null && files.length > 0) {
                     byte[] mapData = Files.readAllBytes(files[0].toPath());
                     nitroDisplayMapAnims.getObjectGL(0).setNsbmdData(mapData);
                     nitroDisplayMapAnims.requestUpdate();
@@ -2018,20 +2018,19 @@ public class BuildingEditorDialogHGSS extends JDialog {
     }
 
     private static File[] findFilesWithExtension(String folderPath, String extension) {
+        if (folderPath == null) {
+            return null;
+        }
         File dir = new File(folderPath);
 
-        return dir.listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String filename) {
-                return filename.endsWith(extension);
-            }
-        });
+        return dir.listFiles((dir1, filename) -> filename.endsWith(extension));
     }
 
     private static void addElementsToList(JList list, MutableBoolean listEnabled, String name, int numElements, int indexSelected) {
         listEnabled.value = false;
         DefaultListModel listModel = new DefaultListModel();
         for (int i = 0; i < numElements; i++) {
-            listModel.addElement(name + " " + String.valueOf(i));
+            listModel.addElement(name + " " + i);
         }
         list.setModel(listModel);
         listEnabled.value = true;
@@ -2046,7 +2045,7 @@ public class BuildingEditorDialogHGSS extends JDialog {
         listEnabled.value = false;
         DefaultListModel listModel = new DefaultListModel();
         for (int i = 0; i < elements.size(); i++) {
-            listModel.addElement(String.valueOf(i) + ": " + elements.get(i));
+            listModel.addElement(i + ": " + elements.get(i));
         }
         list.setModel(listModel);
         listEnabled.value = true;
