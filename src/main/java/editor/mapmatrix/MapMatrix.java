@@ -447,7 +447,7 @@ public class MapMatrix {
                         objFilePath = getFilePathWithCoords(matrix, folderPath, fileName + groupSuffix + '_', groupCenterCoords, "obj");
                     }
 					
-                    new ObjWriter(handler.getTileset(), newExportGroup, objFilePath, handler.getGameIndex(), saveTextures includeVertexColors, tileUpscale).writeMapObj();
+                    new ObjWriter(handler.getTileset(), newExportGroup, objFilePath, handler.getGameIndex(), saveTextures, includeVertexColors, tileUpscale).writeMapObj();
                 } 
             }
         }
