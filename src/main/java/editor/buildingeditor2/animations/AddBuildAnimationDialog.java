@@ -31,11 +31,14 @@ public class AddBuildAnimationDialog extends JDialog {
         super(owner);
         initComponents();
 
-        animIcons = new ArrayList<>(4);
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbcaIcon.png")));
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbtaIcon.png")));
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbtpIcon.png")));
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbmaIcon.png")));
+        final Class c = getClass();
+
+        animIcons = new ArrayList<>(5);
+        animIcons.add(new ImageIcon(c.getResource("/icons/NsbcaIcon.png")));
+        animIcons.add(new ImageIcon(c.getResource("/icons/NsbtaIcon.png")));
+        animIcons.add(new ImageIcon(c.getResource("/icons/NsbtpIcon.png")));
+        animIcons.add(new ImageIcon(c.getResource("/icons/NsbmaIcon.png")));
+        animIcons.add(new ImageIcon(c.getResource("/icons/NsbvaIcon.png")));
 
         animIconIndices = new ArrayList<>();
 

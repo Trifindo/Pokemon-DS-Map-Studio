@@ -26,6 +26,8 @@ import formats.nsbtx2.NsbtxWriter;
 
 import java.awt.Color;
 
+import nitroreader.nsbva.NSBVA;
+import nitroreader.nsbva.NSBVAreader;
 import utils.Utils.MutableBoolean;
 
 import java.awt.Component;
@@ -99,21 +101,25 @@ public class BuildingEditorDialogDPPt extends JDialog {
     public BuildingEditorDialogDPPt(Window owner) {
         super(owner);
         initComponents();
-        jTabbedPane1.setIconAt(0, new ImageIcon(getClass().getResource("/icons/BuildingIcon.png")));
-        jTabbedPane1.setIconAt(1, new ImageIcon(getClass().getResource("/icons/AreaDataIcon.png")));
-        jTabbedPane1.setIconAt(2, new ImageIcon(getClass().getResource("/icons/NsbtxIcon.png")));
-        jTabbedPane1.setIconAt(3, new ImageIcon(getClass().getResource("/icons/AnimationIcon.png")));
-        jTabbedPane1.setIconAt(4, new ImageIcon(getClass().getResource("/icons/mapIcon.png")));
 
-        nsbmdIcon = new ImageIcon(getClass().getResource("/icons/NsbmdIcon.png"));
-        nsbtxIcon = new ImageIcon(getClass().getResource("/icons/NsbtxIcon.png"));
-        areaDataIcon = new ImageIcon(getClass().getResource("/icons/AreaDataIcon.png"));
+        final Class c = getClass();
 
-        animIcons = new ArrayList<>(4);
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbcaIcon.png")));
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbtaIcon.png")));
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbtpIcon.png")));
-        animIcons.add(new ImageIcon(getClass().getResource("/icons/NsbmaIcon.png")));
+        nsbmdIcon = new ImageIcon(c.getResource("/icons/NsbmdIcon.png"));
+        nsbtxIcon = new ImageIcon(c.getResource("/icons/NsbtxIcon.png"));
+        areaDataIcon = new ImageIcon(c.getResource("/icons/AreaDataIcon.png"));
+
+        jTabbedPane1.setIconAt(0, new ImageIcon(c.getResource("/icons/BuildingIcon.png")));
+        jTabbedPane1.setIconAt(1, new ImageIcon(c.getResource("/icons/AreaDataIcon.png")));
+        jTabbedPane1.setIconAt(2, nsbtxIcon);
+        jTabbedPane1.setIconAt(3, new ImageIcon(c.getResource("/icons/AnimationIcon.png")));
+        jTabbedPane1.setIconAt(4, new ImageIcon(c.getResource("/icons/mapIcon.png")));
+
+        animIcons = new ArrayList<>(5);
+        animIcons.add(new ImageIcon(c.getResource("/icons/NsbcaIcon.png")));
+        animIcons.add(new ImageIcon(c.getResource("/icons/NsbtaIcon.png")));
+        animIcons.add(new ImageIcon(c.getResource("/icons/NsbtpIcon.png")));
+        animIcons.add(new ImageIcon(c.getResource("/icons/NsbmaIcon.png")));
+        animIcons.add(new ImageIcon(c.getResource("/icons/NsbvaIcon.png")));
 
         selectedAnimIconIndices = new ArrayList<>();
         animIconIndices = new ArrayList<>();
@@ -446,7 +452,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             if (handler.getLastBuildDirectoryUsed() != null) {
                 fc.setCurrentDirectory(new File(handler.getLastBuildDirectoryUsed()));
             }
-            fc.setFileFilter(new FileNameExtensionFilter("Animation Files (*.nsbca, *.nsbta, *.nsbtp, *.nsbma)", "nsbca", "nsbta", "nsbtp", "nsbma"));
+            fc.setFileFilter(new FileNameExtensionFilter("Animation Files (*.nsbca, *.nsbta, *.nsbtp, *.nsbma, *.nsbva)", "nsbca", "nsbta", "nsbtp", "nsbma", "nsbva"));
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Add a new Animation");
             final int returnVal = fc.showOpenDialog(this);
@@ -471,7 +477,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             if (handler.getLastBuildDirectoryUsed() != null) {
                 fc.setCurrentDirectory(new File(handler.getLastBuildDirectoryUsed()));
             }
-            fc.setFileFilter(new FileNameExtensionFilter("Animation Files (*.nsbca, *.nsbta, *.nsbtp, *.nsbma)", "nsbca", "nsbta", "nsbtp", "nsbma"));
+            fc.setFileFilter(new FileNameExtensionFilter("Animation Files (*.nsbca, *.nsbta, *.nsbtp, *.nsbma, *.nsbva)", "nsbca", "nsbta", "nsbtp", "nsbma", "nsbva"));
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Select the new Animation");
             final int returnVal = fc.showOpenDialog(this);
@@ -666,6 +672,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
 
                 loadAnimationInNitroDisplay(nitroDisplayGL, 0, anim);
 
+
                 /*
                 if (anim.getAnimationType() == BuildAnimation.TYPE_NSBCA) {
                     NSBCAreader reader = new NSBCAreader(new ByteReader(anim.getData()));
@@ -679,12 +686,16 @@ public class BuildingEditorDialogDPPt extends JDialog {
                     NSBTPreader reader = new NSBTPreader(new ByteReader(anim.getData()));
                     nitroDisplayGL.getObjectGL(0).setNsbtp((NSBTP) reader.readFile());
                     nitroDisplayGL.requestUpdate();
-                }*/
- /*else if (anim.getAnimationType() == BuildAnimation.TYPE_NSBMA) {
-                    NSBMAreader reader = new NSBMAreader(new ByteReader(anim.getData()));
-                    nitroDisplayGL1.getHandler().setNsbma((NSBMA) reader.readFile());
+                //} else if (anim.getAnimationType() == BuildAnimation.TYPE_NSBMA) {
+                //    NSBMAreader reader = new NSBMAreader(new ByteReader(anim.getData()));
+                //    nitroDisplayGL1.getHandler().setNsbma((NSBMA) reader.readFile());
+                //    nitroDisplayGL1.requestUpdate();
+                } else if (anim.getAnimationType() == BuildAnimation.TYPE_NSBVA) {
+                    NSBVAreader reader = new NSBVAreader(new ByteReader(anim.getData()));
+                    nitroDisplayGL1.getHandler().setNsbva((NSBVA) reader.readFile());
                     nitroDisplayGL1.requestUpdate();
-                }*/
+                }
+                */
             } catch (Exception ex) {
                 //ex.printStackTrace();
             }
@@ -1721,6 +1732,11 @@ public class BuildingEditorDialogDPPt extends JDialog {
             nitroDisplayGL1.getHandler().setNsbma((NSBMA) reader.readFile());
             nitroDisplayGL1.requestUpdate();
         }*/
+        else if (anim.getAnimationType() == ModelAnimation.TYPE_NSBVA) {
+            NSBVAreader reader = new NSBVAreader(new ByteReader(anim.getData()));
+            display.getObjectGL(objectIndex).setNsbva((NSBVA) reader.readFile());
+            display.requestUpdate();
+        }
     }
 
     public void tryLoadBuildFile() {
