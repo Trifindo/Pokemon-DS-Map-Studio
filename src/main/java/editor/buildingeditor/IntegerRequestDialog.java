@@ -12,7 +12,7 @@ import net.miginfocom.swing.*;
  * @author Trifindo, JackHack96
  */
 public class IntegerRequestDialog extends JDialog {
-    public static final int ACEPTED = 0, CANCELED = 1;
+    public static final int ACCEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int value = 0;
     private int min = 1;
@@ -27,13 +27,13 @@ public class IntegerRequestDialog extends JDialog {
         try {
             value = Integer.parseInt(jTextField1.getText());
             if (value >= min && value <= max) {
-                returnValue = ACEPTED;
+                returnValue = ACCEPTED;
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this,
                         "The number must be inside the bounds ["
-                                + String.valueOf(min) + ", "
-                                + String.valueOf(max) + "]",
+                                + min + ", "
+                                + max + "]",
                         "Number is out of bounds",
                         JOptionPane.ERROR_MESSAGE);
             }

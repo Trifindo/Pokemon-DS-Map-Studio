@@ -12,7 +12,7 @@ import net.miginfocom.swing.*;
  * @author Trifindo, JackHack96
  */
 public class BuildingMaterialRequestDialog extends JDialog {
-    public static final int ACEPTED = 0, CANCELED = 1;
+    public static final int ACCEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int value = 0;
     private int min = 1;
@@ -26,13 +26,13 @@ public class BuildingMaterialRequestDialog extends JDialog {
 
     private void jbAcceptActionPerformed(ActionEvent e) {
         if (useUndefined) {
-            returnValue = ACEPTED;
+            returnValue = ACCEPTED;
             dispose();
         } else {
             try {
                 value = Integer.parseInt(jTextField1.getText());
                 if (value >= min && value <= max) {
-                    returnValue = ACEPTED;
+                    returnValue = ACCEPTED;
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(this,

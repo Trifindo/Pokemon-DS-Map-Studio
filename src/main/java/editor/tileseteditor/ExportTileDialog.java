@@ -19,6 +19,7 @@ public class ExportTileDialog extends JDialog {
     private MutableBoolean jtfScaleEnabled = new MutableBoolean(true);
     public static final int APPROVE_OPTION = 1, CANCEL_OPTION = 0;
     private int returnValue = CANCEL_OPTION;
+
     private float scale = 1.0f;
     private float minScale = 0.001f;
     private boolean flip = false;

@@ -20,7 +20,7 @@ public class BuildingEditorChooser {
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fc.setApproveButtonText("Select folder");
         fc.setDialogTitle("Select the game's main folder that was generated with SDSME or similar");
-        int returnVal = fc.showOpenDialog(handler.getMainFrame());
+        final int returnVal = fc.showOpenDialog(handler.getMainFrame());
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String folderPath = fc.getSelectedFile().getPath();
             if (isDPPtFolder(folderPath)) {

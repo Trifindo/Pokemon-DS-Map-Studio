@@ -23,9 +23,11 @@ public class BuildModelList {
     private ArrayList<String> buildModelsName;
 
     public BuildModelList(Narc narc) {
-        final int numModels = narc.getRoot().getFiles().size();
+        final ArrayList<NarcFile> files = narc.getRoot().getFiles();
+        final int numModels = files.size();
+
         buildModelsData = new ArrayList<>(numModels);
-        for (NarcFile file : narc.getRoot().getFiles()) {
+        for (NarcFile file : files) {
             buildModelsData.add(file.getData());
         }
         calculateModelsName();
@@ -39,13 +41,14 @@ public class BuildModelList {
         return new Narc(root);
     }
 
-    public void addBuildingModel(String path) throws IOException, Exception {
+    public void addBuildingModel(String path) throws Exception {
         byte[] data = readBuildingModel(path);
         buildModelsData.add(data);
+
         calculateModelsName();
     }
 
-    public void replaceBuildingModel(int index, String path) throws IOException, Exception {
+    public void replaceBuildingModel(int index, String path) throws Exception {
         byte[] data = readBuildingModel(path);
         buildModelsData.set(index, data);
         calculateModelsName();
@@ -54,9 +57,10 @@ public class BuildModelList {
     public void saveBuildingModel(int index, String path) throws IOException {
         byte[] data = buildModelsData.get(index);
         path = Utils.addExtensionToPath(path, "nsbmd");
-        FileOutputStream fos = new FileOutputStream(path);
-        fos.write(data);
-        fos.close();
+
+        try (FileOutputStream fos = new FileOutputStream(path)) {
+            fos.write(data);
+        }
     }
 
     public void removeBuildingModel(int index) {

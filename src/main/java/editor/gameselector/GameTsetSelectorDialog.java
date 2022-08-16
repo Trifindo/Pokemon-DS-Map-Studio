@@ -31,7 +31,7 @@ import utils.Utils;
 public class GameTsetSelectorDialog extends JDialog {
 
     private MapEditorHandler handler;
-    public static final int ACEPTED = 0, CANCELED = 1;
+    public static final int ACCEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int newGame = Game.DIAMOND;
 
@@ -140,7 +140,7 @@ public class GameTsetSelectorDialog extends JDialog {
         }
         handler.setTileset(tileset);
 
-        returnValue = ACEPTED;
+        returnValue = ACCEPTED;
         dispose();
     }
 

@@ -168,7 +168,7 @@ public class MainFrame extends JFrame {
     }
 
     private void formWindowClosing(WindowEvent e) {
-        int returnVal = JOptionPane.showConfirmDialog(this,
+        final int returnVal = JOptionPane.showConfirmDialog(this,
                 "Do you want to exit Pokemon DS Map Studio?",
                 "Closing Pokemon DS Map Studio", JOptionPane.YES_NO_OPTION);
         if (returnVal == JOptionPane.YES_OPTION) {
@@ -825,7 +825,7 @@ public class MainFrame extends JFrame {
         fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS map (*.pdsmap)", MapMatrix.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open Map");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             addRecentMap(Utils.addExtensionToPath(fc.getSelectedFile().getPath(), MapMatrix.fileExtension));
             updateRecentMaps();
@@ -843,7 +843,7 @@ public class MainFrame extends JFrame {
         fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS map (*.pdsmap)", MapMatrix.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Add Maps from PDSMAP file");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             if (fc.getSelectedFile().exists()) {
                 handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
@@ -1016,7 +1016,7 @@ public class MainFrame extends JFrame {
         configDialog.setVisible(true);
 
         if (configDialog.getReturnValue() == ExportImdDialog.APPROVE_OPTION) {
-            int returnVal = JOptionPane.showConfirmDialog(this, "This operation may create lots of files and can't be undone. Do you wish to proceed?",
+            final int returnVal = JOptionPane.showConfirmDialog(this, "This operation may create lots of files and can't be undone. Do you wish to proceed?",
                     "Warning", JOptionPane.OK_CANCEL_OPTION);
 
             if ( returnVal == JOptionPane.OK_OPTION) {
@@ -1125,7 +1125,7 @@ public class MainFrame extends JFrame {
         fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS Tileset (*.pdsts)", Tileset.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String path = fc.getSelectedFile().getPath();
             openTileset(path);
@@ -1140,7 +1140,7 @@ public class MainFrame extends JFrame {
         fc.setFileFilter(new FileNameExtensionFilter("PNG (*.png)", "png"));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open Background Image");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 BufferedImage img = ImageIO.read(fc.getSelectedFile());
@@ -1157,7 +1157,7 @@ public class MainFrame extends JFrame {
     }
 
     private void newMap() {
-        int returnVal = JOptionPane.showConfirmDialog(this, "Do you want to close current map?", "Create new map", JOptionPane.YES_NO_OPTION);
+        final int returnVal = JOptionPane.showConfirmDialog(this, "Do you want to close current map?", "Create new map", JOptionPane.YES_NO_OPTION);
         if (returnVal == JOptionPane.YES_OPTION) {
             final GameTsetSelectorDialog2 dialog = new GameTsetSelectorDialog2(this);
             dialog.init(handler);
@@ -1257,7 +1257,7 @@ public class MainFrame extends JFrame {
         fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS map (*.pdsmap)", MapMatrix.fileExtension));
         fc.setApproveButtonText("Save");
         fc.setDialogTitle("Save");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
 
@@ -1316,7 +1316,7 @@ public class MainFrame extends JFrame {
             fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS tileset (*.pdsts)", Tileset.fileExtension));
             fc.setApproveButtonText("Save");
             fc.setDialogTitle("Save Tileset");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
                 try {
@@ -1355,7 +1355,7 @@ public class MainFrame extends JFrame {
                 fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 fc.setApproveButtonText("Save");
                 fc.setDialogTitle("Select folder for saving all tiles as OBJ");
-                int returnVal = fc.showOpenDialog(this);
+                final int returnVal = fc.showOpenDialog(this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     handler.setLastTileObjDirectoryUsed(fc.getSelectedFile().getPath());
                     try {
@@ -1395,7 +1395,7 @@ public class MainFrame extends JFrame {
             fc.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
             fc.setApproveButtonText("Save");
             fc.setDialogTitle("Select a name for the OBJ map");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
@@ -1473,7 +1473,7 @@ public class MainFrame extends JFrame {
             fc.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
             fc.setApproveButtonText("Save");
             fc.setDialogTitle("Select a name for saving the maps as OBJ");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
 
             String type;
             if (useExportgroups) {
@@ -1639,7 +1639,7 @@ public class MainFrame extends JFrame {
         fcOpen.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
         fcOpen.setApproveButtonText("Open");
         fcOpen.setDialogTitle("Open OBJ Map for converting into IMD");
-        int returnValOpen = fcOpen.showOpenDialog(this);
+        final int returnValOpen = fcOpen.showOpenDialog(this);
         if (returnValOpen == JFileChooser.APPROVE_OPTION) {
             if (fcOpen.getSelectedFile().exists()) {
                 String pathOpen = fcOpen.getSelectedFile().getPath();
@@ -1650,7 +1650,7 @@ public class MainFrame extends JFrame {
                 fcSave.setFileFilter(new FileNameExtensionFilter("IMD (*.imd)", "imd"));
                 fcSave.setApproveButtonText("Save");
                 fcSave.setDialogTitle("Save");
-                int returnValSave = fcSave.showOpenDialog(this);
+                final int returnValSave = fcSave.showOpenDialog(this);
                 if (returnValSave == JFileChooser.APPROVE_OPTION) {
                     String pathSave = fcSave.getSelectedFile().getPath();
 
@@ -1746,7 +1746,7 @@ public class MainFrame extends JFrame {
                 fcOpen.setFileFilter(new FileNameExtensionFilter("IMD (*.imd)", "imd"));
                 fcOpen.setApproveButtonText("Open");
                 fcOpen.setDialogTitle("Open IMD Map for converting into NSBMD");
-                int returnVal = fcOpen.showOpenDialog(this);
+                final int returnVal = fcOpen.showOpenDialog(this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     String imdPath;
                     if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
@@ -1761,7 +1761,7 @@ public class MainFrame extends JFrame {
                     fcSave.setFileFilter(new FileNameExtensionFilter("NSBMD (*.nsbmd)", "nsbmd"));
                     fcSave.setApproveButtonText("Save");
                     fcSave.setDialogTitle("Save");
-                    int returnValSave = fcSave.showOpenDialog(this);
+                    final int returnValSave = fcSave.showOpenDialog(this);
 
                     if (returnValSave == JFileChooser.APPROVE_OPTION) {
                         String nsbPath = fcSave.getSelectedFile().getPath();
@@ -1879,7 +1879,7 @@ public class MainFrame extends JFrame {
         fcOpen.setFileFilter(new FileNameExtensionFilter("IMD (*.imd)", "imd"));
         fcOpen.setApproveButtonText("Open");
         fcOpen.setDialogTitle("Open IMD Map for converting into NSBTX");
-        int returnVal = fcOpen.showOpenDialog(this);
+        final int returnVal = fcOpen.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String imdPath = fcOpen.getSelectedFile().getPath();
 
@@ -1889,7 +1889,7 @@ public class MainFrame extends JFrame {
             fcSave.setFileFilter(new FileNameExtensionFilter("NSBTX (*.nsbtx)", "nsbtx"));
             fcSave.setApproveButtonText("Save");
             fcSave.setDialogTitle("Save");
-            int returnValSave = fcSave.showOpenDialog(this);
+            final int returnValSave = fcSave.showOpenDialog(this);
 
             if (returnValSave == JFileChooser.APPROVE_OPTION) {
                 String nsbPath = fcSave.getSelectedFile().getPath();
@@ -1995,7 +1995,7 @@ public class MainFrame extends JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        if (dialog.getReturnValue() == GameSelectorDialog.ACEPTED) {
+        if (dialog.getReturnValue() == GameSelectorDialog.ACCEPTED) {
             updateViewGame();
 
             handler.getMapMatrix().updateAllLayersGL();
@@ -2341,7 +2341,7 @@ public class MainFrame extends JFrame {
 
             m.addActionListener(e -> {
                 if (opened_map) {
-                    int returnVal = JOptionPane.showConfirmDialog(this, "Do you want to close current map?", "Open recent", JOptionPane.YES_NO_OPTION);
+                    final int returnVal = JOptionPane.showConfirmDialog(this, "Do you want to close current map?", "Open recent", JOptionPane.YES_NO_OPTION);
                     if (returnVal == JOptionPane.YES_OPTION)
                         openMap(item);
                 } else

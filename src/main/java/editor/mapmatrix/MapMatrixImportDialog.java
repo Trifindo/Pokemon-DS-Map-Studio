@@ -54,7 +54,7 @@ public class MapMatrixImportDialog extends JDialog {
 
     private void jbImportActionPerformed(ActionEvent e) {
         if (isNewMapOverlapingWithMap()) {
-            int returnValue = JOptionPane.showConfirmDialog(this,
+            final int returnValue = JOptionPane.showConfirmDialog(this,
                     "The new map is overlapping with the current map.\n"
                             + "The maps that are overlapping will be removed.\n"
                             + "Do you want to continue?",

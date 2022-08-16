@@ -53,7 +53,7 @@ public class BorderMapsDisplay extends JPanel {
                 fc.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
                 fc.setApproveButtonText("Open");
                 fc.setDialogTitle("Open");
-                int returnVal = fc.showOpenDialog(handler.getMainFrame());
+                final int returnVal = fc.showOpenDialog(handler.getMainFrame());
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     try {
                         handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());

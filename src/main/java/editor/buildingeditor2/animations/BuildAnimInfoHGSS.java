@@ -16,26 +16,43 @@ public class BuildAnimInfoHGSS {
 
     public static final int MAX_ANIMS_PER_BUILDING = 4;
 
+    // Animations
+    public static final int TYPE1_NO_ANIMATION = 255;
+    public static final int TYPE1_LOOP = 0;
+    public static final int TYPE1_TRIGGER_UNK = 2;
+    public static final int TYPE1_TRIGGER = 3;
+    public static final int TYPE1_DAYNIGHT = 8;
+
+    public static final int TYPE2_NO_ANIMATION = 0;
+    public static final int TYPE2_LOOP = 1;
+    public static final int TYPE2_TRIGGER = 2;
+
+    public static final int LOOPTYPE_PERMANENT = 0;
+    public static final int LOOPTYPE_ONESHOT = 1;
+
+    public static final int DOORSOUND_NONE = 0;
+
+
     public static final Map<Integer, String> namesAnimType1 = new HashMap<Integer, String>() {
         {
-            put((Integer) 255, "No Animation");
-            put((Integer) 0, "Loop");
-            put((Integer) 2, "Trigger (?)");
-            put((Integer) 3, "Trigger");
-            put((Integer) 8, "Day/Night Cycle");
+            put((Integer) TYPE1_NO_ANIMATION, "No Animation");
+            put((Integer) TYPE1_LOOP, "Loop");
+            put((Integer) TYPE1_TRIGGER_UNK, "Trigger (?)");
+            put((Integer) TYPE1_TRIGGER, "Trigger");
+            put((Integer) TYPE1_DAYNIGHT, "Day/Night Cycle");
         }
     };
 
     public static final Map<Integer, String> namesLoopType = new HashMap<Integer, String>() {
         {
-            put((Integer) 0, "Loop");
-            put((Integer) 1, "Trigger");
+            put((Integer) LOOPTYPE_PERMANENT, "Permanent");
+            put((Integer) LOOPTYPE_ONESHOT, "Oneshot");
         }
     };
 
     public static final Map<Integer, String> namesDoorSound = new HashMap<Integer, String>() {
         {
-            put((Integer) 0, "No sound");
+            put((Integer) DOORSOUND_NONE, "No sound");
             put((Integer) 1, "Wooden Door");
             put((Integer) 2, "Automatic Door");
             put((Integer) 3, "Old door (?)");
@@ -55,9 +72,9 @@ public class BuildAnimInfoHGSS {
 
     public static final Map<Integer, String> namesAnimType2 = new HashMap<Integer, String>() {
         {
-            put((Integer) 0, "No Animation");
-            put((Integer) 1, "Loop");
-            put((Integer) 2, "Trigger");
+            put((Integer) TYPE2_NO_ANIMATION, "No Animation");
+            put((Integer) TYPE2_LOOP, "Loop");
+            put((Integer) TYPE2_TRIGGER, "Trigger");
         }
     };
 

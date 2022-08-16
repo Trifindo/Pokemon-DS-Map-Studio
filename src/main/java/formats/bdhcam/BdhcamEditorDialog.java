@@ -267,7 +267,7 @@ public class BdhcamEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Terrain File (*.bdhcam)", Bdhcam.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open BDHCAM");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String path = fc.getSelectedFile().getPath();
@@ -293,7 +293,7 @@ public class BdhcamEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Camera File (*.bdhcam)", Bdhcam.fileExtension));
         fc.setApproveButtonText("Save");
         fc.setDialogTitle("Save BDHCAM");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String path = fc.getSelectedFile().getPath();

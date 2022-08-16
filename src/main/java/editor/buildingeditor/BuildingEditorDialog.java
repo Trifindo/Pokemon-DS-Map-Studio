@@ -114,7 +114,7 @@ public class BuildingEditorDialog extends JDialog {
         }
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open Build Model Matshp File");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
             try {
@@ -137,7 +137,7 @@ public class BuildingEditorDialog extends JDialog {
         }
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open Build Tileset List");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
             try {
@@ -158,7 +158,7 @@ public class BuildingEditorDialog extends JDialog {
         }
         fc.setApproveButtonText("Save");
         fc.setDialogTitle("Save Build Model Matshp File");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
             try {
@@ -180,7 +180,7 @@ public class BuildingEditorDialog extends JDialog {
         }
         fc.setApproveButtonText("Save");
         fc.setDialogTitle("Save Build Tile List");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
             try {
@@ -255,7 +255,7 @@ public class BuildingEditorDialog extends JDialog {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        if (dialog.getReturnValue() == IntegerRequestDialog.ACEPTED) {
+        if (dialog.getReturnValue() == IntegerRequestDialog.ACCEPTED) {
             ArrayList<Integer> newMaterials;
             if (dialog.useUndefined()) {
                 newMaterials = null;
@@ -279,7 +279,7 @@ public class BuildingEditorDialog extends JDialog {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        if (dialog.getReturnValue() == IntegerRequestDialog.ACEPTED) {
+        if (dialog.getReturnValue() == IntegerRequestDialog.ACCEPTED) {
             int buildingID = dialog.getIntegerRequested();
 
             if (!buildHandler.getBuildTilesetList().getBuildingIDs().contains(buildingID)) {
@@ -298,7 +298,7 @@ public class BuildingEditorDialog extends JDialog {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        if (dialog.getReturnValue() == IntegerRequestDialog.ACEPTED) {
+        if (dialog.getReturnValue() == IntegerRequestDialog.ACCEPTED) {
             ArrayList<Integer> newMaterials;
             if (dialog.useUndefined()) {
                 newMaterials = null;
@@ -322,7 +322,7 @@ public class BuildingEditorDialog extends JDialog {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        if (dialog.getReturnValue() == IntegerRequestDialog.ACEPTED) {
+        if (dialog.getReturnValue() == IntegerRequestDialog.ACCEPTED) {
             int buildingID = dialog.getIntegerRequested();
 
             if (!buildHandler.getBuildTilesetList().getBuildingIDs().contains(buildingID)) {

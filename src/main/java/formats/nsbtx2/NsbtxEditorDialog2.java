@@ -331,7 +331,7 @@ public class NsbtxEditorDialog2 extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("NSBTX (*.nsbtx)", "nsbtx"));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open NSBTX File");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
             try {
@@ -365,7 +365,7 @@ public class NsbtxEditorDialog2 extends JDialog {
             fc.setFileFilter(new FileNameExtensionFilter("PNG (*.png)", "png"));
             fc.setApproveButtonText("Save");
             fc.setDialogTitle("Save Texture as PNG");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
                 try {
@@ -404,7 +404,7 @@ public class NsbtxEditorDialog2 extends JDialog {
                 fc.setFileFilter(new FileNameExtensionFilter("png (*.png)", "png"));
                 fc.setApproveButtonText("Open");
                 fc.setDialogTitle("Open PNG Image");
-                int returnVal = fc.showOpenDialog(this);
+                final int returnVal = fc.showOpenDialog(this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
                     try {
@@ -450,7 +450,7 @@ public class NsbtxEditorDialog2 extends JDialog {
                 fc.setApproveButtonText("Open");
                 fc.setDialogTitle("Open PNG Image");
                 fc.setMultiSelectionEnabled(true);
-                int returnVal = fc.showOpenDialog(this);
+                final int returnVal = fc.showOpenDialog(this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
 
@@ -508,7 +508,7 @@ public class NsbtxEditorDialog2 extends JDialog {
             fc.setFileFilter(new FileNameExtensionFilter("png (*.png)", "png"));
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Open PNG Image");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
                 try {
@@ -546,7 +546,7 @@ public class NsbtxEditorDialog2 extends JDialog {
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Open PNG Image");
             fc.setMultiSelectionEnabled(true);
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
 
@@ -632,7 +632,7 @@ public class NsbtxEditorDialog2 extends JDialog {
                 fc.setFileFilter(new FileNameExtensionFilter("png (*.png)", "png"));
                 fc.setApproveButtonText("Open");
                 fc.setDialogTitle("Open PNG Image");
-                int returnVal = fc.showOpenDialog(this);
+                final int returnVal = fc.showOpenDialog(this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
                     try {
@@ -675,7 +675,7 @@ public class NsbtxEditorDialog2 extends JDialog {
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Open PNG Image");
             fc.setMultiSelectionEnabled(true);
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
 
@@ -736,7 +736,7 @@ public class NsbtxEditorDialog2 extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("NSBTX (*.nsbtx)", "nsbtx"));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Choose the NSBTX to import data from");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
             try {
@@ -848,7 +848,7 @@ public class NsbtxEditorDialog2 extends JDialog {
                 fc.setFileFilter(new FileNameExtensionFilter("NSBTX (*.nsbtx)", "nsbtx"));
                 fc.setApproveButtonText("Save");
                 fc.setDialogTitle("Save NSBTX");
-                int returnVal = fc.showOpenDialog(this);
+                final int returnVal = fc.showOpenDialog(this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     handler.setLastNsbtxDirectoryUsed(fc.getSelectedFile().getParent());
                     try {

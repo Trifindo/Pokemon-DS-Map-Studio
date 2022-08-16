@@ -16,7 +16,7 @@ import renderer.*;
  */
 public class AddBuildAnimationDialog extends JDialog {
 
-    public static final int ACEPTED = 0, CANCELED = 1;
+    public static final int ACCEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int indexSelected = 0;
 
@@ -94,7 +94,7 @@ public class AddBuildAnimationDialog extends JDialog {
 
     private void jbAcceptActionPerformed(ActionEvent e) {
         if (!buildingAnimationIDs.contains(indexSelected)) {
-            returnValue = ACEPTED;
+            returnValue = ACCEPTED;
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "The animation selected is already used by the building.",

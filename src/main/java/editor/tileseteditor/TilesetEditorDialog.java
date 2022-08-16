@@ -249,7 +249,7 @@ public class TilesetEditorDialog extends JDialog {
             fc.setMultiSelectionEnabled(true);
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Open");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
@@ -362,7 +362,7 @@ public class TilesetEditorDialog extends JDialog {
             fc.setFileFilter(new FileNameExtensionFilter("Portable Network Graphics (*.PNG)", "png"));
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Open");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     File file = fc.getSelectedFile();
@@ -741,7 +741,7 @@ public class TilesetEditorDialog extends JDialog {
                 fc.setApproveButtonText("Save");
                 fc.setDialogTitle("Save tile as OBJ");
                 fc.setSelectedFile(new File(handler.getTileSelected().getObjFilename()));
-                int returnVal = fc.showOpenDialog(this);
+                final int returnVal = fc.showOpenDialog(this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     String path = fc.getSelectedFile().getPath();
                     handler.setLastTileObjDirectoryUsed(fc.getSelectedFile().getParent());
@@ -783,7 +783,7 @@ public class TilesetEditorDialog extends JDialog {
                 fc.setFileFilter(new FileNameExtensionFilter("OBJ (*.obj)", "obj"));
                 fc.setApproveButtonText("Open");
                 fc.setDialogTitle("Open OBJ");
-                int returnVal = fc.showOpenDialog(this);
+                final int returnVal = fc.showOpenDialog(this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     try {
                         handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
@@ -858,7 +858,7 @@ public class TilesetEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Pokemon DS Tileset (*.pdsts)", Tileset.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Select a Pokemon DS Map Studio Tileset");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());
@@ -1365,7 +1365,7 @@ public class TilesetEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Portable Network Graphics (*.PNG)", "png"));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open New Texture Image");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             handler.setLastTilesetDirectoryUsed(fc.getSelectedFile().getParent());

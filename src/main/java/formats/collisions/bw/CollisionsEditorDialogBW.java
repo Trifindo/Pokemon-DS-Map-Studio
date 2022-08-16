@@ -180,7 +180,7 @@ public class CollisionsEditorDialogBW extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Terrain File (*.per)", CollisionsBW3D.fileExtension));
         fc.setApproveButtonText("Save");
         fc.setDialogTitle("Save Permissions File");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String path = fc.getSelectedFile().getPath();
@@ -203,7 +203,7 @@ public class CollisionsEditorDialogBW extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Terrain File (*.per)", CollisionsBW3D.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open Permissions File");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String path = fc.getSelectedFile().getPath();

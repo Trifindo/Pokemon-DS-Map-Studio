@@ -344,7 +344,7 @@ public class BdhcEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Terrain File (*.bdhc)", Bdhc.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String path = fc.getSelectedFile().getPath();
@@ -376,7 +376,7 @@ public class BdhcEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Terrain File (*.bdhc)", Bdhc.fileExtension));
         fc.setApproveButtonText("Save");
         fc.setDialogTitle("Save");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String path = fc.getSelectedFile().getPath();

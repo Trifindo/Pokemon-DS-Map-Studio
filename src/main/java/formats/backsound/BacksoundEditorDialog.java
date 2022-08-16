@@ -200,7 +200,7 @@ public class BacksoundEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Backsound File (*.bgs)", Backsound.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open Background Sound File");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String path = fc.getSelectedFile().getPath();
@@ -227,7 +227,7 @@ public class BacksoundEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Backsound File (*.bgs)", Backsound.fileExtension));
         fc.setApproveButtonText("Save");
         fc.setDialogTitle("Save Background Sound File");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String path = fc.getSelectedFile().getPath();

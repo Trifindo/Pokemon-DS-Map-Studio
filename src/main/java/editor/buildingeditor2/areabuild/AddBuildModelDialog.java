@@ -17,7 +17,7 @@ import renderer.*;
  * @author Trifindo, JackHack96
  */
 public class AddBuildModelDialog extends JDialog {
-    public static final int ACEPTED = 0, CANCELED = 1;
+    public static final int ACCEPTED = 0, CANCELED = 1;
     private int returnValue = CANCELED;
     private int indexSelected = 0;
 
@@ -55,14 +55,14 @@ public class AddBuildModelDialog extends JDialog {
     private void jbAcceptActionPerformed(ActionEvent e) {
         if (addedBuildings != null) {
             if (!addedBuildings.contains(indexSelected)) {
-                returnValue = ACEPTED;
+                returnValue = ACCEPTED;
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "The building selected is already in the list.",
                         "Can't add building", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            returnValue = ACEPTED;
+            returnValue = ACCEPTED;
             dispose();
         }
     }

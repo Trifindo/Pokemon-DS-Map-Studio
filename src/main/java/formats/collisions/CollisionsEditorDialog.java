@@ -110,7 +110,7 @@ public class CollisionsEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Collision File (*.per)", Collisions.fileExtension));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 String path = fc.getSelectedFile().getPath();
@@ -139,7 +139,7 @@ public class CollisionsEditorDialog extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("Collision File (*.per)", Collisions.fileExtension));
         fc.setApproveButtonText("Save");
         fc.setDialogTitle("Save");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
             try {

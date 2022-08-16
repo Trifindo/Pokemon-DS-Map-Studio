@@ -207,7 +207,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             fc.setFileFilter(new FileNameExtensionFilter("NSBMD (*.nsbmd)", "nsbmd"));
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Add a new NSBMD Building Model");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
@@ -234,7 +234,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             fc.setFileFilter(new FileNameExtensionFilter("NSBMD (*.nsbmd)", "nsbmd"));
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Select the new NSBMD Building Model (material order will be deleted)");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
@@ -268,7 +268,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
@@ -297,7 +297,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
                 }
                 occurenceIDs += String.valueOf(occurrences.get(occurrences.size() - 1));
 
-                int returnVal2 = JOptionPane.showConfirmDialog(this.getContentPane(),
+                final int returnVal2 = JOptionPane.showConfirmDialog(this.getContentPane(),
                         "This building is being used in the following tilesets: \n" + occurenceIDs + "\n"
                                 + "Do you want to remove it and its occurences? \n"
                                 + "(Removing buildings is NOT RECOMMENDED because the building IDs will be shifted)",
@@ -312,7 +312,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
                     updateViewAreaBuildList(jlAreaBuildList.getSelectedIndex());
                 }
             } else {
-                int returnVal = JOptionPane.showConfirmDialog(this.getContentPane(),
+                final int returnVal = JOptionPane.showConfirmDialog(this.getContentPane(),
                         "Are you sure you want to remove the selected building?\n"
                                 + "(Removing buildings is NOT RECOMMENDED because the building IDs will be shifted)",
                         "Confirm remove building", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -367,7 +367,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
                         buildHandler.getBuildModelAnimeList().getAnimations().get(jlBuildModel.getSelectedIndex()));
                 dialog.setLocationRelativeTo(this);
                 dialog.setVisible(true);
-                if (dialog.getReturnValue() == AddBuildAnimationDialog.ACEPTED) {
+                if (dialog.getReturnValue() == AddBuildAnimationDialog.ACCEPTED) {
                     buildHandler.addBuildingAnimation(jlBuildModel.getSelectedIndex(), dialog.getIndexSelected());
                     updateViewSelectedBuildAnimationsList(jlSelectedAnimationsList.getSelectedIndex() + 1);
                 }
@@ -390,7 +390,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
                         buildHandler.getBuildModelAnimeList().getAnimations().get(jlBuildModel.getSelectedIndex()));
                 dialog.setLocationRelativeTo(this);
                 dialog.setVisible(true);
-                if (dialog.getReturnValue() == AddBuildAnimationDialog.ACEPTED) {
+                if (dialog.getReturnValue() == AddBuildAnimationDialog.ACCEPTED) {
                     buildHandler.replaceBuildingAnimation(jlBuildModel.getSelectedIndex(), dialog.getIndexSelected(), jlSelectedAnimationsList.getSelectedIndex());
                     updateViewSelectedBuildAnimationsList(jlSelectedAnimationsList.getSelectedIndex());
                 }
@@ -413,7 +413,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             dialog.init(buildHandler.getBuildModelList(), buildHandler.getAreaBuildList().getAreaBuilds().get(jlBuildTsetList.getSelectedIndex()).getBuildingIDs());
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
-            if (dialog.getReturnValue() == AddBuildModelDialog.ACEPTED) {
+            if (dialog.getReturnValue() == AddBuildModelDialog.ACCEPTED) {
                 buildHandler.addBuildToAreaBuild(jlBuildTsetList.getSelectedIndex(), dialog.getIndexSelected());
                 updateViewAreaBuildList(jlAreaBuildList.getModel().getSize());
             }
@@ -426,7 +426,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             dialog.init(buildHandler.getBuildModelList(), buildHandler.getAreaBuildList().getAreaBuilds().get(jlBuildTsetList.getSelectedIndex()).getBuildingIDs());
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
-            if (dialog.getReturnValue() == AddBuildModelDialog.ACEPTED) {
+            if (dialog.getReturnValue() == AddBuildModelDialog.ACCEPTED) {
                 buildHandler.replaceBuildToAreaBuild(jlBuildTsetList.getSelectedIndex(), dialog.getIndexSelected(), jlAreaBuildList.getSelectedIndex());
                 updateViewAreaBuildList(jlAreaBuildList.getSelectedIndex());
             }
@@ -449,7 +449,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             fc.setFileFilter(new FileNameExtensionFilter("Animation Files (*.nsbca, *.nsbta, *.nsbtp, *.nsbma)", "nsbca", "nsbta", "nsbtp", "nsbma"));
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Add a new Animation");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
@@ -474,7 +474,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             fc.setFileFilter(new FileNameExtensionFilter("Animation Files (*.nsbca, *.nsbta, *.nsbtp, *.nsbma)", "nsbca", "nsbta", "nsbtp", "nsbma"));
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Select the new Animation");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
@@ -507,7 +507,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
@@ -587,7 +587,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
 
     private void jbRemoveAreaDataActionPerformed(ActionEvent evt) {
         if (buildHandler.getAreaDataList() != null) {
-            int returnVal = JOptionPane.showConfirmDialog(this.getContentPane(),
+            final int returnVal = JOptionPane.showConfirmDialog(this.getContentPane(),
                     "Removing Area Datas is NOT recommended. \n"
                             + "Do you really want to remove this Area Data?",
                     "Confirm remove Area Data", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
@@ -773,7 +773,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
                 }
 
                 if (addedTextures > 0 || addedPalettes > 0) {
-                    byte[] newNsbtxData = NsbtxWriter.writeNsbtx(nsbtx, "temp2");
+                    final byte[] newNsbtxData = NsbtxWriter.writeNsbtx(nsbtx, "temp2");
 
                     buildHandler.getBuildTilesetList().getTilesets().get(jlBuildTsetList.getSelectedIndex()).setData(newNsbtxData);
 
@@ -827,7 +827,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             fc.setFileFilter(new FileNameExtensionFilter("NSBTX (*.nsbtx)", "nsbtx"));
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Add a new Building NSBTX");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
@@ -859,7 +859,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             fc.setFileFilter(new FileNameExtensionFilter("NSBTX (*.nsbtx)", "nsbtx"));
             fc.setApproveButtonText("Open");
             fc.setDialogTitle("Replace the Building NSBTX");
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
@@ -896,7 +896,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
@@ -945,7 +945,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
                     }
                 }
 
-                byte[] newNsbtxData = NsbtxWriter.writeNsbtx(nsbtx, "");
+                final byte[] newNsbtxData = NsbtxWriter.writeNsbtx(nsbtx, "");
 
                 buildHandler.getBuildTilesetList().getTilesets().get(jlBuildTsetList.getSelectedIndex()).setData(newNsbtxData);
 
@@ -994,7 +994,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             Nsbtx2 nsbtx = new Nsbtx2();
             BufferedImage img = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
             nsbtx.addTextureAndPalette(0, 0, img, Nsbtx2.FORMAT_COLOR_4, false, "placeholder", "placeholder_pl");
-            byte[] newNsbtxData = NsbtxWriter.writeNsbtx(nsbtx, "temp");
+            final byte[] newNsbtxData = NsbtxWriter.writeNsbtx(nsbtx, "temp");
 
             buildHandler.addBuildingTileset(newNsbtxData);
 
@@ -1027,7 +1027,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("BLD (*.bld)", "bld"));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Import Buildings File");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 handler.setLastBuildDirectoryUsed(fc.getSelectedFile().getParent());
@@ -1062,7 +1062,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            int returnVal = fc.showOpenDialog(this);
+            final int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 try {
                     handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
@@ -1087,7 +1087,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             dialog.init(buildHandler.getBuildModelList(), null);
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
-            if (dialog.getReturnValue() == AddBuildModelDialog.ACEPTED) {
+            if (dialog.getReturnValue() == AddBuildModelDialog.ACCEPTED) {
                 Build build = new Build();
                 build.setModelID(dialog.getIndexSelected());
                 handler.getBuildings().getBuilds().add(build);
@@ -1217,7 +1217,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
             dialog.init(buildHandler.getBuildModelList(), null);
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
-            if (dialog.getReturnValue() == AddBuildModelDialog.ACEPTED) {
+            if (dialog.getReturnValue() == AddBuildModelDialog.ACCEPTED) {
                 Build build = handler.getBuildings().getBuilds().get(jlBuildFile.getSelectedIndex());
                 build.setModelID(dialog.getIndexSelected());
 
@@ -1235,7 +1235,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
         fc.setFileFilter(new FileNameExtensionFilter("NSBMD (*.nsbmd)", "nsbmd"));
         fc.setApproveButtonText("Open");
         fc.setDialogTitle("Open Map's NSBMD");
-        int returnVal = fc.showOpenDialog(this);
+        final int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 handler.setLastMapDirectoryUsed(fc.getSelectedFile().getParent());
@@ -1311,7 +1311,7 @@ public class BuildingEditorDialogDPPt extends JDialog {
                 }
             }
 
-            byte[] newNsbtxData = NsbtxWriter.writeNsbtx(nsbtx, "");
+            final byte[] newNsbtxData = NsbtxWriter.writeNsbtx(nsbtx, "");
 
             buildHandler.getBuildTilesetList().getTilesets().get(jlBuildTsetList.getSelectedIndex()).setData(newNsbtxData);
 

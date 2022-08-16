@@ -261,7 +261,7 @@ public class ExportNsbtxDialog extends javax.swing.JDialog {
         fc.setApproveButtonText("Select folder");
         fc.setDialogTitle("Select the folder for exporting the IMD files");
 
-        int returnValOpen = fc.showOpenDialog(this);
+        final int returnValOpen = fc.showOpenDialog(this);
         if (returnValOpen == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             if (file.exists() && file.isDirectory()) {
