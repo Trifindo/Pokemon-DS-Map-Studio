@@ -178,7 +178,7 @@ public class NsbtxEditorDialog2 extends JDialog {
 
     private void jbReplacePaletteActionPerformed(ActionEvent e) {
         if (nsbtxHandler.getNsbtx() != null) {
-            replaceTextureAndPalette();
+            replacePalette();
         }
     }
 
