@@ -17,7 +17,7 @@ new FormModel {
 				name: "jlVersionName"
 				"font": new java.awt.Font( "Tahoma", 1, 18 )
 				"horizontalAlignment": 0
-				"text": "Pokemon DS Map Studio 2.2"
+				"text": "Pokemon DS Map Studio 2.2.1"
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 0 2 1"
 			} )

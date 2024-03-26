@@ -35,7 +35,7 @@ import utils.Utils;
 public class MapEditorHandler {
 
     //Version name
-    public static final String versionName = "Pokemon DS Map Studio 2.2 [AdAstra]";
+    public static final String versionName = "Pokemon DS Map Studio 2.2.1 [AdAstra]";
 
     //Main frame
     private MainFrame mainFrame;
