@@ -8,8 +8,8 @@ It doesn't require 3D modeling knowledge. Rather, it provides a tilemap-like int
 
 
 ### WARNING !
-Saving your old maps with this new version doesn't guarantee backwards compatibility with other PDSMS versions, 
-since this release adds a new "exportgroup" keyword to PDSMAP files.
+As soon as you resave your existing PDSMAP files with this new version, backward compatibility with other PDSMS versions (including Trifindo's vanilla PDSMS) will most likely be lost. 
+This is due to the additional 3D layer, and the new "exportgroup" and "egcenter" keywords in PDSMAP files, necessary to make Export Groups work.
 
 
 ### Supported games:
